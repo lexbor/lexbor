@@ -1,0 +1,51 @@
+[
+    /* Tag Name */
+    {
+        "data": "<sEf\0sTf>",
+        "tokens": [
+            {
+                "tag": "sef�stf"
+            }
+        ]
+    },
+    {
+        "data": "<sEf\0>",
+        "tokens": [
+            {
+                "tag": "sef�"
+            }
+        ]
+    },
+    {
+        "data": "<s\0Ef>",
+        "tokens": [
+            {
+                "tag": "s�ef"
+            }
+        ]
+    },
+    {
+        "data": "<s\0>",
+        "tokens": [
+            {
+                "tag": "s�"
+            }
+        ]
+    },
+    {
+        "data": "<sEf\0\0\0sTf>",
+        "tokens": [
+            {
+                "tag": "sef���stf"
+            }
+        ]
+    },
+    {
+        "data": "<AAAAAA-aa>",
+        "tokens": [
+            {
+                "tag": "aaaaaa-aa"
+            }
+        ]
+    },
+]

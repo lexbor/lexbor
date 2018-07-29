@@ -1,0 +1,19 @@
+[
+    /* Tag Attr */
+    {
+        "data": "<div SuperNaME=SuPerValue>",
+        "tokens": [
+            {
+                "attr": [{"name": "supername", "value": "SuPerValue"}]
+            }
+        ]
+    },
+    {
+        "data": "<div \0SuperNaME=SuPerValue>",
+        "tokens": [
+            {
+                "attr": [{"name": "�supername", "value": "SuPerValue"}]
+            }
+        ]
+    }
+]

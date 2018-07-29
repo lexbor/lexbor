@@ -1,0 +1,246 @@
+{
+    "namespaces": {
+        "-UNDEF": {
+            "name": "-undef",
+            "link": "",
+            "sort": 0,
+            "default": {
+                "interface": "HTMLUnknownElement",
+                "interface_type": "HTML"
+            }
+        },
+        "-ANY": {
+            "name": "-any",
+            "link": "",
+            "sort": 1,
+            "default": {
+                "interface": "HTMLUnknownElement",
+                "interface_type": "HTML"
+            }
+        },
+        "HTML": {
+            "name": "HTML",
+            "link": "http://www.w3.org/1999/xhtml",
+            "default": {
+                "interface": "HTMLUnknownElement",
+                "interface_type": "HTML"
+            }
+        },
+        "MATHML": {
+            "name": "MathML",
+            "link": "http://www.w3.org/1998/Math/MathML",
+            "default": {
+                "interface": "Element",
+                "interface_type": "DOM"
+            }
+        },
+        "SVG": {
+            "name": "SVG",
+            "link": "http://www.w3.org/2000/svg",
+            "default": {
+                "interface": "Element",
+                "interface_type": "DOM"
+            }
+        },
+        "XLINK": {
+            "name": "XLink",
+            "link": "http://www.w3.org/1999/xlink",
+            "default": {
+                "interface": "Element",
+                "interface_type": "DOM"
+            }
+        },
+        "XML": {
+            "name": "XML",
+            "link": "http://www.w3.org/XML/1998/namespace",
+            "default": {
+                "interface": "Element",
+                "interface_type": "DOM"
+            }
+        },
+        "XMLNS": {
+            "name": "XMLNS",
+            "link": "http://www.w3.org/2000/xmlns/",
+            "default": {
+                "interface": "Element",
+                "interface_type": "DOM"
+            }
+        }
+    },
+    "data": {
+        "HTML": {
+            "#undef": {"cat": ["ORDINARY", "SCOPE_SELECT"], "sort": 0, "interface": "HTMLElement", "interface_type": "HTML"},
+            "#end-of-file": {"cat": ["ORDINARY", "SCOPE_SELECT"], "sort": 1, "interface": "HTMLElement", "interface_type": "HTML"},
+            "#text": {"cat": ["ORDINARY", "SCOPE_SELECT"], "sort": 2, "interface": "Text", "interface_type": "DOM"},
+
+            "#document": {"cat": ["ORDINARY", "SCOPE_SELECT"], "sort": 3, "interface": "Document", "interface_type": "HTML"},
+
+            "!--": {"cat": ["ORDINARY", "SCOPE_SELECT"], "to": "-EM-comment", "sort": 4, "interface": "Comment", "interface_type": "DOM"},
+            "!doctype": {"cat": ["ORDINARY", "SCOPE_SELECT"], "to": "-EM-doctype", "sort": 4, "interface": "DocumentType", "interface_type": "DOM"},
+
+            "a": {"cat": ["FORMATTING", "SCOPE_SELECT"], "interface": "HTMLAnchorElement", "interface_type": "HTML"},
+            "abbr": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "address": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "acronym": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "applet": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON", "SCOPE_SELECT"], "interface": "HTMLUnknownElement", "interface_type": "HTML"},
+            "area": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLAreaElement", "interface_type": "HTML"},
+            "article": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "aside": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "audio": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLAudioElement", "interface_type": "HTML"},
+            "b": {"cat": ["FORMATTING", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "base": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLBaseElement", "interface_type": "HTML"},
+            "basefont": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "bgsound": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLUnknownElement", "interface_type": "HTML"},
+            "bdi": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "bdo": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "blink": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLUnknownElement", "interface_type": "HTML"},
+            "big": {"cat": ["FORMATTING", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "blockquote": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLQuoteElement", "interface_type": "HTML"},
+            "body": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLBodyElement", "interface_type": "HTML"},
+            "br": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLBRElement", "interface_type": "HTML"},
+            "button": {"cat": ["SPECIAL", "SCOPE_BUTTON", "SCOPE_SELECT"], "interface": "HTMLButtonElement", "interface_type": "HTML"},
+            "canvas": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLCanvasElement", "interface_type": "HTML"},
+            "caption": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON", "SCOPE_SELECT"], "interface": "HTMLTableCaptionElement", "interface_type": "HTML"},
+            "cite": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "center": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "code": {"cat": ["FORMATTING", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "col": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLTableColElement", "interface_type": "HTML"},
+            "colgroup": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLTableColElement", "interface_type": "HTML"},
+            "data": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLDataElement", "interface_type": "HTML"},
+            "datalist": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLDataListElement", "interface_type": "HTML"},
+            "dd": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "del": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLModElement", "interface_type": "HTML"},
+            "details": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLDetailsElement", "interface_type": "HTML"},
+            "dfn": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "dialog": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLDialogElement", "interface_type": "HTML"},
+            "dir": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLDirectoryElement", "interface_type": "HTML"},
+            "div": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLDivElement", "interface_type": "HTML"},
+            "dl": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLDListElement", "interface_type": "HTML"},
+            "dt": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "em": {"cat": ["FORMATTING", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "embed": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLEmbedElement", "interface_type": "HTML"},
+            "fieldset": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLFieldSetElement", "interface_type": "HTML"},
+            "figcaption": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "figure": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "font": {"cat": ["FORMATTING", "SCOPE_SELECT"], "interface": "HTMLFontElement", "interface_type": "HTML"},
+            "footer": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "form": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLFormElement", "interface_type": "HTML"},
+            "frame": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLFrameElement", "interface_type": "HTML"},
+            "frameset": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLFrameSetElement", "interface_type": "HTML"},
+            "h1": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLHeadingElement", "interface_type": "HTML"},
+            "h2": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLHeadingElement", "interface_type": "HTML"},
+            "h3": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLHeadingElement", "interface_type": "HTML"},
+            "h4": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLHeadingElement", "interface_type": "HTML"},
+            "h5": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLHeadingElement", "interface_type": "HTML"},
+            "h6": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLHeadingElement", "interface_type": "HTML"},
+            "head": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLHeadElement", "interface_type": "HTML"},
+            "header": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "hgroup": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "hr": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLHRElement", "interface_type": "HTML"},
+            "html": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON", "SCOPE_TABLE", "SCOPE_SELECT"], "interface": "HTMLHtmlElement", "interface_type": "HTML"},
+            "i": {"cat": ["FORMATTING", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "iframe": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLIFrameElement", "interface_type": "HTML"},
+            "image": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLImageElement", "interface_type": "HTML"},
+            "img": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLImageElement", "interface_type": "HTML"},
+            "input": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLInputElement", "interface_type": "HTML"},
+            "ins": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLModElement", "interface_type": "HTML"},
+            "isindex": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLUnknownElement", "interface_type": "HTML"},
+            "kbd": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "keygen": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLUnknownElement", "interface_type": "HTML"},
+            "label": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLLabelElement", "interface_type": "HTML"},
+            "legend": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLLegendElement", "interface_type": "HTML"},
+            "li": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLLIElement", "interface_type": "HTML"},
+            "link": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLLinkElement", "interface_type": "HTML"},
+            "listing": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLPreElement", "interface_type": "HTML"},
+            "main": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "map": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLMapElement", "interface_type": "HTML"},
+            "mark": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "marquee": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON", "SCOPE_SELECT"], "interface": "HTMLMarqueeElement", "interface_type": "HTML"},
+            "menu": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLMenuElement", "interface_type": "HTML"},
+            "meta": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLMetaElement", "interface_type": "HTML"},
+            "meter": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLMeterElement", "interface_type": "HTML"},
+            "multicol": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLUnknownElement", "interface_type": "HTML"},
+            "nav": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "nextid": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLUnknownElement", "interface_type": "HTML"},
+            "nobr": {"cat": ["FORMATTING", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "noembed": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "noframes": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "noscript": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "object": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON", "SCOPE_SELECT"], "interface": "HTMLObjectElement", "interface_type": "HTML"},
+            "ol": {"cat": ["SPECIAL", "SCOPE_LIST_ITEM", "SCOPE_SELECT"], "interface": "HTMLOListElement", "interface_type": "HTML"},
+            "optgroup": {"cat": ["ORDINARY"], "interface": "HTMLOptGroupElement", "interface_type": "HTML"},
+            "option": {"cat": ["ORDINARY"], "interface": "HTMLOptionElement", "interface_type": "HTML"},
+            "output": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLOutputElement", "interface_type": "HTML"},
+            "p": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLParagraphElement", "interface_type": "HTML"},
+            "param": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLParamElement", "interface_type": "HTML"},
+            "plaintext": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "picture": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLPictureElement", "interface_type": "HTML"},
+            "pre": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLPreElement", "interface_type": "HTML"},
+            "progress": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLProgressElement", "interface_type": "HTML"},
+            "q": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLQuoteElement", "interface_type": "HTML"},
+            "rb": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "rp": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "rt": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "rtc": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "ruby": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "s": {"cat": ["FORMATTING", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "samp": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "script": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLScriptElement", "interface_type": "HTML"},
+            "section": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "select": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLSelectElement", "interface_type": "HTML"},
+            "slot": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLSlotElement", "interface_type": "HTML"},
+            "small": {"cat": ["FORMATTING", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "source": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLSourceElement", "interface_type": "HTML"},
+            "span": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLSpanElement", "interface_type": "HTML"},
+            "spacer": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLUnknownElement", "interface_type": "HTML"},
+            "strike": {"cat": ["FORMATTING", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "strong": {"cat": ["FORMATTING", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "style": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLStyleElement", "interface_type": "HTML"},
+            "sub": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "summary": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "sup": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "table": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON", "SCOPE_TABLE", "SCOPE_SELECT"], "interface": "HTMLTableElement", "interface_type": "HTML"},
+            "tbody": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLTableSectionElement", "interface_type": "HTML"},
+            "td": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON", "SCOPE_SELECT"], "interface": "HTMLTableCellElement", "interface_type": "HTML"},
+            "template": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON", "SCOPE_TABLE", "SCOPE_SELECT"], "interface": "HTMLTemplateElement", "interface_type": "HTML"},
+            "textarea": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLTextAreaElement", "interface_type": "HTML"},
+            "tfoot": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLTableSectionElement", "interface_type": "HTML"},
+            "th": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON", "SCOPE_SELECT"], "interface": "HTMLTableCellElement", "interface_type": "HTML"},
+            "thead": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLTableSectionElement", "interface_type": "HTML"},
+            "time": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLTimeElement", "interface_type": "HTML"},
+            "title": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLTitleElement", "interface_type": "HTML"},
+            "tr": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLTableRowElement", "interface_type": "HTML"},
+            "track": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLTrackElement", "interface_type": "HTML"},
+            "tt": {"cat": ["FORMATTING", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "u": {"cat": ["FORMATTING", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "ul": {"cat": ["SPECIAL", "SCOPE_LIST_ITEM", "SCOPE_SELECT"], "interface": "HTMLUListElement", "interface_type": "HTML"},
+            "var": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "video": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "HTMLVideoElement", "interface_type": "HTML"},
+            "wbr": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLElement", "interface_type": "HTML"},
+            "xmp": {"cat": ["SPECIAL", "SCOPE_SELECT"], "interface": "HTMLPreElement", "interface_type": "HTML"}
+        },
+        "SVG": {
+            "#text": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "Text", "interface_type": "DOM"},
+            "!--": {"cat": ["ORDINARY", "SCOPE_SELECT"], "to": "-EM-comment", "interface": "Comment", "interface_type": "DOM"},
+            "svg": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "Element", "interface_type": "DOM"},
+            "foreignObject": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON", "SCOPE_SELECT"], "interface": "Element", "interface_type": "DOM"},
+            "desc": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON", "SCOPE_SELECT"], "interface": "Element", "interface_type": "DOM"},
+            "title": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON", "SCOPE_SELECT"], "interface": "Element", "interface_type": "DOM"},
+            "path": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "Element", "interface_type": "DOM"}
+        },
+        "MATHML": {
+            "#text": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "Text", "interface_type": "DOM"},
+            "!--": {"cat": ["ORDINARY", "SCOPE_SELECT"], "to": "-EM-comment", "interface": "Comment", "interface_type": "DOM"},
+            "math": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "Element", "interface_type": "DOM"},
+            "mi": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON", "SCOPE_SELECT"], "interface": "Element", "interface_type": "DOM"},
+            "mo": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON", "SCOPE_SELECT"], "interface": "Element", "interface_type": "DOM"},
+            "mn": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON", "SCOPE_SELECT"], "interface": "Element", "interface_type": "DOM"},
+            "ms": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON", "SCOPE_SELECT"], "interface": "Element", "interface_type": "DOM"},
+            "mtext": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON", "SCOPE_SELECT"], "interface": "Element", "interface_type": "DOM"},
+            "mglyph": {"cat": ["ORDINARY"], "interface": "Element", "interface_type": "DOM"},
+            "malignmark": {"cat": ["ORDINARY"], "interface": "Element", "interface_type": "DOM"},
+            "mfenced": {"cat": ["ORDINARY", "SCOPE_SELECT"], "interface": "Element", "interface_type": "DOM"},
+            "annotation-xml": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON", "SCOPE_SELECT"], "interface": "Element", "interface_type": "DOM"}
+        }
+    }
+}

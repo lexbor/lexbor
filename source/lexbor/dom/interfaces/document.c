@@ -1,0 +1,50 @@
+/*
+ * Copyright (C) 2018 Alexander Borisov
+ *
+ * Author: Alexander Borisov <lex.borisov@gmail.com>
+ */
+
+#include "lexbor/dom/interfaces/document.h"
+#include "lexbor/dom/interfaces/document.h"
+
+
+lxb_dom_document_t *
+lxb_dom_document_create(lxb_dom_document_t *document)
+{
+    lxb_dom_document_t *element;
+
+    element = lexbor_mraw_calloc(document->mraw,
+                                 sizeof(lxb_dom_document_t));
+    if (element == NULL) {
+        return NULL;
+    }
+
+    lxb_dom_node_t *node = lxb_dom_interface_node(element);
+
+    node->owner_document = lxb_dom_interface_document(document);
+    node->type = LXB_DOM_NODE_TYPE_ELEMENT;
+
+    return element;
+}
+
+lxb_dom_document_t *
+lxb_dom_document_destroy(lxb_dom_document_t *document)
+{
+    return lexbor_mraw_free(
+        lxb_dom_interface_node(document)->owner_document->mraw,
+        document);
+}
+
+void
+lxb_dom_document_attach_doctype(lxb_dom_document_t *document,
+                                lxb_dom_document_type_t *doctype)
+{
+    document->doctype = doctype;
+}
+
+void
+lxb_dom_document_attach_element(lxb_dom_document_t *document,
+                                lxb_dom_element_t *element)
+{
+    document->element = element;
+}

@@ -1,0 +1,30 @@
+[
+    /* Comment */
+    {
+        "data": $DATA{ ,12}
+            <!-- -->
+        $DATA,
+        "tokens": [
+            {
+                "tag": "!--",
+                "type": [LXB_HTML_TOKEN_TYPE_DATA],
+                "attr": []
+            }
+        ],
+        "errors": []
+    },
+    {
+        "data": $DATA{ ,12}
+            <!------->
+        $DATA,
+        "tokens": [
+            {
+                "tag": "!--",
+                "text": "---",
+                "type": [LXB_HTML_TOKEN_TYPE_DATA],
+                "attr": []
+            }
+        ],
+        "errors": []
+    }
+]

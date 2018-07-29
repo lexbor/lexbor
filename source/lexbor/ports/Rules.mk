@@ -1,0 +1,30 @@
+MODULE_PORTS_DIR := $(call project_utils_dir_join,$(SRCDIR) lexbor ports)
+
+$(call project_utils_modules_load_rules_from_dir,$(MODULE_PORTS_DIR))
+
+#*******************************
+# Default POSIX
+#*******************
+ifeq ($(strip $(PROJECT_PORT_NAME)),)
+  PROJECT_CFLAGS += -fPIC -D_POSIX_C_SOURCE=199309L
+  
+  PROJECT_BUILD_SHARED_AFTER += ln -sf $(call PROJECT_LIBRARY_NAME_WITH_VERSION) $(call PROJECT_LIBRARY) $(PROJECT_UTILS_NEWLINE)
+  PROJECT_BUILD_SHARED_AFTER += ln -sf $(call PROJECT_LIBRARY_NAME_WITH_VERSION) $(call PROJECT_LIBRARY_WITH_VERSION_MAJOR) $(PROJECT_UTILS_NEWLINE)
+  PROJECT_BUILD_SHARED_AFTER += ln -sf $(call PROJECT_LIBRARY_NAME_WITH_VERSION) $(call PROJECT_LIBRARY_WITH_VERSION_MAJOR_MINOR) $(PROJECT_UTILS_NEWLINE)
+  
+  PROJECT_BUILD_CLEAN_AFTER += rm -f $(call PROJECT_LIBRARY) $(PROJECT_UTILS_NEWLINE)
+  PROJECT_BUILD_CLEAN_AFTER += rm -f $(call PROJECT_LIBRARY_WITH_VERSION_MAJOR) $(PROJECT_UTILS_NEWLINE)
+  PROJECT_BUILD_CLEAN_AFTER += rm -f $(call PROJECT_LIBRARY_WITH_VERSION_MAJOR_MINOR) $(PROJECT_UTILS_NEWLINE)
+  
+  # build without threads
+  ifneq ($(LEXBOR_WITHOUT_THREADS),YES)
+    PROJECT_LDFLAGS += -pthread
+  endif
+  
+  # Important!
+  PROJECT_PORT_NAME := posix
+endif 
+# end of POSIX
+
+#$(info Use "$(PROJECT_PORT_NAME)" port for "$(OS)" )
+$(call project_utils_modules_append,$(MODULE_PORTS_DIR)$(PROJECT_CONF_DIR_SEPARATOR)$(PROJECT_PORT_NAME),ports)

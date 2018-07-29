@@ -1,0 +1,257 @@
+[
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE
+        $DATA,
+        "tokens": [
+            {
+                "tag": "!DOCTYPE",
+                "type": [LXB_HTML_TOKEN_TYPE_FORCE_QUIRKS],
+                "attr": []
+            }
+        ],
+        "quirks": LXB_HTML_COMPAT_MODE_QUIRKS,
+        "errors": [LXB_HTML_TOKENIZER_ERROR_EOINDO]
+    },
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPEs
+        $DATA,
+        "tokens": [
+            {
+                "tag": "!DOCTYPE",
+                "type": [LXB_HTML_TOKEN_TYPE_FORCE_QUIRKS],
+                "attr": [{"name": "s"}]
+            }
+        ],
+        "quirks": LXB_HTML_COMPAT_MODE_QUIRKS,
+        "errors": [
+            LXB_HTML_TOKENIZER_ERROR_MIWHBEDONA, 
+            LXB_HTML_TOKENIZER_ERROR_EOINDO
+        ]
+    },
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE \u0000\u0000
+        $DATA,
+        "tokens": [
+            {
+                "tag": "!DOCTYPE",
+                "type": [LXB_HTML_TOKEN_TYPE_FORCE_QUIRKS],
+                "attr": []
+            }
+        ],
+        "quirks": LXB_HTML_COMPAT_MODE_QUIRKS,
+        "errors": [
+            LXB_HTML_TOKENIZER_ERROR_UNNUCH,
+            LXB_HTML_TOKENIZER_ERROR_UNNUCH,
+            LXB_HTML_TOKENIZER_ERROR_EOINDO
+        ]
+    },
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html>
+        $DATA,
+        "tokens": [
+            {
+                "tag": "!DOCTYPE",
+                "attr": [
+                    {"name": "html", "value": null}
+                ],
+            }
+        ]
+    },
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC "test public">
+        $DATA,
+        "tokens": [
+            {
+                "tag": "!DOCTYPE",
+                "attr": [
+                    {"name": "html", "value": null},
+                    {"name": "PUBLIC", "value": "test public"}
+                ],
+            }
+        ]
+    },
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC 'test public'>
+        $DATA,
+        "tokens": [
+            {
+                "tag": "!DOCTYPE",
+                "attr": [
+                    {"name": "html", "value": null},
+                    {"name": "PUBLIC", "value": "test public"}
+                ],
+            }
+        ]
+    },
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC "test public" "system identifier">
+        $DATA,
+        "tokens": [
+            {
+                "tag": "!DOCTYPE",
+                "attr": [
+                    {"name": "html", "value": null},
+                    {"name": "PUBLIC", "value": "test public"},
+                    {"name": null, "value": "system identifier"}
+                ],
+            }
+        ]
+    },
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html SYSTEM "test system">
+        $DATA,
+        "tokens": [
+            {
+                "tag": "!DOCTYPE",
+                "attr": [
+                    {"name": "html", "value": null},
+                    {"name": "SYSTEM", "value": "test system"}
+                ],
+            }
+        ]
+    },
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html SYSTEM 'test system'>
+        $DATA,
+        "tokens": [
+            {
+                "tag": "!DOCTYPE",
+                "attr": [
+                    {"name": "html", "value": null},
+                    {"name": "SYSTEM", "value": "test system"}
+                ],
+            }
+        ]
+    },
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE htm
+        $DATA,
+        "tokens": [
+            {
+                "tag": "!DOCTYPE",
+                "attr": [
+                    {"name": "htm", "value": null}
+                ],
+            }
+        ]
+    },
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE htm>
+        $DATA,
+        "tokens": [
+            {
+                "tag": "!DOCTYPE",
+                "attr": [
+                    {"name": "htm", "value": null}
+                ],
+            }
+        ]
+    },
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC 'test publi
+        $DATA,
+        "tokens": [
+            {
+                "tag": "!DOCTYPE",
+                "attr": [
+                    {"name": "html", "value": null},
+                    {"name": "PUBLIC", "value": "test publi"}
+                ],
+            }
+        ]
+    },
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC 'test publi
+        $DATA,
+        "tokens": [
+            {
+                "tag": "!DOCTYPE",
+                "attr": [
+                    {"name": "html", "value": null},
+                    {"name": "PUBLIC", "value": "test publi"}
+                ],
+            }
+        ]
+    },
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC 'test public' "test syst
+        $DATA, /* " */
+        "tokens": [
+            {
+                "tag": "!DOCTYPE",
+                "attr": [
+                    {"name": "html", "value": null},
+                    {"name": "PUBLIC", "value": "test public"},
+                    {"name": null, "value": "test syst"}
+                ],
+            }
+        ]
+    },
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC 'test public'"test syst
+        $DATA, /* " */
+        "tokens": [
+            {
+                "tag": "!DOCTYPE",
+                "attr": [
+                    {"name": "html", "value": null},
+                    {"name": "PUBLIC", "value": "test public"},
+                    {"name": null, "value": "test syst"}
+                ],
+                "errors": [
+                    LXB_HTML_TOKENIZER_ERROR_MIWHAFDOSYKE,
+                    LXB_HTML_TOKENIZER_ERROR_EOINDO
+                ]
+            }
+        ]
+    },
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC 
+        $DATA,
+        "tokens": [
+            {
+                "tag": "!DOCTYPE",
+                "attr": [
+                    {"name": "html", "value": null},
+                    {"name": "PUBLIC", "value": null}
+                ],
+                "errors": [
+                    LXB_HTML_TOKENIZER_ERROR_EOINDO
+                ]
+            }
+        ]
+    },
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC "
+        $DATA, /* " */
+        "tokens": [
+            {
+                "tag": "!DOCTYPE",
+                "attr": [
+                    {"name": "html", "value": null},
+                    {"name": "PUBLIC", "value": ""}
+                ],
+                "errors": [
+                    LXB_HTML_TOKENIZER_ERROR_EOINDO
+                ]
+            }
+        ]
+    },
+]
