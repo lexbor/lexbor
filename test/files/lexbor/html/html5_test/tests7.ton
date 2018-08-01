@@ -1,0 +1,464 @@
+[
+    /* Test count: 31 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><body><title>X</title>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <title>
+                  "X"
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><table><title>X</title></table>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <title>
+                  "X"
+                <table>
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><head></head><title>X</title>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <title>
+                  "X"
+              <body>
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html></head><title>X</title>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <title>
+                  "X"
+              <body>
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><table><meta></table>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <meta>
+                <table>
+        $DATA
+    },
+    /* Test number: 6 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><table>X<tr><td><table> <meta></table></table>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                "X"
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <meta>
+                        <table>
+                          " "
+        $DATA
+    },
+    /* Test number: 7 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><html> <head>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+        $DATA
+    },
+    /* Test number: 8 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html> <head>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+        $DATA
+    },
+    /* Test number: 9 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><table><style> <tr>x </style> </table>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <table>
+                  <style>
+                    " <tr>x "
+                  " "
+        $DATA
+    },
+    /* Test number: 10 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><table><TBODY><script> <tr>x </script> </table>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <table>
+                  <tbody>
+                    <script>
+                      " <tr>x "
+                    " "
+        $DATA
+    },
+    /* Test number: 11 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><applet><p>X</p></applet>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <applet>
+                    <p>
+                      "X"
+        $DATA
+    },
+    /* Test number: 12 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><object type="application/x-non-existant-plugin"><p>X</p></object>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <object type="application/x-non-existant-plugin">
+                    <p>
+                      "X"
+        $DATA
+    },
+    /* Test number: 13 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><listing>
+            X</listing>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <listing>
+                  "X"
+        $DATA
+    },
+    /* Test number: 14 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><select><input>X
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <select>
+                <input>
+                "X"
+        $DATA
+    },
+    /* Test number: 15 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><select><select>X
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <select>
+                "X"
+        $DATA
+    },
+    /* Test number: 16 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><table><input type=hidDEN></table>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <table>
+                  <input type="hidDEN">
+        $DATA
+    },
+    /* Test number: 17 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><table>X<input type=hidDEN></table>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                "X"
+                <table>
+                  <input type="hidDEN">
+        $DATA
+    },
+    /* Test number: 18 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><table>  <input type=hidDEN></table>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <table>
+                  "  "
+                  <input type="hidDEN">
+        $DATA
+    },
+    /* Test number: 19 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><table>  <input type='hidDEN'></table>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <table>
+                  "  "
+                  <input type="hidDEN">
+        $DATA
+    },
+    /* Test number: 20 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><table><input type=" hidden"><input type=hidDEN></table>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <input type=" hidden">
+                <table>
+                  <input type="hidDEN">
+        $DATA
+    },
+    /* Test number: 21 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><table><select>X<tr>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <select>
+                  "X"
+                <table>
+                  <tbody>
+                    <tr>
+        $DATA
+    },
+    /* Test number: 22 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><select>X</select>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <select>
+                  "X"
+        $DATA
+    },
+    /* Test number: 23 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE hTmL><html></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+        $DATA
+    },
+    /* Test number: 24 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE HTML><html></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+        $DATA
+    },
+    /* Test number: 25 */
+    {
+        "data": $DATA{ ,12}
+            <body>X</body></body>
+        $DATA,
+        "fragment": {"tag": "html", "ns": "html"},
+        "result": $DATA{ ,12}
+            <head>
+            <body>
+              "X"
+        $DATA
+    },
+    /* Test number: 26 */
+    {
+        "data": $DATA{ ,12}
+            <div><p>a</x> b
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <div>
+                  <p>
+                    "a b"
+        $DATA
+    },
+    /* Test number: 27 */
+    {
+        "data": $DATA{ ,12}
+            <table><tr><td><code></code> </table>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <code>
+                        " "
+        $DATA
+    },
+    /* Test number: 28 */
+    {
+        "data": $DATA{ ,12}
+            <table><b><tr><td>aaa</td></tr>bbb</table>ccc
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <b>
+                <b>
+                  "bbb"
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        "aaa"
+                <b>
+                  "ccc"
+        $DATA
+    },
+    /* Test number: 29 */
+    {
+        "data": $DATA{ ,12}
+            A<table><tr> B</tr> B</table>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "A B B"
+                <table>
+                  <tbody>
+                    <tr>
+        $DATA
+    },
+    /* Test number: 30 */
+    {
+        "data": $DATA{ ,12}
+            A<table><tr> B</tr> </em>C</table>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "A BC"
+                <table>
+                  <tbody>
+                    <tr>
+                    " "
+        $DATA
+    },
+    /* Test number: 31 */
+    {
+        "data": $DATA{ ,12}
+            <select><keygen>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <select>
+                <keygen>
+        $DATA
+    },
+]

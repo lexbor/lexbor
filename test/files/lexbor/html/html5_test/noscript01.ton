@@ -1,0 +1,262 @@
+[
+    /* Test count: 18 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript><!doctype html><!--foo--></noscript>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+                  <!-- foo -->
+              <body>
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript><html class="foo"><!--foo--></noscript>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html class="foo">
+              <head>
+                <noscript>
+                  <!-- foo -->
+              <body>
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript></noscript>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+              <body>
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript>   </noscript>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+                  "   "
+              <body>
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript><!--foo--></noscript>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+                  <!-- foo -->
+              <body>
+        $DATA
+    },
+    /* Test number: 6 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript><basefont><!--foo--></noscript>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+                  <basefont>
+                  <!-- foo -->
+              <body>
+        $DATA
+    },
+    /* Test number: 7 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript><bgsound><!--foo--></noscript>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+                  <bgsound>
+                  <!-- foo -->
+              <body>
+        $DATA
+    },
+    /* Test number: 8 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript><link><!--foo--></noscript>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+                  <link>
+                  <!-- foo -->
+              <body>
+        $DATA
+    },
+    /* Test number: 9 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript><meta><!--foo--></noscript>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+                  <meta>
+                  <!-- foo -->
+              <body>
+        $DATA
+    },
+    /* Test number: 10 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript><noframes>XXX</noscript></noframes></noscript>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+                  <noframes>
+                    "XXX</noscript>"
+              <body>
+        $DATA
+    },
+    /* Test number: 11 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript><style>XXX</style></noscript>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+                  <style>
+                    "XXX"
+              <body>
+        $DATA
+    },
+    /* Test number: 12 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript></br><!--foo--></noscript>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+              <body>
+                <br>
+                <!-- foo -->
+        $DATA
+    },
+    /* Test number: 13 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript><head class="foo"><!--foo--></noscript>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+                  <!-- foo -->
+              <body>
+        $DATA
+    },
+    /* Test number: 14 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript><noscript class="foo"><!--foo--></noscript>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+                  <!-- foo -->
+              <body>
+        $DATA
+    },
+    /* Test number: 15 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript></p><!--foo--></noscript>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+                  <!-- foo -->
+              <body>
+        $DATA
+    },
+    /* Test number: 16 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript><p><!--foo--></noscript>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+              <body>
+                <p>
+                  <!-- foo -->
+        $DATA
+    },
+    /* Test number: 17 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript>XXX<!--foo--></noscript></head>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+              <body>
+                "XXX"
+                <!-- foo -->
+        $DATA
+    },
+    /* Test number: 18 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+              <body>
+        $DATA
+    },
+]

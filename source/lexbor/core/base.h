@@ -19,6 +19,7 @@ extern "C" {
 #include <stdarg.h>
 #include <memory.h>
 #include <limits.h>
+#include <string.h>
 
 #include "lexbor/core/def.h"
 #include "lexbor/core/types.h"

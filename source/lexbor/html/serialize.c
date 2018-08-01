@@ -11,6 +11,7 @@
 
 #include "lexbor/html/serialize.h"
 #include "lexbor/html/tree.h"
+#include "lexbor/html/ns.h"
 #include "lexbor/html/interfaces/template_element.h"
 
 #define LEXBOR_TOKENIZER_CHARS_MAP
@@ -34,6 +35,16 @@
     }                                                                          \
     while (0)
 
+
+typedef struct {
+    lexbor_str_t  *str;
+    lexbor_mraw_t *mraw;
+}
+lxb_html_serialize_ctx_t;
+
+
+static lxb_status_t
+lxb_html_serialize_str_callback(const lxb_char_t *data, size_t len, void *ctx);
 
 static lxb_status_t
 lxb_html_serialize_node_cb(lxb_dom_node_t *node,
@@ -66,6 +77,10 @@ lxb_html_serialize_processing_instruction_cb(lxb_dom_processing_instruction_t *p
 static lxb_status_t
 lxb_html_serialize_document_type_cb(lxb_dom_document_type_t *doctype,
                                     lxb_html_serialize_cb_f cb, void *ctx);
+
+static lxb_status_t
+lxb_html_serialize_document_type_full_cb(lxb_dom_document_type_t *doctype,
+                                         lxb_html_serialize_cb_f cb, void *ctx);
 
 static lxb_status_t
 lxb_html_serialize_document_cb(lxb_dom_document_t *document,
@@ -101,7 +116,8 @@ lxb_html_serialize_pretty_text_cb(lxb_dom_text_t *text,
                                   lxb_html_serialize_cb_f cb, void *ctx);
 
 static lxb_status_t
-lxb_html_serialize_pretty_comment_cb(lxb_dom_comment_t *comment, size_t indent,
+lxb_html_serialize_pretty_comment_cb(lxb_dom_comment_t *comment,
+                                     size_t indent, bool with_indent,
                                      lxb_html_serialize_cb_f cb, void *ctx);
 
 static lxb_status_t
@@ -110,13 +126,13 @@ lxb_html_serialize_pretty_document_cb(lxb_dom_document_t *document,
 
 static lxb_status_t
 lxb_html_serialize_pretty_send_escaping_string(const lxb_char_t *data, size_t len,
-                                               size_t indent,
+                                               size_t indent, bool with_indent,
                                                lxb_html_serialize_cb_f cb, void *ctx);
 
 static lxb_status_t
 lxb_html_serialize_pretty_send_string(const lxb_char_t *data, size_t len,
-                                      size_t indent, lxb_html_serialize_cb_f cb,
-                                      void *ctx);
+                                      size_t indent, bool with_indent,
+                                      lxb_html_serialize_cb_f cb, void *ctx);
 
 
 lxb_status_t
@@ -156,6 +172,39 @@ lxb_html_serialize_cb(lxb_dom_node_t *node,
 }
 
 lxb_status_t
+lxb_html_serialize_str(lxb_dom_node_t *node, lexbor_str_t *str)
+{
+    lxb_html_serialize_ctx_t ctx;
+
+    if (str->data == NULL) {
+        lexbor_str_init(str, node->owner_document->text, 1024);
+
+        if (str->data == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+    }
+
+    ctx.str = str;
+    ctx.mraw = node->owner_document->text;
+
+    return lxb_html_serialize_cb(node, lxb_html_serialize_str_callback, &ctx);
+}
+
+static lxb_status_t
+lxb_html_serialize_str_callback(const lxb_char_t *data, size_t len, void *ctx)
+{
+    lxb_char_t *ret;
+    lxb_html_serialize_ctx_t *s_ctx = ctx;
+
+    ret = lexbor_str_append(s_ctx->str, s_ctx->mraw, data, len);
+    if (ret == NULL) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    return LXB_STATUS_OK;
+}
+
+lxb_status_t
 lxb_html_serialize_tree_cb(lxb_dom_node_t *node,
                            lxb_html_serialize_cb_f cb, void *ctx)
 {
@@ -173,6 +222,26 @@ lxb_html_serialize_tree_cb(lxb_dom_node_t *node,
     }
 
     return LXB_STATUS_OK;
+}
+
+lxb_status_t
+lxb_html_serialize_tree_str(lxb_dom_node_t *node, lexbor_str_t *str)
+{
+    lxb_html_serialize_ctx_t ctx;
+
+    if (str->data == NULL) {
+        lexbor_str_init(str, node->owner_document->text, 1024);
+
+        if (str->data == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+    }
+
+    ctx.str = str;
+    ctx.mraw = node->owner_document->text;
+
+    return lxb_html_serialize_tree_cb(node,
+                                      lxb_html_serialize_str_callback, &ctx);
 }
 
 static lxb_status_t
@@ -296,14 +365,16 @@ lxb_html_serialize_element_cb(lxb_dom_element_t *element,
     lxb_dom_document_t *doc = element->node.owner_document;
 
     if (node->ns == LXB_HTML_NS_HTML
-        || node->ns == LXB_HTML_NS_MATHML
+        || node->ns == LXB_HTML_NS_MATH
         || node->ns == LXB_HTML_NS_SVG)
     {
-        tag_name = lxb_html_tag_name_by_id(doc->tags, node->tag_id, &len);
+        tag_name = lxb_html_tag_name_by_id(doc->tags, node->tag_id, node->ns,
+                                           &len);
     }
     else {
         /* FIXIT: need to fix */
-        tag_name = lxb_html_tag_name_by_id(doc->tags, node->tag_id, &len);
+        tag_name = lxb_html_tag_name_by_id(doc->tags, node->tag_id, node->ns,
+                                           &len);
     }
 
     if (tag_name == NULL) {
@@ -360,14 +431,16 @@ lxb_html_serialize_element_closed_cb(lxb_dom_element_t *element,
     lxb_dom_document_t *doc = element->node.owner_document;
 
     if (node->ns == LXB_HTML_NS_HTML
-        || node->ns == LXB_HTML_NS_MATHML
+        || node->ns == LXB_HTML_NS_MATH
         || node->ns == LXB_HTML_NS_SVG)
     {
-        tag_name = lxb_html_tag_name_by_id(doc->tags, node->tag_id, &len);
+        tag_name = lxb_html_tag_name_by_id(doc->tags, node->tag_id, node->ns,
+                                           &len);
     }
     else {
         /* FIXIT: need to fix */
-        tag_name = lxb_html_tag_name_by_id(doc->tags, node->tag_id, &len);
+        tag_name = lxb_html_tag_name_by_id(doc->tags, node->tag_id, node->ns,
+                                           &len);
     }
 
     if (tag_name == NULL) {
@@ -462,6 +535,47 @@ lxb_html_serialize_document_type_cb(lxb_dom_document_type_t *doctype,
 
     if (doctype->name.data != NULL && doctype->name.length != 0) {
         lxb_html_serialize_send(doctype->name.data, doctype->name.length, ctx);
+    }
+
+    lxb_html_serialize_send(">", 1, ctx);
+
+    return LXB_STATUS_OK;
+}
+
+static lxb_status_t
+lxb_html_serialize_document_type_full_cb(lxb_dom_document_type_t *doctype,
+                                         lxb_html_serialize_cb_f cb, void *ctx)
+{
+    lxb_status_t status;
+    
+    lxb_html_serialize_send("<!DOCTYPE", 9, ctx);
+    lxb_html_serialize_send(" ", 1, ctx);
+    
+    if (doctype->name.data != NULL && doctype->name.length != 0) {
+        lxb_html_serialize_send(doctype->name.data, doctype->name.length, ctx);
+    }
+
+    if (doctype->public_id.data != NULL && doctype->public_id.length != 0) {
+        lxb_html_serialize_send(" PUBLIC ", 8, ctx);
+        lxb_html_serialize_send("\"", 1, ctx);
+
+        lxb_html_serialize_send(doctype->public_id.data,
+                                doctype->public_id.length, ctx);
+
+        lxb_html_serialize_send("\"", 1, ctx);
+    }
+
+    if (doctype->system_id.data != NULL && doctype->system_id.length != 0) {
+        if (doctype->public_id.length == 0) {
+            lxb_html_serialize_send(" SYSTEM", 7, ctx);
+        }
+
+        lxb_html_serialize_send(" \"", 2, ctx);
+
+        lxb_html_serialize_send(doctype->system_id.data,
+                                doctype->system_id.length, ctx);
+
+        lxb_html_serialize_send("\"", 1, ctx);
     }
 
     lxb_html_serialize_send(">", 1, ctx);
@@ -708,26 +822,28 @@ lxb_html_serialize_pretty_cb(lxb_dom_node_t *node,
             status = lxb_html_serialize_pretty_element_cb(lxb_dom_interface_element(node),
                                                           opt, indent, cb, ctx);
 
-            lxb_html_serialize_send("\n", 1, ctx);
-
             break;
 
         case LXB_DOM_NODE_TYPE_TEXT:
             status = lxb_html_serialize_pretty_text_cb(lxb_dom_interface_text(node),
                                                        opt, indent, cb, ctx);
-            break;
 
-        case LXB_DOM_NODE_TYPE_COMMENT:
+            return LXB_STATUS_OK;
+
+        case LXB_DOM_NODE_TYPE_COMMENT: {
+            bool with_indent;
+
             if (opt & LXB_HTML_SERIALIZE_OPT_SKIP_COMMENT) {
                 return LXB_STATUS_OK;
             }
 
-            status = lxb_html_serialize_pretty_comment_cb(lxb_dom_interface_comment(node),
-                                                          indent, cb, ctx);
+            with_indent = (opt & LXB_HTML_SERIALIZE_OPT_WITHOUT_TEXT_INDENT) == 0;
 
-            lxb_html_serialize_send("\n", 1, ctx);
+            status = lxb_html_serialize_pretty_comment_cb(lxb_dom_interface_comment(node),
+                                                          indent, with_indent, cb, ctx);
 
             break;
+        }
 
         case LXB_DOM_NODE_TYPE_PROCESSING_INSTRUCTION:
             lxb_html_serialize_send_indent(indent, ctx);
@@ -735,17 +851,19 @@ lxb_html_serialize_pretty_cb(lxb_dom_node_t *node,
             status = lxb_html_serialize_processing_instruction_cb(lxb_dom_interface_processing_instruction(node),
                                                                   cb, ctx);
 
-            lxb_html_serialize_send("\n", 1, ctx);
-
             break;
 
         case LXB_DOM_NODE_TYPE_DOCUMENT_TYPE:
             lxb_html_serialize_send_indent(indent, ctx);
 
-            status = lxb_html_serialize_document_type_cb(lxb_dom_interface_document_type(node),
-                                                         cb, ctx);
-
-            lxb_html_serialize_send("\n", 1, ctx);
+            if (opt & LXB_HTML_SERIALIZE_OPT_FULL_DOCTYPE) {
+                status = lxb_html_serialize_document_type_full_cb(lxb_dom_interface_document_type(node),
+                                                             cb, ctx);
+            }
+            else {
+                status = lxb_html_serialize_document_type_cb(lxb_dom_interface_document_type(node),
+                                                             cb, ctx);
+            }
 
             break;
 
@@ -754,8 +872,6 @@ lxb_html_serialize_pretty_cb(lxb_dom_node_t *node,
 
             status = lxb_html_serialize_pretty_document_cb(lxb_dom_interface_document(node),
                                                            cb, ctx);
-
-            lxb_html_serialize_send("\n", 1, ctx);
 
             break;
 
@@ -767,7 +883,31 @@ lxb_html_serialize_pretty_cb(lxb_dom_node_t *node,
         return status;
     }
 
+    lxb_html_serialize_send("\n", 1, ctx);
+
     return LXB_STATUS_OK;
+}
+
+lxb_status_t
+lxb_html_serialize_pretty_str(lxb_dom_node_t *node,
+                              lxb_html_serialize_opt_t opt, size_t indent,
+                              lexbor_str_t *str)
+{
+    lxb_html_serialize_ctx_t ctx;
+
+    if (str->data == NULL) {
+        lexbor_str_init(str, node->owner_document->text, 1024);
+
+        if (str->data == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+    }
+
+    ctx.str = str;
+    ctx.mraw = node->owner_document->text;
+
+    return lxb_html_serialize_pretty_cb(node, opt, indent,
+                                        lxb_html_serialize_str_callback, &ctx);
 }
 
 lxb_status_t
@@ -789,6 +929,29 @@ lxb_html_serialize_pretty_tree_cb(lxb_dom_node_t *node,
     }
 
     return LXB_STATUS_OK;
+}
+
+lxb_status_t
+lxb_html_serialize_pretty_tree_str(lxb_dom_node_t *node,
+                                   lxb_html_serialize_opt_t opt, size_t indent,
+                                   lexbor_str_t *str)
+{
+    lxb_html_serialize_ctx_t ctx;
+
+    if (str->data == NULL) {
+        lexbor_str_init(str, node->owner_document->text, 1024);
+
+        if (str->data == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+    }
+
+    ctx.str = str;
+    ctx.mraw = node->owner_document->text;
+
+    return lxb_html_serialize_pretty_tree_cb(node, opt, indent,
+                                             lxb_html_serialize_str_callback,
+                                             &ctx);
 }
 
 static lxb_status_t
@@ -899,22 +1062,28 @@ lxb_html_serialize_pretty_element_cb(lxb_dom_element_t *element,
     lxb_dom_node_t *node = lxb_dom_interface_node(element);
     lxb_dom_document_t *doc = element->node.owner_document;
 
-    if (node->ns == LXB_HTML_NS_HTML
-        || node->ns == LXB_HTML_NS_MATHML
-        || node->ns == LXB_HTML_NS_SVG)
-    {
-        tag_name = lxb_html_tag_name_by_id(doc->tags, node->tag_id, &len);
-    }
-    else {
-        /* FIXIT: need to fix */
-        tag_name = lxb_html_tag_name_by_id(doc->tags, node->tag_id, &len);
-    }
-
+    tag_name = lxb_html_tag_name_by_id(doc->tags, node->tag_id, node->ns, &len);
     if (tag_name == NULL) {
         return LXB_STATUS_ERROR;
     }
 
     lxb_html_serialize_send("<", 1, ctx);
+
+    if (element->node.ns != LXB_HTML_NS_HTML
+        && opt & LXB_HTML_SERIALIZE_OPT_TAG_WITH_NS)
+    {
+        size_t ns_len;
+        const lxb_char_t *ns_name;
+
+        ns_name = lxb_html_ns_lower_name_by_id(element->node.ns, &ns_len);
+        if (ns_name == NULL) {
+            return LXB_STATUS_ERROR;
+        }
+
+        lxb_html_serialize_send(ns_name, ns_len, ctx);
+        lxb_html_serialize_send(":", 1, ctx);
+    }
+
     lxb_html_serialize_send(tag_name, len, ctx);
 
     if (element->is_value != NULL && element->is_value->data != NULL) {
@@ -970,6 +1139,8 @@ lxb_html_serialize_pretty_text_cb(lxb_dom_text_t *text,
     lxb_dom_document_t *doc = node->owner_document;
     lexbor_str_t *data = &text->char_data.data;
 
+    bool with_indent = (opt & LXB_HTML_SERIALIZE_OPT_WITHOUT_TEXT_INDENT) == 0;
+
     if (opt & LXB_HTML_SERIALIZE_OPT_SKIP_WS_NODES) {
         const lxb_char_t *pos = data->data;
         const lxb_char_t *end = pos + data->length;
@@ -997,6 +1168,7 @@ lxb_html_serialize_pretty_text_cb(lxb_dom_text_t *text,
         case LXB_HTML_TAG_PLAINTEXT:
             status = lxb_html_serialize_pretty_send_string(data->data,
                                                            data->length, indent,
+                                                           with_indent,
                                                            cb, ctx);
             goto end;
 
@@ -1004,7 +1176,9 @@ lxb_html_serialize_pretty_text_cb(lxb_dom_text_t *text,
             if (doc->scripting) {
                 status = lxb_html_serialize_pretty_send_string(data->data,
                                                                data->length,
-                                                               indent, cb, ctx);
+                                                               indent,
+                                                               with_indent,
+                                                               cb, ctx);
                 goto end;
             }
 
@@ -1016,12 +1190,14 @@ lxb_html_serialize_pretty_text_cb(lxb_dom_text_t *text,
 
     if (opt & LXB_HTML_SERIALIZE_OPT_RAW) {
         status = lxb_html_serialize_pretty_send_string(data->data, data->length,
-                                                       indent, cb, ctx);
+                                                       indent, with_indent,
+                                                       cb, ctx);
     }
     else {
         status = lxb_html_serialize_pretty_send_escaping_string(data->data,
                                                                 data->length,
                                                                 indent,
+                                                                with_indent,
                                                                 cb, ctx);
     }
 
@@ -1037,40 +1213,48 @@ end:
 }
 
 static lxb_status_t
-lxb_html_serialize_pretty_comment_cb(lxb_dom_comment_t *comment, size_t indent,
+lxb_html_serialize_pretty_comment_cb(lxb_dom_comment_t *comment,
+                                     size_t indent, bool with_indent,
                                      lxb_html_serialize_cb_f cb, void *ctx)
 {
     lxb_status_t status;
-    const lxb_char_t *data = comment->char_data.data.data;
-    const lxb_char_t *pos = data;
-    const lxb_char_t *end = pos + comment->char_data.data.length;
 
     lxb_html_serialize_send_indent(indent, ctx);
     lxb_html_serialize_send("<!-- ", 5, ctx);
 
-    while (data != end) {
-        /*
-         * U+000A LINE FEED (LF)
-         * U+000D CARRIAGE RETURN (CR)
-         */
-        if (*data == 0x0A || *data == 0x0D) {
-            if (pos != data) {
-                lxb_html_serialize_send(pos, (data - pos), ctx);
+    if (with_indent) {
+        const lxb_char_t *data = comment->char_data.data.data;
+        const lxb_char_t *pos = data;
+        const lxb_char_t *end = pos + comment->char_data.data.length;
+
+        while (data != end) {
+            /*
+             * U+000A LINE FEED (LF)
+             * U+000D CARRIAGE RETURN (CR)
+             */
+            if (*data == 0x0A || *data == 0x0D) {
+                if (pos != data) {
+                    lxb_html_serialize_send(pos, (data - pos), ctx);
+                }
+
+                lxb_html_serialize_send(data, 1, ctx);
+                lxb_html_serialize_send_indent(indent, ctx);
+
+                data++;
+                pos = data;
             }
-
-            lxb_html_serialize_send(data, 1, ctx);
-            lxb_html_serialize_send_indent(indent, ctx);
-
-            data++;
-            pos = data;
+            else {
+                data++;
+            }
         }
-        else {
-            data++;
+
+        if (pos != data) {
+            lxb_html_serialize_send(pos, (data - pos), ctx);
         }
     }
-
-    if (pos != data) {
-        lxb_html_serialize_send(pos, (data - pos), ctx);
+    else {
+        lxb_html_serialize_send(comment->char_data.data.data,
+                                comment->char_data.data.length, ctx);
     }
 
     lxb_html_serialize_send(" -->", 4, ctx);
@@ -1091,7 +1275,7 @@ lxb_html_serialize_pretty_document_cb(lxb_dom_document_t *document,
 
 static lxb_status_t
 lxb_html_serialize_pretty_send_escaping_string(const lxb_char_t *data, size_t len,
-                                               size_t indent,
+                                               size_t indent, bool with_indent,
                                                lxb_html_serialize_cb_f cb, void *ctx)
 {
     lxb_status_t status;
@@ -1161,17 +1345,20 @@ lxb_html_serialize_pretty_send_escaping_string(const lxb_char_t *data, size_t le
              */
             case 0x0A:
             case 0x0D:
-                if (pos != data) {
-                    lxb_html_serialize_send(pos, (data - pos), ctx);
+                if (with_indent) {
+                    if (pos != data) {
+                        lxb_html_serialize_send(pos, (data - pos), ctx);
+                    }
+
+                    lxb_html_serialize_send("\n", 1, ctx);
+                    lxb_html_serialize_send_indent(indent, ctx);
+
+                    data++;
+                    pos = data;
+
+                    break;
                 }
-
-                lxb_html_serialize_send("\n", 1, ctx);
-                lxb_html_serialize_send_indent(indent, ctx);
-
-                data++;
-                pos = data;
-
-                break;
+                /* fall through */
 
             default:
                 data++;
@@ -1191,39 +1378,45 @@ lxb_html_serialize_pretty_send_escaping_string(const lxb_char_t *data, size_t le
 
 static lxb_status_t
 lxb_html_serialize_pretty_send_string(const lxb_char_t *data, size_t len,
-                                      size_t indent, lxb_html_serialize_cb_f cb,
-                                      void *ctx)
+                                      size_t indent, bool with_indent,
+                                      lxb_html_serialize_cb_f cb, void *ctx)
 {
     lxb_status_t status;
-    const lxb_char_t *pos = data;
-    const lxb_char_t *end = data + len;
 
     lxb_html_serialize_send_indent(indent, ctx);
     lxb_html_serialize_send("\"", 1, ctx);
 
-    while (data != end) {
-        /*
-         * U+000A LINE FEED (LF)
-         * U+000D CARRIAGE RETURN (CR)
-         */
-        if (*data == 0x0A || *data == 0x0D) {
-            if (pos != data) {
-                lxb_html_serialize_send(pos, (data - pos), ctx);
+    if (with_indent) {
+        const lxb_char_t *pos = data;
+        const lxb_char_t *end = data + len;
+
+        while (data != end) {
+            /*
+             * U+000A LINE FEED (LF)
+             * U+000D CARRIAGE RETURN (CR)
+             */
+            if (*data == 0x0A || *data == 0x0D) {
+                if (pos != data) {
+                    lxb_html_serialize_send(pos, (data - pos), ctx);
+                }
+
+                lxb_html_serialize_send(data, 1, ctx);
+                lxb_html_serialize_send_indent(indent, ctx);
+
+                data++;
+                pos = data;
             }
-
-            lxb_html_serialize_send(data, 1, ctx);
-            lxb_html_serialize_send_indent(indent, ctx);
-
-            data++;
-            pos = data;
+            else {
+                data++;
+            }
         }
-        else {
-            data++;
+
+        if (pos != data) {
+            lxb_html_serialize_send(pos, (data - pos), ctx);
         }
     }
-
-    if (pos != data) {
-        lxb_html_serialize_send(pos, (data - pos), ctx);
+    else {
+        lxb_html_serialize_send(data, len, ctx);
     }
 
     lxb_html_serialize_send("\"", 1, ctx);

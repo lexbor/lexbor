@@ -1,0 +1,339 @@
+[
+    /* Test count: 21 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <foo bar=qux/>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <foo bar="qux/">
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <p id="status"><noscript><strong>A</strong></noscript><span>B</span></p>
+        $DATA,
+        "scripting": true,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <p id="status">
+                  <noscript>
+                    "<strong>A</strong>"
+                  <span>
+                    "B"
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <p id="status"><noscript><strong>A</strong></noscript><span>B</span></p>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <p id="status">
+                  <noscript>
+                    <strong>
+                      "A"
+                  <span>
+                    "B"
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <div><sarcasm><div></div></sarcasm></div>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <div>
+                  <sarcasm>
+                    <div>
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
+            <html><body><img src="" border="0" alt="><div>A</div></body></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+        $DATA
+    },
+    /* Test number: 6 */
+    {
+        "data": $DATA{ ,12}
+            <table><td></tbody>A
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "A"
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+        $DATA
+    },
+    /* Test number: 7 */
+    {
+        "data": $DATA{ ,12}
+            <table><td></thead>A
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        "A"
+        $DATA
+    },
+    /* Test number: 8 */
+    {
+        "data": $DATA{ ,12}
+            <table><td></tfoot>A
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        "A"
+        $DATA
+    },
+    /* Test number: 9 */
+    {
+        "data": $DATA{ ,12}
+            <table><thead><td></tbody>A
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <table>
+                  <thead>
+                    <tr>
+                      <td>
+                        "A"
+        $DATA
+    },
+    /* Test number: 10 */
+    {
+        "data": $DATA{ ,12}
+            <legend>test</legend>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <legend>
+                  "test"
+        $DATA
+    },
+    /* Test number: 11 */
+    {
+        "data": $DATA{ ,12}
+            <table><input>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <input>
+                <table>
+        $DATA
+    },
+    /* Test number: 12 */
+    {
+        "data": $DATA{ ,12}
+            <b><em><foo><foo><aside></b>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <b>
+                  <em>
+                    <foo>
+                      <foo>
+                <em>
+                  <aside>
+                    <b>
+        $DATA
+    },
+    /* Test number: 13 */
+    {
+        "data": $DATA{ ,12}
+            <b><em><foo><foo><aside></b></em>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <b>
+                  <em>
+                    <foo>
+                      <foo>
+                <em>
+                <aside>
+                  <em>
+                    <b>
+        $DATA
+    },
+    /* Test number: 14 */
+    {
+        "data": $DATA{ ,12}
+            <b><em><foo><foo><foo><aside></b>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <b>
+                  <em>
+                    <foo>
+                      <foo>
+                        <foo>
+                <aside>
+                  <b>
+        $DATA
+    },
+    /* Test number: 15 */
+    {
+        "data": $DATA{ ,12}
+            <b><em><foo><foo><foo><aside></b></em>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <b>
+                  <em>
+                    <foo>
+                      <foo>
+                        <foo>
+                <aside>
+                  <b>
+        $DATA
+    },
+    /* Test number: 16 */
+    {
+        "data": $DATA{ ,12}
+            <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
+        $DATA,
+        "fragment": {"tag": "div", "ns": "html"},
+        "result": $DATA{ ,12}
+            <b>
+              <em>
+                <foo>
+                  <foo>
+                    <foo>
+                      <foo>
+                        <foo>
+                          <foo>
+                            <foo>
+                              <foo>
+                                <foo>
+                                  <foo>
+            <aside>
+              <b>
+        $DATA
+    },
+    /* Test number: 17 */
+    {
+        "data": $DATA{ ,12}
+            <b><em><foo><foob><foob><foob><foob><fooc><fooc><fooc><fooc><food><aside></b></em>
+        $DATA,
+        "fragment": {"tag": "div", "ns": "html"},
+        "result": $DATA{ ,12}
+            <b>
+              <em>
+                <foo>
+                  <foob>
+                    <foob>
+                      <foob>
+                        <foob>
+                          <fooc>
+                            <fooc>
+                              <fooc>
+                                <fooc>
+                                  <food>
+            <aside>
+              <b>
+        $DATA
+    },
+    /* Test number: 18 */
+    {
+        "data": $DATA{ ,12}
+            <option><XH<optgroup></optgroup>
+        $DATA,
+        "fragment": {"tag": "select", "ns": "html"},
+        "result": $DATA{ ,12}
+            <option>
+        $DATA
+    },
+    /* Test number: 19 */
+    {
+        "data": $DATA{ ,12}
+            <svg><foreignObject><div>foo</div><plaintext></foreignObject></svg><div>bar</div>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <svg:svg>
+                  <svg:foreignObject>
+                    <div>
+                      "foo"
+                    <plaintext>
+                      "</foreignObject></svg><div>bar</div>"
+        $DATA
+    },
+    /* Test number: 20 */
+    {
+        "data": $DATA{ ,12}
+            <svg><foreignObject></foreignObject><title></svg>foo
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <svg:svg>
+                  <svg:foreignObject>
+                  <svg:title>
+                "foo"
+        $DATA
+    },
+    /* Test number: 21 */
+    {
+        "data": $DATA{ ,12}
+            </foreignObject><plaintext><div>foo</div>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <plaintext>
+                  "<div>foo</div>"
+        $DATA
+    },
+]

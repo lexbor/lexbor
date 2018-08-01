@@ -105,15 +105,18 @@ TEST_BEGIN(name_by_id)
 
     test_eq(lxb_html_tag_heap_init(&tag_heap, 32), LXB_STATUS_OK);
 
-    name = lxb_html_tag_name_by_id(&tag_heap, LXB_HTML_TAG_DIV, &len);
+    name = lxb_html_tag_name_by_id(&tag_heap, LXB_HTML_TAG_DIV,
+                                   LXB_HTML_NS_HTML, &len);
     test_eq_u_str(name, (const lxb_char_t *) "div");
     test_eq_size(len, 3UL);
 
-    name = lxb_html_tag_name_by_id(&tag_heap, LXB_HTML_TAG__LAST_ENTRY + 10, &len);
+    name = lxb_html_tag_name_by_id(&tag_heap, LXB_HTML_TAG__LAST_ENTRY + 10,
+                                   LXB_HTML_NS_HTML, &len);
     test_eq(name, NULL);
     test_eq_size(len, 0UL);
 
-    name = lxb_html_tag_name_by_id(&tag_heap, LXB_HTML_TAG__LAST_ENTRY, &len);
+    name = lxb_html_tag_name_by_id(&tag_heap, LXB_HTML_TAG__LAST_ENTRY,
+                                   LXB_HTML_NS_HTML, &len);
     test_eq(name, NULL);
     test_eq_size(len, 0UL);
 
@@ -128,13 +131,16 @@ TEST_BEGIN(name_by_id_without_len)
 
     test_eq(lxb_html_tag_heap_init(&tag_heap, 32), LXB_STATUS_OK);
 
-    name = lxb_html_tag_name_by_id(&tag_heap, LXB_HTML_TAG_DIV, NULL);
+    name = lxb_html_tag_name_by_id(&tag_heap, LXB_HTML_TAG_DIV,
+                                   LXB_HTML_NS_HTML, NULL);
     test_eq_u_str(name, (const lxb_char_t *) "div");
 
-    name = lxb_html_tag_name_by_id(&tag_heap, LXB_HTML_TAG__LAST_ENTRY + 10, NULL);
+    name = lxb_html_tag_name_by_id(&tag_heap, LXB_HTML_TAG__LAST_ENTRY + 10,
+                                   LXB_HTML_NS_HTML, NULL);
     test_eq(name, NULL);
 
-    name = lxb_html_tag_name_by_id(&tag_heap, LXB_HTML_TAG__LAST_ENTRY, NULL);
+    name = lxb_html_tag_name_by_id(&tag_heap, LXB_HTML_TAG__LAST_ENTRY,
+                                   LXB_HTML_NS_HTML, NULL);
     test_eq(name, NULL);
 
     lxb_html_tag_heap_destroy(&tag_heap, false);

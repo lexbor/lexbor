@@ -50,22 +50,30 @@ lxb_html_tree_insertion_mode_after_frameset(lxb_html_tree_t *tree,
         }
 
         case LXB_HTML_TAG__TEXT: {
-            lxb_html_token_t ws_token = {0};
+            size_t cur_len;
+            lexbor_str_t str = {0};
+            lxb_html_parser_char_t pc = {0};
 
-            tree->status = lxb_html_token_data_split_ws_begin(token, &ws_token);
+            tree->status = lxb_html_token_parse_data(token, &pc, &str,
+                                                     tree->document->mem->text);
             if (tree->status != LXB_STATUS_OK) {
                 return lxb_html_tree_process_abort(tree);
             }
 
-            if (ws_token.begin != ws_token.end) {
-                tree->status = lxb_html_tree_insert_character(tree, &ws_token,
-                                                              NULL);
+            cur_len = str.length;
+
+            lexbor_str_stay_only_whitespace(&str);
+
+            if (str.length != 0) {
+                tree->status = lxb_html_tree_insert_character_for_data(tree,
+                                                                       &str,
+                                                                       NULL);
                 if (tree->status != LXB_STATUS_OK) {
                     return lxb_html_tree_process_abort(tree);
                 }
             }
 
-            if (token->begin == token->end) {
+            if (str.length == cur_len) {
                 return true;
             }
         }

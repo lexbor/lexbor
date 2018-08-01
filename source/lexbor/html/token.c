@@ -25,44 +25,58 @@ lxb_inline const lxb_char_t *
 lxb_html_token_process_restore_pos(lxb_html_token_process_t *process);
 
 static const lxb_char_t *
+lxb_html_token_process_state_amp(lxb_html_token_process_t *process,
+                                 const lxb_char_t *data, const lxb_char_t *end);
+
+static const lxb_char_t *
+lxb_html_token_process_state_numeric(lxb_html_token_process_t *process,
+                                     const lxb_char_t *data,
+                                     const lxb_char_t *end);
+
+static const lxb_char_t *
+lxb_html_token_process_state_hexademical_start(lxb_html_token_process_t *process,
+                                               const lxb_char_t *data,
+                                               const lxb_char_t *end);
+
+static const lxb_char_t *
+lxb_html_token_process_state_decimal_start(lxb_html_token_process_t *process,
+                                           const lxb_char_t *data,
+                                           const lxb_char_t *end);
+
+static const lxb_char_t *
+lxb_html_token_process_state_hexademical(lxb_html_token_process_t *process,
+                                         const lxb_char_t *data,
+                                         const lxb_char_t *end);
+
+static const lxb_char_t *
+lxb_html_token_process_state_decimal(lxb_html_token_process_t *process,
+                                     const lxb_char_t *data,
+                                     const lxb_char_t *end);
+
+static const lxb_char_t *
 lxb_html_token_skip_ws_begin_state_before(lxb_html_token_process_t *process,
                                           const lxb_char_t *data,
                                           const lxb_char_t *end);
 
 static const lxb_char_t *
-lxb_html_token_skip_ws_begin_state_amp(lxb_html_token_process_t *process,
-                                       const lxb_char_t *data,
-                                       const lxb_char_t *end);
-
-static const lxb_char_t *
-lxb_html_token_skip_ws_begin_state_numeric(lxb_html_token_process_t *process,
-                                           const lxb_char_t *data,
-                                           const lxb_char_t *end);
-
-static const lxb_char_t *
-lxb_html_token_skip_ws_begin_state_hexademical_start(lxb_html_token_process_t *process,
-                                                     const lxb_char_t *data,
-                                                     const lxb_char_t *end);
-
-static const lxb_char_t *
-lxb_html_token_skip_ws_begin_state_decimal_start(lxb_html_token_process_t *process,
-                                                 const lxb_char_t *data,
-                                                 const lxb_char_t *end);
-
-static const lxb_char_t *
-lxb_html_token_skip_ws_begin_state_hexademical(lxb_html_token_process_t *process,
-                                               const lxb_char_t *data,
-                                               const lxb_char_t *end);
-
-static const lxb_char_t *
-lxb_html_token_skip_ws_begin_state_decimal(lxb_html_token_process_t *process,
-                                           const lxb_char_t *data,
-                                           const lxb_char_t *end);
-
-static const lxb_char_t *
 lxb_html_token_skip_ws_begin_state_end(lxb_html_token_process_t *process,
                                        const lxb_char_t *data,
                                        const lxb_char_t *end);
+
+static const lxb_char_t *
+lxb_html_token_skip_one_newline_state_before(lxb_html_token_process_t *process,
+                                             const lxb_char_t *data,
+                                             const lxb_char_t *end);
+
+static const lxb_char_t *
+lxb_html_token_skip_one_newline_state_cr(lxb_html_token_process_t *process,
+                                         const lxb_char_t *data,
+                                         const lxb_char_t *end);
+
+static const lxb_char_t *
+lxb_html_token_skip_one_newline_state_end(lxb_html_token_process_t *process,
+                                          const lxb_char_t *data,
+                                          const lxb_char_t *end);
 
 
 lxb_html_token_t *
@@ -468,6 +482,147 @@ lxb_html_token_process_restore_pos(lxb_html_token_process_t *process)
 }
 
 static const lxb_char_t *
+lxb_html_token_process_state_amp(lxb_html_token_process_t *process,
+                                 const lxb_char_t *data, const lxb_char_t *end)
+{
+    /* U+0023 NUMBER SIGN (#) */
+    if (*data == 0x23) {
+        process->state = lxb_html_token_process_state_numeric;
+
+        return (data + 1);
+    }
+    else {
+        process->status = LXB_STATUS_STOPPED;
+
+        return lxb_html_token_process_restore_pos(process);
+    }
+
+    return data;
+}
+
+static const lxb_char_t *
+lxb_html_token_process_state_numeric(lxb_html_token_process_t *process,
+                                     const lxb_char_t *data,
+                                     const lxb_char_t *end)
+{
+    /*
+     * U+0078 LATIN SMALL LETTER X
+     * U+0058 LATIN CAPITAL LETTER X
+     */
+    if (*data == 0x78 || *data == 0x58) {
+        process->state = lxb_html_token_process_state_hexademical_start;
+    }
+    else {
+        process->state = lxb_html_token_process_state_decimal_start;
+
+        return data;
+    }
+
+    return (data + 1);
+}
+
+static const lxb_char_t *
+lxb_html_token_process_state_hexademical_start(lxb_html_token_process_t *process,
+                                               const lxb_char_t *data,
+                                               const lxb_char_t *end)
+{
+    /* ASCII hex digit */
+    if (lexbor_str_res_map_hex[ *data ] != LEXBOR_STR_RES_SLIP) {
+        process->state = lxb_html_token_process_state_hexademical;
+    }
+    else {
+        process->status = LXB_STATUS_STOPPED;
+
+        return lxb_html_token_process_restore_pos(process);
+    }
+
+    return data;
+}
+
+static const lxb_char_t *
+lxb_html_token_process_state_decimal_start(lxb_html_token_process_t *process,
+                                           const lxb_char_t *data,
+                                           const lxb_char_t *end)
+{
+    /* ASCII hex digit */
+    if (lexbor_str_res_map_num[ *data ] != LEXBOR_STR_RES_SLIP) {
+        process->state = lxb_html_token_process_state_decimal;
+    }
+    else {
+        process->status = LXB_STATUS_STOPPED;
+
+        return lxb_html_token_process_restore_pos(process);
+    }
+
+    return data;
+}
+
+static const lxb_char_t *
+lxb_html_token_process_state_hexademical(lxb_html_token_process_t *process,
+                                         const lxb_char_t *data,
+                                         const lxb_char_t *end)
+{
+    while (data != end) {
+        if (lexbor_str_res_map_hex[ *data ] == LEXBOR_STR_RES_SLIP) {
+            process->state = process->amp_return_state;
+
+            if(*data == ';') {
+                data++;
+            }
+
+            return process->amp_end_state(process, data, end);
+        }
+
+        if (process->num <= 0x10FFFF) {
+            process->num <<= 4;
+            process->num |= lexbor_str_res_map_hex[ *data ];
+        }
+
+        data++;
+    }
+
+    return data;
+}
+
+static const lxb_char_t *
+lxb_html_token_process_state_decimal(lxb_html_token_process_t *process,
+                                     const lxb_char_t *data,
+                                     const lxb_char_t *end)
+{
+    while (data != end) {
+        if (lexbor_str_res_map_num[ *data ] == LEXBOR_STR_RES_SLIP) {
+            process->state = process->amp_return_state;
+
+            if (*data == ';') {
+                data++;
+            }
+
+            return process->amp_end_state(process, data, end);
+        }
+
+        if (process->num <= 0x10FFFF) {
+            process->num = lexbor_str_res_map_num[ *data ] + process->num * 10;
+        }
+
+        data++;
+    }
+
+    return data;
+}
+
+lxb_status_t
+lxb_html_token_data_skip_ws_begin(lxb_html_token_t *token)
+{
+    lxb_html_token_process_t process = {0};
+
+    process.state = lxb_html_token_skip_ws_begin_state_before;
+    process.amp_return_state = lxb_html_token_skip_ws_begin_state_before;
+    process.amp_end_state = lxb_html_token_skip_ws_begin_state_end;
+
+    return lxb_html_token_process_data(&process, token);
+}
+
+static const lxb_char_t *
 lxb_html_token_skip_ws_begin_state_before(lxb_html_token_process_t *process,
                                           const lxb_char_t *data,
                                           const lxb_char_t *end)
@@ -492,7 +647,7 @@ lxb_html_token_skip_ws_begin_state_before(lxb_html_token_process_t *process,
             case 0x26:
                 lxb_html_token_process_save_pos(process, data);
 
-                process->state = lxb_html_token_skip_ws_begin_state_amp;
+                process->state = lxb_html_token_process_state_amp;
 
                 return (data + 1);
 
@@ -501,140 +656,12 @@ lxb_html_token_skip_ws_begin_state_before(lxb_html_token_process_t *process,
                 if (process->is_eof) {
                     return end;
                 }
-            /* fall through */
+                /* fall through */
 
             default:
                 process->status = LXB_STATUS_STOPPED;
 
                 return data;
-        }
-
-        data++;
-    }
-
-    return data;
-}
-
-static const lxb_char_t *
-lxb_html_token_skip_ws_begin_state_amp(lxb_html_token_process_t *process,
-                                       const lxb_char_t *data,
-                                       const lxb_char_t *end)
-{
-    /* U+0023 NUMBER SIGN (#) */
-    if (*data == 0x23) {
-        process->state = lxb_html_token_skip_ws_begin_state_numeric;
-
-        return (data + 1);
-    }
-    else {
-        process->status = LXB_STATUS_STOPPED;
-
-        return lxb_html_token_process_restore_pos(process);
-    }
-
-    return data;
-}
-
-static const lxb_char_t *
-lxb_html_token_skip_ws_begin_state_numeric(lxb_html_token_process_t *process,
-                                           const lxb_char_t *data,
-                                           const lxb_char_t *end)
-{
-    /*
-     * U+0078 LATIN SMALL LETTER X
-     * U+0058 LATIN CAPITAL LETTER X
-     */
-    if (*data == 0x78 || *data == 0x58) {
-        process->state = lxb_html_token_skip_ws_begin_state_hexademical_start;
-    }
-    else {
-        process->state = lxb_html_token_skip_ws_begin_state_decimal_start;
-    }
-
-    return (data + 1);
-}
-
-static const lxb_char_t *
-lxb_html_token_skip_ws_begin_state_hexademical_start(lxb_html_token_process_t *process,
-                                                     const lxb_char_t *data,
-                                                     const lxb_char_t *end)
-{
-    /* ASCII hex digit */
-    if (lexbor_str_res_map_hex[ *data ] != LEXBOR_STR_RES_SLIP) {
-        process->state = lxb_html_token_skip_ws_begin_state_hexademical;
-    }
-    else {
-        process->status = LXB_STATUS_STOPPED;
-
-        return lxb_html_token_process_restore_pos(process);
-    }
-
-    return data;
-}
-
-static const lxb_char_t *
-lxb_html_token_skip_ws_begin_state_decimal_start(lxb_html_token_process_t *process,
-                                                     const lxb_char_t *data,
-                                                     const lxb_char_t *end)
-{
-    /* ASCII hex digit */
-    if (lexbor_str_res_map_num[ *data ] != LEXBOR_STR_RES_SLIP) {
-        process->state = lxb_html_token_skip_ws_begin_state_decimal;
-    }
-    else {
-        process->status = LXB_STATUS_STOPPED;
-
-        return lxb_html_token_process_restore_pos(process);
-    }
-
-    return data;
-}
-
-static const lxb_char_t *
-lxb_html_token_skip_ws_begin_state_hexademical(lxb_html_token_process_t *process,
-                                               const lxb_char_t *data,
-                                               const lxb_char_t *end)
-{
-    while (data != end) {
-        if (lexbor_str_res_map_hex[ *data ] == LEXBOR_STR_RES_SLIP) {
-            process->state = lxb_html_token_skip_ws_begin_state_before;
-
-            if(*data == ';') {
-                data++;
-            }
-
-            return lxb_html_token_skip_ws_begin_state_end(process, data, end);
-        }
-
-        if (process->num <= 0x10FFFF) {
-            process->num <<= 4;
-            process->num |= lexbor_str_res_map_hex[ *data ];
-        }
-
-        data++;
-    }
-
-    return data;
-}
-
-static const lxb_char_t *
-lxb_html_token_skip_ws_begin_state_decimal(lxb_html_token_process_t *process,
-                                           const lxb_char_t *data,
-                                           const lxb_char_t *end)
-{
-    while (data != end) {
-        if (lexbor_str_res_map_num[ *data ] == LEXBOR_STR_RES_SLIP) {
-            process->state = lxb_html_token_skip_ws_begin_state_before;
-
-            if (*data == ';') {
-                data++;
-            }
-
-            return lxb_html_token_skip_ws_begin_state_end(process, data, end);
-        }
-
-        if (process->num <= 0x10FFFF) {
-            process->num = lexbor_str_res_map_num[ *data ] + process->num * 10;
         }
 
         data++;
@@ -673,78 +700,95 @@ lxb_html_token_skip_ws_begin_state_end(lxb_html_token_process_t *process,
 }
 
 lxb_status_t
-lxb_html_token_data_skip_ws_begin(lxb_html_token_t *token)
+lxb_html_token_data_skip_one_newline_begin(lxb_html_token_t *token)
 {
     lxb_html_token_process_t process = {0};
 
-    process.state = lxb_html_token_skip_ws_begin_state_before;
+    process.state = lxb_html_token_skip_one_newline_state_before;
+    process.amp_return_state = lxb_html_token_skip_one_newline_state_before;
+    process.amp_end_state = lxb_html_token_skip_one_newline_state_end;
 
     return lxb_html_token_process_data(&process, token);
 }
 
-lxb_status_t
-lxb_html_token_data_skip_one_newline_begin(lxb_html_token_t *token)
+static const lxb_char_t *
+lxb_html_token_skip_one_newline_state_before(lxb_html_token_process_t *process,
+                                             const lxb_char_t *data,
+                                             const lxb_char_t *end)
 {
-    while (lexbor_in_segment(token->in_begin, token->end) == false)
-    {
-        while (token->begin != token->in_begin->end) {
-            /* U+000A LINE FEED (LF) */
-            if (*token->begin == 0x0A) {
-                token->begin++;
-
-                if (token->begin == token->in_begin->end) {
-                    if (token->in_begin->next == NULL) {
-                        /*
-                         * This is error!
-                         * It is not clear that in this case it is correct to do.
-                         */
-                        token->begin = token->end;
-
-                        return LXB_STATUS_ERROR;
-                    }
-
-                    token->in_begin = token->in_begin->next;
-                    token->begin = token->in_begin->begin;
-                }
-
-                return LXB_STATUS_OK;
-            }
-            /* U+000D CARRIAGE RETURN (CR) */
-            else if (*token->begin == 0x0D) {
-                token->begin++;
-            }
-            else {
-                return false;
-            }
-        }
-
-        if (token->in_begin->next == NULL) {
-            token->begin = token->end;
-
-            return LXB_STATUS_ERROR;
-        }
-
-        token->in_begin = token->in_begin->next;
-        token->begin = token->in_begin->begin;
-    }
-
-    while (token->begin != token->end) {
+    switch (*data) {
         /* U+000A LINE FEED (LF) */
-        if (*token->begin == 0x0A) {
-            token->begin++;
+        case 0x0A:
+            process->status = LXB_STATUS_STOPPED;
 
-            return LXB_STATUS_OK;
-        }
+            return (data + 1);
+
         /* U+000D CARRIAGE RETURN (CR) */
-        else if (*token->begin == 0x0D) {
-            token->begin++;
-        }
-        else {
-            return false;
-        }
+        case 0x0D:
+            process->state = lxb_html_token_skip_one_newline_state_cr;
+
+            return (data + 1);
+
+        /* U+0026 AMPERSAND (&) */
+        case 0x26:
+            lxb_html_token_process_save_pos(process, data);
+
+            process->state = lxb_html_token_process_state_amp;
+
+            return (data + 1);
+
+        /* U+0000 NULL */
+        case 0x00:
+            if (process->is_eof) {
+                return end;
+            }
+            /* fall through */
+
+        default:
+            process->status = LXB_STATUS_STOPPED;
+
+            return data;
     }
 
-    return LXB_STATUS_OK;
+    return data;
+}
+
+static const lxb_char_t *
+lxb_html_token_skip_one_newline_state_cr(lxb_html_token_process_t *process,
+                                         const lxb_char_t *data,
+                                         const lxb_char_t *end)
+{
+    process->status = LXB_STATUS_STOPPED;
+
+    /* U+000A LINE FEED (LF) */
+    if (*data == 0x0A) {
+        return (data + 1);
+    }
+
+    return data;
+}
+
+static const lxb_char_t *
+lxb_html_token_skip_one_newline_state_end(lxb_html_token_process_t *process,
+                                          const lxb_char_t *data,
+                                          const lxb_char_t *end)
+{
+    process->status = LXB_STATUS_STOPPED;
+
+    /*
+     * U+000A LINE FEED (LF)
+     * U+000D CARRIAGE RETURN (CR)
+     */
+    switch (process->num) {
+        case 0x0A:
+        case 0x0D:
+            return data;
+
+        default:
+            return lxb_html_token_process_restore_pos(process);
+    }
+
+    return data;
 }
 
 lxb_status_t
@@ -789,7 +833,7 @@ lxb_html_token_doctype_parse(lxb_html_token_t *token, lexbor_mraw_t *mraw,
 
     pc.mraw = mraw;
     pc.replace_null = true;
-    pc.state = lxb_html_parser_char_data;
+    pc.state = lxb_html_parser_char_data_lcase;
 
     /* Name */
     attr = token->attr_first;

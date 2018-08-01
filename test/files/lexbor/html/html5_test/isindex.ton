@@ -1,0 +1,55 @@
+[
+    /* Test count: 4 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <isindex>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <isindex>
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <isindex name="A" action="B" prompt="C" foo="D">
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <isindex name="A" action="B" prompt="C" foo="D">
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <form><isindex>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <form>
+                  <isindex>
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><isindex>x</isindex>x
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <isindex>
+                  "x"
+                "x"
+        $DATA
+    },
+]

@@ -11,7 +11,7 @@
 #define LEXBOR_STRINGIZE(x) LEXBOR_STRINGIZE_HELPER(x)
 
 /* Format */
-#ifdef _MSC_VER
+#ifdef _WIN32
     #define LEXBOR_FORMAT_Z "%Iu"
 #else
     #define LEXBOR_FORMAT_Z "%zu"

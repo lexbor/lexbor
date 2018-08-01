@@ -1,0 +1,916 @@
+[
+    /* Test count: 85 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <body><span>
+        $DATA,
+        "fragment": {"tag": "body", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <span><body>
+        $DATA,
+        "fragment": {"tag": "body", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <span><body>
+        $DATA,
+        "fragment": {"tag": "div", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <body><span>
+        $DATA,
+        "fragment": {"tag": "html", "ns": "html"},
+        "result": $DATA{ ,12}
+            <head>
+            <body>
+              <span>
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
+            <frameset><span>
+        $DATA,
+        "fragment": {"tag": "body", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+        $DATA
+    },
+    /* Test number: 6 */
+    {
+        "data": $DATA{ ,12}
+            <span><frameset>
+        $DATA,
+        "fragment": {"tag": "body", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+        $DATA
+    },
+    /* Test number: 7 */
+    {
+        "data": $DATA{ ,12}
+            <span><frameset>
+        $DATA,
+        "fragment": {"tag": "div", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+        $DATA
+    },
+    /* Test number: 8 */
+    {
+        "data": $DATA{ ,12}
+            <frameset><span>
+        $DATA,
+        "fragment": {"tag": "html", "ns": "html"},
+        "result": $DATA{ ,12}
+            <head>
+            <frameset>
+        $DATA
+    },
+    /* Test number: 9 */
+    {
+        "data": $DATA{ ,12}
+            <table><tr>
+        $DATA,
+        "fragment": {"tag": "table", "ns": "html"},
+        "result": $DATA{ ,12}
+            <tbody>
+              <tr>
+        $DATA
+    },
+    /* Test number: 10 */
+    {
+        "data": $DATA{ ,12}
+            </table><tr>
+        $DATA,
+        "fragment": {"tag": "table", "ns": "html"},
+        "result": $DATA{ ,12}
+            <tbody>
+              <tr>
+        $DATA
+    },
+    /* Test number: 11 */
+    {
+        "data": $DATA{ ,12}
+            <a>
+        $DATA,
+        "fragment": {"tag": "table", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 12 */
+    {
+        "data": $DATA{ ,12}
+            <a>
+        $DATA,
+        "fragment": {"tag": "table", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 13 */
+    {
+        "data": $DATA{ ,12}
+            <a><caption>a
+        $DATA,
+        "fragment": {"tag": "table", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+            <caption>
+              "a"
+        $DATA
+    },
+    /* Test number: 14 */
+    {
+        "data": $DATA{ ,12}
+            <a><colgroup><col>
+        $DATA,
+        "fragment": {"tag": "table", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+            <colgroup>
+              <col>
+        $DATA
+    },
+    /* Test number: 15 */
+    {
+        "data": $DATA{ ,12}
+            <a><tbody><tr>
+        $DATA,
+        "fragment": {"tag": "table", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+            <tbody>
+              <tr>
+        $DATA
+    },
+    /* Test number: 16 */
+    {
+        "data": $DATA{ ,12}
+            <a><tfoot><tr>
+        $DATA,
+        "fragment": {"tag": "table", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+            <tfoot>
+              <tr>
+        $DATA
+    },
+    /* Test number: 17 */
+    {
+        "data": $DATA{ ,12}
+            <a><thead><tr>
+        $DATA,
+        "fragment": {"tag": "table", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+            <thead>
+              <tr>
+        $DATA
+    },
+    /* Test number: 18 */
+    {
+        "data": $DATA{ ,12}
+            <a><tr>
+        $DATA,
+        "fragment": {"tag": "table", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+            <tbody>
+              <tr>
+        $DATA
+    },
+    /* Test number: 19 */
+    {
+        "data": $DATA{ ,12}
+            <a><th>
+        $DATA,
+        "fragment": {"tag": "table", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+            <tbody>
+              <tr>
+                <th>
+        $DATA
+    },
+    /* Test number: 20 */
+    {
+        "data": $DATA{ ,12}
+            <a><td>
+        $DATA,
+        "fragment": {"tag": "table", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+            <tbody>
+              <tr>
+                <td>
+        $DATA
+    },
+    /* Test number: 21 */
+    {
+        "data": $DATA{ ,12}
+            <table></table><tbody>
+        $DATA,
+        "fragment": {"tag": "caption", "ns": "html"},
+        "result": $DATA{ ,12}
+            <table>
+        $DATA
+    },
+    /* Test number: 22 */
+    {
+        "data": $DATA{ ,12}
+            </table><span>
+        $DATA,
+        "fragment": {"tag": "caption", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+        $DATA
+    },
+    /* Test number: 23 */
+    {
+        "data": $DATA{ ,12}
+            <span></table>
+        $DATA,
+        "fragment": {"tag": "caption", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+        $DATA
+    },
+    /* Test number: 24 */
+    {
+        "data": $DATA{ ,12}
+            </caption><span>
+        $DATA,
+        "fragment": {"tag": "caption", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+        $DATA
+    },
+    /* Test number: 25 */
+    {
+        "data": $DATA{ ,12}
+            <span></caption><span>
+        $DATA,
+        "fragment": {"tag": "caption", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+              <span>
+        $DATA
+    },
+    /* Test number: 26 */
+    {
+        "data": $DATA{ ,12}
+            <span><caption><span>
+        $DATA,
+        "fragment": {"tag": "caption", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+              <span>
+        $DATA
+    },
+    /* Test number: 27 */
+    {
+        "data": $DATA{ ,12}
+            <span><col><span>
+        $DATA,
+        "fragment": {"tag": "caption", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+              <span>
+        $DATA
+    },
+    /* Test number: 28 */
+    {
+        "data": $DATA{ ,12}
+            <span><colgroup><span>
+        $DATA,
+        "fragment": {"tag": "caption", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+              <span>
+        $DATA
+    },
+    /* Test number: 29 */
+    {
+        "data": $DATA{ ,12}
+            <span><html><span>
+        $DATA,
+        "fragment": {"tag": "caption", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+              <span>
+        $DATA
+    },
+    /* Test number: 30 */
+    {
+        "data": $DATA{ ,12}
+            <span><tbody><span>
+        $DATA,
+        "fragment": {"tag": "caption", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+              <span>
+        $DATA
+    },
+    /* Test number: 31 */
+    {
+        "data": $DATA{ ,12}
+            <span><td><span>
+        $DATA,
+        "fragment": {"tag": "caption", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+              <span>
+        $DATA
+    },
+    /* Test number: 32 */
+    {
+        "data": $DATA{ ,12}
+            <span><tfoot><span>
+        $DATA,
+        "fragment": {"tag": "caption", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+              <span>
+        $DATA
+    },
+    /* Test number: 33 */
+    {
+        "data": $DATA{ ,12}
+            <span><thead><span>
+        $DATA,
+        "fragment": {"tag": "caption", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+              <span>
+        $DATA
+    },
+    /* Test number: 34 */
+    {
+        "data": $DATA{ ,12}
+            <span><th><span>
+        $DATA,
+        "fragment": {"tag": "caption", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+              <span>
+        $DATA
+    },
+    /* Test number: 35 */
+    {
+        "data": $DATA{ ,12}
+            <span><tr><span>
+        $DATA,
+        "fragment": {"tag": "caption", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+              <span>
+        $DATA
+    },
+    /* Test number: 36 */
+    {
+        "data": $DATA{ ,12}
+            <span></table><span>
+        $DATA,
+        "fragment": {"tag": "caption", "ns": "html"},
+        "result": $DATA{ ,12}
+            <span>
+              <span>
+        $DATA
+    },
+    /* Test number: 37 */
+    {
+        "data": $DATA{ ,12}
+            </colgroup><col>
+        $DATA,
+        "fragment": {"tag": "colgroup", "ns": "html"},
+        "result": $DATA{ ,12}
+            <col>
+        $DATA
+    },
+    /* Test number: 38 */
+    {
+        "data": $DATA{ ,12}
+            <a><col>
+        $DATA,
+        "fragment": {"tag": "colgroup", "ns": "html"},
+        "result": $DATA{ ,12}
+            <col>
+        $DATA
+    },
+    /* Test number: 39 */
+    {
+        "data": $DATA{ ,12}
+            <caption><a>
+        $DATA,
+        "fragment": {"tag": "tbody", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 40 */
+    {
+        "data": $DATA{ ,12}
+            <col><a>
+        $DATA,
+        "fragment": {"tag": "tbody", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 41 */
+    {
+        "data": $DATA{ ,12}
+            <colgroup><a>
+        $DATA,
+        "fragment": {"tag": "tbody", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 42 */
+    {
+        "data": $DATA{ ,12}
+            <tbody><a>
+        $DATA,
+        "fragment": {"tag": "tbody", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 43 */
+    {
+        "data": $DATA{ ,12}
+            <tfoot><a>
+        $DATA,
+        "fragment": {"tag": "tbody", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 44 */
+    {
+        "data": $DATA{ ,12}
+            <thead><a>
+        $DATA,
+        "fragment": {"tag": "tbody", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 45 */
+    {
+        "data": $DATA{ ,12}
+            </table><a>
+        $DATA,
+        "fragment": {"tag": "tbody", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 46 */
+    {
+        "data": $DATA{ ,12}
+            <a><tr>
+        $DATA,
+        "fragment": {"tag": "tbody", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+            <tr>
+        $DATA
+    },
+    /* Test number: 47 */
+    {
+        "data": $DATA{ ,12}
+            <a><td>
+        $DATA,
+        "fragment": {"tag": "tbody", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+            <tr>
+              <td>
+        $DATA
+    },
+    /* Test number: 48 */
+    {
+        "data": $DATA{ ,12}
+            <a><td>
+        $DATA,
+        "fragment": {"tag": "tbody", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+            <tr>
+              <td>
+        $DATA
+    },
+    /* Test number: 49 */
+    {
+        "data": $DATA{ ,12}
+            <a><td>
+        $DATA,
+        "fragment": {"tag": "tbody", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+            <tr>
+              <td>
+        $DATA
+    },
+    /* Test number: 50 */
+    {
+        "data": $DATA{ ,12}
+            <td><table><tbody><a><tr>
+        $DATA,
+        "fragment": {"tag": "tbody", "ns": "html"},
+        "result": $DATA{ ,12}
+            <tr>
+              <td>
+                <a>
+                <table>
+                  <tbody>
+                    <tr>
+        $DATA
+    },
+    /* Test number: 51 */
+    {
+        "data": $DATA{ ,12}
+            </tr><td>
+        $DATA,
+        "fragment": {"tag": "tr", "ns": "html"},
+        "result": $DATA{ ,12}
+            <td>
+        $DATA
+    },
+    /* Test number: 52 */
+    {
+        "data": $DATA{ ,12}
+            <td><table><a><tr></tr><tr>
+        $DATA,
+        "fragment": {"tag": "tr", "ns": "html"},
+        "result": $DATA{ ,12}
+            <td>
+              <a>
+              <table>
+                <tbody>
+                  <tr>
+                  <tr>
+        $DATA
+    },
+    /* Test number: 53 */
+    {
+        "data": $DATA{ ,12}
+            <caption><td>
+        $DATA,
+        "fragment": {"tag": "tr", "ns": "html"},
+        "result": $DATA{ ,12}
+            <td>
+        $DATA
+    },
+    /* Test number: 54 */
+    {
+        "data": $DATA{ ,12}
+            <col><td>
+        $DATA,
+        "fragment": {"tag": "tr", "ns": "html"},
+        "result": $DATA{ ,12}
+            <td>
+        $DATA
+    },
+    /* Test number: 55 */
+    {
+        "data": $DATA{ ,12}
+            <colgroup><td>
+        $DATA,
+        "fragment": {"tag": "tr", "ns": "html"},
+        "result": $DATA{ ,12}
+            <td>
+        $DATA
+    },
+    /* Test number: 56 */
+    {
+        "data": $DATA{ ,12}
+            <tbody><td>
+        $DATA,
+        "fragment": {"tag": "tr", "ns": "html"},
+        "result": $DATA{ ,12}
+            <td>
+        $DATA
+    },
+    /* Test number: 57 */
+    {
+        "data": $DATA{ ,12}
+            <tfoot><td>
+        $DATA,
+        "fragment": {"tag": "tr", "ns": "html"},
+        "result": $DATA{ ,12}
+            <td>
+        $DATA
+    },
+    /* Test number: 58 */
+    {
+        "data": $DATA{ ,12}
+            <thead><td>
+        $DATA,
+        "fragment": {"tag": "tr", "ns": "html"},
+        "result": $DATA{ ,12}
+            <td>
+        $DATA
+    },
+    /* Test number: 59 */
+    {
+        "data": $DATA{ ,12}
+            <tr><td>
+        $DATA,
+        "fragment": {"tag": "tr", "ns": "html"},
+        "result": $DATA{ ,12}
+            <td>
+        $DATA
+    },
+    /* Test number: 60 */
+    {
+        "data": $DATA{ ,12}
+            </table><td>
+        $DATA,
+        "fragment": {"tag": "tr", "ns": "html"},
+        "result": $DATA{ ,12}
+            <td>
+        $DATA
+    },
+    /* Test number: 61 */
+    {
+        "data": $DATA{ ,12}
+            <td><table></table><td>
+        $DATA,
+        "fragment": {"tag": "tr", "ns": "html"},
+        "result": $DATA{ ,12}
+            <td>
+              <table>
+            <td>
+        $DATA
+    },
+    /* Test number: 62 */
+    {
+        "data": $DATA{ ,12}
+            <td><table></table><td>
+        $DATA,
+        "fragment": {"tag": "tr", "ns": "html"},
+        "result": $DATA{ ,12}
+            <td>
+              <table>
+            <td>
+        $DATA
+    },
+    /* Test number: 63 */
+    {
+        "data": $DATA{ ,12}
+            <caption><a>
+        $DATA,
+        "fragment": {"tag": "td", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 64 */
+    {
+        "data": $DATA{ ,12}
+            <col><a>
+        $DATA,
+        "fragment": {"tag": "td", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 65 */
+    {
+        "data": $DATA{ ,12}
+            <colgroup><a>
+        $DATA,
+        "fragment": {"tag": "td", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 66 */
+    {
+        "data": $DATA{ ,12}
+            <tbody><a>
+        $DATA,
+        "fragment": {"tag": "td", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 67 */
+    {
+        "data": $DATA{ ,12}
+            <tfoot><a>
+        $DATA,
+        "fragment": {"tag": "td", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 68 */
+    {
+        "data": $DATA{ ,12}
+            <th><a>
+        $DATA,
+        "fragment": {"tag": "td", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 69 */
+    {
+        "data": $DATA{ ,12}
+            <thead><a>
+        $DATA,
+        "fragment": {"tag": "td", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 70 */
+    {
+        "data": $DATA{ ,12}
+            <tr><a>
+        $DATA,
+        "fragment": {"tag": "td", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 71 */
+    {
+        "data": $DATA{ ,12}
+            </table><a>
+        $DATA,
+        "fragment": {"tag": "td", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 72 */
+    {
+        "data": $DATA{ ,12}
+            </tbody><a>
+        $DATA,
+        "fragment": {"tag": "td", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 73 */
+    {
+        "data": $DATA{ ,12}
+            </td><a>
+        $DATA,
+        "fragment": {"tag": "td", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 74 */
+    {
+        "data": $DATA{ ,12}
+            </tfoot><a>
+        $DATA,
+        "fragment": {"tag": "td", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 75 */
+    {
+        "data": $DATA{ ,12}
+            </thead><a>
+        $DATA,
+        "fragment": {"tag": "td", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 76 */
+    {
+        "data": $DATA{ ,12}
+            </th><a>
+        $DATA,
+        "fragment": {"tag": "td", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 77 */
+    {
+        "data": $DATA{ ,12}
+            </tr><a>
+        $DATA,
+        "fragment": {"tag": "td", "ns": "html"},
+        "result": $DATA{ ,12}
+            <a>
+        $DATA
+    },
+    /* Test number: 78 */
+    {
+        "data": $DATA{ ,12}
+            <table><td><td>
+        $DATA,
+        "fragment": {"tag": "td", "ns": "html"},
+        "result": $DATA{ ,12}
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                  <td>
+        $DATA
+    },
+    /* Test number: 79 */
+    {
+        "data": $DATA{ ,12}
+            </select><option>
+        $DATA,
+        "fragment": {"tag": "select", "ns": "html"},
+        "result": $DATA{ ,12}
+            <option>
+        $DATA
+    },
+    /* Test number: 80 */
+    {
+        "data": $DATA{ ,12}
+            <input><option>
+        $DATA,
+        "fragment": {"tag": "select", "ns": "html"},
+        "result": $DATA{ ,12}
+            <option>
+        $DATA
+    },
+    /* Test number: 81 */
+    {
+        "data": $DATA{ ,12}
+            <keygen><option>
+        $DATA,
+        "fragment": {"tag": "select", "ns": "html"},
+        "result": $DATA{ ,12}
+            <option>
+        $DATA
+    },
+    /* Test number: 82 */
+    {
+        "data": $DATA{ ,12}
+            <textarea><option>
+        $DATA,
+        "fragment": {"tag": "select", "ns": "html"},
+        "result": $DATA{ ,12}
+            <option>
+        $DATA
+    },
+    /* Test number: 83 */
+    {
+        "data": $DATA{ ,12}
+            </html><!--abc-->
+        $DATA,
+        "fragment": {"tag": "html", "ns": "html"},
+        "result": $DATA{ ,12}
+            <head>
+            <body>
+            <!-- abc -->
+        $DATA
+    },
+    /* Test number: 84 */
+    {
+        "data": $DATA{ ,12}
+            </frameset><frame>
+        $DATA,
+        "fragment": {"tag": "frameset", "ns": "html"},
+        "result": $DATA{ ,12}
+            <frame>
+        $DATA
+    },
+    /* Test number: 85 */
+    {
+        "data": $DATA{ ,12}
+            
+        $DATA,
+        "fragment": {"tag": "html", "ns": "html"},
+        "result": $DATA{ ,12}
+            <head>
+            <body>
+        $DATA
+    },
+]

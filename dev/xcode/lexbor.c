@@ -27,9 +27,9 @@ int main(int argc, const char * argv[])
     lxb_status_t status;
     lxb_html_parser_t *parser;
     lxb_html_document_t *document;
+    lxb_dom_node_t *ret;
 
-
-    lxb_char_t html[] = "sfdsf<p><p>";
+    lxb_char_t html[] = "textarea content with <em>pseudo</em> <foo>markup";
     size_t size = sizeof(html) - 1;
 
 //    size_t size;
@@ -46,13 +46,24 @@ int main(int argc, const char * argv[])
         FAIL_AND_EXIT("Failed to create parser");
     }
 
-    document = lxb_html_parse(parser, html, size);
-    if (document == NULL) {
-        FAIL_AND_EXIT("Failed to parse");
+    parser->tree->scripting = true;
+
+    if (0) {
+        document = lxb_html_parse(parser, html, size);
+        if (document == NULL) {
+            FAIL_AND_EXIT("Failed to parse");
+        }
+
+        ret = lxb_dom_interface_node(document);
+    }
+    else {
+        ret = lxb_html_parse_fragment_by_tag_id(parser, NULL,
+                                                LXB_HTML_TAG_TEXTAREA, LXB_HTML_NS_HTML,
+                                                html, size);
     }
 
-    status = lxb_html_serialize_pretty_tree_cb(lxb_dom_interface_node(document),
-                                               LXB_HTML_SERIALIZE_OPT_WITHOUT_CLOSING, 0, serializer_callback, NULL);
+    status = lxb_html_serialize_pretty_tree_cb(ret, LXB_HTML_SERIALIZE_OPT_WITHOUT_CLOSING,
+                                               0, serializer_callback, NULL);
     if (status != LXB_STATUS_OK) {
         FAIL_AND_EXIT("Failed to serialization tree");
     }

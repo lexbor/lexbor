@@ -32,6 +32,10 @@ lexbor_shbst_entry_make(lexbor_shbst_t *shbst, const lxb_char_t *key,
                         size_t key_size, void *value);
 
 static lexbor_shbst_entry_t *
+lexbor_shbst_entry_make_lowercase(lexbor_shbst_t *shbst, const lxb_char_t *key,
+                                  size_t key_size, void *value);
+
+static lexbor_shbst_entry_t *
 lexbor_shbst_entry_destroy(lexbor_shbst_t *shbst,
                            lexbor_shbst_entry_t *entry);
 
@@ -164,6 +168,37 @@ lexbor_shbst_entry_make(lexbor_shbst_t *shbst,
 }
 
 static lexbor_shbst_entry_t *
+lexbor_shbst_entry_make_lowercase(lexbor_shbst_t *shbst, const lxb_char_t *key,
+                                  size_t key_size, void *value)
+{
+    lexbor_shbst_entry_t *entry = lexbor_shbst_entry_create(shbst);
+
+    if (entry == NULL) {
+        return NULL;
+    }
+
+    if (key != NULL) {
+        entry->key = lexbor_mraw_alloc(shbst->keys, (key_size + 1));
+        if (entry->key == NULL) {
+            return NULL;
+        }
+
+        for (size_t i = 0; i < key_size; i++) {
+            entry->key[i] = lexbor_str_res_map_lowercase[key[i]];
+        }
+
+        entry->key[key_size] = '\0';
+    }
+    else {
+        entry->key = NULL;
+    }
+
+    entry->value = value;
+
+    return entry;
+}
+
+static lexbor_shbst_entry_t *
 lexbor_shbst_entry_destroy(lexbor_shbst_t *shbst, lexbor_shbst_entry_t *entry)
 {
     if (entry == NULL) {
@@ -238,6 +273,33 @@ lexbor_shbst_insert(lexbor_shbst_t *shbst,
     idx = lexbor_shbst_make_id_m(shbst, key, key_size);
 
     entry = lexbor_shbst_entry_make(shbst, key, key_size, value);
+    if (entry == NULL) {
+        return NULL;
+    }
+
+    if (lexbor_bst_insert(shbst->bst, &shbst->table[idx], key_size, entry)
+        == NULL)
+    {
+        return lexbor_shbst_entry_destroy(shbst, entry);
+    }
+
+    return entry;
+}
+
+lexbor_shbst_entry_t *
+lexbor_shbst_insert_lowercase(lexbor_shbst_t *shbst, const lxb_char_t *key,
+                              size_t key_size, void *value)
+{
+    size_t idx;
+    lexbor_shbst_entry_t *entry;
+
+    if (key == NULL || key_size == 0) {
+        return NULL;
+    }
+
+    idx = lexbor_shbst_make_id_m(shbst, key, key_size);
+
+    entry = lexbor_shbst_entry_make_lowercase(shbst, key, key_size, value);
     if (entry == NULL) {
         return NULL;
     }

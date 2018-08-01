@@ -230,8 +230,6 @@ lxb_html_tokenizer_destroy(lxb_html_tokenizer_t *tkz, bool self_destroy)
 lxb_status_t
 lxb_html_tokenizer_begin(lxb_html_tokenizer_t *tkz)
 {
-    tkz->state = lxb_html_tokenizer_state_data_before;
-
     tkz->token = lxb_html_token_create(tkz->dobj_token);
     if (tkz->token == NULL) {
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
@@ -347,6 +345,22 @@ lxb_html_tokenizer_end(lxb_html_tokenizer_t *tkz)
     while (1);
 
     tkz->is_eof = false;
+
+    if (tkz->status != LXB_STATUS_OK) {
+        return tkz->status;
+    }
+
+    /* Emit fake token: END OF FILE */
+    lxb_html_token_clean(tkz->token);
+
+    tkz->token->tag_id = LXB_HTML_TAG__END_OF_FILE;
+
+    tkz->token = tkz->callback_token_done(tkz, tkz->token,
+                                          tkz->callback_token_ctx);
+
+    if (tkz->token == NULL && tkz->status == LXB_STATUS_OK) {
+        tkz->status = LXB_STATUS_ERROR;
+    }
 
     return tkz->status;
 }

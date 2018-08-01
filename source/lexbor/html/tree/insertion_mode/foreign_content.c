@@ -82,8 +82,12 @@ lxb_html_tree_insertion_mode_foreign_content_text(lxb_html_tree_t *tree,
     lexbor_str_t str = {0};
     lxb_html_parser_char_t pc = {0};
 
-    tree->status = lxb_html_token_parse_data(token, &pc, &str,
-                                             tree->document->mem->text);
+    pc.mraw = tree->document->mem->text;
+    pc.state = lxb_html_parser_char_data;
+    pc.replace_null = true;
+
+    tree->status = lxb_html_parser_char_process(&pc, &str, token->in_begin,
+                                                token->begin, token->end);
     if (tree->status != LXB_STATUS_OK) {
         return lxb_html_tree_process_abort(tree);
     }
@@ -269,7 +273,7 @@ lxb_html_tree_insertion_mode_foreign_content_anything_else(lxb_html_tree_t *tree
     lxb_html_element_t *element;
     lxb_dom_node_t *node = lxb_html_tree_adjusted_current_node(tree);
 
-    if (node->ns == LXB_HTML_NS_MATHML) {
+    if (node->ns == LXB_HTML_NS_MATH) {
         tree->before_append_attr = lxb_html_tree_adjust_attributes_mathml;
     }
     else if (node->ns == LXB_HTML_NS_SVG) {
@@ -286,7 +290,7 @@ lxb_html_tree_insertion_mode_foreign_content_anything_else(lxb_html_tree_t *tree
 
     tree->before_append_attr = NULL;
 
-    if ((token->type & LXB_HTML_TOKEN_TYPE_CLOSE) == 0) {
+    if ((token->type & LXB_HTML_TOKEN_TYPE_CLOSE_SELF) == 0) {
         return true;
     }
 
@@ -308,22 +312,27 @@ static bool
 lxb_html_tree_insertion_mode_foreign_content_anything_else_closed(lxb_html_tree_t *tree,
                                                                   lxb_html_token_t *token)
 {
-    lxb_dom_node_t **list = (lxb_dom_node_t **) tree->open_elements->list;
-    size_t idx = tree->open_elements->length;
+    if (tree->open_elements->length == 0) {
+        return tree->mode(tree, token);
+    }
 
-    if (idx > 0 && list[ (idx - 1) ]->tag_id != token->tag_id) {
+    lxb_dom_node_t **list = (lxb_dom_node_t **) tree->open_elements->list;
+
+    size_t idx = tree->open_elements->length - 1;
+
+    if (idx > 0 && list[idx]->tag_id != token->tag_id) {
         lxb_html_tree_parse_error(tree, token,
                                   LXB_HTML_RULES_ERROR_UNELINOPELST);
     }
 
     while (idx != 0) {
-        idx--;
-
         if (list[idx]->tag_id == token->tag_id) {
             lxb_html_tree_open_elements_pop_until_node(tree, list[idx], true);
 
             return true;
         }
+
+        idx--;
 
         if (list[idx]->ns == LXB_HTML_NS_HTML) {
             break;

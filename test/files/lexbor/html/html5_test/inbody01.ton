@@ -1,0 +1,59 @@
+[
+    /* Test count: 4 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <button>1</foo>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <button>
+                  "1"
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <foo>1<p>2</foo>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <foo>
+                  "1"
+                  <p>
+                    "2"
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <dd>1</foo>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <dd>
+                  "1"
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <foo>1<dd>2</foo>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <foo>
+                  "1"
+                  <dd>
+                    "2"
+        $DATA
+    },
+]

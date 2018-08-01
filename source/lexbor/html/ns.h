@@ -17,6 +17,7 @@ extern "C" {
 
 typedef struct {
     const char       *name;
+    const char       *name_lower;
     size_t           name_len;
 
     const char       *link;
@@ -35,6 +36,9 @@ lxb_html_ns_data_by_name(const lxb_char_t *name, size_t len);
 
 const lxb_char_t *
 lxb_html_ns_name_by_id(lxb_html_ns_id_t ns_id, size_t *len);
+
+const lxb_char_t *
+lxb_html_ns_lower_name_by_id(lxb_html_ns_id_t ns_id, size_t *len);
 
 const lxb_char_t *
 lxb_html_ns_link_by_id(lxb_html_ns_id_t ns_id, size_t *len);

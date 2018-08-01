@@ -1,0 +1,395 @@
+[
+    /* Test count: 27 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script>'Hello'</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script>
+                  "'Hello'"
+                "BAR"
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script></script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script>
+                "BAR"
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script></script >BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script>
+                "BAR"
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script></script/>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script>
+                "BAR"
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script></script/ >BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script>
+                "BAR"
+        $DATA
+    },
+    /* Test number: 6 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script type="text/plain"></scriptx>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script type="text/plain">
+                  "</scriptx>BAR"
+        $DATA
+    },
+    /* Test number: 7 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script></script foo=">" dd>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script>
+                "BAR"
+        $DATA
+    },
+    /* Test number: 8 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script>'<'</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script>
+                  "'<'"
+                "BAR"
+        $DATA
+    },
+    /* Test number: 9 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script>'<!'</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script>
+                  "'<!'"
+                "BAR"
+        $DATA
+    },
+    /* Test number: 10 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script>'<!-'</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script>
+                  "'<!-'"
+                "BAR"
+        $DATA
+    },
+    /* Test number: 11 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script>'<!--'</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script>
+                  "'<!--'"
+                "BAR"
+        $DATA
+    },
+    /* Test number: 12 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script>'<!---'</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script>
+                  "'<!---'"
+                "BAR"
+        $DATA
+    },
+    /* Test number: 13 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script>'<!-->'</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script>
+                  "'<!-->'"
+                "BAR"
+        $DATA
+    },
+    /* Test number: 14 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script>'<!-->'</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script>
+                  "'<!-->'"
+                "BAR"
+        $DATA
+    },
+    /* Test number: 15 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script>'<!-- potato'</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script>
+                  "'<!-- potato'"
+                "BAR"
+        $DATA
+    },
+    /* Test number: 16 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script>'<!-- <sCrIpt'</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script>
+                  "'<!-- <sCrIpt'"
+                "BAR"
+        $DATA
+    },
+    /* Test number: 17 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script type="text/plain">'<!-- <sCrIpt>'</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script type="text/plain">
+                  "'<!-- <sCrIpt>'</script>BAR"
+        $DATA
+    },
+    /* Test number: 18 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script type="text/plain">'<!-- <sCrIpt> -'</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script type="text/plain">
+                  "'<!-- <sCrIpt> -'</script>BAR"
+        $DATA
+    },
+    /* Test number: 19 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script type="text/plain">'<!-- <sCrIpt> --'</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script type="text/plain">
+                  "'<!-- <sCrIpt> --'</script>BAR"
+        $DATA
+    },
+    /* Test number: 20 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script>'<!-- <sCrIpt> -->'</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script>
+                  "'<!-- <sCrIpt> -->'"
+                "BAR"
+        $DATA
+    },
+    /* Test number: 21 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script type="text/plain">'<!-- <sCrIpt> --!>'</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script type="text/plain">
+                  "'<!-- <sCrIpt> --!>'</script>BAR"
+        $DATA
+    },
+    /* Test number: 22 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script type="text/plain">'<!-- <sCrIpt> -- >'</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script type="text/plain">
+                  "'<!-- <sCrIpt> -- >'</script>BAR"
+        $DATA
+    },
+    /* Test number: 23 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script type="text/plain">'<!-- <sCrIpt '</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script type="text/plain">
+                  "'<!-- <sCrIpt '</script>BAR"
+        $DATA
+    },
+    /* Test number: 24 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script type="text/plain">'<!-- <sCrIpt/'</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script type="text/plain">
+                  "'<!-- <sCrIpt/'</script>BAR"
+        $DATA
+    },
+    /* Test number: 25 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script type="text/plain">'<!-- <sCrIpt\'</script>BAR
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script type="text/plain">
+                  "'<!-- <sCrIpt\'"
+                "BAR"
+        $DATA
+    },
+    /* Test number: 26 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script type="text/plain">'<!-- <sCrIpt/'</script>BAR</script>QUX
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script type="text/plain">
+                  "'<!-- <sCrIpt/'</script>BAR"
+                "QUX"
+        $DATA
+    },
+    /* Test number: 27 */
+    {
+        "data": $DATA{ ,12}
+            FOO<script><!--<script>-></script>--></script>QUX
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <script>
+                  "<!--<script>-></script>-->"
+                "QUX"
+        $DATA
+    },
+]

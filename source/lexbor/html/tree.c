@@ -187,58 +187,6 @@ lxb_html_tree_destroy(lxb_html_tree_t *tree, bool self_destroy)
     return tree;
 }
 
-lxb_dom_node_t *
-lxb_html_tree_create_node(lxb_html_tree_t *tree,
-                          lxb_html_tag_id_t tag_id, lxb_html_ns_id_t ns)
-{
-    const lxb_html_tag_data_t *tag_data;
-    lxb_dom_node_t *node;
-
-    tag_data = lxb_html_tag_data_by_id(tree->document->mem->tag_heap_ref,
-                                       tag_id);
-
-    if (tag_data->interface[ns] == NULL) {
-        lxb_dom_node_t *cur;
-
-        cur = lxb_html_tree_adjusted_current_node(tree);
-        if (cur == NULL) {
-            return NULL;
-        }
-
-        if (cur->ns == LXB_HTML_NS_HTML) {
-            lxb_html_unknown_element_t *unel;
-
-            unel = lxb_html_unknown_element_create(tree->document);
-            node = lxb_dom_interface_node(unel);
-        }
-        else if (cur->ns == LXB_HTML_NS_SVG) {
-            /* TODO: For this need implement SVGElement */
-            lxb_dom_element_t *domel;
-
-            domel = lxb_dom_element_create(&tree->document->dom_document);
-            node = lxb_dom_interface_node(domel);
-        }
-        else {
-            lxb_dom_element_t *domel;
-
-            domel = lxb_dom_element_create(&tree->document->dom_document);
-            node = lxb_dom_interface_node(domel);
-        }
-    }
-    else {
-        node = tag_data->interface[ns](tree->document);
-    }
-
-    if (node == NULL) {
-        return NULL;
-    }
-
-    node->tag_id = tag_id;
-    node->ns = ns;
-
-    return node;
-}
-
 lxb_status_t
 lxb_html_tree_build(lxb_html_tree_t *tree, lxb_html_document_t *document,
                     const lxb_char_t *html, size_t size)
@@ -331,7 +279,7 @@ lxb_html_tree_construction_dispatcher(lxb_html_tree_t *tree,
     }
 
     if (adjusted->tag_id == LXB_HTML_TAG_ANNOTATION_XML
-        && adjusted->ns == LXB_HTML_NS_MATHML
+        && adjusted->ns == LXB_HTML_NS_MATH
         && (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) == 0
         && token->tag_id == LXB_HTML_TAG_SVG)
     {
@@ -694,9 +642,13 @@ lxb_html_tree_adjust_foreign_attributes(lxb_html_tree_t *tree,
                                    (const lxb_char_t *) adjust->name))
         {
             if (adjust->prefix_len != 0) {
+                size_t name_len = (adjust->name_len - adjust->prefix_len - 1);
+
                 memcpy(attr->local_name.data, adjust->local_name,
-                       sizeof(lxb_char_t) * (adjust->name_len
-                                             - adjust->prefix_len - 1));
+                       sizeof(lxb_char_t) * name_len);
+
+                attr->local_name.data[name_len] = 0x00;
+                attr->local_name.length = name_len;
             }
 
             attr->ns = adjust->ns;
@@ -1197,7 +1149,7 @@ lxb_html_tree_element_in_scope(lxb_html_tree_t *tree, lxb_html_tag_id_t tag_id,
 
         tag_data = lxb_html_tag_data_by_id(tree->document->mem->tag_heap_ref,
                                            node->tag_id);
-        if (tag_data->cats[ns] & ct) {
+        if (tag_data->cats[ node->ns ] & ct) {
             return NULL;
         }
     }
@@ -1401,6 +1353,8 @@ lxb_html_tree_close_p_element(lxb_html_tree_t *tree, lxb_html_token_t *token)
                                                  LXB_HTML_NS_HTML, true);
 }
 
+#include "lexbor/html/serialize.h"
+
 bool
 lxb_html_tree_adoption_agency_algorithm(lxb_html_tree_t *tree,
                                         lxb_html_token_t *token,
@@ -1570,16 +1524,18 @@ lxb_html_tree_adoption_agency_algorithm(lxb_html_tree_t *tree,
             is = lxb_html_tree_active_formatting_find_by_node_reverse(tree,
                                                                       node,
                                                                       &afe_node_idx);
+            /* State 14.5 */
+            if (inner_loop_counter > 3 && is) {
+                lxb_html_tree_active_formatting_remove_by_node(tree, node);
+
+                continue;
+            }
+
             /* State 14.6 */
             if (is == false) {
                 lxb_html_tree_open_elements_remove_by_node(tree, node);
 
                 continue;
-            }
-
-            /* State 14.5 */
-            if (inner_loop_counter > 3) {
-                lxb_html_tree_active_formatting_remove_by_node(tree, node);
             }
 
             /* State 14.7 */
@@ -1701,7 +1657,7 @@ lxb_html_tree_adoption_agency_algorithm(lxb_html_tree_t *tree,
 bool
 lxb_html_tree_html_integration_point(lxb_dom_node_t *node)
 {
-    if (node->ns == LXB_HTML_NS_MATHML
+    if (node->ns == LXB_HTML_NS_MATH
         && node->tag_id == LXB_HTML_TAG_ANNOTATION_XML)
     {
         lxb_dom_element_attr_t *attr;

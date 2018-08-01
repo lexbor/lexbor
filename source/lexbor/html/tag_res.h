@@ -17,17 +17,17 @@
 #endif /* LXB_HTML_TAG_RES_H */
 
 #ifdef LXB_HTML_TAG_CONST_VERSION
-#ifndef LXB_HTML_TAG_CONST_VERSION_05F7D41CB8640B01995E3DB66C13F365
+#ifndef LXB_HTML_TAG_CONST_VERSION_2377A0E45BE928EF37781E49FFCC38A5
 #error Mismatched tags version! See "lexbor/html/tag_const.h".
-#endif /* LXB_HTML_TAG_CONST_VERSION_05F7D41CB8640B01995E3DB66C13F365 */
+#endif /* LXB_HTML_TAG_CONST_VERSION_2377A0E45BE928EF37781E49FFCC38A5 */
 #else
 #error You need to include "lexbor/html/tag_const.h".
 #endif /* LXB_HTML_TAG_CONST_VERSION */
 
 #ifdef LXB_HTML_NS_CONST_VERSION
-#ifndef LXB_HTML_NS_CONST_VERSION_392192FF2346B29C1732921F421BEB79
+#ifndef LXB_HTML_NS_CONST_VERSION_3A3A54D256E0D335D876F9E54A5BC239
 #error Mismatched namespaces version! See "lexbor/html/ns_const.h".
-#endif /* LXB_HTML_NS_CONST_VERSION_392192FF2346B29C1732921F421BEB79 */
+#endif /* LXB_HTML_NS_CONST_VERSION_3A3A54D256E0D335D876F9E54A5BC239 */
 #else
 #error You need to include "lexbor/html/ns_const.h".
 #endif /* LXB_HTML_NS_CONST_VERSION */
@@ -141,6 +141,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "#end-of-file", 12, LXB_HTML_TAG__END_OF_FILE,
@@ -161,6 +171,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "#text", 5, LXB_HTML_TAG__TEXT,
@@ -184,6 +204,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "#document", 9, LXB_HTML_TAG__DOCUMENT,
@@ -204,6 +234,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "!--", 3, LXB_HTML_TAG__EM_COMMENT,
@@ -227,6 +267,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "!doctype", 8, LXB_HTML_TAG__EM_DOCTYPE,
@@ -247,6 +297,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "a", 1, LXB_HTML_TAG_A,
@@ -267,6 +327,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "abbr", 4, LXB_HTML_TAG_ABBR,
@@ -287,6 +357,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "acronym", 7, LXB_HTML_TAG_ACRONYM,
@@ -307,6 +387,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "address", 7, LXB_HTML_TAG_ADDRESS,
@@ -327,6 +417,196 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "altglyph", 8, LXB_HTML_TAG_ALTGLYPH,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "altGlyph", 8}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "altglyphdef", 11, LXB_HTML_TAG_ALTGLYPHDEF,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "altGlyphDef", 11}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "altglyphitem", 12, LXB_HTML_TAG_ALTGLYPHITEM,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "altGlyphItem", 12}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "animatecolor", 12, LXB_HTML_TAG_ANIMATECOLOR,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "animateColor", 12}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "animatemotion", 13, LXB_HTML_TAG_ANIMATEMOTION,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "animateMotion", 13}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "animatetransform", 16, LXB_HTML_TAG_ANIMATETRANSFORM,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "animateTransform", 16}),
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "annotation-xml", 14, LXB_HTML_TAG_ANNOTATION_XML,
@@ -349,6 +629,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "applet", 6, LXB_HTML_TAG_APPLET,
@@ -372,6 +662,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "area", 4, LXB_HTML_TAG_AREA,
@@ -392,6 +692,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "article", 7, LXB_HTML_TAG_ARTICLE,
@@ -412,6 +722,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "aside", 5, LXB_HTML_TAG_ASIDE,
@@ -432,6 +752,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "audio", 5, LXB_HTML_TAG_AUDIO,
@@ -452,6 +782,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "b", 1, LXB_HTML_TAG_B,
@@ -472,6 +812,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "base", 4, LXB_HTML_TAG_BASE,
@@ -492,6 +842,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "basefont", 8, LXB_HTML_TAG_BASEFONT,
@@ -512,6 +872,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "bdi", 3, LXB_HTML_TAG_BDI,
@@ -532,6 +902,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "bdo", 3, LXB_HTML_TAG_BDO,
@@ -552,6 +932,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "bgsound", 7, LXB_HTML_TAG_BGSOUND,
@@ -572,6 +962,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "big", 3, LXB_HTML_TAG_BIG,
@@ -592,6 +992,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "blink", 5, LXB_HTML_TAG_BLINK,
@@ -612,6 +1022,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "blockquote", 10, LXB_HTML_TAG_BLOCKQUOTE,
@@ -632,6 +1052,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "body", 4, LXB_HTML_TAG_BODY,
@@ -652,6 +1082,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "br", 2, LXB_HTML_TAG_BR,
@@ -672,6 +1112,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "button", 6, LXB_HTML_TAG_BUTTON,
@@ -693,6 +1143,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "canvas", 6, LXB_HTML_TAG_CANVAS,
@@ -713,6 +1173,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "caption", 7, LXB_HTML_TAG_CAPTION,
@@ -736,6 +1206,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "center", 6, LXB_HTML_TAG_CENTER,
@@ -756,6 +1236,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "cite", 4, LXB_HTML_TAG_CITE,
@@ -776,6 +1266,46 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "clippath", 8, LXB_HTML_TAG_CLIPPATH,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "clipPath", 8}),
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "code", 4, LXB_HTML_TAG_CODE,
@@ -796,6 +1326,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "col", 3, LXB_HTML_TAG_COL,
@@ -816,6 +1356,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "colgroup", 8, LXB_HTML_TAG_COLGROUP,
@@ -836,6 +1386,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "data", 4, LXB_HTML_TAG_DATA,
@@ -856,6 +1416,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "datalist", 8, LXB_HTML_TAG_DATALIST,
@@ -876,6 +1446,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "dd", 2, LXB_HTML_TAG_DD,
@@ -896,6 +1476,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "del", 3, LXB_HTML_TAG_DEL,
@@ -916,6 +1506,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "desc", 4, LXB_HTML_TAG_DESC,
@@ -939,6 +1539,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "details", 7, LXB_HTML_TAG_DETAILS,
@@ -959,6 +1569,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "dfn", 3, LXB_HTML_TAG_DFN,
@@ -979,6 +1599,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "dialog", 6, LXB_HTML_TAG_DIALOG,
@@ -999,6 +1629,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "dir", 3, LXB_HTML_TAG_DIR,
@@ -1019,6 +1659,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "div", 3, LXB_HTML_TAG_DIV,
@@ -1039,6 +1689,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "dl", 2, LXB_HTML_TAG_DL,
@@ -1059,6 +1719,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "dt", 2, LXB_HTML_TAG_DT,
@@ -1079,6 +1749,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "em", 2, LXB_HTML_TAG_EM,
@@ -1099,6 +1779,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "embed", 5, LXB_HTML_TAG_EMBED,
@@ -1119,6 +1809,766 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "feblend", 7, LXB_HTML_TAG_FEBLEND,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feBlend", 7}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "fecolormatrix", 13, LXB_HTML_TAG_FECOLORMATRIX,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feColorMatrix", 13}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "fecomponenttransfer", 19, LXB_HTML_TAG_FECOMPONENTTRANSFER,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feComponentTransfer", 19}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "fecomposite", 11, LXB_HTML_TAG_FECOMPOSITE,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feComposite", 11}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "feconvolvematrix", 16, LXB_HTML_TAG_FECONVOLVEMATRIX,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feConvolveMatrix", 16}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "fediffuselighting", 17, LXB_HTML_TAG_FEDIFFUSELIGHTING,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feDiffuseLighting", 17}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "fedisplacementmap", 17, LXB_HTML_TAG_FEDISPLACEMENTMAP,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feDisplacementMap", 17}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "fedistantlight", 14, LXB_HTML_TAG_FEDISTANTLIGHT,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feDistantLight", 14}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "fedropshadow", 12, LXB_HTML_TAG_FEDROPSHADOW,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feDropShadow", 12}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "feflood", 7, LXB_HTML_TAG_FEFLOOD,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feFlood", 7}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "fefunca", 7, LXB_HTML_TAG_FEFUNCA,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feFuncA", 7}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "fefuncb", 7, LXB_HTML_TAG_FEFUNCB,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feFuncB", 7}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "fefuncg", 7, LXB_HTML_TAG_FEFUNCG,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feFuncG", 7}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "fefuncr", 7, LXB_HTML_TAG_FEFUNCR,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feFuncR", 7}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "fegaussianblur", 14, LXB_HTML_TAG_FEGAUSSIANBLUR,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feGaussianBlur", 14}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "feimage", 7, LXB_HTML_TAG_FEIMAGE,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feImage", 7}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "femerge", 7, LXB_HTML_TAG_FEMERGE,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feMerge", 7}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "femergenode", 11, LXB_HTML_TAG_FEMERGENODE,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feMergeNode", 11}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "femorphology", 12, LXB_HTML_TAG_FEMORPHOLOGY,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feMorphology", 12}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "feoffset", 8, LXB_HTML_TAG_FEOFFSET,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feOffset", 8}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "fepointlight", 12, LXB_HTML_TAG_FEPOINTLIGHT,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "fePointLight", 12}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "fespecularlighting", 18, LXB_HTML_TAG_FESPECULARLIGHTING,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feSpecularLighting", 18}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "fespotlight", 11, LXB_HTML_TAG_FESPOTLIGHT,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feSpotLight", 11}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "fetile", 6, LXB_HTML_TAG_FETILE,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feTile", 6}),
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "feturbulence", 12, LXB_HTML_TAG_FETURBULENCE,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "feTurbulence", 12}),
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "fieldset", 8, LXB_HTML_TAG_FIELDSET,
@@ -1139,6 +2589,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "figcaption", 10, LXB_HTML_TAG_FIGCAPTION,
@@ -1159,6 +2619,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "figure", 6, LXB_HTML_TAG_FIGURE,
@@ -1179,6 +2649,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "font", 4, LXB_HTML_TAG_FONT,
@@ -1199,6 +2679,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "footer", 6, LXB_HTML_TAG_FOOTER,
@@ -1219,9 +2709,19 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
-    {(const lxb_char_t *) "foreignObject", 13, LXB_HTML_TAG_FOREIGNOBJECT,
+    {(const lxb_char_t *) "foreignobject", 13, LXB_HTML_TAG_FOREIGNOBJECT,
         {
             LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
             LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
@@ -1242,6 +2742,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "foreignObject", 13}),
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "form", 4, LXB_HTML_TAG_FORM,
@@ -1262,6 +2772,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "frame", 5, LXB_HTML_TAG_FRAME,
@@ -1282,6 +2802,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "frameset", 8, LXB_HTML_TAG_FRAMESET,
@@ -1302,6 +2832,46 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "glyphref", 8, LXB_HTML_TAG_GLYPHREF,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "glyphRef", 8}),
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "h1", 2, LXB_HTML_TAG_H1,
@@ -1322,6 +2892,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "h2", 2, LXB_HTML_TAG_H2,
@@ -1342,6 +2922,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "h3", 2, LXB_HTML_TAG_H3,
@@ -1362,6 +2952,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "h4", 2, LXB_HTML_TAG_H4,
@@ -1382,6 +2982,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "h5", 2, LXB_HTML_TAG_H5,
@@ -1402,6 +3012,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "h6", 2, LXB_HTML_TAG_H6,
@@ -1422,6 +3042,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "head", 4, LXB_HTML_TAG_HEAD,
@@ -1442,6 +3072,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "header", 6, LXB_HTML_TAG_HEADER,
@@ -1462,6 +3102,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "hgroup", 6, LXB_HTML_TAG_HGROUP,
@@ -1482,6 +3132,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "hr", 2, LXB_HTML_TAG_HR,
@@ -1502,6 +3162,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "html", 4, LXB_HTML_TAG_HTML,
@@ -1526,6 +3196,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "i", 1, LXB_HTML_TAG_I,
@@ -1546,6 +3226,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "iframe", 6, LXB_HTML_TAG_IFRAME,
@@ -1566,6 +3256,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "image", 5, LXB_HTML_TAG_IMAGE,
@@ -1586,6 +3286,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "img", 3, LXB_HTML_TAG_IMG,
@@ -1606,6 +3316,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "input", 5, LXB_HTML_TAG_INPUT,
@@ -1626,6 +3346,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "ins", 3, LXB_HTML_TAG_INS,
@@ -1646,6 +3376,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "isindex", 7, LXB_HTML_TAG_ISINDEX,
@@ -1666,6 +3406,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "kbd", 3, LXB_HTML_TAG_KBD,
@@ -1686,6 +3436,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "keygen", 6, LXB_HTML_TAG_KEYGEN,
@@ -1706,6 +3466,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "label", 5, LXB_HTML_TAG_LABEL,
@@ -1726,6 +3496,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "legend", 6, LXB_HTML_TAG_LEGEND,
@@ -1746,6 +3526,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "li", 2, LXB_HTML_TAG_LI,
@@ -1766,6 +3556,46 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "lineargradient", 14, LXB_HTML_TAG_LINEARGRADIENT,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "linearGradient", 14}),
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "link", 4, LXB_HTML_TAG_LINK,
@@ -1786,6 +3616,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "listing", 7, LXB_HTML_TAG_LISTING,
@@ -1806,6 +3646,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "main", 4, LXB_HTML_TAG_MAIN,
@@ -1826,6 +3676,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "malignmark", 10, LXB_HTML_TAG_MALIGNMARK,
@@ -1844,6 +3704,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "map", 3, LXB_HTML_TAG_MAP,
@@ -1864,6 +3734,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "mark", 4, LXB_HTML_TAG_MARK,
@@ -1884,6 +3764,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "marquee", 7, LXB_HTML_TAG_MARQUEE,
@@ -1907,6 +3797,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "math", 4, LXB_HTML_TAG_MATH,
@@ -1926,6 +3826,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "menu", 4, LXB_HTML_TAG_MENU,
@@ -1946,6 +3856,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "meta", 4, LXB_HTML_TAG_META,
@@ -1966,6 +3886,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "meter", 5, LXB_HTML_TAG_METER,
@@ -1986,6 +3916,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "mfenced", 7, LXB_HTML_TAG_MFENCED,
@@ -2005,6 +3945,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "mglyph", 6, LXB_HTML_TAG_MGLYPH,
@@ -2023,6 +3973,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "mi", 2, LXB_HTML_TAG_MI,
@@ -2045,6 +4005,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "mn", 2, LXB_HTML_TAG_MN,
@@ -2067,6 +4037,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "mo", 2, LXB_HTML_TAG_MO,
@@ -2089,6 +4069,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "ms", 2, LXB_HTML_TAG_MS,
@@ -2111,6 +4101,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "mtext", 5, LXB_HTML_TAG_MTEXT,
@@ -2133,6 +4133,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "multicol", 8, LXB_HTML_TAG_MULTICOL,
@@ -2153,6 +4163,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "nav", 3, LXB_HTML_TAG_NAV,
@@ -2173,6 +4193,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "nextid", 6, LXB_HTML_TAG_NEXTID,
@@ -2193,6 +4223,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "nobr", 4, LXB_HTML_TAG_NOBR,
@@ -2213,6 +4253,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "noembed", 7, LXB_HTML_TAG_NOEMBED,
@@ -2233,6 +4283,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "noframes", 8, LXB_HTML_TAG_NOFRAMES,
@@ -2253,6 +4313,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "noscript", 8, LXB_HTML_TAG_NOSCRIPT,
@@ -2273,6 +4343,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "object", 6, LXB_HTML_TAG_OBJECT,
@@ -2296,6 +4376,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "ol", 2, LXB_HTML_TAG_OL,
@@ -2317,6 +4407,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "optgroup", 8, LXB_HTML_TAG_OPTGROUP,
@@ -2335,6 +4435,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "option", 6, LXB_HTML_TAG_OPTION,
@@ -2353,6 +4463,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "output", 6, LXB_HTML_TAG_OUTPUT,
@@ -2373,6 +4493,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "p", 1, LXB_HTML_TAG_P,
@@ -2393,6 +4523,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "param", 5, LXB_HTML_TAG_PARAM,
@@ -2413,6 +4553,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "path", 4, LXB_HTML_TAG_PATH,
@@ -2433,6 +4583,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "picture", 7, LXB_HTML_TAG_PICTURE,
@@ -2453,6 +4613,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "plaintext", 9, LXB_HTML_TAG_PLAINTEXT,
@@ -2473,6 +4643,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "pre", 3, LXB_HTML_TAG_PRE,
@@ -2493,6 +4673,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "progress", 8, LXB_HTML_TAG_PROGRESS,
@@ -2513,6 +4703,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "q", 1, LXB_HTML_TAG_Q,
@@ -2533,6 +4733,46 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "radialgradient", 14, LXB_HTML_TAG_RADIALGRADIENT,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "radialGradient", 14}),
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "rb", 2, LXB_HTML_TAG_RB,
@@ -2553,6 +4793,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "rp", 2, LXB_HTML_TAG_RP,
@@ -2573,6 +4823,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "rt", 2, LXB_HTML_TAG_RT,
@@ -2593,6 +4853,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "rtc", 3, LXB_HTML_TAG_RTC,
@@ -2613,6 +4883,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "ruby", 4, LXB_HTML_TAG_RUBY,
@@ -2633,6 +4913,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "s", 1, LXB_HTML_TAG_S,
@@ -2653,6 +4943,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "samp", 4, LXB_HTML_TAG_SAMP,
@@ -2673,6 +4973,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "script", 6, LXB_HTML_TAG_SCRIPT,
@@ -2693,6 +5003,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "section", 7, LXB_HTML_TAG_SECTION,
@@ -2713,6 +5033,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "select", 6, LXB_HTML_TAG_SELECT,
@@ -2733,6 +5063,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "slot", 4, LXB_HTML_TAG_SLOT,
@@ -2753,6 +5093,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "small", 5, LXB_HTML_TAG_SMALL,
@@ -2773,6 +5123,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "source", 6, LXB_HTML_TAG_SOURCE,
@@ -2793,6 +5153,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "spacer", 6, LXB_HTML_TAG_SPACER,
@@ -2813,6 +5183,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "span", 4, LXB_HTML_TAG_SPAN,
@@ -2833,6 +5213,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "strike", 6, LXB_HTML_TAG_STRIKE,
@@ -2853,6 +5243,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "strong", 6, LXB_HTML_TAG_STRONG,
@@ -2873,6 +5273,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "style", 5, LXB_HTML_TAG_STYLE,
@@ -2893,6 +5303,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "sub", 3, LXB_HTML_TAG_SUB,
@@ -2913,6 +5333,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "summary", 7, LXB_HTML_TAG_SUMMARY,
@@ -2933,6 +5363,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "sup", 3, LXB_HTML_TAG_SUP,
@@ -2953,6 +5393,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "svg", 3, LXB_HTML_TAG_SVG,
@@ -2973,6 +5423,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "table", 5, LXB_HTML_TAG_TABLE,
@@ -2997,6 +5457,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "tbody", 5, LXB_HTML_TAG_TBODY,
@@ -3017,6 +5487,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "td", 2, LXB_HTML_TAG_TD,
@@ -3040,6 +5520,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "template", 8, LXB_HTML_TAG_TEMPLATE,
@@ -3064,6 +5554,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "textarea", 8, LXB_HTML_TAG_TEXTAREA,
@@ -3084,6 +5584,46 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+        }
+    },
+    {(const lxb_char_t *) "textpath", 8, LXB_HTML_TAG_TEXTPATH,
+        {
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+            LXB_HTML_TAG_CATEGORY__UNDEF, 
+            LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+        },
+        {
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_html_unknown_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create,
+            (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            &((lexbor_str_t) {(lxb_char_t *) "textPath", 8}),
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "tfoot", 5, LXB_HTML_TAG_TFOOT,
@@ -3104,6 +5644,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "th", 2, LXB_HTML_TAG_TH,
@@ -3127,6 +5677,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "thead", 5, LXB_HTML_TAG_THEAD,
@@ -3147,6 +5707,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "time", 4, LXB_HTML_TAG_TIME,
@@ -3167,6 +5737,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "title", 5, LXB_HTML_TAG_TITLE,
@@ -3192,6 +5772,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "tr", 2, LXB_HTML_TAG_TR,
@@ -3212,6 +5802,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "track", 5, LXB_HTML_TAG_TRACK,
@@ -3232,6 +5832,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "tt", 2, LXB_HTML_TAG_TT,
@@ -3252,6 +5862,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "u", 1, LXB_HTML_TAG_U,
@@ -3272,6 +5892,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "ul", 2, LXB_HTML_TAG_UL,
@@ -3293,6 +5923,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "var", 3, LXB_HTML_TAG_VAR,
@@ -3313,6 +5953,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "video", 5, LXB_HTML_TAG_VIDEO,
@@ -3333,6 +5983,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "wbr", 3, LXB_HTML_TAG_WBR,
@@ -3353,6 +6013,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     },
     {(const lxb_char_t *) "xmp", 3, LXB_HTML_TAG_XMP,
@@ -3373,6 +6043,16 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create,
             (lxb_html_interface_creation_f) lxb_dom_element_create
+        },
+        {
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
+            NULL,
         }
     }
 };
@@ -3384,287 +6064,138 @@ static  lxb_html_tag_data_t lxb_html_tag_res_data[LXB_HTML_TAG__LAST_ENTRY] =
 #define LXB_HTML_TAG_RES_SHS_DATA_ENABLED
 static const lexbor_shs_entry_t lxb_html_tag_res_shs_data[] = 
 {
-    {NULL, NULL, 561, 0}, {"marquee", &lxb_html_tag_res_data[87], 7, 0}, 
-    {"figcaption", &lxb_html_tag_res_data[50], 10, 0}, {"blockquote", &lxb_html_tag_res_data[24], 10, 0}, 
-    {"malignmark", &lxb_html_tag_res_data[84], 10, 0}, {"frameset", &lxb_html_tag_res_data[57], 8, 0}, 
-    {"s", &lxb_html_tag_res_data[124], 1, 0}, {"q", &lxb_html_tag_res_data[118], 1, 0}, 
-    {"#text", &lxb_html_tag_res_data[2], 5, 0}, {"meter", &lxb_html_tag_res_data[91], 5, 0}, 
-    {"em", &lxb_html_tag_res_data[47], 2, 1}, {"dialog", &lxb_html_tag_res_data[42], 6, 2}, 
-    {"hgroup", &lxb_html_tag_res_data[66], 6, 0}, {"code", &lxb_html_tag_res_data[32], 4, 0}, 
-    {"math", &lxb_html_tag_res_data[88], 4, 0}, {"video", &lxb_html_tag_res_data[157], 5, 0}, 
-    {"title", &lxb_html_tag_res_data[150], 5, 0}, {"select", &lxb_html_tag_res_data[128], 6, 0}, 
-    {"output", &lxb_html_tag_res_data[110], 6, 0}, {"ins", &lxb_html_tag_res_data[74], 3, 0}, 
-    {"colgroup", &lxb_html_tag_res_data[34], 8, 0}, {"dfn", &lxb_html_tag_res_data[41], 3, 0}, 
-    {"noembed", &lxb_html_tag_res_data[103], 7, 0}, {"strike", &lxb_html_tag_res_data[134], 6, 0}, 
-    {"abbr", &lxb_html_tag_res_data[7], 4, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 262, 0}, {"radialgradient", &lxb_html_tag_res_data[153], 14, 0}, 
+    {"fecomponenttransfer", &lxb_html_tag_res_data[58], 19, 0}, {"abbr", &lxb_html_tag_res_data[7], 4, 1}, 
+    {"feflood", &lxb_html_tag_res_data[65], 7, 0}, {"marquee", &lxb_html_tag_res_data[121], 7, 0}, 
+    {"feblend", &lxb_html_tag_res_data[56], 7, 4}, {"optgroup", &lxb_html_tag_res_data[142], 8, 0}, 
+    {"video", &lxb_html_tag_res_data[193], 5, 10}, {"u", &lxb_html_tag_res_data[190], 1, 0}, 
+    {"iframe", &lxb_html_tag_res_data[103], 6, 0}, {"animatecolor", &lxb_html_tag_res_data[13], 12, 0}, 
+    {"output", &lxb_html_tag_res_data[144], 6, 0}, {"figcaption", &lxb_html_tag_res_data[82], 10, 0}, 
+    {"mglyph", &lxb_html_tag_res_data[127], 6, 0}, {"!--", &lxb_html_tag_res_data[4], 3, 0}, 
+    {"fefuncg", &lxb_html_tag_res_data[68], 7, 0}, {"aside", &lxb_html_tag_res_data[20], 5, 0}, 
+    {"style", &lxb_html_tag_res_data[171], 5, 0}, {"strike", &lxb_html_tag_res_data[169], 6, 0}, 
+    {"header", &lxb_html_tag_res_data[98], 6, 0}, {"glyphref", &lxb_html_tag_res_data[90], 8, 23}, 
+    {"label", &lxb_html_tag_res_data[111], 5, 0}, {"feconvolvematrix", &lxb_html_tag_res_data[60], 16, 0}, 
+    {"altglyphdef", &lxb_html_tag_res_data[11], 11, 0}, {"title", &lxb_html_tag_res_data[186], 5, 0}, 
+    {"head", &lxb_html_tag_res_data[97], 4, 0}, {"noframes", &lxb_html_tag_res_data[138], 8, 0}, 
+    {"code", &lxb_html_tag_res_data[39], 4, 30}, {"rb", &lxb_html_tag_res_data[154], 2, 5}, 
+    {"blink", &lxb_html_tag_res_data[29], 5, 0}, {"image", &lxb_html_tag_res_data[104], 5, 0}, 
+    {"col", &lxb_html_tag_res_data[40], 3, 8}, {"object", &lxb_html_tag_res_data[140], 6, 12}, 
+    {"template", &lxb_html_tag_res_data[179], 8, 36}, {"h2", &lxb_html_tag_res_data[92], 2, 13}, 
+    {"lineargradient", &lxb_html_tag_res_data[114], 14, 0}, {"math", &lxb_html_tag_res_data[122], 4, 0}, 
+    {"base", &lxb_html_tag_res_data[23], 4, 45}, {"dl", &lxb_html_tag_res_data[52], 2, 14}, 
+    {"del", &lxb_html_tag_res_data[45], 3, 16}, {"svg", &lxb_html_tag_res_data[175], 3, 17}, 
+    {"dir", &lxb_html_tag_res_data[50], 3, 0}, {"article", &lxb_html_tag_res_data[19], 7, 0}, 
+    {"strong", &lxb_html_tag_res_data[170], 6, 0}, {"dialog", &lxb_html_tag_res_data[49], 6, 0}, 
+    {"details", &lxb_html_tag_res_data[47], 7, 0}, {"textpath", &lxb_html_tag_res_data[181], 8, 52}, 
+    {"mark", &lxb_html_tag_res_data[120], 4, 0}, {"basefont", &lxb_html_tag_res_data[24], 8, 0}, 
+    {"fediffuselighting", &lxb_html_tag_res_data[61], 17, 0}, {"fespecularlighting", &lxb_html_tag_res_data[77], 18, 0}, 
+    {"blockquote", &lxb_html_tag_res_data[30], 10, 0}, {"script", &lxb_html_tag_res_data[161], 6, 58}, 
+    {"malignmark", &lxb_html_tag_res_data[118], 10, 0}, {"hr", &lxb_html_tag_res_data[100], 2, 18}, 
+    {"source", &lxb_html_tag_res_data[166], 6, 19}, {"mn", &lxb_html_tag_res_data[129], 2, 0}, 
+    {"select", &lxb_html_tag_res_data[163], 6, 0}, {"main", &lxb_html_tag_res_data[117], 4, 20}, 
+    {"fieldset", &lxb_html_tag_res_data[81], 8, 62}, {"ins", &lxb_html_tag_res_data[107], 3, 0}, 
+    {"frameset", &lxb_html_tag_res_data[89], 8, 0}, {"button", &lxb_html_tag_res_data[33], 6, 0}, 
+    {"fecolormatrix", &lxb_html_tag_res_data[57], 13, 0}, {"q", &lxb_html_tag_res_data[152], 1, 0}, 
+    {"animatemotion", &lxb_html_tag_res_data[14], 13, 0}, {"time", &lxb_html_tag_res_data[185], 4, 21}, 
+    {"table", &lxb_html_tag_res_data[176], 5, 25}, {"h6", &lxb_html_tag_res_data[96], 2, 26}, 
+    {"cite", &lxb_html_tag_res_data[37], 4, 28}, {"img", &lxb_html_tag_res_data[105], 3, 34}, 
+    {"fepointlight", &lxb_html_tag_res_data[76], 12, 0}, {"audio", &lxb_html_tag_res_data[21], 5, 0}, 
+    {"#end-of-file", &lxb_html_tag_res_data[1], 12, 0}, {"noscript", &lxb_html_tag_res_data[139], 8, 0}, 
+    {"foreignobject", &lxb_html_tag_res_data[86], 13, 0}, {"spacer", &lxb_html_tag_res_data[167], 6, 0}, 
+    {"samp", &lxb_html_tag_res_data[160], 4, 0}, {"altglyphitem", &lxb_html_tag_res_data[12], 12, 0}, 
+    {"dt", &lxb_html_tag_res_data[53], 2, 0}, {"data", &lxb_html_tag_res_data[42], 4, 0}, 
+    {"mtext", &lxb_html_tag_res_data[132], 5, 0}, {"path", &lxb_html_tag_res_data[147], 4, 0}, 
+    {"input", &lxb_html_tag_res_data[106], 5, 0}, {"th", &lxb_html_tag_res_data[183], 2, 38}, 
+    {"p", &lxb_html_tag_res_data[145], 1, 0}, {"animatetransform", &lxb_html_tag_res_data[15], 16, 0}, 
+    {"datalist", &lxb_html_tag_res_data[43], 8, 0}, {"small", &lxb_html_tag_res_data[165], 5, 0}, 
+    {"b", &lxb_html_tag_res_data[22], 1, 46}, {"nextid", &lxb_html_tag_res_data[135], 6, 47}, 
+    {"noembed", &lxb_html_tag_res_data[137], 7, 0}, {"nav", &lxb_html_tag_res_data[134], 3, 0}, 
+    {"bgsound", &lxb_html_tag_res_data[27], 7, 0}, {"slot", &lxb_html_tag_res_data[164], 4, 0}, 
+    {"param", &lxb_html_tag_res_data[146], 5, 0}, {"font", &lxb_html_tag_res_data[84], 4, 53}, 
+    {"figure", &lxb_html_tag_res_data[83], 6, 0}, {"femerge", &lxb_html_tag_res_data[72], 7, 0}, 
+    {"femergenode", &lxb_html_tag_res_data[73], 11, 0}, {"feoffset", &lxb_html_tag_res_data[75], 8, 60}, 
+    {"#text", &lxb_html_tag_res_data[2], 5, 0}, {"ul", &lxb_html_tag_res_data[191], 2, 0}, 
+    {"fespotlight", &lxb_html_tag_res_data[78], 11, 66}, {"form", &lxb_html_tag_res_data[87], 4, 72}, 
+    {"#document", &lxb_html_tag_res_data[3], 9, 76}, {"fedistantlight", &lxb_html_tag_res_data[63], 14, 0}, 
+    {"track", &lxb_html_tag_res_data[188], 5, 0}, {"h3", &lxb_html_tag_res_data[93], 2, 77}, 
+    {"h1", &lxb_html_tag_res_data[91], 2, 0}, {"i", &lxb_html_tag_res_data[102], 1, 0}, 
+    {"altglyph", &lxb_html_tag_res_data[10], 8, 0}, {"legend", &lxb_html_tag_res_data[112], 6, 115}, 
+    {"tbody", &lxb_html_tag_res_data[177], 5, 0}, {"address", &lxb_html_tag_res_data[9], 7, 0}, 
+    {"caption", &lxb_html_tag_res_data[35], 7, 0}, {"option", &lxb_html_tag_res_data[143], 6, 0}, 
+    {"sup", &lxb_html_tag_res_data[174], 3, 0}, {"body", &lxb_html_tag_res_data[31], 4, 78}, 
+    {"progress", &lxb_html_tag_res_data[151], 8, 122}, {"acronym", &lxb_html_tag_res_data[8], 7, 0}, 
+    {"fegaussianblur", &lxb_html_tag_res_data[70], 14, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {"mi", &lxb_html_tag_res_data[128], 2, 79}, {NULL, NULL, 0, 0}, 
+    {"dfn", &lxb_html_tag_res_data[48], 3, 0}, {"a", &lxb_html_tag_res_data[6], 1, 80}, 
+    {"listing", &lxb_html_tag_res_data[116], 7, 87}, {"span", &lxb_html_tag_res_data[168], 4, 0}, 
+    {"area", &lxb_html_tag_res_data[18], 4, 0}, {"clippath", &lxb_html_tag_res_data[38], 8, 0}, 
+    {"section", &lxb_html_tag_res_data[162], 7, 0}, {"li", &lxb_html_tag_res_data[113], 2, 88}, 
+    {NULL, NULL, 0, 0}, {"html", &lxb_html_tag_res_data[101], 4, 0}, 
+    {NULL, NULL, 0, 0}, {"fedropshadow", &lxb_html_tag_res_data[64], 12, 0}, 
+    {"embed", &lxb_html_tag_res_data[55], 5, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {"multicol", &lxb_html_tag_res_data[133], 8, 0}, 
+    {"var", &lxb_html_tag_res_data[192], 3, 89}, {"rp", &lxb_html_tag_res_data[155], 2, 0}, 
+    {NULL, NULL, 0, 0}, {"link", &lxb_html_tag_res_data[115], 4, 0}, 
+    {"mo", &lxb_html_tag_res_data[130], 2, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {"annotation-xml", &lxb_html_tag_res_data[16], 14, 0}, 
+    {"fedisplacementmap", &lxb_html_tag_res_data[62], 17, 0}, {"center", &lxb_html_tag_res_data[36], 6, 0}, 
+    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {"fefuncb", &lxb_html_tag_res_data[67], 7, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {"meter", &lxb_html_tag_res_data[125], 5, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {"tt", &lxb_html_tag_res_data[189], 2, 0}, 
+    {"big", &lxb_html_tag_res_data[28], 3, 93}, {NULL, NULL, 0, 0}, 
+    {"tfoot", &lxb_html_tag_res_data[182], 5, 0}, {"desc", &lxb_html_tag_res_data[46], 4, 0}, 
+    {"isindex", &lxb_html_tag_res_data[108], 7, 0}, {NULL, NULL, 0, 0}, 
+    {"menu", &lxb_html_tag_res_data[123], 4, 0}, {"hgroup", &lxb_html_tag_res_data[99], 6, 0}, 
+    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {"wbr", &lxb_html_tag_res_data[194], 3, 0}, {NULL, NULL, 0, 0}, 
+    {"pre", &lxb_html_tag_res_data[150], 3, 94}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {"picture", &lxb_html_tag_res_data[148], 7, 0}, {"h4", &lxb_html_tag_res_data[94], 2, 0}, 
+    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {"meta", &lxb_html_tag_res_data[124], 4, 96}, {NULL, NULL, 0, 0}, 
+    {"rtc", &lxb_html_tag_res_data[157], 3, 0}, {NULL, NULL, 0, 0}, 
+    {"frame", &lxb_html_tag_res_data[88], 5, 0}, {"fetile", &lxb_html_tag_res_data[79], 6, 98}, 
+    {"feimage", &lxb_html_tag_res_data[71], 7, 99}, {NULL, NULL, 0, 0}, 
+    {"xmp", &lxb_html_tag_res_data[195], 3, 0}, {NULL, NULL, 0, 0}, 
+    {"fecomposite", &lxb_html_tag_res_data[59], 11, 100}, {"feturbulence", &lxb_html_tag_res_data[80], 12, 0}, 
+    {NULL, NULL, 0, 0}, {"summary", &lxb_html_tag_res_data[173], 7, 0}, 
+    {"mfenced", &lxb_html_tag_res_data[126], 7, 0}, {NULL, NULL, 0, 0}, 
+    {"sub", &lxb_html_tag_res_data[172], 3, 0}, {"colgroup", &lxb_html_tag_res_data[41], 8, 0}, 
     {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
     {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
     {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {"dd", &lxb_html_tag_res_data[44], 2, 103}, 
     {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
     {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"data", &lxb_html_tag_res_data[35], 4, 0}, {NULL, NULL, 0, 0}, 
-    {"ruby", &lxb_html_tag_res_data[123], 4, 0}, {NULL, NULL, 0, 0}, 
-    {"base", &lxb_html_tag_res_data[17], 4, 0}, {NULL, NULL, 0, 0}, 
-    {"!doctype", &lxb_html_tag_res_data[5], 8, 0}, {NULL, NULL, 0, 0}, 
     {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"mark", &lxb_html_tag_res_data[86], 4, 3}, {NULL, NULL, 0, 0}, 
+    {"div", &lxb_html_tag_res_data[51], 3, 0}, {"textarea", &lxb_html_tag_res_data[180], 8, 0}, 
+    {"!doctype", &lxb_html_tag_res_data[5], 8, 0}, {"applet", &lxb_html_tag_res_data[17], 6, 0}, 
+    {NULL, NULL, 0, 0}, {"br", &lxb_html_tag_res_data[32], 2, 110}, 
+    {NULL, NULL, 0, 0}, {"keygen", &lxb_html_tag_res_data[110], 6, 0}, 
+    {"kbd", &lxb_html_tag_res_data[109], 3, 0}, {NULL, NULL, 0, 0}, 
+    {"plaintext", &lxb_html_tag_res_data[149], 9, 0}, {"s", &lxb_html_tag_res_data[159], 1, 0}, 
     {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {"bdo", &lxb_html_tag_res_data[26], 3, 0}, {"td", &lxb_html_tag_res_data[178], 2, 0}, 
+    {"fefunca", &lxb_html_tag_res_data[66], 7, 0}, {"ol", &lxb_html_tag_res_data[141], 2, 0}, 
+    {"thead", &lxb_html_tag_res_data[184], 5, 0}, {"nobr", &lxb_html_tag_res_data[136], 4, 112}, 
+    {NULL, NULL, 0, 0}, {"tr", &lxb_html_tag_res_data[187], 2, 0}, 
+    {"map", &lxb_html_tag_res_data[119], 3, 0}, {NULL, NULL, 0, 0}, 
     {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"dir", &lxb_html_tag_res_data[43], 3, 4}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {"#undef", &lxb_html_tag_res_data[0], 6, 113}, 
+    {"em", &lxb_html_tag_res_data[54], 2, 0}, {NULL, NULL, 0, 0}, 
+    {"bdi", &lxb_html_tag_res_data[25], 3, 0}, {"femorphology", &lxb_html_tag_res_data[74], 12, 0}, 
+    {"ms", &lxb_html_tag_res_data[131], 2, 116}, {"footer", &lxb_html_tag_res_data[85], 6, 0}, 
+    {"fefuncr", &lxb_html_tag_res_data[69], 7, 0}, {"rt", &lxb_html_tag_res_data[156], 2, 117}, 
     {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"frame", &lxb_html_tag_res_data[56], 5, 0}, 
-    {"figure", &lxb_html_tag_res_data[51], 6, 0}, {"nav", &lxb_html_tag_res_data[100], 3, 0}, 
-    {"li", &lxb_html_tag_res_data[80], 2, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"h6", &lxb_html_tag_res_data[63], 2, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"svg", &lxb_html_tag_res_data[140], 3, 0}, 
-    {NULL, NULL, 0, 0}, {"canvas", &lxb_html_tag_res_data[28], 6, 0}, 
-    {"strong", &lxb_html_tag_res_data[135], 6, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"dl", &lxb_html_tag_res_data[45], 2, 0}, {"del", &lxb_html_tag_res_data[38], 3, 0}, 
-    {NULL, NULL, 0, 0}, {"acronym", &lxb_html_tag_res_data[8], 7, 0}, 
-    {"span", &lxb_html_tag_res_data[133], 4, 0}, {NULL, NULL, 0, 0}, 
-    {"button", &lxb_html_tag_res_data[27], 6, 0}, {"section", &lxb_html_tag_res_data[127], 7, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"legend", &lxb_html_tag_res_data[79], 6, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"footer", &lxb_html_tag_res_data[53], 6, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"img", &lxb_html_tag_res_data[72], 3, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"html", &lxb_html_tag_res_data[68], 4, 0}, 
-    {"rt", &lxb_html_tag_res_data[121], 2, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"rb", &lxb_html_tag_res_data[119], 2, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"sub", &lxb_html_tag_res_data[137], 3, 0}, {"param", &lxb_html_tag_res_data[112], 5, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"bdo", &lxb_html_tag_res_data[20], 3, 0}, {NULL, NULL, 0, 0}, 
-    {"multicol", &lxb_html_tag_res_data[99], 8, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"h3", &lxb_html_tag_res_data[60], 2, 0}, {NULL, NULL, 0, 0}, 
-    {"font", &lxb_html_tag_res_data[52], 4, 0}, {NULL, NULL, 0, 0}, 
-    {"tbody", &lxb_html_tag_res_data[142], 5, 0}, {NULL, NULL, 0, 0}, 
-    {"fieldset", &lxb_html_tag_res_data[49], 8, 5}, {NULL, NULL, 0, 0}, 
-    {"sup", &lxb_html_tag_res_data[139], 3, 0}, {"samp", &lxb_html_tag_res_data[125], 4, 0}, 
-    {NULL, NULL, 0, 0}, {"foreignObject", &lxb_html_tag_res_data[54], 13, 0}, 
-    {"meta", &lxb_html_tag_res_data[90], 4, 0}, {NULL, NULL, 0, 0}, 
-    {"isindex", &lxb_html_tag_res_data[75], 7, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"big", &lxb_html_tag_res_data[22], 3, 8}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"#document", &lxb_html_tag_res_data[3], 9, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"ul", &lxb_html_tag_res_data[155], 2, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"p", &lxb_html_tag_res_data[111], 1, 9}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"tt", &lxb_html_tag_res_data[153], 2, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"tfoot", &lxb_html_tag_res_data[146], 5, 12}, {NULL, NULL, 0, 0}, 
-    {"!--", &lxb_html_tag_res_data[4], 3, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"embed", &lxb_html_tag_res_data[48], 5, 0}, {NULL, NULL, 0, 0}, 
-    {"pre", &lxb_html_tag_res_data[116], 3, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"tr", &lxb_html_tag_res_data[151], 2, 0}, 
-    {"picture", &lxb_html_tag_res_data[114], 7, 0}, {NULL, NULL, 0, 0}, 
-    {"annotation-xml", &lxb_html_tag_res_data[10], 14, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"div", &lxb_html_tag_res_data[44], 3, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"noframes", &lxb_html_tag_res_data[104], 8, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"rtc", &lxb_html_tag_res_data[122], 3, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"progress", &lxb_html_tag_res_data[117], 8, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"spacer", &lxb_html_tag_res_data[132], 6, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"path", &lxb_html_tag_res_data[113], 4, 0}, {NULL, NULL, 0, 0}, 
-    {"body", &lxb_html_tag_res_data[25], 4, 0}, {NULL, NULL, 0, 0}, 
-    {"form", &lxb_html_tag_res_data[55], 4, 0}, {"summary", &lxb_html_tag_res_data[138], 7, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"var", &lxb_html_tag_res_data[156], 3, 0}, 
-    {"track", &lxb_html_tag_res_data[152], 5, 0}, {"label", &lxb_html_tag_res_data[78], 5, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"ms", &lxb_html_tag_res_data[97], 2, 0}, 
-    {"i", &lxb_html_tag_res_data[69], 1, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"th", &lxb_html_tag_res_data[147], 2, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"listing", &lxb_html_tag_res_data[82], 7, 0}, 
-    {NULL, NULL, 0, 0}, {"dd", &lxb_html_tag_res_data[37], 2, 0}, 
-    {"cite", &lxb_html_tag_res_data[31], 4, 13}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"applet", &lxb_html_tag_res_data[11], 6, 0}, {"bdi", &lxb_html_tag_res_data[19], 3, 14}, 
-    {NULL, NULL, 0, 0}, {"mglyph", &lxb_html_tag_res_data[93], 6, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"h4", &lxb_html_tag_res_data[61], 2, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"#end-of-file", &lxb_html_tag_res_data[1], 12, 0}, {"time", &lxb_html_tag_res_data[149], 4, 0}, 
-    {"table", &lxb_html_tag_res_data[141], 5, 16}, {"rp", &lxb_html_tag_res_data[120], 2, 0}, 
-    {NULL, NULL, 0, 0}, {"template", &lxb_html_tag_res_data[144], 8, 0}, 
-    {NULL, NULL, 0, 0}, {"td", &lxb_html_tag_res_data[143], 2, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"thead", &lxb_html_tag_res_data[148], 5, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"slot", &lxb_html_tag_res_data[129], 4, 0}, 
-    {NULL, NULL, 0, 0}, {"script", &lxb_html_tag_res_data[126], 6, 17}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"mn", &lxb_html_tag_res_data[95], 2, 0}, {NULL, NULL, 0, 0}, 
-    {"main", &lxb_html_tag_res_data[83], 4, 0}, {NULL, NULL, 0, 0}, 
-    {"br", &lxb_html_tag_res_data[26], 2, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"textarea", &lxb_html_tag_res_data[145], 8, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"wbr", &lxb_html_tag_res_data[158], 3, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"center", &lxb_html_tag_res_data[30], 6, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"object", &lxb_html_tag_res_data[106], 6, 18}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"audio", &lxb_html_tag_res_data[15], 5, 0}, {NULL, NULL, 0, 0}, 
-    {"mtext", &lxb_html_tag_res_data[98], 5, 0}, {"input", &lxb_html_tag_res_data[73], 5, 0}, 
-    {NULL, NULL, 0, 0}, {"link", &lxb_html_tag_res_data[81], 4, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"b", &lxb_html_tag_res_data[16], 1, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"desc", &lxb_html_tag_res_data[39], 4, 0}, 
-    {NULL, NULL, 0, 0}, {"h1", &lxb_html_tag_res_data[58], 2, 0}, 
-    {NULL, NULL, 0, 0}, {"mi", &lxb_html_tag_res_data[94], 2, 20}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"#undef", &lxb_html_tag_res_data[0], 6, 0}, 
-    {"dt", &lxb_html_tag_res_data[46], 2, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"datalist", &lxb_html_tag_res_data[36], 8, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"address", &lxb_html_tag_res_data[9], 7, 0}, 
-    {NULL, NULL, 0, 0}, {"caption", &lxb_html_tag_res_data[29], 7, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"plaintext", &lxb_html_tag_res_data[115], 9, 0}, 
-    {NULL, NULL, 0, 0}, {"blink", &lxb_html_tag_res_data[23], 5, 0}, 
-    {"mo", &lxb_html_tag_res_data[96], 2, 21}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"optgroup", &lxb_html_tag_res_data[108], 8, 0}, {NULL, NULL, 0, 0}, 
-    {"kbd", &lxb_html_tag_res_data[76], 3, 0}, {NULL, NULL, 0, 0}, 
-    {"col", &lxb_html_tag_res_data[33], 3, 0}, {"nobr", &lxb_html_tag_res_data[102], 4, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"h5", &lxb_html_tag_res_data[62], 2, 0}, {"mfenced", &lxb_html_tag_res_data[92], 7, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"menu", &lxb_html_tag_res_data[89], 4, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"basefont", &lxb_html_tag_res_data[18], 8, 0}, {"a", &lxb_html_tag_res_data[6], 1, 0}, 
-    {"xmp", &lxb_html_tag_res_data[159], 3, 0}, {"nextid", &lxb_html_tag_res_data[101], 6, 0}, 
-    {"area", &lxb_html_tag_res_data[12], 4, 22}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"option", &lxb_html_tag_res_data[109], 6, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"image", &lxb_html_tag_res_data[71], 5, 0}, 
-    {"iframe", &lxb_html_tag_res_data[70], 6, 0}, {NULL, NULL, 0, 0}, 
-    {"hr", &lxb_html_tag_res_data[67], 2, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"keygen", &lxb_html_tag_res_data[77], 6, 0}, 
-    {"header", &lxb_html_tag_res_data[65], 6, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"details", &lxb_html_tag_res_data[40], 7, 0}, 
-    {NULL, NULL, 0, 0}, {"u", &lxb_html_tag_res_data[154], 1, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"bgsound", &lxb_html_tag_res_data[21], 7, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"ol", &lxb_html_tag_res_data[107], 2, 0}, {NULL, NULL, 0, 0}, 
-    {"aside", &lxb_html_tag_res_data[14], 5, 0}, {NULL, NULL, 0, 0}, 
-    {"article", &lxb_html_tag_res_data[13], 7, 0}, {"map", &lxb_html_tag_res_data[85], 3, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"noscript", &lxb_html_tag_res_data[105], 8, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"style", &lxb_html_tag_res_data[136], 5, 0}, 
-    {"source", &lxb_html_tag_res_data[131], 6, 23}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"head", &lxb_html_tag_res_data[64], 4, 0}, {NULL, NULL, 0, 0}, 
-    {"h2", &lxb_html_tag_res_data[59], 2, 24}, {"small", &lxb_html_tag_res_data[130], 5, 0}
+    {NULL, NULL, 0, 0}, {"h5", &lxb_html_tag_res_data[95], 2, 0}, 
+    {NULL, NULL, 0, 0}, {"ruby", &lxb_html_tag_res_data[158], 4, 120}, 
+    {"canvas", &lxb_html_tag_res_data[34], 6, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}
 };
 #endif /* LXB_HTML_TAG_RES_SHS_DATA_ENABLED */
 #endif /* LXB_HTML_TAG_RES_SHS_DATA */

@@ -1,0 +1,819 @@
+[
+    /* Test count: 48 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<address>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <address>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><address><p>foo</address>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <address>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<article>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <article>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><article><p>foo</article>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <article>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<aside>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <aside>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 6 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><aside><p>foo</aside>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <aside>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 7 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<blockquote>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <blockquote>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 8 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><blockquote><p>foo</blockquote>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <blockquote>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 9 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<center>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <center>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 10 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><center><p>foo</center>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <center>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 11 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<details>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <details>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 12 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><details><p>foo</details>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <details>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 13 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<dialog>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <dialog>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 14 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><dialog><p>foo</dialog>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <dialog>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 15 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<dir>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <dir>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 16 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><dir><p>foo</dir>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <dir>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 17 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<div>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <div>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 18 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><div><p>foo</div>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <div>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 19 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<dl>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <dl>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 20 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><dl><p>foo</dl>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <dl>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 21 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<fieldset>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <fieldset>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 22 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><fieldset><p>foo</fieldset>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <fieldset>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 23 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<figcaption>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <figcaption>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 24 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><figcaption><p>foo</figcaption>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <figcaption>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 25 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<figure>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <figure>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 26 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><figure><p>foo</figure>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <figure>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 27 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<footer>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <footer>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 28 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><footer><p>foo</footer>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <footer>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 29 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<header>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <header>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 30 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><header><p>foo</header>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <header>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 31 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<hgroup>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <hgroup>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 32 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><hgroup><p>foo</hgroup>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <hgroup>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 33 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<listing>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <listing>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 34 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><listing><p>foo</listing>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <listing>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 35 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<menu>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <menu>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 36 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><menu><p>foo</menu>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <menu>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 37 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<nav>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <nav>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 38 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><nav><p>foo</nav>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <nav>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 39 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<ol>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <ol>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 40 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><ol><p>foo</ol>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <ol>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 41 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<pre>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <pre>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 42 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><pre><p>foo</pre>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <pre>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 43 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<section>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <section>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 44 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><section><p>foo</section>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <section>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 45 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<summary>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <summary>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 46 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><summary><p>foo</summary>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <summary>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 47 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<ul>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <ul>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 48 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><ul><p>foo</ul>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <ul>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+]

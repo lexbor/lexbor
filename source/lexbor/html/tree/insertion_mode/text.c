@@ -38,7 +38,7 @@ lxb_html_tree_insertion_mode_text(lxb_html_tree_t *tree,
 
             tree->mode = tree->original_mode;
 
-            break;
+            return false;
         }
 
         /* TODO: need to implement */

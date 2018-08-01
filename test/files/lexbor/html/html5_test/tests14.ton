@@ -1,0 +1,91 @@
+[
+    /* Test count: 7 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html><html><body><xyz:abc></xyz:abc>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <xyz:abc>
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html><html><body><xyz:abc></xyz:abc><span></span>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <xyz:abc>
+                <span>
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html><html><html abc:def=gh><xyz:abc></xyz:abc>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html abc:def="gh">
+              <head>
+              <body>
+                <xyz:abc>
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html><html xml:lang=bar><html xml:lang=foo>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html xml:lang="bar">
+              <head>
+              <body>
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html><html 123=456>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html 123="456">
+              <head>
+              <body>
+        $DATA
+    },
+    /* Test number: 6 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html><html 123=456><html 789=012>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html 123="456" 789="012">
+              <head>
+              <body>
+        $DATA
+    },
+    /* Test number: 7 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html><html><body 789=012>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body 789="012">
+        $DATA
+    },
+]

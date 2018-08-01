@@ -344,7 +344,7 @@ lxb_html_tree_insertion_mode_in_body_text(lxb_html_tree_t *tree,
 
         while (pos != end) {
             if (lexbor_tokenizer_chars_map[*pos]
-                == LEXBOR_STR_RES_MAP_CHAR_WHITESPACE)
+                != LEXBOR_STR_RES_MAP_CHAR_WHITESPACE)
             {
                 tree->frameset_ok = false;
                 break;
@@ -459,7 +459,6 @@ lxb_html_tree_insertion_mode_in_body_frameset(lxb_html_tree_t *tree,
                                               lxb_html_token_t *token)
 {
     lxb_dom_node_t *node;
-    lxb_dom_element_t *body;
     lxb_html_element_t *element;
 
     lxb_html_tree_parse_error(tree, token, LXB_HTML_RULES_ERROR_UNTO);
@@ -473,18 +472,11 @@ lxb_html_tree_insertion_mode_in_body_frameset(lxb_html_tree_t *tree,
         return true;
     }
 
-    body = lxb_dom_interface_element(node);
-
-    tree->status = lxb_html_tree_append_attributes(tree, body, token, node->ns);
-    if (tree->status != LXB_HTML_STATUS_OK) {
-        return lxb_html_tree_process_abort(tree);
-    }
-
     lxb_html_tree_node_delete_deep(tree, node);
 
     /* node is HTML */
     node = lxb_html_tree_open_elements_get(tree, 0);
-    lxb_html_tree_open_elements_pop_until_node(tree, node, true);
+    lxb_html_tree_open_elements_pop_until_node(tree, node, false);
 
     element = lxb_html_tree_insert_html_element(tree, token);
     if (element == NULL) {
@@ -1053,8 +1045,6 @@ lxb_html_tree_insertion_mode_in_body_p_closed(lxb_html_tree_t *tree,
 
             return lxb_html_tree_process_abort(tree);
         }
-
-        return true;
     }
 
     lxb_html_tree_close_p_element(tree, token);
@@ -1478,10 +1468,13 @@ lxb_html_tree_insertion_mode_in_body_input(lxb_html_tree_t *tree,
                                          (lxb_char_t *) "type", 4);
     if (attr != NULL) {
         if (attr->value.data == NULL || attr->value.length != 6
-            || lexbor_str_data_cmp(attr->value.data, (lxb_char_t *) "type") == false)
+            || lexbor_str_data_cmp(attr->value.data, (lxb_char_t *) "hidden") == false)
         {
             tree->frameset_ok = false;
         }
+    }
+    else {
+        tree->frameset_ok = false;
     }
 
     return true;
@@ -1810,7 +1803,7 @@ lxb_html_tree_insertion_mode_in_body_math(lxb_html_tree_t *tree,
     tree->before_append_attr = lxb_html_tree_adjust_attributes_mathml;
 
     element = lxb_html_tree_insert_foreign_element(tree, token,
-                                                   LXB_HTML_NS_MATHML);
+                                                   LXB_HTML_NS_MATH);
     if (element == NULL) {
         tree->before_append_attr = NULL;
         tree->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;

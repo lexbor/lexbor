@@ -78,7 +78,7 @@ lxb_html_in_ncasecmp(lexbor_in_node_t *node,
             return false;
         }
 
-        return lexbor_str_data_ncmp(begin, data, len);
+        return lexbor_str_data_ncasecmp(begin, data, len);
     }
 
     size_t n;

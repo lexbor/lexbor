@@ -7,3 +7,4 @@ module_target_html_clean:
 	rm -f $(PROJECT_MODULE_html_EXECUTE)
 
 module_target_html_tokenizer_tokens_args_1 := ../files/lexbor/html/tokenizer
+module_target_html_tree_builder_args_1 := ../files/lexbor/html/html5_test

@@ -59,6 +59,18 @@ lxb_html_document_destroy(lxb_html_document_t *document);
 /*
  * Inline functions
  */
+lxb_inline lxb_dom_document_t *
+lxb_html_document_original_ref(lxb_html_document_t *document)
+{
+    if (lxb_dom_interface_node(document)->owner_document
+        != &document->dom_document)
+    {
+        return lxb_dom_interface_node(document)->owner_document;
+    }
+
+    return lxb_dom_interface_document(document);
+}
+
 lxb_inline lexbor_mraw_t*
 lxb_html_document_mraw_text(lxb_html_document_t *document)
 {

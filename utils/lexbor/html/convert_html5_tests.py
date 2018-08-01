@@ -78,9 +78,19 @@ class Converter:
         # data
         data = "\n    ".join(entry["data"]).split("\n")
 
+        for idx in range(0, len(data)):
+            data[idx] = data[idx].replace(b"\r", b"\\r")
+            data[idx] = data[idx].replace(b"\0", b"\\0")
+
         result.append('"data": $DATA{ ,12}')
         result.append("    {}".format("\n        ".join(data)))
         result.append('$DATA,')
+
+        # script
+        if "script-on" in entry:
+            result.append('"scripting": true,')
+        elif "script-off" in entry:
+            result.append('"scripting": false,')
 
         # result
         if "document-fragment" in entry:
@@ -103,7 +113,14 @@ class Converter:
         # oh God...
 
         for line in entry["document"]:
-            fline = "{}\n".format(line[2:])
+            if re.match("^\| ", line) is not None:
+                fline = "{}\n".format(line[2:])
+
+            else:
+                fline = "{}\n".format(line)
+                new_doc.append(fline)
+
+                continue
 
             fnd = re.match("^(\s*?)<([^ ]+)\s+([^>]+)>", fline)
 
@@ -130,8 +147,7 @@ class Converter:
                         new_doc[-1] = re.sub(r">$", " {}>".format(fline), new_doc[-1])
 
             else:
-
-                    new_doc.append(fline)
+                new_doc.append(fline)
 
         data = "    ".join(new_doc).split("\n")[:-1]
 

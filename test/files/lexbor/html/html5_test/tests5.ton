@@ -1,0 +1,240 @@
+[
+    /* Test count: 17 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <style> <!-- </style>x
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <style>
+                  " <!-- "
+              <body>
+                "x"
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <style> <!-- </style> --> </style>x
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <style>
+                  " <!-- "
+                " "
+              <body>
+                "--> x"
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <style> <!--> </style>x
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <style>
+                  " <!--> "
+              <body>
+                "x"
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <style> <!---> </style>x
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <style>
+                  " <!---> "
+              <body>
+                "x"
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
+            <iframe> <!---> </iframe>x
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <iframe>
+                  " <!---> "
+                "x"
+        $DATA
+    },
+    /* Test number: 6 */
+    {
+        "data": $DATA{ ,12}
+            <iframe> <!--- </iframe>->x</iframe> --> </iframe>x
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <iframe>
+                  " <!--- "
+                "->x --> x"
+        $DATA
+    },
+    /* Test number: 7 */
+    {
+        "data": $DATA{ ,12}
+            <script> <!-- </script> --> </script>x
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <script>
+                  " <!-- "
+                " "
+              <body>
+                "--> x"
+        $DATA
+    },
+    /* Test number: 8 */
+    {
+        "data": $DATA{ ,12}
+            <title> <!-- </title> --> </title>x
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <title>
+                  " <!-- "
+                " "
+              <body>
+                "--> x"
+        $DATA
+    },
+    /* Test number: 9 */
+    {
+        "data": $DATA{ ,12}
+            <textarea> <!--- </textarea>->x</textarea> --> </textarea>x
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <textarea>
+                  " <!--- "
+                "->x --> x"
+        $DATA
+    },
+    /* Test number: 10 */
+    {
+        "data": $DATA{ ,12}
+            <style> <!</-- </style>x
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <style>
+                  " <!</-- "
+              <body>
+                "x"
+        $DATA
+    },
+    /* Test number: 11 */
+    {
+        "data": $DATA{ ,12}
+            <p><xmp></xmp>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <p>
+                <xmp>
+        $DATA
+    },
+    /* Test number: 12 */
+    {
+        "data": $DATA{ ,12}
+            <xmp> <!-- > --> </xmp>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <xmp>
+                  " <!-- > --> "
+        $DATA
+    },
+    /* Test number: 13 */
+    {
+        "data": $DATA{ ,12}
+            <title>&amp;</title>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <title>
+                  "&"
+              <body>
+        $DATA
+    },
+    /* Test number: 14 */
+    {
+        "data": $DATA{ ,12}
+            <title><!--&amp;--></title>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <title>
+                  "<!--&-->"
+              <body>
+        $DATA
+    },
+    /* Test number: 15 */
+    {
+        "data": $DATA{ ,12}
+            <title><!--</title>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <title>
+                  "<!--"
+              <body>
+        $DATA
+    },
+    /* Test number: 16 */
+    {
+        "data": $DATA{ ,12}
+            <noscript><!--</noscript>--></noscript>
+        $DATA,
+        "scripting": true,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+                  "<!--"
+              <body>
+                "-->"
+        $DATA
+    },
+    /* Test number: 17 */
+    {
+        "data": $DATA{ ,12}
+            <noscript><!--</noscript>--></noscript>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+                  <!-- </noscript> -->
+              <body>
+        $DATA
+    },
+]

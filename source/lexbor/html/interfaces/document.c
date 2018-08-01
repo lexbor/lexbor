@@ -10,9 +10,11 @@
 lxb_html_document_t *
 lxb_html_document_create(lxb_html_document_t *document)
 {
-    if (document != NULL) {
-        lxb_html_document_t *doc;
+    lxb_dom_node_t *node;
+    lxb_html_document_t *doc;
+    lexbor_mraw_t *mraw, *text;
 
+    if (document != NULL) {
         doc = lexbor_mraw_calloc(document->mem->mraw,
                                  sizeof(lxb_html_document_t));
         if (doc == NULL) {
@@ -20,10 +22,14 @@ lxb_html_document_create(lxb_html_document_t *document)
         }
 
         doc->dom_document.type = LXB_DOM_DOCUMENT_DTYPE_HTML;
+        doc->mem = document->mem;
 
-        lxb_dom_node_t *node = lxb_dom_interface_node(doc);
+        node = lxb_dom_interface_node(doc);
 
         node->owner_document = lxb_dom_interface_document(document);
+        node->owner_document->mraw = document->mem->mraw;
+        node->owner_document->text = document->mem->text;
+
         node->type = LXB_DOM_NODE_TYPE_DOCUMENT;
 
         node->tag_id = LXB_HTML_TAG__DOCUMENT;
@@ -31,10 +37,6 @@ lxb_html_document_create(lxb_html_document_t *document)
 
         return doc;
     }
-
-    lxb_dom_node_t *node;
-    lxb_html_document_t *doc;
-    lexbor_mraw_t *mraw, *text;
 
     /* For nodes */
     mraw = lexbor_mraw_create();
@@ -70,13 +72,13 @@ lxb_html_document_create(lxb_html_document_t *document)
     node = lxb_dom_interface_node(doc);
 
     node->owner_document = lxb_dom_interface_document(doc);
+    node->owner_document->mraw = mraw;
+    node->owner_document->text = text;
+
     node->type = LXB_DOM_NODE_TYPE_DOCUMENT;
 
     node->tag_id = LXB_HTML_TAG__DOCUMENT;
     node->ns = LXB_HTML_NS_HTML;
-
-    node->owner_document->mraw = mraw;
-    node->owner_document->text = text;
 
     return doc;
 
@@ -127,7 +129,9 @@ lxb_html_document_destroy(lxb_html_document_t *document)
         return NULL;
     }
 
-    if (document->mem == NULL) {
+    if (lxb_dom_interface_node(document)->owner_document
+        != &document->dom_document)
+    {
         lxb_dom_document_t *owner;
 
         /*

@@ -1,0 +1,344 @@
+[
+    /* Test count: 21 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rb>b<rb></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rb>
+                    "b"
+                  <rb>
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rb>b<rt></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rb>
+                    "b"
+                  <rt>
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rb>b<rtc></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rb>
+                    "b"
+                  <rtc>
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rb>b<rp></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rb>
+                    "b"
+                  <rp>
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rb>b<span></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rb>
+                    "b"
+                    <span>
+        $DATA
+    },
+    /* Test number: 6 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rt>b<rb></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rt>
+                    "b"
+                  <rb>
+        $DATA
+    },
+    /* Test number: 7 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rt>b<rt></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rt>
+                    "b"
+                  <rt>
+        $DATA
+    },
+    /* Test number: 8 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rt>b<rtc></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rt>
+                    "b"
+                  <rtc>
+        $DATA
+    },
+    /* Test number: 9 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rt>b<rp></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rt>
+                    "b"
+                  <rp>
+        $DATA
+    },
+    /* Test number: 10 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rt>b<span></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rt>
+                    "b"
+                    <span>
+        $DATA
+    },
+    /* Test number: 11 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rtc>b<rb></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rtc>
+                    "b"
+                  <rb>
+        $DATA
+    },
+    /* Test number: 12 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rtc>
+                    "b"
+                    <rt>
+                      "c"
+                    <rt>
+                      "d"
+        $DATA
+    },
+    /* Test number: 13 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rtc>b<rtc></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rtc>
+                    "b"
+                  <rtc>
+        $DATA
+    },
+    /* Test number: 14 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rtc>b<rp></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rtc>
+                    "b"
+                    <rp>
+        $DATA
+    },
+    /* Test number: 15 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rtc>b<span></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rtc>
+                    "b"
+                    <span>
+        $DATA
+    },
+    /* Test number: 16 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rp>b<rb></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rp>
+                    "b"
+                  <rb>
+        $DATA
+    },
+    /* Test number: 17 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rp>b<rt></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rp>
+                    "b"
+                  <rt>
+        $DATA
+    },
+    /* Test number: 18 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rp>b<rtc></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rp>
+                    "b"
+                  <rtc>
+        $DATA
+    },
+    /* Test number: 19 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rp>b<rp></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rp>
+                    "b"
+                  <rp>
+        $DATA
+    },
+    /* Test number: 20 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby>a<rp>b<span></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  "a"
+                  <rp>
+                    "b"
+                    <span>
+        $DATA
+    },
+    /* Test number: 21 */
+    {
+        "data": $DATA{ ,12}
+            <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <ruby>
+                  <rtc>
+                    <ruby>
+                      "a"
+                      <rb>
+                        "b"
+                      <rt>
+        $DATA
+    },
+]

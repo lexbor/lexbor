@@ -13,6 +13,7 @@ extern "C" {
 
 #include "lexbor/core/shbst.h"
 #include "lexbor/core/dobject.h"
+#include "lexbor/core/str.h"
 
 #include "lexbor/html/base.h"
 #include "lexbor/html/ns_const.h"
@@ -24,8 +25,10 @@ typedef struct {
     const lxb_char_t              *name;
     size_t                        name_len;
     lxb_html_tag_id_t             tag_id;
+
     lxb_html_tag_category_t       cats[LXB_HTML_NS__LAST_ENTRY];
     lxb_html_interface_creation_f interface[LXB_HTML_NS__LAST_ENTRY];
+    lexbor_str_t                  *fixname[LXB_HTML_NS__LAST_ENTRY];
 }
 lxb_html_tag_data_t;
 
@@ -81,7 +84,8 @@ lxb_html_tag_data_by_name(lxb_html_tag_heap_t *tag_heap,
 
 const lxb_char_t *
 lxb_html_tag_name_by_id(lxb_html_tag_heap_t *tag_heap,
-                        lxb_html_tag_id_t tag_id, size_t *len);
+                        lxb_html_tag_id_t tag_id, lxb_html_ns_id_t ns,
+                        size_t *len);
 
 lxb_html_tag_id_t
 lxb_html_tag_id_by_name(lxb_html_tag_heap_t *tag_heap,

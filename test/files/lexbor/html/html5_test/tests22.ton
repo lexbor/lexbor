@@ -1,0 +1,146 @@
+[
+    /* Test count: 5 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <a><b><big><em><strong><div>X</a>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <a>
+                  <b>
+                    <big>
+                      <em>
+                        <strong>
+                <big>
+                  <em>
+                    <strong>
+                      <div>
+                        <a>
+                          "X"
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <a><b><div id=1><div id=2><div id=3><div id=4><div id=5><div id=6><div id=7><div id=8>A</a>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <a>
+                  <b>
+                <b>
+                  <div id="1">
+                    <a>
+                    <div id="2">
+                      <a>
+                      <div id="3">
+                        <a>
+                        <div id="4">
+                          <a>
+                          <div id="5">
+                            <a>
+                            <div id="6">
+                              <a>
+                              <div id="7">
+                                <a>
+                                <div id="8">
+                                  <a>
+                                    "A"
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <a><b><div id=1><div id=2><div id=3><div id=4><div id=5><div id=6><div id=7><div id=8><div id=9>A</a>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <a>
+                  <b>
+                <b>
+                  <div id="1">
+                    <a>
+                    <div id="2">
+                      <a>
+                      <div id="3">
+                        <a>
+                        <div id="4">
+                          <a>
+                          <div id="5">
+                            <a>
+                            <div id="6">
+                              <a>
+                              <div id="7">
+                                <a>
+                                <div id="8">
+                                  <a>
+                                    <div id="9">
+                                      "A"
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <a><b><div id=1><div id=2><div id=3><div id=4><div id=5><div id=6><div id=7><div id=8><div id=9><div id=10>A</a>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <a>
+                  <b>
+                <b>
+                  <div id="1">
+                    <a>
+                    <div id="2">
+                      <a>
+                      <div id="3">
+                        <a>
+                        <div id="4">
+                          <a>
+                          <div id="5">
+                            <a>
+                            <div id="6">
+                              <a>
+                              <div id="7">
+                                <a>
+                                <div id="8">
+                                  <a>
+                                    <div id="9">
+                                      <div id="10">
+                                        "A"
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
+            <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <cite>
+                  <b>
+                    <cite>
+                      <i>
+                        <cite>
+                          <i>
+                            <cite>
+                              <i>
+                  <i>
+                    <i>
+                      <div>
+                        <b>
+                          "X"
+                        "TEST"
+        $DATA
+    },
+]

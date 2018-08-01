@@ -1,0 +1,192 @@
+[
+    /* Test count: 14 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            FOO<!-- BAR -->BAZ
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <!--  BAR  -->
+                "BAZ"
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            FOO<!-- BAR --!>BAZ
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <!--  BAR  -->
+                "BAZ"
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            FOO<!-- BAR --   >BAZ
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <!--  BAR --   >BAZ -->
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            FOO<!-- BAR -- <QUX> -- MUX -->BAZ
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <!--  BAR -- <QUX> -- MUX  -->
+                "BAZ"
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
+            FOO<!-- BAR -- <QUX> -- MUX --!>BAZ
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <!--  BAR -- <QUX> -- MUX  -->
+                "BAZ"
+        $DATA
+    },
+    /* Test number: 6 */
+    {
+        "data": $DATA{ ,12}
+            FOO<!-- BAR -- <QUX> -- MUX -- >BAZ
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <!--  BAR -- <QUX> -- MUX -- >BAZ -->
+        $DATA
+    },
+    /* Test number: 7 */
+    {
+        "data": $DATA{ ,12}
+            FOO<!---->BAZ
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <!--  -->
+                "BAZ"
+        $DATA
+    },
+    /* Test number: 8 */
+    {
+        "data": $DATA{ ,12}
+            FOO<!--->BAZ
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <!--  -->
+                "BAZ"
+        $DATA
+    },
+    /* Test number: 9 */
+    {
+        "data": $DATA{ ,12}
+            FOO<!-->BAZ
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <!--  -->
+                "BAZ"
+        $DATA
+    },
+    /* Test number: 10 */
+    {
+        "data": $DATA{ ,12}
+            <?xml version="1.0">Hi
+        $DATA,
+        "result": $DATA{ ,12}
+            <!-- ?xml version="1.0" -->
+            <html>
+              <head>
+              <body>
+                "Hi"
+        $DATA
+    },
+    /* Test number: 11 */
+    {
+        "data": $DATA{ ,12}
+            <?xml version="1.0">
+        $DATA,
+        "result": $DATA{ ,12}
+            <!-- ?xml version="1.0" -->
+            <html>
+              <head>
+              <body>
+        $DATA
+    },
+    /* Test number: 12 */
+    {
+        "data": $DATA{ ,12}
+            <?xml version
+        $DATA,
+        "result": $DATA{ ,12}
+            <!-- ?xml version -->
+            <html>
+              <head>
+              <body>
+        $DATA
+    },
+    /* Test number: 13 */
+    {
+        "data": $DATA{ ,12}
+            FOO<!----->BAZ
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <!-- - -->
+                "BAZ"
+        $DATA
+    },
+    /* Test number: 14 */
+    {
+        "data": $DATA{ ,12}
+            <html><!-- comment --><title>Comment before head</title>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <!--  comment  -->
+              <head>
+                <title>
+                  "Comment before head"
+              <body>
+        $DATA
+    },
+]

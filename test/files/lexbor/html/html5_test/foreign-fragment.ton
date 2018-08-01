@@ -1,0 +1,620 @@
+[
+    /* Test count: 58 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <nobr>X
+        $DATA,
+        "fragment": {"tag": "path", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <svg:nobr>
+              "X"
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <font color></font>X
+        $DATA,
+        "fragment": {"tag": "path", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <svg:font color>
+            "X"
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <font></font>X
+        $DATA,
+        "fragment": {"tag": "path", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <svg:font>
+            "X"
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <g></path>X
+        $DATA,
+        "fragment": {"tag": "path", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <svg:g>
+              "X"
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
+            </path>X
+        $DATA,
+        "fragment": {"tag": "path", "ns": "svg"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 6 */
+    {
+        "data": $DATA{ ,12}
+            </foreignObject>X
+        $DATA,
+        "fragment": {"tag": "foreignObject", "ns": "svg"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 7 */
+    {
+        "data": $DATA{ ,12}
+            </desc>X
+        $DATA,
+        "fragment": {"tag": "desc", "ns": "svg"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 8 */
+    {
+        "data": $DATA{ ,12}
+            </title>X
+        $DATA,
+        "fragment": {"tag": "title", "ns": "svg"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 9 */
+    {
+        "data": $DATA{ ,12}
+            </svg>X
+        $DATA,
+        "fragment": {"tag": "svg", "ns": "svg"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 10 */
+    {
+        "data": $DATA{ ,12}
+            </mfenced>X
+        $DATA,
+        "fragment": {"tag": "mfenced", "ns": "math"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 11 */
+    {
+        "data": $DATA{ ,12}
+            </malignmark>X
+        $DATA,
+        "fragment": {"tag": "malignmark", "ns": "math"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 12 */
+    {
+        "data": $DATA{ ,12}
+            </math>X
+        $DATA,
+        "fragment": {"tag": "math", "ns": "math"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 13 */
+    {
+        "data": $DATA{ ,12}
+            </annotation-xml>X
+        $DATA,
+        "fragment": {"tag": "annotation-xml", "ns": "math"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 14 */
+    {
+        "data": $DATA{ ,12}
+            </mtext>X
+        $DATA,
+        "fragment": {"tag": "mtext", "ns": "math"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 15 */
+    {
+        "data": $DATA{ ,12}
+            </mi>X
+        $DATA,
+        "fragment": {"tag": "mi", "ns": "math"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 16 */
+    {
+        "data": $DATA{ ,12}
+            </mo>X
+        $DATA,
+        "fragment": {"tag": "mo", "ns": "math"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 17 */
+    {
+        "data": $DATA{ ,12}
+            </mn>X
+        $DATA,
+        "fragment": {"tag": "mn", "ns": "math"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 18 */
+    {
+        "data": $DATA{ ,12}
+            </ms>X
+        $DATA,
+        "fragment": {"tag": "ms", "ns": "math"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 19 */
+    {
+        "data": $DATA{ ,12}
+            <b></b><mglyph/><i></i><malignmark/><u></u><ms/>X
+        $DATA,
+        "fragment": {"tag": "ms", "ns": "math"},
+        "result": $DATA{ ,12}
+            <b>
+            <math:mglyph>
+            <i>
+            <math:malignmark>
+            <u>
+            <ms>
+              "X"
+        $DATA
+    },
+    /* Test number: 20 */
+    {
+        "data": $DATA{ ,12}
+            <malignmark></malignmark>
+        $DATA,
+        "fragment": {"tag": "ms", "ns": "math"},
+        "result": $DATA{ ,12}
+            <math:malignmark>
+        $DATA
+    },
+    /* Test number: 21 */
+    {
+        "data": $DATA{ ,12}
+            <div></div>
+        $DATA,
+        "fragment": {"tag": "ms", "ns": "math"},
+        "result": $DATA{ ,12}
+            <div>
+        $DATA
+    },
+    /* Test number: 22 */
+    {
+        "data": $DATA{ ,12}
+            <figure></figure>
+        $DATA,
+        "fragment": {"tag": "ms", "ns": "math"},
+        "result": $DATA{ ,12}
+            <figure>
+        $DATA
+    },
+    /* Test number: 23 */
+    {
+        "data": $DATA{ ,12}
+            <b></b><mglyph/><i></i><malignmark/><u></u><mn/>X
+        $DATA,
+        "fragment": {"tag": "mn", "ns": "math"},
+        "result": $DATA{ ,12}
+            <b>
+            <math:mglyph>
+            <i>
+            <math:malignmark>
+            <u>
+            <mn>
+              "X"
+        $DATA
+    },
+    /* Test number: 24 */
+    {
+        "data": $DATA{ ,12}
+            <malignmark></malignmark>
+        $DATA,
+        "fragment": {"tag": "mn", "ns": "math"},
+        "result": $DATA{ ,12}
+            <math:malignmark>
+        $DATA
+    },
+    /* Test number: 25 */
+    {
+        "data": $DATA{ ,12}
+            <div></div>
+        $DATA,
+        "fragment": {"tag": "mn", "ns": "math"},
+        "result": $DATA{ ,12}
+            <div>
+        $DATA
+    },
+    /* Test number: 26 */
+    {
+        "data": $DATA{ ,12}
+            <figure></figure>
+        $DATA,
+        "fragment": {"tag": "mn", "ns": "math"},
+        "result": $DATA{ ,12}
+            <figure>
+        $DATA
+    },
+    /* Test number: 27 */
+    {
+        "data": $DATA{ ,12}
+            <b></b><mglyph/><i></i><malignmark/><u></u><mo/>X
+        $DATA,
+        "fragment": {"tag": "mo", "ns": "math"},
+        "result": $DATA{ ,12}
+            <b>
+            <math:mglyph>
+            <i>
+            <math:malignmark>
+            <u>
+            <mo>
+              "X"
+        $DATA
+    },
+    /* Test number: 28 */
+    {
+        "data": $DATA{ ,12}
+            <malignmark></malignmark>
+        $DATA,
+        "fragment": {"tag": "mo", "ns": "math"},
+        "result": $DATA{ ,12}
+            <math:malignmark>
+        $DATA
+    },
+    /* Test number: 29 */
+    {
+        "data": $DATA{ ,12}
+            <div></div>
+        $DATA,
+        "fragment": {"tag": "mo", "ns": "math"},
+        "result": $DATA{ ,12}
+            <div>
+        $DATA
+    },
+    /* Test number: 30 */
+    {
+        "data": $DATA{ ,12}
+            <figure></figure>
+        $DATA,
+        "fragment": {"tag": "mo", "ns": "math"},
+        "result": $DATA{ ,12}
+            <figure>
+        $DATA
+    },
+    /* Test number: 31 */
+    {
+        "data": $DATA{ ,12}
+            <b></b><mglyph/><i></i><malignmark/><u></u><mi/>X
+        $DATA,
+        "fragment": {"tag": "mi", "ns": "math"},
+        "result": $DATA{ ,12}
+            <b>
+            <math:mglyph>
+            <i>
+            <math:malignmark>
+            <u>
+            <mi>
+              "X"
+        $DATA
+    },
+    /* Test number: 32 */
+    {
+        "data": $DATA{ ,12}
+            <malignmark></malignmark>
+        $DATA,
+        "fragment": {"tag": "mi", "ns": "math"},
+        "result": $DATA{ ,12}
+            <math:malignmark>
+        $DATA
+    },
+    /* Test number: 33 */
+    {
+        "data": $DATA{ ,12}
+            <div></div>
+        $DATA,
+        "fragment": {"tag": "mi", "ns": "math"},
+        "result": $DATA{ ,12}
+            <div>
+        $DATA
+    },
+    /* Test number: 34 */
+    {
+        "data": $DATA{ ,12}
+            <figure></figure>
+        $DATA,
+        "fragment": {"tag": "mi", "ns": "math"},
+        "result": $DATA{ ,12}
+            <figure>
+        $DATA
+    },
+    /* Test number: 35 */
+    {
+        "data": $DATA{ ,12}
+            <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
+        $DATA,
+        "fragment": {"tag": "mtext", "ns": "math"},
+        "result": $DATA{ ,12}
+            <b>
+            <math:mglyph>
+            <i>
+            <math:malignmark>
+            <u>
+            <mtext>
+              "X"
+        $DATA
+    },
+    /* Test number: 36 */
+    {
+        "data": $DATA{ ,12}
+            <malignmark></malignmark>
+        $DATA,
+        "fragment": {"tag": "mtext", "ns": "math"},
+        "result": $DATA{ ,12}
+            <math:malignmark>
+        $DATA
+    },
+    /* Test number: 37 */
+    {
+        "data": $DATA{ ,12}
+            <div></div>
+        $DATA,
+        "fragment": {"tag": "mtext", "ns": "math"},
+        "result": $DATA{ ,12}
+            <div>
+        $DATA
+    },
+    /* Test number: 38 */
+    {
+        "data": $DATA{ ,12}
+            <figure></figure>
+        $DATA,
+        "fragment": {"tag": "mtext", "ns": "math"},
+        "result": $DATA{ ,12}
+            <figure>
+        $DATA
+    },
+    /* Test number: 39 */
+    {
+        "data": $DATA{ ,12}
+            <div></div>
+        $DATA,
+        "fragment": {"tag": "annotation-xml", "ns": "math"},
+        "result": $DATA{ ,12}
+            <math:div>
+        $DATA
+    },
+    /* Test number: 40 */
+    {
+        "data": $DATA{ ,12}
+            <figure></figure>
+        $DATA,
+        "fragment": {"tag": "annotation-xml", "ns": "math"},
+        "result": $DATA{ ,12}
+            <math:figure>
+        $DATA
+    },
+    /* Test number: 41 */
+    {
+        "data": $DATA{ ,12}
+            <div></div>
+        $DATA,
+        "fragment": {"tag": "math", "ns": "math"},
+        "result": $DATA{ ,12}
+            <math:div>
+        $DATA
+    },
+    /* Test number: 42 */
+    {
+        "data": $DATA{ ,12}
+            <figure></figure>
+        $DATA,
+        "fragment": {"tag": "math", "ns": "math"},
+        "result": $DATA{ ,12}
+            <math:figure>
+        $DATA
+    },
+    /* Test number: 43 */
+    {
+        "data": $DATA{ ,12}
+            <div></div>
+        $DATA,
+        "fragment": {"tag": "foreignObject", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <div>
+        $DATA
+    },
+    /* Test number: 44 */
+    {
+        "data": $DATA{ ,12}
+            <figure></figure>
+        $DATA,
+        "fragment": {"tag": "foreignObject", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <figure>
+        $DATA
+    },
+    /* Test number: 45 */
+    {
+        "data": $DATA{ ,12}
+            <div></div>
+        $DATA,
+        "fragment": {"tag": "title", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <div>
+        $DATA
+    },
+    /* Test number: 46 */
+    {
+        "data": $DATA{ ,12}
+            <figure></figure>
+        $DATA,
+        "fragment": {"tag": "title", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <figure>
+        $DATA
+    },
+    /* Test number: 47 */
+    {
+        "data": $DATA{ ,12}
+            <figure></figure>
+        $DATA,
+        "fragment": {"tag": "desc", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <figure>
+        $DATA
+    },
+    /* Test number: 48 */
+    {
+        "data": $DATA{ ,12}
+            <div><h1>X</h1></div>
+        $DATA,
+        "fragment": {"tag": "svg", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <svg:div>
+              <svg:h1>
+                "X"
+        $DATA
+    },
+    /* Test number: 49 */
+    {
+        "data": $DATA{ ,12}
+            <div></div>
+        $DATA,
+        "fragment": {"tag": "svg", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <svg:div>
+        $DATA
+    },
+    /* Test number: 50 */
+    {
+        "data": $DATA{ ,12}
+            <div></div>
+        $DATA,
+        "fragment": {"tag": "desc", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <div>
+        $DATA
+    },
+    /* Test number: 51 */
+    {
+        "data": $DATA{ ,12}
+            <figure></figure>
+        $DATA,
+        "fragment": {"tag": "desc", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <figure>
+        $DATA
+    },
+    /* Test number: 52 */
+    {
+        "data": $DATA{ ,12}
+            <plaintext><foo>
+        $DATA,
+        "fragment": {"tag": "desc", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <plaintext>
+              "<foo>"
+        $DATA
+    },
+    /* Test number: 53 */
+    {
+        "data": $DATA{ ,12}
+            <frameset>X
+        $DATA,
+        "fragment": {"tag": "desc", "ns": "svg"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 54 */
+    {
+        "data": $DATA{ ,12}
+            <head>X
+        $DATA,
+        "fragment": {"tag": "desc", "ns": "svg"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 55 */
+    {
+        "data": $DATA{ ,12}
+            <body>X
+        $DATA,
+        "fragment": {"tag": "desc", "ns": "svg"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 56 */
+    {
+        "data": $DATA{ ,12}
+            <html>X
+        $DATA,
+        "fragment": {"tag": "desc", "ns": "svg"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 57 */
+    {
+        "data": $DATA{ ,12}
+            <html class="foo">X
+        $DATA,
+        "fragment": {"tag": "desc", "ns": "svg"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+    /* Test number: 58 */
+    {
+        "data": $DATA{ ,12}
+            <body class="foo">X
+        $DATA,
+        "fragment": {"tag": "desc", "ns": "svg"},
+        "result": $DATA{ ,12}
+            "X"
+        $DATA
+    },
+]

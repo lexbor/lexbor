@@ -1,0 +1,101 @@
+[
+    /* Test count: 8 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <math><tr><td><mo><tr>
+        $DATA,
+        "fragment": {"tag": "td", "ns": "html"},
+        "result": $DATA{ ,12}
+            <math:math>
+              <math:tr>
+                <math:td>
+                  <math:mo>
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <math><tr><td><mo><tr>
+        $DATA,
+        "fragment": {"tag": "tr", "ns": "html"},
+        "result": $DATA{ ,12}
+            <math:math>
+              <math:tr>
+                <math:td>
+                  <math:mo>
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <math><thead><mo><tbody>
+        $DATA,
+        "fragment": {"tag": "thead", "ns": "html"},
+        "result": $DATA{ ,12}
+            <math:math>
+              <math:thead>
+                <math:mo>
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <math><tfoot><mo><tbody>
+        $DATA,
+        "fragment": {"tag": "tfoot", "ns": "html"},
+        "result": $DATA{ ,12}
+            <math:math>
+              <math:tfoot>
+                <math:mo>
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
+            <math><tbody><mo><tfoot>
+        $DATA,
+        "fragment": {"tag": "tbody", "ns": "html"},
+        "result": $DATA{ ,12}
+            <math:math>
+              <math:tbody>
+                <math:mo>
+        $DATA
+    },
+    /* Test number: 6 */
+    {
+        "data": $DATA{ ,12}
+            <math><tbody><mo></table>
+        $DATA,
+        "fragment": {"tag": "tbody", "ns": "html"},
+        "result": $DATA{ ,12}
+            <math:math>
+              <math:tbody>
+                <math:mo>
+        $DATA
+    },
+    /* Test number: 7 */
+    {
+        "data": $DATA{ ,12}
+            <math><thead><mo></table>
+        $DATA,
+        "fragment": {"tag": "tbody", "ns": "html"},
+        "result": $DATA{ ,12}
+            <math:math>
+              <math:thead>
+                <math:mo>
+        $DATA
+    },
+    /* Test number: 8 */
+    {
+        "data": $DATA{ ,12}
+            <math><tfoot><mo></table>
+        $DATA,
+        "fragment": {"tag": "tbody", "ns": "html"},
+        "result": $DATA{ ,12}
+            <math:math>
+              <math:tfoot>
+                <math:mo>
+        $DATA
+    },
+]

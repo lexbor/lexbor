@@ -54,6 +54,10 @@ lexbor_shbst_entry_t *
 lexbor_shbst_insert(lexbor_shbst_t *shbst, const lxb_char_t *key,
                     size_t key_size, void *value);
 
+lexbor_shbst_entry_t *
+lexbor_shbst_insert_lowercase(lexbor_shbst_t *shbst, const lxb_char_t *key,
+                              size_t key_size, void *value);
+
 /*
  * Insert a key without copying.
  * Key should always be created using 'keys' in lexbor_shbst_t structure.

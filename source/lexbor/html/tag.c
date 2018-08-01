@@ -142,7 +142,7 @@ lxb_html_tag_append(lxb_html_tag_heap_t *tag_heap,
         return NULL;
     }
 
-    entry = lexbor_shbst_insert(tag_heap->heap, name, len, data);
+    entry = lexbor_shbst_insert_lowercase(tag_heap->heap, name, len, data);
     if (entry == NULL) {
         return NULL;
     }
@@ -223,7 +223,8 @@ lxb_html_tag_data_by_name(lxb_html_tag_heap_t *tag_heap,
 
 const lxb_char_t *
 lxb_html_tag_name_by_id(lxb_html_tag_heap_t *tag_heap,
-                        lxb_html_tag_id_t tag_id, size_t *len)
+                        lxb_html_tag_id_t tag_id, lxb_html_ns_id_t ns,
+                        size_t *len)
 {
     const lxb_html_tag_data_t *entry;
 
@@ -247,6 +248,14 @@ lxb_html_tag_name_by_id(lxb_html_tag_heap_t *tag_heap,
         }
 
         return entry->name;
+    }
+
+    if (lxb_html_tag_res_data[tag_id].fixname[ns] != NULL) {
+        if (len != NULL) {
+            *len = lxb_html_tag_res_data[tag_id].fixname[ns]->length;
+        }
+
+        return lxb_html_tag_res_data[tag_id].fixname[ns]->data;
     }
 
     if (len != NULL) {

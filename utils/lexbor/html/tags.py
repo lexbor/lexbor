@@ -74,7 +74,7 @@ class Tags:
                 shs[tag] = {"key": tag}
 
                 if enum_name not in enum:
-                    enum[enum_name] = {"ns": [], "name": tag, "c_name": enum_name, "interface": []}
+                    enum[enum_name] = {"ns": [], "name": tag, "c_name": enum_name, "interface": [], "fixname": []}
 
                     for idx in self.ns_list:
                         default = self.ns[idx]["default"]
@@ -82,6 +82,7 @@ class Tags:
 
                         enum[enum_name]["ns"].append([])
                         enum[enum_name]["interface"].append(interface)
+                        enum[enum_name]["fixname"].append("NULL")
 
 
                 ns_id = self.ns[ns]["id"]
@@ -98,6 +99,9 @@ class Tags:
                 interface_type = data[ns][tag]["interface_type"]
 
                 enum[enum_name]["interface"][ns_id] = interfaces.make_function_create_name(interface_type, interface);
+
+                if "fixname" in data[ns][tag]:
+                    enum[enum_name]["fixname"][ns_id] = data[ns][tag]["fixname"]
 
                 if "sort" in data[ns][tag]:
                     enum[enum_name]["sort"] = data[ns][tag]["sort"]
@@ -137,6 +141,7 @@ class Tags:
         for entry in self.enum_list:
             ns = ["            "]
             interface = ["            "]
+            fixname = ["            "]
 
             for idx in range(0, len(entry["ns"]) - 1):
                 if len(entry["ns"][idx]) == 0:
@@ -152,6 +157,13 @@ class Tags:
                 interface.append("({}) {},".format(self.creation_interface, entry["interface"][idx]))
                 interface.append("\n            ")
 
+                if entry["fixname"][idx] != "NULL":
+                    fixname.append("&((lexbor_str_t) {{(lxb_char_t *) \"{}\", {}}}),".format(entry["fixname"][idx], len(entry["fixname"][idx])))
+                else:
+                    fixname.append("{},".format(entry["fixname"][idx]))
+
+                fixname.append("\n            ")
+
                 if idx % 2 == 1:
                     ns.append("\n            ")
 
@@ -162,8 +174,13 @@ class Tags:
 
             interface.append("({}) {}".format(self.creation_interface, entry["interface"][-1]))
 
-            res.append("{{(const lxb_char_t *) \"{}\", {}, {},\n        {{\n{}\n        }},\n        {{\n{}\n        }}\n    }}"
-                       .format(entry["name"], len(entry["name"]), entry["c_name"], "".join(ns), "".join(interface)))
+            if entry["fixname"][idx] != "NULL":
+                fixname.append("&((lexbor_str_t) {{(lxb_char_t *) \"{}\", {}}}),".format(entry["fixname"][-1], len(entry["fixname"][-1])))
+            else:
+                fixname.append("{},".format(entry["fixname"][-1]))
+
+            res.append("{{(const lxb_char_t *) \"{}\", {}, {},\n        {{\n{}\n        }},\n        {{\n{}\n        }},\n        {{\n{}\n        }}\n    }}"
+                       .format(entry["name"], len(entry["name"]), entry["c_name"], "".join(ns), "".join(interface), "".join(fixname)))
 
         return res.create(1, False, "\n".join(self.interfaces.make_includes()))
 
@@ -172,8 +189,9 @@ class Tags:
         res = LXB.Res("lxb_html_ns_data_t", self.ns_res_data, True, self.ns_last_entry_name)
 
         for name in self.ns_list:
-            res.append("{{\"{0}\", {1}, \"{2}\", {3}, {4}}}".format(
+            res.append("{{\"{0}\", \"{1}\", {2}, \"{3}\", {4}, {5}}}".format(
                 self.ns[name]["name"],
+                self.ns[name]["name"].lower(),
                 len(self.ns[name]["name"]),
                 self.ns[name]["link"],
                 len(self.ns[name]["link"]),

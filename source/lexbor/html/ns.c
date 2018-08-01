@@ -55,6 +55,24 @@ lxb_html_ns_name_by_id(lxb_html_ns_id_t ns_id, size_t *len)
 }
 
 const lxb_char_t *
+lxb_html_ns_lower_name_by_id(lxb_html_ns_id_t ns_id, size_t *len)
+{
+    if (ns_id >= LXB_HTML_NS__LAST_ENTRY) {
+        if (len != NULL) {
+            *len = 0;
+        }
+
+        return NULL;
+    }
+
+    if (len != NULL) {
+        *len = lxb_html_ns_res_data[ns_id].name_len;
+    }
+
+    return (const lxb_char_t *) lxb_html_ns_res_data[ns_id].name_lower;
+}
+
+const lxb_char_t *
 lxb_html_ns_link_by_id(lxb_html_ns_id_t ns_id, size_t *len)
 {
     if (ns_id >= LXB_HTML_NS__LAST_ENTRY) {

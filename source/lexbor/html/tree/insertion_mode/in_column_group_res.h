@@ -8,9 +8,9 @@
 #define LXB_HTML_TREE_INSERTION_MODE_IN_COLUMN_GROUP_H
 
 #ifdef LXB_HTML_TAG_CONST_VERSION
-#ifndef LXB_HTML_TAG_CONST_VERSION_05F7D41CB8640B01995E3DB66C13F365
+#ifndef LXB_HTML_TAG_CONST_VERSION_2377A0E45BE928EF37781E49FFCC38A5
 #error Mismatched tags version! See "lexbor/html/tag_const.h".
-#endif /* LXB_HTML_TAG_CONST_VERSION_05F7D41CB8640B01995E3DB66C13F365 */
+#endif /* LXB_HTML_TAG_CONST_VERSION_2377A0E45BE928EF37781E49FFCC38A5 */
 #else
 #error You need to include "lexbor/html/tag_const.h".
 #endif /* LXB_HTML_TAG_CONST_VERSION */
@@ -29,6 +29,12 @@ lxb_html_tree_insertion_mode_in_column_group_res[] =
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_ABBR */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_ACRONYM */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_ADDRESS */
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_ALTGLYPH */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_ALTGLYPHDEF */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_ALTGLYPHITEM */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_ANIMATECOLOR */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_ANIMATEMOTION */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_ANIMATETRANSFORM */,
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_ANNOTATION_XML */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_APPLET */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_AREA */
@@ -51,6 +57,7 @@ lxb_html_tree_insertion_mode_in_column_group_res[] =
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_CAPTION */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_CENTER */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_CITE */
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_CLIPPATH */,
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_CODE */
     lxb_html_tree_insertion_mode_in_column_group_col, /* LXB_HTML_TAG_COL */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_COLGROUP */
@@ -68,6 +75,31 @@ lxb_html_tree_insertion_mode_in_column_group_res[] =
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_DT */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_EM */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_EMBED */
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FEBLEND */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FECOLORMATRIX */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FECOMPONENTTRANSFER */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FECOMPOSITE */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FECONVOLVEMATRIX */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FEDIFFUSELIGHTING */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FEDISPLACEMENTMAP */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FEDISTANTLIGHT */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FEDROPSHADOW */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FEFLOOD */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FEFUNCA */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FEFUNCB */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FEFUNCG */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FEFUNCR */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FEGAUSSIANBLUR */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FEIMAGE */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FEMERGE */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FEMERGENODE */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FEMORPHOLOGY */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FEOFFSET */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FEPOINTLIGHT */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FESPECULARLIGHTING */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FESPOTLIGHT */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FETILE */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_FETURBULENCE */,
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_FIELDSET */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_FIGCAPTION */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_FIGURE */
@@ -77,6 +109,7 @@ lxb_html_tree_insertion_mode_in_column_group_res[] =
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_FORM */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_FRAME */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_FRAMESET */
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_GLYPHREF */,
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_H1 */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_H2 */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_H3 */
@@ -100,6 +133,7 @@ lxb_html_tree_insertion_mode_in_column_group_res[] =
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_LABEL */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_LEGEND */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_LI */
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_LINEARGRADIENT */,
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_LINK */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_LISTING */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_MAIN */
@@ -138,6 +172,7 @@ lxb_html_tree_insertion_mode_in_column_group_res[] =
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_PRE */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_PROGRESS */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_Q */
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_RADIALGRADIENT */,
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_RB */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_RP */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_RT */
@@ -165,6 +200,7 @@ lxb_html_tree_insertion_mode_in_column_group_res[] =
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_TD */
     lxb_html_tree_insertion_mode_in_column_group_template_open_closed, /* LXB_HTML_TAG_TEMPLATE */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_TEXTAREA */
+    lxb_html_tree_insertion_mode_in_column_group_anything_else /* LXB_HTML_TAG_TEXTPATH */,
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_TFOOT */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_TH */
     lxb_html_tree_insertion_mode_in_column_group_anything_else, /* LXB_HTML_TAG_THEAD */
@@ -194,6 +230,12 @@ lxb_html_tree_insertion_mode_in_column_group_closed_res[] =
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_ABBR */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_ACRONYM */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_ADDRESS */
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_ALTGLYPH */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_ALTGLYPHDEF */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_ALTGLYPHITEM */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_ANIMATECOLOR */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_ANIMATEMOTION */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_ANIMATETRANSFORM */,
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_ANNOTATION_XML */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_APPLET */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_AREA */
@@ -216,6 +258,7 @@ lxb_html_tree_insertion_mode_in_column_group_closed_res[] =
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_CAPTION */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_CENTER */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_CITE */
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_CLIPPATH */,
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_CODE */
     lxb_html_tree_insertion_mode_in_column_group_col_closed, /* LXB_HTML_TAG_COL */
     lxb_html_tree_insertion_mode_in_column_group_colgroup_closed, /* LXB_HTML_TAG_COLGROUP */
@@ -233,6 +276,31 @@ lxb_html_tree_insertion_mode_in_column_group_closed_res[] =
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_DT */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_EM */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_EMBED */
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FEBLEND */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FECOLORMATRIX */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FECOMPONENTTRANSFER */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FECOMPOSITE */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FECONVOLVEMATRIX */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FEDIFFUSELIGHTING */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FEDISPLACEMENTMAP */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FEDISTANTLIGHT */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FEDROPSHADOW */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FEFLOOD */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FEFUNCA */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FEFUNCB */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FEFUNCG */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FEFUNCR */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FEGAUSSIANBLUR */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FEIMAGE */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FEMERGE */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FEMERGENODE */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FEMORPHOLOGY */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FEOFFSET */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FEPOINTLIGHT */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FESPECULARLIGHTING */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FESPOTLIGHT */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FETILE */,
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_FETURBULENCE */,
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_FIELDSET */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_FIGCAPTION */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_FIGURE */
@@ -242,6 +310,7 @@ lxb_html_tree_insertion_mode_in_column_group_closed_res[] =
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_FORM */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_FRAME */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_FRAMESET */
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_GLYPHREF */,
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_H1 */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_H2 */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_H3 */
@@ -265,6 +334,7 @@ lxb_html_tree_insertion_mode_in_column_group_closed_res[] =
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_LABEL */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_LEGEND */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_LI */
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_LINEARGRADIENT */,
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_LINK */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_LISTING */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_MAIN */
@@ -303,6 +373,7 @@ lxb_html_tree_insertion_mode_in_column_group_closed_res[] =
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_PRE */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_PROGRESS */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_Q */
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_RADIALGRADIENT */,
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_RB */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_RP */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_RT */
@@ -330,6 +401,7 @@ lxb_html_tree_insertion_mode_in_column_group_closed_res[] =
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_TD */
     lxb_html_tree_insertion_mode_in_column_group_template_open_closed, /* LXB_HTML_TAG_TEMPLATE */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_TEXTAREA */
+    lxb_html_tree_insertion_mode_in_column_group_anything_else_closed /* LXB_HTML_TAG_TEXTPATH */,
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_TFOOT */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_TH */
     lxb_html_tree_insertion_mode_in_column_group_anything_else_closed, /* LXB_HTML_TAG_THEAD */

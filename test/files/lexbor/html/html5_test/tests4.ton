@@ -1,0 +1,76 @@
+[
+    /* Test count: 7 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            direct div content
+        $DATA,
+        "fragment": {"tag": "div", "ns": "html"},
+        "result": $DATA{ ,12}
+            "direct div content"
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            direct textarea content
+        $DATA,
+        "fragment": {"tag": "textarea", "ns": "html"},
+        "result": $DATA{ ,12}
+            "direct textarea content"
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            textarea content with <em>pseudo</em> <foo>markup
+        $DATA,
+        "fragment": {"tag": "textarea", "ns": "html"},
+        "result": $DATA{ ,12}
+            "textarea content with <em>pseudo</em> <foo>markup"
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            this is &#x0043;DATA inside a <style> element
+        $DATA,
+        "fragment": {"tag": "style", "ns": "html"},
+        "result": $DATA{ ,12}
+            "this is &#x0043;DATA inside a <style> element"
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
+            </plaintext>
+        $DATA,
+        "fragment": {"tag": "plaintext", "ns": "html"},
+        "result": $DATA{ ,12}
+            "</plaintext>"
+        $DATA
+    },
+    /* Test number: 6 */
+    {
+        "data": $DATA{ ,12}
+            setting html's innerHTML
+        $DATA,
+        "fragment": {"tag": "html", "ns": "html"},
+        "result": $DATA{ ,12}
+            <head>
+            <body>
+              "setting html's innerHTML"
+        $DATA
+    },
+    /* Test number: 7 */
+    {
+        "data": $DATA{ ,12}
+            <title>setting head's innerHTML</title>
+        $DATA,
+        "fragment": {"tag": "head", "ns": "html"},
+        "result": $DATA{ ,12}
+            <title>
+              "setting head's innerHTML"
+        $DATA
+    },
+]

@@ -1,0 +1,485 @@
+[
+    /* Test count: 37 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html>Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <!dOctYpE HtMl>Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPEhtml>Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE>Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE >
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE >Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE >
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 6 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato>Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato>
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 7 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato >Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato>
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 8 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato taco>Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato>
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 9 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato taco "ddd>Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato>
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 10 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato sYstEM>Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato>
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 11 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato sYstEM    >Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato>
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 12 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE   potato       sYstEM  ggg>Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato>
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 13 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato SYSTEM taco  >Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato>
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 14 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato SYSTEM 'taco"'>Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato SYSTEM "taco"">
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 15 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato SYSTEM "taco">Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato SYSTEM "taco">
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 16 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato SYSTEM "tai'co">Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato SYSTEM "tai'co">
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 17 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato SYSTEMtaco "ddd">Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato>
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 18 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato grass SYSTEM taco>Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato>
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 19 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato pUbLIc>Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato>
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 20 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato pUbLIc >Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato>
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 21 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato pUbLIcgoof>Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato>
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 22 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato PUBLIC goof>Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato>
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 23 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato PUBLIC "go'of">Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato PUBLIC "go'of">
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 24 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato PUBLIC 'go'of'>Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato PUBLIC "go">
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 25 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato PUBLIC 'go:hh   of' >Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato PUBLIC "go:hh   of">
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 26 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE potato PUBLIC "W3C-//dfdf" SYSTEM ggg>Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE potato PUBLIC "W3C-//dfdf">
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 27 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+               "http://www.w3.org/TR/html4/strict.dtd">Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 28 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE ...>Hello
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE ...>
+            <html>
+              <head>
+              <body>
+                "Hello"
+        $DATA
+    },
+    /* Test number: 29 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+            <html>
+              <head>
+              <body>
+        $DATA
+    },
+    /* Test number: 30 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
+            "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+            <html>
+              <head>
+              <body>
+        $DATA
+    },
+    /* Test number: 31 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE root-element [SYSTEM OR PUBLIC FPI] "uri" [ 
+            <!-- internal declarations -->
+            ]>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE root-element>
+            <html>
+              <head>
+              <body>
+                "]>"
+        $DATA
+    },
+    /* Test number: 32 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC
+              "-//WAPFORUM//DTD XHTML Mobile 1.0//EN"
+                "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+            <html>
+              <head>
+              <body>
+        $DATA
+    },
+    /* Test number: 33 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE HTML SYSTEM "http://www.w3.org/DTD/HTML4-strict.dtd"><body><b>Mine!</b></body>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html SYSTEM "http://www.w3.org/DTD/HTML4-strict.dtd">
+            <html>
+              <head>
+              <body>
+                <b>
+                  "Mine!"
+        $DATA
+    },
+    /* Test number: 34 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN""http://www.w3.org/TR/html4/strict.dtd">
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+            <html>
+              <head>
+              <body>
+        $DATA
+    },
+    /* Test number: 35 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"'http://www.w3.org/TR/html4/strict.dtd'>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+            <html>
+              <head>
+              <body>
+        $DATA
+    },
+    /* Test number: 36 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 4.01//EN"'http://www.w3.org/TR/html4/strict.dtd'>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+            <html>
+              <head>
+              <body>
+        $DATA
+    },
+    /* Test number: 37 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE HTML PUBLIC'-//W3C//DTD HTML 4.01//EN''http://www.w3.org/TR/html4/strict.dtd'>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+            <html>
+              <head>
+              <body>
+        $DATA
+    },
+]

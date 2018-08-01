@@ -21,7 +21,7 @@ lxb_html_o_list_element_create(lxb_html_document_t *document)
 
     lxb_dom_node_t *node = lxb_dom_interface_node(element);
 
-    node->owner_document = lxb_dom_interface_document(document);
+    node->owner_document = lxb_html_document_original_ref(document);
     node->type = LXB_DOM_NODE_TYPE_ELEMENT;
 
     return element;

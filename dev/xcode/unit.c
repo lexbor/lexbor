@@ -23,37 +23,40 @@ typedef struct {
 fragment_entry_t;
 
 
-lxb_status_t
+static lxb_status_t
 parse(const char *dir_path);
 
-lexbor_action_t
+static lexbor_action_t
 file_callback(const lxb_char_t *fullpath, size_t fullpath_len,
               const lxb_char_t *filename, size_t filename_len, void *ctx);
 
-void
+static void
 check_entries(unit_kv_t *kv, unit_kv_value_t *value, lxb_html_parser_t *parser);
 
-void
+static void
 check_entry(unit_kv_t *kv, unit_kv_value_t *value, lxb_html_parser_t *parser);
 
-void
-check_compare(unit_kv_t *kv, lxb_html_document_t *doc,
+static void
+check_compare(unit_kv_t *kv, lxb_dom_node_t *root,
               lexbor_str_t *data, lexbor_str_t *result);
 
-lxb_status_t
+static lxb_status_t
 serializer_callback(const lxb_char_t *data, size_t len, void *ctx);
 
-lexbor_str_t *
+static lexbor_str_t *
 hash_get_str(unit_kv_t *kv, unit_kv_value_t *hash, const char *name);
 
-fragment_entry_t
+static fragment_entry_t
 hash_get_fragment(unit_kv_t *kv, unit_kv_value_t *hash);
+
+static bool
+hash_get_scripting(unit_kv_t *kv, unit_kv_value_t *hash);
 
 static void
 print_error(unit_kv_t *kv, unit_kv_value_t *value);
 
 
-lxb_status_t
+static lxb_status_t
 parse(const char *dir_path)
 {
     lxb_status_t status;
@@ -70,7 +73,7 @@ parse(const char *dir_path)
     return status;
 }
 
-lexbor_action_t
+static lexbor_action_t
 file_callback(const lxb_char_t *fullpath, size_t fullpath_len,
               const lxb_char_t *filename, size_t filename_len, void *ctx)
 {
@@ -123,7 +126,7 @@ file_callback(const lxb_char_t *fullpath, size_t fullpath_len,
     return LEXBOR_ACTION_OK;
 }
 
-void
+static void
 check_entries(unit_kv_t *kv, unit_kv_value_t *value, lxb_html_parser_t *parser)
 {
     unit_kv_array_t *entries = unit_kv_array(value);
@@ -172,46 +175,84 @@ check_entries(unit_kv_t *kv, unit_kv_value_t *value, lxb_html_parser_t *parser)
     }
 }
 
-void
+static void
 check_entry(unit_kv_t *kv, unit_kv_value_t *hash, lxb_html_parser_t *parser)
 {
+    lxb_dom_node_t *root;
     lxb_html_document_t *document;
+
+    bool scripting = hash_get_scripting(kv, hash);
 
     lexbor_str_t *data = hash_get_str(kv, hash, "data");
     lexbor_str_t *result = hash_get_str(kv, hash, "result");
     fragment_entry_t fragment = hash_get_fragment(kv, hash);
 
-    document = lxb_html_parse(parser, data->data, data->length);
-    if (document == NULL) {
-        TEST_PRINTLN("Failed to parse data:");
-        TEST_FAILURE("%s", data->data);
+    lxb_html_tree_scripting_set(parser->tree, scripting);
+
+    if (fragment.tag_id != LXB_HTML_TAG__UNDEF) {
+        root = lxb_html_parse_fragment_by_tag_id(parser, NULL,
+                                                 fragment.tag_id, fragment.ns,
+                                                 data->data, data->length);
+        if (root == NULL) {
+            TEST_PRINTLN("Failed to parse fragment data:");
+            TEST_FAILURE("%s", data->data);
+        }
+    }
+    else {
+        document = lxb_html_parse(parser, data->data, data->length);
+        if (document == NULL) {
+            TEST_PRINTLN("Failed to parse data:");
+            TEST_FAILURE("%s", data->data);
+        }
+
+        root = lxb_dom_interface_node(document);
     }
 
-    check_compare(kv, document, data, result);
+    check_compare(kv, root, data, result);
 }
 
-void
-check_compare(unit_kv_t *kv, lxb_html_document_t *doc,
+static void
+check_compare(unit_kv_t *kv, lxb_dom_node_t *root,
               lexbor_str_t *data, lexbor_str_t *want)
 {
     lxb_status_t status;
     lexbor_str_t res = {0};
 
-    lexbor_mraw_t *mraw = lxb_html_document_mraw_text(doc);
-
-    lexbor_str_init(&res, mraw, 0);
-    if (res.data == NULL) {
-        
-    }
-
-    status = lxb_html_serialize_pretty_tree_cb(lxb_dom_interface_node(doc),
-                                               0, 0, serializer_callback, NULL);
+    status = lxb_html_serialize_pretty_tree_str(root,
+                                                LXB_HTML_SERIALIZE_OPT_WITHOUT_CLOSING
+                                                |LXB_HTML_SERIALIZE_OPT_RAW
+                                                |LXB_HTML_SERIALIZE_OPT_TAG_WITH_NS
+                                                |LXB_HTML_SERIALIZE_OPT_WITHOUT_TEXT_INDENT
+                                                |LXB_HTML_SERIALIZE_OPT_FULL_DOCTYPE,
+                                                0, &res);
     if (status != LXB_STATUS_OK) {
         TEST_FAILURE("Failed to serialization tree");
     }
+
+    /* Skip last \n */
+    if (res.length != 0) {
+        res.length--;
+        res.data[ res.length ] = 0x00;
+    }
+
+    if (res.length == want->length
+        && lexbor_str_data_cmp(res.data, want->data))
+    {
+        return;
+    }
+
+    TEST_PRINTLN("Error: The result does not match.");
+    TEST_PRINTLN("Data:");
+    TEST_PRINTLN("%s", data->data);
+    TEST_PRINTLN("Need:");
+    TEST_PRINTLN("%s", want->data);
+    TEST_PRINTLN("Have:");
+    TEST_PRINTLN("%s", res.data);
+
+    TEST_FAILURE("");
 }
 
-lxb_status_t
+static lxb_status_t
 serializer_callback(const lxb_char_t *data, size_t len, void *ctx)
 {
 //    printf("%.*s", (int) len, (const char *) data);
@@ -219,7 +260,7 @@ serializer_callback(const lxb_char_t *data, size_t len, void *ctx)
     return LXB_STATUS_OK;
 }
 
-lexbor_str_t *
+static lexbor_str_t *
 hash_get_str(unit_kv_t *kv, unit_kv_value_t *hash, const char *name)
 {
     unit_kv_value_t *data;
@@ -242,7 +283,7 @@ hash_get_str(unit_kv_t *kv, unit_kv_value_t *hash, const char *name)
     return unit_kv_string(data);
 }
 
-fragment_entry_t
+static fragment_entry_t
 hash_get_fragment(unit_kv_t *kv, unit_kv_value_t *hash)
 {
     unit_kv_value_t *data;
@@ -287,12 +328,30 @@ hash_get_fragment(unit_kv_t *kv, unit_kv_value_t *hash)
         exit(EXIT_FAILURE);
     }
 
-    
-
     entry.tag_id = tag_id;
     entry.ns = ns;
 
     return entry;
+}
+
+static bool
+hash_get_scripting(unit_kv_t *kv, unit_kv_value_t *hash)
+{
+    unit_kv_value_t *data;
+
+    data = unit_kv_hash_value_nolen_c(hash, "scripting");
+    if (data == NULL) {
+        return false;
+    }
+
+    if (unit_kv_is_bool(data) == false) {
+        TEST_PRINTLN("Parameter 'scripting' must be BOOL");
+        print_error(kv, data);
+
+        exit(EXIT_FAILURE);
+    }
+
+    return unit_kv_bool(data);
 }
 
 static void
@@ -314,15 +373,15 @@ main(int argc, const char * argv[])
 {
     lxb_status_t status;
 
-//    if (argc != 2) {
-//        printf("Usage:\n\ttokenizer_tokens <directory path>\n");
-//        return EXIT_FAILURE;
-//    }
+    if (argc != 2) {
+        printf("Usage:\n\ttree_builder <directory path>\n");
+        return EXIT_FAILURE;
+    }
 
     TEST_INIT();
     TEST_RUN("lexbor/html/tree_builder");
 
-    status = parse("/new/C/lexbor/utils/lexbor/html/html5_test");
+    status = parse(argv[1]);
     if (status != LXB_STATUS_OK) {
         return EXIT_FAILURE;
     }

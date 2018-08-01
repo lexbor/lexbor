@@ -355,16 +355,14 @@ lxb_html_tree_insertion_mode_in_head_template_closed(lxb_html_tree_t *tree,
     if (lxb_html_tree_node_is(temp_node, LXB_HTML_TAG_TEMPLATE) == false) {
         lxb_html_tree_parse_error(tree, token,
                                   LXB_HTML_RULES_ERROR_TEELISNOCUINHEMO);
+    }
 
-        lxb_html_tree_open_elements_pop_until_tag_id(tree,
-                                                     LXB_HTML_TAG_TEMPLATE,
-                                                     LXB_HTML_NS_HTML, true);
-    }
-    else {
-        lxb_html_tree_open_elements_pop(tree);
-    }
+    lxb_html_tree_open_elements_pop_until_tag_id(tree,
+                                                 LXB_HTML_TAG_TEMPLATE,
+                                                 LXB_HTML_NS_HTML, true);
 
     lxb_html_tree_active_formatting_up_to_last_marker(tree);
+    lxb_html_tree_template_insertion_pop(tree);
     lxb_html_tree_reset_insertion_mode_appropriately(tree);
 
     return true;

@@ -1,0 +1,285 @@
+[
+    /* Test count: 9 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <b><p>Bold </b> Not bold</p>
+            Also not bold.
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <b>
+                <p>
+                  <b>
+                    "Bold "
+                  " Not bold"
+                "
+            Also not bold."
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <html>
+            <font color=red><i>Italic and Red<p>Italic and Red </font> Just italic.</p> Italic only.</i> Plain
+            <p>I should not be red. <font color=red>Red. <i>Italic and red.</p>
+            <p>Italic and red. </i> Red.</font> I should not be red.</p>
+            <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <font color="red">
+                  <i>
+                    "Italic and Red"
+                <i>
+                  <p>
+                    <font color="red">
+                      "Italic and Red "
+                    " Just italic."
+                  " Italic only."
+                " Plain
+            "
+                <p>
+                  "I should not be red. "
+                  <font color="red">
+                    "Red. "
+                    <i>
+                      "Italic and red."
+                <font color="red">
+                  <i>
+                    "
+            "
+                <p>
+                  <font color="red">
+                    <i>
+                      "Italic and red. "
+                    " Red."
+                  " I should not be red."
+                "
+            "
+                <b>
+                  "Bold "
+                  <i>
+                    "Bold and italic"
+                <i>
+                  " Only Italic "
+                " Plain"
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <html><body>
+            <p><font size="7">First paragraph.</p>
+            <p>Second paragraph.</p></font>
+            <b><p><i>Bold and Italic</b> Italic</p>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "
+            "
+                <p>
+                  <font size="7">
+                    "First paragraph."
+                <font size="7">
+                  "
+            "
+                  <p>
+                    "Second paragraph."
+                "
+            "
+                <b>
+                <p>
+                  <b>
+                    <i>
+                      "Bold and Italic"
+                  <i>
+                    " Italic"
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <html>
+            <dl>
+            <dt><b>Boo
+            <dd>Goo?
+            </dl>
+            </html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <dl>
+                  "
+            "
+                  <dt>
+                    <b>
+                      "Boo
+            "
+                  <dd>
+                    <b>
+                      "Goo?
+            "
+                <b>
+                  "
+            "
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
+            <html><body>
+            <label><a><div>Hello<div>World</div></a></label>  
+            </body></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "
+            "
+                <label>
+                  <a>
+                  <div>
+                    <a>
+                      "Hello"
+                      <div>
+                        "World"
+                    "  
+            "
+        $DATA
+    },
+    /* Test number: 6 */
+    {
+        "data": $DATA{ ,12}
+            <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <center>
+                  " "
+                  <font>
+                    "a"
+                <font>
+                  <img>
+                  " "
+                <table>
+                  " "
+                  <tbody>
+                    <tr>
+                      <td>
+                        " "
+                      " "
+                    " "
+        $DATA
+    },
+    /* Test number: 7 */
+    {
+        "data": $DATA{ ,12}
+            <table><tr><p><a><p>You should see this text.
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <p>
+                  <a>
+                <p>
+                  <a>
+                    "You should see this text."
+                <table>
+                  <tbody>
+                    <tr>
+        $DATA
+    },
+    /* Test number: 8 */
+    {
+        "data": $DATA{ ,12}
+            <TABLE>
+            <TR>
+            <CENTER><CENTER><TD></TD></TR><TR>
+            <FONT>
+            <TABLE><tr></tr></TABLE>
+            </P>
+            <a></font><font></a>
+            This page contains an insanely badly-nested tag sequence.
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <center>
+                  <center>
+                <font>
+                  "
+            "
+                <table>
+                  "
+            "
+                  <tbody>
+                    <tr>
+                      "
+            "
+                      <td>
+                    <tr>
+                      "
+            "
+                <table>
+                  <tbody>
+                    <tr>
+                <font>
+                  "
+            "
+                  <p>
+                  "
+            "
+                  <a>
+                <a>
+                  <font>
+                <font>
+                  "
+            This page contains an insanely badly-nested tag sequence."
+        $DATA
+    },
+    /* Test number: 9 */
+    {
+        "data": $DATA{ ,12}
+            <html>
+            <body>
+            <b><nobr><div>This text is in a div inside a nobr</nobr>More text that should not be in the nobr, i.e., the
+            nobr should have closed the div inside it implicitly. </b><pre>A pre tag outside everything else.</pre>
+            </body>
+            </html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "
+            "
+                <b>
+                  <nobr>
+                <div>
+                  <b>
+                    <nobr>
+                      "This text is in a div inside a nobr"
+                    "More text that should not be in the nobr, i.e., the
+            nobr should have closed the div inside it implicitly. "
+                  <pre>
+                    "A pre tag outside everything else."
+                  "
+            
+            "
+        $DATA
+    },
+]

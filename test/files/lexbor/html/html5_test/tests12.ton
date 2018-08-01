@@ -1,0 +1,72 @@
+[
+    /* Test count: 2 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html><body><p>foo<math><mtext><i>baz</i></mtext><annotation-xml><svg><desc><b>eggs</b></desc><g><foreignObject><P>spam<TABLE><tr><td><img></td></table></foreignObject></g><g>quux</g></svg></annotation-xml></math>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                  <math:math>
+                    <math:mtext>
+                      <i>
+                        "baz"
+                    <math:annotation-xml>
+                      <svg:svg>
+                        <svg:desc>
+                          <b>
+                            "eggs"
+                        <svg:g>
+                          <svg:foreignObject>
+                            <p>
+                              "spam"
+                            <table>
+                              <tbody>
+                                <tr>
+                                  <td>
+                                    <img>
+                        <svg:g>
+                          "quux"
+                  "bar"
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html><body>foo<math><mtext><i>baz</i></mtext><annotation-xml><svg><desc><b>eggs</b></desc><g><foreignObject><P>spam<TABLE><tr><td><img></td></table></foreignObject></g><g>quux</g></svg></annotation-xml></math>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                "foo"
+                <math:math>
+                  <math:mtext>
+                    <i>
+                      "baz"
+                  <math:annotation-xml>
+                    <svg:svg>
+                      <svg:desc>
+                        <b>
+                          "eggs"
+                      <svg:g>
+                        <svg:foreignObject>
+                          <p>
+                            "spam"
+                          <table>
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <img>
+                      <svg:g>
+                        "quux"
+                "bar"
+        $DATA
+    },
+]

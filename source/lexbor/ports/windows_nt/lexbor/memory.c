@@ -4,7 +4,7 @@
  * Author: Alexander Borisov <lex.borisov@gmail.com>
  */
 
-#include "lexbor/lexbor/base.h"
+#include "lexbor/core/base.h"
 
 
 void *

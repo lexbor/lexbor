@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0E3CCC7F210A41820020F463 /* kv_state.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E3CCC79210A41820020F463 /* kv_state.c */; };
-		0E3CCC80210A41820020F463 /* kv.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E3CCC7B210A41820020F463 /* kv.c */; };
-		0E3CCC81210A41820020F463 /* kv_rules.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E3CCC7C210A41820020F463 /* kv_rules.c */; };
-		0E3CCC82210A41820020F463 /* test.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E3CCC7D210A41820020F463 /* test.c */; };
+		0E38275B210F9BA000035D0B /* kv_state.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E382755210F9BA000035D0B /* kv_state.c */; };
+		0E38275C210F9BA000035D0B /* kv.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E382757210F9BA000035D0B /* kv.c */; };
+		0E38275D210F9BA000035D0B /* kv_rules.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E382758210F9BA000035D0B /* kv_rules.c */; };
+		0E38275E210F9BA000035D0B /* test.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E382759210F9BA000035D0B /* test.c */; };
 		0E3CCC84210A41890020F463 /* unit.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E3CCC83210A41890020F463 /* unit.c */; };
 		0E3CCC88210A42450020F463 /* liblexbor_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E3CCC86210A41B00020F463 /* liblexbor_static.a */; };
 /* End PBXBuildFile section */
@@ -28,13 +28,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0E382755210F9BA000035D0B /* kv_state.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = kv_state.c; path = ../../test/lexbor/unit/kv_state.c; sourceTree = "<group>"; };
+		0E382756210F9BA000035D0B /* kv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = kv.h; path = ../../test/lexbor/unit/kv.h; sourceTree = "<group>"; };
+		0E382757210F9BA000035D0B /* kv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = kv.c; path = ../../test/lexbor/unit/kv.c; sourceTree = "<group>"; };
+		0E382758210F9BA000035D0B /* kv_rules.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = kv_rules.c; path = ../../test/lexbor/unit/kv_rules.c; sourceTree = "<group>"; };
+		0E382759210F9BA000035D0B /* test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = test.c; path = ../../test/lexbor/unit/test.c; sourceTree = "<group>"; };
+		0E38275A210F9BA000035D0B /* test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = test.h; path = ../../test/lexbor/unit/test.h; sourceTree = "<group>"; };
 		0E3CCC6E210A41390020F463 /* unit */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = unit; sourceTree = BUILT_PRODUCTS_DIR; };
-		0E3CCC79210A41820020F463 /* kv_state.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = kv_state.c; path = ../../../test/lexbor/unit/kv_state.c; sourceTree = "<group>"; };
-		0E3CCC7A210A41820020F463 /* kv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = kv.h; path = ../../../test/lexbor/unit/kv.h; sourceTree = "<group>"; };
-		0E3CCC7B210A41820020F463 /* kv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = kv.c; path = ../../../test/lexbor/unit/kv.c; sourceTree = "<group>"; };
-		0E3CCC7C210A41820020F463 /* kv_rules.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = kv_rules.c; path = ../../../test/lexbor/unit/kv_rules.c; sourceTree = "<group>"; };
-		0E3CCC7D210A41820020F463 /* test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = test.c; path = ../../../test/lexbor/unit/test.c; sourceTree = "<group>"; };
-		0E3CCC7E210A41820020F463 /* test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = test.h; path = ../../../test/lexbor/unit/test.h; sourceTree = "<group>"; };
 		0E3CCC83210A41890020F463 /* unit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unit.c; sourceTree = "<group>"; };
 		0E3CCC86210A41B00020F463 /* liblexbor_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblexbor_static.a; path = ../../lib/liblexbor_static.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -51,11 +51,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E382753210F9B8000035D0B /* unit */ = {
+			isa = PBXGroup;
+			children = (
+				0E382758210F9BA000035D0B /* kv_rules.c */,
+				0E382755210F9BA000035D0B /* kv_state.c */,
+				0E382757210F9BA000035D0B /* kv.c */,
+				0E382756210F9BA000035D0B /* kv.h */,
+				0E382759210F9BA000035D0B /* test.c */,
+				0E38275A210F9BA000035D0B /* test.h */,
+			);
+			name = unit;
+			sourceTree = "<group>";
+		};
 		0E3CCC65210A41390020F463 = {
 			isa = PBXGroup;
 			children = (
 				0E3CCC83210A41890020F463 /* unit.c */,
-				0E3CCC78210A415F0020F463 /* unit */,
+				0E382753210F9B8000035D0B /* unit */,
 				0E3CCC6F210A41390020F463 /* Products */,
 				0E3CCC85210A41B00020F463 /* Frameworks */,
 			);
@@ -67,19 +80,6 @@
 				0E3CCC6E210A41390020F463 /* unit */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		0E3CCC78210A415F0020F463 /* unit */ = {
-			isa = PBXGroup;
-			children = (
-				0E3CCC7C210A41820020F463 /* kv_rules.c */,
-				0E3CCC79210A41820020F463 /* kv_state.c */,
-				0E3CCC7B210A41820020F463 /* kv.c */,
-				0E3CCC7A210A41820020F463 /* kv.h */,
-				0E3CCC7D210A41820020F463 /* test.c */,
-				0E3CCC7E210A41820020F463 /* test.h */,
-			);
-			path = unit;
 			sourceTree = "<group>";
 		};
 		0E3CCC85210A41B00020F463 /* Frameworks */ = {
@@ -146,11 +146,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E38275E210F9BA000035D0B /* test.c in Sources */,
+				0E38275B210F9BA000035D0B /* kv_state.c in Sources */,
 				0E3CCC84210A41890020F463 /* unit.c in Sources */,
-				0E3CCC80210A41820020F463 /* kv.c in Sources */,
-				0E3CCC7F210A41820020F463 /* kv_state.c in Sources */,
-				0E3CCC81210A41820020F463 /* kv_rules.c in Sources */,
-				0E3CCC82210A41820020F463 /* test.c in Sources */,
+				0E38275D210F9BA000035D0B /* kv_rules.c in Sources */,
+				0E38275C210F9BA000035D0B /* kv.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

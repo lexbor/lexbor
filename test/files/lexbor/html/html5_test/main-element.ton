@@ -1,0 +1,56 @@
+[
+    /* Test count: 3 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p>foo<main>bar<p>baz
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  "foo"
+                <main>
+                  "bar"
+                  <p>
+                    "baz"
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><main><p>foo</main>bar
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <main>
+                  <p>
+                    "foo"
+                "bar"
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html>xxx<svg><x><g><a><main><b>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                "xxx"
+                <svg:svg>
+                  <svg:x>
+                    <svg:g>
+                      <svg:a>
+                        <svg:main>
+                <b>
+        $DATA
+    },
+]

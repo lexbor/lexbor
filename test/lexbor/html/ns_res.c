@@ -26,8 +26,8 @@ TEST_BEGIN(names)
     test_ne(entry, NULL); test_eq_str(entry->name, "-any");
     entry = lxb_html_ns_data_by_name((const lxb_char_t *) "HTML", 4);
     test_ne(entry, NULL); test_eq_str(entry->name, "HTML");
-    entry = lxb_html_ns_data_by_name((const lxb_char_t *) "MATHML", 6);
-    test_ne(entry, NULL); test_eq_str(entry->name, "MathML");
+    entry = lxb_html_ns_data_by_name((const lxb_char_t *) "MATH", 4);
+    test_ne(entry, NULL); test_eq_str(entry->name, "Math");
     entry = lxb_html_ns_data_by_name((const lxb_char_t *) "SVG", 3);
     test_ne(entry, NULL); test_eq_str(entry->name, "SVG");
     entry = lxb_html_ns_data_by_name((const lxb_char_t *) "XLINK", 5);

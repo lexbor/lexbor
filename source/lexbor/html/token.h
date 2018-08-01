@@ -60,6 +60,8 @@ lxb_html_token_t;
 
 struct lxb_html_token_process {
     lxb_html_token_process_state_f state;
+    lxb_html_token_process_state_f amp_return_state;
+    lxb_html_token_process_state_f amp_end_state;
 
     lxb_html_token_t               *token;
     lxb_html_token_t               tmp_token;
