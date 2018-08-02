@@ -88,6 +88,16 @@ lexbor_array_obj_struct_size(lexbor_array_obj_t *array)
     return array->struct_size;
 }
 
+lxb_inline void *
+lexbor_array_obj_last(lexbor_array_obj_t *array)
+{
+    if (array->length == 0) {
+        return NULL;
+    }
+
+    return array->list + ((array->length - 1) * array->struct_size);
+}
+
 
 #ifdef __cplusplus
 } /* extern "C" */

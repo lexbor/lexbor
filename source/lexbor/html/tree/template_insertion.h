@@ -16,46 +16,75 @@ extern "C" {
 #include "lexbor/html/tree.h"
 
 
+typedef struct {
+    lxb_html_tree_insertion_mode_f mode;
+}
+lxb_html_tree_template_insertion_t;
+
+
 /*
  * Inline functions
  */
 lxb_inline lxb_html_tree_insertion_mode_f
 lxb_html_tree_template_insertion_current(lxb_html_tree_t *tree)
 {
-    if (tree->template_insertion_modes->length == 0) {
+    if (lexbor_array_obj_length(tree->template_insertion_modes) == 0) {
         return NULL;
     }
 
-    return (lxb_html_tree_insertion_mode_f) tree->template_insertion_modes->list
-        [ (tree->template_insertion_modes->length - 1) ];
+    lxb_html_tree_template_insertion_t *tmp_ins;
+
+    tmp_ins = lexbor_array_obj_last(tree->template_insertion_modes);
+
+    return tmp_ins->mode;
+}
+    
+lxb_inline lxb_html_tree_insertion_mode_f
+lxb_html_tree_template_insertion_get(lxb_html_tree_t *tree, size_t idx)
+{
+    lxb_html_tree_template_insertion_t *tmp_ins;
+
+    tmp_ins = lexbor_array_obj_get(tree->template_insertion_modes, idx);
+    if (tmp_ins == NULL) {
+        return NULL;
+    }
+
+    return tmp_ins->mode;
 }
 
 lxb_inline lxb_html_tree_insertion_mode_f
 lxb_html_tree_template_insertion_first(lxb_html_tree_t *tree)
 {
-    return (lxb_html_tree_insertion_mode_f)
-        lexbor_array_get(tree->template_insertion_modes, 0);
-}
-
-lxb_inline lxb_html_tree_insertion_mode_f
-lxb_html_tree_template_insertion_get(lxb_html_tree_t *tree, size_t idx)
-{
-    return (lxb_html_tree_insertion_mode_f)
-        lexbor_array_get(tree->template_insertion_modes, idx);
+    return lxb_html_tree_template_insertion_get(tree, 0);
 }
 
 lxb_inline lxb_status_t
 lxb_html_tree_template_insertion_push(lxb_html_tree_t *tree,
                                       lxb_html_tree_insertion_mode_f mode)
 {
-    return lexbor_array_push(tree->template_insertion_modes, (void *) mode);
+    lxb_html_tree_template_insertion_t *tmp_ins;
+
+    tmp_ins = lexbor_array_obj_push(tree->template_insertion_modes);
+    if (tmp_ins == NULL) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    tmp_ins->mode = mode;
+
+    return LXB_STATUS_OK;
 }
 
 lxb_inline lxb_html_tree_insertion_mode_f
 lxb_html_tree_template_insertion_pop(lxb_html_tree_t *tree)
 {
-    return (lxb_html_tree_insertion_mode_f)
-        lexbor_array_pop(tree->template_insertion_modes);
+    lxb_html_tree_template_insertion_t *tmp_ins;
+
+    tmp_ins = lexbor_array_obj_pop(tree->template_insertion_modes);
+    if (tmp_ins == NULL) {
+        return NULL;
+    }
+
+    return tmp_ins->mode;
 }
 
 

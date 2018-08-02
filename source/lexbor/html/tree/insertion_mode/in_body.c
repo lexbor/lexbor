@@ -494,7 +494,7 @@ static bool
 lxb_html_tree_insertion_mode_in_body_eof(lxb_html_tree_t *tree,
                                          lxb_html_token_t *token)
 {
-    if (tree->template_insertion_modes->length != 0) {
+    if (lexbor_array_obj_length(tree->template_insertion_modes) != 0) {
         return lxb_html_tree_insertion_mode_in_template(tree, token);
     }
 

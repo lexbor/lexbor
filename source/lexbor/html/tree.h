@@ -45,7 +45,7 @@ struct lxb_html_tree {
 
     lexbor_array_t                 *open_elements;
     lexbor_array_t                 *active_formatting;
-    lexbor_array_t                 *template_insertion_modes;
+    lexbor_array_obj_t             *template_insertion_modes;
 
     lxb_html_tree_pending_table_t  pending_table;
 

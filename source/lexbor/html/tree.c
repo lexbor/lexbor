@@ -65,8 +65,9 @@ lxb_html_tree_init(lxb_html_tree_t *tree, lxb_html_tokenizer_t *tkz)
     }
 
     /* Stack of template insertion modes */
-    tree->template_insertion_modes = lexbor_array_create();
-    status = lexbor_array_init(tree->template_insertion_modes, 64);
+    tree->template_insertion_modes = lexbor_array_obj_create();
+    status = lexbor_array_obj_init(tree->template_insertion_modes, 64,
+                                   sizeof(lxb_html_tree_template_insertion_t));
     if (status != LXB_STATUS_OK) {
         return status;
     }
@@ -144,7 +145,7 @@ lxb_html_tree_clean(lxb_html_tree_t *tree)
 {
     lexbor_array_clean(tree->open_elements);
     lexbor_array_clean(tree->active_formatting);
-    lexbor_array_clean(tree->template_insertion_modes);
+    lexbor_array_obj_clean(tree->template_insertion_modes);
     lexbor_array_obj_clean(tree->pending_table.text_tokens);
     lexbor_array_obj_clean(tree->parse_errors);
 
@@ -172,7 +173,7 @@ lxb_html_tree_destroy(lxb_html_tree_t *tree, bool self_destroy)
     tree->open_elements = lexbor_array_destroy(tree->open_elements, true);
     tree->active_formatting = lexbor_array_destroy(tree->active_formatting,
                                                    true);
-    tree->template_insertion_modes = lexbor_array_destroy(tree->template_insertion_modes,
+    tree->template_insertion_modes = lexbor_array_obj_destroy(tree->template_insertion_modes,
                                                           true);
     tree->pending_table.text_tokens = lexbor_array_obj_destroy(tree->pending_table.text_tokens,
                                                                true);
@@ -1304,8 +1305,8 @@ lxb_html_tree_check_scope_element(lxb_html_tree_t *tree)
 {
     lxb_dom_node_t *node;
 
-    for (size_t i = 0; i < tree->template_insertion_modes->length; i++) {
-        node = tree->template_insertion_modes->list[i];
+    for (size_t i = 0; i < tree->open_elements->length; i++) {
+        node = tree->open_elements->list[i];
 
         switch (node->tag_id) {
             case LXB_HTML_TAG_DD:
