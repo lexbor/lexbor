@@ -55,10 +55,10 @@ struct lxb_dom_node {
 };
 
 
-lxb_dom_node_t *
+LXB_API lxb_dom_node_t *
 lxb_dom_node_create(lxb_dom_document_t *document);
 
-lxb_dom_node_t *
+LXB_API lxb_dom_node_t *
 lxb_dom_node_destroy(lxb_dom_node_t *node);
 
 

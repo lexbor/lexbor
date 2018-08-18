@@ -41,26 +41,26 @@ typedef struct {
 lxb_html_tag_heap_t;
 
 
-lxb_html_tag_heap_t *
+LXB_API lxb_html_tag_heap_t *
 lxb_html_tag_heap_create(void);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_tag_heap_init(lxb_html_tag_heap_t *tag_heap, size_t table_size);
 
-lxb_html_tag_heap_t *
+LXB_API lxb_html_tag_heap_t *
 lxb_html_tag_heap_ref(lxb_html_tag_heap_t *tag_heap);
 
-lxb_html_tag_heap_t *
+LXB_API lxb_html_tag_heap_t *
 lxb_html_tag_heap_unref(lxb_html_tag_heap_t *tag_heap, bool self_destroy);
 
-void
+LXB_API void
 lxb_html_tag_heap_clean(lxb_html_tag_heap_t *tag_heap);
 
-lxb_html_tag_heap_t *
+LXB_API lxb_html_tag_heap_t *
 lxb_html_tag_heap_destroy(lxb_html_tag_heap_t *tag_heap, bool self_destroy);
 
 
-lxb_html_tag_data_t *
+LXB_API lxb_html_tag_data_t *
 lxb_html_tag_append(lxb_html_tag_heap_t *tag_heap,
                     const lxb_char_t *name, size_t len);
 
@@ -69,29 +69,29 @@ lxb_html_tag_append(lxb_html_tag_heap_t *tag_heap,
  * Name should always be created only using the local 'mraw'.
  * For get local 'mraw' use 'lxb_html_tag_heap_mraw' function.
  */
-lxb_html_tag_data_t *
+LXB_API lxb_html_tag_data_t *
 lxb_html_tag_append_wo_copy(lxb_html_tag_heap_t *tag_heap,
                             lxb_char_t *name, size_t len);
 
 
-const lxb_html_tag_data_t *
+LXB_API const lxb_html_tag_data_t *
 lxb_html_tag_data_by_id(lxb_html_tag_heap_t *tag_heap,
                         lxb_html_tag_id_t tag_id);
 
-const lxb_html_tag_data_t *
+LXB_API const lxb_html_tag_data_t *
 lxb_html_tag_data_by_name(lxb_html_tag_heap_t *tag_heap,
                           const lxb_char_t *name, size_t len);
 
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_html_tag_name_by_id(lxb_html_tag_heap_t *tag_heap,
                         lxb_html_tag_id_t tag_id, lxb_html_ns_id_t ns,
                         size_t *len);
 
-lxb_html_tag_id_t
+LXB_API lxb_html_tag_id_t
 lxb_html_tag_id_by_name(lxb_html_tag_heap_t *tag_heap,
                         const lxb_char_t *name, size_t len);
 
-bool
+LXB_API bool
 lxb_html_tag_is_void(lxb_html_tag_id_t tag_id);
 
 

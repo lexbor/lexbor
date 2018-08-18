@@ -48,17 +48,17 @@ struct lxb_dom_document {
 };
 
 
-lxb_dom_document_t *
+LXB_API lxb_dom_document_t *
 lxb_dom_document_create(lxb_dom_document_t *document);
 
-lxb_dom_document_t *
+LXB_API lxb_dom_document_t *
 lxb_dom_document_destroy(lxb_dom_document_t *document);
 
-void
+LXB_API void
 lxb_dom_document_attach_doctype(lxb_dom_document_t *document,
                                 lxb_dom_document_type_t *doctype);
 
-void
+LXB_API void
 lxb_dom_document_attach_element(lxb_dom_document_t *document,
                                 lxb_dom_element_t *element);
 

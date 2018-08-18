@@ -34,36 +34,36 @@ typedef lxb_status_t
 (*lxb_html_serialize_cb_f)(const lxb_char_t *data, size_t len, void *ctx);
 
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_serialize_cb(lxb_dom_node_t *node,
                       lxb_html_serialize_cb_f cb, void *ctx);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_serialize_str(lxb_dom_node_t *node, lexbor_str_t *str);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_serialize_tree_cb(lxb_dom_node_t *node,
                            lxb_html_serialize_cb_f cb, void *ctx);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_serialize_tree_str(lxb_dom_node_t *node, lexbor_str_t *str);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_serialize_pretty_cb(lxb_dom_node_t *node,
                              lxb_html_serialize_opt_t opt, size_t indent,
                              lxb_html_serialize_cb_f cb, void *ctx);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_serialize_pretty_str(lxb_dom_node_t *node,
                               lxb_html_serialize_opt_t opt, size_t indent,
                               lexbor_str_t *str);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_serialize_pretty_tree_cb(lxb_dom_node_t *node,
                                   lxb_html_serialize_opt_t opt, size_t indent,
                                   lxb_html_serialize_cb_f cb, void *ctx);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_serialize_pretty_tree_str(lxb_dom_node_t *node,
                                    lxb_html_serialize_opt_t opt, size_t indent,
                                    lexbor_str_t *str);

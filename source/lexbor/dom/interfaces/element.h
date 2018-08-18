@@ -40,30 +40,30 @@ struct lxb_dom_element_attr {
 };
 
 
-lxb_dom_element_t *
+LXB_API lxb_dom_element_t *
 lxb_dom_element_create(lxb_dom_document_t *document);
 
-lxb_dom_element_t *
+LXB_API lxb_dom_element_t *
 lxb_dom_element_destroy(lxb_dom_element_t *element);
 
-bool
+LXB_API bool
 lxb_dom_element_compare(lxb_dom_element_t *first, lxb_dom_element_t *second);
 
-bool
+LXB_API bool
 lxb_dom_element_attr_compare(lxb_dom_element_attr_t *first,
                              lxb_dom_element_attr_t *second);
 
-lxb_dom_element_attr_t *
+LXB_API lxb_dom_element_attr_t *
 lxb_dom_element_attr_is_exist(lxb_dom_element_t *element,
                               const lxb_char_t *name, size_t len);
 
-lxb_dom_element_attr_t *
+LXB_API lxb_dom_element_attr_t *
 lxb_dom_element_attr_create(lxb_dom_element_t *element);
 
-lxb_dom_element_t *
+LXB_API lxb_dom_element_t *
 lxb_dom_element_attr_destroy(lxb_dom_element_attr_t *attr);
 
-void
+LXB_API void
 lxb_dom_element_attr_append(lxb_dom_element_t *element,
                             lxb_dom_element_attr_t *attr);
 

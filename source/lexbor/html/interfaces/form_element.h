@@ -20,10 +20,10 @@ struct lxb_html_form_element {
 };
 
 
-lxb_html_form_element_t *
+LXB_API lxb_html_form_element_t *
 lxb_html_form_element_create(lxb_html_document_t *document);
 
-lxb_html_form_element_t *
+LXB_API lxb_html_form_element_t *
 lxb_html_form_element_destroy(lxb_html_form_element_t *form_element);
 
 

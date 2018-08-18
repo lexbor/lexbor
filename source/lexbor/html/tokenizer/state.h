@@ -121,22 +121,22 @@ extern "C" {
     while (0)
 
 
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_html_tokenizer_state_data_before(lxb_html_tokenizer_t *tkz,
                                      const lxb_char_t *data,
                                      const lxb_char_t *end);
 
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_html_tokenizer_state_plaintext_before(lxb_html_tokenizer_t *tkz,
                                           const lxb_char_t *data,
                                           const lxb_char_t *end);
 
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_html_tokenizer_state_before_attribute_name(lxb_html_tokenizer_t *tkz,
                                                const lxb_char_t *data,
                                                const lxb_char_t *end);
 
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_html_tokenizer_state_self_closing_start_tag(lxb_html_tokenizer_t *tkz,
                                                 const lxb_char_t *data,
                                                 const lxb_char_t *end);

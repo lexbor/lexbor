@@ -45,26 +45,26 @@ struct lxb_html_token_attr {
 };
 
 
-lxb_html_token_attr_t *
+LXB_API lxb_html_token_attr_t *
 lxb_html_token_attr_create(lexbor_dobject_t *dobj);
 
-void
+LXB_API void
 lxb_html_token_attr_clean(lxb_html_token_attr_t *attr);
 
-lxb_html_token_attr_t *
+LXB_API lxb_html_token_attr_t *
 lxb_html_token_attr_destroy(lxb_html_token_attr_t *attr,
                             lexbor_dobject_t *dobj);
 
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_token_attr_make_name(lxb_html_token_attr_t *attr, lexbor_str_t *str,
                               lexbor_mraw_t *mraw);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_token_attr_make_value(lxb_html_token_attr_t *attr, lexbor_str_t *str,
                                lexbor_mraw_t *mraw);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_token_attr_parse(lxb_html_token_attr_t *attr,
                           lxb_html_parser_char_t *pc, lexbor_str_t *name,
                           lexbor_str_t *value, lexbor_mraw_t *mraw);

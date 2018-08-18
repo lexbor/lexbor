@@ -19,10 +19,10 @@ struct lxb_dom_event_target {
 };
 
 
-lxb_dom_event_target_t *
+LXB_API lxb_dom_event_target_t *
 lxb_dom_event_target_create(lxb_dom_document_t *document);
 
-lxb_dom_event_target_t *
+LXB_API lxb_dom_event_target_t *
 lxb_dom_event_target_destroy(lxb_dom_event_target_t *event_target,
                              lxb_dom_document_t *document);
 

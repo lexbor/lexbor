@@ -14,7 +14,7 @@ extern "C" {
 #include "lexbor/html/tokenizer.h"
 
 
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_html_tokenizer_state_comment_before_start(lxb_html_tokenizer_t *tkz,
                                               const lxb_char_t *data,
                                               const lxb_char_t *end);

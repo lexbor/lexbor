@@ -26,10 +26,10 @@ struct lxb_dom_document_type {
 };
 
 
-lxb_dom_document_type_t *
+LXB_API lxb_dom_document_type_t *
 lxb_dom_document_type_create(lxb_dom_document_t *document);
 
-lxb_dom_document_type_t *
+LXB_API lxb_dom_document_type_t *
 lxb_dom_document_type_destroy(lxb_dom_document_type_t *document_type);
 
 
