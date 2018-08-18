@@ -8,7 +8,7 @@
 #define UNIT_KV_H
 
 #ifdef __cplusplus
-//extern "C" {
+extern "C" {
 #endif
 
 #include <stdio.h>
@@ -153,42 +153,42 @@ struct unit_kv {
 };
 
 
-unit_kv_t *
+LXB_API unit_kv_t *
 unit_kv_create(void);
 
-lxb_status_t
+LXB_API lxb_status_t
 unit_kv_init(unit_kv_t *kv, size_t sp_size);
 
-lxb_status_t
+LXB_API lxb_status_t
 unit_kv_clean(unit_kv_t *kv);
 
-unit_kv_t *
+LXB_API unit_kv_t *
 unit_kv_destroy(unit_kv_t *kv, bool self_destroy);
 
 
-lxb_status_t
+LXB_API lxb_status_t
 unit_kv_parse(unit_kv_t *kv, const lxb_char_t *data, size_t size);
 
-lxb_status_t
+LXB_API lxb_status_t
 unit_kv_parse_file(unit_kv_t *kv, const lxb_char_t *filepath);
 
 
-unit_kv_value_t *
+LXB_API unit_kv_value_t *
 unit_kv_hash_value(unit_kv_value_t *value, const lxb_char_t *key, size_t len);
 
-unit_kv_value_t *
+LXB_API unit_kv_value_t *
 unit_kv_array_append(unit_kv_value_t *array, unit_kv_value_t *value);
 
-lexbor_str_t
+LXB_API lexbor_str_t
 unit_kv_parse_error_as_string(unit_kv_t *kv);
 
-lexbor_str_t
+LXB_API lexbor_str_t
 unit_kv_value_position_as_string(unit_kv_t *kv, unit_kv_value_t *value);
 
-lexbor_str_t
+LXB_API lexbor_str_t
 unit_kv_value_fragment_as_string(unit_kv_t *kv, unit_kv_value_t *value);
 
-void
+LXB_API void
 unit_kv_string_destroy(unit_kv_t *kv, lexbor_str_t *str, bool self_destroy);
 
 

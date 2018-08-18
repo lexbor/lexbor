@@ -8,7 +8,7 @@
 #define TEST_H
 
 #ifdef __cplusplus
-//extern "C" {
+extern "C" {
 #endif
 
 #include <string.h>
@@ -346,26 +346,26 @@ typedef struct {
 test_stack_t;
 
 
-test_t *
+LXB_API test_t *
 test_create(void);
 
-lxb_status_t
+LXB_API lxb_status_t
 test_init(test_t *test);
 
-void
+LXB_API void
 test_clean(test_t *test);
 
-test_t *
+LXB_API test_t *
 test_destroy(test_t *test, bool self_destroy);
 
 
-lxb_status_t
+LXB_API lxb_status_t
 test_add(test_t *test, test_func_t test_func, char *test_name);
 
-void
+LXB_API void
 test_run(test_t *test, char *name);
 
-bool
+LXB_API bool
 test_is_success(test_t *test);
 
 
