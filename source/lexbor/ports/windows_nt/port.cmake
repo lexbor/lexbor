@@ -16,3 +16,5 @@ if(${CMAKE_C_COMPILER_ID} STREQUAL MSVC)
 
     message(STATUS "Set Windows definitions")
 endif()
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${LEXBOR_OPTIMIZATION_LEVEL} ${LEXBOR_C_FLAGS}")
