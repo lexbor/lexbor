@@ -11,6 +11,7 @@
 		0E22F7B6202CF0D200FB84A6 /* token_attr.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E22F7B4202CF0D200FB84A6 /* token_attr.c */; };
 		0E3132652105E404004AA103 /* serialize.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E3132642105E404004AA103 /* serialize.c */; };
 		0E38276121107B2700035D0B /* html.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E38276021107B2700035D0B /* html.c */; };
+		0E382764211204B700035D0B /* perf.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E382763211204B700035D0B /* perf.c */; };
 		0E3C799E20EE813800C2BA83 /* tree.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E3C799D20EE813800C2BA83 /* tree.c */; };
 		0E3C79B920EE9BB000C2BA83 /* in_select.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E3C79A020EE9BAD00C2BA83 /* in_select.c */; };
 		0E3C79BA20EE9BB000C2BA83 /* before_head.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E3C79A120EE9BAE00C2BA83 /* before_head.c */; };
@@ -183,6 +184,8 @@
 		0E3132642105E404004AA103 /* serialize.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = serialize.c; path = ../../source/lexbor/html/serialize.c; sourceTree = "<group>"; };
 		0E38275F21107B2700035D0B /* html.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = html.h; path = ../../source/lexbor/html/html.h; sourceTree = "<group>"; };
 		0E38276021107B2700035D0B /* html.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = html.c; path = ../../source/lexbor/html/html.c; sourceTree = "<group>"; };
+		0E3827622112047C00035D0B /* perf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = perf.h; path = ../../source/lexbor/core/perf.h; sourceTree = "<group>"; };
+		0E382763211204B700035D0B /* perf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = perf.c; path = ../../source/lexbor/ports/posix/lexbor/perf.c; sourceTree = "<group>"; };
 		0E3C799C20EE813800C2BA83 /* tree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = tree.h; path = ../../source/lexbor/html/tree.h; sourceTree = "<group>"; };
 		0E3C799D20EE813800C2BA83 /* tree.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = tree.c; path = ../../source/lexbor/html/tree.c; sourceTree = "<group>"; };
 		0E3C79A020EE9BAD00C2BA83 /* in_select.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = in_select.c; path = ../../source/lexbor/html/tree/insertion_mode/in_select.c; sourceTree = "<group>"; };
@@ -594,6 +597,7 @@
 				0E48AEB02017B26E000F7F2D /* str.h */,
 				0E48AE9D2017B26D000F7F2D /* str.c */,
 				0E48AEA82017B26E000F7F2D /* str_res.h */,
+				0E3827622112047C00035D0B /* perf.h */,
 				0E48AEB12017B26F000F7F2D /* utils.h */,
 				0E48AE9E2017B26D000F7F2D /* utils.c */,
 			);
@@ -611,6 +615,7 @@
 		0E48AE912017B254000F7F2D /* lexbor */ = {
 			isa = PBXGroup;
 			children = (
+				0E382763211204B700035D0B /* perf.c */,
 				0E8873CA20BB03BB0080AF42 /* fs.c */,
 				0E48AE952017B263000F7F2D /* memory.c */,
 			);
@@ -1021,6 +1026,7 @@
 				0EE557F720E7BBE900228FA8 /* table_col_element.c in Sources */,
 				0EE557FC20E7BBE900228FA8 /* meta_element.c in Sources */,
 				0EE5582A20E7BBE900228FA8 /* slot_element.c in Sources */,
+				0E382764211204B700035D0B /* perf.c in Sources */,
 				0EE5581B20E7BBE900228FA8 /* progress_element.c in Sources */,
 				0E8873CB20BB03BB0080AF42 /* fs.c in Sources */,
 				0EE5582F20E7BBE900228FA8 /* font_element.c in Sources */,
@@ -1193,7 +1199,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					LEXBOR_OS_DARWIN,
+					LEXBOR_WITH_PERF,
+					"$(inherited)",
+				);
 				HEADER_SEARCH_PATHS = (
 					../../source,
 					../../test/lexbor/,
@@ -1206,7 +1218,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					LEXBOR_OS_DARWIN,
+					LEXBOR_WITH_PERF,
+					"$(inherited)",
+				);
 				HEADER_SEARCH_PATHS = (
 					../../source,
 					../../test/lexbor/,

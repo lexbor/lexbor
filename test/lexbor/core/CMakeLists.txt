@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 3.0)
+
+project(test_lexbor_core)
+
+################
+## Search and Includes
+#########################
+include_directories(".")
+
+################
+## Sources
+#########################
+file(GLOB_RECURSE TEST_LEXBOR_CORE_SOURCES "*.c")
+
+################
+## Create Unit libraries
+#########################
+EXECUTABLE_LIST("${TEST_LEXBOR_CORE_SOURCES}" ${TEST_UNIT_LIB_NAME} ${LEXBOR_LIB_NAME})
+APPEND_TESTS("lexbor_core_" "${TEST_LEXBOR_CORE_SOURCES}")

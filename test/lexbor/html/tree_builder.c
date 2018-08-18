@@ -40,9 +40,6 @@ static void
 check_compare(unit_kv_t *kv, lxb_dom_node_t *root,
               lexbor_str_t *data, lexbor_str_t *result);
 
-static lxb_status_t
-serializer_callback(const lxb_char_t *data, size_t len, void *ctx);
-
 static lexbor_str_t *
 hash_get_str(unit_kv_t *kv, unit_kv_value_t *hash, const char *name);
 
@@ -249,15 +246,7 @@ check_compare(unit_kv_t *kv, lxb_dom_node_t *root,
     TEST_PRINTLN("Have:");
     TEST_PRINTLN("%s", res.data);
 
-    TEST_FAILURE("");
-}
-
-static lxb_status_t
-serializer_callback(const lxb_char_t *data, size_t len, void *ctx)
-{
-    //    printf("%.*s", (int) len, (const char *) data);
-
-    return LXB_STATUS_OK;
+    TEST_FAILURE(" ");
 }
 
 static lexbor_str_t *

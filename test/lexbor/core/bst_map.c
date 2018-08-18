@@ -115,7 +115,7 @@ TEST_BEGIN(bst_map_remove)
     lexbor_bst_map_t bst_map;
     lexbor_bst_map_entry_t *entry;
 
-    lexbor_bst_entry_t *scope = NULL, *scope_after;
+    lexbor_bst_entry_t *scope = NULL;
 
     static const lxb_char_t key[] = "test";
     size_t key_len = sizeof(key) - 1;
@@ -133,7 +133,6 @@ TEST_BEGIN(bst_map_remove)
                                   col_key, col_key_len, (void *) 2);
     test_ne(entry, NULL);
 
-    scope_after = scope;
     value = lexbor_bst_map_remove(&bst_map, &scope, key, key_len);
 
     test_eq(value, (void *) 1);

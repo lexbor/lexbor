@@ -111,7 +111,7 @@ TEST_BEGIN(mem_calloc)
     lexbor_mem_t mem;
     lexbor_mem_init(&mem, 1024);
 
-    u_int8_t *data = lexbor_mem_calloc(&mem, len);
+    uint8_t *data = lexbor_mem_calloc(&mem, len);
     test_ne(data, NULL);
 
     for (size_t i = 0; i < len; i++) {
@@ -131,7 +131,7 @@ TEST_BEGIN(mem_calloc_overflow)
     lexbor_mem_t mem;
     lexbor_mem_init(&mem, 31);
 
-    u_int8_t *data = lexbor_mem_calloc(&mem, len);
+    uint8_t *data = lexbor_mem_calloc(&mem, len);
     test_ne(data, NULL);
 
     for (size_t i = 0; i < len; i++) {
@@ -198,7 +198,7 @@ TEST_BEGIN(chunk_init)
     lexbor_mem_t *mem = lexbor_mem_create();
     lexbor_mem_init(mem, 1024);
 
-    u_int8_t *chunk_data = lexbor_mem_chunk_init(mem, &chunk, 0);
+    uint8_t *chunk_data = lexbor_mem_chunk_init(mem, &chunk, 0);
     test_ne(chunk_data, NULL);
 
     test_ne(chunk.data, NULL);
@@ -217,7 +217,7 @@ TEST_BEGIN(chunk_init_overflow)
     lexbor_mem_t *mem = lexbor_mem_create();
     lexbor_mem_init(mem, 1024);
 
-    u_int8_t *chunk_data = lexbor_mem_chunk_init(mem, &chunk, 2049);
+    uint8_t *chunk_data = lexbor_mem_chunk_init(mem, &chunk, 2049);
     test_ne(chunk_data, NULL);
 
     test_ne(chunk.data, NULL);

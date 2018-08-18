@@ -7,7 +7,7 @@
 #include <lexbor/core/fs.h>
 #include <lexbor/html/parser_char.h>
 
-#include "html/tokenizer_helper.h"
+#include "tokenizer_helper.h"
 
 
 static void

@@ -188,11 +188,11 @@ TEST_BEGIN(mraw_realloc)
     lexbor_mraw_t mraw = {0};
     lexbor_mraw_init(&mraw, 1024);
 
-    u_int8_t *data = lexbor_mraw_alloc(&mraw, 128);
+    uint8_t *data = lexbor_mraw_alloc(&mraw, 128);
     test_ne(data, NULL);
     test_eq_size(lexbor_mraw_data_size(data), 128UL);
 
-    u_int8_t *new_data = lexbor_mraw_realloc(&mraw, data, 256);
+    uint8_t *new_data = lexbor_mraw_realloc(&mraw, data, 256);
     test_ne(new_data, NULL);
     test_eq_size(lexbor_mraw_data_size(new_data), 256UL);
 
@@ -214,11 +214,11 @@ TEST_BEGIN(mraw_realloc_eq)
     lexbor_mraw_t mraw = {0};
     lexbor_mraw_init(&mraw, 1024);
 
-    u_int8_t *data = lexbor_mraw_alloc(&mraw, 128);
+    uint8_t *data = lexbor_mraw_alloc(&mraw, 128);
     test_ne(data, NULL);
     test_eq_size(lexbor_mraw_data_size(data), 128UL);
 
-    u_int8_t *new_data = lexbor_mraw_realloc(&mraw, data, 128);
+    uint8_t *new_data = lexbor_mraw_realloc(&mraw, data, 128);
     test_ne(new_data, NULL);
     test_eq_size(lexbor_mraw_data_size(new_data), 128UL);
 
@@ -240,11 +240,11 @@ TEST_BEGIN(mraw_realloc_tail_0)
     lexbor_mraw_t mraw = {0};
     lexbor_mraw_init(&mraw, 1024);
 
-    u_int8_t *data = lexbor_mraw_alloc(&mraw, 128);
+    uint8_t *data = lexbor_mraw_alloc(&mraw, 128);
     test_ne(data, NULL);
     test_eq_size(lexbor_mraw_data_size(data), 128UL);
 
-    u_int8_t *new_data = lexbor_mraw_realloc(&mraw, data, 0);
+    uint8_t *new_data = lexbor_mraw_realloc(&mraw, data, 0);
     test_eq(new_data, NULL);
 
     test_eq_size(mraw.mem->chunk_length, 1UL);
@@ -263,7 +263,7 @@ TEST_BEGIN(mraw_realloc_tail_n)
     lexbor_mraw_t mraw = {0};
     lexbor_mraw_init(&mraw, 1024);
 
-    u_int8_t *data = lexbor_mraw_alloc(&mraw, 128);
+    uint8_t *data = lexbor_mraw_alloc(&mraw, 128);
     test_ne(data, NULL);
     test_eq_size(lexbor_mraw_data_size(data), 128UL);
 
@@ -271,7 +271,7 @@ TEST_BEGIN(mraw_realloc_tail_n)
     test_ne(data, NULL);
     test_eq_size(lexbor_mraw_data_size(data), 128UL);
 
-    u_int8_t *new_data = lexbor_mraw_realloc(&mraw, data, 1024);
+    uint8_t *new_data = lexbor_mraw_realloc(&mraw, data, 1024);
     test_ne(new_data, NULL);
     test_eq_size(lexbor_mraw_data_size(new_data), 1024UL);
 
@@ -297,11 +297,11 @@ TEST_BEGIN(mraw_realloc_tail_less)
     lexbor_mraw_t mraw = {0};
     lexbor_mraw_init(&mraw, 1024);
 
-    u_int8_t *data = lexbor_mraw_alloc(&mraw, 128);
+    uint8_t *data = lexbor_mraw_alloc(&mraw, 128);
     test_ne(data, NULL);
     test_eq_size(lexbor_mraw_data_size(data), 128UL);
 
-    u_int8_t *new_data = lexbor_mraw_realloc(&mraw, data, 16);
+    uint8_t *new_data = lexbor_mraw_realloc(&mraw, data, 16);
     test_ne(new_data, NULL);
     test_eq_size(lexbor_mraw_data_size(new_data), 16UL);
 
@@ -323,11 +323,11 @@ TEST_BEGIN(mraw_realloc_tail_great)
     lexbor_mraw_t mraw = {0};
     lexbor_mraw_init(&mraw, 1024);
 
-    u_int8_t *data = lexbor_mraw_alloc(&mraw, 128);
+    uint8_t *data = lexbor_mraw_alloc(&mraw, 128);
     test_ne(data, NULL);
     test_eq_size(lexbor_mraw_data_size(data), 128UL);
 
-    u_int8_t *new_data = lexbor_mraw_realloc(&mraw, data, 2046);
+    uint8_t *new_data = lexbor_mraw_realloc(&mraw, data, 2046);
     test_ne(new_data, NULL);
     test_eq_size(lexbor_mraw_data_size(new_data), lexbor_mem_align(2046));
 
@@ -349,15 +349,15 @@ TEST_BEGIN(mraw_realloc_n)
     lexbor_mraw_t mraw = {0};
     lexbor_mraw_init(&mraw, 1024);
 
-    u_int8_t *one = lexbor_mraw_alloc(&mraw, 128);
+    uint8_t *one = lexbor_mraw_alloc(&mraw, 128);
     test_ne(one, NULL);
     test_eq_size(lexbor_mraw_data_size(one), 128UL);
 
-    u_int8_t *two = lexbor_mraw_alloc(&mraw, 13);
+    uint8_t *two = lexbor_mraw_alloc(&mraw, 13);
     test_ne(two, NULL);
     test_eq_size(lexbor_mraw_data_size(two), lexbor_mem_align(13));
 
-    u_int8_t *three = lexbor_mraw_realloc(&mraw, one, 256);
+    uint8_t *three = lexbor_mraw_realloc(&mraw, one, 256);
     test_ne(three, NULL);
     test_eq_size(lexbor_mraw_data_size(three), 256UL);
 
@@ -385,15 +385,15 @@ TEST_BEGIN(mraw_realloc_n_0)
     lexbor_mraw_t mraw = {0};
     lexbor_mraw_init(&mraw, 1024);
 
-    u_int8_t *one = lexbor_mraw_alloc(&mraw, 128);
+    uint8_t *one = lexbor_mraw_alloc(&mraw, 128);
     test_ne(one, NULL);
     test_eq_size(lexbor_mraw_data_size(one), 128UL);
 
-    u_int8_t *two = lexbor_mraw_alloc(&mraw, 13);
+    uint8_t *two = lexbor_mraw_alloc(&mraw, 13);
     test_ne(two, NULL);
     test_eq_size(lexbor_mraw_data_size(two), lexbor_mem_align(13));
 
-    u_int8_t *three = lexbor_mraw_realloc(&mraw, one, 0);
+    uint8_t *three = lexbor_mraw_realloc(&mraw, one, 0);
     test_eq(three, NULL);
 
     test_eq_size(mraw.mem->chunk_length, 1UL);
@@ -417,15 +417,15 @@ TEST_BEGIN(mraw_realloc_n_less)
     lexbor_mraw_t mraw = {0};
     lexbor_mraw_init(&mraw, 1024);
 
-    u_int8_t *one = lexbor_mraw_alloc(&mraw, 128);
+    uint8_t *one = lexbor_mraw_alloc(&mraw, 128);
     test_ne(one, NULL);
     test_eq_size(lexbor_mraw_data_size(one), 128UL);
 
-    u_int8_t *two = lexbor_mraw_alloc(&mraw, 256);
+    uint8_t *two = lexbor_mraw_alloc(&mraw, 256);
     test_ne(two, NULL);
     test_eq_size(lexbor_mraw_data_size(two), 256UL);
 
-    u_int8_t *three = lexbor_mraw_realloc(&mraw, one, 51);
+    uint8_t *three = lexbor_mraw_realloc(&mraw, one, 51);
     test_ne(three, NULL);
     test_eq_size(lexbor_mraw_data_size(three), lexbor_mem_align(51));
 
@@ -456,15 +456,15 @@ TEST_BEGIN(mraw_realloc_n_great)
 
     lexbor_mraw_init(&mraw, 1024);
 
-    u_int8_t *one = lexbor_mraw_alloc(&mraw, 128);
+    uint8_t *one = lexbor_mraw_alloc(&mraw, 128);
     test_ne(one, NULL);
     test_eq_size(lexbor_mraw_data_size(one), 128UL);
 
-    u_int8_t *two = lexbor_mraw_alloc(&mraw, 256);
+    uint8_t *two = lexbor_mraw_alloc(&mraw, 256);
     test_ne(two, NULL);
     test_eq_size(lexbor_mraw_data_size(two), 256UL);
 
-    u_int8_t *three = lexbor_mraw_realloc(&mraw, one, 1000);
+    uint8_t *three = lexbor_mraw_realloc(&mraw, one, 1000);
     test_ne(three, NULL);
     test_eq_size(lexbor_mraw_data_size(three), 1000UL);
 
@@ -507,7 +507,7 @@ TEST_BEGIN(mraw_free)
 
     lexbor_mraw_init(&mraw, 1024);
 
-    u_int8_t *data = lexbor_mraw_calloc(&mraw, 23);
+    uint8_t *data = lexbor_mraw_calloc(&mraw, 23);
     test_ne(data, NULL);
 
     lexbor_mraw_free(&mraw, data);
@@ -529,7 +529,7 @@ TEST_BEGIN(mraw_calloc)
     lexbor_mraw_t mraw = {0};
     lexbor_mraw_init(&mraw, 1024);
 
-    u_int8_t *data = lexbor_mraw_calloc(&mraw, 1024);
+    uint8_t *data = lexbor_mraw_calloc(&mraw, 1024);
     test_ne(data, NULL);
     test_eq_size(lexbor_mraw_data_size(data), 1024UL);
 
