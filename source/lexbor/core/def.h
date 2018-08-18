@@ -19,11 +19,11 @@
 
 /* Deprecated */
 #ifdef _MSC_VER
-    #define LEXBOR_DEPRECATED(func) __declspec(deprecated) func
+    #define LXB_DEPRECATED(func) __declspec(deprecated) func
 #elif defined(__GNUC__) || defined(__INTEL_COMPILER)
-    #define LEXBOR_DEPRECATED(func) func __attribute__((deprecated))
+    #define LXB_DEPRECATED(func) func __attribute__((deprecated))
 #else
-    #define LEXBOR_DEPRECATED(func) func
+    #define LXB_DEPRECATED(func) func
 #endif
 
 /* Debug */
@@ -32,5 +32,24 @@
 
 #define LEXBOR_MEM_ALIGN_STEP sizeof(void *)
 
-#endif /* LEXBOR_DEF_H */
+#ifndef LEXBOR_STATIC
+    #if (defined(WIN32) || defined(_WIN32))
+        #ifdef LEXBOR_BUILDING
+            #define LXB_API __declspec(dllexport)
+        #else
+            #define LXB_API __declspec(dllimport)
+        #endif
+    #elif (defined(__SUNPRO_C)  || defined(__SUNPRO_CC))
+        #define LXB_API __global
+    #else
+        #if (defined(__GNUC__) && __GNUC__ >= 4) || defined(__INTEL_COMPILER)
+            #define LXB_API __attribute__ ((visibility("default")))
+        #else
+            #define LXB_API
+        #endif
+    #endif
+#else
+    #define LXB_API
+#endif
 
+#endif /* LEXBOR_DEF_H */

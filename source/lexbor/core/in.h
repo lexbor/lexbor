@@ -45,35 +45,35 @@ struct lexbor_in_node {
 };
 
 
-lexbor_in_t *
+LXB_API lexbor_in_t *
 lexbor_in_create(void);
 
-lxb_status_t
+LXB_API lxb_status_t
 lexbor_in_init(lexbor_in_t *incoming, size_t chunk_size);
 
-void
+LXB_API void
 lexbor_in_clean(lexbor_in_t *incoming);
 
-lexbor_in_t *
+LXB_API lexbor_in_t *
 lexbor_in_destroy(lexbor_in_t *incoming, bool self_destroy);
 
 
-lexbor_in_node_t *
+LXB_API lexbor_in_node_t *
 lexbor_in_node_make(lexbor_in_t *incoming, lexbor_in_node_t *last_node,
                     const lxb_char_t *buf, size_t buf_size);
 
-void
+LXB_API void
 lexbor_in_node_clean(lexbor_in_node_t *node);
 
-lexbor_in_node_t *
+LXB_API lexbor_in_node_t *
 lexbor_in_node_destroy(lexbor_in_t *incoming,
                        lexbor_in_node_t *node, bool self_destroy);
 
 
-lexbor_in_node_t *
+LXB_API lexbor_in_node_t *
 lexbor_in_node_split(lexbor_in_node_t *node, const lxb_char_t *pos);
 
-lexbor_in_node_t *
+LXB_API lexbor_in_node_t *
 lexbor_in_node_find(lexbor_in_node_t *node, const lxb_char_t *pos);
 
 /**
@@ -81,7 +81,7 @@ lexbor_in_node_find(lexbor_in_node_t *node, const lxb_char_t *pos);
  * If position outside of nodes return `begin` position of first node
  * in nodes chain.
  */
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lexbor_in_node_pos_up(lexbor_in_node_t *node, lexbor_in_node_t **return_node,
                       const lxb_char_t *pos, size_t offset);
 
@@ -90,7 +90,7 @@ lexbor_in_node_pos_up(lexbor_in_node_t *node, lexbor_in_node_t **return_node,
  * If position outside of nodes return `end`
  * position of last node in nodes chain.
  */
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lexbor_in_node_pos_down(lexbor_in_node_t *node, lexbor_in_node_t **return_node,
                         const lxb_char_t *pos, size_t offset);
 

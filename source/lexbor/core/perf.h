@@ -17,28 +17,28 @@ extern "C" {
 #ifdef LEXBOR_WITH_PERF
 
 
-void *
+LXB_API void *
 lexbor_perf_create(void);
 
-void
+LXB_API void
 lexbor_perf_clean(void *perf);
 
-void
+LXB_API void
 lexbor_perf_destroy(void *perf);
 
-lxb_status_t
+LXB_API lxb_status_t
 lexbor_perf_begin(void *perf);
 
-lxb_status_t
+LXB_API lxb_status_t
 lexbor_perf_end(void *perf);
 
-double
+LXB_API double
 lexbor_perf_in_sec(void *perf);
 
-unsigned long long
+LXB_API unsigned long long
 lexbor_perf_clock(void);
 
-unsigned long long
+LXB_API unsigned long long
 lexbor_perf_frequency(void);
 
 

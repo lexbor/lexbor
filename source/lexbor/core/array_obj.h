@@ -23,31 +23,31 @@ typedef struct {
 lexbor_array_obj_t;
 
 
-lexbor_array_obj_t *
+LXB_API lexbor_array_obj_t *
 lexbor_array_obj_create(void);
 
-lxb_status_t
+LXB_API lxb_status_t
 lexbor_array_obj_init(lexbor_array_obj_t *array,
                       size_t size, size_t struct_size);
 
-void
+LXB_API void
 lexbor_array_obj_clean(lexbor_array_obj_t *array);
 
-lexbor_array_obj_t *
+LXB_API lexbor_array_obj_t *
 lexbor_array_obj_destroy(lexbor_array_obj_t *array, bool self_destroy);
 
 
-uint8_t *
+LXB_API uint8_t *
 lexbor_array_obj_expand(lexbor_array_obj_t *array, size_t up_to);
 
 
-void *
+LXB_API void *
 lexbor_array_obj_push(lexbor_array_obj_t *array);
 
-void *
+LXB_API void *
 lexbor_array_obj_pop(lexbor_array_obj_t *array);
 
-void
+LXB_API void
 lexbor_array_obj_delete(lexbor_array_obj_t *array, size_t begin, size_t length);
 
 

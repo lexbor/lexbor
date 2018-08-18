@@ -22,36 +22,36 @@ typedef struct {
 lexbor_array_t;
 
 
-lexbor_array_t *
+LXB_API lexbor_array_t *
 lexbor_array_create(void);
 
-lxb_status_t
+LXB_API lxb_status_t
 lexbor_array_init(lexbor_array_t *array, size_t size);
 
-void
+LXB_API void
 lexbor_array_clean(lexbor_array_t *array);
 
-lexbor_array_t *
+LXB_API lexbor_array_t *
 lexbor_array_destroy(lexbor_array_t *array, bool self_destroy);
 
 
-void **
+LXB_API void **
 lexbor_array_expand(lexbor_array_t *array, size_t up_to);
 
 
-lxb_status_t
+LXB_API lxb_status_t
 lexbor_array_push(lexbor_array_t *array, void *value);
 
-void *
+LXB_API void *
 lexbor_array_pop(lexbor_array_t *array);
 
-lxb_status_t
+LXB_API lxb_status_t
 lexbor_array_insert(lexbor_array_t *array, size_t idx, void *value);
 
-lxb_status_t
+LXB_API lxb_status_t
 lexbor_array_set(lexbor_array_t *array, size_t idx, void *value);
 
-void
+LXB_API void
 lexbor_array_delete(lexbor_array_t *array, size_t begin, size_t length);
 
 

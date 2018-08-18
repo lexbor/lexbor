@@ -29,7 +29,7 @@ lexbor_bst_init(lexbor_bst_t *bst, size_t size)
     bst->dobject = lexbor_dobject_create();
     status = lexbor_dobject_init(bst->dobject, size,
                                  sizeof(lexbor_bst_entry_t));
-    if (status) {
+    if (status != LXB_STATUS_OK) {
         return status;
     }
 
@@ -51,8 +51,9 @@ lexbor_bst_clean(lexbor_bst_t *bst)
 lexbor_bst_t *
 lexbor_bst_destroy(lexbor_bst_t *bst, bool self_destroy)
 {
-    if (bst == NULL)
+    if (bst == NULL) {
         return NULL;
+    }
 
     bst->dobject = lexbor_dobject_destroy(bst->dobject, true);
 
@@ -101,10 +102,11 @@ lexbor_bst_insert(lexbor_bst_t *bst, lexbor_bst_entry_t **scope,
 
     entry = *scope;
 
-    while (entry) {
+    while (entry != NULL) {
         if (size == entry->size) {
-            if (entry->next)
+            if (entry->next) {
                 new_entry->next = entry->next;
+            }
 
             entry->next = new_entry;
             new_entry->parent = entry->parent;
@@ -144,12 +146,13 @@ lexbor_bst_insert_not_exists(lexbor_bst_t *bst, lexbor_bst_entry_t **scope,
 
     if (*scope == NULL) {
         *scope = lexbor_bst_entry_make(bst, size);
+
         return *scope;
     }
 
     entry = *scope;
 
-    while (entry) {
+    while (entry != NULL) {
         if (size == entry->size) {
             return entry;
         }
@@ -181,7 +184,7 @@ lexbor_bst_insert_not_exists(lexbor_bst_t *bst, lexbor_bst_entry_t **scope,
 lexbor_bst_entry_t *
 lexbor_bst_search(lexbor_bst_t *bst, lexbor_bst_entry_t *scope, size_t size)
 {
-    while (scope) {
+    while (scope != NULL) {
         if (scope->size == size) {
             return scope;
         }
@@ -202,7 +205,7 @@ lexbor_bst_search_close(lexbor_bst_t *bst, lexbor_bst_entry_t *scope,
 {
     lexbor_bst_entry_t *max = NULL;
 
-    while (scope) {
+    while (scope != NULL) {
         if (scope->size == size) {
             return scope;
         }
@@ -223,7 +226,7 @@ lexbor_bst_remove(lexbor_bst_t *bst, lexbor_bst_entry_t **scope, size_t size)
 {
     lexbor_bst_entry_t *entry = *scope;
 
-    while (entry) {
+    while (entry != NULL) {
         if (entry->size == size) {
             return lexbor_bst_remove_by_pointer(bst, entry,
                                                 entry->parent, scope);
@@ -246,7 +249,7 @@ lexbor_bst_remove_close(lexbor_bst_t *bst, lexbor_bst_entry_t **scope,
     lexbor_bst_entry_t *entry = *scope;
     lexbor_bst_entry_t *max = NULL;
 
-    while (entry) {
+    while (entry != NULL) {
         if (entry->size == size) {
             if (found_size) {
                 *found_size = entry->size;
@@ -265,14 +268,14 @@ lexbor_bst_remove_close(lexbor_bst_t *bst, lexbor_bst_entry_t **scope,
     }
 
     if (max != NULL) {
-        if (found_size) {
+        if (found_size != NULL) {
             *found_size = max->size;
         }
 
         return lexbor_bst_remove_by_pointer(bst, max, max->parent, scope);
     }
 
-    if (found_size) {
+    if (found_size != NULL) {
         *found_size = 0;
     }
 
@@ -296,6 +299,7 @@ lexbor_bst_remove_by_pointer(lexbor_bst_t *bst, lexbor_bst_entry_t *entry,
         value = next->value;
 
         lexbor_dobject_free(bst->dobject, next);
+
         return value;
     }
 
@@ -353,10 +357,12 @@ lexbor_bst_remove_by_pointer(lexbor_bst_t *bst, lexbor_bst_entry_t *entry,
         entry->next  = left_free->next;
         entry->value = left_free->value;
 
-        if (left_free_parent->left == left_free)
+        if (left_free_parent->left == left_free) {
             left_free_parent->left = left_free->right;
-        else
+        }
+        else {
             left_free_parent->right = left_free->right;
+        }
 
         lexbor_dobject_free(bst->dobject, left_free);
     }
@@ -377,8 +383,9 @@ lexbor_bst_serialize_entry(lexbor_bst_entry_t *entry,
     size_t buff_len;
     char buff[1024];
 
-    if (entry == NULL)
+    if (entry == NULL) {
         return;
+    }
 
     /* Left */
     for (size_t i = 0; i < tabs; i++) {

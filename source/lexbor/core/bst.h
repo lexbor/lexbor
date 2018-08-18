@@ -46,55 +46,55 @@ struct lexbor_bst {
 };
 
 
-lexbor_bst_t *
+LXB_API lexbor_bst_t *
 lexbor_bst_create(void);
 
-lxb_status_t
+LXB_API lxb_status_t
 lexbor_bst_init(lexbor_bst_t *bst, size_t size);
 
-void
+LXB_API void
 lexbor_bst_clean(lexbor_bst_t *bst);
 
-lexbor_bst_t *
+LXB_API lexbor_bst_t *
 lexbor_bst_destroy(lexbor_bst_t *bst, bool self_destroy);
 
-lexbor_bst_entry_t *
+LXB_API lexbor_bst_entry_t *
 lexbor_bst_entry_make(lexbor_bst_t *bst, size_t size);
 
-lexbor_bst_entry_t *
+LXB_API lexbor_bst_entry_t *
 lexbor_bst_insert(lexbor_bst_t *bst, lexbor_bst_entry_t **scope,
                   size_t size, void *value);
 
-lexbor_bst_entry_t *
+LXB_API lexbor_bst_entry_t *
 lexbor_bst_insert_not_exists(lexbor_bst_t *bst, lexbor_bst_entry_t **scope,
                              size_t size);
 
 
-lexbor_bst_entry_t *
+LXB_API lexbor_bst_entry_t *
 lexbor_bst_search(lexbor_bst_t *bst, lexbor_bst_entry_t *scope, size_t size);
 
-lexbor_bst_entry_t *
+LXB_API lexbor_bst_entry_t *
 lexbor_bst_search_close(lexbor_bst_t *bst, lexbor_bst_entry_t *scope,
                         size_t size);
 
 
-void *
+LXB_API void *
 lexbor_bst_remove(lexbor_bst_t *bst, lexbor_bst_entry_t **root, size_t size);
 
-void *
+LXB_API void *
 lexbor_bst_remove_close(lexbor_bst_t *bst, lexbor_bst_entry_t **root,
                         size_t size, size_t *found_size);
 
-void *
+LXB_API void *
 lexbor_bst_remove_by_pointer(lexbor_bst_t *bst, lexbor_bst_entry_t *entry,
                              lexbor_bst_entry_t *parent,
                              lexbor_bst_entry_t **root);
 
 
-void
+LXB_API void
 lexbor_bst_serialize(lexbor_bst_t *bst, lexbor_callback_f callback, void *ctx);
 
-void
+LXB_API void
 lexbor_bst_serialize_entry(lexbor_bst_entry_t *entry,
                            lexbor_callback_f callback, void *ctx, size_t tabs);
 

@@ -32,29 +32,29 @@ typedef struct {
 lexbor_mraw_t;
 
 
-lexbor_mraw_t *
+LXB_API lexbor_mraw_t *
 lexbor_mraw_create(void);
 
-lxb_status_t
+LXB_API lxb_status_t
 lexbor_mraw_init(lexbor_mraw_t *mraw, size_t chunk_size);
 
-void
+LXB_API void
 lexbor_mraw_clean(lexbor_mraw_t *mraw);
 
-lexbor_mraw_t *
+LXB_API lexbor_mraw_t *
 lexbor_mraw_destroy(lexbor_mraw_t *mraw, bool destroy_self);
 
 
-void *
+LXB_API void *
 lexbor_mraw_alloc(lexbor_mraw_t *mraw, size_t size);
 
-void *
+LXB_API void *
 lexbor_mraw_calloc(lexbor_mraw_t *mraw, size_t size);
 
-void *
+LXB_API void *
 lexbor_mraw_realloc(lexbor_mraw_t *mraw, void *data, size_t new_size);
 
-void *
+LXB_API void *
 lexbor_mraw_free(lexbor_mraw_t *mraw, void *data);
 
 

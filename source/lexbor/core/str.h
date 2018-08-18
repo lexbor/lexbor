@@ -49,64 +49,64 @@ typedef struct {
 lexbor_str_t;
 
 
-lexbor_str_t *
+LXB_API lexbor_str_t *
 lexbor_str_create(void);
 
-lxb_char_t *
+LXB_API lxb_char_t *
 lexbor_str_init(lexbor_str_t *str, lexbor_mraw_t *mraw, size_t size);
 
-void
+LXB_API void
 lexbor_str_clean(lexbor_str_t *str);
 
-void
+LXB_API void
 lexbor_str_clean_all(lexbor_str_t *str);
 
-lexbor_str_t *
+LXB_API lexbor_str_t *
 lexbor_str_destroy(lexbor_str_t *str, lexbor_mraw_t *mraw, bool destroy_obj);
 
 
-lxb_char_t *
+LXB_API lxb_char_t *
 lexbor_str_realloc(lexbor_str_t *str, lexbor_mraw_t *mraw, size_t new_size);
 
-lxb_char_t *
+LXB_API lxb_char_t *
 lexbor_str_check_size(lexbor_str_t *str, lexbor_mraw_t *mraw, size_t plus_len);
 
 /* Append */
-lxb_char_t *
+LXB_API lxb_char_t *
 lexbor_str_append(lexbor_str_t *str, lexbor_mraw_t *mraw,
                   const lxb_char_t *data, size_t length);
 
-lxb_char_t *
+LXB_API lxb_char_t *
 lexbor_str_append_before(lexbor_str_t *str, lexbor_mraw_t *mraw,
                          const lxb_char_t *buff, size_t length);
 
-lxb_char_t *
+LXB_API lxb_char_t *
 lexbor_str_append_one(lexbor_str_t *str, lexbor_mraw_t *mraw,
                       const lxb_char_t data);
 
-lxb_char_t *
+LXB_API lxb_char_t *
 lexbor_str_append_lowercase(lexbor_str_t *str, lexbor_mraw_t *mraw,
                             const lxb_char_t *data, size_t length);
 
-lxb_char_t *
+LXB_API lxb_char_t *
 lexbor_str_append_with_rep_null_chars(lexbor_str_t *str, lexbor_mraw_t *mraw,
                                       const lxb_char_t *buff, size_t length);
 
 /* Other functions */
-lxb_char_t *
+LXB_API lxb_char_t *
 lexbor_str_copy(lexbor_str_t *dest, const lexbor_str_t *target,
                 lexbor_mraw_t *mraw);
 
-void
+LXB_API void
 lexbor_str_stay_only_whitespace(lexbor_str_t *target);
 
-size_t
+LXB_API size_t
 lexbor_str_crop_whitespace_from_begin(lexbor_str_t *target);
 
-size_t
+LXB_API size_t
 lexbor_str_whitespace_from_begin(lexbor_str_t *target);
 
-size_t
+LXB_API size_t
 lexbor_str_whitespace_from_end(lexbor_str_t *target);
 
 
@@ -122,23 +122,23 @@ lexbor_str_whitespace_from_end(lexbor_str_t *target);
  * position in first buffer.
  * If function returns NULL, the data are not equal.
  */
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lexbor_str_data_ncasecmp_first(const lxb_char_t *first, const lxb_char_t *sec,
                                size_t sec_size);
-bool
+LXB_API bool
 lexbor_str_data_ncasecmp(const lxb_char_t *first, const lxb_char_t *sec,
                          size_t size);
-bool
+LXB_API bool
 lexbor_str_data_casecmp(const lxb_char_t *first, const lxb_char_t *sec);
 
-bool
+LXB_API bool
 lexbor_str_data_ncmp(const lxb_char_t *first, const lxb_char_t *sec,
                      size_t size);
 
-bool
+LXB_API bool
 lexbor_str_data_cmp(const lxb_char_t *first, const lxb_char_t *sec);
 
-bool
+LXB_API bool
 lexbor_str_data_cmp_ws(const lxb_char_t *first, const lxb_char_t *sec);
 
 

@@ -33,28 +33,28 @@ typedef struct {
 lexbor_shbst_t;
 
 
-lexbor_shbst_t *
+LXB_API lexbor_shbst_t *
 lexbor_shbst_create(void);
 
-lxb_status_t
+LXB_API lxb_status_t
 lexbor_shbst_init(lexbor_shbst_t *shbst, size_t table_size);
 
-void
+LXB_API void
 lexbor_shbst_clean(lexbor_shbst_t *shbst);
 
-lexbor_shbst_t *
+LXB_API lexbor_shbst_t *
 lexbor_shbst_destroy(lexbor_shbst_t *shbst, bool self_destroy);
 
 
-lexbor_shbst_entry_t *
+LXB_API lexbor_shbst_entry_t *
 lexbor_shbst_search(lexbor_shbst_t *shbst, const lxb_char_t *key,
                     size_t key_size, bool case_insensitive);
 
-lexbor_shbst_entry_t *
+LXB_API lexbor_shbst_entry_t *
 lexbor_shbst_insert(lexbor_shbst_t *shbst, const lxb_char_t *key,
                     size_t key_size, void *value);
 
-lexbor_shbst_entry_t *
+LXB_API lexbor_shbst_entry_t *
 lexbor_shbst_insert_lowercase(lexbor_shbst_t *shbst, const lxb_char_t *key,
                               size_t key_size, void *value);
 
@@ -62,11 +62,11 @@ lexbor_shbst_insert_lowercase(lexbor_shbst_t *shbst, const lxb_char_t *key,
  * Insert a key without copying.
  * Key should always be created using 'keys' in lexbor_shbst_t structure.
  */
-lexbor_shbst_entry_t *
+LXB_API lexbor_shbst_entry_t *
 lexbor_shbst_insert_wo_copy(lexbor_shbst_t *shbst,
                             lxb_char_t *key, size_t key_size, void *value);
 
-lexbor_shbst_entry_t *
+LXB_API lexbor_shbst_entry_t *
 lexbor_shbst_replace(lexbor_shbst_t *shbst,
                      const lxb_char_t *key, size_t key_size,
                      void *value, bool case_insensitive);
