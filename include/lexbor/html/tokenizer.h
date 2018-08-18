@@ -94,48 +94,48 @@ struct lxb_html_tokenizer {
 
 extern const lxb_char_t *lxb_html_tokenizer_eof;
 
-lxb_html_tokenizer_t *
+LXB_API lxb_html_tokenizer_t *
 lxb_html_tokenizer_create(void);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_tokenizer_init(lxb_html_tokenizer_t *tkz);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_tokenizer_inherit(lxb_html_tokenizer_t *tkz_to,
                            lxb_html_tokenizer_t *tkz_from);
 
-lxb_html_tokenizer_t *
+LXB_API lxb_html_tokenizer_t *
 lxb_html_tokenizer_ref(lxb_html_tokenizer_t *tkz);
 
-lxb_html_tokenizer_t *
+LXB_API lxb_html_tokenizer_t *
 lxb_html_tokenizer_unref(lxb_html_tokenizer_t *tkz, bool self_destroy);
 
-void
+LXB_API void
 lxb_html_tokenizer_clean(lxb_html_tokenizer_t *tkz);
 
-lxb_html_tokenizer_t *
+LXB_API lxb_html_tokenizer_t *
 lxb_html_tokenizer_destroy(lxb_html_tokenizer_t *tkz, bool self_destroy);
 
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_tokenizer_begin(lxb_html_tokenizer_t *tkz);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_tokenizer_chunk(lxb_html_tokenizer_t *tkz,
                          const lxb_char_t *data, size_t size);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_tokenizer_end(lxb_html_tokenizer_t *tkz);
 
 
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_html_tokenizer_change_incoming(lxb_html_tokenizer_t *tkz,
                                    const lxb_char_t *pos);
 
-lxb_html_ns_id_t
+LXB_API lxb_html_ns_id_t
 lxb_html_tokenizer_current_namespace(lxb_html_tokenizer_t *tkz);
 
-void
+LXB_API void
 lxb_html_tokenizer_set_state_by_tag(lxb_html_tokenizer_t *tkz, bool scripting,
                                     lxb_html_tag_id_t tag_id,
                                     lxb_html_ns_id_t ns);

@@ -26,35 +26,35 @@ typedef struct {
 lexbor_dobject_t;
 
 
-lexbor_dobject_t *
+LXB_API lexbor_dobject_t *
 lexbor_dobject_create(void);
 
-lxb_status_t
+LXB_API lxb_status_t
 lexbor_dobject_init(lexbor_dobject_t *dobject,
                     size_t chunk_size, size_t struct_size);
 
-void
+LXB_API void
 lexbor_dobject_clean(lexbor_dobject_t *dobject);
 
-lexbor_dobject_t *
+LXB_API lexbor_dobject_t *
 lexbor_dobject_destroy(lexbor_dobject_t *dobject, bool destroy_self);
 
 
-uint8_t *
+LXB_API uint8_t *
 lexbor_dobject_init_list_entries(lexbor_dobject_t *dobject, size_t pos);
 
 
-void *
+LXB_API void *
 lexbor_dobject_alloc(lexbor_dobject_t *dobject);
 
-void *
+LXB_API void *
 lexbor_dobject_calloc(lexbor_dobject_t *dobject);
 
-void *
+LXB_API void *
 lexbor_dobject_free(lexbor_dobject_t *dobject, void *data);
 
 
-void *
+LXB_API void *
 lexbor_dobject_by_absolute_position(lexbor_dobject_t *dobject, size_t pos);
 
 

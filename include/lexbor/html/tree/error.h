@@ -101,7 +101,7 @@ typedef struct {
 lxb_html_tree_error_t;
 
 
-lxb_html_tree_error_t *
+LXB_API lxb_html_tree_error_t *
 lxb_html_tree_error_add(lexbor_array_obj_t *parse_errors,
                         lxb_html_token_t *token, lxb_html_tree_error_id_t id);
 

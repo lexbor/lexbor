@@ -32,33 +32,33 @@ struct {
 typedef lexbor_bst_map_t;
 
 
-lexbor_bst_map_t *
+LXB_API lexbor_bst_map_t *
 lexbor_bst_map_create(void);
 
-lxb_status_t
+LXB_API lxb_status_t
 lexbor_bst_map_init(lexbor_bst_map_t *bst_map, size_t size);
 
-void
+LXB_API void
 lexbor_bst_map_clean(lexbor_bst_map_t *bst_map);
 
-lexbor_bst_map_t *
+LXB_API lexbor_bst_map_t *
 lexbor_bst_map_destroy(lexbor_bst_map_t *bst_map, bool self_destroy);
 
 
-lexbor_bst_map_entry_t *
+LXB_API lexbor_bst_map_entry_t *
 lexbor_bst_map_search(lexbor_bst_map_t *bst_map, lexbor_bst_entry_t *scope,
                       const lxb_char_t *key, size_t key_len);
 
-lexbor_bst_map_entry_t *
+LXB_API lexbor_bst_map_entry_t *
 lexbor_bst_map_insert(lexbor_bst_map_t *bst_map, lexbor_bst_entry_t **scope,
                       const lxb_char_t *key, size_t key_len, void *value);
 
-lexbor_bst_map_entry_t *
+LXB_API lexbor_bst_map_entry_t *
 lexbor_bst_map_insert_not_exists(lexbor_bst_map_t *bst_map,
                                  lexbor_bst_entry_t **scope,
                                  const lxb_char_t *key, size_t key_len);
 
-void *
+LXB_API void *
 lexbor_bst_map_remove(lexbor_bst_map_t *bst_map, lexbor_bst_entry_t **scope,
                       const lxb_char_t *key, size_t key_len);
 

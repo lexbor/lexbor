@@ -18,17 +18,17 @@ extern "C" {
 #include <lexbor/html/tag.h>
 
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_in_make(lexbor_in_node_t *node,
                  const lxb_char_t *begin, const lxb_char_t *end,
                  lexbor_str_t *str, lexbor_mraw_t *mraw);
 
-lxb_html_tag_id_t
+LXB_API lxb_html_tag_id_t
 lxb_html_in_tag_id(lexbor_in_node_t *node, lxb_html_tag_heap_t *tag_heap,
                    const lxb_char_t *begin, const lxb_char_t *end,
                    lexbor_mraw_t *mraw);
 
-bool
+LXB_API bool
 lxb_html_in_ncasecmp(lexbor_in_node_t *node,
                      const lxb_char_t *begin, const lxb_char_t *end,
                      const lxb_char_t *data, size_t len);

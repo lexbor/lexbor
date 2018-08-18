@@ -30,10 +30,10 @@ struct lxb_dom_shadow_root {
 };
 
 
-lxb_dom_shadow_root_t *
+LXB_API lxb_dom_shadow_root_t *
 lxb_dom_shadow_root_create(lxb_dom_document_t *document);
 
-lxb_dom_shadow_root_t *
+LXB_API lxb_dom_shadow_root_t *
 lxb_dom_shadow_root_destroy(lxb_dom_shadow_root_t *shadow_root);
 
 

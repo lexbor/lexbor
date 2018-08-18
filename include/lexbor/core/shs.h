@@ -26,7 +26,7 @@ struct {
 typedef lexbor_shs_entry_t;
 
 
-const lexbor_shs_entry_t *
+LXB_API const lexbor_shs_entry_t *
 lexbor_shs_entry_get_static(const lexbor_shs_entry_t *tree,
                             const lxb_char_t *key, size_t size);
 

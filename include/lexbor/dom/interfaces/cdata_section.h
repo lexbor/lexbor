@@ -20,10 +20,10 @@ struct lxb_dom_cdata_section {
 };
 
 
-lxb_dom_cdata_section_t *
+LXB_API lxb_dom_cdata_section_t *
 lxb_dom_cdata_section_create(lxb_dom_document_t *document);
 
-lxb_dom_cdata_section_t *
+LXB_API lxb_dom_cdata_section_t *
 lxb_dom_cdata_section_destroy(lxb_dom_cdata_section_t *cdata_section);
 
 

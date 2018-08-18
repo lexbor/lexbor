@@ -22,10 +22,10 @@ struct lxb_dom_processing_instruction {
 };
 
 
-lxb_dom_processing_instruction_t *
+LXB_API lxb_dom_processing_instruction_t *
 lxb_dom_processing_instruction_create(lxb_dom_document_t *document);
 
-lxb_dom_processing_instruction_t *
+LXB_API lxb_dom_processing_instruction_t *
 lxb_dom_processing_instruction_destroy(lxb_dom_processing_instruction_t *processing_instruction);
 
 

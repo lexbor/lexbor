@@ -20,10 +20,10 @@ struct lxb_html_window {
 };
 
 
-lxb_html_window_t *
+LXB_API lxb_html_window_t *
 lxb_html_window_create(lxb_html_document_t *document);
 
-lxb_html_window_t *
+LXB_API lxb_html_window_t *
 lxb_html_window_destroy(lxb_html_window_t *window);
 
 

@@ -170,7 +170,7 @@ typedef lxb_dom_node_t *
 (*lxb_html_interface_creation_f)(lxb_html_interface_document_t *document);
 
 
-void *
+LXB_API void *
 lxb_html_interface_destroy(lxb_html_document_t *document, void *interface);
 
 

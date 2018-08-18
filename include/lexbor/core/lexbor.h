@@ -11,17 +11,19 @@
 extern "C" {
 #endif
 
+#include <lexbor/core/def.h>
 
-void *
+
+LXB_API void *
 lexbor_malloc(size_t size);
 
-void *
+LXB_API void *
 lexbor_realloc(void *dst, size_t size);
 
-void *
+LXB_API void *
 lexbor_calloc(size_t num, size_t size);
 
-void *
+LXB_API void *
 lexbor_free(void *dst);
 
 

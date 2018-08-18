@@ -40,14 +40,14 @@ typedef enum {
 lexbor_fs_file_type_t;
 
 
-lxb_status_t
+LXB_API lxb_status_t
 lexbor_fs_dir_read(const lxb_char_t *dirpath, lexbor_fs_dir_opt opt,
                    lexbor_fs_dir_file_f callback, void *ctx);
 
-lexbor_fs_file_type_t
+LXB_API lexbor_fs_file_type_t
 lexbor_fs_file_type(const lxb_char_t *full_path);
 
-lxb_char_t *
+LXB_API lxb_char_t *
 lexbor_fs_file_easy_read(const lxb_char_t *full_path, size_t *len);
 
 

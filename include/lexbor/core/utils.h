@@ -22,10 +22,10 @@ extern "C" {
      onechar action '\r')
 
 
-size_t
+LXB_API size_t
 lexbor_utils_power(size_t t, size_t k);
 
-size_t
+LXB_API size_t
 lexbor_utils_hash_hash(const lxb_char_t *key, size_t key_size);
 
 

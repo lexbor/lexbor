@@ -19,7 +19,7 @@ extern "C" {
  * Must be initialized:
  *     tkz->tmp_tag_id
  */
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_html_tokenizer_state_rawtext_before(lxb_html_tokenizer_t *tkz,
                                         const lxb_char_t *data,
                                         const lxb_char_t *end);

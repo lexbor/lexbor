@@ -73,62 +73,62 @@ struct lxb_html_token_process {
 };
 
 
-lxb_html_token_t *
+LXB_API lxb_html_token_t *
 lxb_html_token_create(lexbor_dobject_t *dobj);
 
-lxb_html_token_t *
+LXB_API lxb_html_token_t *
 lxb_html_token_destroy(lxb_html_token_t *token, lexbor_dobject_t *dobj);
 
-lxb_html_token_attr_t *
+LXB_API lxb_html_token_attr_t *
 lxb_html_token_attr_append(lxb_html_token_t *token, lexbor_dobject_t *dobj);
 
-void
+LXB_API void
 lxb_html_token_attr_remove(lxb_html_token_t *token,
                            lxb_html_token_attr_t *attr);
 
-void
+LXB_API void
 lxb_html_token_attr_delete(lxb_html_token_t *token,
                            lxb_html_token_attr_t *attr, lexbor_dobject_t *dobj);
 
-size_t
+LXB_API size_t
 lxb_html_token_data_calc_length(lxb_html_token_t *token);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_token_make_data(lxb_html_token_t *token, lexbor_str_t *str,
                          lexbor_mraw_t *mraw);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_token_make_data_strict(lxb_html_token_t *token, lexbor_str_t *str,
                                 lexbor_mraw_t *mraw);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_token_parse_data(lxb_html_token_t *token, lxb_html_parser_char_t *pc,
                           lexbor_str_t *str, lexbor_mraw_t *mraw);
 
-lxb_html_tag_id_t
+LXB_API lxb_html_tag_id_t
 lxb_html_token_tag_id_from_data(lxb_html_tag_heap_t *tag_heap,
                                 lxb_html_token_t *token);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_token_process_data(lxb_html_token_process_t *process,
                             lxb_html_token_t *token);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_token_data_skip_ws_begin(lxb_html_token_t *token);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_token_data_skip_one_newline_begin(lxb_html_token_t *token);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_token_data_split_ws_begin(lxb_html_token_t *token,
                                    lxb_html_token_t *ws_token);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_token_doctype_parse(lxb_html_token_t *token, lexbor_mraw_t *mraw,
                              lexbor_str_t *name, lexbor_str_t *public,
                              lexbor_str_t *system, lexbor_str_t *id_name);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_token_find_attr(lxb_html_token_t *token, lxb_html_parser_char_t *pc,
                          lexbor_mraw_t *mraw, lxb_html_token_attr_t **ret_attr,
                          const lxb_char_t *name, size_t name_len);

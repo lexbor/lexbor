@@ -35,42 +35,42 @@ typedef struct {
 lexbor_avl_t;
 
 
-lexbor_avl_t *
+LXB_API lexbor_avl_t *
 lexbor_avl_create(void);
 
-lxb_status_t
+LXB_API lxb_status_t
 lexbor_avl_init(lexbor_avl_t *avl, size_t chunk_len);
 
-void
+LXB_API void
 lexbor_avl_clean(lexbor_avl_t *avl);
 
-lexbor_avl_t *
+LXB_API lexbor_avl_t *
 lexbor_avl_destroy(lexbor_avl_t *avl, bool self_destroy);
 
 
-lexbor_avl_node_t *
+LXB_API lexbor_avl_node_t *
 lexbor_avl_node_make(lexbor_avl_t *avl, size_t type, void *value);
 
-void
+LXB_API void
 lexbor_avl_node_clean(lexbor_avl_node_t *node);
 
-lexbor_avl_node_t *
+LXB_API lexbor_avl_node_t *
 lexbor_avl_node_destroy(lexbor_avl_t *avl, lexbor_avl_node_t *node,
                         bool self_destroy);
 
 
-lexbor_avl_node_t *
+LXB_API lexbor_avl_node_t *
 lexbor_avl_insert(lexbor_avl_t *avl, lexbor_avl_node_t **scope,
                   size_t type, void *value);
 
-lexbor_avl_node_t *
+LXB_API lexbor_avl_node_t *
 lexbor_avl_search(lexbor_avl_t *avl, lexbor_avl_node_t *scope, size_t type);
 
-void *
+LXB_API void *
 lexbor_avl_remove(lexbor_avl_t *avl, lexbor_avl_node_t **scope, size_t type);
 
 
-void
+LXB_API void
 lexbor_avl_foreach_recursion(lexbor_avl_t *avl, lexbor_avl_node_t *scope,
                              lexbor_avl_node_f callback, void *ctx);
 

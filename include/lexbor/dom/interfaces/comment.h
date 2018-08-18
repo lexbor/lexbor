@@ -20,10 +20,10 @@ struct lxb_dom_comment {
 };
 
 
-lxb_dom_comment_t *
+LXB_API lxb_dom_comment_t *
 lxb_dom_comment_create(lxb_dom_document_t *document);
 
-lxb_dom_comment_t *
+LXB_API lxb_dom_comment_t *
 lxb_dom_comment_destroy(lxb_dom_comment_t *comment);
 
 

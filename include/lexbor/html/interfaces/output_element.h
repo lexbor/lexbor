@@ -20,10 +20,10 @@ struct lxb_html_output_element {
 };
 
 
-lxb_html_output_element_t *
+LXB_API lxb_html_output_element_t *
 lxb_html_output_element_create(lxb_html_document_t *document);
 
-lxb_html_output_element_t *
+LXB_API lxb_html_output_element_t *
 lxb_html_output_element_destroy(lxb_html_output_element_t *output_element);
 
 

@@ -66,21 +66,21 @@ struct lxb_html_parser_char {
  * For lxb_html_parser_char_ref_data:
  *     .is_attribute    Enables rules for processing entity as attribute value
  */
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_parser_char_process(lxb_html_parser_char_t *pc, lexbor_str_t *str,
                              const lexbor_in_node_t *in_node,
                              const lxb_char_t *data, const lxb_char_t *end);
 
 
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_html_parser_char_data(lxb_html_parser_char_t *cr, lexbor_str_t *str,
                           const lxb_char_t *data, const lxb_char_t *end);
 
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_html_parser_char_data_lcase(lxb_html_parser_char_t *pc, lexbor_str_t *str,
                                 const lxb_char_t *data, const lxb_char_t *end);
 
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_html_parser_char_ref_data(lxb_html_parser_char_t *pc, lexbor_str_t *str,
                               const lxb_char_t *data, const lxb_char_t *end);
 

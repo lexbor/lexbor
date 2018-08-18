@@ -45,14 +45,14 @@ struct lxb_html_document {
     lxb_html_document_ready_state_t ready_state;
 };
 
-lxb_html_document_t *
+LXB_API lxb_html_document_t *
 lxb_html_document_create(lxb_html_document_t *document);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_document_init(lxb_html_document_t *document,
                        lxb_html_tag_heap_t *tag_heap);
 
-lxb_html_document_t *
+LXB_API lxb_html_document_t *
 lxb_html_document_destroy(lxb_html_document_t *document);
 
 

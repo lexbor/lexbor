@@ -24,10 +24,10 @@ struct lxb_dom_character_data {
 };
 
 
-lxb_dom_character_data_t *
+LXB_API lxb_dom_character_data_t *
 lxb_dom_character_data_create(lxb_dom_document_t *document);
 
-lxb_dom_character_data_t *
+LXB_API lxb_dom_character_data_t *
 lxb_dom_character_data_destroy(lxb_dom_character_data_t *character_data);
 
 

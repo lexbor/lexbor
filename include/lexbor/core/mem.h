@@ -37,35 +37,35 @@ struct lexbor_mem {
 };
 
 
-lexbor_mem_t *
+LXB_API lexbor_mem_t *
 lexbor_mem_create(void);
 
-lxb_status_t
+LXB_API lxb_status_t
 lexbor_mem_init(lexbor_mem_t *mem, size_t min_chunk_size);
 
-void
+LXB_API void
 lexbor_mem_clean(lexbor_mem_t *mem);
 
-lexbor_mem_t *
+LXB_API lexbor_mem_t *
 lexbor_mem_destroy(lexbor_mem_t *mem, bool destroy_self);
 
 
-uint8_t *
+LXB_API uint8_t *
 lexbor_mem_chunk_init(lexbor_mem_t *mem,
                       lexbor_mem_chunk_t *chunk, size_t length);
 
-lexbor_mem_chunk_t *
+LXB_API lexbor_mem_chunk_t *
 lexbor_mem_chunk_make(lexbor_mem_t *mem, size_t length);
 
-lexbor_mem_chunk_t *
+LXB_API lexbor_mem_chunk_t *
 lexbor_mem_chunk_destroy(lexbor_mem_t *mem,
                          lexbor_mem_chunk_t *chunk, bool self_destroy);
 
 
-void *
+LXB_API void *
 lexbor_mem_alloc(lexbor_mem_t *mem, size_t length);
 
-void *
+LXB_API void *
 lexbor_mem_calloc(lexbor_mem_t *mem, size_t length);
 
 
