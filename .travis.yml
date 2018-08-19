@@ -6,6 +6,7 @@ sudo: false
 install: false
 
 env:
+    - PROCS=2
     - TARGET=test
     - OS=el DIST=6
     - OS=el DIST=7
