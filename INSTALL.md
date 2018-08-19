@@ -63,4 +63,4 @@ sudo make install
 ```
 
 
-[CMake]: (https://cmake.org/)
+[CMake]: https://cmake.org/
