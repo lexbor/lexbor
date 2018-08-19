@@ -33,7 +33,7 @@
 #define LEXBOR_MEM_ALIGN_STEP sizeof(void *)
 
 #ifndef LEXBOR_STATIC
-    #if (defined(WIN32) || defined(_WIN32))
+    #ifdef _WIN32
         #ifdef LEXBOR_BUILDING
             #define LXB_API __declspec(dllexport)
         #else
