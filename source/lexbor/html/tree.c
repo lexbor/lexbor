@@ -188,25 +188,6 @@ lxb_html_tree_destroy(lxb_html_tree_t *tree, bool self_destroy)
     return tree;
 }
 
-lxb_status_t
-lxb_html_tree_build(lxb_html_tree_t *tree, lxb_html_document_t *document,
-                    const lxb_char_t *html, size_t size)
-{
-    tree->document = document;
-
-    tree->status = lxb_html_tokenizer_begin(tree->tkz_ref);
-    if (tree->status != LXB_STATUS_OK) {
-        return tree->status;
-    }
-
-    tree->status = lxb_html_tokenizer_chunk(tree->tkz_ref, html, size);
-    if (tree->status != LXB_STATUS_OK) {
-        return tree->status;
-    }
-
-    return lxb_html_tokenizer_end(tree->tkz_ref);
-}
-
 static lxb_html_token_t *
 lxb_html_tree_token_callback(lxb_html_tokenizer_t *tkz,
                              lxb_html_token_t *token, void *ctx)

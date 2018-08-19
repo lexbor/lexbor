@@ -71,6 +71,13 @@ lxb_html_document_original_ref(lxb_html_document_t *document)
     return lxb_dom_interface_document(document);
 }
 
+lxb_inline bool
+lxb_html_document_is_original(lxb_html_document_t *document)
+{
+    return lxb_dom_interface_node(document)->owner_document
+        == &document->dom_document;
+}
+
 lxb_inline lexbor_mraw_t*
 lxb_html_document_mraw_text(lxb_html_document_t *document)
 {

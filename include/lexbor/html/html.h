@@ -8,7 +8,7 @@
 #define LEXBOR_HTML_H
 
 #ifdef __cplusplus
-//extern "C" {
+extern "C" {
 #endif
 
 #include <lexbor/html/base.h>

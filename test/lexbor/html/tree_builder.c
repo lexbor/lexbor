@@ -37,6 +37,10 @@ static void
 check_entry(unit_kv_t *kv, unit_kv_value_t *value, lxb_html_parser_t *parser);
 
 static void
+check_entry_chunk(unit_kv_t *kv, unit_kv_value_t *hash,
+                  lxb_html_parser_t *parser);
+
+static void
 check_compare(unit_kv_t *kv, lxb_dom_node_t *root,
               lexbor_str_t *data, lexbor_str_t *result);
 
@@ -141,6 +145,7 @@ check_entries(unit_kv_t *kv, unit_kv_value_t *value, lxb_html_parser_t *parser)
             }
 
             check_entry(kv, entries->list[i], parser);
+            check_entry_chunk(kv, entries->list[i], parser);
         }
 
         return;
@@ -167,6 +172,7 @@ check_entries(unit_kv_t *kv, unit_kv_value_t *value, lxb_html_parser_t *parser)
         }
 
         check_entry(kv, entries->list[i], parser);
+        check_entry_chunk(kv, entries->list[i], parser);
 
         lxb_html_parser_destroy(parser, true);
     }
@@ -199,6 +205,71 @@ check_entry(unit_kv_t *kv, unit_kv_value_t *hash, lxb_html_parser_t *parser)
         document = lxb_html_parse(parser, data->data, data->length);
         if (document == NULL) {
             TEST_PRINTLN("Failed to parse data:");
+            TEST_FAILURE("%s", data->data);
+        }
+
+        root = lxb_dom_interface_node(document);
+    }
+
+    check_compare(kv, root, data, result);
+}
+
+static void
+check_entry_chunk(unit_kv_t *kv, unit_kv_value_t *hash,
+                  lxb_html_parser_t *parser)
+{
+    lxb_status_t status;
+    lxb_dom_node_t *root;
+    lxb_html_document_t *document;
+
+    bool scripting = hash_get_scripting(kv, hash);
+
+    lexbor_str_t *data = hash_get_str(kv, hash, "data");
+    lexbor_str_t *result = hash_get_str(kv, hash, "result");
+    fragment_entry_t fragment = hash_get_fragment(kv, hash);
+
+    lxb_html_tree_scripting_set(parser->tree, scripting);
+
+    if (fragment.tag_id != LXB_HTML_TAG__UNDEF) {
+        status = lxb_html_parse_fragment_chunk_begin(parser, NULL,
+                                                     fragment.tag_id,
+                                                     fragment.ns);
+        if (status != LXB_STATUS_OK) {
+            TEST_FAILURE("Failed to init chunk fragment parser");
+        }
+
+        for (size_t i = 0; i < data->length; i++) {
+            status = lxb_html_parse_fragment_chunk_process(parser,
+                                                           &data->data[i], 1);
+            if (status != LXB_STATUS_OK) {
+                TEST_PRINTLN("Failed to parse chunk fragment data:");
+                TEST_FAILURE("%s", data->data);
+            }
+        }
+
+        root = lxb_html_parse_fragment_chunk_end(parser);
+        if (root == NULL) {
+            TEST_PRINTLN("Failed to parse chunk fragment data:");
+            TEST_FAILURE("%s", data->data);
+        }
+    }
+    else {
+        document = lxb_html_parse_chunk_begin(parser);
+        if (document == NULL) {
+            TEST_FAILURE("Failed to init chuk parser");
+        }
+
+        for (size_t i = 0; i < data->length; i++) {
+            status = lxb_html_parse_chunk_process(parser, &data->data[i], 1);
+            if (status != LXB_STATUS_OK) {
+                TEST_PRINTLN("Failed to parse chunk data:");
+                TEST_FAILURE("%s", data->data);
+            }
+        }
+
+        status = lxb_html_parse_chunk_end(parser);
+        if (status != LXB_STATUS_OK) {
+            TEST_PRINTLN("Failed to parse chunk data:");
             TEST_FAILURE("%s", data->data);
         }
 

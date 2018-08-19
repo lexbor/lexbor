@@ -14,6 +14,10 @@
 #include "lexbor/html/tree/insertion_mode.h"
 
 
+static void
+lxb_html_parse_fragment_chunk_destroy(lxb_html_parser_t *parser);
+
+
 lxb_html_parser_t *
 lxb_html_parser_create(void)
 {
@@ -53,12 +57,20 @@ lxb_html_parser_init(lxb_html_parser_t *parser)
         return status;
     }
 
+    parser->original_tree = NULL;
+    parser->form = NULL;
+    parser->root = NULL;
+
     return LXB_STATUS_OK;
 }
 
 void
 lxb_html_parser_clean(lxb_html_parser_t *parser)
 {
+    parser->original_tree = NULL;
+    parser->form = NULL;
+    parser->root = NULL;
+
     lxb_html_tokenizer_clean(parser->tkz);
     lxb_html_tag_heap_clean(parser->tag_heap);
     lxb_html_tree_clean(parser->tree);
@@ -81,32 +93,28 @@ lxb_html_parser_destroy(lxb_html_parser_t *parser, bool self_destroy)
 lxb_html_document_t *
 lxb_html_parse(lxb_html_parser_t *parser, const lxb_char_t *html, size_t size)
 {
-    lxb_status_t status;
-    lxb_html_document_t *document;
-    lxb_html_tree_t *original_tree;
-
-    document = lxb_html_document_create(NULL);
-    status = lxb_html_document_init(document, parser->tag_heap);
-
-    if (status != LXB_STATUS_OK) {
-        parser->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-
+    lxb_html_document_t *document = lxb_html_parse_chunk_begin(parser);
+    if (document == NULL) {
         return NULL;
     }
 
-    document->dom_document.scripting = parser->tree->scripting;
-
-    original_tree = lxb_html_tokenizer_tree(parser->tkz);
-    lxb_html_tokenizer_tree_set(parser->tkz, parser->tree);
-
-    parser->status = lxb_html_tree_build(parser->tree, document, html, size);
+    lxb_html_parse_chunk_process(parser, html, size);
     if (parser->status != LXB_STATUS_OK) {
-        document = lxb_html_document_destroy(document);
+        goto failed;
     }
 
-    lxb_html_tokenizer_tree_set(parser->tkz, original_tree);
+    lxb_html_parse_chunk_end(parser);
+    if (parser->status != LXB_STATUS_OK) {
+        goto failed;
+    }
 
     return document;
+
+failed:
+
+    lxb_html_document_destroy(document);
+
+    return NULL;
 }
 
 lxb_dom_node_t *
@@ -126,18 +134,32 @@ lxb_html_parse_fragment_by_tag_id(lxb_html_parser_t *parser,
                                   lxb_html_tag_id_t tag_id, lxb_html_ns_id_t ns,
                                   const lxb_char_t *html, size_t size)
 {
-    lxb_status_t status;
+    lxb_html_parse_fragment_chunk_begin(parser, document, tag_id, ns);
+    if (parser->status != LXB_STATUS_OK) {
+        return NULL;
+    }
+
+    lxb_html_parse_fragment_chunk_process(parser, html, size);
+    if (parser->status != LXB_STATUS_OK) {
+        return NULL;
+    }
+
+    return lxb_html_parse_fragment_chunk_end(parser);
+}
+
+lxb_status_t
+lxb_html_parse_fragment_chunk_begin(lxb_html_parser_t *parser,
+                                    lxb_html_document_t *document,
+                                    lxb_html_tag_id_t tag_id,
+                                    lxb_html_ns_id_t ns)
+{
     lxb_html_document_t *new_doc;
-    lxb_html_tree_t *original_tree;
-    lxb_dom_node_t *root, *fragment, *form = NULL;
 
     new_doc = lxb_html_document_create(document);
-    status = lxb_html_document_init(new_doc, parser->tag_heap);
+    parser->status = lxb_html_document_init(new_doc, parser->tag_heap);
 
-    if (status != LXB_STATUS_OK) {
-        parser->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-
-        return NULL;
+    if (parser->status != LXB_STATUS_OK) {
+        return parser->status;
     }
 
     if (document != NULL) {
@@ -153,29 +175,28 @@ lxb_html_parse_fragment_by_tag_id(lxb_html_parser_t *parser,
                                         new_doc->dom_document.scripting,
                                         tag_id, ns);
 
-    root = lxb_html_create_node(new_doc, LXB_HTML_TAG_HTML,
-                                LXB_HTML_NS_HTML);
-    if (root == NULL) {
+    parser->root = lxb_html_create_node(new_doc, LXB_HTML_TAG_HTML,
+                                        LXB_HTML_NS_HTML);
+    if (parser->root == NULL) {
         parser->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
 
         goto done;
     }
 
-    lxb_dom_node_insert_child(lxb_dom_interface_node(new_doc), root);
+    lxb_dom_node_insert_child(lxb_dom_interface_node(new_doc), parser->root);
     lxb_dom_document_attach_element(&new_doc->dom_document,
-                                    lxb_dom_interface_element(root));
+                                    lxb_dom_interface_element(parser->root));
 
-    fragment = lxb_html_create_node(new_doc, tag_id, ns);
-    if (fragment == NULL) {
+    parser->tree->fragment = lxb_html_create_node(new_doc, tag_id, ns);
+    if (parser->tree->fragment == NULL) {
         parser->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
 
         goto done;
     }
 
-    parser->tree->fragment = fragment;
-
-    /* Contains just the single element root. */
-    parser->status = lxb_html_tree_open_elements_push(parser->tree, root);
+    /* Contains just the single element root */
+    parser->status = lxb_html_tree_open_elements_push(parser->tree,
+                                                      parser->root);
     if (parser->status != LXB_STATUS_OK) {
         goto done;
     }
@@ -192,43 +213,143 @@ lxb_html_parse_fragment_by_tag_id(lxb_html_parser_t *parser,
     lxb_html_tree_reset_insertion_mode_appropriately(parser->tree);
 
     if (tag_id == LXB_HTML_TAG_FORM && ns == LXB_HTML_NS_HTML) {
-        form = lxb_html_create_node(new_doc, LXB_HTML_TAG_FORM,
-                                    LXB_HTML_NS_HTML);
-        if (form == NULL) {
+        parser->form = lxb_html_create_node(new_doc, LXB_HTML_TAG_FORM,
+                                            LXB_HTML_NS_HTML);
+        if (parser->form == NULL) {
             parser->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
 
             goto done;
         }
 
-        parser->tree->form = lxb_html_interface_form(form);
+        parser->tree->form = lxb_html_interface_form(parser->form);
     }
 
-    original_tree = lxb_html_tokenizer_tree(parser->tkz);
+    parser->original_tree = lxb_html_tokenizer_tree(parser->tkz);
     lxb_html_tokenizer_tree_set(parser->tkz, parser->tree);
 
-    parser->status = lxb_html_tree_build(parser->tree, new_doc, html, size);
-
-    lxb_html_tokenizer_tree_set(parser->tkz, original_tree);
+    parser->status = lxb_html_tree_begin(parser->tree, new_doc);
 
 done:
 
     if (parser->status != LXB_STATUS_OK) {
-        lxb_html_html_element_destroy(lxb_html_interface_html(root));
+        lxb_html_html_element_destroy(lxb_html_interface_html(parser->root));
 
-        root = NULL;
+        parser->root = NULL;
+
+        lxb_html_parse_fragment_chunk_destroy(parser);
     }
 
-    if (form != NULL) {
-        lxb_html_form_element_destroy(lxb_html_interface_form(form));
+    return parser->status;
+}
+
+lxb_status_t
+lxb_html_parse_fragment_chunk_process(lxb_html_parser_t *parser,
+                                      const lxb_char_t *html, size_t size)
+{
+    parser->status = lxb_html_tree_chunk(parser->tree, html, size);
+
+    if (parser->status != LXB_STATUS_OK) {
+        lxb_html_html_element_destroy(lxb_html_interface_html(parser->root));
+
+        parser->root = NULL;
+
+        lxb_html_parse_fragment_chunk_destroy(parser);
     }
 
-    /*
-     * Here everything is true!
-     * If we are inherited then we delete the unnecessary document.
-     */
-    if (document != NULL) {
-        lxb_html_document_destroy(new_doc);
+    return parser->status;
+}
+
+lxb_dom_node_t *
+lxb_html_parse_fragment_chunk_end(lxb_html_parser_t *parser)
+{
+    lxb_dom_node_t *root;
+
+    parser->status = lxb_html_tree_end(parser->tree);
+    if (parser->status != LXB_STATUS_OK) {
+        lxb_html_html_element_destroy(lxb_html_interface_html(parser->root));
+
+        parser->root = NULL;
     }
+
+    lxb_html_parse_fragment_chunk_destroy(parser);
+
+    lxb_html_tokenizer_tree_set(parser->tkz, parser->original_tree);
+
+    /* Function `lxb_html_parser_clean` erase root */
+    root = parser->root;
+    lxb_html_parser_clean(parser);
 
     return root;
+}
+
+static void
+lxb_html_parse_fragment_chunk_destroy(lxb_html_parser_t *parser)
+{
+    if (parser->form != NULL) {
+        lxb_html_form_element_destroy(lxb_html_interface_form(parser->form));
+
+        parser->form = NULL;
+    }
+
+    if (parser->tree->fragment != NULL) {
+        lxb_html_interface_destroy(parser->tree->document,
+                                   parser->tree->fragment);
+
+        parser->tree->fragment = NULL;
+    }
+
+    if (lxb_html_document_is_original(parser->tree->document) == false) {
+        lxb_html_document_destroy(parser->tree->document);
+
+        parser->tree->document = NULL;
+    }
+}
+
+lxb_html_document_t *
+lxb_html_parse_chunk_begin(lxb_html_parser_t *parser)
+{
+    lxb_status_t status;
+    lxb_html_document_t *document;
+
+    document = lxb_html_document_create(NULL);
+    status = lxb_html_document_init(document, parser->tag_heap);
+
+    if (status != LXB_STATUS_OK) {
+        parser->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+
+        return NULL;
+    }
+
+    document->dom_document.scripting = parser->tree->scripting;
+
+    parser->original_tree = lxb_html_tokenizer_tree(parser->tkz);
+    lxb_html_tokenizer_tree_set(parser->tkz, parser->tree);
+
+    parser->status = lxb_html_tree_begin(parser->tree, document);
+    if (parser->status != LXB_STATUS_OK) {
+        document = lxb_html_document_destroy(document);
+    }
+
+    return document;
+}
+
+lxb_status_t
+lxb_html_parse_chunk_process(lxb_html_parser_t *parser,
+                             const lxb_char_t *html, size_t size)
+{
+    parser->status = lxb_html_tree_chunk(parser->tree, html, size);
+
+    return parser->status;
+}
+
+lxb_status_t
+lxb_html_parse_chunk_end(lxb_html_parser_t *parser)
+{
+    parser->status = lxb_html_tree_end(parser->tree);
+
+    lxb_html_tokenizer_tree_set(parser->tkz, parser->original_tree);
+
+    lxb_html_parser_clean(parser);
+
+    return parser->status;
 }

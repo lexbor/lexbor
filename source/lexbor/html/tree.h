@@ -90,10 +90,6 @@ LXB_API lxb_html_tree_t *
 lxb_html_tree_destroy(lxb_html_tree_t *tree, bool self_destroy);
 
 LXB_API lxb_status_t
-lxb_html_tree_build(lxb_html_tree_t *tree, lxb_html_document_t *document,
-                    const lxb_char_t *html, size_t size);
-
-LXB_API lxb_status_t
 lxb_html_tree_stop_parsing(lxb_html_tree_t *tree);
 
 LXB_API bool
@@ -231,6 +227,43 @@ lxb_html_tree_adjust_attributes_svg(lxb_html_tree_t *tree,
 /*
  * Inline functions
  */
+lxb_inline lxb_status_t
+lxb_html_tree_begin(lxb_html_tree_t *tree, lxb_html_document_t *document)
+{
+    tree->document = document;
+
+    return lxb_html_tokenizer_begin(tree->tkz_ref);
+}
+
+lxb_inline lxb_status_t
+lxb_html_tree_chunk(lxb_html_tree_t *tree, const lxb_char_t *html, size_t size)
+{
+    return lxb_html_tokenizer_chunk(tree->tkz_ref, html, size);
+}
+
+lxb_inline lxb_status_t
+lxb_html_tree_end(lxb_html_tree_t *tree)
+{
+    return lxb_html_tokenizer_end(tree->tkz_ref);
+}
+
+lxb_inline lxb_status_t
+lxb_html_tree_build(lxb_html_tree_t *tree, lxb_html_document_t *document,
+                    const lxb_char_t *html, size_t size)
+{
+    tree->status = lxb_html_tree_begin(tree, document);
+    if (tree->status != LXB_STATUS_OK) {
+        return tree->status;
+    }
+
+    tree->status = lxb_html_tree_chunk(tree, html, size);
+    if (tree->status != LXB_STATUS_OK) {
+        return tree->status;
+    }
+
+    return lxb_html_tree_end(tree);
+}
+
 lxb_inline lxb_dom_node_t *
 lxb_html_tree_create_node(lxb_html_tree_t *tree,
                           lxb_html_tag_id_t tag_id, lxb_html_ns_id_t ns)
