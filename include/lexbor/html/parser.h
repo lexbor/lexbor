@@ -8,7 +8,7 @@
 #define LEXBOR_HTML_PARSER_H
 
 #ifdef __cplusplus
-extern "C" {
+//extern "C" {
 #endif
 
 #include <lexbor/html/base.h>
@@ -16,16 +16,26 @@ extern "C" {
 #include <lexbor/html/interfaces/document.h>
 
 
+typedef enum {
+    LXB_HTML_PARSER_STATE_BEGIN            = 0x00,
+    LXB_HTML_PARSER_STATE_PROCESS          = 0x01,
+    LXB_HTML_PARSER_STATE_END              = 0x02,
+    LXB_HTML_PARSER_STATE_FRAGMENT_PROCESS = 0x03,
+    LXB_HTML_PARSER_STATE_ERROR            = 0x04
+}
+lxb_html_parser_state_t;
+
 typedef struct {
-    lxb_html_tokenizer_t *tkz;
-    lxb_html_tree_t      *tree;
-    lxb_html_tree_t      *original_tree;
-    lxb_html_tag_heap_t  *tag_heap;
+    lxb_html_tokenizer_t    *tkz;
+    lxb_html_tree_t         *tree;
+    lxb_html_tree_t         *original_tree;
+    lxb_html_tag_heap_t     *tag_heap;
 
-    lxb_dom_node_t       *root;
-    lxb_dom_node_t       *form;
+    lxb_dom_node_t          *root;
+    lxb_dom_node_t          *form;
 
-    lxb_status_t         status;
+    lxb_html_parser_state_t state;
+    lxb_status_t            status;
 }
 lxb_html_parser_t;
 
