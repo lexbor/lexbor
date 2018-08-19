@@ -1,40 +1,40 @@
 language: c
 compiler:
-    - clang
-    - gcc
+  - clang
+  - gcc
 sudo: false
 install: false
 
 env:
-    - PROCS=2
-    - TARGET=test
-    - OS=el DIST=6
-    - OS=el DIST=7
-    - OS=fedora DIST=24
-    - OS=fedora DIST=25
-    - OS=ubuntu DIST=precise
-    - OS=ubuntu DIST=trusty
-    - OS=ubuntu DIST=xenial
-    - OS=ubuntu DIST=yakkety
-    - OS=debian DIST=wheezy
-    - OS=debian DIST=jessie
-    - OS=debian DIST=stretch
+  - PROCS=2
+  - TARGET=test
+  - OS=el DIST=6
+  - OS=el DIST=7
+  - OS=fedora DIST=24
+  - OS=fedora DIST=25
+  - OS=ubuntu DIST=precise
+  - OS=ubuntu DIST=trusty
+  - OS=ubuntu DIST=xenial
+  - OS=ubuntu DIST=yakkety
+  - OS=debian DIST=wheezy
+  - OS=debian DIST=jessie
+  - OS=debian DIST=stretch
 
 before_script:
-    - (
-        mkdir build;
-        cd build;
-        cmake .. -DCMAKE_BUILD_TYPE=Release -DLEXBOR_BUILD_TESTS=ON
+  - (
+      mkdir build;
+      cd build;
+      cmake .. -DCMAKE_BUILD_TYPE=Release -DLEXBOR_BUILD_TESTS=ON
     )
 
 script:
-    - make -C build -j${PROCS}
-    - make test -C build -j${PROCS}
+  - make -C build -j${PROCS}
+  - make test -C build -j${PROCS}
 
 addons:
-    apt:
-        sources:
-            - george-edison55-precise-backports
-        packages:
-            - cmake-data
-            - cmake
+  apt:
+    sources:
+      - george-edison55-precise-backports
+    packages:
+      - cmake-data
+      - cmake
