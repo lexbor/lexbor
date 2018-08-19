@@ -61,9 +61,9 @@ Copyright (C) 2018 Alexander Borisov
 See [LICENSE](https://github.com/lexborisov/lexbor/blob/master/LICENSE) file.
 
 
-[Syntax]: (https://drafts.csswg.org/css-syntax-3/)
+[Syntax]: https://drafts.csswg.org/css-syntax-3/
 [CSSOM]: https://drafts.csswg.org/cssom-1/
 [CSSOM-View]: https://drafts.csswg.org/cssom-view-1/
-[Selectors]: (https://drafts.csswg.org/selectors-4/)
-[Media]: (https://drafts.csswg.org/mediaqueries-4/)
+[Selectors]: https://drafts.csswg.org/selectors-4/
+[Media]: https://drafts.csswg.org/mediaqueries-4/
 [Font]: https://drafts.csswg.org/css-fonts-3/
