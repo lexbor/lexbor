@@ -27,6 +27,13 @@ Flags that can be passed to cmake:
 
 Use the [CMake] GUI.
 
+For Windows with MSYS: 
+```bash
+cmake . -G "Unix Makefiles"
+make
+make install
+```
+
 ## Examples
 
 All examples work from created `build` directory in the root directory of project:
