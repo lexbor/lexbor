@@ -19,7 +19,7 @@ extern "C" {
     do {                                                                       \
         fprintf(stderr, __VA_ARGS__"\n"); exit(EXIT_FAILURE);                  \
     }                                                                          \
-    while (1)
+    while (0)
 
 
 lxb_inline lxb_status_t
