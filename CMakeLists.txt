@@ -27,6 +27,7 @@ option(LEXBOR_BUILD_SHARED "Build shared library" ON)
 option(LEXBOR_BUILD_STATIC "Build static library" ON)
 option(LEXBOR_INSTALL_HEADERS "Install header files" ON)
 option(LEXBOR_BUILD_TESTS "Build tests" OFF)
+option(LEXBOR_BUILD_EXAMPLES "Build examples" OFF)
 
 ################
 ## Version and path
@@ -145,6 +146,13 @@ if(LEXBOR_BUILD_STATIC)
 
     RUNTIME DESTINATION "${LEXBOR_INSTALL_DLL_EXE_DIR}"
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+endif()
+
+################
+## Examples
+#########################
+if(LEXBOR_BUILD_EXAMPLES)
+    add_subdirectory(examples)
 endif()
 
 ################

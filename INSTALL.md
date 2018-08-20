@@ -22,6 +22,7 @@ Flags that can be passed to cmake:
 |`LEXBOR_BUILD_STATIC`| ON | Create static library |
 |`LEXBOR_INSTALL_HEADERS`| ON | The header files will be installed if set to ON |
 |`LEXBOR_BUILD_TESTS`| OFF | Build tests |
+|`LEXBOR_BUILD_EXAMPLES`| OFF | Build examples |
 
 ## Windows
 
