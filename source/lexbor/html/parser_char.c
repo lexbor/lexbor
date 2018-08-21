@@ -34,7 +34,13 @@ lxb_html_parser_char_process(lxb_html_parser_char_t *pc, lexbor_str_t *str,
     pc->is_eof = false;
 
     if (str->data == NULL) {
-        lexbor_str_init(str, pc->mraw, (end - data));
+        if (lexbor_in_segment(in_node, end)) {
+            lexbor_str_init(str, pc->mraw, (end - data));
+        }
+        else {
+            lexbor_str_init(str, pc->mraw, (in_node->end - data));
+        }
+
         if (str->data == NULL) {
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         }
