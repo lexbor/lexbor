@@ -435,6 +435,7 @@ lxb_html_token_process_data(lxb_html_token_process_t *process,
         }
 
         token->in_begin = token->in_begin->next;
+        token->begin = token->in_begin->begin;
     }
 
     while (token->begin < token->end) {
