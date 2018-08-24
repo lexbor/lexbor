@@ -15,7 +15,7 @@ if(NOT DEFINED PROJECT_NAME)
 set(PROJECT_NAME "lexbor")
 endif()
 
-project(${PROJECT_NAME})
+project(${PROJECT_NAME} C)
 
 message(STATUS "Project name: ${PROJECT_NAME}")
 
