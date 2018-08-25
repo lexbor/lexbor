@@ -201,7 +201,7 @@ lexbor_fs_file_easy_read(const lxb_char_t *full_path, size_t *len)
         goto error_close;
     }
 
-    data = malloc(size.QuadPart + 1);
+    data = lexbor_malloc(size.QuadPart + 1);
     if (data == NULL) {
         goto error_close;
     }
