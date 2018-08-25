@@ -15,6 +15,13 @@
 #endif
 
 
+static unsigned long long
+lexbor_perf_clock(void);
+
+static unsigned long long
+lexbor_perf_frequency(void);
+
+
 typedef struct lexbor_perf {
     unsigned long long start;
     unsigned long long end;
@@ -79,7 +86,7 @@ lexbor_perf_in_sec(void *perf)
     return 0.0f;
 }
 
-unsigned long long
+static unsigned long long
 lexbor_perf_clock(void)
 {
     unsigned long long x;
@@ -100,7 +107,7 @@ lexbor_perf_clock(void)
     return x;
 }
 
-unsigned long long
+static unsigned long long
 lexbor_perf_frequency(void)
 {
     unsigned long long freq = 0;

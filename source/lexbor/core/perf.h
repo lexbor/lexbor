@@ -35,12 +35,6 @@ lexbor_perf_end(void *perf);
 LXB_API double
 lexbor_perf_in_sec(void *perf);
 
-LXB_API unsigned long long
-lexbor_perf_clock(void);
-
-LXB_API unsigned long long
-lexbor_perf_frequency(void);
-
 
 #endif /* LEXBOR_WITH_PERF */
 
