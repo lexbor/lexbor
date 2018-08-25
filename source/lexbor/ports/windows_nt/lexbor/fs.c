@@ -2,6 +2,7 @@
  * Copyright (C) 2018 Alexander Borisov
  *
  * Author: Alexander Borisov <lex.borisov@gmail.com>
+ *         Vincent Torri <vincent.torri@gmail.com>
  */
 
 #ifndef _DEFAULT_SOURCE
