@@ -234,6 +234,6 @@ error:
     if (len != NULL) {
         *len = 0;
     }
-    return NULL;
 
+    return NULL;
 }
