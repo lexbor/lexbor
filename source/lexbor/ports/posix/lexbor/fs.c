@@ -151,7 +151,7 @@ error:
 
     closedir(dir);
 
-    return LXB_STATUS_OK;
+    return LXB_STATUS_ERROR;
 }
 
 lexbor_fs_file_type_t
