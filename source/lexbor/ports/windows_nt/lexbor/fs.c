@@ -57,6 +57,7 @@ lexbor_fs_dir_read(const lxb_char_t *dirpath, lexbor_fs_dir_opt opt,
         if (h == INVALID_HANDLE_VALUE) {
             return LXB_STATUS_ERROR;
         }
+
         do {
             if (opt & LEXBOR_FS_DIR_OPT_WITHOUT_HIDDEN
                 && *data.cFileName == '.')
@@ -233,7 +234,6 @@ error:
     if (len != NULL) {
         *len = 0;
     }
-
     return NULL;
 
 }
