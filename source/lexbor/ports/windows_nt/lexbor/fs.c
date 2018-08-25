@@ -1,8 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
- *         Vincent Torri <vincent.torri@gmail.com>
+ * Author: Vincent Torri <vincent.torri@gmail.com>
  */
 
 #ifndef _DEFAULT_SOURCE
@@ -81,7 +80,8 @@ lexbor_fs_dir_read(const lxb_char_t *dirpath, lexbor_fs_dir_opt opt,
             if (action == LEXBOR_ACTION_STOP) {
                 break;
             }
-        } while (FindNextFile(h, &data));
+        }
+        while (FindNextFile(h, &data));
 
         goto done;
     }
@@ -93,8 +93,7 @@ lexbor_fs_dir_read(const lxb_char_t *dirpath, lexbor_fs_dir_opt opt,
 
     do {
         if (opt & LEXBOR_FS_DIR_OPT_WITHOUT_HIDDEN
-            && *data.cFileName == '.')
-        {
+            && *data.cFileName == '.') {
             continue;
         }
 
@@ -108,8 +107,7 @@ lexbor_fs_dir_read(const lxb_char_t *dirpath, lexbor_fs_dir_opt opt,
             f_type = lexbor_fs_file_type((const lxb_char_t *) data.cFileName);
 
             if (opt & LEXBOR_FS_DIR_OPT_WITHOUT_DIR
-                && f_type == LEXBOR_FS_FILE_TYPE_DIRECTORY)
-            {
+                && f_type == LEXBOR_FS_FILE_TYPE_DIRECTORY) {
                 continue;
             }
 
@@ -143,7 +141,8 @@ lexbor_fs_dir_read(const lxb_char_t *dirpath, lexbor_fs_dir_opt opt,
         if (action == LEXBOR_ACTION_STOP) {
             break;
         }
-    } while (FindNextFile(h, &data));
+    }
+    while (FindNextFile(h, &data));
 
 done:
 
@@ -213,7 +212,7 @@ lexbor_fs_file_easy_read(const lxb_char_t *full_path, size_t *len)
 
     CloseHandle(fh);
 
-    if ((LONGLONG)nread != size.QuadPart) {
+    if ((LONGLONG) nread != size.QuadPart) {
             goto error;
     }
 
@@ -228,6 +227,7 @@ lexbor_fs_file_easy_read(const lxb_char_t *full_path, size_t *len)
 error_close:
 
     CloseHandle(fh);
+
 error:
 
     if (len != NULL) {
