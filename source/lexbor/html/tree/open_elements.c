@@ -8,7 +8,7 @@
 #include "lexbor/html/tree.h"
 
 
-void
+LXB_API void
 lxb_html_tree_open_elements_remove_by_node(lxb_html_tree_t *tree,
                                            lxb_dom_node_t *node)
 {
