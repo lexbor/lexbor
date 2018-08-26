@@ -66,7 +66,7 @@ lexbor_perf_end(void *perf)
      * According to MSDN, QueryPerformanceCounter() never fails
      * on Windows XP or later
      */
-    QueryPerformanceCounter(&(((lexbor_perf_t *) (perf))->start));
+    QueryPerformanceCounter(&(((lexbor_perf_t *) (perf))->end));
 
     return LXB_STATUS_OK;
 }
