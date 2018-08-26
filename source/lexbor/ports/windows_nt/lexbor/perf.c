@@ -21,16 +21,16 @@ void *
 lexbor_perf_create(void)
 {
     lexbor_perf_t *perf = lexbor_calloc(1, sizeof(lexbor_perf_t));
-    if (perf != NULL) {
-        /*
-         * According to MSDN, QueryPerformanceFrequency() never fails
-         * on Windows XP or later
-         */
-        QueryPerformanceFrequency(&perf->freq);
-        return perf;
+    if (perf == NULL) {
+        return NULL;
     }
 
-    return NULL;
+    /*
+     * According to MSDN, QueryPerformanceFrequency() never fails
+     * on Windows XP or later
+     */
+    QueryPerformanceFrequency(&perf->freq);
+    return perf;
 }
 
 void
