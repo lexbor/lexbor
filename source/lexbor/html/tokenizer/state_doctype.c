@@ -116,7 +116,7 @@ lxb_html_tokenizer_state_doctype_before(lxb_html_tokenizer_t *tkz,
                                         const lxb_char_t *data,
                                         const lxb_char_t *end)
 {
-    tkz->token->tag_id = LXB_HTML_TAG__EM_DOCTYPE;
+    tkz->token->tag_id = LXB_TAG__EM_DOCTYPE;
 
     return lxb_html_tokenizer_state_doctype(tkz, data, end);
 }

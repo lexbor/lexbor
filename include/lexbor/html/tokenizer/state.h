@@ -18,7 +18,7 @@ extern "C" {
     do {                                                                       \
         tkz->token->tag_id = lxb_html_token_tag_id_from_data(tkz->tag_heap_ref,\
                                                              tkz->token);      \
-        if (tkz->token->tag_id == LXB_HTML_TAG__UNDEF) {                       \
+        if (tkz->token->tag_id == LXB_TAG__UNDEF) {                            \
             tkz->status = LXB_STATUS_ERROR;                                    \
             return v_end;                                                      \
         }                                                                      \
@@ -111,7 +111,7 @@ extern "C" {
 #define lxb_html_tokenizer_state_token_emit_text_not_empty_m(tkz, v_end)       \
     do {                                                                       \
         if (tkz->token->begin != tkz->token->end) {                            \
-            tkz->token->tag_id = LXB_HTML_TAG__TEXT;                           \
+            tkz->token->tag_id = LXB_TAG__TEXT;                                \
             tkz->token->type = LXB_HTML_TOKEN_TYPE_TEXT;                       \
                                                                                \
             _lxb_html_tokenizer_state_token_done_m(tkz, v_end)                 \

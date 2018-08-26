@@ -6,8 +6,8 @@
 
 #include <lexbor/core/fs.h>
 
-#include <lexbor/html/tag.h>
-#include <lexbor/html/ns.h>
+#include <lexbor/tag/tag.h>
+#include <lexbor/ns/ns.h>
 #include <lexbor/html/parser.h>
 #include <lexbor/html/serialize.h>
 #include <lexbor/html/interfaces/document.h>
@@ -15,12 +15,19 @@
 #include <unit/test.h>
 #include <unit/kv.h>
 
+#define LXB_HTML_TAG_RES_DATA
+#define LXB_HTML_TAG_RES_SHS_DATA
+#include <lexbor/html/tag_res.h>
+
 
 typedef struct {
-    lxb_html_tag_id_t tag_id;
-    lxb_html_ns_id_t  ns;
+    lxb_tag_id_t tag_id;
+    lxb_ns_id_t  ns;
 }
 fragment_entry_t;
+
+
+static lxb_tag_heap_t *test_tag_heap;
 
 
 static lxb_status_t
@@ -192,7 +199,7 @@ check_entry(unit_kv_t *kv, unit_kv_value_t *hash, lxb_html_parser_t *parser)
 
     lxb_html_tree_scripting_set(parser->tree, scripting);
 
-    if (fragment.tag_id != LXB_HTML_TAG__UNDEF) {
+    if (fragment.tag_id != LXB_TAG__UNDEF) {
         root = lxb_html_parse_fragment_by_tag_id(parser, NULL,
                                                  fragment.tag_id, fragment.ns,
                                                  data->data, data->length);
@@ -230,7 +237,7 @@ check_entry_chunk(unit_kv_t *kv, unit_kv_value_t *hash,
 
     lxb_html_tree_scripting_set(parser->tree, scripting);
 
-    if (fragment.tag_id != LXB_HTML_TAG__UNDEF) {
+    if (fragment.tag_id != LXB_TAG__UNDEF) {
         status = lxb_html_parse_fragment_chunk_begin(parser, NULL,
                                                      fragment.tag_id,
                                                      fragment.ns);
@@ -348,8 +355,8 @@ hash_get_fragment(unit_kv_t *kv, unit_kv_value_t *hash)
 {
     unit_kv_value_t *data;
     lexbor_str_t *tag_name, *ns_name;
-    lxb_html_tag_id_t tag_id;
-    lxb_html_ns_id_t ns;
+    lxb_tag_id_t tag_id;
+    lxb_ns_id_t ns;
     fragment_entry_t entry = {0};
 
     data = unit_kv_hash_value_nolen_c(hash, "fragment");
@@ -368,8 +375,9 @@ hash_get_fragment(unit_kv_t *kv, unit_kv_value_t *hash)
     tag_name = hash_get_str(kv, data, "tag");
     ns_name = hash_get_str(kv, data, "ns");
 
-    tag_id = lxb_html_tag_id_by_name(NULL, tag_name->data, tag_name->length);
-    if (tag_id == LXB_HTML_TAG__UNDEF) {
+    tag_id = lxb_tag_id_by_name(test_tag_heap, tag_name->data,
+                                tag_name->length);
+    if (tag_id == LXB_TAG__UNDEF) {
         TEST_PRINTLN("Unknown tag: %.*s",
                      (int) tag_name->length, tag_name->data);
 
@@ -378,8 +386,8 @@ hash_get_fragment(unit_kv_t *kv, unit_kv_value_t *hash)
         exit(EXIT_FAILURE);
     }
 
-    ns = lxb_html_ns_id_by_name(ns_name->data, ns_name->length);
-    if (tag_id == LXB_HTML_TAG__UNDEF) {
+    ns = lxb_ns_id_by_name(ns_name->data, ns_name->length);
+    if (tag_id == LXB_TAG__UNDEF) {
         TEST_PRINTLN("Unknown namespace: %.*s",
                      (int) ns_name->length, ns_name->data);
 
@@ -438,6 +446,14 @@ main(int argc, const char * argv[])
         return EXIT_FAILURE;
     }
 
+    test_tag_heap = lxb_tag_heap_create();
+    status = lxb_tag_heap_init(test_tag_heap, 128, lxb_html_tag_res_data,
+                               lxb_html_tag_res_shs_data, 0);
+
+    if (status != LXB_STATUS_OK) {
+        TEST_FAILURE("Failed to create tag heap object");
+    }
+
     TEST_INIT();
     TEST_RUN("lexbor/html/tree_builder");
 
@@ -445,6 +461,8 @@ main(int argc, const char * argv[])
     if (status != LXB_STATUS_OK) {
         return EXIT_FAILURE;
     }
+
+    lxb_tag_heap_destroy(test_tag_heap, true);
 
     TEST_RELEASE();
 }

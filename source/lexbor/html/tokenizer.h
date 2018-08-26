@@ -17,7 +17,7 @@ extern "C" {
 
 #include "lexbor/html/base.h"
 #include "lexbor/html/token.h"
-#include "lexbor/html/tag.h"
+#include "lexbor/tag/tag.h"
 
 
 typedef struct lxb_html_tokenizer lxb_html_tokenizer_t;
@@ -41,9 +41,9 @@ struct lxb_html_tokenizer {
     void                             *callback_token_ctx;
 
     /*
-     * A tokenizer create an lxb_html_tag_heap_t object if not it eq NULL
+     * A tokenizer create an lxb_tag_heap_t object if not it eq NULL
      */
-    lxb_html_tag_heap_t              *tag_heap_ref;
+    lxb_tag_heap_t                   *tag_heap_ref;
 
     /* For a temp strings and other templary data */
     lexbor_mraw_t                    *mraw;
@@ -73,7 +73,7 @@ struct lxb_html_tokenizer {
     /* Temp */
     const lxb_char_t                 *markup;
     lexbor_in_node_t                 *tmp_incoming_node;
-    lxb_html_tag_id_t                tmp_tag_id;
+    lxb_tag_id_t                     tmp_tag_id;
 
     /* Entities */
     const lexbor_sbst_entry_static_t *entity;
@@ -132,13 +132,12 @@ LXB_API const lxb_char_t *
 lxb_html_tokenizer_change_incoming(lxb_html_tokenizer_t *tkz,
                                    const lxb_char_t *pos);
 
-LXB_API lxb_html_ns_id_t
+LXB_API lxb_ns_id_t
 lxb_html_tokenizer_current_namespace(lxb_html_tokenizer_t *tkz);
 
 LXB_API void
 lxb_html_tokenizer_set_state_by_tag(lxb_html_tokenizer_t *tkz, bool scripting,
-                                    lxb_html_tag_id_t tag_id,
-                                    lxb_html_ns_id_t ns);
+                                    lxb_tag_id_t tag_id, lxb_ns_id_t ns);
 
 
 /*
@@ -152,9 +151,9 @@ lxb_html_tokenizer_status_set(lxb_html_tokenizer_t *tkz, lxb_status_t status)
 
 lxb_inline void
 lxb_html_tokenizer_tag_heap_set(lxb_html_tokenizer_t *tkz,
-                                lxb_html_tag_heap_t *tag_heap)
+                                lxb_tag_heap_t *tag_heap)
 {
-    tkz->tag_heap_ref = lxb_html_tag_heap_ref(tag_heap);
+    tkz->tag_heap_ref = lxb_tag_heap_ref(tag_heap);
 }
 
 lxb_inline void
@@ -181,7 +180,7 @@ lxb_html_tokenizer_state_set(lxb_html_tokenizer_t *tkz,
 
 lxb_inline void
 lxb_html_tokenizer_tmp_tag_id_set(lxb_html_tokenizer_t *tkz,
-                                  lxb_html_tag_id_t tag_id)
+                                  lxb_tag_id_t tag_id)
 {
     tkz->tmp_tag_id = tag_id;
 }

@@ -4,7 +4,17 @@
  * Author: Alexander Borisov <lex.borisov@gmail.com>
  */
 
+#include "lexbor/core/str.h"
+
 #include "lexbor/html/interfaces/document.h"
+#include "lexbor/html/html.h"
+#include "lexbor/tag/tag.h"
+
+#include "lexbor/dom/interfaces/text.h"
+
+#define LXB_HTML_TAG_RES_DATA
+#define LXB_HTML_TAG_RES_SHS_DATA
+#include "lexbor/html/tag_res.h"
 
 
 lxb_html_document_t *
@@ -32,8 +42,8 @@ lxb_html_document_create(lxb_html_document_t *document)
 
         node->type = LXB_DOM_NODE_TYPE_DOCUMENT;
 
-        node->tag_id = LXB_HTML_TAG__DOCUMENT;
-        node->ns = LXB_HTML_NS_HTML;
+        node->tag_id = LXB_TAG__DOCUMENT;
+        node->ns = LXB_NS_HTML;
 
         return doc;
     }
@@ -77,8 +87,8 @@ lxb_html_document_create(lxb_html_document_t *document)
 
     node->type = LXB_DOM_NODE_TYPE_DOCUMENT;
 
-    node->tag_id = LXB_HTML_TAG__DOCUMENT;
-    node->ns = LXB_HTML_NS_HTML;
+    node->tag_id = LXB_TAG__DOCUMENT;
+    node->ns = LXB_NS_HTML;
 
     return doc;
 
@@ -91,8 +101,7 @@ failure:
 }
 
 lxb_status_t
-lxb_html_document_init(lxb_html_document_t *document,
-                       lxb_html_tag_heap_t *tag_heap)
+lxb_html_document_init(lxb_html_document_t *document, lxb_tag_heap_t *tag_heap)
 {
     lxb_status_t status;
 
@@ -101,14 +110,16 @@ lxb_html_document_init(lxb_html_document_t *document,
     }
 
     if (tag_heap != NULL) {
-        document->mem->tag_heap_ref = lxb_html_tag_heap_ref(tag_heap);
+        document->mem->tag_heap_ref = lxb_tag_heap_ref(tag_heap);
         document->dom_document.tags = tag_heap;
 
         return LXB_STATUS_OK;
     }
 
-    tag_heap = lxb_html_tag_heap_create();
-    status = lxb_html_tag_heap_init(tag_heap, 128);
+    tag_heap = lxb_tag_heap_create();
+    status = lxb_tag_heap_init(tag_heap, 128, lxb_html_tag_res_data,
+                               lxb_html_tag_res_shs_data,
+                               LXB_TAG_CATEGORY_ORDINARY|LXB_TAG_CATEGORY_SCOPE_SELECT);
 
     if (status != LXB_STATUS_OK) {
         lexbor_mraw_destroy(document->mem->mraw, true);
@@ -145,7 +156,7 @@ lxb_html_document_destroy(lxb_html_document_t *document)
 
     document->dom_document.tags = NULL;
 
-    lxb_html_tag_heap_unref(document->mem->tag_heap_ref, true);
+    lxb_tag_heap_unref(document->mem->tag_heap_ref, true);
     lexbor_mraw_destroy(document->mem->mraw, true);
 
     return NULL;

@@ -12,7 +12,7 @@ lxb_html_tree_insertion_mode_after_frameset(lxb_html_tree_t *tree,
                                             lxb_html_token_t *token)
 {
     switch (token->tag_id) {
-        case LXB_HTML_TAG__EM_COMMENT: {
+        case LXB_TAG__EM_COMMENT: {
             lxb_dom_comment_t *comment;
 
             comment = lxb_html_tree_insert_comment(tree, token, NULL);
@@ -23,12 +23,12 @@ lxb_html_tree_insertion_mode_after_frameset(lxb_html_tree_t *tree,
             break;
         }
 
-        case LXB_HTML_TAG__EM_DOCTYPE:
+        case LXB_TAG__EM_DOCTYPE:
             lxb_html_tree_parse_error(tree, token,
                                       LXB_HTML_RULES_ERROR_DOTOAFFRMO);
             break;
 
-        case LXB_HTML_TAG_HTML:
+        case LXB_TAG_HTML:
             if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
                 tree->mode = lxb_html_tree_insertion_mode_after_after_frameset;
 
@@ -37,10 +37,10 @@ lxb_html_tree_insertion_mode_after_frameset(lxb_html_tree_t *tree,
 
             return lxb_html_tree_insertion_mode_in_body(tree, token);
 
-        case LXB_HTML_TAG_NOFRAMES:
+        case LXB_TAG_NOFRAMES:
             return lxb_html_tree_insertion_mode_in_head(tree, token);
 
-        case LXB_HTML_TAG__END_OF_FILE: {
+        case LXB_TAG__END_OF_FILE: {
             tree->status = lxb_html_tree_stop_parsing(tree);
             if (tree->status != LXB_STATUS_OK) {
                 return lxb_html_tree_process_abort(tree);
@@ -49,7 +49,7 @@ lxb_html_tree_insertion_mode_after_frameset(lxb_html_tree_t *tree,
             break;
         }
 
-        case LXB_HTML_TAG__TEXT: {
+        case LXB_TAG__TEXT: {
             size_t cur_len;
             lexbor_str_t str = {0};
             lxb_html_parser_char_t pc = {0};

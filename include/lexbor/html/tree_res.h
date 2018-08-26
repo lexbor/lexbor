@@ -23,7 +23,7 @@ typedef struct {
     size_t           name_len;
     size_t           prefix_len;
 
-    lxb_html_ns_id_t ns;
+    lxb_ns_id_t      ns;
 }
 lxb_html_tree_res_attr_adjust_foreign_t;
 
@@ -94,17 +94,17 @@ lxb_html_tree_res_attr_adjust_svg_map[] =
 static const lxb_html_tree_res_attr_adjust_foreign_t
 lxb_html_tree_res_attr_adjust_foreign_map[] =
 {
-    {"xlink:actuate", "xlink", "actuate", 13, 5, LXB_HTML_NS_XLINK},
-    {"xlink:arcrole", "xlink", "arcrole", 13, 5, LXB_HTML_NS_XLINK},
-    {"xlink:href", "xlink", "href", 10, 5, LXB_HTML_NS_XLINK},
-    {"xlink:role", "xlink", "role", 10, 5, LXB_HTML_NS_XLINK},
-    {"xlink:show", "xlink", "show", 10, 5, LXB_HTML_NS_XLINK},
-    {"xlink:title", "xlink", "title", 11, 5, LXB_HTML_NS_XLINK},
-    {"xlink:type", "xlink", "type", 10, 5, LXB_HTML_NS_XLINK},
-    {"xml:lang", "xml", "lang", 8, 3, LXB_HTML_NS_XML},
-    {"xml:space", "xml", "space", 9, 3, LXB_HTML_NS_XML},
-    {"xmlns", "", "xmlns", 5, 0, LXB_HTML_NS_XMLNS},
-    {"xmlns:xlink", "xmlns", "xlink", 11, 5, LXB_HTML_NS_XMLNS}
+    {"xlink:actuate", "xlink", "actuate", 13, 5, LXB_NS_XLINK},
+    {"xlink:arcrole", "xlink", "arcrole", 13, 5, LXB_NS_XLINK},
+    {"xlink:href", "xlink", "href", 10, 5, LXB_NS_XLINK},
+    {"xlink:role", "xlink", "role", 10, 5, LXB_NS_XLINK},
+    {"xlink:show", "xlink", "show", 10, 5, LXB_NS_XLINK},
+    {"xlink:title", "xlink", "title", 11, 5, LXB_NS_XLINK},
+    {"xlink:type", "xlink", "type", 10, 5, LXB_NS_XLINK},
+    {"xml:lang", "xml", "lang", 8, 3, LXB_NS_XML},
+    {"xml:space", "xml", "space", 9, 3, LXB_NS_XML},
+    {"xmlns", "", "xmlns", 5, 0, LXB_NS_XMLNS},
+    {"xmlns:xlink", "xmlns", "xlink", 11, 5, LXB_NS_XMLNS}
 };
 
 

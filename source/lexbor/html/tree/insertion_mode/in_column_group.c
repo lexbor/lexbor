@@ -56,7 +56,7 @@ bool
 lxb_html_tree_insertion_mode_in_column_group(lxb_html_tree_t *tree,
                                              lxb_html_token_t *token)
 {
-    if (token->tag_id >= LXB_HTML_TAG__LAST_ENTRY) {
+    if (token->tag_id >= LXB_TAG__LAST_ENTRY) {
         if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
             return lxb_html_tree_insertion_mode_in_column_group_anything_else_closed(tree,
                                                                                      token);
@@ -149,7 +149,7 @@ lxb_html_tree_insertion_mode_in_column_group_colgroup_closed(lxb_html_tree_t *tr
 {
     lxb_dom_node_t *node = lxb_html_tree_current_node(tree);
 
-    if (lxb_html_tree_node_is(node, LXB_HTML_TAG_COLGROUP) == false) {
+    if (lxb_html_tree_node_is(node, LXB_TAG_COLGROUP) == false) {
         lxb_html_tree_parse_error(tree, token,
                                   LXB_HTML_RULES_ERROR_MIELINOPELST);
 
@@ -192,7 +192,7 @@ lxb_html_tree_insertion_mode_in_column_group_anything_else(lxb_html_tree_t *tree
 {
     lxb_dom_node_t *node = lxb_html_tree_current_node(tree);
 
-    if (lxb_html_tree_node_is(node, LXB_HTML_TAG_COLGROUP) == false) {
+    if (lxb_html_tree_node_is(node, LXB_TAG_COLGROUP) == false) {
         lxb_html_tree_parse_error(tree, token,
                                   LXB_HTML_RULES_ERROR_MIELINOPELST);
 

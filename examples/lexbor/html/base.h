@@ -17,7 +17,16 @@ extern "C" {
 
 #define FAILED(...)                                                            \
     do {                                                                       \
-        fprintf(stderr, __VA_ARGS__"\n"); exit(EXIT_FAILURE);                  \
+        fprintf(stderr, __VA_ARGS__);                                          \
+        fprintf(stderr, "\n");                                                 \
+        exit(EXIT_FAILURE);                                                    \
+    }                                                                          \
+    while (0)
+
+#define PRINT(...)                                                             \
+    do {                                                                       \
+        fprintf(stdout, __VA_ARGS__);                                          \
+        fprintf(stdout, "\n");                                                 \
     }                                                                          \
     while (0)
 

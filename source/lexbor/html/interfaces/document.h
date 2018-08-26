@@ -13,7 +13,7 @@ extern "C" {
 
 #include "lexbor/core/mraw.h"
 
-#include "lexbor/html/tag.h"
+#include "lexbor/tag/tag.h"
 #include "lexbor/html/interface.h"
 #include "lexbor/dom/interfaces/document.h"
 
@@ -26,9 +26,9 @@ typedef enum {
 lxb_html_document_ready_state_t;
 
 typedef struct {
-    lexbor_mraw_t       *mraw;
-    lexbor_mraw_t       *text;
-    lxb_html_tag_heap_t *tag_heap_ref;
+    lexbor_mraw_t  *mraw;
+    lexbor_mraw_t  *text;
+    lxb_tag_heap_t *tag_heap_ref;
 }
 lxb_html_document_mem_t;
 
@@ -49,8 +49,7 @@ LXB_API lxb_html_document_t *
 lxb_html_document_create(lxb_html_document_t *document);
 
 LXB_API lxb_status_t
-lxb_html_document_init(lxb_html_document_t *document,
-                       lxb_html_tag_heap_t *tag_heap);
+lxb_html_document_init(lxb_html_document_t *document, lxb_tag_heap_t *tag_heap);
 
 LXB_API lxb_html_document_t *
 lxb_html_document_destroy(lxb_html_document_t *document);
@@ -59,6 +58,18 @@ lxb_html_document_destroy(lxb_html_document_t *document);
 /*
  * Inline functions
  */
+lxb_inline lxb_html_head_element_t *
+lxb_html_document_head_element(lxb_html_document_t *document)
+{
+    return document->head;
+}
+
+lxb_inline lxb_html_body_element_t *
+lxb_html_document_body_element(lxb_html_document_t *document)
+{
+    return document->body;
+}
+
 lxb_inline lxb_dom_document_t *
 lxb_html_document_original_ref(lxb_html_document_t *document)
 {
@@ -79,17 +90,21 @@ lxb_html_document_is_original(lxb_html_document_t *document)
 }
 
 lxb_inline lexbor_mraw_t*
+lxb_html_document_mraw(lxb_html_document_t *document)
+{
+    return document->mem->mraw;
+}
+
+lxb_inline lexbor_mraw_t*
 lxb_html_document_mraw_text(lxb_html_document_t *document)
 {
-    if (document->mem == NULL) {
-        if (document->dom_document.node.owner_document == NULL) {
-            return NULL;
-        }
+    return document->mem->text;
+}
 
-        return document->dom_document.node.owner_document->mraw;
-    }
-
-    return document->mem->mraw;
+lxb_inline lxb_tag_heap_t *
+lxb_html_document_tag_heap(lxb_html_document_t *document)
+{
+    return document->mem->tag_heap_ref;
 }
 
 

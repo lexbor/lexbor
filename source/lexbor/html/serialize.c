@@ -11,7 +11,7 @@
 
 #include "lexbor/html/serialize.h"
 #include "lexbor/html/tree.h"
-#include "lexbor/html/ns.h"
+#include "lexbor/ns/ns.h"
 #include "lexbor/html/interfaces/template_element.h"
 
 #define LEXBOR_TOKENIZER_CHARS_MAP
@@ -258,7 +258,7 @@ lxb_html_serialize_node_cb(lxb_dom_node_t *node,
             return status;
         }
 
-        if (node->tag_id == LXB_HTML_TAG_TEMPLATE) {
+        if (node->tag_id == LXB_TAG_TEMPLATE) {
             lxb_html_template_element_t *temp;
 
             temp = lxb_html_interface_template(node);
@@ -320,29 +320,29 @@ lxb_html_serialize_node_cb(lxb_dom_node_t *node,
 lxb_inline lxb_status_t
 lxb_html_serialize_node_is_void(lxb_dom_node_t *node)
 {
-    if (node->ns != LXB_HTML_NS_HTML) {
+    if (node->ns != LXB_NS_HTML) {
         return false;
     }
 
     switch (node->tag_id) {
-        case LXB_HTML_TAG_AREA:
-        case LXB_HTML_TAG_BASE:
-        case LXB_HTML_TAG_BASEFONT:
-        case LXB_HTML_TAG_BGSOUND:
-        case LXB_HTML_TAG_BR:
-        case LXB_HTML_TAG_COL:
-        case LXB_HTML_TAG_EMBED:
-        case LXB_HTML_TAG_FRAME:
-        case LXB_HTML_TAG_HR:
-        case LXB_HTML_TAG_IMG:
-        case LXB_HTML_TAG_INPUT:
-        case LXB_HTML_TAG_KEYGEN:
-        case LXB_HTML_TAG_LINK:
-        case LXB_HTML_TAG_META:
-        case LXB_HTML_TAG_PARAM:
-        case LXB_HTML_TAG_SOURCE:
-        case LXB_HTML_TAG_TRACK:
-        case LXB_HTML_TAG_WBR:
+        case LXB_TAG_AREA:
+        case LXB_TAG_BASE:
+        case LXB_TAG_BASEFONT:
+        case LXB_TAG_BGSOUND:
+        case LXB_TAG_BR:
+        case LXB_TAG_COL:
+        case LXB_TAG_EMBED:
+        case LXB_TAG_FRAME:
+        case LXB_TAG_HR:
+        case LXB_TAG_IMG:
+        case LXB_TAG_INPUT:
+        case LXB_TAG_KEYGEN:
+        case LXB_TAG_LINK:
+        case LXB_TAG_META:
+        case LXB_TAG_PARAM:
+        case LXB_TAG_SOURCE:
+        case LXB_TAG_TRACK:
+        case LXB_TAG_WBR:
             return true;
 
         default:
@@ -364,17 +364,14 @@ lxb_html_serialize_element_cb(lxb_dom_element_t *element,
     lxb_dom_node_t *node = lxb_dom_interface_node(element);
     lxb_dom_document_t *doc = element->node.owner_document;
 
-    if (node->ns == LXB_HTML_NS_HTML
-        || node->ns == LXB_HTML_NS_MATH
-        || node->ns == LXB_HTML_NS_SVG)
+    if (node->ns == LXB_NS_HTML || node->ns == LXB_NS_MATH
+        || node->ns == LXB_NS_SVG)
     {
-        tag_name = lxb_html_tag_name_by_id(doc->tags, node->tag_id, node->ns,
-                                           &len);
+        tag_name = lxb_tag_name_by_id(doc->tags, node->tag_id, node->ns, &len);
     }
     else {
         /* FIXIT: need to fix */
-        tag_name = lxb_html_tag_name_by_id(doc->tags, node->tag_id, node->ns,
-                                           &len);
+        tag_name = lxb_tag_name_by_id(doc->tags, node->tag_id, node->ns, &len);
     }
 
     if (tag_name == NULL) {
@@ -430,17 +427,14 @@ lxb_html_serialize_element_closed_cb(lxb_dom_element_t *element,
     lxb_dom_node_t *node = lxb_dom_interface_node(element);
     lxb_dom_document_t *doc = element->node.owner_document;
 
-    if (node->ns == LXB_HTML_NS_HTML
-        || node->ns == LXB_HTML_NS_MATH
-        || node->ns == LXB_HTML_NS_SVG)
+    if (node->ns == LXB_NS_HTML || node->ns == LXB_NS_MATH
+        || node->ns == LXB_NS_SVG)
     {
-        tag_name = lxb_html_tag_name_by_id(doc->tags, node->tag_id, node->ns,
-                                           &len);
+        tag_name = lxb_tag_name_by_id(doc->tags, node->tag_id, node->ns, &len);
     }
     else {
         /* FIXIT: need to fix */
-        tag_name = lxb_html_tag_name_by_id(doc->tags, node->tag_id, node->ns,
-                                           &len);
+        tag_name = lxb_tag_name_by_id(doc->tags, node->tag_id, node->ns, &len);
     }
 
     if (tag_name == NULL) {
@@ -465,18 +459,18 @@ lxb_html_serialize_text_cb(lxb_dom_text_t *text,
     lexbor_str_t *data = &text->char_data.data;
 
     switch (node->parent->tag_id) {
-        case LXB_HTML_TAG_STYLE:
-        case LXB_HTML_TAG_SCRIPT:
-        case LXB_HTML_TAG_XMP:
-        case LXB_HTML_TAG_IFRAME:
-        case LXB_HTML_TAG_NOEMBED:
-        case LXB_HTML_TAG_NOFRAMES:
-        case LXB_HTML_TAG_PLAINTEXT:
+        case LXB_TAG_STYLE:
+        case LXB_TAG_SCRIPT:
+        case LXB_TAG_XMP:
+        case LXB_TAG_IFRAME:
+        case LXB_TAG_NOEMBED:
+        case LXB_TAG_NOFRAMES:
+        case LXB_TAG_PLAINTEXT:
             lxb_html_serialize_send(data->data, data->length, ctx);
 
             return LXB_STATUS_OK;
 
-        case LXB_HTML_TAG_NOSCRIPT:
+        case LXB_TAG_NOSCRIPT:
             if (doc->scripting) {
                 lxb_html_serialize_send(data->data, data->length, ctx);
 
@@ -547,10 +541,10 @@ lxb_html_serialize_document_type_full_cb(lxb_dom_document_type_t *doctype,
                                          lxb_html_serialize_cb_f cb, void *ctx)
 {
     lxb_status_t status;
-    
+
     lxb_html_serialize_send("<!DOCTYPE", 9, ctx);
     lxb_html_serialize_send(" ", 1, ctx);
-    
+
     if (doctype->name.data != NULL && doctype->name.length != 0) {
         lxb_html_serialize_send(doctype->name.data, doctype->name.length, ctx);
     }
@@ -741,14 +735,14 @@ lxb_html_serialize_attribute_cb(lxb_dom_element_attr_t *attr, bool has_raw,
 {
     lxb_status_t status;
 
-    if (attr->ns == LXB_HTML_NS__UNDEF) {
+    if (attr->ns == LXB_NS__UNDEF) {
         lxb_html_serialize_send(attr->local_name.data, attr->local_name.length,
                                 ctx);
 
         goto value;
     }
 
-    if (attr->ns == LXB_HTML_NS_XML) {
+    if (attr->ns == LXB_NS_XML) {
         lxb_html_serialize_send((const lxb_char_t *) "xml:", 4, ctx);
         lxb_html_serialize_send(attr->local_name.data, attr->local_name.length,
                                 ctx);
@@ -756,7 +750,7 @@ lxb_html_serialize_attribute_cb(lxb_dom_element_attr_t *attr, bool has_raw,
         goto value;
     }
 
-    if (attr->ns == LXB_HTML_NS_XMLNS)
+    if (attr->ns == LXB_NS_XMLNS)
     {
         if (attr->local_name.length == 5
             && lexbor_str_data_cmp(attr->local_name.data,
@@ -773,7 +767,7 @@ lxb_html_serialize_attribute_cb(lxb_dom_element_attr_t *attr, bool has_raw,
         goto value;
     }
 
-    if (attr->ns == LXB_HTML_NS_XLINK) {
+    if (attr->ns == LXB_NS_XLINK) {
         lxb_html_serialize_send((const lxb_char_t *) "xlink:", 6, ctx);
         lxb_html_serialize_send(attr->local_name.data, attr->local_name.length,
                                 ctx);
@@ -969,7 +963,7 @@ lxb_html_serialize_pretty_node_cb(lxb_dom_node_t *node,
             return status;
         }
 
-        if (lxb_html_tree_node_is(node, LXB_HTML_TAG_TEMPLATE)) {
+        if (lxb_html_tree_node_is(node, LXB_TAG_TEMPLATE)) {
             lxb_html_template_element_t *temp;
 
             temp = lxb_html_interface_template(node);
@@ -1062,20 +1056,20 @@ lxb_html_serialize_pretty_element_cb(lxb_dom_element_t *element,
     lxb_dom_node_t *node = lxb_dom_interface_node(element);
     lxb_dom_document_t *doc = element->node.owner_document;
 
-    tag_name = lxb_html_tag_name_by_id(doc->tags, node->tag_id, node->ns, &len);
+    tag_name = lxb_tag_name_by_id(doc->tags, node->tag_id, node->ns, &len);
     if (tag_name == NULL) {
         return LXB_STATUS_ERROR;
     }
 
     lxb_html_serialize_send("<", 1, ctx);
 
-    if (element->node.ns != LXB_HTML_NS_HTML
+    if (element->node.ns != LXB_NS_HTML
         && opt & LXB_HTML_SERIALIZE_OPT_TAG_WITH_NS)
     {
         size_t ns_len;
         const lxb_char_t *ns_name;
 
-        ns_name = lxb_html_ns_lower_name_by_id(element->node.ns, &ns_len);
+        ns_name = lxb_ns_lower_name_by_id(element->node.ns, &ns_len);
         if (ns_name == NULL) {
             return LXB_STATUS_ERROR;
         }
@@ -1159,20 +1153,20 @@ lxb_html_serialize_pretty_text_cb(lxb_dom_text_t *text,
     }
 
     switch (node->parent->tag_id) {
-        case LXB_HTML_TAG_STYLE:
-        case LXB_HTML_TAG_SCRIPT:
-        case LXB_HTML_TAG_XMP:
-        case LXB_HTML_TAG_IFRAME:
-        case LXB_HTML_TAG_NOEMBED:
-        case LXB_HTML_TAG_NOFRAMES:
-        case LXB_HTML_TAG_PLAINTEXT:
+        case LXB_TAG_STYLE:
+        case LXB_TAG_SCRIPT:
+        case LXB_TAG_XMP:
+        case LXB_TAG_IFRAME:
+        case LXB_TAG_NOEMBED:
+        case LXB_TAG_NOFRAMES:
+        case LXB_TAG_PLAINTEXT:
             status = lxb_html_serialize_pretty_send_string(data->data,
                                                            data->length, indent,
                                                            with_indent,
                                                            cb, ctx);
             goto end;
 
-        case LXB_HTML_TAG_NOSCRIPT:
+        case LXB_TAG_NOSCRIPT:
             if (doc->scripting) {
                 status = lxb_html_serialize_pretty_send_string(data->data,
                                                                data->length,

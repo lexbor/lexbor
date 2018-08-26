@@ -19,13 +19,13 @@ def computeMD5hash(my_string):
     return m.hexdigest()
 
 class Tags:
-    tag_prefix = "lxb_html_tag"
+    tag_prefix = "lxb_tag"
     tag_res_data = "lxb_html_tag_res_data"
-    ns_prefix = "lxb_html_ns"
-    ns_res_data = "lxb_html_ns_res_data"
-    cat_prefix = "lxb_html_tag_category"
-    cat_empty = "LXB_HTML_TAG_CATEGORY__UNDEF"
-    creation_interface = "lxb_html_interface_creation_f"
+    ns_prefix = "lxb_ns"
+    ns_res_data = "lxb_ns_res_data"
+    cat_prefix = "lxb_tag_category"
+    cat_empty = "LXB_TAG_CATEGORY__UNDEF"
+    creation_interface = "lxb_tag_interface_creation_f"
 
     def __init__(self, json_tags, json_interfaces):
         self.interfaces = interfaces.Interfaces(json_interfaces)
@@ -136,7 +136,7 @@ class Tags:
 
     def tag_data_create(self):
         result = []
-        res = LXB.Res("lxb_html_tag_data_t", self.tag_res_data, True, self.tag_last_entry_name)
+        res = LXB.Res("lxb_tag_data_t", self.tag_res_data, True, self.tag_last_entry_name)
 
         for entry in self.enum_list:
             ns = ["            "]
@@ -186,7 +186,7 @@ class Tags:
 
     def ns_data_create(self):
         result = []
-        res = LXB.Res("lxb_html_ns_data_t", self.ns_res_data, True, self.ns_last_entry_name)
+        res = LXB.Res("lxb_ns_data_t", self.ns_res_data, True, self.ns_last_entry_name)
 
         for name in self.ns_list:
             res.append("{{\"{0}\", \"{1}\", {2}, \"{3}\", {4}, {5}}}".format(
@@ -210,13 +210,13 @@ class Tags:
 
     def ns_hash_ifdef(self):
         result = []
-        result.append("#ifdef LXB_HTML_NS_CONST_VERSION")
-        result.append("#ifndef LXB_HTML_NS_CONST_VERSION_{}".format(self.ns_hash))
-        result.append("#error Mismatched namespaces version! See \"lexbor/html/ns_const.h\".".format(self.ns_hash))
-        result.append("#endif /* LXB_HTML_NS_CONST_VERSION_{} */".format(self.ns_hash))
+        result.append("#ifdef LXB_NS_CONST_VERSION")
+        result.append("#ifndef LXB_NS_CONST_VERSION_{}".format(self.ns_hash))
+        result.append("#error Mismatched namespaces version! See \"lexbor/ns/const.h\".".format(self.ns_hash))
+        result.append("#endif /* LXB_NS_CONST_VERSION_{} */".format(self.ns_hash))
         result.append("#else")
-        result.append("#error You need to include \"lexbor/html/ns_const.h\".".format(self.ns_hash))
-        result.append("#endif /* LXB_HTML_NS_CONST_VERSION */".format(self.ns_hash))
+        result.append("#error You need to include \"lexbor/ns/const.h\".".format(self.ns_hash))
+        result.append("#endif /* LXB_NS_CONST_VERSION */".format(self.ns_hash))
 
         return "\n".join(result)
 
@@ -281,7 +281,7 @@ class Tags:
         ns = self.ns
 
         for name in self.ns_list:
-            result.append("    entry = lxb_html_ns_data_by_name((const lxb_char_t *) \"{}\", {});".format(name, len(name)))
+            result.append("    entry = lxb_ns_data_by_name((const lxb_char_t *) \"{}\", {});".format(name, len(name)))
             result.append("    test_ne(entry, NULL); test_eq_str(entry->name, \"{}\");".format(ns[name]["name"]))
 
         return result
@@ -310,13 +310,13 @@ class Tags:
 
     def enum_hash_ifdef(self):
         result = []
-        result.append("#ifdef LXB_HTML_TAG_CONST_VERSION")
-        result.append("#ifndef LXB_HTML_TAG_CONST_VERSION_{}".format(self.enum_hash))
-        result.append("#error Mismatched tags version! See \"lexbor/html/tag_const.h\".".format(self.enum_hash))
-        result.append("#endif /* LXB_HTML_TAG_CONST_VERSION_{} */".format(self.enum_hash))
+        result.append("#ifdef LXB_TAG_CONST_VERSION")
+        result.append("#ifndef LXB_TAG_CONST_VERSION_{}".format(self.enum_hash))
+        result.append("#error Mismatched tags version! See \"lexbor/tag/const.h\".".format(self.enum_hash))
+        result.append("#endif /* LXB_TAG_CONST_VERSION_{} */".format(self.enum_hash))
         result.append("#else")
-        result.append("#error You need to include \"lexbor/html/tag_const.h\".".format(self.enum_hash))
-        result.append("#endif /* LXB_HTML_TAG_CONST_VERSION */".format(self.enum_hash))
+        result.append("#error You need to include \"lexbor/tag/const.h\".".format(self.enum_hash))
+        result.append("#endif /* LXB_TAG_CONST_VERSION */".format(self.enum_hash))
 
         return "\n".join(result)
 
@@ -380,7 +380,7 @@ class Tags:
         result = []
 
         for entry in self.shs_list:
-            result.append("    entry = lxb_html_tag_data_by_name(tag_heap, (const lxb_char_t *) \"{}\", {});".format(entry["key"], len(entry["key"])))
+            result.append("    entry = lxb_tag_data_by_name(tag_heap, (const lxb_char_t *) \"{}\", {});".format(entry["key"], len(entry["key"])))
             result.append("    test_ne(entry, NULL); test_eq_u_str(entry->name, (const lxb_char_t *) \"{}\");".format(entry["key"]))
 
         return result
@@ -402,9 +402,9 @@ if __name__ == "__main__":
     tags = Tags("data/tags.json", "data/interfaces.json")
 
     # print(tags.enum_hash_ifdef())
-    tags.ns_create_and_save("tmp/ns_const.h", "../../../source/lexbor/html/ns_const.h")
-    tags.ns_shs_create_and_save("lxb_html_ns_res_shs_data", "tmp/ns_res.h", "../../../source/lexbor/html/ns_res.h")
-    tags.enum_create_and_save("tmp/tag_const.h", "../../../source/lexbor/html/tag_const.h")
+    tags.ns_create_and_save("tmp/ns_const.h", "../../../source/lexbor/ns/const.h")
+    tags.ns_shs_create_and_save("lxb_ns_res_shs_data", "tmp/ns_res.h", "../../../source/lexbor/ns/res.h")
+    tags.enum_create_and_save("tmp/tag_const.h", "../../../source/lexbor/tag/const.h")
     tags.shs_create_and_save("lxb_html_tag_res_shs_data", "tmp/tag_res.h", "../../../source/lexbor/html/tag_res.h")
-    tags.ns_test_create_and_save("tmp/test/ns_res.c", "../../../test/lexbor/html/ns_res.c")
-    tags.tag_test_create_and_save("tmp/test/tag_res.c", "../../../test/lexbor/html/tag_res.c")
+    tags.ns_test_create_and_save("tmp/test/ns_res.c", "../../../test/lexbor/ns/res.c")
+    tags.tag_test_create_and_save("tmp/test/tag_res.c", "../../../test/lexbor/tag/res.c")

@@ -19,7 +19,7 @@ set(lexbor_html_tokenizer_tokens_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/html
 set(lexbor_html_tree_builder_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/html/html5_test")
 
 ################
-## Create Unit libraries
+## Create tests
 #########################
-EXECUTABLE_LIST("${TEST_LEXBOR_HTML_SOURCES}" ${TEST_UNIT_LIB_NAME} ${LEXBOR_LIB_NAME})
+EXECUTABLE_LIST("lexbor_html_" "${TEST_LEXBOR_HTML_SOURCES}" ${TEST_UNIT_LIB_NAME} ${LEXBOR_LIB_NAME})
 APPEND_TESTS("lexbor_html_" "${TEST_LEXBOR_HTML_SOURCES}")

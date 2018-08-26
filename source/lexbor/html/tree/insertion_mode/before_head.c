@@ -39,7 +39,7 @@ lxb_html_tree_insertion_mode_before_head_open(lxb_html_tree_t *tree,
                                               lxb_html_token_t *token)
 {
     switch (token->tag_id) {
-        case LXB_HTML_TAG__EM_COMMENT: {
+        case LXB_TAG__EM_COMMENT: {
             lxb_dom_comment_t *comment;
 
             comment = lxb_html_tree_insert_comment(tree, token, NULL);
@@ -52,15 +52,15 @@ lxb_html_tree_insertion_mode_before_head_open(lxb_html_tree_t *tree,
             break;
         }
 
-        case LXB_HTML_TAG__EM_DOCTYPE:
+        case LXB_TAG__EM_DOCTYPE:
             lxb_html_tree_parse_error(tree, token,
                                       LXB_HTML_RULES_ERROR_DOTOINBEHEMO);
             break;
 
-        case LXB_HTML_TAG_HTML:
+        case LXB_TAG_HTML:
             return lxb_html_tree_insertion_mode_in_body(tree, token);
 
-        case LXB_HTML_TAG_HEAD:
+        case LXB_TAG_HEAD:
             tree->status = lxb_html_tree_insertion_mode_before_head_head(tree,
                                                                          token);
             if (tree->status != LXB_STATUS_OK) {
@@ -71,7 +71,7 @@ lxb_html_tree_insertion_mode_before_head_open(lxb_html_tree_t *tree,
 
             break;
 
-        case LXB_HTML_TAG__TEXT:
+        case LXB_TAG__TEXT:
             tree->status = lxb_html_token_data_skip_ws_begin(token);
             if (tree->status != LXB_STATUS_OK) {
                 return lxb_html_tree_process_abort(tree);
@@ -94,10 +94,10 @@ lxb_html_tree_insertion_mode_before_head_closed(lxb_html_tree_t *tree,
                                                 lxb_html_token_t *token)
 {
     switch (token->tag_id) {
-        case LXB_HTML_TAG_HEAD:
-        case LXB_HTML_TAG_BODY:
-        case LXB_HTML_TAG_HTML:
-        case LXB_HTML_TAG_BR:
+        case LXB_TAG_HEAD:
+        case LXB_TAG_BODY:
+        case LXB_TAG_HTML:
+        case LXB_TAG_BR:
             return lxb_html_tree_insertion_mode_before_head_anything_else(tree);
 
         default:
@@ -114,7 +114,7 @@ lxb_html_tree_insertion_mode_before_head_anything_else(lxb_html_tree_t *tree)
 {
     lxb_html_token_t fake_token = {0};
 
-    fake_token.tag_id = LXB_HTML_TAG_HEAD;
+    fake_token.tag_id = LXB_TAG_HEAD;
 
     tree->status = lxb_html_tree_insertion_mode_before_head_head(tree,
                                                                  &fake_token);

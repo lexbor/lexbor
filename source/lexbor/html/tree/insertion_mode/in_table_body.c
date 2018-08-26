@@ -47,7 +47,7 @@ bool
 lxb_html_tree_insertion_mode_in_table_body(lxb_html_tree_t *tree,
                                            lxb_html_token_t *token)
 {
-    if (token->tag_id >= LXB_HTML_TAG__LAST_ENTRY) {
+    if (token->tag_id >= LXB_TAG__LAST_ENTRY) {
         if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
             return lxb_html_tree_insertion_mode_in_table_body_anything_else_closed(tree,
                                                                                    token);
@@ -101,7 +101,7 @@ lxb_html_tree_insertion_mode_in_table_body_thtd(lxb_html_tree_t *tree,
 
     fake_token = *token;
 
-    fake_token.tag_id = LXB_HTML_TAG_TR;
+    fake_token.tag_id = LXB_TAG_TR;
     fake_token.attr_first = NULL;
     fake_token.attr_last = NULL;
 
@@ -126,9 +126,8 @@ lxb_html_tree_insertion_mode_in_table_body_tbtfth_closed(lxb_html_tree_t *tree,
 {
     lxb_dom_node_t *node;
 
-    node = lxb_html_tree_element_in_scope(tree, token->tag_id,
-                                          LXB_HTML_NS_HTML,
-                                          LXB_HTML_TAG_CATEGORY_SCOPE_TABLE);
+    node = lxb_html_tree_element_in_scope(tree, token->tag_id, LXB_NS_HTML,
+                                          LXB_TAG_CATEGORY_SCOPE_TABLE);
     if (node == NULL) {
         lxb_html_tree_parse_error(tree, token, LXB_HTML_RULES_ERROR_MIELINSC);
 
@@ -201,12 +200,12 @@ lxb_html_tree_clear_stack_back_to_table_body(lxb_html_tree_t *tree)
 {
     lxb_dom_node_t *current = lxb_html_tree_current_node(tree);
 
-    while ((current->tag_id != LXB_HTML_TAG_TBODY
-            && current->tag_id != LXB_HTML_TAG_TFOOT
-            && current->tag_id != LXB_HTML_TAG_THEAD
-            && current->tag_id != LXB_HTML_TAG_TEMPLATE
-            && current->tag_id != LXB_HTML_TAG_HTML)
-           || current->ns != LXB_HTML_NS_HTML)
+    while ((current->tag_id != LXB_TAG_TBODY
+            && current->tag_id != LXB_TAG_TFOOT
+            && current->tag_id != LXB_TAG_THEAD
+            && current->tag_id != LXB_TAG_TEMPLATE
+            && current->tag_id != LXB_TAG_HTML)
+           || current->ns != LXB_NS_HTML)
     {
         lxb_html_tree_open_elements_pop(tree);
         current = lxb_html_tree_current_node(tree);

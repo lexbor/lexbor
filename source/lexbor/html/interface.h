@@ -164,11 +164,6 @@ typedef struct lxb_html_unknown_element lxb_html_unknown_element_t;
 typedef struct lxb_html_video_element lxb_html_video_element_t;
 typedef struct lxb_html_window lxb_html_window_t;
 
-typedef void lxb_html_interface_document_t;
-
-typedef lxb_dom_node_t *
-(*lxb_html_interface_creation_f)(lxb_html_interface_document_t *document);
-
 
 LXB_API void *
 lxb_html_interface_destroy(lxb_html_document_t *document, void *interface);

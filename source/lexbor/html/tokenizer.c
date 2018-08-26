@@ -11,6 +11,10 @@
 #include "lexbor/html/tokenizer/state_script.h"
 #include "lexbor/html/tree.h"
 
+#define LXB_HTML_TAG_RES_DATA
+#define LXB_HTML_TAG_RES_SHS_DATA
+#include "lexbor/html/tag_res.h"
+
 
 const lxb_char_t *lxb_html_tokenizer_eof = (const lxb_char_t *) "\x00";
 
@@ -103,7 +107,7 @@ lxb_html_tokenizer_inherit(lxb_html_tokenizer_t *tkz_to,
 {
     lxb_status_t status;
 
-    tkz_to->tag_heap_ref = lxb_html_tag_heap_ref(tkz_from->tag_heap_ref);
+    tkz_to->tag_heap_ref = lxb_tag_heap_ref(tkz_from->tag_heap_ref);
 
     tkz_to->mraw = tkz_from->mraw;
 
@@ -187,7 +191,7 @@ lxb_html_tokenizer_clean(lxb_html_tokenizer_t *tkz)
     tkz->is_eof = false;
     tkz->status = LXB_STATUS_OK;
 
-    lxb_html_tag_heap_clean(tkz->tag_heap_ref);
+    lxb_tag_heap_clean(tkz->tag_heap_ref);
 
     if (tkz->ref_count == 1) {
         lexbor_mraw_clean(tkz->mraw);
@@ -208,7 +212,7 @@ lxb_html_tokenizer_destroy(lxb_html_tokenizer_t *tkz, bool self_destroy)
         return NULL;
     }
 
-    tkz->tag_heap_ref = lxb_html_tag_heap_unref(tkz->tag_heap_ref, true);
+    tkz->tag_heap_ref = lxb_tag_heap_unref(tkz->tag_heap_ref, true);
 
     if (tkz->base == NULL) {
         tkz->mraw = lexbor_mraw_destroy(tkz->mraw, true);
@@ -238,9 +242,11 @@ lxb_html_tokenizer_begin(lxb_html_tokenizer_t *tkz)
     if (tkz->tag_heap_ref == NULL) {
         lxb_status_t status;
 
-        tkz->tag_heap_ref = lxb_html_tag_heap_create();
+        tkz->tag_heap_ref = lxb_tag_heap_create();
 
-        status = lxb_html_tag_heap_init(tkz->tag_heap_ref, 128);
+        status = lxb_tag_heap_init(tkz->tag_heap_ref, 128, lxb_html_tag_res_data,
+                                   lxb_html_tag_res_shs_data,
+                                   LXB_TAG_CATEGORY_ORDINARY|LXB_TAG_CATEGORY_SCOPE_SELECT);
         if (status != LXB_STATUS_OK) {
             return status;
         }
@@ -318,7 +324,7 @@ lxb_html_tokenizer_end(lxb_html_tokenizer_t *tkz)
         }
 
         if (tkz->incoming_node && (tkz->incoming_node->next != NULL
-            || tkz->incoming_node->use != tkz->incoming_node->end))
+                                   || tkz->incoming_node->use != tkz->incoming_node->end))
         {
             tkz->is_eof = false;
             data = tkz->incoming_node->use;
@@ -353,7 +359,7 @@ lxb_html_tokenizer_end(lxb_html_tokenizer_t *tkz)
     /* Emit fake token: END OF FILE */
     lxb_html_token_clean(tkz->token);
 
-    tkz->token->tag_id = LXB_HTML_TAG__END_OF_FILE;
+    tkz->token->tag_id = LXB_TAG__END_OF_FILE;
 
     tkz->token = tkz->callback_token_done(tkz, tkz->token,
                                           tkz->callback_token_ctx);
@@ -395,17 +401,17 @@ lxb_html_tokenizer_change_incoming(lxb_html_tokenizer_t *tkz,
     return node->end;
 }
 
-lxb_html_ns_id_t
+lxb_ns_id_t
 lxb_html_tokenizer_current_namespace(lxb_html_tokenizer_t *tkz)
 {
     if (tkz->tree == NULL) {
-        return LXB_HTML_NS__UNDEF;
+        return LXB_NS__UNDEF;
     }
 
     lxb_dom_node_t *node = lxb_html_tree_adjusted_current_node(tkz->tree);
 
     if (node == NULL) {
-        return LXB_HTML_NS__UNDEF;
+        return LXB_NS__UNDEF;
     }
 
     return node->ns;
@@ -413,40 +419,39 @@ lxb_html_tokenizer_current_namespace(lxb_html_tokenizer_t *tkz)
 
 void
 lxb_html_tokenizer_set_state_by_tag(lxb_html_tokenizer_t *tkz, bool scripting,
-                                    lxb_html_tag_id_t tag_id,
-                                    lxb_html_ns_id_t ns)
+                                    lxb_tag_id_t tag_id, lxb_ns_id_t ns)
 {
-    if (ns != LXB_HTML_NS_HTML) {
+    if (ns != LXB_NS_HTML) {
         tkz->state = lxb_html_tokenizer_state_data_before;
 
         return;
     }
 
     switch (tag_id) {
-        case LXB_HTML_TAG_TITLE:
-        case LXB_HTML_TAG_TEXTAREA:
+        case LXB_TAG_TITLE:
+        case LXB_TAG_TEXTAREA:
             tkz->tmp_tag_id = tag_id;
             tkz->state = lxb_html_tokenizer_state_rcdata_before;
 
             break;
 
-        case LXB_HTML_TAG_STYLE:
-        case LXB_HTML_TAG_XMP:
-        case LXB_HTML_TAG_IFRAME:
-        case LXB_HTML_TAG_NOEMBED:
-        case LXB_HTML_TAG_NOFRAMES:
+        case LXB_TAG_STYLE:
+        case LXB_TAG_XMP:
+        case LXB_TAG_IFRAME:
+        case LXB_TAG_NOEMBED:
+        case LXB_TAG_NOFRAMES:
             tkz->tmp_tag_id = tag_id;
             tkz->state = lxb_html_tokenizer_state_rawtext_before;
 
             break;
 
-        case LXB_HTML_TAG_SCRIPT:
+        case LXB_TAG_SCRIPT:
             tkz->tmp_tag_id = tag_id;
             tkz->state = lxb_html_tokenizer_state_script_data_before;
 
             break;
 
-        case LXB_HTML_TAG_NOSCRIPT:
+        case LXB_TAG_NOSCRIPT:
             if (scripting) {
                 tkz->tmp_tag_id = tag_id;
                 tkz->state = lxb_html_tokenizer_state_rawtext_before;
@@ -458,7 +463,7 @@ lxb_html_tokenizer_set_state_by_tag(lxb_html_tokenizer_t *tkz, bool scripting,
 
             break;
 
-        case LXB_HTML_TAG_PLAINTEXT:
+        case LXB_TAG_PLAINTEXT:
             tkz->state = lxb_html_tokenizer_state_plaintext_before;
 
             break;

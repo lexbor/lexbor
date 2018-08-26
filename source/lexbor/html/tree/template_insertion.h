@@ -38,7 +38,7 @@ lxb_html_tree_template_insertion_current(lxb_html_tree_t *tree)
 
     return tmp_ins->mode;
 }
-    
+
 lxb_inline lxb_html_tree_insertion_mode_f
 lxb_html_tree_template_insertion_get(lxb_html_tree_t *tree, size_t idx)
 {

@@ -54,7 +54,7 @@ bool
 lxb_html_tree_insertion_mode_in_template(lxb_html_tree_t *tree,
                                          lxb_html_token_t *token)
 {
-    if (token->tag_id >= LXB_HTML_TAG__LAST_ENTRY) {
+    if (token->tag_id >= LXB_TAG__LAST_ENTRY) {
         if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
             return lxb_html_tree_insertion_mode_in_template_anything_else_closed(tree,
                                                                                  token);
@@ -177,8 +177,8 @@ lxb_html_tree_insertion_mode_in_template_end_of_file(lxb_html_tree_t *tree,
 {
     lxb_dom_node_t *node;
 
-    node = lxb_html_tree_open_elements_find(tree, LXB_HTML_TAG_TEMPLATE,
-                                            LXB_HTML_NS_HTML, NULL);
+    node = lxb_html_tree_open_elements_find(tree, LXB_TAG_TEMPLATE, LXB_NS_HTML,
+                                            NULL);
     if (node == NULL) {
         tree->status =  lxb_html_tree_stop_parsing(tree);
         if (tree->status != LXB_STATUS_OK) {
@@ -190,8 +190,8 @@ lxb_html_tree_insertion_mode_in_template_end_of_file(lxb_html_tree_t *tree,
 
     lxb_html_tree_parse_error(tree, token, LXB_HTML_RULES_ERROR_UNENOFFI);
 
-    lxb_html_tree_open_elements_pop_until_tag_id(tree, LXB_HTML_TAG_TEMPLATE,
-                                                 LXB_HTML_NS_HTML, true);
+    lxb_html_tree_open_elements_pop_until_tag_id(tree, LXB_TAG_TEMPLATE,
+                                                 LXB_NS_HTML, true);
 
     lxb_html_tree_active_formatting_up_to_last_marker(tree);
     lxb_html_tree_template_insertion_pop(tree);

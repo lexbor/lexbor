@@ -13,27 +13,27 @@ lxb_html_tree_insertion_mode_in_frameset(lxb_html_tree_t *tree,
                                          lxb_html_token_t *token)
 {
     if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
-        if (token->tag_id == LXB_HTML_TAG_FRAMESET)
+        if (token->tag_id == LXB_TAG_FRAMESET)
         {
             lxb_dom_node_t *node;
             node = lxb_html_tree_current_node(tree);
-            
+
             if (node == lxb_html_tree_open_elements_first(tree)) {
                 lxb_html_tree_parse_error(tree, token,
                                           LXB_HTML_RULES_ERROR_UNELINOPELST);
                 return true;
             }
-            
+
             lxb_html_tree_open_elements_pop(tree);
-            
+
             node = lxb_html_tree_current_node(tree);
-            
+
             if (tree->fragment == NULL
-                && lxb_html_tree_node_is(node, LXB_HTML_TAG_FRAMESET) == false)
+                && lxb_html_tree_node_is(node, LXB_TAG_FRAMESET) == false)
             {
                 tree->mode = lxb_html_tree_insertion_mode_after_frameset;
             }
-            
+
             return true;
         }
 
@@ -43,7 +43,7 @@ lxb_html_tree_insertion_mode_in_frameset(lxb_html_tree_t *tree,
     }
 
     switch (token->tag_id) {
-        case LXB_HTML_TAG__EM_COMMENT: {
+        case LXB_TAG__EM_COMMENT: {
             lxb_dom_comment_t *comment;
 
             comment = lxb_html_tree_insert_comment(tree, token, NULL);
@@ -54,15 +54,15 @@ lxb_html_tree_insertion_mode_in_frameset(lxb_html_tree_t *tree,
             break;
         }
 
-        case LXB_HTML_TAG__EM_DOCTYPE:
+        case LXB_TAG__EM_DOCTYPE:
             lxb_html_tree_parse_error(tree, token,
                                       LXB_HTML_RULES_ERROR_DOTOINFRMO);
             break;
 
-        case LXB_HTML_TAG_HTML:
+        case LXB_TAG_HTML:
             return lxb_html_tree_insertion_mode_in_body(tree, token);
 
-        case LXB_HTML_TAG_FRAMESET: {
+        case LXB_TAG_FRAMESET: {
             lxb_html_element_t *element;
 
             element = lxb_html_tree_insert_html_element(tree, token);
@@ -75,7 +75,7 @@ lxb_html_tree_insertion_mode_in_frameset(lxb_html_tree_t *tree,
             break;
         }
 
-        case LXB_HTML_TAG_FRAME: {
+        case LXB_TAG_FRAME: {
             lxb_html_element_t *element;
 
             element = lxb_html_tree_insert_html_element(tree, token);
@@ -91,10 +91,10 @@ lxb_html_tree_insertion_mode_in_frameset(lxb_html_tree_t *tree,
             break;
         }
 
-        case LXB_HTML_TAG_NOFRAMES:
+        case LXB_TAG_NOFRAMES:
             return lxb_html_tree_insertion_mode_in_head(tree, token);
 
-        case LXB_HTML_TAG__END_OF_FILE: {
+        case LXB_TAG__END_OF_FILE: {
             lxb_dom_node_t *node = lxb_html_tree_current_node(tree);
 
             if (node != lxb_html_tree_open_elements_first(tree)) {
@@ -110,7 +110,7 @@ lxb_html_tree_insertion_mode_in_frameset(lxb_html_tree_t *tree,
             break;
         }
 
-        case LXB_HTML_TAG__TEXT: {
+        case LXB_TAG__TEXT: {
             size_t cur_len;
             lexbor_str_t str = {0};
             lxb_html_parser_char_t pc = {0};

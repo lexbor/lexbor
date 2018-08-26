@@ -74,7 +74,7 @@ lxb_html_tokenizer_state_comment_before_start(lxb_html_tokenizer_t *tkz,
         lxb_html_tokenizer_state_token_set_end(tkz, data);
     }
 
-    tkz->token->tag_id = LXB_HTML_TAG__EM_COMMENT;
+    tkz->token->tag_id = LXB_TAG__EM_COMMENT;
     tkz->token->type = LXB_HTML_TOKEN_TYPE_DATA;
 
     return lxb_html_tokenizer_state_comment_start(tkz, data, end);

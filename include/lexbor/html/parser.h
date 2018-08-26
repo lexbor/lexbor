@@ -29,7 +29,7 @@ typedef struct {
     lxb_html_tokenizer_t    *tkz;
     lxb_html_tree_t         *tree;
     lxb_html_tree_t         *original_tree;
-    lxb_html_tag_heap_t     *tag_heap;
+    lxb_tag_heap_t          *tag_heap;
 
     lxb_dom_node_t          *root;
     lxb_dom_node_t          *form;
@@ -64,7 +64,7 @@ lxb_html_parse_fragment(lxb_html_parser_t *parser, lxb_html_element_t *element,
 LXB_API lxb_dom_node_t *
 lxb_html_parse_fragment_by_tag_id(lxb_html_parser_t *parser,
                                   lxb_html_document_t *document,
-                                  lxb_html_tag_id_t tag_id, lxb_html_ns_id_t ns,
+                                  lxb_tag_id_t tag_id, lxb_ns_id_t ns,
                                   const lxb_char_t *html, size_t size);
 
 
@@ -82,8 +82,7 @@ lxb_html_parse_chunk_end(lxb_html_parser_t *parser);
 LXB_API lxb_status_t
 lxb_html_parse_fragment_chunk_begin(lxb_html_parser_t *parser,
                                     lxb_html_document_t *document,
-                                    lxb_html_tag_id_t tag_id,
-                                    lxb_html_ns_id_t ns);
+                                    lxb_tag_id_t tag_id, lxb_ns_id_t ns);
 
 LXB_API lxb_status_t
 lxb_html_parse_fragment_chunk_process(lxb_html_parser_t *parser,

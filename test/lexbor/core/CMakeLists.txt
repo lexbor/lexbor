@@ -13,7 +13,7 @@ include_directories(".")
 file(GLOB_RECURSE TEST_LEXBOR_CORE_SOURCES "*.c")
 
 ################
-## Create Unit libraries
+## Create tests
 #########################
-EXECUTABLE_LIST("${TEST_LEXBOR_CORE_SOURCES}" ${TEST_UNIT_LIB_NAME} ${LEXBOR_LIB_NAME})
+EXECUTABLE_LIST("lexbor_core_" "${TEST_LEXBOR_CORE_SOURCES}" ${TEST_UNIT_LIB_NAME} ${LEXBOR_LIB_NAME})
 APPEND_TESTS("lexbor_core_" "${TEST_LEXBOR_CORE_SOURCES}")

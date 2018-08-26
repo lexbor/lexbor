@@ -16,7 +16,7 @@ lxb_html_tree_insertion_mode_in_table_text(lxb_html_tree_t *tree,
     lxb_html_token_t *token_text;
     lexbor_array_obj_t *pt_list = tree->pending_table.text_tokens;
 
-    if (token->tag_id == LXB_HTML_TAG__TEXT) {
+    if (token->tag_id == LXB_TAG__TEXT) {
         if (token->type & LXB_HTML_TOKEN_TYPE_NULL) {
             lxb_html_tree_parse_error(tree, token,
                                       LXB_HTML_RULES_ERROR_NUCH);

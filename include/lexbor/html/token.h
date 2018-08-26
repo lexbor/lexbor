@@ -17,7 +17,7 @@ extern "C" {
 
 #include <lexbor/html/base.h>
 #include <lexbor/html/token_attr.h>
-#include <lexbor/html/tag.h>
+#include <lexbor/tag/tag.h>
 #include <lexbor/html/parser_char.h>
 
 
@@ -53,7 +53,7 @@ typedef struct {
 
     void                  *base_element;
 
-    lxb_html_tag_id_t     tag_id;
+    lxb_tag_id_t          tag_id;
     lxb_html_token_type_t type;
 }
 lxb_html_token_t;
@@ -105,8 +105,8 @@ LXB_API lxb_status_t
 lxb_html_token_parse_data(lxb_html_token_t *token, lxb_html_parser_char_t *pc,
                           lexbor_str_t *str, lexbor_mraw_t *mraw);
 
-LXB_API lxb_html_tag_id_t
-lxb_html_token_tag_id_from_data(lxb_html_tag_heap_t *tag_heap,
+LXB_API lxb_tag_id_t
+lxb_html_token_tag_id_from_data(lxb_tag_heap_t *tag_heap,
                                 lxb_html_token_t *token);
 
 LXB_API lxb_status_t

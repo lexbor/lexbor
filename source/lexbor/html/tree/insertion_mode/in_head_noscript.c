@@ -38,31 +38,31 @@ lxb_html_tree_insertion_mode_in_head_noscript_open(lxb_html_tree_t *tree,
                                                    lxb_html_token_t *token)
 {
     switch (token->tag_id) {
-        case LXB_HTML_TAG__EM_DOCTYPE:
+        case LXB_TAG__EM_DOCTYPE:
             lxb_html_tree_parse_error(tree, token,
                                       LXB_HTML_RULES_ERROR_DOTOINHENOMO);
             break;
 
-        case LXB_HTML_TAG_HTML:
+        case LXB_TAG_HTML:
             return lxb_html_tree_insertion_mode_in_body(tree, token);
 
-        case LXB_HTML_TAG__EM_COMMENT:
-        case LXB_HTML_TAG_BASEFONT:
-        case LXB_HTML_TAG_BGSOUND:
-        case LXB_HTML_TAG_LINK:
-        case LXB_HTML_TAG_META:
-        case LXB_HTML_TAG_NOFRAMES:
-        case LXB_HTML_TAG_STYLE:
+        case LXB_TAG__EM_COMMENT:
+        case LXB_TAG_BASEFONT:
+        case LXB_TAG_BGSOUND:
+        case LXB_TAG_LINK:
+        case LXB_TAG_META:
+        case LXB_TAG_NOFRAMES:
+        case LXB_TAG_STYLE:
             return lxb_html_tree_insertion_mode_in_head(tree, token);
 
-        case LXB_HTML_TAG_HEAD:
-        case LXB_HTML_TAG_NOSCRIPT:
+        case LXB_TAG_HEAD:
+        case LXB_TAG_NOSCRIPT:
             lxb_html_tree_parse_error(tree, token,
                                       LXB_HTML_RULES_ERROR_UNTO);
             break;
 
         /* CopyPast from "in head" insertion mode */
-        case LXB_HTML_TAG__TEXT: {
+        case LXB_TAG__TEXT: {
             lxb_html_token_t ws_token = {0};
 
             tree->status = lxb_html_token_data_split_ws_begin(token, &ws_token);
@@ -96,7 +96,7 @@ static bool
 lxb_html_tree_insertion_mode_in_head_noscript_closed(lxb_html_tree_t *tree,
                                                      lxb_html_token_t *token)
 {
-    if(token->tag_id == LXB_HTML_TAG_BR) {
+    if(token->tag_id == LXB_TAG_BR) {
         return lxb_html_tree_insertion_mode_in_head_noscript_anything_else(tree,
                                                                             token);
     }

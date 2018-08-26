@@ -41,7 +41,7 @@ lxb_html_tree_active_formatting_reconstruct_elements(lxb_html_tree_t *tree);
 
 lxb_dom_node_t *
 lxb_html_tree_active_formatting_between_last_marker(lxb_html_tree_t *tree,
-                                                    lxb_html_tag_id_t tag_idx,
+                                                    lxb_tag_id_t tag_idx,
                                                     size_t *return_idx);
 
 void

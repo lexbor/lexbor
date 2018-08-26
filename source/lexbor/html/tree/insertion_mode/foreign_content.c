@@ -51,7 +51,7 @@ bool
 lxb_html_tree_insertion_mode_foreign_content(lxb_html_tree_t *tree,
                                              lxb_html_token_t *token)
 {
-    if (token->tag_id >= LXB_HTML_TAG__LAST_ENTRY) {
+    if (token->tag_id >= LXB_TAG__LAST_ENTRY) {
         if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
             return lxb_html_tree_insertion_mode_foreign_content_anything_else_closed(tree,
                                                                                      token);
@@ -184,7 +184,7 @@ lxb_html_tree_insertion_mode_foreign_content_all(lxb_html_tree_t *tree,
 {
     lxb_dom_node_t *node;
 
-    if (token->tag_id == LXB_HTML_TAG_FONT) {
+    if (token->tag_id == LXB_TAG_FONT) {
         lexbor_str_t str = {0};
         lxb_html_token_attr_t *attr = token->attr_first;
 
@@ -242,7 +242,7 @@ go_next:
     while (node &&
            !(lxb_html_tree_mathml_text_integration_point(node)
             || lxb_html_tree_html_integration_point(node)
-            || node->ns == LXB_HTML_NS_HTML));
+            || node->ns == LXB_NS_HTML));
 
     return false;
 }
@@ -256,7 +256,7 @@ lxb_html_tree_insertion_mode_foreign_content_script_closed(lxb_html_tree_t *tree
 {
     lxb_dom_node_t *node = lxb_html_tree_current_node(tree);
 
-    if (node->tag_id != LXB_HTML_TAG_SCRIPT || node->ns != LXB_HTML_NS_SVG) {
+    if (node->tag_id != LXB_TAG_SCRIPT || node->ns != LXB_NS_SVG) {
         return lxb_html_tree_insertion_mode_foreign_content_anything_else_closed(tree,
                                                                                  token);
     }
@@ -273,10 +273,10 @@ lxb_html_tree_insertion_mode_foreign_content_anything_else(lxb_html_tree_t *tree
     lxb_html_element_t *element;
     lxb_dom_node_t *node = lxb_html_tree_adjusted_current_node(tree);
 
-    if (node->ns == LXB_HTML_NS_MATH) {
+    if (node->ns == LXB_NS_MATH) {
         tree->before_append_attr = lxb_html_tree_adjust_attributes_mathml;
     }
-    else if (node->ns == LXB_HTML_NS_SVG) {
+    else if (node->ns == LXB_NS_SVG) {
         tree->before_append_attr = lxb_html_tree_adjust_attributes_svg;
     }
 
@@ -296,7 +296,7 @@ lxb_html_tree_insertion_mode_foreign_content_anything_else(lxb_html_tree_t *tree
 
     node = lxb_html_tree_current_node(tree);
 
-    if (token->tag_id == LXB_HTML_TAG_SCRIPT && node->ns == LXB_HTML_NS_SVG) {
+    if (token->tag_id == LXB_TAG_SCRIPT && node->ns == LXB_NS_SVG) {
         lxb_html_tree_acknowledge_token_self_closing(tree, token);
         return lxb_html_tree_insertion_mode_foreign_content_script_closed(tree, token);
     }
@@ -334,7 +334,7 @@ lxb_html_tree_insertion_mode_foreign_content_anything_else_closed(lxb_html_tree_
 
         idx--;
 
-        if (list[idx]->ns == LXB_HTML_NS_HTML) {
+        if (list[idx]->ns == LXB_NS_HTML) {
             break;
         }
     }

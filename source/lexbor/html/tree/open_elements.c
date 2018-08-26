@@ -31,8 +31,8 @@ lxb_html_tree_open_elements_remove_by_node(lxb_html_tree_t *tree,
 
 void
 lxb_html_tree_open_elements_pop_until_tag_id(lxb_html_tree_t *tree,
-                                             lxb_html_tag_id_t tag_id,
-                                             lxb_html_ns_id_t ns,
+                                             lxb_tag_id_t tag_id,
+                                             lxb_ns_id_t ns,
                                              bool exclude)
 {
     void **list = tree->open_elements->list;
@@ -65,13 +65,13 @@ lxb_html_tree_open_elements_pop_until_h123456(lxb_html_tree_t *tree)
         node = list[ tree->open_elements->length ];
 
         switch (node->tag_id) {
-            case LXB_HTML_TAG_H1:
-            case LXB_HTML_TAG_H2:
-            case LXB_HTML_TAG_H3:
-            case LXB_HTML_TAG_H4:
-            case LXB_HTML_TAG_H5:
-            case LXB_HTML_TAG_H6:
-                if (node->ns == LXB_HTML_NS_HTML) {
+            case LXB_TAG_H1:
+            case LXB_TAG_H2:
+            case LXB_TAG_H3:
+            case LXB_TAG_H4:
+            case LXB_TAG_H5:
+            case LXB_TAG_H6:
+                if (node->ns == LXB_NS_HTML) {
                     return;
                 }
 
@@ -95,9 +95,9 @@ lxb_html_tree_open_elements_pop_until_td_th(lxb_html_tree_t *tree)
         node = list[ tree->open_elements->length ];
 
         switch (node->tag_id) {
-            case LXB_HTML_TAG_TD:
-            case LXB_HTML_TAG_TH:
-                if (node->ns == LXB_HTML_NS_HTML) {
+            case LXB_TAG_TD:
+            case LXB_TAG_TH:
+                if (node->ns == LXB_NS_HTML) {
                     return;
                 }
 
@@ -193,7 +193,7 @@ lxb_html_tree_open_elements_find_by_node_reverse(lxb_html_tree_t *tree,
 
 lxb_dom_node_t *
 lxb_html_tree_open_elements_find(lxb_html_tree_t *tree,
-                                 lxb_html_tag_id_t tag_id, lxb_html_ns_id_t ns,
+                                 lxb_tag_id_t tag_id, lxb_ns_id_t ns,
                                  size_t *return_index)
 {
     void **list = tree->open_elements->list;
@@ -220,8 +220,7 @@ lxb_html_tree_open_elements_find(lxb_html_tree_t *tree,
 
 lxb_dom_node_t *
 lxb_html_tree_open_elements_find_reverse(lxb_html_tree_t *tree,
-                                         lxb_html_tag_id_t tag_id,
-                                         lxb_html_ns_id_t ns,
+                                         lxb_tag_id_t tag_id, lxb_ns_id_t ns,
                                          size_t *return_index)
 {
     void **list = tree->open_elements->list;

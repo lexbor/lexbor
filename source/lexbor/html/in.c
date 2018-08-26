@@ -44,24 +44,24 @@ lxb_html_in_make(lexbor_in_node_t *node,
     return LXB_STATUS_OK;
 }
 
-lxb_html_tag_id_t
-lxb_html_in_tag_id(lexbor_in_node_t *node, lxb_html_tag_heap_t *tag_heap,
+lxb_tag_id_t
+lxb_html_in_tag_id(lexbor_in_node_t *node, lxb_tag_heap_t *tag_heap,
                    const lxb_char_t *begin, const lxb_char_t *end,
                    lexbor_mraw_t *mraw)
 {
     if (lexbor_in_segment(node, end)) {
-        return lxb_html_tag_id_by_name(tag_heap, begin, (end - begin));
+        return lxb_tag_id_by_name(tag_heap, begin, (end - begin));
     }
 
     lexbor_str_t str = {0};
-    lxb_html_tag_id_t tag_id;
+    lxb_tag_id_t tag_id;
 
     lxb_status_t status = lxb_html_in_make(node, begin, end, &str, mraw);
     if (status != LXB_STATUS_OK) {
-        return LXB_HTML_TAG__UNDEF;
+        return LXB_TAG__UNDEF;
     }
 
-    tag_id = lxb_html_tag_id_by_name(tag_heap, str.data, str.length);
+    tag_id = lxb_tag_id_by_name(tag_heap, str.data, str.length);
 
     lexbor_str_destroy(&str, mraw, false);
 

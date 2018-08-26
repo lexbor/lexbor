@@ -135,7 +135,7 @@ lxb_html_tree_insertion_mode_initial(lxb_html_tree_t *tree,
                                      lxb_html_token_t *token)
 {
     switch (token->tag_id) {
-        case LXB_HTML_TAG__EM_COMMENT: {
+        case LXB_TAG__EM_COMMENT: {
             lxb_dom_comment_t *comment;
 
             comment = lxb_html_tree_insert_comment(tree, token,
@@ -147,12 +147,12 @@ lxb_html_tree_insertion_mode_initial(lxb_html_tree_t *tree,
             break;
         }
 
-        case LXB_HTML_TAG__EM_DOCTYPE:
+        case LXB_TAG__EM_DOCTYPE:
             tree->mode = lxb_html_tree_insertion_mode_before_html;
 
             return lxb_html_tree_insertion_mode_initial_doctype(tree, token);
 
-        case LXB_HTML_TAG__TEXT:
+        case LXB_TAG__TEXT:
             tree->status = lxb_html_token_data_skip_ws_begin(token);
             if (tree->status != LXB_STATUS_OK) {
                 return lxb_html_tree_process_abort(tree);

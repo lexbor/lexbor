@@ -45,7 +45,7 @@ lxb_html_tokenizer_state_rawtext_before(lxb_html_tokenizer_t *tkz,
         lxb_html_tokenizer_state_token_set_begin(tkz, data);
     }
 
-    tkz->token->tag_id = LXB_HTML_TAG__TEXT;
+    tkz->token->tag_id = LXB_TAG__TEXT;
     tkz->token->type = LXB_HTML_TOKEN_TYPE_DATA;
 
     tkz->state = lxb_html_tokenizer_state_rawtext;
@@ -153,7 +153,7 @@ lxb_html_tokenizer_state_rawtext_end_tag_name(lxb_html_tokenizer_t *tkz,
                                               const lxb_char_t *end)
 {
     const lxb_char_t *begin;
-    lxb_html_tag_id_t tag_id;
+    lxb_tag_id_t tag_id;
 
     while (data != end) {
         switch (*data) {

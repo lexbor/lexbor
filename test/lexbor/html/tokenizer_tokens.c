@@ -223,7 +223,7 @@ check_token_tag(tokenizer_helper_t *helper, unit_kv_value_t *entry,
 {
     lexbor_str_t *str;
     unit_kv_value_t *value;
-    lxb_html_tag_id_t tag_id;
+    lxb_tag_id_t tag_id;
 
     value = unit_kv_hash_value_nolen_c(entry, "tag");
     if (value == NULL) {
@@ -239,8 +239,8 @@ check_token_tag(tokenizer_helper_t *helper, unit_kv_value_t *entry,
 
     str = unit_kv_string(value);
 
-    tag_id = lxb_html_tag_id_by_name(helper->tkz->tag_heap_ref,
-                                     str->data, str->length);
+    tag_id = lxb_tag_id_by_name(helper->tkz->tag_heap_ref,
+                                str->data, str->length);
 
     if (token->tag_id != tag_id) {
         TEST_PRINTLN("Parameter 'tag' not match");

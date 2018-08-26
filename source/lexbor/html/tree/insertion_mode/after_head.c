@@ -39,7 +39,7 @@ lxb_html_tree_insertion_mode_after_head_open(lxb_html_tree_t *tree,
                                              lxb_html_token_t *token)
 {
     switch (token->tag_id) {
-        case LXB_HTML_TAG__EM_COMMENT: {
+        case LXB_TAG__EM_COMMENT: {
             lxb_dom_comment_t *comment;
 
             comment = lxb_html_tree_insert_comment(tree, token, NULL);
@@ -52,15 +52,15 @@ lxb_html_tree_insertion_mode_after_head_open(lxb_html_tree_t *tree,
             break;
         }
 
-        case LXB_HTML_TAG__EM_DOCTYPE:
+        case LXB_TAG__EM_DOCTYPE:
             lxb_html_tree_parse_error(tree, token,
                                       LXB_HTML_RULES_ERROR_DOTOAFHEMO);
             break;
 
-        case LXB_HTML_TAG_HTML:
+        case LXB_TAG_HTML:
             return lxb_html_tree_insertion_mode_in_body(tree, token);
 
-        case LXB_HTML_TAG_BODY: {
+        case LXB_TAG_BODY: {
             lxb_html_element_t *element;
 
             element = lxb_html_tree_insertion_mode_after_head_create_body(tree,
@@ -77,7 +77,7 @@ lxb_html_tree_insertion_mode_after_head_open(lxb_html_tree_t *tree,
             break;
         }
 
-        case LXB_HTML_TAG_FRAMESET: {
+        case LXB_TAG_FRAMESET: {
             lxb_html_element_t *element;
 
             element = lxb_html_tree_insert_html_element(tree, token);
@@ -92,16 +92,16 @@ lxb_html_tree_insertion_mode_after_head_open(lxb_html_tree_t *tree,
             break;
         }
 
-        case LXB_HTML_TAG_BASE:
-        case LXB_HTML_TAG_BASEFONT:
-        case LXB_HTML_TAG_BGSOUND:
-        case LXB_HTML_TAG_LINK:
-        case LXB_HTML_TAG_META:
-        case LXB_HTML_TAG_NOFRAMES:
-        case LXB_HTML_TAG_SCRIPT:
-        case LXB_HTML_TAG_STYLE:
-        case LXB_HTML_TAG_TEMPLATE:
-        case LXB_HTML_TAG_TITLE: {
+        case LXB_TAG_BASE:
+        case LXB_TAG_BASEFONT:
+        case LXB_TAG_BGSOUND:
+        case LXB_TAG_LINK:
+        case LXB_TAG_META:
+        case LXB_TAG_NOFRAMES:
+        case LXB_TAG_SCRIPT:
+        case LXB_TAG_STYLE:
+        case LXB_TAG_TEMPLATE:
+        case LXB_TAG_TITLE: {
             lxb_dom_node_t *head_node;
 
             head_node = lxb_dom_interface_node(tree->document->head);
@@ -128,12 +128,12 @@ lxb_html_tree_insertion_mode_after_head_open(lxb_html_tree_t *tree,
             break;
         }
 
-        case LXB_HTML_TAG_HEAD:
+        case LXB_TAG_HEAD:
             lxb_html_tree_parse_error(tree, token,
                                       LXB_HTML_RULES_ERROR_HETOAFHEMO);
             break;
 
-        case LXB_HTML_TAG__TEXT: {
+        case LXB_TAG__TEXT: {
             lxb_html_token_t ws_token = {0};
 
             tree->status = lxb_html_token_data_split_ws_begin(token, &ws_token);
@@ -167,12 +167,12 @@ lxb_html_tree_insertion_mode_after_head_closed(lxb_html_tree_t *tree,
                                                lxb_html_token_t *token)
 {
     switch (token->tag_id) {
-        case LXB_HTML_TAG_TEMPLATE:
+        case LXB_TAG_TEMPLATE:
             return lxb_html_tree_insertion_mode_in_head(tree, token);
 
-        case LXB_HTML_TAG_BODY:
-        case LXB_HTML_TAG_HTML:
-        case LXB_HTML_TAG_BR:
+        case LXB_TAG_BODY:
+        case LXB_TAG_HTML:
+        case LXB_TAG_BR:
             return lxb_html_tree_insertion_mode_after_head_anything_else(tree);
 
         default:
@@ -190,7 +190,7 @@ lxb_html_tree_insertion_mode_after_head_anything_else(lxb_html_tree_t *tree)
     lxb_html_element_t *element;
     lxb_html_token_t fake_token = {0};
 
-    fake_token.tag_id = LXB_HTML_TAG_BODY;
+    fake_token.tag_id = LXB_TAG_BODY;
 
     element = lxb_html_tree_insertion_mode_after_head_create_body(tree,
                                                                   &fake_token);

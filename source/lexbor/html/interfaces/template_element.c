@@ -29,7 +29,7 @@ lxb_html_template_element_create(lxb_html_document_t *document)
         return lxb_html_template_element_destroy(element);
     }
 
-    element->content->node.ns = LXB_HTML_NS_HTML;
+    element->content->node.ns = LXB_NS_HTML;
     element->content->host = lxb_dom_interface_element(element);
 
     return element;

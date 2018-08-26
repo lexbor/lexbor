@@ -181,7 +181,7 @@ lxb_html_tree_active_formatting_reconstruct_elements(lxb_html_tree_t *tree)
 
 lxb_dom_node_t *
 lxb_html_tree_active_formatting_between_last_marker(lxb_html_tree_t *tree,
-                                                    lxb_html_tag_id_t tag_idx,
+                                                    lxb_tag_id_t tag_idx,
                                                     size_t *return_idx)
 {
     lxb_dom_node_t **list = (lxb_dom_node_t **) tree->active_formatting->list;
@@ -194,9 +194,7 @@ lxb_html_tree_active_formatting_between_last_marker(lxb_html_tree_t *tree,
             return NULL;
         }
 
-        if (list[idx]->tag_id == tag_idx
-                 && list[idx]->ns == LXB_HTML_NS_HTML)
-        {
+        if (list[idx]->tag_id == tag_idx && list[idx]->ns == LXB_NS_HTML) {
             if (return_idx) {
                 *return_idx = idx;
             }

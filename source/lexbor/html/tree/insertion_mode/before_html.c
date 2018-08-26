@@ -41,12 +41,12 @@ lxb_html_tree_insertion_mode_before_html_open(lxb_html_tree_t *tree,
                                               lxb_html_token_t *token)
 {
     switch (token->tag_id) {
-        case LXB_HTML_TAG__EM_DOCTYPE:
+        case LXB_TAG__EM_DOCTYPE:
             lxb_html_tree_parse_error(tree, token,
                                       LXB_HTML_RULES_ERROR_DOTOINBEHTMO);
             break;
 
-        case LXB_HTML_TAG__EM_COMMENT: {
+        case LXB_TAG__EM_COMMENT: {
             lxb_dom_comment_t *comment;
 
             comment = lxb_html_tree_insert_comment(tree, token,
@@ -58,12 +58,12 @@ lxb_html_tree_insertion_mode_before_html_open(lxb_html_tree_t *tree,
             break;
         }
 
-        case LXB_HTML_TAG_HTML: {
+        case LXB_TAG_HTML: {
             lxb_dom_node_t *node_html;
             lxb_html_element_t *element;
 
             element = lxb_html_tree_create_element_for_token(tree, token,
-                                            LXB_HTML_NS_HTML,
+                                            LXB_NS_HTML,
                                             &tree->document->dom_document.node);
             if (element == NULL) {
                 tree->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
@@ -84,7 +84,7 @@ lxb_html_tree_insertion_mode_before_html_open(lxb_html_tree_t *tree,
             break;
         }
 
-        case LXB_HTML_TAG__TEXT:
+        case LXB_TAG__TEXT:
             tree->status = lxb_html_token_data_skip_ws_begin(token);
             if (tree->status != LXB_STATUS_OK) {
                 return lxb_html_tree_process_abort(tree);
@@ -107,10 +107,10 @@ lxb_html_tree_insertion_mode_before_html_closed(lxb_html_tree_t *tree,
                                                 lxb_html_token_t *token)
 {
     switch (token->tag_id) {
-        case LXB_HTML_TAG_HEAD:
-        case LXB_HTML_TAG_BODY:
-        case LXB_HTML_TAG_HTML:
-        case LXB_HTML_TAG_BR:
+        case LXB_TAG_HEAD:
+        case LXB_TAG_BODY:
+        case LXB_TAG_HTML:
+        case LXB_TAG_BR:
             return lxb_html_tree_insertion_mode_before_html_anything_else(tree);
 
         default:
@@ -127,8 +127,7 @@ lxb_html_tree_insertion_mode_before_html_anything_else(lxb_html_tree_t *tree)
 {
     lxb_dom_node_t *node_html;
 
-    node_html = lxb_html_tree_create_node(tree, LXB_HTML_TAG_HTML,
-                                          LXB_HTML_NS_HTML);
+    node_html = lxb_html_tree_create_node(tree, LXB_TAG_HTML, LXB_NS_HTML);
     if (node_html == NULL) {
         tree->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         return lxb_html_tree_process_abort(tree);
