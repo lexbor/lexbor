@@ -32,19 +32,23 @@ typedef enum {
 lxb_dom_document_dtype_t;
 
 struct lxb_dom_document {
-    lxb_dom_node_t           node;
+    lxb_dom_node_t              node;
 
-    lxb_dom_document_cmode_t compat_mode;
-    lxb_dom_document_dtype_t type;
+    lxb_dom_document_cmode_t    compat_mode;
+    lxb_dom_document_dtype_t    type;
 
-    lxb_dom_document_type_t  *doctype;
-    lxb_dom_element_t        *element;
+    lxb_dom_document_type_t     *doctype;
+    lxb_dom_element_t           *element;
 
-    lexbor_mraw_t            *mraw;
-    lexbor_mraw_t            *text;
-    void                     *tags;
+    lxb_dom_interface_create_f  create_interface;
+    lxb_dom_interface_destroy_f destroy_interface;
 
-    bool                     scripting;
+    lexbor_mraw_t               *mraw;
+    lexbor_mraw_t               *text;
+    void                        *tags;
+    void                        *ns;
+
+    bool                        scripting;
 };
 
 

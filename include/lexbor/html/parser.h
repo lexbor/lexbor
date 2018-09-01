@@ -15,6 +15,8 @@ extern "C" {
 #include <lexbor/html/tree.h>
 #include <lexbor/html/interfaces/document.h>
 
+#include <lexbor/ns/ns.h>
+
 
 typedef enum {
     LXB_HTML_PARSER_STATE_BEGIN            = 0x00,
@@ -29,7 +31,9 @@ typedef struct {
     lxb_html_tokenizer_t    *tkz;
     lxb_html_tree_t         *tree;
     lxb_html_tree_t         *original_tree;
+
     lxb_tag_heap_t          *tag_heap;
+    lxb_ns_heap_t           *ns_heap;
 
     lxb_dom_node_t          *root;
     lxb_dom_node_t          *form;

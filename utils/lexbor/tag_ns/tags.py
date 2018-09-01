@@ -1,4 +1,9 @@
 
+#
+# My eyes bleed when I see this code.
+# It works correctly, but it needs refactoring!
+#
+
 import json
 import sys, re, os
 import hashlib
@@ -20,12 +25,13 @@ def computeMD5hash(my_string):
 
 class Tags:
     tag_prefix = "lxb_tag"
-    tag_res_data = "lxb_html_tag_res_data"
+    tag_res_data = "lxb_tag_res_data_default"
     ns_prefix = "lxb_ns"
     ns_res_data = "lxb_ns_res_data"
-    cat_prefix = "lxb_tag_category"
-    cat_empty = "LXB_TAG_CATEGORY__UNDEF"
-    creation_interface = "lxb_tag_interface_creation_f"
+    cat_prefix = "lxb_html_tag_category"
+    cat_empty = "LXB_HTML_TAG_CATEGORY__UNDEF"
+    creation_interface = "lxb_dom_interface_constructor_f"
+    deletion_interface = "lxb_dom_interface_destructor_f"
 
     def __init__(self, json_tags, json_interfaces):
         self.interfaces = interfaces.Interfaces(json_interfaces)
@@ -41,6 +47,7 @@ class Tags:
         enum_list = []
         
         ns_shs_list = []
+        ns_shs_link_list = []
 
         # namespace
         self.ns = self.tags["namespaces"]
@@ -54,10 +61,17 @@ class Tags:
                                                                     convert_to_c(self.ns_list[idx]).upper())
             self.ns[ self.ns_list[idx] ]["id"] = idx
 
+            link = self.ns[self.ns_list[idx]]["link"]
+
+            if len(link) == 0:
+                link = self.ns[self.ns_list[idx]]["name"]
+
             ns_shs_list.append({"key": self.ns_list[idx], "value": "&{}[{}]".format(self.ns_res_data, idx)})
+            ns_shs_link_list.append({"key": link, "value": "&{}[{}]".format(self.ns_res_data, idx)})
 
         self.ns_hash = self.ns_make_hash(self.ns_list)
         self.ns_shs_list = ns_shs_list
+        self.ns_shs_link_list = ns_shs_link_list
 
         # shs data and enum
         data = self.tags["data"]
@@ -74,14 +88,16 @@ class Tags:
                 shs[tag] = {"key": tag}
 
                 if enum_name not in enum:
-                    enum[enum_name] = {"ns": [], "name": tag, "c_name": enum_name, "interface": [], "fixname": []}
+                    enum[enum_name] = {"ns": [], "name": tag, "c_name": enum_name, "interface": [], "interface_del": [], "fixname": []}
 
                     for idx in self.ns_list:
                         default = self.ns[idx]["default"]
                         interface = interfaces.make_function_create_name(default["interface_type"], default["interface"])
+                        interface_del = interfaces.make_function_destroy_name(default["interface_type"], default["interface"])
 
                         enum[enum_name]["ns"].append([])
                         enum[enum_name]["interface"].append(interface)
+                        enum[enum_name]["interface_del"].append(interface_del)
                         enum[enum_name]["fixname"].append("NULL")
 
 
@@ -99,6 +115,7 @@ class Tags:
                 interface_type = data[ns][tag]["interface_type"]
 
                 enum[enum_name]["interface"][ns_id] = interfaces.make_function_create_name(interface_type, interface);
+                enum[enum_name]["interface_del"][ns_id] = interfaces.make_function_destroy_name(interface_type, interface);
 
                 if "fixname" in data[ns][tag]:
                     enum[enum_name]["fixname"][ns_id] = data[ns][tag]["fixname"]
@@ -134,14 +151,31 @@ class Tags:
 
         return shs_list
 
-    def tag_data_create(self):
+    def tag_data_create_default(self):
         result = []
         res = LXB.Res("lxb_tag_data_t", self.tag_res_data, True, self.tag_last_entry_name)
 
         for entry in self.enum_list:
-            ns = ["            "]
-            interface = ["            "]
-            fixname = ["            "]
+            res.append("{{(const lxb_char_t *) \"{}\", (const lxb_char_t *) \"{}\", {}, {}}}".format(entry["name"], entry["name"].upper(), len(entry["name"]), entry["c_name"]))
+
+        return res.create(1, False)
+
+    def tag_data_create_html(self):
+        result = []
+        cats = LXB.Res("lxb_html_tag_category_t", "lxb_html_tag_res_cats", True, [self.tag_last_entry_name, self.ns_last_entry_name])
+        constructor = LXB.Res("lxb_dom_interface_constructor_f", "lxb_html_interface_res_constructors", True, [self.tag_last_entry_name, self.ns_last_entry_name])
+        destructor = LXB.Res("lxb_dom_interface_destructor_f", "lxb_html_interface_res_destructor", True, [self.tag_last_entry_name, self.ns_last_entry_name])
+        svg_fixname = LXB.Res("lxb_html_tag_fixname_t *", "lxb_html_tag_res_fixname_svg", True, [self.tag_last_entry_name])
+
+        fixname = []
+
+        for idx in range(0, len(self.ns_list)):
+            fixname.append([])
+
+        for entry in self.enum_list:
+            ns = ["        "]
+            interface = ["        "]
+            interface_del = ["        "]
 
             for idx in range(0, len(entry["ns"]) - 1):
                 if len(entry["ns"][idx]) == 0:
@@ -150,22 +184,27 @@ class Tags:
                 else:
                     ns.append("\n            |".join(entry["ns"][idx]))
                     if len(entry["ns"][idx]) > 1 and idx % 2 != 1:
-                        ns.append(",\n            ")
+                        ns.append(",\n        ")
                     else:
                         ns.append(",")
 
                 interface.append("({}) {},".format(self.creation_interface, entry["interface"][idx]))
-                interface.append("\n            ")
+                interface.append("\n        ")
+
+                interface_del.append("({}) {},".format(self.deletion_interface, entry["interface_del"][idx]))
+                interface_del.append("\n        ")
+
+                fixname[idx].append("/* {} */\n    ".format(entry["c_name"]))
 
                 if entry["fixname"][idx] != "NULL":
-                    fixname.append("&((lexbor_str_t) {{(lxb_char_t *) \"{}\", {}}}),".format(entry["fixname"][idx], len(entry["fixname"][idx])))
+                    fixname[idx].append("&((lxb_html_tag_fixname_t) {{(const lxb_char_t *) \"{}\", {}}}),".format(entry["fixname"][idx], len(entry["fixname"][idx])))
                 else:
-                    fixname.append("{},".format(entry["fixname"][idx]))
+                    fixname[idx].append("{},".format(entry["fixname"][idx]))
 
-                fixname.append("\n            ")
+                fixname[idx].append("\n    ")
 
                 if idx % 2 == 1:
-                    ns.append("\n            ")
+                    ns.append("\n        ")
 
             if len(entry["ns"][-1]) == 0:
                 ns.append(self.cat_empty)
@@ -173,16 +212,32 @@ class Tags:
                 ns.append("\n|".join(entry["ns"][-1]))
 
             interface.append("({}) {}".format(self.creation_interface, entry["interface"][-1]))
+            interface_del.append("({}) {}".format(self.deletion_interface, entry["interface_del"][-1]))
 
-            if entry["fixname"][idx] != "NULL":
-                fixname.append("&((lexbor_str_t) {{(lxb_char_t *) \"{}\", {}}}),".format(entry["fixname"][-1], len(entry["fixname"][-1])))
+            fixname[-1].append("/* {} */\n    ".format(entry["c_name"]))
+    
+            if entry["fixname"][-1] != "NULL":
+                fixname[-1].append("&((lxb_html_tag_fixname_t) {{(const lxb_char_t *) \"{}\", {}}}),".format(entry["fixname"][-1], len(entry["fixname"][-1])))
             else:
-                fixname.append("{},".format(entry["fixname"][-1]))
+                fixname[-1].append("{},".format(entry["fixname"][-1]))
 
-            res.append("{{(const lxb_char_t *) \"{}\", {}, {},\n        {{\n{}\n        }},\n        {{\n{}\n        }},\n        {{\n{}\n        }}\n    }}"
-                       .format(entry["name"], len(entry["name"]), entry["c_name"], "".join(ns), "".join(interface), "".join(fixname)))
+            # res.append("{{(const lxb_char_t *) \"{}\", {}, {},\n        {{\n{}\n        }},\n        {{\n{}\n        }},\n        {{\n{}\n        }}\n    }}"
+            #            .format(entry["name"], len(entry["name"]), entry["c_name"], "".join(ns), "".join(interface), "".join(fixname)))
 
-        return res.create(1, False, "\n".join(self.interfaces.make_includes()))
+            cats.append("/* {} */".format(entry["c_name"]), True)
+            constructor.append("/* {} */".format(entry["c_name"]), True)
+            destructor.append("/* {} */".format(entry["c_name"]), True)
+
+            cats.append("{{\n{}\n    }}".format("".join(ns)))
+            constructor.append("{{\n{}\n    }}".format("".join(interface)))
+            destructor.append("{{\n{}\n    }}".format("".join(interface_del)))
+
+        svg_fixname.append("{}".format("".join(fixname[4]))) # 4 == SVG namespace
+
+        return [cats.create(1, False), self.interfaces.make_includes(),
+                constructor.create(1, False),
+                destructor.create(1, False),
+                svg_fixname.create(1, False)]
 
     def ns_data_create(self):
         result = []
@@ -257,12 +312,21 @@ class Tags:
 
         return self.ns_shs.create(name)
 
-    def ns_shs_save(self, data, temp_file, save_to):
+    def ns_shs_link_create(self, name):
+        self.ns_shs_link = LXB.SHS(self.ns_shs_link_list, 0, True)
+
+        test = self.ns_shs_link.make_test(5, 128)
+        self.ns_shs_link.table_size_set(test[0][2])
+
+        return self.ns_shs_link.create(name)
+
+    def ns_shs_save(self, data, data_link, temp_file, save_to):
         lxb_temp = LXB.Temp(temp_file, save_to)
 
         lxb_temp.pattern_append("%%CHECK_NS_VERSION%%", self.ns_hash_ifdef())
         lxb_temp.pattern_append("%%NS_DATA%%", ''.join(self.ns_data_create()))
-        lxb_temp.pattern_append("%%SHS_DATA%%", ''.join(data))
+        # lxb_temp.pattern_append("%%SHS_DATA%%", ''.join(data))
+        lxb_temp.pattern_append("%%SHS_DATA_LINK%%", ''.join(data_link))
 
         lxb_temp.build()
         lxb_temp.save()
@@ -272,17 +336,22 @@ class Tags:
         print("Save to {}".format(save_to))
         print("Done")
 
-    def ns_shs_create_and_save(self, name, temp_file, save_to):
+    def ns_shs_create_and_save(self, name, name_link, temp_file, save_to):
         result = self.ns_shs_create(name)
-        self.ns_shs_save(result, temp_file, save_to)
+        result_link = self.ns_shs_link_create(name_link)
+        self.ns_shs_save(result, result_link, temp_file, save_to)
 
     def ns_test_name_create(self):
         result = []
         ns = self.ns
 
         for name in self.ns_list:
-            result.append("    entry = lxb_ns_data_by_name((const lxb_char_t *) \"{}\", {});".format(name, len(name)))
-            result.append("    test_ne(entry, NULL); test_eq_str(entry->name, \"{}\");".format(ns[name]["name"]))
+            if len(ns[name]["link"]) == 0:
+                result.append("    entry = lxb_ns_data_by_link(ns_heap, (const lxb_char_t *) \"{}\", {});".format(ns[name]["name"], len(ns[name]["name"])))
+                result.append("    test_ne(entry, NULL); test_eq_str(entry->name, \"{}\");".format(ns[name]["name"]))
+            else:
+                result.append("    entry = lxb_ns_data_by_link(ns_heap, (const lxb_char_t *) \"{}\", {});".format(ns[name]["link"], len(ns[name]["link"])))
+                result.append("    test_ne(entry, NULL); test_eq_str(entry->link, \"{}\");".format(ns[name]["link"]))
 
         return result
 
@@ -361,7 +430,7 @@ class Tags:
 
         lxb_temp.pattern_append("%%CHECK_TAG_VERSION%%", self.enum_hash_ifdef())
         lxb_temp.pattern_append("%%CHECK_NS_VERSION%%", self.ns_hash_ifdef())
-        lxb_temp.pattern_append("%%TAG_DATA%%", ''.join(self.tag_data_create()))
+        lxb_temp.pattern_append("%%TAG_DATA%%", ''.join(self.tag_data_create_default()))
         lxb_temp.pattern_append("%%SHS_DATA%%", ''.join(data))
 
         lxb_temp.build()
@@ -372,9 +441,38 @@ class Tags:
         print("Save to {}".format(save_to))
         print("Done")
 
-    def shs_create_and_save(self, name, temp_file, save_to):
+    def shs_create_and_save_default(self, name, temp_file, save_to):
         result = self.shs_create(name)
         self.shs_save(result, temp_file, save_to)
+
+    def shs_create_and_save_html(self, temp_file, save_to,
+                                temp_file_interface, save_to_interface):
+        data_list = self.tag_data_create_html()
+
+        lxb_temp = LXB.Temp(temp_file, save_to)
+
+        lxb_temp.pattern_append("%%CHECK_TAG_VERSION%%", self.enum_hash_ifdef())
+        lxb_temp.pattern_append("%%CHECK_NS_VERSION%%", self.ns_hash_ifdef())
+        lxb_temp.pattern_append("%%TAG_DATA%%", ''.join(data_list[0]))
+        lxb_temp.pattern_append("%%FIXNAME_SVG_DATA%%", ''.join(data_list[4]))
+
+        lxb_temp.build()
+        lxb_temp.save()
+
+        lxb_temp = LXB.Temp(temp_file_interface, save_to_interface)
+
+        lxb_temp.pattern_append("%%CHECK_TAG_VERSION%%", self.enum_hash_ifdef())
+        lxb_temp.pattern_append("%%CHECK_NS_VERSION%%", self.ns_hash_ifdef())
+        lxb_temp.pattern_append("%%INCLUDES%%", '\n'.join(data_list[1]))
+        lxb_temp.pattern_append("%%CONSTRUCTOR%%", ''.join(data_list[2]))
+        lxb_temp.pattern_append("%%DESTRUCTOR%%", ''.join(data_list[3]))
+
+        lxb_temp.build()
+        lxb_temp.save()
+
+        print(self.shs_stat(self.shs))
+        print("Save to {}".format(save_to))
+        print("Done")
 
     def tag_test_name_create(self):
         result = []
@@ -403,8 +501,10 @@ if __name__ == "__main__":
 
     # print(tags.enum_hash_ifdef())
     tags.ns_create_and_save("tmp/ns_const.h", "../../../source/lexbor/ns/const.h")
-    tags.ns_shs_create_and_save("lxb_ns_res_shs_data", "tmp/ns_res.h", "../../../source/lexbor/ns/res.h")
+    tags.ns_shs_create_and_save("lxb_ns_res_shs_data", "lxb_ns_res_shs_link_data", "tmp/ns_res.h", "../../../source/lexbor/ns/res.h")
     tags.enum_create_and_save("tmp/tag_const.h", "../../../source/lexbor/tag/const.h")
-    tags.shs_create_and_save("lxb_html_tag_res_shs_data", "tmp/tag_res.h", "../../../source/lexbor/html/tag_res.h")
+    tags.shs_create_and_save_default("lxb_tag_res_shs_data_default", "tmp/tag_res.h", "../../../source/lexbor/tag/res.h")
+    tags.shs_create_and_save_html("tmp/html_tag_res.h", "../../../source/lexbor/html/tag_res.h",
+                                  "tmp/html_interface_res.h", "../../../source/lexbor/html/interface_res.h")
     tags.ns_test_create_and_save("tmp/test/ns_res.c", "../../../test/lexbor/ns/res.c")
     tags.tag_test_create_and_save("tmp/test/tag_res.c", "../../../test/lexbor/tag/res.c")

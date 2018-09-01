@@ -80,7 +80,7 @@ lxb_html_tree_insertion_mode_in_select_in_table_ct_closed(lxb_html_tree_t *tree,
     lxb_html_tree_parse_error(tree, token, LXB_HTML_RULES_ERROR_UNCLTO);
 
     node = lxb_html_tree_element_in_scope(tree, token->tag_id, LXB_NS_HTML,
-                                          LXB_TAG_CATEGORY_SCOPE_TABLE);
+                                          LXB_HTML_TAG_CATEGORY_SCOPE_TABLE);
     if (node == NULL) {
         return true;
     }

@@ -11,10 +11,10 @@
  */
 
 
-#ifndef LXB_HTML_TAG_RES_H
-#define LXB_HTML_TAG_RES_H
+#ifndef LXB_TAG_RES_H
+#define LXB_TAG_RES_H
 
-#endif /* LXB_HTML_TAG_RES_H */
+#endif /* LXB_TAG_RES_H */
 
 %%CHECK_TAG_VERSION%%
 

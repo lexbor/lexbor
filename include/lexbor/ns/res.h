@@ -30,8 +30,8 @@
 #define LXB_NS_RES_DATA_ENABLED
 static  lxb_ns_data_t lxb_ns_res_data[LXB_NS__LAST_ENTRY] = 
 {
-    {"-undef", "-undef", 6, "", 0, LXB_NS__UNDEF},
-    {"-any", "-any", 4, "", 0, LXB_NS__ANY},
+    {"#undef", "#undef", 6, "", 0, LXB_NS__UNDEF},
+    {"#any", "#any", 4, "", 0, LXB_NS__ANY},
     {"HTML", "html", 4, "http://www.w3.org/1999/xhtml", 28, LXB_NS_HTML},
     {"Math", "math", 4, "http://www.w3.org/1998/Math/MathML", 34, LXB_NS_MATH},
     {"SVG", "svg", 3, "http://www.w3.org/2000/svg", 26, LXB_NS_SVG},
@@ -42,20 +42,23 @@ static  lxb_ns_data_t lxb_ns_res_data[LXB_NS__LAST_ENTRY] =
 #endif /* LXB_NS_RES_DATA_ENABLED */
 #endif /* LXB_NS_RES_DATA */
 
-#ifdef LXB_NS_RES_SHS_DATA
-#ifndef LXB_NS_RES_SHS_DATA_ENABLED
-#define LXB_NS_RES_SHS_DATA_ENABLED
-static const lexbor_shs_entry_t lxb_ns_res_shs_data[] = 
+#ifdef LXB_NS_RES_SHS_LINK_DATA
+#ifndef LXB_NS_RES_SHS_LINK_DATA_ENABLED
+#define LXB_NS_RES_SHS_LINK_DATA_ENABLED
+static const lexbor_shs_entry_t lxb_ns_res_shs_link_data[] = 
 {
-    {NULL, NULL, 17, 0}, {"MATH", &lxb_ns_res_data[3], 4, 0}, 
-    {"XMLNS", &lxb_ns_res_data[7], 5, 0}, {"SVG", &lxb_ns_res_data[4], 3, 0}, 
+    {NULL, NULL, 22, 0}, {"http://www.w3.org/1999/xhtml", &lxb_ns_res_data[2], 28, 0}, 
     {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"-UNDEF", &lxb_ns_res_data[0], 6, 0}, 
-    {NULL, NULL, 0, 0}, {"-ANY", &lxb_ns_res_data[1], 4, 0}, 
-    {"XML", &lxb_ns_res_data[6], 3, 0}, {"XLINK", &lxb_ns_res_data[5], 5, 0}, 
-    {"HTML", &lxb_ns_res_data[2], 4, 0}, {NULL, NULL, 0, 0}, 
     {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}
+    {"http://www.w3.org/2000/xmlns/", &lxb_ns_res_data[7], 29, 0}, {"http://www.w3.org/1998/Math/MathML", &lxb_ns_res_data[3], 34, 0}, 
+    {NULL, NULL, 0, 0}, {"http://www.w3.org/1999/xlink", &lxb_ns_res_data[5], 28, 0}, 
+    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {"#any", &lxb_ns_res_data[1], 4, 0}, {"http://www.w3.org/2000/svg", &lxb_ns_res_data[4], 26, 0}, 
+    {NULL, NULL, 0, 0}, {"#undef", &lxb_ns_res_data[0], 6, 0}, 
+    {NULL, NULL, 0, 0}, {"http://www.w3.org/XML/1998/namespace", &lxb_ns_res_data[6], 36, 0}, 
+    {NULL, NULL, 0, 0}
 };
-#endif /* LXB_NS_RES_SHS_DATA_ENABLED */
-#endif /* LXB_NS_RES_SHS_DATA */
+#endif /* LXB_NS_RES_SHS_LINK_DATA_ENABLED */
+#endif /* LXB_NS_RES_SHS_LINK_DATA */

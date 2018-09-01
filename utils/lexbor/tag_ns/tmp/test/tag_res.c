@@ -25,12 +25,12 @@ TEST_BEGIN(names)
     const lxb_tag_data_t *entry;
 
     lxb_tag_heap_t *tag_heap = lxb_tag_heap_create();
-    lxb_status_t status = lxb_tag_heap_init(tag_heap, 32, lxb_html_tag_res_data,
-                                            lxb_html_tag_res_shs_data, 0);
+    lxb_status_t status = lxb_tag_heap_init(tag_heap, 32);
     test_eq(status, LXB_STATUS_OK);
 
 %%TEST_NAMES%%
-    lxb_tag_heap_destroy(tag_heap, true);
+
+    lxb_tag_heap_destroy(tag_heap);
 }
 TEST_END
 

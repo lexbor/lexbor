@@ -21,4 +21,4 @@
 
 %%NS_DATA%%
 
-%%SHS_DATA%%
+%%SHS_DATA_LINK%%

@@ -1,7 +1,7 @@
 {
     "namespaces": {
-        "-UNDEF": {
-            "name": "-undef",
+        "#UNDEF": {
+            "name": "#undef",
             "link": "",
             "sort": 0,
             "default": {
@@ -9,8 +9,8 @@
                 "interface_type": "HTML"
             }
         },
-        "-ANY": {
-            "name": "-any",
+        "#ANY": {
+            "name": "#any",
             "link": "",
             "sort": 1,
             "default": {

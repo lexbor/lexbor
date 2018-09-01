@@ -5,7 +5,6 @@
  */
 
 #include "lexbor/dom/interfaces/document.h"
-#include "lexbor/dom/interfaces/document.h"
 
 
 lxb_dom_document_t *
@@ -23,6 +22,9 @@ lxb_dom_document_create(lxb_dom_document_t *document)
 
     node->owner_document = lxb_dom_interface_document(document);
     node->type = LXB_DOM_NODE_TYPE_ELEMENT;
+
+    element->create_interface = lxb_dom_interface_create;
+    element->destroy_interface = lxb_dom_interface_destroy;
 
     return element;
 }

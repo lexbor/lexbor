@@ -61,6 +61,8 @@ lxb_dom_node_create(lxb_dom_document_t *document);
 LXB_API lxb_dom_node_t *
 lxb_dom_node_destroy(lxb_dom_node_t *node);
 
+LXB_API const lxb_char_t *
+lxb_dom_node_name(lxb_dom_node_t *node, size_t *len);
 
 void
 lxb_dom_node_insert_child(lxb_dom_node_t *to, lxb_dom_node_t *node);

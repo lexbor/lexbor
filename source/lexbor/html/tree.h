@@ -12,12 +12,13 @@ extern "C" {
 #endif
 
 #include "lexbor/dom/interfaces/node.h"
+#include "lexbor/dom/interfaces/attr.h"
 
 #include "lexbor/html/base.h"
 #include "lexbor/html/html.h"
 #include "lexbor/html/tokenizer.h"
 #include "lexbor/html/interfaces/document.h"
-#include "lexbor/tag/tag.h"
+#include "lexbor/html/tag.h"
 #include "lexbor/html/tree/error.h"
 
 
@@ -27,7 +28,7 @@ typedef bool
 
 typedef lxb_status_t
 (*lxb_html_tree_append_attr_f)(lxb_html_tree_t *tree,
-                               lxb_dom_element_attr_t *attr, void *ctx);
+                               lxb_dom_attr_t *attr, void *ctx);
 
 typedef struct {
     lexbor_array_obj_t *text_tokens;
@@ -81,13 +82,13 @@ LXB_API lxb_html_tree_t *
 lxb_html_tree_ref(lxb_html_tree_t *tree);
 
 LXB_API lxb_html_tree_t *
-lxb_html_tree_unref(lxb_html_tree_t *tree, bool self_destroy);
+lxb_html_tree_unref(lxb_html_tree_t *tree);
 
 LXB_API void
 lxb_html_tree_clean(lxb_html_tree_t *tree);
 
 LXB_API lxb_html_tree_t *
-lxb_html_tree_destroy(lxb_html_tree_t *tree, bool self_destroy);
+lxb_html_tree_destroy(lxb_html_tree_t *tree);
 
 LXB_API lxb_status_t
 lxb_html_tree_stop_parsing(lxb_html_tree_t *tree);
@@ -130,15 +131,15 @@ lxb_html_tree_append_attributes_from_element(lxb_html_tree_t *tree,
 
 LXB_API lxb_status_t
 lxb_html_tree_adjust_mathml_attributes(lxb_html_tree_t *tree,
-                                       lxb_dom_element_attr_t *attr, void *ctx);
+                                       lxb_dom_attr_t *attr, void *ctx);
 
 LXB_API lxb_status_t
 lxb_html_tree_adjust_svg_attributes(lxb_html_tree_t *tree,
-                                    lxb_dom_element_attr_t *attr, void *ctx);
+                                    lxb_dom_attr_t *attr, void *ctx);
 
 LXB_API lxb_status_t
 lxb_html_tree_adjust_foreign_attributes(lxb_html_tree_t *tree,
-                                        lxb_dom_element_attr_t *attr, void *ctx);
+                                        lxb_dom_attr_t *attr, void *ctx);
 
 LXB_API lxb_status_t
 lxb_html_tree_insert_character(lxb_html_tree_t *tree, lxb_html_token_t *token,
@@ -182,12 +183,12 @@ lxb_html_tree_reset_insertion_mode_appropriately(lxb_html_tree_t *tree);
 
 LXB_API lxb_dom_node_t *
 lxb_html_tree_element_in_scope(lxb_html_tree_t *tree, lxb_tag_id_t tag_id,
-                               lxb_ns_id_t ns, lxb_tag_category_t ct);
+                               lxb_ns_id_t ns, lxb_html_tag_category_t ct);
 
 LXB_API lxb_dom_node_t *
 lxb_html_tree_element_in_scope_by_node(lxb_html_tree_t *tree,
                                        lxb_dom_node_t *by_node,
-                                       lxb_tag_category_t ct);
+                                       lxb_html_tag_category_t ct);
 
 LXB_API lxb_dom_node_t *
 lxb_html_tree_element_in_scope_h123456(lxb_html_tree_t *tree);
@@ -214,11 +215,11 @@ lxb_html_tree_html_integration_point(lxb_dom_node_t *node);
 
 LXB_API lxb_status_t
 lxb_html_tree_adjust_attributes_mathml(lxb_html_tree_t *tree,
-                                       lxb_dom_element_attr_t *attr, void *ctx);
+                                       lxb_dom_attr_t *attr, void *ctx);
 
 LXB_API lxb_status_t
 lxb_html_tree_adjust_attributes_svg(lxb_html_tree_t *tree,
-                                    lxb_dom_element_attr_t *attr, void *ctx);
+                                    lxb_dom_attr_t *attr, void *ctx);
 
 
 /*
@@ -265,7 +266,7 @@ lxb_inline lxb_dom_node_t *
 lxb_html_tree_create_node(lxb_html_tree_t *tree,
                           lxb_tag_id_t tag_id, lxb_ns_id_t ns)
 {
-    return lxb_html_create_node(tree->document, tag_id, ns);
+    return lxb_html_interface_create(tree->document, tag_id, ns);
 }
 
 lxb_inline bool
@@ -322,7 +323,7 @@ lxb_html_tree_acknowledge_token_self_closing(lxb_html_tree_t *tree,
         return;
     }
 
-    bool is_void = lxb_tag_is_void(token->tag_id);
+    bool is_void = lxb_html_tag_is_void(token->tag_id);
 
     if (is_void) {
         lxb_html_tree_parse_error(tree, token,

@@ -17,7 +17,9 @@ extern "C" {
 
 #include <lexbor/html/base.h>
 #include <lexbor/html/token.h>
+
 #include <lexbor/tag/tag.h>
+#include <lexbor/ns/ns.h>
 
 
 typedef struct lxb_html_tokenizer lxb_html_tokenizer_t;
@@ -41,9 +43,11 @@ struct lxb_html_tokenizer {
     void                             *callback_token_ctx;
 
     /*
-     * A tokenizer create an lxb_tag_heap_t object if not it eq NULL
+     * A tokenizer create an lxb_tag_heap_t and lxb_ns_heap_t object
+     * if this objects is NULL.
      */
     lxb_tag_heap_t                   *tag_heap_ref;
+    lxb_ns_heap_t                    *ns_heap_ref;
 
     /* For a temp strings and other templary data */
     lexbor_mraw_t                    *mraw;
@@ -108,13 +112,13 @@ LXB_API lxb_html_tokenizer_t *
 lxb_html_tokenizer_ref(lxb_html_tokenizer_t *tkz);
 
 LXB_API lxb_html_tokenizer_t *
-lxb_html_tokenizer_unref(lxb_html_tokenizer_t *tkz, bool self_destroy);
+lxb_html_tokenizer_unref(lxb_html_tokenizer_t *tkz);
 
 LXB_API void
 lxb_html_tokenizer_clean(lxb_html_tokenizer_t *tkz);
 
 LXB_API lxb_html_tokenizer_t *
-lxb_html_tokenizer_destroy(lxb_html_tokenizer_t *tkz, bool self_destroy);
+lxb_html_tokenizer_destroy(lxb_html_tokenizer_t *tkz);
 
 
 LXB_API lxb_status_t
@@ -154,6 +158,13 @@ lxb_html_tokenizer_tag_heap_set(lxb_html_tokenizer_t *tkz,
                                 lxb_tag_heap_t *tag_heap)
 {
     tkz->tag_heap_ref = lxb_tag_heap_ref(tag_heap);
+}
+
+lxb_inline void
+lxb_html_tokenizer_ns_heap_set(lxb_html_tokenizer_t *tkz,
+                               lxb_ns_heap_t *ns_heap)
+{
+    tkz->ns_heap_ref = lxb_ns_heap_ref(ns_heap);
 }
 
 lxb_inline void

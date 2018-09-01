@@ -14,6 +14,7 @@ extern "C" {
 #include <lexbor/core/mraw.h>
 
 #include <lexbor/tag/tag.h>
+#include <lexbor/ns/ns.h>
 #include <lexbor/html/interface.h>
 #include <lexbor/dom/interfaces/document.h>
 
@@ -29,6 +30,7 @@ typedef struct {
     lexbor_mraw_t  *mraw;
     lexbor_mraw_t  *text;
     lxb_tag_heap_t *tag_heap_ref;
+    lxb_ns_heap_t  *ns_heap_ref;
 }
 lxb_html_document_mem_t;
 
@@ -49,7 +51,8 @@ LXB_API lxb_html_document_t *
 lxb_html_document_create(lxb_html_document_t *document);
 
 LXB_API lxb_status_t
-lxb_html_document_init(lxb_html_document_t *document, lxb_tag_heap_t *tag_heap);
+lxb_html_document_init(lxb_html_document_t *document,
+                       lxb_tag_heap_t *tag_heap, lxb_ns_heap_t *ns_heap);
 
 LXB_API lxb_html_document_t *
 lxb_html_document_destroy(lxb_html_document_t *document);
@@ -105,6 +108,12 @@ lxb_inline lxb_tag_heap_t *
 lxb_html_document_tag_heap(lxb_html_document_t *document)
 {
     return document->mem->tag_heap_ref;
+}
+
+lxb_inline lxb_ns_heap_t *
+lxb_html_document_ns_heap(lxb_html_document_t *document)
+{
+    return document->mem->ns_heap_ref;
 }
 
 

@@ -6,10 +6,21 @@
 
 #include "lexbor/tag/tag.h"
 
+#define LXB_TAG_RES_DATA_DEFAULT
+#define LXB_TAG_RES_SHS_DATA_DEFAULT
+#include "lexbor/tag/res.h"
+
 
 lxb_inline void
-lxb_tag_data_set_default(lxb_tag_heap_t *tag_heap, lxb_tag_data_t *data,
-                         lexbor_shbst_entry_t *entry, size_t len);
+lxb_tag_data_set_attr(lxb_tag_heap_t *tag_heap, lxb_tag_data_t *data,
+                      lexbor_shbst_entry_t *entry, size_t len);
+
+static const lxb_tag_data_t *
+lxb_tag_data_by_id_default_cb(lxb_tag_heap_t *tag_heap, lxb_tag_id_t tag_id);
+
+static const lxb_tag_data_t *
+lxb_tag_data_by_name_default_cb(lxb_tag_heap_t *tag_heap,
+                                const lxb_char_t *name, size_t len);
 
 
 lxb_tag_heap_t *
@@ -19,10 +30,7 @@ lxb_tag_heap_create(void)
 }
 
 lxb_status_t
-lxb_tag_heap_init(lxb_tag_heap_t *tag_heap, size_t table_size,
-                  const lxb_tag_data_t *static_data,
-                  const lexbor_shs_entry_t *static_heap,
-                  lxb_tag_category_t default_cats)
+lxb_tag_heap_init(lxb_tag_heap_t *tag_heap, size_t table_size)
 {
     lxb_status_t status;
 
@@ -42,10 +50,10 @@ lxb_tag_heap_init(lxb_tag_heap_t *tag_heap, size_t table_size,
 
     lxb_tag_heap_ref(tag_heap);
 
+    tag_heap->by_id = lxb_tag_data_by_id_default_cb;
+    tag_heap->by_name = lxb_tag_data_by_name_default_cb;
+
     tag_heap->heap = lexbor_shbst_create();
-    tag_heap->static_data = static_data;
-    tag_heap->static_heap = static_heap;
-    tag_heap->default_cats = default_cats;
 
     return lexbor_shbst_init(tag_heap->heap, table_size);
 }
@@ -63,7 +71,7 @@ lxb_tag_heap_ref(lxb_tag_heap_t *tag_heap)
 }
 
 lxb_tag_heap_t *
-lxb_tag_heap_unref(lxb_tag_heap_t *tag_heap, bool self_destroy)
+lxb_tag_heap_unref(lxb_tag_heap_t *tag_heap)
 {
     if (tag_heap == NULL || tag_heap->ref_count == 0) {
         return NULL;
@@ -72,7 +80,7 @@ lxb_tag_heap_unref(lxb_tag_heap_t *tag_heap, bool self_destroy)
     tag_heap->ref_count--;
 
     if (tag_heap->ref_count == 0) {
-        lxb_tag_heap_destroy(tag_heap, self_destroy);
+        lxb_tag_heap_destroy(tag_heap);
     }
 
     return NULL;
@@ -92,7 +100,7 @@ lxb_tag_heap_clean(lxb_tag_heap_t *tag_heap)
 }
 
 lxb_tag_heap_t *
-lxb_tag_heap_destroy(lxb_tag_heap_t *tag_heap, bool self_destroy)
+lxb_tag_heap_destroy(lxb_tag_heap_t *tag_heap)
 {
     if (tag_heap == NULL) {
         return NULL;
@@ -101,28 +109,18 @@ lxb_tag_heap_destroy(lxb_tag_heap_t *tag_heap, bool self_destroy)
     tag_heap->data = lexbor_dobject_destroy(tag_heap->data, true);
     tag_heap->heap = lexbor_shbst_destroy(tag_heap->heap, true);
 
-    if (self_destroy) {
-        return lexbor_free(tag_heap);
-    }
-
-    return tag_heap;
+    return lexbor_free(tag_heap);
 }
 
 lxb_inline void
-lxb_tag_data_set_default(lxb_tag_heap_t *tag_heap, lxb_tag_data_t *data,
-                         lexbor_shbst_entry_t *entry, size_t len)
+lxb_tag_data_set_attr(lxb_tag_heap_t *tag_heap, lxb_tag_data_t *data,
+                      lexbor_shbst_entry_t *entry, size_t len)
 {
     data->name = entry->key;
     data->name_len = len;
 
     data->tag_id = LXB_TAG__LAST_ENTRY
         + (unsigned int) (lexbor_dobject_allocated(tag_heap->data) - 1);
-
-    for (size_t i = 0; i < LXB_NS__LAST_ENTRY; i++) {
-        data->cats[i] = tag_heap->default_cats;
-    }
-
-    memset(data->interface, 0x00, sizeof(data->interface));
 }
 
 lxb_tag_data_t *
@@ -145,7 +143,7 @@ lxb_tag_append(lxb_tag_heap_t *tag_heap, const lxb_char_t *name, size_t len)
         return NULL;
     }
 
-    lxb_tag_data_set_default(tag_heap, data, entry, len);
+    lxb_tag_data_set_attr(tag_heap, data, entry, len);
 
     return data;
 }
@@ -170,42 +168,37 @@ lxb_tag_append_wo_copy(lxb_tag_heap_t *tag_heap, lxb_char_t *name, size_t len)
         return NULL;
     }
 
-    lxb_tag_data_set_default(tag_heap, data, entry, len);
+    lxb_tag_data_set_attr(tag_heap, data, entry, len);
 
     return data;
 }
 
-const lxb_tag_data_t *
-lxb_tag_data_by_id(lxb_tag_heap_t *tag_heap, lxb_tag_id_t tag_id)
+static const lxb_tag_data_t *
+lxb_tag_data_by_id_default_cb(lxb_tag_heap_t *tag_heap, lxb_tag_id_t tag_id)
 {
     if (tag_id >= LXB_TAG__LAST_ENTRY) {
         return lexbor_dobject_by_absolute_position(tag_heap->data,
                                                    tag_id - LXB_TAG__LAST_ENTRY);
     }
 
-    if (tag_heap->static_data == NULL) {
-        return NULL;
-    }
-
-    return &tag_heap->static_data[tag_id];
+    return &lxb_tag_res_data_default[tag_id];
 }
 
-const lxb_tag_data_t *
-lxb_tag_data_by_name(lxb_tag_heap_t *tag_heap,
-                     const lxb_char_t *name, size_t len)
+static const lxb_tag_data_t *
+lxb_tag_data_by_name_default_cb(lxb_tag_heap_t *tag_heap,
+                                const lxb_char_t *name, size_t len)
 {
-    lexbor_shbst_entry_t *hp_entry;
+    const lexbor_shbst_entry_t *hp_entry;
     const lexbor_shs_entry_t *entry;
 
     if (name == NULL || len == 0) {
         return NULL;
     }
 
-    if (tag_heap->static_heap != NULL) {
-        entry = lexbor_shs_entry_get_static(tag_heap->static_heap, name, len);
-        if (entry != NULL) {
-            return (const lxb_tag_data_t *) entry->value;
-        }
+    entry = lexbor_shs_entry_get_static(lxb_tag_res_shs_data_default,
+                                        name, len);
+    if (entry != NULL) {
+        return (const lxb_tag_data_t *) entry->value;
     }
 
     hp_entry = lexbor_shbst_search(tag_heap->heap, name, len, true);
@@ -214,99 +207,4 @@ lxb_tag_data_by_name(lxb_tag_heap_t *tag_heap,
     }
 
     return hp_entry->value;
-}
-
-const lxb_char_t *
-lxb_tag_name_by_id(lxb_tag_heap_t *tag_heap,
-                   lxb_tag_id_t tag_id, lxb_ns_id_t ns, size_t *len)
-{
-    const lxb_tag_data_t *entry;
-
-    if (tag_id >= LXB_TAG__LAST_ENTRY) {
-        entry = lexbor_dobject_by_absolute_position(tag_heap->data,
-                                                    tag_id - LXB_TAG__LAST_ENTRY);
-        if (entry == NULL) {
-            if (len != NULL) {
-                *len = 0;
-            }
-
-            return NULL;
-        }
-
-        if (len != NULL) {
-            *len = entry->name_len;
-        }
-
-        return entry->name;
-    }
-
-    if (tag_heap->static_data == NULL) {
-        return NULL;
-    }
-
-    if (tag_heap->static_data[tag_id].fixname[ns] != NULL) {
-        if (len != NULL) {
-            *len = tag_heap->static_data[tag_id].fixname[ns]->length;
-        }
-
-        return tag_heap->static_data[tag_id].fixname[ns]->data;
-    }
-
-    if (len != NULL) {
-        *len = tag_heap->static_data[tag_id].name_len;
-    }
-
-    return (const lxb_char_t *) tag_heap->static_data[tag_id].name;
-}
-
-lxb_tag_id_t
-lxb_tag_id_by_name(lxb_tag_heap_t *tag_heap, const lxb_char_t *name, size_t len)
-{
-    lexbor_shbst_entry_t *hp_entry;
-    const lexbor_shs_entry_t *entry;
-
-    if (name == NULL || len == 0) {
-        return LXB_TAG__UNDEF;
-    }
-
-    if (tag_heap->static_heap != NULL) {
-        entry = lexbor_shs_entry_get_static(tag_heap->static_heap, name, len);
-        if (entry != NULL) {
-            return ((const lxb_tag_data_t *) entry->value)->tag_id;
-        }
-    }
-
-    hp_entry = lexbor_shbst_search(tag_heap->heap, name, len, true);
-    if (hp_entry == NULL) {
-        return LXB_TAG__UNDEF;
-    }
-
-    return ((const lxb_tag_data_t *) hp_entry->value)->tag_id;
-}
-
-bool
-lxb_tag_is_void(lxb_tag_id_t tag_id)
-{
-    switch (tag_id) {
-        case LXB_TAG_AREA:
-        case LXB_TAG_BASE:
-        case LXB_TAG_BR:
-        case LXB_TAG_COL:
-        case LXB_TAG_EMBED:
-        case LXB_TAG_HR:
-        case LXB_TAG_IMG:
-        case LXB_TAG_INPUT:
-        case LXB_TAG_LINK:
-        case LXB_TAG_META:
-        case LXB_TAG_PARAM:
-        case LXB_TAG_SOURCE:
-        case LXB_TAG_TRACK:
-        case LXB_TAG_WBR:
-            return true;
-
-        default:
-            return false;
-    }
-
-    return false;
 }

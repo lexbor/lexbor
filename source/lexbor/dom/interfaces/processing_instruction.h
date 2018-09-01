@@ -29,6 +29,21 @@ LXB_API lxb_dom_processing_instruction_t *
 lxb_dom_processing_instruction_destroy(lxb_dom_processing_instruction_t *processing_instruction);
 
 
+/*
+ * Inline functions
+ */
+lxb_inline const lxb_char_t *
+lxb_dom_processing_instruction_target(lxb_dom_processing_instruction_t *pi,
+                                      size_t *len)
+{
+    if (len != NULL) {
+        *len = pi->target.length;
+    }
+
+    return pi->target.data;
+}
+
+
 #ifdef __cplusplus
 } /* extern "C" */
 #endif

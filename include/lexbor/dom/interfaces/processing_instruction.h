@@ -8,7 +8,7 @@
 #define LEXBOR_DOM_PROCESSING_INSTRUCTION_H
 
 #ifdef __cplusplus
-extern "C" {
+//extern "C" {
 #endif
 
 #include <lexbor/dom/interfaces/document.h>
@@ -27,6 +27,21 @@ lxb_dom_processing_instruction_create(lxb_dom_document_t *document);
 
 LXB_API lxb_dom_processing_instruction_t *
 lxb_dom_processing_instruction_destroy(lxb_dom_processing_instruction_t *processing_instruction);
+
+
+/*
+ * Inline functions
+ */
+lxb_inline const lxb_char_t *
+lxb_dom_processing_instruction_target(lxb_dom_processing_instruction_t *pi,
+                                      size_t *len)
+{
+    if (len != NULL) {
+        *len = pi->target.length;
+    }
+
+    return pi->target.data;
+}
 
 
 #ifdef __cplusplus

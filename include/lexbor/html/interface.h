@@ -12,6 +12,8 @@ extern "C" {
 #endif
 
 #include <lexbor/html/base.h>
+#include <lexbor/tag/const.h>
+#include <lexbor/ns/const.h>
 #include <lexbor/dom/interface.h>
 
 
@@ -165,8 +167,12 @@ typedef struct lxb_html_video_element lxb_html_video_element_t;
 typedef struct lxb_html_window lxb_html_window_t;
 
 
-LXB_API void *
-lxb_html_interface_destroy(lxb_html_document_t *document, void *interface);
+LXB_API lxb_dom_interface_t *
+lxb_html_interface_create(lxb_html_document_t *document, lxb_tag_id_t tag_id,
+                          lxb_ns_id_t ns);
+
+LXB_API lxb_dom_interface_t *
+lxb_html_interface_destroy(lxb_dom_interface_t *interface);
 
 
 #ifdef __cplusplus

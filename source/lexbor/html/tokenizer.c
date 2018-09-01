@@ -85,6 +85,7 @@ lxb_html_tokenizer_init(lxb_html_tokenizer_t *tkz)
 
     /* and set def values */
     tkz->tag_heap_ref = NULL;
+    tkz->ns_heap_ref = NULL;
 
     tkz->state = lxb_html_tokenizer_state_data_before;
     tkz->state_return = NULL;
@@ -161,20 +162,20 @@ lxb_html_tokenizer_ref(lxb_html_tokenizer_t *tkz)
 }
 
 lxb_html_tokenizer_t *
-lxb_html_tokenizer_unref(lxb_html_tokenizer_t *tkz, bool self_destroy)
+lxb_html_tokenizer_unref(lxb_html_tokenizer_t *tkz)
 {
     if (tkz == NULL || tkz->ref_count == 0) {
         return NULL;
     }
 
     if (tkz->base != NULL) {
-        tkz->base = lxb_html_tokenizer_unref(tkz->base, true);
+        tkz->base = lxb_html_tokenizer_unref(tkz->base);
     }
 
     tkz->ref_count--;
 
     if (tkz->ref_count == 0) {
-        lxb_html_tokenizer_destroy(tkz, self_destroy);
+        lxb_html_tokenizer_destroy(tkz);
     }
 
     return NULL;
@@ -206,13 +207,13 @@ lxb_html_tokenizer_clean(lxb_html_tokenizer_t *tkz)
 }
 
 lxb_html_tokenizer_t *
-lxb_html_tokenizer_destroy(lxb_html_tokenizer_t *tkz, bool self_destroy)
+lxb_html_tokenizer_destroy(lxb_html_tokenizer_t *tkz)
 {
     if (tkz == NULL) {
         return NULL;
     }
 
-    tkz->tag_heap_ref = lxb_tag_heap_unref(tkz->tag_heap_ref, true);
+    tkz->tag_heap_ref = lxb_tag_heap_unref(tkz->tag_heap_ref);
 
     if (tkz->base == NULL) {
         tkz->mraw = lexbor_mraw_destroy(tkz->mraw, true);
@@ -224,11 +225,7 @@ lxb_html_tokenizer_destroy(lxb_html_tokenizer_t *tkz, bool self_destroy)
 
     tkz->parse_errors = lexbor_array_obj_destroy(tkz->parse_errors, true);
 
-    if (self_destroy) {
-        return lexbor_free(tkz);
-    }
-
-    return tkz;
+    return lexbor_free(tkz);
 }
 
 lxb_status_t
@@ -243,10 +240,7 @@ lxb_html_tokenizer_begin(lxb_html_tokenizer_t *tkz)
         lxb_status_t status;
 
         tkz->tag_heap_ref = lxb_tag_heap_create();
-
-        status = lxb_tag_heap_init(tkz->tag_heap_ref, 128, lxb_html_tag_res_data,
-                                   lxb_html_tag_res_shs_data,
-                                   LXB_TAG_CATEGORY_ORDINARY|LXB_TAG_CATEGORY_SCOPE_SELECT);
+        status = lxb_tag_heap_init(tkz->tag_heap_ref, 128);
         if (status != LXB_STATUS_OK) {
             return status;
         }

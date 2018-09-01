@@ -31,17 +31,18 @@ lxb_html_document_create(lxb_html_document_t *document)
             return NULL;
         }
 
-        doc->dom_document.type = LXB_DOM_DOCUMENT_DTYPE_HTML;
         doc->mem = document->mem;
 
-        node = lxb_dom_interface_node(doc);
+        doc->dom_document.type = LXB_DOM_DOCUMENT_DTYPE_HTML;
+        doc->dom_document.mraw = document->mem->mraw;
+        doc->dom_document.text = document->mem->text;
+        doc->dom_document.create_interface = (lxb_dom_interface_create_f) lxb_html_interface_create;
+        doc->dom_document.destroy_interface = lxb_html_interface_destroy;
 
+        node = lxb_dom_interface_node(doc);
         node->owner_document = lxb_dom_interface_document(document);
-        node->owner_document->mraw = document->mem->mraw;
-        node->owner_document->text = document->mem->text;
 
         node->type = LXB_DOM_NODE_TYPE_DOCUMENT;
-
         node->tag_id = LXB_TAG__DOCUMENT;
         node->ns = LXB_NS_HTML;
 
@@ -78,15 +79,15 @@ lxb_html_document_create(lxb_html_document_t *document)
     doc->mem->text = text;
 
     doc->dom_document.type = LXB_DOM_DOCUMENT_DTYPE_HTML;
+    doc->dom_document.mraw = mraw;
+    doc->dom_document.text = text;
+    doc->dom_document.create_interface = (lxb_dom_interface_create_f) lxb_html_interface_create;
+    doc->dom_document.destroy_interface = lxb_html_interface_destroy;
 
     node = lxb_dom_interface_node(doc);
-
     node->owner_document = lxb_dom_interface_document(doc);
-    node->owner_document->mraw = mraw;
-    node->owner_document->text = text;
 
     node->type = LXB_DOM_NODE_TYPE_DOCUMENT;
-
     node->tag_id = LXB_TAG__DOCUMENT;
     node->ns = LXB_NS_HTML;
 
@@ -101,7 +102,8 @@ failure:
 }
 
 lxb_status_t
-lxb_html_document_init(lxb_html_document_t *document, lxb_tag_heap_t *tag_heap)
+lxb_html_document_init(lxb_html_document_t *document,
+                       lxb_tag_heap_t *tag_heap, lxb_ns_heap_t *ns_heap)
 {
     lxb_status_t status;
 
@@ -112,23 +114,39 @@ lxb_html_document_init(lxb_html_document_t *document, lxb_tag_heap_t *tag_heap)
     if (tag_heap != NULL) {
         document->mem->tag_heap_ref = lxb_tag_heap_ref(tag_heap);
         document->dom_document.tags = tag_heap;
+    }
+    else {
+        tag_heap = lxb_tag_heap_create();
+        status = lxb_tag_heap_init(tag_heap, 128);
+
+        if (status != LXB_STATUS_OK) {
+            lxb_tag_heap_destroy(tag_heap);
+
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+
+        document->mem->tag_heap_ref = tag_heap;
+        document->dom_document.tags = tag_heap;
+    }
+
+    if (ns_heap != NULL) {
+        document->mem->ns_heap_ref = lxb_ns_heap_ref(ns_heap);
+        document->dom_document.ns = ns_heap;
 
         return LXB_STATUS_OK;
     }
 
-    tag_heap = lxb_tag_heap_create();
-    status = lxb_tag_heap_init(tag_heap, 128, lxb_html_tag_res_data,
-                               lxb_html_tag_res_shs_data,
-                               LXB_TAG_CATEGORY_ORDINARY|LXB_TAG_CATEGORY_SCOPE_SELECT);
+    ns_heap = lxb_ns_heap_create();
+    status = lxb_ns_heap_init(ns_heap, 128);
 
     if (status != LXB_STATUS_OK) {
-        lexbor_mraw_destroy(document->mem->mraw, true);
+        lxb_ns_heap_destroy(ns_heap);
 
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
 
-    document->mem->tag_heap_ref = tag_heap;
-    document->dom_document.tags = tag_heap;
+    document->mem->ns_heap_ref = ns_heap;
+    document->dom_document.ns = ns_heap;
 
     return LXB_STATUS_OK;
 }
@@ -156,7 +174,8 @@ lxb_html_document_destroy(lxb_html_document_t *document)
 
     document->dom_document.tags = NULL;
 
-    lxb_tag_heap_unref(document->mem->tag_heap_ref, true);
+    lxb_tag_heap_unref(document->mem->tag_heap_ref);
+    lxb_ns_heap_unref(document->mem->ns_heap_ref);
     lexbor_mraw_destroy(document->mem->mraw, true);
 
     return NULL;

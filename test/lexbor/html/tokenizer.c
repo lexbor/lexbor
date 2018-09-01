@@ -114,7 +114,7 @@ TEST_END
 
 TEST_BEGIN_ARGS(tkx_end, lxb_html_tokenizer_t *tkz)
 {
-    lxb_html_tokenizer_destroy(tkz, true);
+    lxb_html_tokenizer_destroy(tkz);
 }
 TEST_END
 

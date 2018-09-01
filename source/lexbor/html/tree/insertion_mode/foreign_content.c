@@ -9,6 +9,7 @@
 
 #include "lexbor/html/tree/insertion_mode.h"
 #include "lexbor/html/tree/open_elements.h"
+#include "lexbor/html/interfaces/element.h"
 
 
 static bool
@@ -271,6 +272,7 @@ lxb_html_tree_insertion_mode_foreign_content_anything_else(lxb_html_tree_t *tree
                                                            lxb_html_token_t *token)
 {
     lxb_html_element_t *element;
+    const lxb_html_tag_fixname_t *fixname_svg;
     lxb_dom_node_t *node = lxb_html_tree_adjusted_current_node(tree);
 
     if (node->ns == LXB_NS_MATH) {
@@ -286,6 +288,14 @@ lxb_html_tree_insertion_mode_foreign_content_anything_else(lxb_html_tree_t *tree
         tree->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
 
         return lxb_html_tree_process_abort(tree);
+    }
+
+    if (node->ns == LXB_NS_SVG) {
+        fixname_svg = lxb_html_tag_fixname_svg(element->element.node.tag_id);
+        if (fixname_svg != NULL) {
+            lxb_dom_element_qualified_name_set(&element->element, NULL, 0,
+                                               fixname_svg->name, fixname_svg->len);
+        }
     }
 
     tree->before_append_attr = NULL;

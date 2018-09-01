@@ -266,7 +266,7 @@ tokenizer_helper_tkz_init(tokenizer_helper_t *helper)
     status = lxb_html_tokenizer_init(tkz);
     if (status != LXB_STATUS_OK) {
         lexbor_array_destroy(&helper->tokens,false);
-        return lxb_html_tokenizer_destroy(tkz, true);
+        return lxb_html_tokenizer_destroy(tkz);
     }
 
     lxb_html_tokenizer_callback_token_done_set(tkz,
@@ -364,7 +364,7 @@ tokenizer_helper_tkz_destroy(lxb_html_tokenizer_t *tkz)
         lexbor_array_destroy(&helper->tokens, false);
     }
 
-    lxb_html_tokenizer_destroy(tkz, true);
+    lxb_html_tokenizer_destroy(tkz);
 }
 
 #undef THTE_ADD

@@ -20,19 +20,6 @@
 
 typedef unsigned int lxb_tag_id_t;
 
-typedef enum {
-    LXB_TAG_CATEGORY__UNDEF          = 0x0000,
-    LXB_TAG_CATEGORY_ORDINARY        = 0x0001,
-    LXB_TAG_CATEGORY_SPECIAL         = 0x0002,
-    LXB_TAG_CATEGORY_FORMATTING      = 0x0004,
-    LXB_TAG_CATEGORY_SCOPE           = 0x0008,
-    LXB_TAG_CATEGORY_SCOPE_LIST_ITEM = 0x0010,
-    LXB_TAG_CATEGORY_SCOPE_BUTTON    = 0x0020,
-    LXB_TAG_CATEGORY_SCOPE_TABLE     = 0x0040,
-    LXB_TAG_CATEGORY_SCOPE_SELECT    = 0x0080,
-}
-lxb_tag_category_t;
-
 %%BODY%%
 
 

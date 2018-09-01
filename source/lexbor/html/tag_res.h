@@ -14,12 +14,14 @@
 #ifndef LXB_HTML_TAG_RES_H
 #define LXB_HTML_TAG_RES_H
 
+#include "lexbor/html/tag.h"
+
 #endif /* LXB_HTML_TAG_RES_H */
 
 #ifdef LXB_TAG_CONST_VERSION
-#ifndef LXB_TAG_CONST_VERSION_ECC08816BD2C61C23053C5930C0089F0
+#ifndef LXB_TAG_CONST_VERSION_A161EC911182C3254E7A972D5C51DF86
 #error Mismatched tags version! See "lexbor/tag/const.h".
-#endif /* LXB_TAG_CONST_VERSION_ECC08816BD2C61C23053C5930C0089F0 */
+#endif /* LXB_TAG_CONST_VERSION_A161EC911182C3254E7A972D5C51DF86 */
 #else
 #error You need to include "lexbor/tag/const.h".
 #endif /* LXB_TAG_CONST_VERSION */
@@ -32,6171 +34,2229 @@
 #error You need to include "lexbor/ns/const.h".
 #endif /* LXB_NS_CONST_VERSION */
 
-#ifdef LXB_HTML_TAG_RES_DATA
-#ifndef LXB_HTML_TAG_RES_DATA_ENABLED
-#define LXB_HTML_TAG_RES_DATA_ENABLED
-#include "lexbor/dom/interfaces/cdata_section.h"
-#include "lexbor/dom/interfaces/character_data.h"
-#include "lexbor/dom/interfaces/comment.h"
-#include "lexbor/dom/interfaces/document.h"
-#include "lexbor/dom/interfaces/document_fragment.h"
-#include "lexbor/dom/interfaces/document_type.h"
-#include "lexbor/dom/interfaces/element.h"
-#include "lexbor/dom/interfaces/event_target.h"
-#include "lexbor/dom/interfaces/node.h"
-#include "lexbor/dom/interfaces/processing_instruction.h"
-#include "lexbor/dom/interfaces/shadow_root.h"
-#include "lexbor/dom/interfaces/text.h"
-#include "lexbor/html/interfaces/document.h"
-#include "lexbor/html/interfaces/anchor_element.h"
-#include "lexbor/html/interfaces/area_element.h"
-#include "lexbor/html/interfaces/audio_element.h"
-#include "lexbor/html/interfaces/br_element.h"
-#include "lexbor/html/interfaces/base_element.h"
-#include "lexbor/html/interfaces/body_element.h"
-#include "lexbor/html/interfaces/button_element.h"
-#include "lexbor/html/interfaces/canvas_element.h"
-#include "lexbor/html/interfaces/d_list_element.h"
-#include "lexbor/html/interfaces/data_element.h"
-#include "lexbor/html/interfaces/data_list_element.h"
-#include "lexbor/html/interfaces/details_element.h"
-#include "lexbor/html/interfaces/dialog_element.h"
-#include "lexbor/html/interfaces/directory_element.h"
-#include "lexbor/html/interfaces/div_element.h"
-#include "lexbor/html/interfaces/element.h"
-#include "lexbor/html/interfaces/embed_element.h"
-#include "lexbor/html/interfaces/field_set_element.h"
-#include "lexbor/html/interfaces/font_element.h"
-#include "lexbor/html/interfaces/form_element.h"
-#include "lexbor/html/interfaces/frame_element.h"
-#include "lexbor/html/interfaces/frame_set_element.h"
-#include "lexbor/html/interfaces/hr_element.h"
-#include "lexbor/html/interfaces/head_element.h"
-#include "lexbor/html/interfaces/heading_element.h"
-#include "lexbor/html/interfaces/html_element.h"
-#include "lexbor/html/interfaces/iframe_element.h"
-#include "lexbor/html/interfaces/image_element.h"
-#include "lexbor/html/interfaces/input_element.h"
-#include "lexbor/html/interfaces/li_element.h"
-#include "lexbor/html/interfaces/label_element.h"
-#include "lexbor/html/interfaces/legend_element.h"
-#include "lexbor/html/interfaces/link_element.h"
-#include "lexbor/html/interfaces/map_element.h"
-#include "lexbor/html/interfaces/marquee_element.h"
-#include "lexbor/html/interfaces/media_element.h"
-#include "lexbor/html/interfaces/menu_element.h"
-#include "lexbor/html/interfaces/meta_element.h"
-#include "lexbor/html/interfaces/meter_element.h"
-#include "lexbor/html/interfaces/mod_element.h"
-#include "lexbor/html/interfaces/o_list_element.h"
-#include "lexbor/html/interfaces/object_element.h"
-#include "lexbor/html/interfaces/opt_group_element.h"
-#include "lexbor/html/interfaces/option_element.h"
-#include "lexbor/html/interfaces/output_element.h"
-#include "lexbor/html/interfaces/paragraph_element.h"
-#include "lexbor/html/interfaces/param_element.h"
-#include "lexbor/html/interfaces/picture_element.h"
-#include "lexbor/html/interfaces/pre_element.h"
-#include "lexbor/html/interfaces/progress_element.h"
-#include "lexbor/html/interfaces/quote_element.h"
-#include "lexbor/html/interfaces/script_element.h"
-#include "lexbor/html/interfaces/select_element.h"
-#include "lexbor/html/interfaces/slot_element.h"
-#include "lexbor/html/interfaces/source_element.h"
-#include "lexbor/html/interfaces/span_element.h"
-#include "lexbor/html/interfaces/style_element.h"
-#include "lexbor/html/interfaces/table_caption_element.h"
-#include "lexbor/html/interfaces/table_cell_element.h"
-#include "lexbor/html/interfaces/table_col_element.h"
-#include "lexbor/html/interfaces/table_element.h"
-#include "lexbor/html/interfaces/table_row_element.h"
-#include "lexbor/html/interfaces/table_section_element.h"
-#include "lexbor/html/interfaces/template_element.h"
-#include "lexbor/html/interfaces/text_area_element.h"
-#include "lexbor/html/interfaces/time_element.h"
-#include "lexbor/html/interfaces/title_element.h"
-#include "lexbor/html/interfaces/track_element.h"
-#include "lexbor/html/interfaces/u_list_element.h"
-#include "lexbor/html/interfaces/unknown_element.h"
-#include "lexbor/html/interfaces/video_element.h"
-#include "lexbor/html/interfaces/window.h"
-
-static  lxb_tag_data_t lxb_html_tag_res_data[LXB_TAG__LAST_ENTRY] = 
+#ifdef LXB_HTML_TAG_RES_CATS
+#ifndef LXB_HTML_TAG_RES_CATS_ENABLED
+#define LXB_HTML_TAG_RES_CATS_ENABLED
+static  lxb_html_tag_category_t lxb_html_tag_res_cats[LXB_TAG__LAST_ENTRY][LXB_NS__LAST_ENTRY] = 
 {
-    {(const lxb_char_t *) "#undef", 6, LXB_TAG__UNDEF,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "#end-of-file", 12, LXB_TAG__END_OF_FILE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "#text", 5, LXB_TAG__TEXT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_text_create,
-            (lxb_tag_interface_creation_f) lxb_dom_text_create,
-            (lxb_tag_interface_creation_f) lxb_dom_text_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "#document", 9, LXB_TAG__DOCUMENT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_document_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "!--", 3, LXB_TAG__EM_COMMENT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_comment_create,
-            (lxb_tag_interface_creation_f) lxb_dom_comment_create,
-            (lxb_tag_interface_creation_f) lxb_dom_comment_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "!doctype", 8, LXB_TAG__EM_DOCTYPE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_document_type_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "a", 1, LXB_TAG_A,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_FORMATTING
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_anchor_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "abbr", 4, LXB_TAG_ABBR,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "acronym", 7, LXB_TAG_ACRONYM,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "address", 7, LXB_TAG_ADDRESS,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "altglyph", 8, LXB_TAG_ALTGLYPH,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "altGlyph", 8}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "altglyphdef", 11, LXB_TAG_ALTGLYPHDEF,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "altGlyphDef", 11}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "altglyphitem", 12, LXB_TAG_ALTGLYPHITEM,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "altGlyphItem", 12}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "animatecolor", 12, LXB_TAG_ANIMATECOLOR,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "animateColor", 12}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "animatemotion", 13, LXB_TAG_ANIMATEMOTION,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "animateMotion", 13}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "animatetransform", 16, LXB_TAG_ANIMATETRANSFORM,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "animateTransform", 16}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "annotation-xml", 14, LXB_TAG_ANNOTATION_XML,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY_SCOPE
-            |LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "applet", 6, LXB_TAG_APPLET,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE
-            |LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "area", 4, LXB_TAG_AREA,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_area_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "article", 7, LXB_TAG_ARTICLE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "aside", 5, LXB_TAG_ASIDE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "audio", 5, LXB_TAG_AUDIO,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_audio_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "b", 1, LXB_TAG_B,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_FORMATTING
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "base", 4, LXB_TAG_BASE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_base_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "basefont", 8, LXB_TAG_BASEFONT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "bdi", 3, LXB_TAG_BDI,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "bdo", 3, LXB_TAG_BDO,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "bgsound", 7, LXB_TAG_BGSOUND,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "big", 3, LXB_TAG_BIG,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_FORMATTING
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "blink", 5, LXB_TAG_BLINK,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "blockquote", 10, LXB_TAG_BLOCKQUOTE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_quote_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "body", 4, LXB_TAG_BODY,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_body_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "br", 2, LXB_TAG_BR,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_br_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "button", 6, LXB_TAG_BUTTON,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_button_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "canvas", 6, LXB_TAG_CANVAS,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_canvas_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "caption", 7, LXB_TAG_CAPTION,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE
-            |LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_table_caption_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "center", 6, LXB_TAG_CENTER,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "cite", 4, LXB_TAG_CITE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "clippath", 8, LXB_TAG_CLIPPATH,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "clipPath", 8}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "code", 4, LXB_TAG_CODE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_FORMATTING
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "col", 3, LXB_TAG_COL,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_table_col_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "colgroup", 8, LXB_TAG_COLGROUP,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_table_col_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "data", 4, LXB_TAG_DATA,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_data_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "datalist", 8, LXB_TAG_DATALIST,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_data_list_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "dd", 2, LXB_TAG_DD,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "del", 3, LXB_TAG_DEL,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_mod_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "desc", 4, LXB_TAG_DESC,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE
-            |LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "details", 7, LXB_TAG_DETAILS,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_details_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "dfn", 3, LXB_TAG_DFN,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "dialog", 6, LXB_TAG_DIALOG,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_dialog_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "dir", 3, LXB_TAG_DIR,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_directory_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "div", 3, LXB_TAG_DIV,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_div_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "dl", 2, LXB_TAG_DL,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_d_list_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "dt", 2, LXB_TAG_DT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "em", 2, LXB_TAG_EM,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_FORMATTING
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "embed", 5, LXB_TAG_EMBED,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_embed_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "feblend", 7, LXB_TAG_FEBLEND,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feBlend", 7}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "fecolormatrix", 13, LXB_TAG_FECOLORMATRIX,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feColorMatrix", 13}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "fecomponenttransfer", 19, LXB_TAG_FECOMPONENTTRANSFER,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feComponentTransfer", 19}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "fecomposite", 11, LXB_TAG_FECOMPOSITE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feComposite", 11}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "feconvolvematrix", 16, LXB_TAG_FECONVOLVEMATRIX,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feConvolveMatrix", 16}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "fediffuselighting", 17, LXB_TAG_FEDIFFUSELIGHTING,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feDiffuseLighting", 17}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "fedisplacementmap", 17, LXB_TAG_FEDISPLACEMENTMAP,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feDisplacementMap", 17}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "fedistantlight", 14, LXB_TAG_FEDISTANTLIGHT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feDistantLight", 14}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "fedropshadow", 12, LXB_TAG_FEDROPSHADOW,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feDropShadow", 12}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "feflood", 7, LXB_TAG_FEFLOOD,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feFlood", 7}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "fefunca", 7, LXB_TAG_FEFUNCA,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feFuncA", 7}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "fefuncb", 7, LXB_TAG_FEFUNCB,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feFuncB", 7}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "fefuncg", 7, LXB_TAG_FEFUNCG,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feFuncG", 7}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "fefuncr", 7, LXB_TAG_FEFUNCR,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feFuncR", 7}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "fegaussianblur", 14, LXB_TAG_FEGAUSSIANBLUR,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feGaussianBlur", 14}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "feimage", 7, LXB_TAG_FEIMAGE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feImage", 7}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "femerge", 7, LXB_TAG_FEMERGE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feMerge", 7}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "femergenode", 11, LXB_TAG_FEMERGENODE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feMergeNode", 11}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "femorphology", 12, LXB_TAG_FEMORPHOLOGY,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feMorphology", 12}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "feoffset", 8, LXB_TAG_FEOFFSET,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feOffset", 8}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "fepointlight", 12, LXB_TAG_FEPOINTLIGHT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "fePointLight", 12}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "fespecularlighting", 18, LXB_TAG_FESPECULARLIGHTING,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feSpecularLighting", 18}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "fespotlight", 11, LXB_TAG_FESPOTLIGHT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feSpotLight", 11}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "fetile", 6, LXB_TAG_FETILE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feTile", 6}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "feturbulence", 12, LXB_TAG_FETURBULENCE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "feTurbulence", 12}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "fieldset", 8, LXB_TAG_FIELDSET,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_field_set_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "figcaption", 10, LXB_TAG_FIGCAPTION,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "figure", 6, LXB_TAG_FIGURE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "font", 4, LXB_TAG_FONT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_FORMATTING
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_font_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "footer", 6, LXB_TAG_FOOTER,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "foreignobject", 13, LXB_TAG_FOREIGNOBJECT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE
-            |LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "foreignObject", 13}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "form", 4, LXB_TAG_FORM,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_form_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "frame", 5, LXB_TAG_FRAME,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_frame_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "frameset", 8, LXB_TAG_FRAMESET,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_frame_set_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "glyphref", 8, LXB_TAG_GLYPHREF,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "glyphRef", 8}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "h1", 2, LXB_TAG_H1,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_heading_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "h2", 2, LXB_TAG_H2,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_heading_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "h3", 2, LXB_TAG_H3,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_heading_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "h4", 2, LXB_TAG_H4,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_heading_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "h5", 2, LXB_TAG_H5,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_heading_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "h6", 2, LXB_TAG_H6,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_heading_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "head", 4, LXB_TAG_HEAD,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_head_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "header", 6, LXB_TAG_HEADER,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "hgroup", 6, LXB_TAG_HGROUP,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "hr", 2, LXB_TAG_HR,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_hr_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "html", 4, LXB_TAG_HTML,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE
-            |LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SCOPE_TABLE
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "i", 1, LXB_TAG_I,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_FORMATTING
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "iframe", 6, LXB_TAG_IFRAME,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_iframe_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "image", 5, LXB_TAG_IMAGE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_image_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "img", 3, LXB_TAG_IMG,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_image_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "input", 5, LXB_TAG_INPUT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_input_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "ins", 3, LXB_TAG_INS,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_mod_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "isindex", 7, LXB_TAG_ISINDEX,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "kbd", 3, LXB_TAG_KBD,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "keygen", 6, LXB_TAG_KEYGEN,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "label", 5, LXB_TAG_LABEL,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_label_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "legend", 6, LXB_TAG_LEGEND,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_legend_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "li", 2, LXB_TAG_LI,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_li_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "lineargradient", 14, LXB_TAG_LINEARGRADIENT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "linearGradient", 14}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "link", 4, LXB_TAG_LINK,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_link_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "listing", 7, LXB_TAG_LISTING,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_pre_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "main", 4, LXB_TAG_MAIN,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "malignmark", 10, LXB_TAG_MALIGNMARK,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY_ORDINARY,
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "map", 3, LXB_TAG_MAP,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_map_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "mark", 4, LXB_TAG_MARK,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "marquee", 7, LXB_TAG_MARQUEE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE
-            |LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_marquee_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "math", 4, LXB_TAG_MATH,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "menu", 4, LXB_TAG_MENU,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_menu_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "meta", 4, LXB_TAG_META,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_meta_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "meter", 5, LXB_TAG_METER,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_meter_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "mfenced", 7, LXB_TAG_MFENCED,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "mglyph", 6, LXB_TAG_MGLYPH,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY_ORDINARY,
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "mi", 2, LXB_TAG_MI,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY_SCOPE
-            |LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "mn", 2, LXB_TAG_MN,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY_SCOPE
-            |LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "mo", 2, LXB_TAG_MO,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY_SCOPE
-            |LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "ms", 2, LXB_TAG_MS,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY_SCOPE
-            |LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "mtext", 5, LXB_TAG_MTEXT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY_SCOPE
-            |LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "multicol", 8, LXB_TAG_MULTICOL,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "nav", 3, LXB_TAG_NAV,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "nextid", 6, LXB_TAG_NEXTID,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "nobr", 4, LXB_TAG_NOBR,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_FORMATTING
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "noembed", 7, LXB_TAG_NOEMBED,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "noframes", 8, LXB_TAG_NOFRAMES,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "noscript", 8, LXB_TAG_NOSCRIPT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "object", 6, LXB_TAG_OBJECT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE
-            |LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_object_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "ol", 2, LXB_TAG_OL,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_o_list_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "optgroup", 8, LXB_TAG_OPTGROUP,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY,LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_opt_group_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "option", 6, LXB_TAG_OPTION,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY,LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_option_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "output", 6, LXB_TAG_OUTPUT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_output_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "p", 1, LXB_TAG_P,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_paragraph_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "param", 5, LXB_TAG_PARAM,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_param_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "path", 4, LXB_TAG_PATH,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "picture", 7, LXB_TAG_PICTURE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_picture_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "plaintext", 9, LXB_TAG_PLAINTEXT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "pre", 3, LXB_TAG_PRE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_pre_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "progress", 8, LXB_TAG_PROGRESS,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_progress_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "q", 1, LXB_TAG_Q,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_quote_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "radialgradient", 14, LXB_TAG_RADIALGRADIENT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "radialGradient", 14}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "rb", 2, LXB_TAG_RB,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "rp", 2, LXB_TAG_RP,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "rt", 2, LXB_TAG_RT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "rtc", 3, LXB_TAG_RTC,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "ruby", 4, LXB_TAG_RUBY,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "s", 1, LXB_TAG_S,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_FORMATTING
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "samp", 4, LXB_TAG_SAMP,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "script", 6, LXB_TAG_SCRIPT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_script_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "section", 7, LXB_TAG_SECTION,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "select", 6, LXB_TAG_SELECT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_select_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "slot", 4, LXB_TAG_SLOT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_slot_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "small", 5, LXB_TAG_SMALL,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_FORMATTING
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "source", 6, LXB_TAG_SOURCE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_source_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "spacer", 6, LXB_TAG_SPACER,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "span", 4, LXB_TAG_SPAN,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_span_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "strike", 6, LXB_TAG_STRIKE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_FORMATTING
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "strong", 6, LXB_TAG_STRONG,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_FORMATTING
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "style", 5, LXB_TAG_STYLE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_style_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "sub", 3, LXB_TAG_SUB,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "summary", 7, LXB_TAG_SUMMARY,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "sup", 3, LXB_TAG_SUP,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "svg", 3, LXB_TAG_SVG,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "table", 5, LXB_TAG_TABLE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE
-            |LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SCOPE_TABLE
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_table_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "tbody", 5, LXB_TAG_TBODY,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_table_section_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "td", 2, LXB_TAG_TD,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE
-            |LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_table_cell_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "template", 8, LXB_TAG_TEMPLATE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE
-            |LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SCOPE_TABLE
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_template_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "textarea", 8, LXB_TAG_TEXTAREA,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_text_area_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "textpath", 8, LXB_TAG_TEXTPATH,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            &((lexbor_str_t) {(lxb_char_t *) "textPath", 8}),
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "tfoot", 5, LXB_TAG_TFOOT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_table_section_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "th", 2, LXB_TAG_TH,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE
-            |LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_table_cell_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "thead", 5, LXB_TAG_THEAD,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_table_section_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "time", 4, LXB_TAG_TIME,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_time_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "title", 5, LXB_TAG_TITLE,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE
-            |LXB_TAG_CATEGORY_SCOPE_BUTTON
-            |LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_title_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "tr", 2, LXB_TAG_TR,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_table_row_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "track", 5, LXB_TAG_TRACK,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_track_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "tt", 2, LXB_TAG_TT,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_FORMATTING
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "u", 1, LXB_TAG_U,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_FORMATTING
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "ul", 2, LXB_TAG_UL,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_LIST_ITEM
-            |LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_u_list_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "var", 3, LXB_TAG_VAR,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "video", 5, LXB_TAG_VIDEO,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_ORDINARY
-            |LXB_TAG_CATEGORY_SCOPE_SELECT,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_video_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "wbr", 3, LXB_TAG_WBR,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
-    },
-    {(const lxb_char_t *) "xmp", 3, LXB_TAG_XMP,
-        {
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY_SCOPE_SELECT
-            |LXB_TAG_CATEGORY_SPECIAL,
-            LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF, 
-            LXB_TAG_CATEGORY__UNDEF, LXB_TAG_CATEGORY__UNDEF
-        },
-        {
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_unknown_element_create,
-            (lxb_tag_interface_creation_f) lxb_html_pre_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create,
-            (lxb_tag_interface_creation_f) lxb_dom_element_create
-        },
-        {
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-            NULL,
-        }
+    /* LXB_TAG__UNDEF */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG__END_OF_FILE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG__TEXT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG__DOCUMENT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG__EM_COMMENT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG__EM_DOCTYPE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_A */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_FORMATTING
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_ABBR */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_ACRONYM */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_ADDRESS */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_ALTGLYPH */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_ALTGLYPHDEF */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_ALTGLYPHITEM */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_ANIMATECOLOR */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_ANIMATEMOTION */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_ANIMATETRANSFORM */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_ANNOTATION_XML */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY_SCOPE
+            |LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_APPLET */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE
+            |LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_AREA */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_ARTICLE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_ASIDE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_AUDIO */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_B */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_FORMATTING
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_BASE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_BASEFONT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_BDI */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_BDO */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_BGSOUND */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_BIG */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_FORMATTING
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_BLINK */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_BLOCKQUOTE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_BODY */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_BR */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_BUTTON */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_CANVAS */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_CAPTION */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE
+            |LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_CENTER */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_CITE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_CLIPPATH */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_CODE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_FORMATTING
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_COL */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_COLGROUP */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_DATA */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_DATALIST */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_DD */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_DEL */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_DESC */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE
+            |LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_DETAILS */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_DFN */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_DIALOG */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_DIR */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_DIV */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_DL */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_DT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_EM */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_FORMATTING
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_EMBED */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FEBLEND */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FECOLORMATRIX */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FECOMPONENTTRANSFER */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FECOMPOSITE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FECONVOLVEMATRIX */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FEDIFFUSELIGHTING */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FEDISPLACEMENTMAP */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FEDISTANTLIGHT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FEDROPSHADOW */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FEFLOOD */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FEFUNCA */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FEFUNCB */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FEFUNCG */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FEFUNCR */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FEGAUSSIANBLUR */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FEIMAGE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FEMERGE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FEMERGENODE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FEMORPHOLOGY */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FEOFFSET */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FEPOINTLIGHT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FESPECULARLIGHTING */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FESPOTLIGHT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FETILE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FETURBULENCE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FIELDSET */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FIGCAPTION */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FIGURE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FONT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_FORMATTING
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FOOTER */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FOREIGNOBJECT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE
+            |LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FORM */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FRAME */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_FRAMESET */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_GLYPHREF */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_H1 */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_H2 */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_H3 */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_H4 */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_H5 */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_H6 */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_HEAD */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_HEADER */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_HGROUP */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_HR */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_HTML */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE
+            |LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SCOPE_TABLE
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_I */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_FORMATTING
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_IFRAME */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_IMAGE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_IMG */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_INPUT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_INS */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_ISINDEX */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_KBD */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_KEYGEN */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_LABEL */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_LEGEND */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_LI */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_LINEARGRADIENT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_LINK */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_LISTING */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_MAIN */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_MALIGNMARK */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY_ORDINARY,
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_MAP */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_MARK */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_MARQUEE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE
+            |LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_MATH */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_MENU */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_META */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_METER */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_MFENCED */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_MGLYPH */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY_ORDINARY,
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_MI */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY_SCOPE
+            |LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_MN */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY_SCOPE
+            |LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_MO */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY_SCOPE
+            |LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_MS */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY_SCOPE
+            |LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_MTEXT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY_SCOPE
+            |LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_MULTICOL */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_NAV */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_NEXTID */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_NOBR */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_FORMATTING
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_NOEMBED */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_NOFRAMES */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_NOSCRIPT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_OBJECT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE
+            |LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_OL */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_OPTGROUP */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY,LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_OPTION */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY,LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_OUTPUT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_P */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_PARAM */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_PATH */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_PICTURE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_PLAINTEXT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_PRE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_PROGRESS */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_Q */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_RADIALGRADIENT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_RB */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_RP */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_RT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_RTC */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_RUBY */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_S */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_FORMATTING
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_SAMP */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_SCRIPT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_SECTION */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_SELECT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_SLOT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_SMALL */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_FORMATTING
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_SOURCE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_SPACER */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_SPAN */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_STRIKE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_FORMATTING
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_STRONG */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_FORMATTING
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_STYLE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_SUB */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_SUMMARY */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_SUP */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_SVG */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_TABLE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE
+            |LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SCOPE_TABLE
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_TBODY */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_TD */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE
+            |LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_TEMPLATE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE
+            |LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SCOPE_TABLE
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_TEXTAREA */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_TEXTPATH */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_TFOOT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_TH */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE
+            |LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_THEAD */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_TIME */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_TITLE */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE
+            |LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+            |LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_TR */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_TRACK */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_TT */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_FORMATTING
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_U */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_FORMATTING
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_UL */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_VAR */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_VIDEO */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_ORDINARY
+            |LXB_HTML_TAG_CATEGORY_SCOPE_SELECT,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_WBR */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
+    },
+    /* LXB_TAG_XMP */
+    {
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY_SCOPE_SELECT
+            |LXB_HTML_TAG_CATEGORY_SPECIAL,
+        LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF, 
+        LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
     }
 };
-#endif /* LXB_HTML_TAG_RES_DATA_ENABLED */
-#endif /* LXB_HTML_TAG_RES_DATA */
+#endif /* LXB_HTML_TAG_RES_CATS_ENABLED */
+#endif /* LXB_HTML_TAG_RES_CATS */
 
-#ifdef LXB_HTML_TAG_RES_SHS_DATA
-#ifndef LXB_HTML_TAG_RES_SHS_DATA_ENABLED
-#define LXB_HTML_TAG_RES_SHS_DATA_ENABLED
-static const lexbor_shs_entry_t lxb_html_tag_res_shs_data[] = 
+#ifdef LXB_HTML_TAG_RES_FIXNAME_SVG
+#ifndef LXB_HTML_TAG_RES_FIXNAME_SVG_ENABLED
+#define LXB_HTML_TAG_RES_FIXNAME_SVG_ENABLED
+static  lxb_html_tag_fixname_t * lxb_html_tag_res_fixname_svg[LXB_TAG__LAST_ENTRY] = 
 {
-    {NULL, NULL, 262, 0}, {"radialgradient", &lxb_html_tag_res_data[153], 14, 0}, 
-    {"fecomponenttransfer", &lxb_html_tag_res_data[58], 19, 0}, {"abbr", &lxb_html_tag_res_data[7], 4, 1}, 
-    {"feflood", &lxb_html_tag_res_data[65], 7, 0}, {"marquee", &lxb_html_tag_res_data[121], 7, 0}, 
-    {"feblend", &lxb_html_tag_res_data[56], 7, 4}, {"optgroup", &lxb_html_tag_res_data[142], 8, 0}, 
-    {"video", &lxb_html_tag_res_data[193], 5, 10}, {"u", &lxb_html_tag_res_data[190], 1, 0}, 
-    {"iframe", &lxb_html_tag_res_data[103], 6, 0}, {"animatecolor", &lxb_html_tag_res_data[13], 12, 0}, 
-    {"output", &lxb_html_tag_res_data[144], 6, 0}, {"figcaption", &lxb_html_tag_res_data[82], 10, 0}, 
-    {"mglyph", &lxb_html_tag_res_data[127], 6, 0}, {"!--", &lxb_html_tag_res_data[4], 3, 0}, 
-    {"fefuncg", &lxb_html_tag_res_data[68], 7, 0}, {"aside", &lxb_html_tag_res_data[20], 5, 0}, 
-    {"style", &lxb_html_tag_res_data[171], 5, 0}, {"strike", &lxb_html_tag_res_data[169], 6, 0}, 
-    {"header", &lxb_html_tag_res_data[98], 6, 0}, {"glyphref", &lxb_html_tag_res_data[90], 8, 23}, 
-    {"label", &lxb_html_tag_res_data[111], 5, 0}, {"feconvolvematrix", &lxb_html_tag_res_data[60], 16, 0}, 
-    {"altglyphdef", &lxb_html_tag_res_data[11], 11, 0}, {"title", &lxb_html_tag_res_data[186], 5, 0}, 
-    {"head", &lxb_html_tag_res_data[97], 4, 0}, {"noframes", &lxb_html_tag_res_data[138], 8, 0}, 
-    {"code", &lxb_html_tag_res_data[39], 4, 30}, {"rb", &lxb_html_tag_res_data[154], 2, 5}, 
-    {"blink", &lxb_html_tag_res_data[29], 5, 0}, {"image", &lxb_html_tag_res_data[104], 5, 0}, 
-    {"col", &lxb_html_tag_res_data[40], 3, 8}, {"object", &lxb_html_tag_res_data[140], 6, 12}, 
-    {"template", &lxb_html_tag_res_data[179], 8, 36}, {"h2", &lxb_html_tag_res_data[92], 2, 13}, 
-    {"lineargradient", &lxb_html_tag_res_data[114], 14, 0}, {"math", &lxb_html_tag_res_data[122], 4, 0}, 
-    {"base", &lxb_html_tag_res_data[23], 4, 45}, {"dl", &lxb_html_tag_res_data[52], 2, 14}, 
-    {"del", &lxb_html_tag_res_data[45], 3, 16}, {"svg", &lxb_html_tag_res_data[175], 3, 17}, 
-    {"dir", &lxb_html_tag_res_data[50], 3, 0}, {"article", &lxb_html_tag_res_data[19], 7, 0}, 
-    {"strong", &lxb_html_tag_res_data[170], 6, 0}, {"dialog", &lxb_html_tag_res_data[49], 6, 0}, 
-    {"details", &lxb_html_tag_res_data[47], 7, 0}, {"textpath", &lxb_html_tag_res_data[181], 8, 52}, 
-    {"mark", &lxb_html_tag_res_data[120], 4, 0}, {"basefont", &lxb_html_tag_res_data[24], 8, 0}, 
-    {"fediffuselighting", &lxb_html_tag_res_data[61], 17, 0}, {"fespecularlighting", &lxb_html_tag_res_data[77], 18, 0}, 
-    {"blockquote", &lxb_html_tag_res_data[30], 10, 0}, {"script", &lxb_html_tag_res_data[161], 6, 58}, 
-    {"malignmark", &lxb_html_tag_res_data[118], 10, 0}, {"hr", &lxb_html_tag_res_data[100], 2, 18}, 
-    {"source", &lxb_html_tag_res_data[166], 6, 19}, {"mn", &lxb_html_tag_res_data[129], 2, 0}, 
-    {"select", &lxb_html_tag_res_data[163], 6, 0}, {"main", &lxb_html_tag_res_data[117], 4, 20}, 
-    {"fieldset", &lxb_html_tag_res_data[81], 8, 62}, {"ins", &lxb_html_tag_res_data[107], 3, 0}, 
-    {"frameset", &lxb_html_tag_res_data[89], 8, 0}, {"button", &lxb_html_tag_res_data[33], 6, 0}, 
-    {"fecolormatrix", &lxb_html_tag_res_data[57], 13, 0}, {"q", &lxb_html_tag_res_data[152], 1, 0}, 
-    {"animatemotion", &lxb_html_tag_res_data[14], 13, 0}, {"time", &lxb_html_tag_res_data[185], 4, 21}, 
-    {"table", &lxb_html_tag_res_data[176], 5, 25}, {"h6", &lxb_html_tag_res_data[96], 2, 26}, 
-    {"cite", &lxb_html_tag_res_data[37], 4, 28}, {"img", &lxb_html_tag_res_data[105], 3, 34}, 
-    {"fepointlight", &lxb_html_tag_res_data[76], 12, 0}, {"audio", &lxb_html_tag_res_data[21], 5, 0}, 
-    {"#end-of-file", &lxb_html_tag_res_data[1], 12, 0}, {"noscript", &lxb_html_tag_res_data[139], 8, 0}, 
-    {"foreignobject", &lxb_html_tag_res_data[86], 13, 0}, {"spacer", &lxb_html_tag_res_data[167], 6, 0}, 
-    {"samp", &lxb_html_tag_res_data[160], 4, 0}, {"altglyphitem", &lxb_html_tag_res_data[12], 12, 0}, 
-    {"dt", &lxb_html_tag_res_data[53], 2, 0}, {"data", &lxb_html_tag_res_data[42], 4, 0}, 
-    {"mtext", &lxb_html_tag_res_data[132], 5, 0}, {"path", &lxb_html_tag_res_data[147], 4, 0}, 
-    {"input", &lxb_html_tag_res_data[106], 5, 0}, {"th", &lxb_html_tag_res_data[183], 2, 38}, 
-    {"p", &lxb_html_tag_res_data[145], 1, 0}, {"animatetransform", &lxb_html_tag_res_data[15], 16, 0}, 
-    {"datalist", &lxb_html_tag_res_data[43], 8, 0}, {"small", &lxb_html_tag_res_data[165], 5, 0}, 
-    {"b", &lxb_html_tag_res_data[22], 1, 46}, {"nextid", &lxb_html_tag_res_data[135], 6, 47}, 
-    {"noembed", &lxb_html_tag_res_data[137], 7, 0}, {"nav", &lxb_html_tag_res_data[134], 3, 0}, 
-    {"bgsound", &lxb_html_tag_res_data[27], 7, 0}, {"slot", &lxb_html_tag_res_data[164], 4, 0}, 
-    {"param", &lxb_html_tag_res_data[146], 5, 0}, {"font", &lxb_html_tag_res_data[84], 4, 53}, 
-    {"figure", &lxb_html_tag_res_data[83], 6, 0}, {"femerge", &lxb_html_tag_res_data[72], 7, 0}, 
-    {"femergenode", &lxb_html_tag_res_data[73], 11, 0}, {"feoffset", &lxb_html_tag_res_data[75], 8, 60}, 
-    {"#text", &lxb_html_tag_res_data[2], 5, 0}, {"ul", &lxb_html_tag_res_data[191], 2, 0}, 
-    {"fespotlight", &lxb_html_tag_res_data[78], 11, 66}, {"form", &lxb_html_tag_res_data[87], 4, 72}, 
-    {"#document", &lxb_html_tag_res_data[3], 9, 76}, {"fedistantlight", &lxb_html_tag_res_data[63], 14, 0}, 
-    {"track", &lxb_html_tag_res_data[188], 5, 0}, {"h3", &lxb_html_tag_res_data[93], 2, 77}, 
-    {"h1", &lxb_html_tag_res_data[91], 2, 0}, {"i", &lxb_html_tag_res_data[102], 1, 0}, 
-    {"altglyph", &lxb_html_tag_res_data[10], 8, 0}, {"legend", &lxb_html_tag_res_data[112], 6, 115}, 
-    {"tbody", &lxb_html_tag_res_data[177], 5, 0}, {"address", &lxb_html_tag_res_data[9], 7, 0}, 
-    {"caption", &lxb_html_tag_res_data[35], 7, 0}, {"option", &lxb_html_tag_res_data[143], 6, 0}, 
-    {"sup", &lxb_html_tag_res_data[174], 3, 0}, {"body", &lxb_html_tag_res_data[31], 4, 78}, 
-    {"progress", &lxb_html_tag_res_data[151], 8, 122}, {"acronym", &lxb_html_tag_res_data[8], 7, 0}, 
-    {"fegaussianblur", &lxb_html_tag_res_data[70], 14, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"mi", &lxb_html_tag_res_data[128], 2, 79}, {NULL, NULL, 0, 0}, 
-    {"dfn", &lxb_html_tag_res_data[48], 3, 0}, {"a", &lxb_html_tag_res_data[6], 1, 80}, 
-    {"listing", &lxb_html_tag_res_data[116], 7, 87}, {"span", &lxb_html_tag_res_data[168], 4, 0}, 
-    {"area", &lxb_html_tag_res_data[18], 4, 0}, {"clippath", &lxb_html_tag_res_data[38], 8, 0}, 
-    {"section", &lxb_html_tag_res_data[162], 7, 0}, {"li", &lxb_html_tag_res_data[113], 2, 88}, 
-    {NULL, NULL, 0, 0}, {"html", &lxb_html_tag_res_data[101], 4, 0}, 
-    {NULL, NULL, 0, 0}, {"fedropshadow", &lxb_html_tag_res_data[64], 12, 0}, 
-    {"embed", &lxb_html_tag_res_data[55], 5, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"multicol", &lxb_html_tag_res_data[133], 8, 0}, 
-    {"var", &lxb_html_tag_res_data[192], 3, 89}, {"rp", &lxb_html_tag_res_data[155], 2, 0}, 
-    {NULL, NULL, 0, 0}, {"link", &lxb_html_tag_res_data[115], 4, 0}, 
-    {"mo", &lxb_html_tag_res_data[130], 2, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"annotation-xml", &lxb_html_tag_res_data[16], 14, 0}, 
-    {"fedisplacementmap", &lxb_html_tag_res_data[62], 17, 0}, {"center", &lxb_html_tag_res_data[36], 6, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"fefuncb", &lxb_html_tag_res_data[67], 7, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"meter", &lxb_html_tag_res_data[125], 5, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"tt", &lxb_html_tag_res_data[189], 2, 0}, 
-    {"big", &lxb_html_tag_res_data[28], 3, 93}, {NULL, NULL, 0, 0}, 
-    {"tfoot", &lxb_html_tag_res_data[182], 5, 0}, {"desc", &lxb_html_tag_res_data[46], 4, 0}, 
-    {"isindex", &lxb_html_tag_res_data[108], 7, 0}, {NULL, NULL, 0, 0}, 
-    {"menu", &lxb_html_tag_res_data[123], 4, 0}, {"hgroup", &lxb_html_tag_res_data[99], 6, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"wbr", &lxb_html_tag_res_data[194], 3, 0}, {NULL, NULL, 0, 0}, 
-    {"pre", &lxb_html_tag_res_data[150], 3, 94}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"picture", &lxb_html_tag_res_data[148], 7, 0}, {"h4", &lxb_html_tag_res_data[94], 2, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"meta", &lxb_html_tag_res_data[124], 4, 96}, {NULL, NULL, 0, 0}, 
-    {"rtc", &lxb_html_tag_res_data[157], 3, 0}, {NULL, NULL, 0, 0}, 
-    {"frame", &lxb_html_tag_res_data[88], 5, 0}, {"fetile", &lxb_html_tag_res_data[79], 6, 98}, 
-    {"feimage", &lxb_html_tag_res_data[71], 7, 99}, {NULL, NULL, 0, 0}, 
-    {"xmp", &lxb_html_tag_res_data[195], 3, 0}, {NULL, NULL, 0, 0}, 
-    {"fecomposite", &lxb_html_tag_res_data[59], 11, 100}, {"feturbulence", &lxb_html_tag_res_data[80], 12, 0}, 
-    {NULL, NULL, 0, 0}, {"summary", &lxb_html_tag_res_data[173], 7, 0}, 
-    {"mfenced", &lxb_html_tag_res_data[126], 7, 0}, {NULL, NULL, 0, 0}, 
-    {"sub", &lxb_html_tag_res_data[172], 3, 0}, {"colgroup", &lxb_html_tag_res_data[41], 8, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"dd", &lxb_html_tag_res_data[44], 2, 103}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"div", &lxb_html_tag_res_data[51], 3, 0}, {"textarea", &lxb_html_tag_res_data[180], 8, 0}, 
-    {"!doctype", &lxb_html_tag_res_data[5], 8, 0}, {"applet", &lxb_html_tag_res_data[17], 6, 0}, 
-    {NULL, NULL, 0, 0}, {"br", &lxb_html_tag_res_data[32], 2, 110}, 
-    {NULL, NULL, 0, 0}, {"keygen", &lxb_html_tag_res_data[110], 6, 0}, 
-    {"kbd", &lxb_html_tag_res_data[109], 3, 0}, {NULL, NULL, 0, 0}, 
-    {"plaintext", &lxb_html_tag_res_data[149], 9, 0}, {"s", &lxb_html_tag_res_data[159], 1, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"bdo", &lxb_html_tag_res_data[26], 3, 0}, {"td", &lxb_html_tag_res_data[178], 2, 0}, 
-    {"fefunca", &lxb_html_tag_res_data[66], 7, 0}, {"ol", &lxb_html_tag_res_data[141], 2, 0}, 
-    {"thead", &lxb_html_tag_res_data[184], 5, 0}, {"nobr", &lxb_html_tag_res_data[136], 4, 112}, 
-    {NULL, NULL, 0, 0}, {"tr", &lxb_html_tag_res_data[187], 2, 0}, 
-    {"map", &lxb_html_tag_res_data[119], 3, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"#undef", &lxb_html_tag_res_data[0], 6, 113}, 
-    {"em", &lxb_html_tag_res_data[54], 2, 0}, {NULL, NULL, 0, 0}, 
-    {"bdi", &lxb_html_tag_res_data[25], 3, 0}, {"femorphology", &lxb_html_tag_res_data[74], 12, 0}, 
-    {"ms", &lxb_html_tag_res_data[131], 2, 116}, {"footer", &lxb_html_tag_res_data[85], 6, 0}, 
-    {"fefuncr", &lxb_html_tag_res_data[69], 7, 0}, {"rt", &lxb_html_tag_res_data[156], 2, 117}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {"h5", &lxb_html_tag_res_data[95], 2, 0}, 
-    {NULL, NULL, 0, 0}, {"ruby", &lxb_html_tag_res_data[158], 4, 120}, 
-    {"canvas", &lxb_html_tag_res_data[34], 6, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}
+    /* LXB_TAG__UNDEF */
+    NULL,
+    /* LXB_TAG__END_OF_FILE */
+    NULL,
+    /* LXB_TAG__TEXT */
+    NULL,
+    /* LXB_TAG__DOCUMENT */
+    NULL,
+    /* LXB_TAG__EM_COMMENT */
+    NULL,
+    /* LXB_TAG__EM_DOCTYPE */
+    NULL,
+    /* LXB_TAG_A */
+    NULL,
+    /* LXB_TAG_ABBR */
+    NULL,
+    /* LXB_TAG_ACRONYM */
+    NULL,
+    /* LXB_TAG_ADDRESS */
+    NULL,
+    /* LXB_TAG_ALTGLYPH */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "altGlyph", 8}),
+    /* LXB_TAG_ALTGLYPHDEF */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "altGlyphDef", 11}),
+    /* LXB_TAG_ALTGLYPHITEM */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "altGlyphItem", 12}),
+    /* LXB_TAG_ANIMATECOLOR */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "animateColor", 12}),
+    /* LXB_TAG_ANIMATEMOTION */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "animateMotion", 13}),
+    /* LXB_TAG_ANIMATETRANSFORM */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "animateTransform", 16}),
+    /* LXB_TAG_ANNOTATION_XML */
+    NULL,
+    /* LXB_TAG_APPLET */
+    NULL,
+    /* LXB_TAG_AREA */
+    NULL,
+    /* LXB_TAG_ARTICLE */
+    NULL,
+    /* LXB_TAG_ASIDE */
+    NULL,
+    /* LXB_TAG_AUDIO */
+    NULL,
+    /* LXB_TAG_B */
+    NULL,
+    /* LXB_TAG_BASE */
+    NULL,
+    /* LXB_TAG_BASEFONT */
+    NULL,
+    /* LXB_TAG_BDI */
+    NULL,
+    /* LXB_TAG_BDO */
+    NULL,
+    /* LXB_TAG_BGSOUND */
+    NULL,
+    /* LXB_TAG_BIG */
+    NULL,
+    /* LXB_TAG_BLINK */
+    NULL,
+    /* LXB_TAG_BLOCKQUOTE */
+    NULL,
+    /* LXB_TAG_BODY */
+    NULL,
+    /* LXB_TAG_BR */
+    NULL,
+    /* LXB_TAG_BUTTON */
+    NULL,
+    /* LXB_TAG_CANVAS */
+    NULL,
+    /* LXB_TAG_CAPTION */
+    NULL,
+    /* LXB_TAG_CENTER */
+    NULL,
+    /* LXB_TAG_CITE */
+    NULL,
+    /* LXB_TAG_CLIPPATH */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "clipPath", 8}),
+    /* LXB_TAG_CODE */
+    NULL,
+    /* LXB_TAG_COL */
+    NULL,
+    /* LXB_TAG_COLGROUP */
+    NULL,
+    /* LXB_TAG_DATA */
+    NULL,
+    /* LXB_TAG_DATALIST */
+    NULL,
+    /* LXB_TAG_DD */
+    NULL,
+    /* LXB_TAG_DEL */
+    NULL,
+    /* LXB_TAG_DESC */
+    NULL,
+    /* LXB_TAG_DETAILS */
+    NULL,
+    /* LXB_TAG_DFN */
+    NULL,
+    /* LXB_TAG_DIALOG */
+    NULL,
+    /* LXB_TAG_DIR */
+    NULL,
+    /* LXB_TAG_DIV */
+    NULL,
+    /* LXB_TAG_DL */
+    NULL,
+    /* LXB_TAG_DT */
+    NULL,
+    /* LXB_TAG_EM */
+    NULL,
+    /* LXB_TAG_EMBED */
+    NULL,
+    /* LXB_TAG_FEBLEND */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feBlend", 7}),
+    /* LXB_TAG_FECOLORMATRIX */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feColorMatrix", 13}),
+    /* LXB_TAG_FECOMPONENTTRANSFER */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feComponentTransfer", 19}),
+    /* LXB_TAG_FECOMPOSITE */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feComposite", 11}),
+    /* LXB_TAG_FECONVOLVEMATRIX */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feConvolveMatrix", 16}),
+    /* LXB_TAG_FEDIFFUSELIGHTING */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feDiffuseLighting", 17}),
+    /* LXB_TAG_FEDISPLACEMENTMAP */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feDisplacementMap", 17}),
+    /* LXB_TAG_FEDISTANTLIGHT */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feDistantLight", 14}),
+    /* LXB_TAG_FEDROPSHADOW */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feDropShadow", 12}),
+    /* LXB_TAG_FEFLOOD */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feFlood", 7}),
+    /* LXB_TAG_FEFUNCA */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feFuncA", 7}),
+    /* LXB_TAG_FEFUNCB */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feFuncB", 7}),
+    /* LXB_TAG_FEFUNCG */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feFuncG", 7}),
+    /* LXB_TAG_FEFUNCR */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feFuncR", 7}),
+    /* LXB_TAG_FEGAUSSIANBLUR */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feGaussianBlur", 14}),
+    /* LXB_TAG_FEIMAGE */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feImage", 7}),
+    /* LXB_TAG_FEMERGE */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feMerge", 7}),
+    /* LXB_TAG_FEMERGENODE */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feMergeNode", 11}),
+    /* LXB_TAG_FEMORPHOLOGY */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feMorphology", 12}),
+    /* LXB_TAG_FEOFFSET */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feOffset", 8}),
+    /* LXB_TAG_FEPOINTLIGHT */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "fePointLight", 12}),
+    /* LXB_TAG_FESPECULARLIGHTING */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feSpecularLighting", 18}),
+    /* LXB_TAG_FESPOTLIGHT */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feSpotLight", 11}),
+    /* LXB_TAG_FETILE */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feTile", 6}),
+    /* LXB_TAG_FETURBULENCE */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feTurbulence", 12}),
+    /* LXB_TAG_FIELDSET */
+    NULL,
+    /* LXB_TAG_FIGCAPTION */
+    NULL,
+    /* LXB_TAG_FIGURE */
+    NULL,
+    /* LXB_TAG_FONT */
+    NULL,
+    /* LXB_TAG_FOOTER */
+    NULL,
+    /* LXB_TAG_FOREIGNOBJECT */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "foreignObject", 13}),
+    /* LXB_TAG_FORM */
+    NULL,
+    /* LXB_TAG_FRAME */
+    NULL,
+    /* LXB_TAG_FRAMESET */
+    NULL,
+    /* LXB_TAG_GLYPHREF */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "glyphRef", 8}),
+    /* LXB_TAG_H1 */
+    NULL,
+    /* LXB_TAG_H2 */
+    NULL,
+    /* LXB_TAG_H3 */
+    NULL,
+    /* LXB_TAG_H4 */
+    NULL,
+    /* LXB_TAG_H5 */
+    NULL,
+    /* LXB_TAG_H6 */
+    NULL,
+    /* LXB_TAG_HEAD */
+    NULL,
+    /* LXB_TAG_HEADER */
+    NULL,
+    /* LXB_TAG_HGROUP */
+    NULL,
+    /* LXB_TAG_HR */
+    NULL,
+    /* LXB_TAG_HTML */
+    NULL,
+    /* LXB_TAG_I */
+    NULL,
+    /* LXB_TAG_IFRAME */
+    NULL,
+    /* LXB_TAG_IMAGE */
+    NULL,
+    /* LXB_TAG_IMG */
+    NULL,
+    /* LXB_TAG_INPUT */
+    NULL,
+    /* LXB_TAG_INS */
+    NULL,
+    /* LXB_TAG_ISINDEX */
+    NULL,
+    /* LXB_TAG_KBD */
+    NULL,
+    /* LXB_TAG_KEYGEN */
+    NULL,
+    /* LXB_TAG_LABEL */
+    NULL,
+    /* LXB_TAG_LEGEND */
+    NULL,
+    /* LXB_TAG_LI */
+    NULL,
+    /* LXB_TAG_LINEARGRADIENT */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "linearGradient", 14}),
+    /* LXB_TAG_LINK */
+    NULL,
+    /* LXB_TAG_LISTING */
+    NULL,
+    /* LXB_TAG_MAIN */
+    NULL,
+    /* LXB_TAG_MALIGNMARK */
+    NULL,
+    /* LXB_TAG_MAP */
+    NULL,
+    /* LXB_TAG_MARK */
+    NULL,
+    /* LXB_TAG_MARQUEE */
+    NULL,
+    /* LXB_TAG_MATH */
+    NULL,
+    /* LXB_TAG_MENU */
+    NULL,
+    /* LXB_TAG_META */
+    NULL,
+    /* LXB_TAG_METER */
+    NULL,
+    /* LXB_TAG_MFENCED */
+    NULL,
+    /* LXB_TAG_MGLYPH */
+    NULL,
+    /* LXB_TAG_MI */
+    NULL,
+    /* LXB_TAG_MN */
+    NULL,
+    /* LXB_TAG_MO */
+    NULL,
+    /* LXB_TAG_MS */
+    NULL,
+    /* LXB_TAG_MTEXT */
+    NULL,
+    /* LXB_TAG_MULTICOL */
+    NULL,
+    /* LXB_TAG_NAV */
+    NULL,
+    /* LXB_TAG_NEXTID */
+    NULL,
+    /* LXB_TAG_NOBR */
+    NULL,
+    /* LXB_TAG_NOEMBED */
+    NULL,
+    /* LXB_TAG_NOFRAMES */
+    NULL,
+    /* LXB_TAG_NOSCRIPT */
+    NULL,
+    /* LXB_TAG_OBJECT */
+    NULL,
+    /* LXB_TAG_OL */
+    NULL,
+    /* LXB_TAG_OPTGROUP */
+    NULL,
+    /* LXB_TAG_OPTION */
+    NULL,
+    /* LXB_TAG_OUTPUT */
+    NULL,
+    /* LXB_TAG_P */
+    NULL,
+    /* LXB_TAG_PARAM */
+    NULL,
+    /* LXB_TAG_PATH */
+    NULL,
+    /* LXB_TAG_PICTURE */
+    NULL,
+    /* LXB_TAG_PLAINTEXT */
+    NULL,
+    /* LXB_TAG_PRE */
+    NULL,
+    /* LXB_TAG_PROGRESS */
+    NULL,
+    /* LXB_TAG_Q */
+    NULL,
+    /* LXB_TAG_RADIALGRADIENT */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "radialGradient", 14}),
+    /* LXB_TAG_RB */
+    NULL,
+    /* LXB_TAG_RP */
+    NULL,
+    /* LXB_TAG_RT */
+    NULL,
+    /* LXB_TAG_RTC */
+    NULL,
+    /* LXB_TAG_RUBY */
+    NULL,
+    /* LXB_TAG_S */
+    NULL,
+    /* LXB_TAG_SAMP */
+    NULL,
+    /* LXB_TAG_SCRIPT */
+    NULL,
+    /* LXB_TAG_SECTION */
+    NULL,
+    /* LXB_TAG_SELECT */
+    NULL,
+    /* LXB_TAG_SLOT */
+    NULL,
+    /* LXB_TAG_SMALL */
+    NULL,
+    /* LXB_TAG_SOURCE */
+    NULL,
+    /* LXB_TAG_SPACER */
+    NULL,
+    /* LXB_TAG_SPAN */
+    NULL,
+    /* LXB_TAG_STRIKE */
+    NULL,
+    /* LXB_TAG_STRONG */
+    NULL,
+    /* LXB_TAG_STYLE */
+    NULL,
+    /* LXB_TAG_SUB */
+    NULL,
+    /* LXB_TAG_SUMMARY */
+    NULL,
+    /* LXB_TAG_SUP */
+    NULL,
+    /* LXB_TAG_SVG */
+    NULL,
+    /* LXB_TAG_TABLE */
+    NULL,
+    /* LXB_TAG_TBODY */
+    NULL,
+    /* LXB_TAG_TD */
+    NULL,
+    /* LXB_TAG_TEMPLATE */
+    NULL,
+    /* LXB_TAG_TEXTAREA */
+    NULL,
+    /* LXB_TAG_TEXTPATH */
+    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "textPath", 8}),
+    /* LXB_TAG_TFOOT */
+    NULL,
+    /* LXB_TAG_TH */
+    NULL,
+    /* LXB_TAG_THEAD */
+    NULL,
+    /* LXB_TAG_TIME */
+    NULL,
+    /* LXB_TAG_TITLE */
+    NULL,
+    /* LXB_TAG_TR */
+    NULL,
+    /* LXB_TAG_TRACK */
+    NULL,
+    /* LXB_TAG_TT */
+    NULL,
+    /* LXB_TAG_U */
+    NULL,
+    /* LXB_TAG_UL */
+    NULL,
+    /* LXB_TAG_VAR */
+    NULL,
+    /* LXB_TAG_VIDEO */
+    NULL,
+    /* LXB_TAG_WBR */
+    NULL,
+    /* LXB_TAG_XMP */
+    NULL,
+    
 };
-#endif /* LXB_HTML_TAG_RES_SHS_DATA_ENABLED */
-#endif /* LXB_HTML_TAG_RES_SHS_DATA */
-
+#endif /* LXB_HTML_TAG_RES_FIXNAME_SVG_ENABLED */
+#endif /* LXB_HTML_TAG_RES_FIXNAME_SVG */

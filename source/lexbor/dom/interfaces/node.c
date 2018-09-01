@@ -5,7 +5,11 @@
  */
 
 #include "lexbor/dom/interfaces/node.h"
+#include "lexbor/dom/interfaces/attr.h"
 #include "lexbor/dom/interfaces/document.h"
+#include "lexbor/dom/interfaces/document_type.h"
+#include "lexbor/dom/interfaces/element.h"
+#include "lexbor/dom/interfaces/processing_instruction.h"
 
 
 lxb_dom_node_t *
@@ -29,6 +33,72 @@ lxb_dom_node_t *
 lxb_dom_node_destroy(lxb_dom_node_t *node)
 {
     return lexbor_mraw_free(node->owner_document->mraw, node);
+}
+
+const lxb_char_t *
+lxb_dom_node_name(lxb_dom_node_t *node, size_t *len)
+{
+    switch (node->tag_id) {
+        case LXB_DOM_NODE_TYPE_ELEMENT:
+            return lxb_dom_element_tag_name(lxb_dom_interface_element(node),
+                                            len);
+
+        case LXB_DOM_NODE_TYPE_ATTRIBUTE:
+            return lxb_dom_attr_qualified_name(lxb_dom_interface_attr(node),
+                                               len);
+
+        case LXB_DOM_NODE_TYPE_TEXT:
+            if (len != NULL) {
+                *len = sizeof("#text") - 1;
+            }
+
+            return (const lxb_char_t *) "#text";
+
+        case LXB_DOM_NODE_TYPE_CDATA_SECTION:
+            if (len != NULL) {
+                *len = sizeof("#cdata-section") - 1;
+            }
+
+            return (const lxb_char_t *) "#cdata-section";
+
+        case LXB_DOM_NODE_TYPE_PROCESSING_INSTRUCTION:
+            return lxb_dom_processing_instruction_target(lxb_dom_interface_processing_instruction(node),
+                                                         len);
+
+        case LXB_DOM_NODE_TYPE_COMMENT:
+            if (len != NULL) {
+                *len = sizeof("#comment") - 1;
+            }
+
+            return (const lxb_char_t *) "#comment";
+
+        case LXB_DOM_NODE_TYPE_DOCUMENT:
+            if (len != NULL) {
+                *len = sizeof("#document") - 1;
+            }
+
+            return (const lxb_char_t *) "#document";
+
+        case LXB_DOM_NODE_TYPE_DOCUMENT_TYPE:
+            return lxb_dom_document_type_name(lxb_dom_interface_document_type(node),
+                                              len);
+
+        case LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT:
+            if (len != NULL) {
+                *len = sizeof("#document-fragment") - 1;
+            }
+
+            return (const lxb_char_t *) "#document-fragment";
+
+        default:
+            break;
+    }
+
+    if (len != NULL) {
+        *len = 0;
+    }
+
+    return NULL;
 }
 
 void

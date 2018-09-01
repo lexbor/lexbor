@@ -48,8 +48,8 @@ TEST_BEGIN(remove_by_node)
 
     test_eq_size(lexbor_array_length(tree->open_elements), 8UL);
 
-    lxb_html_tokenizer_unref(tkz, true);
-    lxb_html_tree_unref(tree, true);
+    lxb_html_tokenizer_unref(tkz);
+    lxb_html_tree_unref(tree);
 }
 TEST_END
 
@@ -81,8 +81,8 @@ TEST_BEGIN(remove_by_node_one)
 
     test_eq_size(lexbor_array_length(tree->open_elements), 3UL);
 
-    lxb_html_tokenizer_unref(tkz, true);
-    lxb_html_tree_unref(tree, true);
+    lxb_html_tokenizer_unref(tkz);
+    lxb_html_tree_unref(tree);
 }
 TEST_END
 

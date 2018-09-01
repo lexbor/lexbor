@@ -63,6 +63,9 @@ hash_get_scripting(unit_kv_t *kv, unit_kv_value_t *hash);
 static void
 print_error(unit_kv_t *kv, unit_kv_value_t *value);
 
+lxb_ns_id_t
+test_ns_id_by_name(const lxb_char_t *name, size_t len);
+
 
 static lxb_status_t
 parse(const char *dir_path)
@@ -375,8 +378,7 @@ hash_get_fragment(unit_kv_t *kv, unit_kv_value_t *hash)
     tag_name = hash_get_str(kv, data, "tag");
     ns_name = hash_get_str(kv, data, "ns");
 
-    tag_id = lxb_tag_id_by_name(test_tag_heap, tag_name->data,
-                                tag_name->length);
+    tag_id = lxb_tag_id_by_name(test_tag_heap, tag_name->data, tag_name->length);
     if (tag_id == LXB_TAG__UNDEF) {
         TEST_PRINTLN("Unknown tag: %.*s",
                      (int) tag_name->length, tag_name->data);
@@ -386,7 +388,7 @@ hash_get_fragment(unit_kv_t *kv, unit_kv_value_t *hash)
         exit(EXIT_FAILURE);
     }
 
-    ns = lxb_ns_id_by_name(ns_name->data, ns_name->length);
+    ns = test_ns_id_by_name(ns_name->data, ns_name->length);
     if (tag_id == LXB_TAG__UNDEF) {
         TEST_PRINTLN("Unknown namespace: %.*s",
                      (int) ns_name->length, ns_name->data);
@@ -436,6 +438,28 @@ print_error(unit_kv_t *kv, unit_kv_value_t *value)
     unit_kv_string_destroy(kv, &str, false);
 }
 
+lxb_ns_id_t
+test_ns_id_by_name(const lxb_char_t *name, size_t len)
+{
+    if (strncmp("html", (const char *) name, 4) == 0) {
+        return LXB_NS_HTML;
+    }
+
+    if (strncmp("math", (const char *) name, 4) == 0) {
+        return LXB_NS_MATH;
+    }
+
+    if (strncmp("svg", (const char *) name, 3) == 0) {
+        return LXB_NS_SVG;
+    }
+
+    if (strncmp("xml", (const char *) name, 3) == 0) {
+        return LXB_NS_XML;
+    }
+
+    TEST_FAILURE("Unknown namespace name: %s", (const char *) name);
+}
+
 int
 main(int argc, const char * argv[])
 {
@@ -447,8 +471,7 @@ main(int argc, const char * argv[])
     }
 
     test_tag_heap = lxb_tag_heap_create();
-    status = lxb_tag_heap_init(test_tag_heap, 128, lxb_html_tag_res_data,
-                               lxb_html_tag_res_shs_data, 0);
+    status = lxb_tag_heap_init(test_tag_heap, 128);
 
     if (status != LXB_STATUS_OK) {
         TEST_FAILURE("Failed to create tag heap object");
@@ -462,7 +485,7 @@ main(int argc, const char * argv[])
         return EXIT_FAILURE;
     }
 
-    lxb_tag_heap_destroy(test_tag_heap, true);
+    lxb_tag_heap_destroy(test_tag_heap);
 
     TEST_RELEASE();
 }

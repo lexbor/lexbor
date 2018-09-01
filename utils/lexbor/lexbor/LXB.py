@@ -42,19 +42,27 @@ class Temp:
 
 class Res:
     def __init__(self, struct_name, name, include_def, size = None):
-        self.size = size
+        if isinstance(size, list):
+            self.size = size
+        else:
+            if size != None:
+                self.size = [size]
+            else:
+                self.size = []
+
         self.name = name
         self.struct_name = struct_name
         self.include_def = include_def
 
         self.buffer = []
 
-    def append(self, data):
-        self.buffer.append(data)
+    def append(self, data, is_comment = False):
+        self.buffer.append([data, is_comment])
 
     def create(self, rate = 2, is_const = True, data_before = None):
         result = []
         rate_dn = rate - 1
+        sizes = []
         data = self.buffer
 
         if self.include_def:
@@ -65,11 +73,17 @@ class Res:
         if data_before:
             result.append("{}\n\n".format(data_before))
 
-        result.append("static {} {} {}[{}] = \n{{\n    ".format(("const" if is_const else ""),
-            self.struct_name, self.name, (self.size if self.size != None else "")))
+        for size in self.size:
+            sizes.append("[{}]".format(size))
+
+        result.append("static {} {} {}{} = \n{{\n    ".format(("const" if is_const else ""),
+            self.struct_name, self.name, ("".join(sizes) if len(sizes) != 0 else "")))
 
         for idx in range(0, len(data) - 1):
-            result.append("{},".format(data[idx]))
+            if data[idx][1] == False:
+                result.append("{},".format(data[idx][0]))
+            else:
+                result.append("{}".format(data[idx][0]))
 
             if int(idx) % rate == rate_dn:
                 result.append("\n    ")
@@ -77,7 +91,7 @@ class Res:
                 result.append(" ")
 
         if len(data):
-            result.append("{}\n".format(data[-1]))
+            result.append("{}\n".format(data[-1][0]))
 
         result.append("};")
 
