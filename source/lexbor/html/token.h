@@ -22,13 +22,15 @@ extern "C" {
 
 
 typedef struct lxb_html_token_process lxb_html_token_process_t;
+typedef unsigned int lxb_html_token_type_t;
+
 
 typedef const lxb_char_t *
 (*lxb_html_token_process_state_f)(lxb_html_token_process_t *process,
                                  const lxb_char_t *data, const lxb_char_t *end);
 
 
-typedef enum {
+enum lxb_html_token_type {
     LXB_HTML_TOKEN_TYPE_OPEN         = 0x0000,
     LXB_HTML_TOKEN_TYPE_CLOSE        = 0x0001,
     LXB_HTML_TOKEN_TYPE_CLOSE_SELF   = 0x0002,
@@ -39,8 +41,7 @@ typedef enum {
     LXB_HTML_TOKEN_TYPE_NULL         = 0x0040,
     LXB_HTML_TOKEN_TYPE_FORCE_QUIRKS = 0x0080,
     LXB_HTML_TOKEN_TYPE_DONE         = 0x0100
-}
-lxb_html_token_type_t;
+};
 
 typedef struct {
     const lxb_char_t      *begin;

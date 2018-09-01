@@ -19,13 +19,14 @@ typedef lexbor_action_t (*lexbor_fs_dir_file_f)(const lxb_char_t *fullpath,
                                                 const lxb_char_t *filename,
                                                 size_t filename_len, void *ctx);
 
-typedef enum {
+typedef unsigned int lexbor_fs_dir_opt_t;
+
+enum lexbor_fs_dir_opt {
     LEXBOR_FS_DIR_OPT_UNDEF          = 0x00,
     LEXBOR_FS_DIR_OPT_WITHOUT_DIR    = 0x01,
     LEXBOR_FS_DIR_OPT_WITHOUT_FILE   = 0x02,
     LEXBOR_FS_DIR_OPT_WITHOUT_HIDDEN = 0x04,
-}
-lexbor_fs_dir_opt;
+};
 
 typedef enum {
     LEXBOR_FS_FILE_TYPE_UNDEF            = 0x00,
@@ -41,7 +42,7 @@ lexbor_fs_file_type_t;
 
 
 LXB_API lxb_status_t
-lexbor_fs_dir_read(const lxb_char_t *dirpath, lexbor_fs_dir_opt opt,
+lexbor_fs_dir_read(const lxb_char_t *dirpath, lexbor_fs_dir_opt_t opt,
                    lexbor_fs_dir_file_f callback, void *ctx);
 
 LXB_API lexbor_fs_file_type_t

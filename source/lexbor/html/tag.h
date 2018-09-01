@@ -18,7 +18,9 @@ extern "C" {
 #include "lexbor/ns/ns.h"
 
 
-typedef enum {
+typedef unsigned int lxb_html_tag_category_t;
+
+enum lxb_html_tag_category {
     LXB_HTML_TAG_CATEGORY__UNDEF          = 0x0000,
     LXB_HTML_TAG_CATEGORY_ORDINARY        = 0x0001,
     LXB_HTML_TAG_CATEGORY_SPECIAL         = 0x0002,
@@ -28,8 +30,7 @@ typedef enum {
     LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON    = 0x0020,
     LXB_HTML_TAG_CATEGORY_SCOPE_TABLE     = 0x0040,
     LXB_HTML_TAG_CATEGORY_SCOPE_SELECT    = 0x0080,
-}
-lxb_html_tag_category_t;
+};
 
 typedef struct {
     const lxb_char_t *name;

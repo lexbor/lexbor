@@ -20,13 +20,13 @@ extern "C" {
 
 
 typedef struct lxb_html_token_attr lxb_html_token_attr_t;
+typedef unsigned int lxb_html_token_attr_type_t;
 
-typedef enum {
+enum lxb_html_token_attr_type {
     LXB_HTML_TOKEN_ATTR_TYPE_UNDEF      = 0x0000,
     LXB_HTML_TOKEN_ATTR_TYPE_NAME_NULL  = 0x0001,
     LXB_HTML_TOKEN_ATTR_TYPE_VALUE_NULL = 0x0002
-}
-lxb_html_token_attr_type_t;
+};
 
 struct lxb_html_token_attr {
     const lxb_char_t           *name_begin;

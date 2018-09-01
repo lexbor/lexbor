@@ -18,7 +18,7 @@
 
 
 lxb_status_t
-lexbor_fs_dir_read(const lxb_char_t *dirpath, lexbor_fs_dir_opt opt,
+lexbor_fs_dir_read(const lxb_char_t *dirpath, lexbor_fs_dir_opt_t opt,
                    lexbor_fs_dir_file_f callback, void *ctx)
 {
     WIN32_FIND_DATA data;

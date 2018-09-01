@@ -16,15 +16,15 @@ extern "C" {
 
 
 typedef struct lexbor_in_node lexbor_in_node_t;
+typedef unsigned int lexbor_in_opt_t;
 
-typedef enum {
+enum lexbor_in_opt {
     LEXBOR_IN_OPT_UNDEF    = 0x00,
     LEXBOR_IN_OPT_READONLY = 0x01,
     LEXBOR_IN_OPT_DONE     = 0x02,
     LEXBOR_IN_OPT_FAKE     = 0x04,
     LEXBOR_IN_OPT_ALLOC    = 0x08
-}
-lexbor_in_opt_t;
+};
 
 typedef struct {
     lexbor_dobject_t *nodes;
