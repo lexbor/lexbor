@@ -8,7 +8,7 @@
 #define LEXBOR_DOM_PROCESSING_INSTRUCTION_H
 
 #ifdef __cplusplus
-//extern "C" {
+extern "C" {
 #endif
 
 #include <lexbor/dom/interfaces/document.h>

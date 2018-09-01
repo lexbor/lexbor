@@ -9,7 +9,7 @@
 #define LXB_HTML_TAG_H
 
 #ifdef __cplusplus
-//extern "C" {
+extern "C" {
 #endif
 
 #include <lexbor/html/base.h>

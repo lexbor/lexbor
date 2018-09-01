@@ -8,7 +8,7 @@
 #define LEXBOR_TAG_H
 
 #ifdef __cplusplus
-//extern "C" {
+extern "C" {
 #endif
 
 #include <lexbor/core/shbst.h>
