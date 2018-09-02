@@ -20,7 +20,7 @@ extern "C" {
 
 
 typedef struct lxb_html_token_attr lxb_html_token_attr_t;
-typedef unsigned int lxb_html_token_attr_type_t;
+typedef int lxb_html_token_attr_type_t;
 
 enum lxb_html_token_attr_type {
     LXB_HTML_TOKEN_ATTR_TYPE_UNDEF      = 0x0000,

@@ -17,7 +17,7 @@ extern "C" {
 #include <lexbor/html/base.h>
 
 
-typedef unsigned int lxb_html_serialize_opt_t;
+typedef int lxb_html_serialize_opt_t;
 
 enum lxb_html_serialize_opt {
     LXB_HTML_SERIALIZE_OPT_UNDEF               = 0x00,

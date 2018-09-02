@@ -22,7 +22,7 @@ extern "C" {
 
 
 typedef struct lxb_html_token_process lxb_html_token_process_t;
-typedef unsigned int lxb_html_token_type_t;
+typedef int lxb_html_token_type_t;
 
 
 typedef const lxb_char_t *

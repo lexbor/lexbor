@@ -16,7 +16,7 @@ extern "C" {
 
 
 typedef struct lexbor_in_node lexbor_in_node_t;
-typedef unsigned int lexbor_in_opt_t;
+typedef int lexbor_in_opt_t;
 
 enum lexbor_in_opt {
     LEXBOR_IN_OPT_UNDEF    = 0x00,

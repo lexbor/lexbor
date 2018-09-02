@@ -18,7 +18,7 @@ extern "C" {
 #include "lexbor/ns/ns.h"
 
 
-typedef unsigned int lxb_html_tag_category_t;
+typedef int lxb_html_tag_category_t;
 
 enum lxb_html_tag_category {
     LXB_HTML_TAG_CATEGORY__UNDEF          = 0x0000,

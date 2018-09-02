@@ -19,7 +19,7 @@ typedef lexbor_action_t (*lexbor_fs_dir_file_f)(const lxb_char_t *fullpath,
                                                 const lxb_char_t *filename,
                                                 size_t filename_len, void *ctx);
 
-typedef unsigned int lexbor_fs_dir_opt_t;
+typedef int lexbor_fs_dir_opt_t;
 
 enum lexbor_fs_dir_opt {
     LEXBOR_FS_DIR_OPT_UNDEF          = 0x00,
