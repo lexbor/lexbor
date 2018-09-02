@@ -50,3 +50,40 @@ lxb_dom_document_attach_element(lxb_dom_document_t *document,
 {
     document->element = element;
 }
+
+/*
+lxb_dom_element_t *
+lxb_dom_document_create_element(lxb_dom_document_t *document,
+                                const lxb_char_t *local_name, size_t lname_len,
+                                void *reserved_for_opt)
+{
+//    return lxb_dom_element_create(document);
+    return NULL;
+}
+
+//lxb_dom_text_t *
+//lxb_dom_document_create_text_node(lxb_dom_document_t *document,
+//                                  const lxb_char_t *data, size_t data_len)
+//{
+//    lxb_dom_text_t *text;
+//
+//    text = (lxb_dom_text_t *) lxb_html_create_node(document, LXB_TAG__TEXT,
+//                                                   LXB_NS_HTML);
+//    if (text == NULL) {
+//        return NULL;
+//    }
+//
+//    lexbor_str_init(&text->char_data.data,
+//                    lxb_html_document_mraw_text(document), data_len);
+//    if (text->char_data.data.data == NULL) {
+//        lxb_dom_text_destroy(text);
+//
+//        return NULL;
+//    }
+//
+//    lexbor_str_append(&text->char_data.data,
+//                      lxb_html_document_mraw_text(document), data, data_len);
+//
+//    return text;
+//}
+*/

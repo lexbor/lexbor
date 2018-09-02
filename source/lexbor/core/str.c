@@ -8,6 +8,7 @@
 
 #define LEXBOR_STR_RES_ANSI_REPLACEMENT_CHARACTER
 #define LEXBOR_STR_RES_MAP_LOWERCASE
+#define LEXBOR_STR_RES_MAP_UPPERCASE
 #include "lexbor/core/str_res.h"
 
 
@@ -404,5 +405,25 @@ lexbor_str_data_cmp_ws(const lxb_char_t *first, const lxb_char_t *sec)
 
         first++;
         sec++;
+    }
+}
+
+void
+lexbor_str_data_to_lowercase(lxb_char_t *to, const lxb_char_t *from, size_t len)
+{
+    while (len) {
+        len--;
+
+        to[len] = lexbor_str_res_map_lowercase[ from[len] ];
+    }
+}
+
+void
+lexbor_str_data_to_uppercase(lxb_char_t *to, const lxb_char_t *from, size_t len)
+{
+    while (len) {
+        len--;
+        
+        to[len] = lexbor_str_res_map_uppercase[ from[len] ];
     }
 }

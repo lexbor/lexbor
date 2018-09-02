@@ -6,8 +6,6 @@
 
 #include <string.h>
 
-#include <lexbor/html/parser.h>
-
 #include "base.h"
 
 

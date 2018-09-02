@@ -75,6 +75,13 @@ lxb_dom_qualified_name_set(lxb_dom_qualified_name_t *qname, size_t size,
         memcpy(qname->str.data, prefix, sizeof(lxb_char_t) * prefix_len);
 
         /* U+003A COLON (:) */
+        if (lname_len == 0) {
+            qname->str.length = prefix_len;
+            qname->str.data[prefix_len] = 0x00;
+
+            return;
+        }
+
         qname->str.data[prefix_len] = 0x3A;
 
         memcpy(&qname->str.data[ (prefix_len + 1) ],

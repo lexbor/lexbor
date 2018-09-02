@@ -359,7 +359,7 @@ lxb_html_token_tag_id_from_data(lxb_tag_heap_t *tag_heap,
                                 lxb_html_token_t *token)
 {
     lxb_tag_id_t tag_id;
-    lxb_tag_data_t *tag_data;
+    const lxb_tag_data_t *tag_data;
 
     if (lexbor_in_segment(token->in_begin, token->end) == true
         && (token->type & LXB_HTML_TOKEN_TYPE_NULL) == 0)

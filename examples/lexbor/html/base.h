@@ -11,7 +11,9 @@
 extern "C" {
 #endif
 
+#include <lexbor/core/base.h>
 #include <lexbor/core/types.h>
+#include <lexbor/html/parser.h>
 #include <lexbor/html/serialize.h>
 
 
@@ -37,6 +39,46 @@ serializer_callback(const lxb_char_t *data, size_t len, void *ctx)
     printf("%.*s", (int) len, (const char *) data);
 
     return LXB_STATUS_OK;
+}
+
+lxb_inline lxb_html_document_t *
+parse(const lxb_char_t *html, size_t html_len)
+{
+    lxb_status_t status;
+    lxb_html_parser_t *parser;
+    lxb_html_document_t *document;
+
+    /* Initialization */
+    parser = lxb_html_parser_create();
+    status = lxb_html_parser_init(parser);
+
+    if (status != LXB_STATUS_OK) {
+        FAILED("Failed to create HTML parser");
+    }
+
+    /* Parse */
+    document = lxb_html_parse(parser, html, html_len);
+    if (document == NULL) {
+        FAILED("Failed to create Document object");
+    }
+
+    /* Destroy parser */
+    lxb_html_parser_destroy(parser, true);
+
+    return document;
+}
+
+lxb_inline void
+serialize(lxb_dom_node_t *node)
+{
+    lxb_status_t status;
+
+    status = lxb_html_serialize_pretty_tree_cb(node,
+                                               LXB_HTML_SERIALIZE_OPT_UNDEF,
+                                               0, serializer_callback, NULL);
+    if (status != LXB_STATUS_OK) {
+        FAILED("Failed to serialization HTML tree");
+    }
 }
 
 

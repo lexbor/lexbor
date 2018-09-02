@@ -72,7 +72,7 @@ LXB_API lxb_ns_heap_t *
 lxb_ns_heap_destroy(lxb_ns_heap_t *ns_heap);
 
 
-lxb_ns_data_t *
+const lxb_ns_data_t *
 lxb_ns_append(lxb_ns_heap_t *ns_heap, const lxb_char_t *link, size_t link_len,
               const lxb_char_t *name, size_t name_len);
 
@@ -111,6 +111,19 @@ lxb_inline const lxb_ns_data_t *
 lxb_ns_data_by_link(lxb_ns_heap_t *ns_heap, const lxb_char_t *link, size_t len)
 {
     return ns_heap->by_link(ns_heap, link, len);
+}
+
+lxb_inline const lxb_ns_data_t *
+lxb_ns_find_or_append(lxb_ns_heap_t *ns_heap,
+                      const lxb_char_t *link, size_t link_len,
+                      const lxb_char_t *name, size_t name_len)
+{
+    const lxb_ns_data_t *ns_data = lxb_ns_data_by_link(ns_heap, link, link_len);
+    if (ns_data != NULL) {
+        return ns_data;
+    }
+
+    return lxb_ns_append(ns_heap, link, link_len, name, name_len);
 }
 
 

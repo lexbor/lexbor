@@ -171,7 +171,7 @@ lxb_ns_data_set_default(lxb_ns_heap_t *ns_heap, lxb_ns_data_t *data,
     return LXB_STATUS_OK;
 }
 
-lxb_ns_data_t *
+const lxb_ns_data_t *
 lxb_ns_append(lxb_ns_heap_t *ns_heap, const lxb_char_t *link, size_t link_len,
               const lxb_char_t *name, size_t name_len)
 {

@@ -123,7 +123,7 @@ lxb_tag_data_set_attr(lxb_tag_heap_t *tag_heap, lxb_tag_data_t *data,
         + (unsigned int) (lexbor_dobject_allocated(tag_heap->data) - 1);
 }
 
-lxb_tag_data_t *
+const lxb_tag_data_t *
 lxb_tag_append(lxb_tag_heap_t *tag_heap, const lxb_char_t *name, size_t len)
 {
     lxb_tag_data_t *data;
@@ -148,7 +148,7 @@ lxb_tag_append(lxb_tag_heap_t *tag_heap, const lxb_char_t *name, size_t len)
     return data;
 }
 
-lxb_tag_data_t *
+const lxb_tag_data_t *
 lxb_tag_append_wo_copy(lxb_tag_heap_t *tag_heap, lxb_char_t *name, size_t len)
 {
     lxb_tag_data_t *data;

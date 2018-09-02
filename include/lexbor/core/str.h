@@ -141,6 +141,12 @@ lexbor_str_data_cmp(const lxb_char_t *first, const lxb_char_t *sec);
 LXB_API bool
 lexbor_str_data_cmp_ws(const lxb_char_t *first, const lxb_char_t *sec);
 
+LXB_API void
+lexbor_str_data_to_lowercase(lxb_char_t *to, const lxb_char_t *from, size_t len);
+
+LXB_API void
+lexbor_str_data_to_uppercase(lxb_char_t *to, const lxb_char_t *from, size_t len);
+
 
 /*
  * Inline functions

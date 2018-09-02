@@ -476,7 +476,7 @@ lxb_html_tree_append_attributes(lxb_html_tree_t *tree,
 
             /* TODO: Need optimization */
             status = lxb_dom_attr_set_name(attr, local_name.data, local_name.length,
-                                           NULL, 0);
+                                           NULL, 0, false);
             if (status != LXB_HTML_STATUS_OK) {
                 return status;
             }
@@ -617,7 +617,7 @@ lxb_html_tree_adjust_foreign_attributes(lxb_html_tree_t *tree,
                                       (const lxb_char_t *) adjust->local_name,
                                       local_name_len,
                                       (const lxb_char_t *) adjust->prefix,
-                                      adjust->prefix_len);
+                                      adjust->prefix_len, false);
             }
 
             attr->node.ns = adjust->ns;

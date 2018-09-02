@@ -42,7 +42,8 @@ lxb_dom_attr_interface_destroy(lxb_dom_attr_t *attr);
 LXB_API lxb_status_t
 lxb_dom_attr_set_name(lxb_dom_attr_t *attr,
                       const lxb_char_t *local_name, size_t local_name_len,
-                      const lxb_char_t *prefix, size_t prefix_len);
+                      const lxb_char_t *prefix, size_t prefix_len,
+                      bool lowercase);
 
 LXB_API lxb_status_t
 lxb_dom_attr_set_value(lxb_dom_attr_t *attr,

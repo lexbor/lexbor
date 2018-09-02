@@ -70,7 +70,7 @@ LXB_API lxb_tag_heap_t *
 lxb_tag_heap_destroy(lxb_tag_heap_t *tag_heap);
 
 
-LXB_API lxb_tag_data_t *
+LXB_API const lxb_tag_data_t *
 lxb_tag_append(lxb_tag_heap_t *tag_heap, const lxb_char_t *name, size_t len);
 
 /*
@@ -78,7 +78,7 @@ lxb_tag_append(lxb_tag_heap_t *tag_heap, const lxb_char_t *name, size_t len);
  * Name should always be created only using the local 'mraw'.
  * For get local 'mraw' use 'lxb_tag_heap_mraw' function.
  */
-LXB_API lxb_tag_data_t *
+LXB_API const lxb_tag_data_t *
 lxb_tag_append_wo_copy(lxb_tag_heap_t *tag_heap, lxb_char_t *name, size_t len);
 
 
@@ -158,6 +158,20 @@ lxb_inline lexbor_mraw_t *
 lxb_tag_heap_mraw(lxb_tag_heap_t *tag_heap)
 {
     return lexbor_shbst_keys(tag_heap->heap);
+}
+
+lxb_inline const lxb_tag_data_t *
+lxb_tag_find_or_append(lxb_tag_heap_t *tag_heap,
+                       const lxb_char_t *name, size_t len)
+{
+    const lxb_tag_data_t *tag_data;
+
+    tag_data = lxb_tag_data_by_name(tag_heap, name, len);
+    if (tag_data != NULL) {
+        return tag_data;
+    }
+
+    return lxb_tag_append(tag_heap, name, len);
 }
 
 
