@@ -9,7 +9,7 @@
 
 
 lxb_dom_processing_instruction_t *
-lxb_dom_processing_instruction_create(lxb_dom_document_t *document)
+lxb_dom_processing_instruction_interface_create(lxb_dom_document_t *document)
 {
     lxb_dom_processing_instruction_t *element;
 
@@ -28,7 +28,7 @@ lxb_dom_processing_instruction_create(lxb_dom_document_t *document)
 }
 
 lxb_dom_processing_instruction_t *
-lxb_dom_processing_instruction_destroy(lxb_dom_processing_instruction_t *processing_instruction)
+lxb_dom_processing_instruction_interface_destroy(lxb_dom_processing_instruction_t *processing_instruction)
 {
     return lexbor_mraw_free(
         lxb_dom_interface_node(processing_instruction)->owner_document->mraw,

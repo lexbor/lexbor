@@ -9,7 +9,7 @@
 
 
 lxb_html_text_area_element_t *
-lxb_html_text_area_element_create(lxb_html_document_t *document)
+lxb_html_text_area_element_interface_create(lxb_html_document_t *document)
 {
     lxb_html_text_area_element_t *element;
 
@@ -28,7 +28,7 @@ lxb_html_text_area_element_create(lxb_html_document_t *document)
 }
 
 lxb_html_text_area_element_t *
-lxb_html_text_area_element_destroy(lxb_html_text_area_element_t *text_area_element)
+lxb_html_text_area_element_interface_destroy(lxb_html_text_area_element_t *text_area_element)
 {
     return lexbor_mraw_free(
         lxb_dom_interface_node(text_area_element)->owner_document->mraw,

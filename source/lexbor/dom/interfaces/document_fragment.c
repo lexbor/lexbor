@@ -9,7 +9,7 @@
 
 
 lxb_dom_document_fragment_t *
-lxb_dom_document_fragment_create(lxb_dom_document_t *document)
+lxb_dom_document_fragment_interface_create(lxb_dom_document_t *document)
 {
     lxb_dom_document_fragment_t *element;
 
@@ -28,7 +28,7 @@ lxb_dom_document_fragment_create(lxb_dom_document_t *document)
 }
 
 lxb_dom_document_fragment_t *
-lxb_dom_document_fragment_destroy(lxb_dom_document_fragment_t *document_fragment)
+lxb_dom_document_fragment_interface_destroy(lxb_dom_document_fragment_t *document_fragment)
 {
     return lexbor_mraw_free(
         lxb_dom_interface_node(document_fragment)->owner_document->mraw,

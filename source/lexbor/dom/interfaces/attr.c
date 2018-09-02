@@ -9,7 +9,7 @@
 
 
 lxb_dom_attr_t *
-lxb_dom_attr_create(lxb_dom_document_t *document)
+lxb_dom_attr_interface_create(lxb_dom_document_t *document)
 {
     lxb_dom_attr_t *attr;
 
@@ -27,7 +27,7 @@ lxb_dom_attr_create(lxb_dom_document_t *document)
 }
 
 lxb_dom_attr_t *
-lxb_dom_attr_destroy(lxb_dom_attr_t *attr)
+lxb_dom_attr_interface_destroy(lxb_dom_attr_t *attr)
 {
     lxb_dom_document_t *doc = lxb_dom_interface_node(attr)->owner_document;
 

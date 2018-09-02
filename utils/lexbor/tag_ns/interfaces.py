@@ -119,13 +119,13 @@ class Interfaces:
         interfaces = self.interfaces
         inter_obj = interfaces[type][name]
 
-        return "{}_{}_{}_create".format(self.prefix, type.lower(), inter_obj["c_name"])
+        return "{}_{}_{}_interface_create".format(self.prefix, type.lower(), inter_obj["c_name"])
 
     def make_function_destroy_name(self, type, name):
         interfaces = self.interfaces
         inter_obj = interfaces[type][name]
 
-        return "{}_{}_{}_destroy".format(self.prefix, type.lower(), inter_obj["c_name"])
+        return "{}_{}_{}_interface_destroy".format(self.prefix, type.lower(), inter_obj["c_name"])
 
     def make_inherit_includes(self, type, inter_obj):
         includes = []

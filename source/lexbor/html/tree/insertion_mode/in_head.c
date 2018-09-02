@@ -273,7 +273,7 @@ lxb_html_tree_insertion_mode_in_head_script(lxb_html_tree_t *tree,
     tree->status = lxb_html_tree_open_elements_push(tree,
                                                     lxb_dom_interface_node(element));
     if (tree->status != LXB_HTML_STATUS_OK) {
-        lxb_html_script_element_destroy(lxb_html_interface_script(element));
+        lxb_html_script_element_interface_destroy(lxb_html_interface_script(element));
 
         return lxb_html_tree_process_abort(tree);
     }
@@ -310,7 +310,7 @@ lxb_html_tree_insertion_mode_in_head_template(lxb_html_tree_t *tree,
 
     tree->status = lxb_html_tree_active_formatting_push_marker(tree);
     if (tree->status != LXB_STATUS_OK) {
-        lxb_html_template_element_destroy(lxb_html_interface_template(element));
+        lxb_html_template_element_interface_destroy(lxb_html_interface_template(element));
 
         return lxb_html_tree_process_abort(tree);
     }
@@ -321,7 +321,7 @@ lxb_html_tree_insertion_mode_in_head_template(lxb_html_tree_t *tree,
     tree->status = lxb_html_tree_template_insertion_push(tree,
                                       lxb_html_tree_insertion_mode_in_template);
     if (tree->status != LXB_STATUS_OK) {
-        lxb_html_template_element_destroy(lxb_html_interface_template(element));
+        lxb_html_template_element_interface_destroy(lxb_html_interface_template(element));
 
         return lxb_html_tree_process_abort(tree);
     }

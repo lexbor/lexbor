@@ -21,10 +21,10 @@ struct lxb_html_table_cell_element {
 
 
 LXB_API lxb_html_table_cell_element_t *
-lxb_html_table_cell_element_create(lxb_html_document_t *document);
+lxb_html_table_cell_element_interface_create(lxb_html_document_t *document);
 
 LXB_API lxb_html_table_cell_element_t *
-lxb_html_table_cell_element_destroy(lxb_html_table_cell_element_t *table_cell_element);
+lxb_html_table_cell_element_interface_destroy(lxb_html_table_cell_element_t *table_cell_element);
 
 
 #ifdef __cplusplus

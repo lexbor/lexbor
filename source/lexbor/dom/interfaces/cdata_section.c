@@ -9,7 +9,7 @@
 
 
 lxb_dom_cdata_section_t *
-lxb_dom_cdata_section_create(lxb_dom_document_t *document)
+lxb_dom_cdata_section_interface_create(lxb_dom_document_t *document)
 {
     lxb_dom_cdata_section_t *element;
 
@@ -28,7 +28,7 @@ lxb_dom_cdata_section_create(lxb_dom_document_t *document)
 }
 
 lxb_dom_cdata_section_t *
-lxb_dom_cdata_section_destroy(lxb_dom_cdata_section_t *cdata_section)
+lxb_dom_cdata_section_interface_destroy(lxb_dom_cdata_section_t *cdata_section)
 {
     return lexbor_mraw_free(
         lxb_dom_interface_node(cdata_section)->owner_document->mraw,

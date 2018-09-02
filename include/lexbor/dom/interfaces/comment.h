@@ -21,10 +21,10 @@ struct lxb_dom_comment {
 
 
 LXB_API lxb_dom_comment_t *
-lxb_dom_comment_create(lxb_dom_document_t *document);
+lxb_dom_comment_interface_create(lxb_dom_document_t *document);
 
 LXB_API lxb_dom_comment_t *
-lxb_dom_comment_destroy(lxb_dom_comment_t *comment);
+lxb_dom_comment_interface_destroy(lxb_dom_comment_t *comment);
 
 
 #ifdef __cplusplus

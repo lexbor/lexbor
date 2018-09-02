@@ -26,27 +26,27 @@ lxb_html_interface_create(lxb_html_document_t *document, lxb_tag_id_t tag_id,
         if (ns == LXB_NS_HTML) {
             lxb_html_unknown_element_t *unel;
 
-            unel = lxb_html_unknown_element_create(document);
+            unel = lxb_html_unknown_element_interface_create(document);
             node = lxb_dom_interface_node(unel);
         }
         else if (ns == LXB_NS_SVG) {
             /* TODO: For this need implement SVGElement */
             lxb_dom_element_t *domel;
 
-            domel = lxb_dom_element_create(&document->dom_document);
+            domel = lxb_dom_element_interface_create(&document->dom_document);
             node = lxb_dom_interface_node(domel);
         }
         else {
             lxb_dom_element_t *domel;
 
-            domel = lxb_dom_element_create(&document->dom_document);
+            domel = lxb_dom_element_interface_create(&document->dom_document);
             node = lxb_dom_interface_node(domel);
         }
     }
     else if (tag_id >= LXB_TAG__LAST_ENTRY) {
         lxb_dom_element_t *domel;
 
-        domel = lxb_dom_element_create(&document->dom_document);
+        domel = lxb_dom_element_interface_create(&document->dom_document);
         node = lxb_dom_interface_node(domel);
     }
     else {
@@ -74,18 +74,18 @@ lxb_html_interface_destroy(lxb_dom_interface_t *interface)
 
     if (node->tag_id >= LXB_TAG__LAST_ENTRY) {
         if (node->ns == LXB_NS_HTML) {
-            return lxb_html_unknown_element_destroy(interface);
+            return lxb_html_unknown_element_interface_destroy(interface);
         }
         else if (node->ns == LXB_NS_SVG) {
             /* TODO: For this need implement SVGElement */
-            return lxb_dom_element_destroy(interface);
+            return lxb_dom_element_interface_destroy(interface);
         }
         else {
-            return lxb_dom_element_destroy(interface);
+            return lxb_dom_element_interface_destroy(interface);
         }
     }
     else if (node->tag_id >= LXB_TAG__LAST_ENTRY) {
-        return lxb_dom_element_destroy(interface);
+        return lxb_dom_element_interface_destroy(interface);
     }
     else {
         return lxb_html_interface_res_destructor[node->tag_id][node->ns](interface);

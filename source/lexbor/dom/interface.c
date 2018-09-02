@@ -25,7 +25,7 @@ lxb_dom_interface_create(lxb_dom_document_t *document, lxb_tag_id_t tag_id,
 {
     lxb_dom_element_t *domel;
 
-    domel = lxb_dom_element_create(document);
+    domel = lxb_dom_element_interface_create(document);
     if (domel == NULL) {
         return NULL;
     }
@@ -47,28 +47,28 @@ lxb_dom_interface_destroy(lxb_dom_interface_t *interface)
 
     switch (node->type) {
         case LXB_DOM_NODE_TYPE_ELEMENT:
-            return lxb_dom_element_destroy(interface);
+            return lxb_dom_element_interface_destroy(interface);
 
         case LXB_DOM_NODE_TYPE_TEXT:
-            return lxb_dom_text_destroy(interface);
+            return lxb_dom_text_interface_destroy(interface);
 
         case LXB_DOM_NODE_TYPE_CDATA_SECTION:
-            return lxb_dom_cdata_section_destroy(interface);
+            return lxb_dom_cdata_section_interface_destroy(interface);
 
         case LXB_DOM_NODE_TYPE_PROCESSING_INSTRUCTION:
-            return lxb_dom_processing_instruction_destroy(interface);
+            return lxb_dom_processing_instruction_interface_destroy(interface);
 
         case LXB_DOM_NODE_TYPE_COMMENT:
-            return lxb_dom_comment_destroy(interface);
+            return lxb_dom_comment_interface_destroy(interface);
 
         case LXB_DOM_NODE_TYPE_DOCUMENT:
-            return lxb_dom_document_destroy(interface);
+            return lxb_dom_document_interface_destroy(interface);
 
         case LXB_DOM_NODE_TYPE_DOCUMENT_TYPE:
-            return lxb_dom_document_type_destroy(interface);
+            return lxb_dom_document_type_interface_destroy(interface);
 
         case LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT:
-            return lxb_dom_document_fragment_destroy(interface);
+            return lxb_dom_document_fragment_interface_destroy(interface);
 
         default:
             return lexbor_mraw_free(node->owner_document->mraw, interface);

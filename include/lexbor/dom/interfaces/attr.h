@@ -34,10 +34,10 @@ struct lxb_dom_attr {
 
 
 LXB_API lxb_dom_attr_t *
-lxb_dom_attr_create(lxb_dom_document_t *document);
+lxb_dom_attr_interface_create(lxb_dom_document_t *document);
 
 LXB_API lxb_dom_attr_t *
-lxb_dom_attr_destroy(lxb_dom_attr_t *attr);
+lxb_dom_attr_interface_destroy(lxb_dom_attr_t *attr);
 
 LXB_API lxb_status_t
 lxb_dom_attr_set_name(lxb_dom_attr_t *attr,

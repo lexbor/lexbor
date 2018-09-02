@@ -9,7 +9,7 @@
 
 
 lxb_dom_comment_t *
-lxb_dom_comment_create(lxb_dom_document_t *document)
+lxb_dom_comment_interface_create(lxb_dom_document_t *document)
 {
     lxb_dom_comment_t *element;
 
@@ -28,7 +28,7 @@ lxb_dom_comment_create(lxb_dom_document_t *document)
 }
 
 lxb_dom_comment_t *
-lxb_dom_comment_destroy(lxb_dom_comment_t *comment)
+lxb_dom_comment_interface_destroy(lxb_dom_comment_t *comment)
 {
     return lexbor_mraw_free(
         lxb_dom_interface_node(comment)->owner_document->mraw,

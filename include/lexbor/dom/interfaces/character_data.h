@@ -25,10 +25,10 @@ struct lxb_dom_character_data {
 
 
 LXB_API lxb_dom_character_data_t *
-lxb_dom_character_data_create(lxb_dom_document_t *document);
+lxb_dom_character_data_interface_create(lxb_dom_document_t *document);
 
 LXB_API lxb_dom_character_data_t *
-lxb_dom_character_data_destroy(lxb_dom_character_data_t *character_data);
+lxb_dom_character_data_interface_destroy(lxb_dom_character_data_t *character_data);
 
 
 #ifdef __cplusplus

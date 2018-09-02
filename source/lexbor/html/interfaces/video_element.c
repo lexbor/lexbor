@@ -9,7 +9,7 @@
 
 
 lxb_html_video_element_t *
-lxb_html_video_element_create(lxb_html_document_t *document)
+lxb_html_video_element_interface_create(lxb_html_document_t *document)
 {
     lxb_html_video_element_t *element;
 
@@ -28,7 +28,7 @@ lxb_html_video_element_create(lxb_html_document_t *document)
 }
 
 lxb_html_video_element_t *
-lxb_html_video_element_destroy(lxb_html_video_element_t *video_element)
+lxb_html_video_element_interface_destroy(lxb_html_video_element_t *video_element)
 {
     return lexbor_mraw_free(
         lxb_dom_interface_node(video_element)->owner_document->mraw,

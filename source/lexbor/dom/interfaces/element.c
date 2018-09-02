@@ -9,7 +9,7 @@
 
 
 lxb_dom_element_t *
-lxb_dom_element_create(lxb_dom_document_t *document)
+lxb_dom_element_interface_create(lxb_dom_document_t *document)
 {
     lxb_dom_element_t *element;
 
@@ -28,7 +28,7 @@ lxb_dom_element_create(lxb_dom_document_t *document)
 }
 
 lxb_dom_element_t *
-lxb_dom_element_destroy(lxb_dom_element_t *element)
+lxb_dom_element_interface_destroy(lxb_dom_element_t *element)
 {
     lxb_dom_attr_t *attr_next;
     lxb_dom_attr_t *attr = element->first_attr;
@@ -36,7 +36,7 @@ lxb_dom_element_destroy(lxb_dom_element_t *element)
     while (attr != NULL) {
         attr_next = attr->next;
 
-        lxb_dom_attr_destroy(attr);
+        lxb_dom_attr_interface_destroy(attr);
 
         attr = attr_next;
     }

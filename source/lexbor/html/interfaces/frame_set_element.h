@@ -21,10 +21,10 @@ struct lxb_html_frame_set_element {
 
 
 LXB_API lxb_html_frame_set_element_t *
-lxb_html_frame_set_element_create(lxb_html_document_t *document);
+lxb_html_frame_set_element_interface_create(lxb_html_document_t *document);
 
 LXB_API lxb_html_frame_set_element_t *
-lxb_html_frame_set_element_destroy(lxb_html_frame_set_element_t *frame_set_element);
+lxb_html_frame_set_element_interface_destroy(lxb_html_frame_set_element_t *frame_set_element);
 
 
 #ifdef __cplusplus

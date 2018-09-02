@@ -23,10 +23,10 @@ struct lxb_dom_document_fragment {
 
 
 LXB_API lxb_dom_document_fragment_t *
-lxb_dom_document_fragment_create(lxb_dom_document_t *document);
+lxb_dom_document_fragment_interface_create(lxb_dom_document_t *document);
 
 LXB_API lxb_dom_document_fragment_t *
-lxb_dom_document_fragment_destroy(lxb_dom_document_fragment_t *document_fragment);
+lxb_dom_document_fragment_interface_destroy(lxb_dom_document_fragment_t *document_fragment);
 
 
 #ifdef __cplusplus

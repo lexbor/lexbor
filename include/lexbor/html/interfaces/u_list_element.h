@@ -21,10 +21,10 @@ struct lxb_html_u_list_element {
 
 
 LXB_API lxb_html_u_list_element_t *
-lxb_html_u_list_element_create(lxb_html_document_t *document);
+lxb_html_u_list_element_interface_create(lxb_html_document_t *document);
 
 LXB_API lxb_html_u_list_element_t *
-lxb_html_u_list_element_destroy(lxb_html_u_list_element_t *u_list_element);
+lxb_html_u_list_element_interface_destroy(lxb_html_u_list_element_t *u_list_element);
 
 
 #ifdef __cplusplus

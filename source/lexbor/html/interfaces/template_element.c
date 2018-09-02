@@ -9,7 +9,7 @@
 
 
 lxb_html_template_element_t *
-lxb_html_template_element_create(lxb_html_document_t *document)
+lxb_html_template_element_interface_create(lxb_html_document_t *document)
 {
     lxb_html_template_element_t *element;
 
@@ -24,9 +24,9 @@ lxb_html_template_element_create(lxb_html_document_t *document)
     node->owner_document = lxb_html_document_original_ref(document);
     node->type = LXB_DOM_NODE_TYPE_ELEMENT;
 
-    element->content = lxb_dom_document_fragment_create(node->owner_document);
+    element->content = lxb_dom_document_fragment_interface_create(node->owner_document);
     if (element->content == NULL) {
-        return lxb_html_template_element_destroy(element);
+        return lxb_html_template_element_interface_destroy(element);
     }
 
     element->content->node.ns = LXB_NS_HTML;
@@ -36,9 +36,9 @@ lxb_html_template_element_create(lxb_html_document_t *document)
 }
 
 lxb_html_template_element_t *
-lxb_html_template_element_destroy(lxb_html_template_element_t *template_element)
+lxb_html_template_element_interface_destroy(lxb_html_template_element_t *template_element)
 {
-    lxb_dom_document_fragment_destroy(template_element->content);
+    lxb_dom_document_fragment_interface_destroy(template_element->content);
 
     return lexbor_mraw_free(
         lxb_dom_interface_node(template_element)->owner_document->mraw,

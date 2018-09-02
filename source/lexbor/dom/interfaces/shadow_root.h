@@ -31,10 +31,10 @@ struct lxb_dom_shadow_root {
 
 
 LXB_API lxb_dom_shadow_root_t *
-lxb_dom_shadow_root_create(lxb_dom_document_t *document);
+lxb_dom_shadow_root_interface_create(lxb_dom_document_t *document);
 
 LXB_API lxb_dom_shadow_root_t *
-lxb_dom_shadow_root_destroy(lxb_dom_shadow_root_t *shadow_root);
+lxb_dom_shadow_root_interface_destroy(lxb_dom_shadow_root_t *shadow_root);
 
 
 #ifdef __cplusplus

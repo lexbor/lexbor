@@ -13,7 +13,7 @@
 
 
 lxb_dom_node_t *
-lxb_dom_node_create(lxb_dom_document_t *document)
+lxb_dom_node_interface_create(lxb_dom_document_t *document)
 {
     lxb_dom_node_t *element;
 
@@ -30,7 +30,7 @@ lxb_dom_node_create(lxb_dom_document_t *document)
 }
 
 lxb_dom_node_t *
-lxb_dom_node_destroy(lxb_dom_node_t *node)
+lxb_dom_node_interface_destroy(lxb_dom_node_t *node)
 {
     return lexbor_mraw_free(node->owner_document->mraw, node);
 }

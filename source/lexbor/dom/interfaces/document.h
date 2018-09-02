@@ -53,10 +53,10 @@ struct lxb_dom_document {
 
 
 LXB_API lxb_dom_document_t *
-lxb_dom_document_create(lxb_dom_document_t *document);
+lxb_dom_document_interface_create(lxb_dom_document_t *document);
 
 LXB_API lxb_dom_document_t *
-lxb_dom_document_destroy(lxb_dom_document_t *document);
+lxb_dom_document_interface_destroy(lxb_dom_document_t *document);
 
 LXB_API void
 lxb_dom_document_attach_doctype(lxb_dom_document_t *document,
@@ -65,6 +65,23 @@ lxb_dom_document_attach_doctype(lxb_dom_document_t *document,
 LXB_API void
 lxb_dom_document_attach_element(lxb_dom_document_t *document,
                                 lxb_dom_element_t *element);
+
+
+/*
+ * Inline functions
+ */
+lxb_inline lxb_dom_interface_t *
+lxb_dom_document_create_interface(lxb_dom_document_t *document,
+                                  lxb_tag_id_t tag_id, lxb_ns_id_t ns)
+{
+    return document->create_interface(document, tag_id, ns);
+}
+
+lxb_inline lxb_dom_interface_t *
+lxb_dom_document_destroy_interface(lxb_dom_interface_t *interface)
+{
+    return lxb_dom_interface_node(interface)->owner_document->destroy_interface(interface);
+}
 
 
 #ifdef __cplusplus

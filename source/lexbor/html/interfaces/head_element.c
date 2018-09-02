@@ -9,7 +9,7 @@
 
 
 lxb_html_head_element_t *
-lxb_html_head_element_create(lxb_html_document_t *document)
+lxb_html_head_element_interface_create(lxb_html_document_t *document)
 {
     lxb_html_head_element_t *element;
 
@@ -28,7 +28,7 @@ lxb_html_head_element_create(lxb_html_document_t *document)
 }
 
 lxb_html_head_element_t *
-lxb_html_head_element_destroy(lxb_html_head_element_t *head_element)
+lxb_html_head_element_interface_destroy(lxb_html_head_element_t *head_element)
 {
     return lexbor_mraw_free(
         lxb_dom_interface_node(head_element)->owner_document->mraw,

@@ -48,14 +48,15 @@ struct lxb_html_document {
 };
 
 LXB_API lxb_html_document_t *
-lxb_html_document_create(lxb_html_document_t *document);
+lxb_html_document_interface_create(lxb_html_document_t *document);
 
 LXB_API lxb_status_t
-lxb_html_document_init(lxb_html_document_t *document,
-                       lxb_tag_heap_t *tag_heap, lxb_ns_heap_t *ns_heap);
+lxb_html_document_interface_init(lxb_html_document_t *document,
+                                 lxb_tag_heap_t *tag_heap,
+                                 lxb_ns_heap_t *ns_heap);
 
 LXB_API lxb_html_document_t *
-lxb_html_document_destroy(lxb_html_document_t *document);
+lxb_html_document_interface_destroy(lxb_html_document_t *document);
 
 
 /*

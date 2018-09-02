@@ -9,7 +9,7 @@
 
 
 lxb_html_menu_element_t *
-lxb_html_menu_element_create(lxb_html_document_t *document)
+lxb_html_menu_element_interface_create(lxb_html_document_t *document)
 {
     lxb_html_menu_element_t *element;
 
@@ -28,7 +28,7 @@ lxb_html_menu_element_create(lxb_html_document_t *document)
 }
 
 lxb_html_menu_element_t *
-lxb_html_menu_element_destroy(lxb_html_menu_element_t *menu_element)
+lxb_html_menu_element_interface_destroy(lxb_html_menu_element_t *menu_element)
 {
     return lexbor_mraw_free(
         lxb_dom_interface_node(menu_element)->owner_document->mraw,

@@ -32,10 +32,10 @@ struct lxb_dom_element {
 
 
 LXB_API lxb_dom_element_t *
-lxb_dom_element_create(lxb_dom_document_t *document);
+lxb_dom_element_interface_create(lxb_dom_document_t *document);
 
 LXB_API lxb_dom_element_t *
-lxb_dom_element_destroy(lxb_dom_element_t *element);
+lxb_dom_element_interface_destroy(lxb_dom_element_t *element);
 
 LXB_API bool
 lxb_dom_element_compare(lxb_dom_element_t *first, lxb_dom_element_t *second);

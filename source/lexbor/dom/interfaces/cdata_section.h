@@ -21,10 +21,10 @@ struct lxb_dom_cdata_section {
 
 
 LXB_API lxb_dom_cdata_section_t *
-lxb_dom_cdata_section_create(lxb_dom_document_t *document);
+lxb_dom_cdata_section_interface_create(lxb_dom_document_t *document);
 
 LXB_API lxb_dom_cdata_section_t *
-lxb_dom_cdata_section_destroy(lxb_dom_cdata_section_t *cdata_section);
+lxb_dom_cdata_section_interface_destroy(lxb_dom_cdata_section_t *cdata_section);
 
 
 #ifdef __cplusplus

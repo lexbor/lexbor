@@ -21,10 +21,10 @@ struct lxb_dom_text {
 
 
 LXB_API lxb_dom_text_t *
-lxb_dom_text_create(lxb_dom_document_t *document);
+lxb_dom_text_interface_create(lxb_dom_document_t *document);
 
 LXB_API lxb_dom_text_t *
-lxb_dom_text_destroy(lxb_dom_text_t *text);
+lxb_dom_text_interface_destroy(lxb_dom_text_t *text);
 
 
 #ifdef __cplusplus
