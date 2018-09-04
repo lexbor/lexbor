@@ -241,6 +241,17 @@ lxb_dom_element_attr_append(lxb_dom_element_t *element, lxb_dom_attr_t *attr)
         return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
     }
 
+    if (element->attr_id == NULL && attr->name.length == 2) {
+        if (lexbor_str_data_ncmp((lxb_char_t *) "id", attr->name.data, 2)) {
+            element->attr_id = attr;
+        }
+    }
+    else if (element->attr_class == NULL && attr->name.length == 5) {
+        if (lexbor_str_data_ncmp((lxb_char_t *) "class", attr->name.data, 5)) {
+            element->attr_class = attr;
+        }
+    }
+
     if (element->first_attr == NULL) {
         element->first_attr = attr;
         element->last_attr = attr;
@@ -259,6 +270,13 @@ lxb_dom_element_attr_append(lxb_dom_element_t *element, lxb_dom_attr_t *attr)
 lxb_status_t
 lxb_dom_element_attr_remove(lxb_dom_element_t *element, lxb_dom_attr_t *attr)
 {
+    if (element->attr_id == attr) {
+        element->attr_id = NULL;
+    }
+    else if (element->attr_class == attr) {
+        element->attr_class = NULL;
+    }
+
     if (attr->prev != NULL) {
         attr->prev->next = attr->next;
     }

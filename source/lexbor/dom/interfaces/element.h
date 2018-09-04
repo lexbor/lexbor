@@ -39,6 +39,9 @@ struct lxb_dom_element {
     lxb_dom_attr_t                 *first_attr;
     lxb_dom_attr_t                 *last_attr;
 
+    lxb_dom_attr_t                 *attr_id;
+    lxb_dom_attr_t                 *attr_class;
+
     lxb_dom_element_custom_state_t custom_state;
 };
 
@@ -180,6 +183,34 @@ lxb_dom_element_tag_name(lxb_dom_element_t *element, size_t *len)
     return lxb_dom_element_qualified_name_upper(element, len);
 }
 
+lxb_inline const lxb_char_t *
+lxb_dom_element_id(lxb_dom_element_t *element, size_t *len)
+{
+    if (element->attr_id == NULL) {
+        if (len != NULL) {
+            *len = 0;
+        }
+
+        return NULL;
+    }
+
+    return lxb_dom_attr_value(element->attr_id, len);
+}
+
+lxb_inline const lxb_char_t *
+lxb_dom_element_class(lxb_dom_element_t *element, size_t *len)
+{
+    if (element->attr_class == NULL) {
+        if (len != NULL) {
+            *len = 0;
+        }
+
+        return NULL;
+    }
+
+    return lxb_dom_attr_value(element->attr_class, len);
+}
+
 lxb_inline bool
 lxb_dom_element_is_custom(lxb_dom_element_t *element)
 {
@@ -215,6 +246,18 @@ lxb_inline lxb_dom_attr_t *
 lxb_dom_element_last_attribute(lxb_dom_element_t *element)
 {
     return element->last_attr;
+}
+
+lxb_inline lxb_dom_attr_t *
+lxb_dom_element_id_attribute(lxb_dom_element_t *element)
+{
+    return element->attr_id;
+}
+
+lxb_inline lxb_dom_attr_t *
+lxb_dom_element_class_attribute(lxb_dom_element_t *element)
+{
+    return element->attr_class;
 }
 
 
