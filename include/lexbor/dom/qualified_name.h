@@ -47,7 +47,7 @@ lxb_dom_qualified_name_upper(lxb_dom_document_t *document,
  * Inline functions
  */
 lxb_inline const lxb_char_t *
-lxb_dom_qualified_name(lxb_dom_qualified_name_t *qname, size_t *len)
+lxb_dom_qualified_name(const lxb_dom_qualified_name_t *qname, size_t *len)
 {
     if (len != NULL) {
         *len = qname->str.length;
@@ -57,7 +57,8 @@ lxb_dom_qualified_name(lxb_dom_qualified_name_t *qname, size_t *len)
 }
 
 lxb_inline const lxb_char_t *
-lxb_dom_qualified_name_prefix(lxb_dom_qualified_name_t *qname, size_t *len)
+lxb_dom_qualified_name_prefix(const lxb_dom_qualified_name_t *qname,
+                              size_t *len)
 {
     if (len != NULL) {
         *len = qname->prefix_len;
@@ -67,7 +68,8 @@ lxb_dom_qualified_name_prefix(lxb_dom_qualified_name_t *qname, size_t *len)
 }
 
 lxb_inline const lxb_char_t *
-lxb_dom_qualified_name_local_name(lxb_dom_qualified_name_t *qname, size_t *len)
+lxb_dom_qualified_name_local_name(const lxb_dom_qualified_name_t *qname,
+                                  size_t *len)
 {
     if (qname->local_name_len == 0) {
         if (len != NULL) {

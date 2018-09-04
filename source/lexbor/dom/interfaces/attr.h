@@ -70,6 +70,34 @@ lxb_dom_attr_qualified_name(lxb_dom_attr_t *attr, size_t *len)
     return attr->name.data;
 }
 
+lxb_inline const lxb_char_t *
+lxb_dom_attr_local_name(lxb_dom_attr_t *attr, size_t *len)
+{
+    if (len != NULL) {
+        *len = attr->local_name.length;
+    }
+
+    return attr->local_name.data;
+}
+
+lxb_inline const lxb_char_t *
+lxb_dom_attr_value(lxb_dom_attr_t *attr, size_t *len)
+{
+    if (attr->value == NULL) {
+        if (len != NULL) {
+            *len = 0;
+        }
+
+        return NULL;
+    }
+
+    if (len != NULL) {
+        *len = attr->value->length;
+    }
+
+    return attr->value->data;
+}
+
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -2256,7 +2256,7 @@ static  lxb_html_tag_fixname_t * lxb_html_tag_res_fixname_svg[LXB_TAG__LAST_ENTR
     NULL,
     /* LXB_TAG_XMP */
     NULL,
-    
+
 };
 #endif /* LXB_HTML_TAG_RES_FIXNAME_SVG_ENABLED */
 #endif /* LXB_HTML_TAG_RES_FIXNAME_SVG */

@@ -147,6 +147,12 @@ lexbor_str_data_to_lowercase(lxb_char_t *to, const lxb_char_t *from, size_t len)
 LXB_API void
 lexbor_str_data_to_uppercase(lxb_char_t *to, const lxb_char_t *from, size_t len);
 
+LXB_API const lxb_char_t *
+lexbor_str_data_find_lowercase(const lxb_char_t *data, size_t len);
+
+LXB_API const lxb_char_t *
+lexbor_str_data_find_uppercase(const lxb_char_t *data, size_t len);
+
 
 /*
  * Inline functions

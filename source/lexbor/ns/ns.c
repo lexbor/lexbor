@@ -287,7 +287,7 @@ lxb_ns_data_by_id_default(lxb_ns_heap_t *ns_heap, lxb_ns_id_t ns_id)
         return lexbor_dobject_by_absolute_position(ns_heap->data,
                                                    ns_id - LXB_NS__LAST_ENTRY);
     }
-    
+
     return &lxb_ns_res_data[ns_id];
 }
 
@@ -297,16 +297,16 @@ lxb_ns_data_by_link_default(lxb_ns_heap_t *ns_heap,
 {
     const lexbor_shbst_entry_t *hp_entry;
     const lexbor_shs_entry_t *entry;
-    
+
     entry = lexbor_shs_entry_get_static(lxb_ns_res_shs_link_data, name, len);
     if (entry != NULL) {
         return (const lxb_ns_data_t *) entry->value;
     }
-    
+
     hp_entry = lexbor_shbst_search(ns_heap->heap_link, name, len, true);
     if (hp_entry == NULL) {
         return NULL;
     }
-    
+
     return hp_entry->value;
 }

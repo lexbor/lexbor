@@ -180,3 +180,33 @@ lxb_dom_node_remove(lxb_dom_node_t *node)
     node->next = NULL;
     node->prev = NULL;
 }
+
+void
+lxb_dom_node_simple_walk(lxb_dom_node_t *root,
+                         lxb_dom_node_simple_walker_f walker_cb, void *ctx)
+{
+    lexbor_action_t action;
+    lxb_dom_node_t *node = root->first_child;
+
+    while (node != NULL) {
+        action = walker_cb(node, ctx);
+        if (action == LEXBOR_ACTION_STOP) {
+            return;
+        }
+
+        if (node->first_child != NULL) {
+            node = node->first_child;
+        }
+        else {
+            while(node != root && node->next == NULL) {
+                node = node->parent;
+            }
+
+            if (node == root) {
+                break;
+            }
+
+            node = node->next;
+        }
+    }
+}

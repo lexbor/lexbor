@@ -16,6 +16,8 @@ extern "C" {
 #include "lexbor/dom/interfaces/document.h"
 #include "lexbor/dom/interfaces/node.h"
 #include "lexbor/dom/qualified_name.h"
+#include "lexbor/dom/collection.h"
+#include "lexbor/dom/interfaces/attr.h"
 
 #include "lexbor/tag/tag.h"
 
@@ -55,11 +57,36 @@ lxb_dom_element_create(lxb_dom_document_t *document,
                        const lxb_char_t *is, size_t is_len,
                        bool sync_custom, bool lowercase);
 
-lxb_dom_attr_t *
+LXB_API bool
+lxb_dom_element_has_attributes(lxb_dom_element_t *element);
+
+LXB_API lxb_dom_attr_t *
 lxb_dom_element_set_attribute(lxb_dom_element_t *element,
                               const lxb_char_t *qualified_name, size_t qn_len,
-                              const lxb_char_t *value, size_t value_len,
-                              lxb_dom_exception_code_t *exception_code);
+                              const lxb_char_t *value, size_t value_len);
+
+LXB_API const lxb_char_t *
+lxb_dom_element_get_attribute(lxb_dom_element_t *element,
+                              const lxb_char_t *qualified_name, size_t qn_len,
+                              size_t *value_len);
+
+LXB_API lxb_status_t
+lxb_dom_element_remove_attribute(lxb_dom_element_t *element,
+                                 const lxb_char_t *qualified_name, size_t qn_len);
+
+LXB_API bool
+lxb_dom_element_has_attribute(lxb_dom_element_t *element,
+                              const lxb_char_t *qualified_name, size_t qn_len);
+
+LXB_API lxb_status_t
+lxb_dom_element_attr_append(lxb_dom_element_t *element, lxb_dom_attr_t *attr);
+
+LXB_API lxb_status_t
+lxb_dom_element_attr_remove(lxb_dom_element_t *element, lxb_dom_attr_t *attr);
+
+LXB_API lxb_dom_attr_t *
+lxb_dom_element_attr_by_name(lxb_dom_element_t *element,
+                             const lxb_char_t *qualified_name, size_t qn_len);
 
 LXB_API bool
 lxb_dom_element_compare(lxb_dom_element_t *first, lxb_dom_element_t *second);
@@ -68,17 +95,24 @@ LXB_API lxb_dom_attr_t *
 lxb_dom_element_attr_is_exist(lxb_dom_element_t *element,
                               const lxb_char_t *qualified_name, size_t len);
 
-LXB_API void
-lxb_dom_element_attr_append(lxb_dom_element_t *element, lxb_dom_attr_t *attr);
-
 LXB_API lxb_status_t
 lxb_dom_element_qualified_name_set(lxb_dom_element_t *element,
                                    const lxb_char_t *prefix, unsigned int prefix_len,
                                    const lxb_char_t *lname, unsigned int lname_len);
 
-lxb_status_t
+LXB_API bool
+lxb_dom_element_qualified_name_cmp(lxb_dom_element_t *element, lxb_tag_id_t tag_id,
+                                   const lxb_char_t *prefix, size_t prefix_len,
+                                   const lxb_char_t *lname, size_t lname_len);
+
+LXB_API lxb_status_t
 lxb_dom_element_is_set(lxb_dom_element_t *element,
                        const lxb_char_t *is, size_t is_len);
+
+LXB_API lxb_status_t
+lxb_dom_elements_by_tag_name(lxb_dom_element_t *root,
+                             lxb_dom_collection_t *collection,
+                             const lxb_char_t *qualified_name, size_t len);
 
 
 /*
@@ -157,6 +191,30 @@ lxb_dom_element_custom_is_defined(lxb_dom_element_t *element)
 {
     return element->custom_state & LXB_DOM_ELEMENT_CUSTOM_STATE_CUSTOM
         || element->custom_state & LXB_DOM_ELEMENT_CUSTOM_STATE_UNCUSTOMIZED;
+}
+
+lxb_inline lxb_dom_attr_t *
+lxb_dom_element_first_attribute(lxb_dom_element_t *element)
+{
+    return element->first_attr;
+}
+
+lxb_inline lxb_dom_attr_t *
+lxb_dom_element_next_attribute(lxb_dom_attr_t *attr)
+{
+    return attr->next;
+}
+
+lxb_inline lxb_dom_attr_t *
+lxb_dom_element_prev_attribute(lxb_dom_attr_t *attr)
+{
+    return attr->prev;
+}
+
+lxb_inline lxb_dom_attr_t *
+lxb_dom_element_last_attribute(lxb_dom_element_t *element)
+{
+    return element->last_attr;
 }
 
 

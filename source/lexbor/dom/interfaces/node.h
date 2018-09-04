@@ -15,6 +15,10 @@ extern "C" {
 #include "lexbor/dom/interfaces/event_target.h"
 
 
+typedef lexbor_action_t
+(*lxb_dom_node_simple_walker_f)(lxb_dom_node_t *node, void *ctx);
+
+
 typedef enum {
     LXB_DOM_NODE_TYPE_UNDEF                  = 0x00,
     LXB_DOM_NODE_TYPE_ELEMENT                = 0x01,
@@ -64,17 +68,21 @@ lxb_dom_node_interface_destroy(lxb_dom_node_t *node);
 LXB_API const lxb_char_t *
 lxb_dom_node_name(lxb_dom_node_t *node, size_t *len);
 
-void
+LXB_API void
 lxb_dom_node_insert_child(lxb_dom_node_t *to, lxb_dom_node_t *node);
 
-void
+LXB_API void
 lxb_dom_node_insert_before(lxb_dom_node_t *to, lxb_dom_node_t *node);
 
-void
+LXB_API void
 lxb_dom_node_insert_after(lxb_dom_node_t *to, lxb_dom_node_t *node);
 
-void
+LXB_API void
 lxb_dom_node_remove(lxb_dom_node_t *node);
+
+LXB_API void
+lxb_dom_node_simple_walk(lxb_dom_node_t *root,
+                         lxb_dom_node_simple_walker_f walker_cb, void *ctx);
 
 
 #ifdef __cplusplus

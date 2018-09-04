@@ -367,11 +367,7 @@ bool
 lexbor_str_data_ncmp(const lxb_char_t *first, const lxb_char_t *sec,
                      size_t size)
 {
-    if (memcmp(first, sec, sizeof(lxb_char_t) * size) == 0) {
-        return true;
-    }
-
-    return false;
+    return memcmp(first, sec, sizeof(lxb_char_t) * size) == 0;
 }
 
 bool
@@ -423,7 +419,35 @@ lexbor_str_data_to_uppercase(lxb_char_t *to, const lxb_char_t *from, size_t len)
 {
     while (len) {
         len--;
-        
+
         to[len] = lexbor_str_res_map_uppercase[ from[len] ];
     }
+}
+
+const lxb_char_t *
+lexbor_str_data_find_lowercase(const lxb_char_t *data, size_t len)
+{
+    while (len) {
+        len--;
+
+        if (data[len] == lexbor_str_res_map_lowercase[ data[len] ]) {
+            return &data[len];
+        }
+    }
+
+    return NULL;
+}
+
+const lxb_char_t *
+lexbor_str_data_find_uppercase(const lxb_char_t *data, size_t len)
+{
+    while (len) {
+        len--;
+
+        if (data[len] == lexbor_str_res_map_uppercase[ data[len] ]) {
+            return &data[len];
+        }
+    }
+
+    return NULL;
 }
