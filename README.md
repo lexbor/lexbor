@@ -1,7 +1,9 @@
 # lexbor — HTML renderer
 
 [![Build Status](https://travis-ci.org/lexborisov/lexbor.svg?branch=master)](https://travis-ci.org/lexborisov/lexbor)
-
+<a href="https://scan.coverity.com/projects/lexborisov-lexbor">
+    <img alt="Coverity Scan Build Status" src="https://scan.coverity.com/projects/16691/badge.svg"/>
+</a>
 
 The `lexbor` is being developed using the C language, without dependencies, and will benefit from the following unique features:
 
@@ -55,7 +57,6 @@ Coming soon.
 Alexander Borisov <lex.borisov@gmail.com>
 
 ## COPYRIGHT AND LICENSE
-
 
    Lexbor.
 
