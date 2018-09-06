@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		0E3CCC84210A41890020F463 /* unit.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E3CCC83210A41890020F463 /* unit.c */; };
-		0E3CCC88210A42450020F463 /* liblexbor_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E3CCC86210A41B00020F463 /* liblexbor_static.a */; };
 		0E504FFE21288942003B744A /* kv_state.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E504FF821288942003B744A /* kv_state.c */; };
 		0E504FFF21288942003B744A /* test.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E504FFB21288942003B744A /* test.c */; };
 		0E50500021288942003B744A /* kv_rules.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E504FFC21288942003B744A /* kv_rules.c */; };
 		0E50500121288942003B744A /* kv.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E504FFD21288942003B744A /* kv.c */; };
+		0E50500321297E1C003B744A /* liblexbor_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E50500221297E1C003B744A /* liblexbor_static.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -30,13 +30,13 @@
 /* Begin PBXFileReference section */
 		0E3CCC6E210A41390020F463 /* unit */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = unit; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E3CCC83210A41890020F463 /* unit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unit.c; sourceTree = "<group>"; };
-		0E3CCC86210A41B00020F463 /* liblexbor_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblexbor_static.a; path = ../../lib/liblexbor_static.a; sourceTree = "<group>"; };
 		0E504FF821288942003B744A /* kv_state.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = kv_state.c; path = ../../test/unit/kv_state.c; sourceTree = "<group>"; };
 		0E504FF921288942003B744A /* kv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = kv.h; path = ../../test/unit/kv.h; sourceTree = "<group>"; };
 		0E504FFA21288942003B744A /* test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = test.h; path = ../../test/unit/test.h; sourceTree = "<group>"; };
 		0E504FFB21288942003B744A /* test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = test.c; path = ../../test/unit/test.c; sourceTree = "<group>"; };
 		0E504FFC21288942003B744A /* kv_rules.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = kv_rules.c; path = ../../test/unit/kv_rules.c; sourceTree = "<group>"; };
 		0E504FFD21288942003B744A /* kv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = kv.c; path = ../../test/unit/kv.c; sourceTree = "<group>"; };
+		0E50500221297E1C003B744A /* liblexbor_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblexbor_static.a; path = ../../build/liblexbor_static.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,7 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E3CCC88210A42450020F463 /* liblexbor_static.a in Frameworks */,
+				0E50500321297E1C003B744A /* liblexbor_static.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,7 +85,7 @@
 		0E3CCC85210A41B00020F463 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0E3CCC86210A41B00020F463 /* liblexbor_static.a */,
+				0E50500221297E1C003B744A /* liblexbor_static.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -275,7 +275,7 @@
 					../../source,
 					../../test,
 				);
-				LIBRARY_SEARCH_PATHS = ../../lib;
+				LIBRARY_SEARCH_PATHS = ../../build;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
@@ -290,7 +290,7 @@
 					../../source,
 					../../test,
 				);
-				LIBRARY_SEARCH_PATHS = ../../lib;
+				LIBRARY_SEARCH_PATHS = ../../build;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		0E50501E212B3311003B744A /* parse_chunk.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E50501D212B3311003B744A /* parse_chunk.c */; };
 		0E505020212B3344003B744A /* liblexbor_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E50501F212B3344003B744A /* liblexbor_static.a */; };
+		0E90D4A7213C3F47001C6B19 /* element_attributes.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E90D4A6213C3F47001C6B19 /* element_attributes.c */; };
+		0E90D4AC213F2A86001C6B19 /* element_create.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E90D4AB213F2A86001C6B19 /* element_create.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +30,8 @@
 		0E50501D212B3311003B744A /* parse_chunk.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = parse_chunk.c; path = ../../examples/lexbor/html/parse_chunk.c; sourceTree = "<group>"; };
 		0E50501F212B3344003B744A /* liblexbor_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblexbor_static.a; path = ../../build/liblexbor_static.a; sourceTree = "<group>"; };
 		0E505021212B3716003B744A /* base.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = base.h; path = ../../examples/lexbor/html/base.h; sourceTree = "<group>"; };
+		0E90D4A6213C3F47001C6B19 /* element_attributes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = element_attributes.c; path = ../../examples/lexbor/html/element_attributes.c; sourceTree = "<group>"; };
+		0E90D4AB213F2A86001C6B19 /* element_create.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = element_create.c; path = ../../examples/lexbor/html/element_create.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +76,8 @@
 			children = (
 				0E505021212B3716003B744A /* base.h */,
 				0E50501D212B3311003B744A /* parse_chunk.c */,
+				0E90D4A6213C3F47001C6B19 /* element_attributes.c */,
+				0E90D4AB213F2A86001C6B19 /* element_create.c */,
 			);
 			name = examples;
 			sourceTree = "<group>";
@@ -133,6 +139,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E50501E212B3311003B744A /* parse_chunk.c in Sources */,
+				0E90D4A7213C3F47001C6B19 /* element_attributes.c in Sources */,
+				0E90D4AC213F2A86001C6B19 /* element_create.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

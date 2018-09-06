@@ -10,9 +10,12 @@
 #include "lexbor/html/parser.h"
 #include "lexbor/html/serialize.h"
 #include "lexbor/dom/interfaces/text.h"
+#include "lexbor/dom/interfaces/element.h"
 #include "lexbor/html/interfaces/head_element.h"
 #include "lexbor/html/interfaces/body_element.h"
 
+
+#include "lexbor/core/perf.h"
 
 lxb_status_t
 serializer_callback(const lxb_char_t *data, size_t len, void *ctx)
@@ -29,15 +32,27 @@ int main(int argc, const char * argv[])
     lxb_html_document_t *document;
     lxb_dom_node_t *ret;
 
-    lxb_char_t html[] = "textarea content with <em>pseudo</em> <foo>markup";
-    size_t size = sizeof(html) - 1;
+    void *perf = lexbor_perf_create();
 
-//    size_t size;
-//    lxb_char_t full_path[] = "/Users/alexanderborisov/Library/Developer/Xcode/DerivedData/lexbor-gzcibxrzmtowvbdhqpflilnxstbc/Build/Products/Debug/lexbor";
-//    lxb_char_t *html = lexbor_fs_file_easy_read(full_path, &size);
-//    if (html == NULL) {
-//        FAIL_AND_EXIT("Failed to read file");
-//    }
+    const lxb_ns_data_t *entry;
+    lxb_ns_heap_t *ns_heap;
+
+    ns_heap = lxb_ns_heap_create();
+    lxb_ns_heap_init(ns_heap, 32);
+
+    entry = lxb_ns_data_by_link(ns_heap, (const lxb_char_t *) "#undef", 6);
+
+//    lxb_char_t html[] = "<div id=\"TMpanel\">";
+//    size_t size = sizeof(html) - 1;
+
+    size_t size;
+    lxb_char_t full_path[] = "/new/test/habr.html";
+    lxb_char_t *html = lexbor_fs_file_easy_read(full_path, &size);
+    if (html == NULL) {
+        FAIL_AND_EXIT("Failed to read file");
+    }
+
+    lexbor_perf_begin(perf);
 
     parser = lxb_html_parser_create();
     status = lxb_html_parser_init(parser);
@@ -48,27 +63,65 @@ int main(int argc, const char * argv[])
 
     parser->tree->scripting = true;
 
-    if (0) {
-        document = lxb_html_parse(parser, html, size);
-        if (document == NULL) {
-            FAIL_AND_EXIT("Failed to parse");
-        }
+//    if (1) {
+//        document = lxb_html_parse(parser, html, size);
+//        if (document == NULL) {
+//            FAIL_AND_EXIT("Failed to parse");
+//        }
+//
+//        ret = lxb_dom_interface_node(document);
+//    }
+//    else {
+//        ret = lxb_html_parse_fragment_by_tag_id(parser, NULL,
+//                                                147, 4,
+//                                                html, size);
+//    }
 
-        ret = lxb_dom_interface_node(document);
-    }
-    else {
-        ret = lxb_html_parse_fragment_by_tag_id(parser, NULL,
-                                                LXB_HTML_TAG_TEXTAREA, LXB_HTML_NS_HTML,
-                                                html, size);
+    document = lxb_html_parse(parser, html, size);
+//    document = lxb_html_parse_chunk_begin(parser);
+//
+//    for (size_t i = 0; i < size; i++) {
+//        status = lxb_html_parse_chunk_process(parser, &html[i], 1);
+//    }
+//
+//    status = lxb_html_parse_chunk_end(parser);
+
+    lexbor_perf_end(perf);
+    printf("Time: %0.5f\n", lexbor_perf_in_sec(perf));
+
+    lxb_dom_collection_t *collection = lxb_dom_collection_make(&document->dom_document, 128);
+    if (collection == NULL) {
+        FAIL_AND_EXIT("Failed to create collection");
     }
 
-    status = lxb_html_serialize_pretty_tree_cb(ret, LXB_HTML_SERIALIZE_OPT_WITHOUT_CLOSING,
-                                               0, serializer_callback, NULL);
+
+    lexbor_perf_begin(perf);
+
+    lxb_dom_element_t *el_root = &lxb_html_document_body_element(document)->element.element;
+    status = lxb_dom_elements_by_tag_name(el_root, collection, "div", strlen("div"));
     if (status != LXB_STATUS_OK) {
-        FAIL_AND_EXIT("Failed to serialization tree");
+        FAIL_AND_EXIT("Failed to create get elements");
     }
 
-//    lxb_dom_text_t *text = document->body->element.element.node.first_child->first_child;
+    lexbor_perf_end(perf);
+    printf("Find: %0.5f\n", lexbor_perf_in_sec(perf));
+
+
+//    for (size_t i = 0; i < collection->array.length; i++) {
+//        lxb_dom_element_t *element = collection->array.list[i];
+//
+//        status = lxb_html_serialize_pretty_cb(&element->node, LXB_HTML_SERIALIZE_OPT_WITHOUT_CLOSING,
+//                                              0, serializer_callback, NULL);
+//        if (status != LXB_STATUS_OK) {
+//            FAIL_AND_EXIT("Failed to serialization tree");
+//        }
+//    }
+
+//    status = lxb_html_serialize_pretty_tree_cb(&document->dom_document.node, LXB_HTML_SERIALIZE_OPT_WITHOUT_CLOSING,
+//                                               0, serializer_callback, NULL);
+//    if (status != LXB_STATUS_OK) {
+//        FAIL_AND_EXIT("Failed to serialization tree");
+//    }
 
     lxb_html_parser_destroy(parser, true);
 
@@ -85,8 +138,8 @@ int main(int argc, const char * argv[])
 //
 //#define FAIL_AND_EXIT(...) fprintf(stderr, __VA_ARGS__"\n"); exit(1)
 //
-//#include "lexbor/html/tag.h"
-//#include "lexbor/html/tag_res.h"
+//#include "lexbor/tag/tag.h"
+//#include "lexbor/tag/res.h"
 //
 //#include "lexbor/html/parser_char.h"
 
@@ -107,8 +160,8 @@ int main(int argc, const char * argv[])
 //
 //    lxb_html_parser_char_t pc = {0};
 //
-//    if (token->tag_id == LXB_HTML_TAG__TEXT
-//        || token->tag_id == LXB_HTML_TAG__EM_COMMENT)
+//    if (token->tag_id == LXB_TAG__TEXT
+//        || token->tag_id == LXB_TAG__EM_COMMENT)
 //    {
 //        status = lxb_html_token_parse_data(token, &pc, &str, mraw);
 //        if (status != LXB_STATUS_OK) {
@@ -118,10 +171,10 @@ int main(int argc, const char * argv[])
 //        printf("%s", (char *) str.data);
 //    }
 //    else {
-//        const lxb_html_tag_data_t *tag_data;
-//        tag_data = lxb_html_tag_data_by_id(tkz->tag_heap, token->tag_id);
+//        const lxb_tag_data_t *tag_data;
+//        tag_data = lxb_tag_data_by_id(tkz->tag_heap, token->tag_id);
 //
-//        tag_data = lxb_html_tag_data_by_name(tkz->tag_heap, "sef�stf", strlen("sef�stf"));
+//        tag_data = lxb_tag_data_by_name(tkz->tag_heap, "sef�stf", strlen("sef�stf"));
 //
 //        if (tag_data != NULL) {
 //            printf("%s", (char *) tag_data->name);
