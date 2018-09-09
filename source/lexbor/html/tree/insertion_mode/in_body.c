@@ -328,19 +328,31 @@ lxb_html_tree_insertion_mode_in_body_text(lxb_html_tree_t *tree,
         return true;
     }
 
-    tree->status = lxb_html_tree_active_formatting_reconstruct_elements(tree);
+    lxb_html_tree_insertion_mode_in_body_text_append(tree, &str);
     if (tree->status != LXB_STATUS_OK) {
         return lxb_html_tree_process_abort(tree);
     }
 
-    tree->status = lxb_html_tree_insert_character_for_data(tree, &str, NULL);
+    return true;
+}
+
+lxb_status_t
+lxb_html_tree_insertion_mode_in_body_text_append(lxb_html_tree_t *tree,
+                                                 lexbor_str_t *str)
+{
+    tree->status = lxb_html_tree_active_formatting_reconstruct_elements(tree);
     if (tree->status != LXB_STATUS_OK) {
-        return lxb_html_tree_process_abort(tree);
+        return tree->status;
+    }
+
+    tree->status = lxb_html_tree_insert_character_for_data(tree, str, NULL);
+    if (tree->status != LXB_STATUS_OK) {
+        return tree->status;
     }
 
     if (tree->frameset_ok) {
-        const lxb_char_t *pos = str.data;
-        const lxb_char_t *end = str.data + str.length;
+        const lxb_char_t *pos = str->data;
+        const lxb_char_t *end = str->data + str->length;
 
         while (pos != end) {
             if (lexbor_tokenizer_chars_map[*pos]
@@ -354,7 +366,7 @@ lxb_html_tree_insertion_mode_in_body_text(lxb_html_tree_t *tree,
         }
     }
 
-    return true;
+    return LXB_STATUS_OK;
 }
 
 static bool

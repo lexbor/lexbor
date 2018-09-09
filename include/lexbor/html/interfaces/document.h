@@ -19,6 +19,9 @@ extern "C" {
 #include <lexbor/dom/interfaces/document.h>
 
 
+typedef unsigned int lxb_html_document_opt_t;
+
+
 typedef enum {
     LXB_HTML_DOCUMENT_READY_STATE_UNDEF       = 0x00,
     LXB_HTML_DOCUMENT_READY_STATE_LOADING     = 0x01,
@@ -26,6 +29,11 @@ typedef enum {
     LXB_HTML_DOCUMENT_READY_STATE_COMPLETE    = 0x03,
 }
 lxb_html_document_ready_state_t;
+
+enum lxb_html_document_opt {
+    LXB_HTML_DOCUMENT_OPT_UNDEF     = 0x00,
+    LXB_HTML_DOCUMENT_PARSE_WO_COPY = 0x01
+};
 
 typedef struct {
     lexbor_mraw_t     *mraw;
@@ -48,6 +56,8 @@ struct lxb_html_document {
     lxb_html_document_mem_t         *mem;
 
     lxb_html_document_ready_state_t ready_state;
+
+    lxb_html_document_opt_t         opt;
 };
 
 LXB_API lxb_html_document_t *
@@ -160,6 +170,20 @@ lxb_inline lxb_ns_heap_t *
 lxb_html_document_ns_heap(lxb_html_document_t *document)
 {
     return document->mem->ns_heap_ref;
+}
+
+lxb_inline void
+lxb_html_document_opt_set(lxb_html_document_t *document,
+                          lxb_html_document_opt_t opt)
+{
+    document->opt = opt;
+}
+
+lxb_inline lxb_html_document_opt_t
+lxb_html_document_opt(lxb_html_document_t *document,
+                      lxb_html_document_opt_t opt)
+{
+    return document->opt;
 }
 
 

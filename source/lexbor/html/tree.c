@@ -73,9 +73,9 @@ lxb_html_tree_init(lxb_html_tree_t *tree, lxb_html_tokenizer_t *tkz)
     }
 
     /* Stack of pending table character tokens */
-    tree->pending_table.text_tokens = lexbor_array_obj_create();
-    status = lexbor_array_obj_init(tree->pending_table.text_tokens, 64,
-                                   sizeof(lxb_html_token_t));
+    tree->pending_table.text_list = lexbor_array_obj_create();
+    status = lexbor_array_obj_init(tree->pending_table.text_list, 16,
+                                   sizeof(lexbor_str_t));
     if (status != LXB_STATUS_OK) {
         return status;
     }
@@ -146,7 +146,7 @@ lxb_html_tree_clean(lxb_html_tree_t *tree)
     lexbor_array_clean(tree->open_elements);
     lexbor_array_clean(tree->active_formatting);
     lexbor_array_obj_clean(tree->template_insertion_modes);
-    lexbor_array_obj_clean(tree->pending_table.text_tokens);
+    lexbor_array_obj_clean(tree->pending_table.text_list);
     lexbor_array_obj_clean(tree->parse_errors);
 
     tree->document = NULL;
@@ -174,9 +174,9 @@ lxb_html_tree_destroy(lxb_html_tree_t *tree)
     tree->active_formatting = lexbor_array_destroy(tree->active_formatting,
                                                    true);
     tree->template_insertion_modes = lexbor_array_obj_destroy(tree->template_insertion_modes,
-                                                          true);
-    tree->pending_table.text_tokens = lexbor_array_obj_destroy(tree->pending_table.text_tokens,
-                                                               true);
+                                                              true);
+    tree->pending_table.text_list = lexbor_array_obj_destroy(tree->pending_table.text_list,
+                                                             true);
 
     tree->parse_errors = lexbor_array_obj_destroy(tree->parse_errors, true);
     tree->tkz_ref = lxb_html_tokenizer_unref(tree->tkz_ref);

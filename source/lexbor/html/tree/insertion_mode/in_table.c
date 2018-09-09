@@ -114,7 +114,7 @@ lxb_html_tree_insertion_mode_in_table_text_open(lxb_html_tree_t *tree,
          || node->tag_id == LXB_TAG_THEAD
          || node->tag_id == LXB_TAG_TR))
     {
-        tree->pending_table.text_tokens->length = 0;
+        tree->pending_table.text_list->length = 0;
         tree->pending_table.have_non_ws = false;
 
         tree->original_mode = tree->mode;

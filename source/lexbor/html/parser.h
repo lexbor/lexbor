@@ -100,6 +100,34 @@ LXB_API lxb_dom_node_t *
 lxb_html_parse_fragment_chunk_end(lxb_html_parser_t *parser);
 
 
+/*
+ * Inline functions
+ */
+lxb_inline void
+lxb_html_parser_set_without_copy(lxb_html_parser_t *parser)
+{
+    lxb_html_tokenizer_opt_set(parser->tkz, LXB_HTML_TOKENIZER_OPT_WO_COPY);
+}
+
+lxb_inline lxb_html_tokenizer_t *
+lxb_html_parser_tokenizer(lxb_html_parser_t *parser)
+{
+    return parser->tkz;
+}
+
+lxb_inline lxb_html_tree_t *
+lxb_html_parser_tree(lxb_html_parser_t *parser)
+{
+    return parser->tree;
+}
+
+lxb_inline lxb_status_t
+lxb_html_parser_status(lxb_html_parser_t *parser)
+{
+    return parser->status;
+}
+
+
 #ifdef __cplusplus
 } /* extern "C" */
 #endif

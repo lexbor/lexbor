@@ -232,22 +232,32 @@ lxb_html_document_parse(lxb_html_document_t *document,
         lxb_html_document_clean(document);
     }
 
+    lxb_html_document_opt_t opt = document->opt;
+
     lxb_status_t status = lxb_html_document_parse_prepare(document);
     if (status != LXB_STATUS_OK) {
-        return status;
+        goto failed;
     }
 
     status = lxb_html_parse_chunk_prepare(document->mem->parser, document);
     if (status != LXB_STATUS_OK) {
-        return status;
+        goto failed;
     }
 
     status = lxb_html_parse_chunk_process(document->mem->parser, html, size);
     if (status != LXB_STATUS_OK) {
-        return status;
+        goto failed;
     }
 
+    document->opt = opt;
+
     return lxb_html_parse_chunk_end(document->mem->parser);
+
+failed:
+
+    document->opt = opt;
+
+    return status;
 }
 
 lxb_status_t
@@ -295,10 +305,11 @@ lxb_html_document_parse_fragment(lxb_html_document_t *document,
 {
     lxb_status_t status;
     lxb_html_parser_t *parser;
+    lxb_html_document_opt_t opt = document->opt;
 
     status = lxb_html_document_parse_prepare(document);
     if (status != LXB_STATUS_OK) {
-        return NULL;
+        goto failed;
     }
 
     parser = document->mem->parser;
@@ -307,15 +318,23 @@ lxb_html_document_parse_fragment(lxb_html_document_t *document,
                                                  element->node.tag_id,
                                                  element->node.ns);
     if (status != LXB_STATUS_OK) {
-        return NULL;
+        goto failed;
     }
 
     status = lxb_html_parse_fragment_chunk_process(parser, html, size);
     if (status != LXB_STATUS_OK) {
-        return NULL;
+        goto failed;
     }
 
+    document->opt = opt;
+
     return lxb_html_parse_fragment_chunk_end(parser);
+
+failed:
+
+    document->opt = opt;
+
+    return NULL;
 }
 
 lxb_status_t
@@ -379,6 +398,10 @@ lxb_html_document_parse_prepare(lxb_html_document_t *document)
     }
     else {
         lxb_html_parser_clean(document->mem->parser);
+    }
+
+    if ((document->opt & LXB_HTML_DOCUMENT_PARSE_WO_COPY)) {
+        lxb_html_parser_set_without_copy(document->mem->parser);
     }
 
     return LXB_STATUS_OK;

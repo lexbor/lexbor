@@ -31,7 +31,7 @@ typedef lxb_status_t
                                lxb_dom_attr_t *attr, void *ctx);
 
 typedef struct {
-    lexbor_array_obj_t *text_tokens;
+    lexbor_array_obj_t *text_list;
     bool               have_non_ws;
 }
 lxb_html_tree_pending_table_t;

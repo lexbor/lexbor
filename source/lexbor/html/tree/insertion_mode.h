@@ -51,6 +51,10 @@ LXB_API bool
 lxb_html_tree_insertion_mode_in_body_skip_new_line_textarea(lxb_html_tree_t *tree,
                                                             lxb_html_token_t *token);
 
+LXB_API lxb_status_t
+lxb_html_tree_insertion_mode_in_body_text_append(lxb_html_tree_t *tree,
+                                                 lexbor_str_t *str);
+
 LXB_API bool
 lxb_html_tree_insertion_mode_text(lxb_html_tree_t *tree,
                                   lxb_html_token_t *token);

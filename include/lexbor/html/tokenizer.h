@@ -23,6 +23,7 @@ extern "C" {
 
 
 typedef struct lxb_html_tokenizer lxb_html_tokenizer_t;
+typedef unsigned int lxb_html_tokenizer_opt_t;
 
 
 /* State */
@@ -34,6 +35,11 @@ typedef lxb_html_token_t *
 (*lxb_html_tokenizer_token_f)(lxb_html_tokenizer_t *tkz,
                               lxb_html_token_t *token, void *ctx);
 
+
+enum lxb_html_tokenizer_opt {
+    LXB_HTML_TOKENIZER_OPT_UNDEF   = 0x00,
+    LXB_HTML_TOKENIZER_OPT_WO_COPY = 0x01
+};
 
 struct lxb_html_tokenizer {
     lxb_html_tokenizer_state_f       state;
@@ -61,6 +67,7 @@ struct lxb_html_tokenizer {
 
     /* Incoming Buffer and current process buffer */
     lexbor_in_t                      *incoming;
+    lexbor_in_node_t                 *incoming_first;
     lexbor_in_node_t                 *incoming_node;
 
     /* Parse error */
@@ -85,6 +92,7 @@ struct lxb_html_tokenizer {
     const lxb_char_t                 *entity_value;
 
     /* Process */
+    lxb_html_tokenizer_opt_t         opt;
     lxb_status_t                     status;
     bool                             is_eof;
 
@@ -151,6 +159,19 @@ lxb_inline void
 lxb_html_tokenizer_status_set(lxb_html_tokenizer_t *tkz, lxb_status_t status)
 {
     tkz->status = status;
+}
+
+lxb_inline void
+lxb_html_tokenizer_opt_set(lxb_html_tokenizer_t *tkz,
+                           lxb_html_tokenizer_opt_t opt)
+{
+    tkz->opt = opt;
+}
+
+lxb_inline lxb_html_tokenizer_opt_t
+lxb_html_tokenizer_opt(lxb_html_tokenizer_t *tkz)
+{
+    return tkz->opt;
 }
 
 lxb_inline void

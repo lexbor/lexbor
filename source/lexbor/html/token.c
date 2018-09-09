@@ -422,6 +422,15 @@ lxb_html_token_process_data(lxb_html_token_process_t *process,
                                           token->in_begin->end);
 
             if (process->status == LXB_STATUS_STOPPED) {
+                if (token->in_begin->next == NULL) {
+                    return LXB_STATUS_ERROR;
+                }
+
+                if (token->begin == token->in_begin->end) {
+                    token->in_begin = token->in_begin->next;
+                    token->begin = token->in_begin->begin;
+                }
+
                 return LXB_STATUS_OK;
             }
         }
