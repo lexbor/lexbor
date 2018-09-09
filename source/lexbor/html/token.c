@@ -829,7 +829,7 @@ lxb_html_token_doctype_parse(lxb_html_token_t *token, lexbor_mraw_t *mraw,
     }
 
     lxb_html_token_attr_t *attr;
-    lxb_status_t status = LXB_STATUS_ERROR;
+    lxb_status_t status;
     lxb_html_parser_char_t pc = {0};
 
     pc.mraw = mraw;

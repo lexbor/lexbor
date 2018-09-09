@@ -92,7 +92,7 @@ static bool
 lxb_html_tree_insertion_mode_in_table_body_thtd(lxb_html_tree_t *tree,
                                                 lxb_html_token_t *token)
 {
-    lxb_html_token_t fake_token = {0};
+    lxb_html_token_t fake_token;
     lxb_html_element_t *element;
 
     lxb_html_tree_parse_error(tree, token, LXB_HTML_RULES_ERROR_UNTO);

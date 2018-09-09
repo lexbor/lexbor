@@ -311,8 +311,7 @@ lxb_html_tree_appropriate_place_inserting_node(lxb_html_tree_t *tree,
             || target->tag_id == LXB_TAG_THEAD
             || target->tag_id == LXB_TAG_TR))
     {
-        lxb_dom_node_t *last_temp = NULL;
-        lxb_dom_node_t *last_table = NULL;
+        lxb_dom_node_t *last_temp, *last_table;
         size_t last_temp_idx, last_table_idx;
 
         last_temp = lxb_html_tree_open_elements_find_reverse(tree,

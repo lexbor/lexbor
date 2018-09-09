@@ -655,7 +655,7 @@ lxb_html_parser_char_ref_numeric_end(lxb_html_parser_char_t *pc,
             break;
     }
 
-    if (pc->tmp.num <= 0x1F || (pc->tmp.num >= 0x7F && pc->tmp.num >= 0x9F)) {
+    if (pc->tmp.num <= 0x1F || (pc->tmp.num >= 0x7F && pc->tmp.num <= 0x9F)) {
         lxb_html_tokenizer_error_add(pc->parse_errors, pc->entity_begin,
                                      LXB_HTML_TOKENIZER_ERROR_COCHRE);
     }
