@@ -20,6 +20,9 @@
 const lxb_char_t *lxb_html_tokenizer_eof = (const lxb_char_t *) "\x00";
 
 
+static void
+lxb_html_tokenizer_erase_incoming(lxb_html_tokenizer_t *tkz);
+
 static lxb_status_t
 lxb_html_tokenizer_chunk_process(lxb_html_tokenizer_t *tkz,
                                  const lxb_char_t *data, size_t size);
@@ -205,6 +208,8 @@ lxb_html_tokenizer_clean(lxb_html_tokenizer_t *tkz)
     lexbor_mraw_clean(tkz->mraw);
     lexbor_dobject_clean(tkz->dobj_token);
     lexbor_dobject_clean(tkz->dobj_token_attr);
+
+    lxb_html_tokenizer_erase_incoming(tkz);
     lexbor_in_clean(tkz->incoming);
 
     lexbor_array_obj_clean(tkz->parse_errors);
@@ -222,6 +227,8 @@ lxb_html_tokenizer_destroy(lxb_html_tokenizer_t *tkz)
     tkz->tag_heap_ref = lxb_tag_heap_unref(tkz->tag_heap_ref);
     tkz->ns_heap_ref = lxb_ns_heap_unref(tkz->ns_heap_ref);
 
+    lxb_html_tokenizer_erase_incoming(tkz);
+
     if (tkz->base == NULL) {
         tkz->mraw = lexbor_mraw_destroy(tkz->mraw, true);
         tkz->dobj_token = lexbor_dobject_destroy(tkz->dobj_token, true);
@@ -233,6 +240,25 @@ lxb_html_tokenizer_destroy(lxb_html_tokenizer_t *tkz)
     tkz->parse_errors = lexbor_array_obj_destroy(tkz->parse_errors, true);
 
     return lexbor_free(tkz);
+}
+
+static void
+lxb_html_tokenizer_erase_incoming(lxb_html_tokenizer_t *tkz)
+{
+    lexbor_in_node_t *next_node;
+
+    while (tkz->incoming_first != NULL)
+    {
+        if (tkz->incoming_first->opt & LEXBOR_IN_OPT_ALLOC) {
+            lexbor_free((lxb_char_t *) tkz->incoming_first->begin);
+        }
+
+        next_node = tkz->incoming_first->next;
+
+        lexbor_in_node_destroy(tkz->incoming, tkz->incoming_first, true);
+
+        tkz->incoming_first = next_node;
+    }
 }
 
 lxb_status_t
@@ -266,6 +292,8 @@ lxb_html_tokenizer_chunk(lxb_html_tokenizer_t *tkz, const lxb_char_t *data,
         tkz->incoming_node = lexbor_in_node_make(tkz->incoming, tkz->incoming_node,
                                                  data, size);
         if (tkz->incoming_node == NULL) {
+            lxb_html_tokenizer_erase_incoming(tkz);
+
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         }
 
@@ -280,7 +308,7 @@ lxb_html_tokenizer_chunk(lxb_html_tokenizer_t *tkz, const lxb_char_t *data,
 
         copied = lexbor_malloc(sizeof(lxb_char_t) * size);
         if (copied == NULL) {
-            lexbor_in_node_destroy(tkz->incoming, tkz->incoming_node, true);
+            lxb_html_tokenizer_erase_incoming(tkz);
 
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         }
@@ -290,6 +318,9 @@ lxb_html_tokenizer_chunk(lxb_html_tokenizer_t *tkz, const lxb_char_t *data,
         tkz->incoming_node = lexbor_in_node_make(tkz->incoming, tkz->incoming_node,
                                                  copied, size);
         if (tkz->incoming_node == NULL) {
+            lexbor_free(copied);
+            lxb_html_tokenizer_erase_incoming(tkz);
+
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         }
 
@@ -303,6 +334,8 @@ lxb_html_tokenizer_chunk(lxb_html_tokenizer_t *tkz, const lxb_char_t *data,
     }
 
     if (tkz->status != LXB_STATUS_OK) {
+        lxb_html_tokenizer_erase_incoming(tkz);
+
         return tkz->status;
     }
 
