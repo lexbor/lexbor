@@ -43,12 +43,6 @@ lxb_html_interface_create(lxb_html_document_t *document, lxb_tag_id_t tag_id,
             node = lxb_dom_interface_node(domel);
         }
     }
-    else if (tag_id >= LXB_TAG__LAST_ENTRY) {
-        lxb_dom_element_t *domel;
-
-        domel = lxb_dom_element_interface_create(&document->dom_document);
-        node = lxb_dom_interface_node(domel);
-    }
     else {
         node = lxb_html_interface_res_constructors[tag_id][ns](document);
     }
@@ -83,9 +77,6 @@ lxb_html_interface_destroy(lxb_dom_interface_t *interface)
         else {
             return lxb_dom_element_interface_destroy(interface);
         }
-    }
-    else if (node->tag_id >= LXB_TAG__LAST_ENTRY) {
-        return lxb_dom_element_interface_destroy(interface);
     }
     else {
         return lxb_html_interface_res_destructor[node->tag_id][node->ns](interface);

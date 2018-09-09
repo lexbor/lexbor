@@ -31,6 +31,34 @@ lxb_html_element_t *
 lxb_html_element_interface_destroy(lxb_html_element_t *element)
 {
     return lexbor_mraw_free(
-        lxb_dom_interface_node(element)->owner_document->mraw,
-        element);
+                lxb_dom_interface_node(element)->owner_document->mraw, element);
+}
+
+lxb_html_element_t *
+lxb_html_element_inner_html_set(lxb_html_element_t *element,
+                                const lxb_char_t *html, size_t size)
+{
+    lxb_dom_node_t *node, *child;
+    lxb_dom_node_t *root = lxb_dom_interface_node(element);
+    lxb_html_document_t *doc = lxb_html_interface_document(root->owner_document);
+
+    node = lxb_html_document_parse_fragment(doc, &element->element, html, size);
+    if (node == NULL) {
+        return NULL;
+    }
+
+    while (root->first_child != NULL) {
+        lxb_dom_node_destroy_deep(root->first_child);
+    }
+
+    while (node->first_child != NULL) {
+        child = node->first_child;
+
+        lxb_dom_node_remove(child);
+        lxb_dom_node_insert_child(root, child);
+    }
+
+    lxb_dom_node_destroy(node);
+
+    return lxb_html_interface_element(root);
 }

@@ -193,13 +193,12 @@ lxb_html_tokenizer_clean(lxb_html_tokenizer_t *tkz)
     tkz->status = LXB_STATUS_OK;
 
     lxb_tag_heap_clean(tkz->tag_heap_ref);
+    lxb_ns_heap_clean(tkz->ns_heap_ref);
 
-    if (tkz->ref_count == 1) {
-        lexbor_mraw_clean(tkz->mraw);
-        lexbor_dobject_clean(tkz->dobj_token);
-        lexbor_dobject_clean(tkz->dobj_token_attr);
-        lexbor_in_clean(tkz->incoming);
-    }
+    lexbor_mraw_clean(tkz->mraw);
+    lexbor_dobject_clean(tkz->dobj_token);
+    lexbor_dobject_clean(tkz->dobj_token_attr);
+    lexbor_in_clean(tkz->incoming);
 
     lexbor_array_obj_clean(tkz->parse_errors);
 
@@ -214,6 +213,7 @@ lxb_html_tokenizer_destroy(lxb_html_tokenizer_t *tkz)
     }
 
     tkz->tag_heap_ref = lxb_tag_heap_unref(tkz->tag_heap_ref);
+    tkz->ns_heap_ref = lxb_ns_heap_unref(tkz->ns_heap_ref);
 
     if (tkz->base == NULL) {
         tkz->mraw = lexbor_mraw_destroy(tkz->mraw, true);

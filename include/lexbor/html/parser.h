@@ -76,6 +76,10 @@ LXB_API lxb_html_document_t *
 lxb_html_parse_chunk_begin(lxb_html_parser_t *parser);
 
 LXB_API lxb_status_t
+lxb_html_parse_chunk_prepare(lxb_html_parser_t *parser,
+                             lxb_html_document_t *document);
+
+LXB_API lxb_status_t
 lxb_html_parse_chunk_process(lxb_html_parser_t *parser,
                              const lxb_char_t *html, size_t size);
 

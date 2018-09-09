@@ -35,6 +35,50 @@ lxb_dom_node_interface_destroy(lxb_dom_node_t *node)
     return lexbor_mraw_free(node->owner_document->mraw, node);
 }
 
+lxb_dom_node_t *
+lxb_dom_node_destroy(lxb_dom_node_t *node)
+{
+    lxb_dom_node_remove(node);
+
+    return lxb_dom_document_destroy_interface(node);
+}
+
+lxb_dom_node_t *
+lxb_dom_node_destroy_deep(lxb_dom_node_t *root)
+{
+    lxb_dom_node_t *tmp;
+    lxb_dom_node_t *node = root->first_child;
+
+    while (node != NULL) {
+        if (node->first_child != NULL) {
+            node = node->first_child;
+        }
+        else {
+            while(node != root && node->next == NULL) {
+                tmp = node->parent;
+
+                lxb_dom_node_destroy(node);
+
+                node = tmp;
+            }
+
+            if (node == root) {
+                lxb_dom_node_destroy(node);
+
+                break;
+            }
+
+            tmp = node->next;
+
+            lxb_dom_node_destroy(node);
+
+            node = tmp;
+        }
+    }
+
+    return NULL;
+}
+
 const lxb_char_t *
 lxb_dom_node_name(lxb_dom_node_t *node, size_t *len)
 {

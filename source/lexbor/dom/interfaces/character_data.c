@@ -30,6 +30,10 @@ lxb_dom_character_data_interface_create(lxb_dom_document_t *document)
 lxb_dom_character_data_t *
 lxb_dom_character_data_interface_destroy(lxb_dom_character_data_t *character_data)
 {
+    lexbor_str_destroy(&character_data->data,
+                       lxb_dom_interface_node(character_data)->owner_document->text,
+                       false);
+
     return lexbor_mraw_free(
         lxb_dom_interface_node(character_data)->owner_document->mraw,
         character_data);

@@ -49,14 +49,6 @@ lxb_ns_heap_init(lxb_ns_heap_t *ns_heap, size_t table_size)
 
     lxb_ns_heap_ref(ns_heap);
 
-    /* For names */
-    ns_heap->heap = lexbor_shbst_create();
-    status = lexbor_shbst_init(ns_heap->heap, table_size);
-
-    if (status != LXB_STATUS_OK) {
-        return status;
-    }
-
     /* For links */
     ns_heap->heap_link = lexbor_shbst_create();
     status = lexbor_shbst_init(ns_heap->heap_link, table_size);
@@ -106,11 +98,8 @@ lxb_ns_heap_clean(lxb_ns_heap_t *ns_heap)
         return;
     }
 
-    if (ns_heap->ref_count == 1) {
-        lexbor_dobject_clean(ns_heap->data);
-        lexbor_shbst_clean(ns_heap->heap);
-        lexbor_shbst_clean(ns_heap->heap_link);
-    }
+    lexbor_dobject_clean(ns_heap->data);
+    lexbor_shbst_clean(ns_heap->heap_link);
 }
 
 lxb_ns_heap_t *
@@ -121,8 +110,7 @@ lxb_ns_heap_destroy(lxb_ns_heap_t *ns_heap)
     }
 
     ns_heap->data = lexbor_dobject_destroy(ns_heap->data, true);
-    ns_heap->heap = lexbor_shbst_destroy(ns_heap->heap, true);
-    ns_heap->heap = lexbor_shbst_destroy(ns_heap->heap_link, true);
+    ns_heap->heap_link = lexbor_shbst_destroy(ns_heap->heap_link, true);
 
     return lexbor_free(ns_heap);
 }
@@ -132,41 +120,34 @@ lxb_ns_data_set_default(lxb_ns_heap_t *ns_heap, lxb_ns_data_t *data,
                         lexbor_shbst_entry_t *entry, size_t link_len,
                         const lxb_char_t *name, size_t name_len)
 {
-    lxb_char_t *new_name, *new_l_name;
-
     data->link = (const char *) entry->key;
     data->link_len = link_len;
+    data->name_len = name_len;
 
     data->ns_id = LXB_NS__LAST_ENTRY
         + (unsigned int) (lexbor_dobject_allocated(ns_heap->data) - 1);
 
-    new_name = lexbor_mraw_alloc(lexbor_shbst_keys(ns_heap->heap),
-                                 sizeof(lxb_char_t) * (name_len + 1));
-    if (new_name == NULL) {
+    data->name = lexbor_mraw_calloc(lexbor_shbst_keys(ns_heap->heap_link),
+                                    sizeof(lxb_char_t) * (data->name_len + 1));
+    if (data->name == NULL) {
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
 
-    new_l_name = lexbor_mraw_alloc(lexbor_shbst_keys(ns_heap->heap),
-                                   sizeof(lxb_char_t) * (name_len + 1));
-    if (new_l_name == NULL) {
+    data->name_lower = lexbor_mraw_calloc(lexbor_shbst_keys(ns_heap->heap_link),
+                                          sizeof(lxb_char_t) * (data->name_len + 1));
+    if (data->name_lower == NULL) {
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
 
-    if (name == NULL || name_len == 0) {
-        new_name[0] = 0x00;
-        new_l_name[0] = 0x00;
-
+    if (data->name == NULL || data->name_len == 0) {
         return LXB_STATUS_OK;
     }
 
-    memcpy(new_name, name, sizeof(lxb_char_t) * name_len);
-    new_name[name_len] = 0x00;
+    memcpy((lxb_char_t *) data->name, name, sizeof(lxb_char_t) * name_len);
 
     for (size_t i = 0; i < name_len; i++) {
-        new_l_name[i] = lexbor_str_res_map_lowercase[ name[i] ];
+        ((lxb_char_t *) data->name_lower)[i] = lexbor_str_res_map_lowercase[ name[i] ];
     }
-
-    new_l_name[name_len] = 0x00;
 
     return LXB_STATUS_OK;
 }
@@ -188,7 +169,7 @@ lxb_ns_append(lxb_ns_heap_t *ns_heap, const lxb_char_t *link, size_t link_len,
         return NULL;
     }
 
-    entry = lexbor_shbst_insert(ns_heap->heap, link, link_len, data);
+    entry = lexbor_shbst_insert(ns_heap->heap_link, link, link_len, data);
     if (entry == NULL) {
         lexbor_dobject_free(ns_heap->data, data);
 

@@ -42,7 +42,6 @@ struct lxb_ns_data {
 };
 
 struct lxb_ns_heap {
-    lexbor_shbst_t           *heap;
     lexbor_shbst_t           *heap_link;
     lexbor_dobject_t         *data;
 

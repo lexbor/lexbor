@@ -27,6 +27,11 @@ LXB_API lxb_html_element_t *
 lxb_html_element_interface_destroy(lxb_html_element_t *element);
 
 
+LXB_API lxb_html_element_t *
+lxb_html_element_inner_html_set(lxb_html_element_t *element,
+                                const lxb_char_t *html, size_t size);
+
+
 #ifdef __cplusplus
 } /* extern "C" */
 #endif

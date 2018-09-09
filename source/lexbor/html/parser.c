@@ -107,6 +107,10 @@ lxb_html_parser_destroy(lxb_html_parser_t *parser, bool self_destroy)
     parser->ns_heap = lxb_ns_heap_unref(parser->ns_heap);
     parser->tree = lxb_html_tree_unref(parser->tree);
 
+    if (self_destroy) {
+        return lexbor_free(parser);
+    }
+
     return parser;
 }
 
@@ -341,27 +345,37 @@ lxb_html_parse_fragment_chunk_destroy(lxb_html_parser_t *parser)
 lxb_html_document_t *
 lxb_html_parse_chunk_begin(lxb_html_parser_t *parser)
 {
-    lxb_status_t status;
     lxb_html_document_t *document;
 
+    document = lxb_html_document_interface_create(NULL);
+    parser->status = lxb_html_document_interface_init(document, parser->tag_heap,
+                                                      parser->ns_heap);
+    if (parser->status != LXB_STATUS_OK) {
+        parser->state = LXB_HTML_PARSER_STATE_ERROR;
+        parser->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+
+        return lxb_html_document_destroy(document);
+    }
+
+    document->dom_document.scripting = parser->tree->scripting;
+
+    parser->status = lxb_html_parse_chunk_prepare(parser, document);
+    if (parser->status != LXB_STATUS_OK) {
+        return lxb_html_document_destroy(document);
+    }
+
+    return document;
+}
+
+lxb_status_t
+lxb_html_parse_chunk_prepare(lxb_html_parser_t *parser,
+                             lxb_html_document_t *document)
+{
     if (parser->state != LXB_HTML_PARSER_STATE_BEGIN) {
         lxb_html_parser_clean(parser);
     }
 
     parser->state = LXB_HTML_PARSER_STATE_PROCESS;
-
-    document = lxb_html_document_interface_create(NULL);
-    status = lxb_html_document_interface_init(document, parser->tag_heap,
-                                              parser->ns_heap);
-
-    if (status != LXB_STATUS_OK) {
-        parser->state = LXB_HTML_PARSER_STATE_ERROR;
-        parser->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-
-        return NULL;
-    }
-
-    document->dom_document.scripting = parser->tree->scripting;
 
     parser->original_tree = lxb_html_tokenizer_tree(parser->tkz);
     lxb_html_tokenizer_tree_set(parser->tkz, parser->tree);
@@ -369,11 +383,9 @@ lxb_html_parse_chunk_begin(lxb_html_parser_t *parser)
     parser->status = lxb_html_tree_begin(parser->tree, document);
     if (parser->status != LXB_STATUS_OK) {
         parser->state = LXB_HTML_PARSER_STATE_ERROR;
-
-        document = lxb_html_document_interface_destroy(document);
     }
 
-    return document;
+    return parser->status;
 }
 
 lxb_status_t

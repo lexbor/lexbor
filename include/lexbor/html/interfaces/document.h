@@ -20,6 +20,7 @@ extern "C" {
 
 
 typedef enum {
+    LXB_HTML_DOCUMENT_READY_STATE_UNDEF       = 0x00,
     LXB_HTML_DOCUMENT_READY_STATE_LOADING     = 0x01,
     LXB_HTML_DOCUMENT_READY_STATE_INTERACTIVE = 0x02,
     LXB_HTML_DOCUMENT_READY_STATE_COMPLETE    = 0x03,
@@ -27,10 +28,12 @@ typedef enum {
 lxb_html_document_ready_state_t;
 
 typedef struct {
-    lexbor_mraw_t  *mraw;
-    lexbor_mraw_t  *text;
-    lxb_tag_heap_t *tag_heap_ref;
-    lxb_ns_heap_t  *ns_heap_ref;
+    lexbor_mraw_t     *mraw;
+    lexbor_mraw_t     *text;
+    lxb_tag_heap_t    *tag_heap_ref;
+    lxb_ns_heap_t     *ns_heap_ref;
+
+    void              *parser;       /* lxb_html_parser_t * */
 }
 lxb_html_document_mem_t;
 
@@ -57,6 +60,48 @@ lxb_html_document_interface_init(lxb_html_document_t *document,
 
 LXB_API lxb_html_document_t *
 lxb_html_document_interface_destroy(lxb_html_document_t *document);
+
+
+LXB_API lxb_html_document_t *
+lxb_html_document_create(void);
+
+LXB_API void
+lxb_html_document_clean(lxb_html_document_t *document);
+
+LXB_API lxb_html_document_t *
+lxb_html_document_destroy(lxb_html_document_t *document);
+
+
+LXB_API lxb_status_t
+lxb_html_document_parse(lxb_html_document_t *document,
+                        const lxb_char_t *html, size_t size);
+
+LXB_API lxb_status_t
+lxb_html_document_parse_chunk_begin(lxb_html_document_t *document);
+
+LXB_API lxb_status_t
+lxb_html_document_parse_chunk_process(lxb_html_document_t *document,
+                                      const lxb_char_t *html, size_t size);
+
+LXB_API lxb_status_t
+lxb_html_document_parse_chunk_end(lxb_html_document_t *document);
+
+LXB_API lxb_dom_node_t *
+lxb_html_document_parse_fragment(lxb_html_document_t *document,
+                                 lxb_dom_element_t *element,
+                                 const lxb_char_t *html, size_t size);
+
+LXB_API lxb_status_t
+lxb_html_document_parse_fragment_chunk_begin(lxb_html_document_t *document,
+                                             lxb_dom_element_t *element);
+
+LXB_API lxb_status_t
+lxb_html_document_parse_fragment_chunk_process(lxb_html_document_t *document,
+                                               const lxb_char_t *html,
+                                               size_t size);
+
+LXB_API lxb_dom_node_t *
+lxb_html_document_parse_fragment_chunk_end(lxb_html_document_t *document);
 
 
 /*

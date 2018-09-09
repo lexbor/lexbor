@@ -274,6 +274,29 @@ TEST_BEGIN(bst_remove_two_child)
 }
 TEST_END
 
+TEST_BEGIN(bst_remove_root_two_child)
+{
+    lexbor_bst_t bst;
+    void *value;
+    test_eq(lexbor_bst_init(&bst, 128), LXB_STATUS_OK);
+
+    test_ne(lexbor_bst_insert(&bst, &bst.root, 20, (void *) 20), NULL);
+    test_ne(lexbor_bst_insert(&bst, &bst.root, 10, (void *) 10), NULL);
+    test_ne(lexbor_bst_insert(&bst, &bst.root, 5, (void *) 5), NULL);
+
+    test_eq_size(bst.root->size, 20UL);
+    test_eq(bst.root->parent, NULL);
+
+    value = lexbor_bst_remove(&bst, &bst.root, 20);
+    test_ne(value, NULL);
+
+    test_eq_size(bst.root->size, 10UL);
+    test_eq(bst.root->parent, NULL);
+
+    lexbor_bst_destroy(&bst, false);
+}
+TEST_END
+
 TEST_BEGIN(bst_remove_close)
 {
     lexbor_bst_t bst;
@@ -354,6 +377,7 @@ main(int argc, const char * argv[])
     TEST_ADD(bst_remove);
     TEST_ADD(bst_remove_one_child);
     TEST_ADD(bst_remove_two_child);
+    TEST_ADD(bst_remove_root_two_child);
     TEST_ADD(bst_remove_close);
     TEST_ADD(destroy);
     TEST_ADD(destroy_stack);

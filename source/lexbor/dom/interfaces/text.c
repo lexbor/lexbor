@@ -30,6 +30,9 @@ lxb_dom_text_interface_create(lxb_dom_document_t *document)
 lxb_dom_text_t *
 lxb_dom_text_interface_destroy(lxb_dom_text_t *text)
 {
+    lexbor_str_destroy(&text->char_data.data,
+                       lxb_dom_interface_node(text)->owner_document->text, false);
+
     return lexbor_mraw_free(
         lxb_dom_interface_node(text)->owner_document->mraw,
         text);

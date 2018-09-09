@@ -8,13 +8,20 @@
 
 #include "lexbor/html/interfaces/document.h"
 #include "lexbor/html/html.h"
+#include "lexbor/html/parser.h"
+
 #include "lexbor/tag/tag.h"
 
 #include "lexbor/dom/interfaces/text.h"
+#include "lexbor/dom/interfaces/element.h"
 
 #define LXB_HTML_TAG_RES_DATA
 #define LXB_HTML_TAG_RES_SHS_DATA
 #include "lexbor/html/tag_res.h"
+
+
+lxb_inline lxb_status_t
+lxb_html_document_parse_prepare(lxb_html_document_t *document);
 
 
 lxb_html_document_t *
@@ -178,6 +185,201 @@ lxb_html_document_interface_destroy(lxb_html_document_t *document)
     lxb_tag_heap_unref(document->mem->tag_heap_ref);
     lxb_ns_heap_unref(document->mem->ns_heap_ref);
     lexbor_mraw_destroy(document->mem->mraw, true);
+    lexbor_mraw_destroy(document->mem->text, true);
 
     return NULL;
+}
+
+lxb_html_document_t *
+lxb_html_document_create(void)
+{
+    lxb_html_document_t *doc = lxb_html_document_interface_create(NULL);
+    if (doc == NULL) {
+        return NULL;
+    }
+
+    lxb_status_t status = lxb_html_document_interface_init(doc, NULL, NULL);
+    if (status != LXB_STATUS_OK) {
+        return lxb_html_document_destroy(doc);
+    }
+
+    return doc;
+}
+
+void
+lxb_html_document_clean(lxb_html_document_t *document)
+{
+    lxb_tag_heap_clean(document->mem->tag_heap_ref);
+    lxb_ns_heap_clean(document->mem->ns_heap_ref);
+    
+    lexbor_mraw_clean(document->mem->mraw);
+    lexbor_mraw_clean(document->mem->text);
+}
+
+lxb_html_document_t *
+lxb_html_document_destroy(lxb_html_document_t *document)
+{
+    return lxb_html_document_interface_destroy(document);
+}
+
+lxb_status_t
+lxb_html_document_parse(lxb_html_document_t *document,
+                        const lxb_char_t *html, size_t size)
+{
+    if (document->ready_state != LXB_HTML_DOCUMENT_READY_STATE_UNDEF
+        && document->ready_state != LXB_HTML_DOCUMENT_READY_STATE_LOADING)
+    {
+        lxb_html_document_clean(document);
+    }
+
+    lxb_status_t status = lxb_html_document_parse_prepare(document);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    status = lxb_html_parse_chunk_prepare(document->mem->parser, document);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    status = lxb_html_parse_chunk_process(document->mem->parser, html, size);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    return lxb_html_parse_chunk_end(document->mem->parser);
+}
+
+lxb_status_t
+lxb_html_document_parse_chunk_begin(lxb_html_document_t *document)
+{
+    if (document->ready_state != LXB_HTML_DOCUMENT_READY_STATE_UNDEF
+        && document->ready_state != LXB_HTML_DOCUMENT_READY_STATE_LOADING)
+    {
+        lxb_html_document_clean(document);
+    }
+
+    lxb_status_t status = lxb_html_document_parse_prepare(document);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    return lxb_html_parse_chunk_prepare(document->mem->parser, document);
+}
+
+lxb_status_t
+lxb_html_document_parse_chunk_process(lxb_html_document_t *document,
+                                      const lxb_char_t *html, size_t size)
+{
+    if (document->mem == NULL) {
+        return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
+    }
+
+    return lxb_html_parse_chunk_process(document->mem->parser, html, size);
+}
+
+lxb_status_t
+lxb_html_document_parse_chunk_end(lxb_html_document_t *document)
+{
+    if (document->mem == NULL) {
+        return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
+    }
+
+    return lxb_html_parse_chunk_end(document->mem->parser);
+}
+
+lxb_dom_node_t *
+lxb_html_document_parse_fragment(lxb_html_document_t *document,
+                                 lxb_dom_element_t *element,
+                                 const lxb_char_t *html, size_t size)
+{
+    lxb_status_t status;
+    lxb_html_parser_t *parser;
+
+    status = lxb_html_document_parse_prepare(document);
+    if (status != LXB_STATUS_OK) {
+        return NULL;
+    }
+
+    parser = document->mem->parser;
+
+    status = lxb_html_parse_fragment_chunk_begin(parser, document,
+                                                 element->node.tag_id,
+                                                 element->node.ns);
+    if (status != LXB_STATUS_OK) {
+        return NULL;
+    }
+
+    status = lxb_html_parse_fragment_chunk_process(parser, html, size);
+    if (status != LXB_STATUS_OK) {
+        return NULL;
+    }
+
+    return lxb_html_parse_fragment_chunk_end(parser);
+}
+
+lxb_status_t
+lxb_html_document_parse_fragment_chunk_begin(lxb_html_document_t *document,
+                                             lxb_dom_element_t *element)
+{
+    lxb_status_t status;
+    lxb_html_parser_t *parser = document->mem->parser;;
+
+    status = lxb_html_document_parse_prepare(document);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    return lxb_html_parse_fragment_chunk_begin(parser, document,
+                                               element->node.tag_id,
+                                               element->node.ns);
+}
+
+lxb_status_t
+lxb_html_document_parse_fragment_chunk_process(lxb_html_document_t *document,
+                                               const lxb_char_t *html,
+                                               size_t size)
+{
+    if (document->mem == NULL) {
+        return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
+    }
+
+    return lxb_html_parse_fragment_chunk_process(document->mem->parser,
+                                                 html, size);
+}
+
+lxb_dom_node_t *
+lxb_html_document_parse_fragment_chunk_end(lxb_html_document_t *document)
+{
+    if (document->mem == NULL) {
+        return NULL;
+    }
+
+    return lxb_html_parse_fragment_chunk_end(document->mem->parser);
+}
+
+lxb_inline lxb_status_t
+lxb_html_document_parse_prepare(lxb_html_document_t *document)
+{
+    if (document->mem == NULL) {
+        return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
+    }
+
+    if (document->mem->parser == NULL) {
+        lxb_status_t status;
+
+        document->mem->parser = lxb_html_parser_create();
+        status = lxb_html_parser_init(document->mem->parser);
+
+        if (status != LXB_STATUS_OK) {
+            lxb_html_parser_destroy(document->mem->parser, true);
+
+            return status;
+        }
+    }
+    else {
+        lxb_html_parser_clean(document->mem->parser);
+    }
+
+    return LXB_STATUS_OK;
 }

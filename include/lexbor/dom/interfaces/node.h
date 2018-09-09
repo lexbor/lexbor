@@ -65,6 +65,12 @@ lxb_dom_node_interface_create(lxb_dom_document_t *document);
 LXB_API lxb_dom_node_t *
 lxb_dom_node_interface_destroy(lxb_dom_node_t *node);
 
+LXB_API lxb_dom_node_t *
+lxb_dom_node_destroy(lxb_dom_node_t *node);
+
+LXB_API lxb_dom_node_t *
+lxb_dom_node_destroy_deep(lxb_dom_node_t *root);
+
 LXB_API const lxb_char_t *
 lxb_dom_node_name(lxb_dom_node_t *node, size_t *len);
 
