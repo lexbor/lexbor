@@ -131,7 +131,7 @@ main(int argc, const char *argv[])
 
     /* Destroy all */
     lxb_dom_collection_destroy(collection, true);
-    lxb_html_document_interface_destroy(document);
+    lxb_html_document_destroy(document);
 
     return 0;
 }

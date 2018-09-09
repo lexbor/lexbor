@@ -51,7 +51,7 @@ main(int argc, const char *argv[])
     serialize(lxb_dom_interface_node(document));
 
     /* Destroy all */
-    lxb_html_document_interface_destroy(document);
+    lxb_html_document_destroy(document);
 
     return 0;
 }

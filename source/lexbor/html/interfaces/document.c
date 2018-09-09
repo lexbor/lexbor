@@ -180,12 +180,11 @@ lxb_html_document_interface_destroy(lxb_html_document_t *document)
         return lexbor_mraw_free(owner->mraw, document);
     }
 
-    document->dom_document.tags = NULL;
-
     lxb_tag_heap_unref(document->mem->tag_heap_ref);
     lxb_ns_heap_unref(document->mem->ns_heap_ref);
     lexbor_mraw_destroy(document->mem->mraw, true);
     lexbor_mraw_destroy(document->mem->text, true);
+    lxb_html_parser_destroy(document->mem->parser, true);
 
     return NULL;
 }
@@ -278,8 +277,8 @@ lxb_html_document_parse_chunk_begin(lxb_html_document_t *document)
 }
 
 lxb_status_t
-lxb_html_document_parse_chunk_process(lxb_html_document_t *document,
-                                      const lxb_char_t *html, size_t size)
+lxb_html_document_parse_chunk(lxb_html_document_t *document,
+                              const lxb_char_t *html, size_t size)
 {
     if (document->mem == NULL) {
         return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
@@ -355,9 +354,8 @@ lxb_html_document_parse_fragment_chunk_begin(lxb_html_document_t *document,
 }
 
 lxb_status_t
-lxb_html_document_parse_fragment_chunk_process(lxb_html_document_t *document,
-                                               const lxb_char_t *html,
-                                               size_t size)
+lxb_html_document_parse_fragment_chunk(lxb_html_document_t *document,
+                                       const lxb_char_t *html, size_t size)
 {
     if (document->mem == NULL) {
         return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;

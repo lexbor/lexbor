@@ -13,7 +13,6 @@ int
 main(int argc, const char *argv[])
 {
     lxb_status_t status;
-    lxb_html_parser_t *parser;
     lxb_html_document_t *document;
 
     static const lxb_char_t html[][64] = {
@@ -37,43 +36,40 @@ main(int argc, const char *argv[])
     };
 
     /* Initialization */
-    parser = lxb_html_parser_create();
-    status = lxb_html_parser_init(parser);
-
-    if (status != LXB_STATUS_OK) {
-        FAILED("Failed to create HTML parser");
-    }
-
-    /* Parse chunks */
-    document = lxb_html_parse_chunk_begin(parser);
+    document = lxb_html_document_create();
     if (document == NULL) {
-        FAILED("Failed to create Document object");
+        FAILED("Failed to create HTML Document");
     }
+
+    /* Parse HTML */
+    status = lxb_html_document_parse_chunk_begin(document);
+    if (status != LXB_STATUS_OK) {
+        FAILED("Failed to parse HTML");
+    }
+
+    PRINT("Incoming HTML chunks:");
 
     for (size_t i = 0; html[i][0] != '\0'; i++) {
-        status = lxb_html_parse_chunk_process(parser, html[i],
-                                              strlen((const char *) html[i]));
+        PRINT("%s", (const char *) html[i]);
+
+        status = lxb_html_document_parse_chunk(document, html[i],
+                                               strlen((const char *) html[i]));
         if (status != LXB_STATUS_OK) {
             FAILED("Failed to parse HTML chunk");
         }
     }
 
-    status = lxb_html_parse_chunk_end(parser);
+    status = lxb_html_document_parse_chunk_end(document);
     if (status != LXB_STATUS_OK) {
         FAILED("Failed to parse HTML");
     }
 
-    /* Serialization */
-    status = lxb_html_serialize_pretty_tree_cb(lxb_dom_interface_node(document),
-                                               LXB_HTML_SERIALIZE_OPT_UNDEF,
-                                               0, serializer_callback, NULL);
-    if (status != LXB_STATUS_OK) {
-        FAILED("Failed to serialization HTML tree");
-    }
+    /* Print Result */
+    PRINT("\nHTML Tree:");
+    serialize(lxb_dom_interface_node(document));
 
-    /* Destroy */
+    /* Destroy document */
     lxb_html_document_destroy(document);
-    lxb_html_parser_destroy(parser, true);
 
     return 0;
 }

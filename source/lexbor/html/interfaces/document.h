@@ -90,8 +90,8 @@ LXB_API lxb_status_t
 lxb_html_document_parse_chunk_begin(lxb_html_document_t *document);
 
 LXB_API lxb_status_t
-lxb_html_document_parse_chunk_process(lxb_html_document_t *document,
-                                      const lxb_char_t *html, size_t size);
+lxb_html_document_parse_chunk(lxb_html_document_t *document,
+                              const lxb_char_t *html, size_t size);
 
 LXB_API lxb_status_t
 lxb_html_document_parse_chunk_end(lxb_html_document_t *document);
@@ -106,9 +106,8 @@ lxb_html_document_parse_fragment_chunk_begin(lxb_html_document_t *document,
                                              lxb_dom_element_t *element);
 
 LXB_API lxb_status_t
-lxb_html_document_parse_fragment_chunk_process(lxb_html_document_t *document,
-                                               const lxb_char_t *html,
-                                               size_t size);
+lxb_html_document_parse_fragment_chunk(lxb_html_document_t *document,
+                                       const lxb_char_t *html, size_t size);
 
 LXB_API lxb_dom_node_t *
 lxb_html_document_parse_fragment_chunk_end(lxb_html_document_t *document);
