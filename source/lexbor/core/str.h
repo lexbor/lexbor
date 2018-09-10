@@ -100,6 +100,9 @@ lexbor_str_copy(lexbor_str_t *dest, const lexbor_str_t *target,
 LXB_API void
 lexbor_str_stay_only_whitespace(lexbor_str_t *target);
 
+LXB_API void
+lexbor_str_strip_collapse_whitespace(lexbor_str_t *target);
+
 LXB_API size_t
 lexbor_str_crop_whitespace_from_begin(lexbor_str_t *target);
 

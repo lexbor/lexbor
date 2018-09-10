@@ -253,6 +253,47 @@ lexbor_str_stay_only_whitespace(lexbor_str_t *target)
     target->length = pos;
 }
 
+void
+lexbor_str_strip_collapse_whitespace(lexbor_str_t *target)
+{
+    size_t i, offset, ws_i;
+    lxb_char_t *data = target->data;
+
+    if (target->length == 0) {
+        return;
+    }
+
+    if (lexbor_utils_whitespace(*data, ==, ||)) {
+        *data = 0x20;
+    }
+
+    for (i = 0, offset = 0, ws_i = 0; i < target->length; i++) {
+        if (lexbor_utils_whitespace(data[i], ==, ||)) {
+            if (data[ws_i] != 0x20) {
+                data[offset] = 0x20;
+
+                ws_i = offset;
+                offset++;
+            }
+        }
+        else {
+            data[offset] = data[i];
+            offset++;
+        }
+    }
+
+    if (offset != i) {
+        if (offset != 0) {
+            if (data[offset - 1] == 0x20) {
+                offset--;
+            }
+        }
+
+        data[offset] = 0x00;
+        target->length = offset;
+    }
+}
+
 size_t
 lexbor_str_crop_whitespace_from_begin(lexbor_str_t *target)
 {

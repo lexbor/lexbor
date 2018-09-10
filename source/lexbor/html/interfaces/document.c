@@ -7,6 +7,7 @@
 #include "lexbor/core/str.h"
 
 #include "lexbor/html/interfaces/document.h"
+#include "lexbor/html/interfaces/title_element.h"
 #include "lexbor/html/html.h"
 #include "lexbor/html/parser.h"
 
@@ -22,6 +23,9 @@
 
 lxb_inline lxb_status_t
 lxb_html_document_parse_prepare(lxb_html_document_t *document);
+
+static lexbor_action_t
+lxb_html_document_title_walker(lxb_dom_node_t *node, void *ctx);
 
 
 lxb_html_document_t *
@@ -403,4 +407,44 @@ lxb_html_document_parse_prepare(lxb_html_document_t *document)
     }
 
     return LXB_STATUS_OK;
+}
+
+const lxb_char_t *
+lxb_html_document_title(lxb_html_document_t *document, size_t *len)
+{
+    lxb_html_title_element_t *title = NULL;
+
+    lxb_dom_node_simple_walk(lxb_dom_interface_node(document),
+                             lxb_html_document_title_walker, &title);
+    if (title == NULL) {
+        return NULL;
+    }
+
+    return lxb_html_title_element_strict_text(title, len);
+}
+
+const lxb_char_t *
+lxb_html_document_title_raw(lxb_html_document_t *document, size_t *len)
+{
+    lxb_html_title_element_t *title = NULL;
+
+    lxb_dom_node_simple_walk(lxb_dom_interface_node(document),
+                             lxb_html_document_title_walker, &title);
+    if (title == NULL) {
+        return NULL;
+    }
+
+    return lxb_html_title_element_text(title, len);
+}
+
+static lexbor_action_t
+lxb_html_document_title_walker(lxb_dom_node_t *node, void *ctx)
+{
+    if (node->tag_id == LXB_TAG_TITLE) {
+        *((void **) ctx) = node;
+
+        return LEXBOR_ACTION_STOP;
+    }
+
+    return LEXBOR_ACTION_NEXT;
 }

@@ -112,6 +112,12 @@ lxb_html_document_parse_fragment_chunk(lxb_html_document_t *document,
 LXB_API lxb_dom_node_t *
 lxb_html_document_parse_fragment_chunk_end(lxb_html_document_t *document);
 
+LXB_API const lxb_char_t *
+lxb_html_document_title(lxb_html_document_t *document, size_t *len);
+
+LXB_API const lxb_char_t *
+lxb_html_document_title_raw(lxb_html_document_t *document, size_t *len);
+
 
 /*
  * Inline functions
@@ -183,6 +189,13 @@ lxb_html_document_opt(lxb_html_document_t *document,
                       lxb_html_document_opt_t opt)
 {
     return document->opt;
+}
+
+lxb_inline void *
+lxb_html_document_create_struct(lxb_html_document_t *document,
+                                size_t struct_size)
+{
+    return lexbor_mraw_calloc(document->mem->mraw, struct_size);
 }
 
 

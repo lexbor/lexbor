@@ -92,6 +92,18 @@ lxb_dom_document_destroy_interface(lxb_dom_interface_t *interface)
     return lxb_dom_interface_node(interface)->owner_document->destroy_interface(interface);
 }
 
+lxb_inline void *
+lxb_dom_document_create_struct(lxb_dom_document_t *document, size_t struct_size)
+{
+    return lexbor_mraw_calloc(document->mraw, struct_size);
+}
+
+lxb_inline void *
+lxb_dom_document_destroy_struct(lxb_dom_document_t *document, void *structure)
+{
+    return lexbor_mraw_free(document->mraw, structure);
+}
+
 
 #ifdef __cplusplus
 } /* extern "C" */
