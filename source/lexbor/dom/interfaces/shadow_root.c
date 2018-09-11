@@ -22,7 +22,7 @@ lxb_dom_shadow_root_create(lxb_dom_document_t *document)
     lxb_dom_node_t *node = lxb_dom_interface_node(element);
 
     node->owner_document = document;
-    node->type = LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT;
+    node->type = LXB_DOM_NODE_TYPE_UNDEF;
 
     return element;
 }

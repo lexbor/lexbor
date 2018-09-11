@@ -74,6 +74,9 @@ lxb_dom_document_create_element(lxb_dom_document_t *document,
 LXB_API lxb_dom_element_t *
 lxb_dom_document_destroy_element(lxb_dom_element_t *element);
 
+LXB_API lxb_dom_document_fragment_t *
+lxb_dom_document_create_document_fragment(lxb_dom_document_t *document);
+
 LXB_API lxb_dom_text_t *
 lxb_dom_document_create_text_node(lxb_dom_document_t *document,
                                   const lxb_char_t *data, size_t data_len);

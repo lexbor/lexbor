@@ -7,6 +7,7 @@
 #include "lexbor/dom/interfaces/document.h"
 #include "lexbor/dom/interfaces/element.h"
 #include "lexbor/dom/interfaces/text.h"
+#include "lexbor/dom/interfaces/document_fragment.h"
 
 
 lxb_dom_document_t *
@@ -88,6 +89,12 @@ lxb_dom_element_t *
 lxb_dom_document_destroy_element(lxb_dom_element_t *element)
 {
     return lxb_dom_element_destroy(element);
+}
+
+lxb_dom_document_fragment_t *
+lxb_dom_document_create_document_fragment(lxb_dom_document_t *document)
+{
+    return lxb_dom_document_fragment_interface_create(document);
 }
 
 lxb_dom_text_t *
