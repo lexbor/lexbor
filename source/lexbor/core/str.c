@@ -267,7 +267,8 @@ lexbor_str_strip_collapse_whitespace(lexbor_str_t *target)
         *data = 0x20;
     }
 
-    for (i = 0, offset = 0, ws_i = 0; i < target->length; i++) {
+    for (i = 0, offset = 0, ws_i = 0; i < target->length; i++)
+    {
         if (lexbor_utils_whitespace(data[i], ==, ||)) {
             if (data[ws_i] != 0x20) {
                 data[offset] = 0x20;
@@ -277,6 +278,10 @@ lexbor_str_strip_collapse_whitespace(lexbor_str_t *target)
             }
         }
         else {
+            if (data[ws_i] == 0x20) {
+                ws_i = offset;
+            }
+
             data[offset] = data[i];
             offset++;
         }

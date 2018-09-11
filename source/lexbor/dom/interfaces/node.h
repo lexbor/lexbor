@@ -86,9 +86,19 @@ lxb_dom_node_insert_after(lxb_dom_node_t *to, lxb_dom_node_t *node);
 LXB_API void
 lxb_dom_node_remove(lxb_dom_node_t *node);
 
+LXB_API lxb_status_t
+lxb_dom_node_replace_all(lxb_dom_node_t *parent, lxb_dom_node_t *node);
+
 LXB_API void
 lxb_dom_node_simple_walk(lxb_dom_node_t *root,
                          lxb_dom_node_simple_walker_f walker_cb, void *ctx);
+
+LXB_API lxb_char_t *
+lxb_dom_node_text_content(lxb_dom_node_t *node, size_t *len);
+
+LXB_API lxb_status_t
+lxb_dom_node_text_content_set(lxb_dom_node_t *node,
+                              const lxb_char_t *content, size_t len);
 
 
 #ifdef __cplusplus

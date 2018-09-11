@@ -192,6 +192,13 @@ lxb_dom_attr_set_value(lxb_dom_attr_t *attr,
 }
 
 lxb_status_t
+lxb_dom_attr_set_existing_value(lxb_dom_attr_t *attr,
+                                const lxb_char_t *value, size_t value_len)
+{
+    return lxb_dom_attr_set_value(attr, value, value_len);
+}
+
+lxb_status_t
 lxb_dom_attr_clone_name_value(lxb_dom_attr_t *attr_from,
                               lxb_dom_attr_t *attr_to)
 {
@@ -258,7 +265,6 @@ lxb_dom_attr_clone_name_value(lxb_dom_attr_t *attr_from,
 
     return LXB_STATUS_OK;
 }
-
 
 bool
 lxb_dom_attr_compare(lxb_dom_attr_t *first, lxb_dom_attr_t *second)

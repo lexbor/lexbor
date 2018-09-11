@@ -12,6 +12,13 @@
 #include "lexbor/dom/interfaces/processing_instruction.h"
 
 
+static lexbor_action_t
+lxb_dom_node_text_content_size(lxb_dom_node_t *node, void *ctx);
+
+static lexbor_action_t
+lxb_dom_node_text_content_concatenate(lxb_dom_node_t *node, void *ctx);
+
+
 lxb_dom_node_t *
 lxb_dom_node_interface_create(lxb_dom_document_t *document)
 {
@@ -47,7 +54,7 @@ lxb_dom_node_t *
 lxb_dom_node_destroy_deep(lxb_dom_node_t *root)
 {
     lxb_dom_node_t *tmp;
-    lxb_dom_node_t *node = root->first_child;
+    lxb_dom_node_t *node = root;
 
     while (node != NULL) {
         if (node->first_child != NULL) {
@@ -225,6 +232,18 @@ lxb_dom_node_remove(lxb_dom_node_t *node)
     node->prev = NULL;
 }
 
+lxb_status_t
+lxb_dom_node_replace_all(lxb_dom_node_t *parent, lxb_dom_node_t *node)
+{
+    while (parent->first_child != NULL) {
+        lxb_dom_node_destroy_deep(parent->first_child);
+    }
+
+    lxb_dom_node_insert_child(parent, node);
+
+    return LXB_STATUS_OK;
+}
+
 void
 lxb_dom_node_simple_walk(lxb_dom_node_t *root,
                          lxb_dom_node_simple_walker_f walker_cb, void *ctx)
@@ -253,4 +272,158 @@ lxb_dom_node_simple_walk(lxb_dom_node_t *root,
             node = node->next;
         }
     }
+}
+
+lxb_char_t *
+lxb_dom_node_text_content(lxb_dom_node_t *node, size_t *len)
+{
+    lxb_char_t *text;
+    size_t length = 0;
+
+    switch (node->type) {
+        case LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT:
+        case LXB_DOM_NODE_TYPE_ELEMENT:
+            lxb_dom_node_simple_walk(node, lxb_dom_node_text_content_size,
+                                     &length);
+
+            text = lxb_dom_document_create_text(node->owner_document,
+                                                (length + 1));
+            if (text == NULL) {
+                goto failed;
+            }
+
+            lxb_dom_node_simple_walk(node, lxb_dom_node_text_content_concatenate,
+                                     &text);
+            break;
+
+        case LXB_DOM_NODE_TYPE_ATTRIBUTE: {
+            const lxb_char_t *attr_text;
+
+            attr_text = lxb_dom_attr_value(lxb_dom_interface_attr(node), &length);
+            if (attr_text == NULL) {
+                goto failed;
+            }
+
+            text = lxb_dom_document_create_text(node->owner_document,
+                                                (length + 1));
+            if (text == NULL) {
+                goto failed;
+            }
+
+            /* +1 == with null '\0' */
+            memcpy(text, attr_text, sizeof(lxb_char_t) * (length + 1));
+
+            break;
+        }
+
+        case LXB_DOM_NODE_TYPE_TEXT:
+        case LXB_DOM_NODE_TYPE_PROCESSING_INSTRUCTION:
+        case LXB_DOM_NODE_TYPE_COMMENT: {
+            lxb_dom_character_data_t *ch_data;
+
+            ch_data = lxb_dom_interface_character_data(node);
+            length = ch_data->data.length;
+
+            text = lxb_dom_document_create_text(node->owner_document,
+                                                (length + 1));
+            if (text == NULL) {
+                goto failed;
+            }
+
+            /* +1 == with null '\0' */
+            memcpy(text, ch_data->data.data, sizeof(lxb_char_t) * (length + 1));
+
+            break;
+        }
+
+        default:
+            goto failed;
+    }
+
+    if (len != NULL) {
+        *len = length;
+    }
+
+    text[length] = 0x00;
+
+    return text;
+
+failed:
+
+    if (len != NULL) {
+        *len = 0;
+    }
+
+    return NULL;
+}
+
+static lexbor_action_t
+lxb_dom_node_text_content_size(lxb_dom_node_t *node, void *ctx)
+{
+    if (node->type == LXB_DOM_NODE_TYPE_TEXT) {
+        *((size_t *) ctx) += lxb_dom_interface_text(node)->char_data.data.length;
+    }
+
+    return LEXBOR_ACTION_NEXT;
+}
+
+static lexbor_action_t
+lxb_dom_node_text_content_concatenate(lxb_dom_node_t *node, void *ctx)
+{
+    if (node->type != LXB_DOM_NODE_TYPE_TEXT) {
+        return LEXBOR_ACTION_NEXT;
+    }
+
+    lxb_char_t **text = (lxb_char_t **) ctx;
+    lxb_dom_character_data_t *ch_data = &lxb_dom_interface_text(node)->char_data;
+
+    memcpy(*text, ch_data->data.data, sizeof(lxb_char_t) * ch_data->data.length);
+
+    *text = *text + ch_data->data.length;
+
+    return LEXBOR_ACTION_NEXT;
+}
+
+lxb_status_t
+lxb_dom_node_text_content_set(lxb_dom_node_t *node,
+                              const lxb_char_t *content, size_t len)
+{
+    lxb_status_t status;
+    
+    switch (node->type) {
+        case LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT:
+        case LXB_DOM_NODE_TYPE_ELEMENT: {
+            lxb_dom_text_t *text;
+
+            text = lxb_dom_document_create_text_node(node->owner_document,
+                                                     content, len);
+            if (text == NULL) {
+                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            }
+
+            status = lxb_dom_node_replace_all(node, lxb_dom_interface_node(text));
+            if (status != LXB_STATUS_OK) {
+                lxb_dom_document_destroy_interface(text);
+
+                return status;
+            }
+
+            break;
+        }
+
+        case LXB_DOM_NODE_TYPE_ATTRIBUTE:
+            return lxb_dom_attr_set_existing_value(lxb_dom_interface_attr(node),
+                                                   content, len);
+
+        case LXB_DOM_NODE_TYPE_TEXT:
+        case LXB_DOM_NODE_TYPE_PROCESSING_INSTRUCTION:
+        case LXB_DOM_NODE_TYPE_COMMENT:
+            return lxb_dom_character_data_replace(lxb_dom_interface_character_data(node),
+                                                  content, len, 0, 0);
+
+        default:
+            return LXB_STATUS_OK;
+    }
+
+    return LXB_STATUS_OK;
 }

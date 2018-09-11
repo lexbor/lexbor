@@ -131,6 +131,12 @@ lxb_dom_element_create(lxb_dom_document_t *document,
     return interface;
 }
 
+lxb_dom_element_t *
+lxb_dom_element_destroy(lxb_dom_element_t *element)
+{
+    return lxb_dom_document_destroy_interface(element);
+}
+
 bool
 lxb_dom_element_has_attributes(lxb_dom_element_t *element)
 {

@@ -115,6 +115,10 @@ lxb_html_document_parse_fragment_chunk_end(lxb_html_document_t *document);
 LXB_API const lxb_char_t *
 lxb_html_document_title(lxb_html_document_t *document, size_t *len);
 
+LXB_API lxb_status_t
+lxb_html_document_title_set(lxb_html_document_t *document,
+                            const lxb_char_t *title, size_t len);
+
 LXB_API const lxb_char_t *
 lxb_html_document_title_raw(lxb_html_document_t *document, size_t *len);
 
@@ -189,6 +193,22 @@ lxb_html_document_opt(lxb_html_document_t *document,
                       lxb_html_document_opt_t opt)
 {
     return document->opt;
+}
+
+lxb_inline lxb_dom_element_t *
+lxb_html_document_create_element(lxb_html_document_t *document,
+                                 const lxb_char_t *local_name, size_t lname_len,
+                                 void *reserved_for_opt)
+{
+    return lxb_dom_document_create_element(&document->dom_document,
+                                           local_name, lname_len,
+                                           reserved_for_opt);
+}
+    
+lxb_inline lxb_dom_element_t *
+lxb_html_document_destroy_element(lxb_dom_element_t *element)
+{
+    return lxb_dom_document_destroy_element(element);
 }
 
 lxb_inline void *

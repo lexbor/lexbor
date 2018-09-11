@@ -60,6 +60,9 @@ lxb_dom_element_create(lxb_dom_document_t *document,
                        const lxb_char_t *is, size_t is_len,
                        bool sync_custom, bool lowercase);
 
+LXB_API lxb_dom_element_t *
+lxb_dom_element_destroy(lxb_dom_element_t *element);
+
 LXB_API bool
 lxb_dom_element_has_attributes(lxb_dom_element_t *element);
 

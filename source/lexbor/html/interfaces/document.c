@@ -423,6 +423,45 @@ lxb_html_document_title(lxb_html_document_t *document, size_t *len)
     return lxb_html_title_element_strict_text(title, len);
 }
 
+lxb_status_t
+lxb_html_document_title_set(lxb_html_document_t *document,
+                            const lxb_char_t *title, size_t len)
+{
+    lxb_status_t status;
+
+    /* TODO: If the document element is an SVG svg element */
+
+    /* If the document element is in the HTML namespace */
+    if (document->head == NULL) {
+        return LXB_STATUS_OK;
+    }
+
+    lxb_html_title_element_t *el_title = NULL;
+
+    lxb_dom_node_simple_walk(lxb_dom_interface_node(document),
+                             lxb_html_document_title_walker, &el_title);
+    if (el_title == NULL) {
+        el_title = (void *) lxb_html_document_create_element(document,
+                                         (const lxb_char_t *) "title", 5, NULL);
+        if (el_title == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+
+        lxb_dom_node_insert_child(lxb_dom_interface_node(document->head),
+                                  lxb_dom_interface_node(el_title));
+    }
+
+    status = lxb_dom_node_text_content_set(lxb_dom_interface_node(el_title),
+                                           title, len);
+    if (status != LXB_STATUS_OK) {
+        lxb_html_document_destroy_element(&el_title->element.element);
+
+        return status;
+    }
+
+    return LXB_STATUS_OK;
+}
+
 const lxb_char_t *
 lxb_html_document_title_raw(lxb_html_document_t *document, size_t *len)
 {

@@ -66,12 +66,15 @@ LXB_API void
 lxb_dom_document_attach_element(lxb_dom_document_t *document,
                                 lxb_dom_element_t *element);
 
-lxb_dom_element_t *
+LXB_API lxb_dom_element_t *
 lxb_dom_document_create_element(lxb_dom_document_t *document,
                                 const lxb_char_t *local_name, size_t lname_len,
                                 void *reserved_for_opt);
 
-lxb_dom_text_t *
+LXB_API lxb_dom_element_t *
+lxb_dom_document_destroy_element(lxb_dom_element_t *element);
+
+LXB_API lxb_dom_text_t *
 lxb_dom_document_create_text_node(lxb_dom_document_t *document,
                                   const lxb_char_t *data, size_t data_len);
 
@@ -102,6 +105,18 @@ lxb_inline void *
 lxb_dom_document_destroy_struct(lxb_dom_document_t *document, void *structure)
 {
     return lexbor_mraw_free(document->mraw, structure);
+}
+
+lxb_inline lxb_char_t *
+lxb_dom_document_create_text(lxb_dom_document_t *document, size_t len)
+{
+    return lexbor_mraw_alloc(document->text, sizeof(lxb_char_t) * len);
+}
+
+lxb_inline void *
+lxb_dom_document_destroy_text(lxb_dom_document_t *document, lxb_char_t *text)
+{
+    return lexbor_mraw_free(document->text, text);
 }
 
 

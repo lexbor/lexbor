@@ -30,6 +30,11 @@ lxb_dom_character_data_interface_create(lxb_dom_document_t *document);
 LXB_API lxb_dom_character_data_t *
 lxb_dom_character_data_interface_destroy(lxb_dom_character_data_t *character_data);
 
+LXB_API lxb_status_t
+lxb_dom_character_data_replace(lxb_dom_character_data_t *ch_data,
+                               const lxb_char_t *data, size_t len,
+                               size_t offset, size_t count);
+
 
 #ifdef __cplusplus
 } /* extern "C" */
