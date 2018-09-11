@@ -79,7 +79,11 @@ lxb_dom_document_create_document_fragment(lxb_dom_document_t *document);
 
 LXB_API lxb_dom_text_t *
 lxb_dom_document_create_text_node(lxb_dom_document_t *document,
-                                  const lxb_char_t *data, size_t data_len);
+                                  const lxb_char_t *data, size_t len);
+
+LXB_API lxb_dom_comment_t *
+lxb_dom_document_create_comment(lxb_dom_document_t *document,
+                                const lxb_char_t *data, size_t len);
 
 
 /*

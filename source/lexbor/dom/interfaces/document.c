@@ -8,6 +8,7 @@
 #include "lexbor/dom/interfaces/element.h"
 #include "lexbor/dom/interfaces/text.h"
 #include "lexbor/dom/interfaces/document_fragment.h"
+#include "lexbor/dom/interfaces/comment.h"
 
 
 lxb_dom_document_t *
@@ -99,7 +100,7 @@ lxb_dom_document_create_document_fragment(lxb_dom_document_t *document)
 
 lxb_dom_text_t *
 lxb_dom_document_create_text_node(lxb_dom_document_t *document,
-                                  const lxb_char_t *data, size_t data_len)
+                                  const lxb_char_t *data, size_t len)
 {
     lxb_dom_text_t *text;
 
@@ -109,12 +110,34 @@ lxb_dom_document_create_text_node(lxb_dom_document_t *document,
         return NULL;
     }
 
-    lexbor_str_init(&text->char_data.data, document->text, data_len);
+    lexbor_str_init(&text->char_data.data, document->text, len);
     if (text->char_data.data.data == NULL) {
         return lxb_dom_document_destroy_interface(text);
     }
 
-    lexbor_str_append(&text->char_data.data, document->text, data, data_len);
+    lexbor_str_append(&text->char_data.data, document->text, data, len);
 
     return text;
+}
+
+lxb_dom_comment_t *
+lxb_dom_document_create_comment(lxb_dom_document_t *document,
+                                const lxb_char_t *data, size_t len)
+{
+    lxb_dom_comment_t *comment;
+
+    comment = lxb_dom_document_create_interface(document, LXB_TAG__EM_COMMENT,
+                                                LXB_NS_HTML);
+    if (comment == NULL) {
+        return NULL;
+    }
+
+    lexbor_str_init(&comment->char_data.data, document->text, len);
+    if (comment->char_data.data.data == NULL) {
+        return lxb_dom_document_destroy_interface(comment);
+    }
+
+    lexbor_str_append(&comment->char_data.data, document->text, data, len);
+
+    return comment;
 }
