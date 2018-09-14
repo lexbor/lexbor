@@ -81,6 +81,15 @@ LXB_API lxb_dom_text_t *
 lxb_dom_document_create_text_node(lxb_dom_document_t *document,
                                   const lxb_char_t *data, size_t len);
 
+LXB_API lxb_dom_cdata_section_t *
+lxb_dom_document_create_cdata_section(lxb_dom_document_t *document,
+                                      const lxb_char_t *data, size_t len);
+
+LXB_API lxb_dom_processing_instruction_t *
+lxb_dom_document_create_processing_instruction(lxb_dom_document_t *document,
+                                               const lxb_char_t *target, size_t target_len,
+                                               const lxb_char_t *data, size_t data_len);
+
 LXB_API lxb_dom_comment_t *
 lxb_dom_document_create_comment(lxb_dom_document_t *document,
                                 const lxb_char_t *data, size_t len);
