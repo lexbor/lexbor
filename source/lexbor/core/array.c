@@ -99,8 +99,9 @@ lexbor_array_push(lexbor_array_t *array, void *value)
 void *
 lexbor_array_pop(lexbor_array_t *array)
 {
-    if (array->length == 0)
+    if (array->length == 0) {
         return NULL;
+    }
 
     array->length--;
     return array->list[ array->length ];
@@ -166,8 +167,9 @@ lexbor_array_set(lexbor_array_t *array, size_t idx, void *value)
 void
 lexbor_array_delete(lexbor_array_t *array, size_t begin, size_t length)
 {
-    if (begin >= array->length || length == 0)
+    if (begin >= array->length || length == 0) {
         return;
+    }
 
     size_t end_len = begin + length;
 
