@@ -225,6 +225,8 @@ lexbor_fs_file_easy_read(const lxb_char_t *full_path, size_t *len)
 
     nread = fread(data, 1, size, fh);
     if (nread != (size_t) size) {
+        lexbor_free(data);
+
         goto error_close;
     }
 
