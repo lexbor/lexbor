@@ -330,7 +330,8 @@ lxb_html_tree_appropriate_place_inserting_node(lxb_html_tree_t *tree,
             lxb_dom_document_fragment_t *doc_fragment;
 
             doc_fragment = lxb_html_interface_template(last_temp)->content;
-            adjusted_location = lxb_dom_interface_node(doc_fragment);
+
+            return lxb_dom_interface_node(doc_fragment);
         }
         else if (last_table == NULL) {
             adjusted_location = lxb_html_tree_open_elements_first(tree);
