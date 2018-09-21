@@ -164,6 +164,14 @@ if(LEXBOR_BUILD_TESTS)
     add_subdirectory(test)
 endif()
 
+if (WIN32)
+    add_custom_command(TARGET ${LEXBOR_LIB_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_BINARY_DIR}/lib${LEXBOR_LIB_NAME}.dll" $<TARGET_FILE_DIR:${LEXBOR_LIB_NAME}>/test/lexbor/core
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_BINARY_DIR}/lib${LEXBOR_LIB_NAME}.dll" $<TARGET_FILE_DIR:${LEXBOR_LIB_NAME}>/test/lexbor/html
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_BINARY_DIR}/lib${LEXBOR_LIB_NAME}.dll" $<TARGET_FILE_DIR:${LEXBOR_LIB_NAME}>/test/lexbor/ns
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_BINARY_DIR}/lib${LEXBOR_LIB_NAME}.dll" $<TARGET_FILE_DIR:${LEXBOR_LIB_NAME}>/test/lexbor/tag)
+endif (WIN32)
+
 ################
 ## Build an RPM.
 #########################
