@@ -60,12 +60,6 @@ lexbor_fs_dir_read(const lxb_char_t *dirpath, lexbor_fs_dir_opt_t opt,
     if (opt == LEXBOR_FS_DIR_OPT_UNDEF)
     {
         while ((entry = readdir(dir)) != NULL) {
-            if (opt & LEXBOR_FS_DIR_OPT_WITHOUT_HIDDEN
-                && *entry->d_name == '.')
-            {
-                continue;
-            }
-
             d_namlen = strlen(entry->d_name);
 
             if (d_namlen >= free_len) {
