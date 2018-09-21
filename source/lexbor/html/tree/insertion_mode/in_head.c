@@ -262,7 +262,7 @@ lxb_html_tree_insertion_mode_in_head_script(lxb_html_tree_t *tree,
                                                          ap_node->parent);
     }
 
-    if (ap_node == NULL) {
+    if (element == NULL) {
         tree->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
 
         return lxb_html_tree_process_abort(tree);
