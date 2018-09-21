@@ -188,9 +188,15 @@ lxb_html_document_interface_destroy(lxb_html_document_t *document)
 
     lxb_tag_heap_unref(document->mem->tag_heap_ref);
     lxb_ns_heap_unref(document->mem->ns_heap_ref);
-    lexbor_mraw_destroy(document->mem->mraw, true);
-    lexbor_mraw_destroy(document->mem->text, true);
     lxb_html_parser_destroy(document->mem->parser, true);
+    lexbor_mraw_destroy(document->mem->text, true);
+
+    /*
+     * Do not move it! Always should be called in the last turn!
+     * First we create `mraw`, then we create `mem`
+     * and save pointer `mraw` to `mem`.
+     */
+    lexbor_mraw_destroy(document->mem->mraw, true);
 
     return NULL;
 }
