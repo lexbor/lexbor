@@ -221,7 +221,7 @@ lxb_html_tree_insertion_mode_in_select_optgroup_closed(lxb_html_tree_t *tree,
     {
         node = lxb_html_tree_open_elements_get(tree,
                                                tree->open_elements->length - 2);
-        if (lxb_html_tree_node_is(node, LXB_TAG_OPTGROUP)) {
+        if (node != NULL && lxb_html_tree_node_is(node, LXB_TAG_OPTGROUP)) {
             lxb_html_tree_open_elements_pop(tree);
         }
     }
