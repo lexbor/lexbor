@@ -287,7 +287,9 @@ lxb_html_parse_fragment_chunk_begin(lxb_html_parser_t *parser,
 done:
 
     if (parser->status != LXB_STATUS_OK) {
-        lxb_html_html_element_interface_destroy(lxb_html_interface_html(parser->root));
+        if (parser->root != NULL) {
+            lxb_html_html_element_interface_destroy(lxb_html_interface_html(parser->root));
+        }
 
         parser->state = LXB_HTML_PARSER_STATE_ERROR;
         parser->root = NULL;
