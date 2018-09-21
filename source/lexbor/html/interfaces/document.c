@@ -65,7 +65,7 @@ lxb_html_document_interface_create(lxb_html_document_t *document)
     lxb_status_t status = lexbor_mraw_init(mraw, (4096 * 8));
 
     if (status != LXB_STATUS_OK) {
-        return NULL;
+        return (void *) lexbor_mraw_destroy(mraw, true);
     }
 
     /* For text */
@@ -73,7 +73,7 @@ lxb_html_document_interface_create(lxb_html_document_t *document)
     status = lexbor_mraw_init(text, (4096 * 12));
 
     if (status != LXB_STATUS_OK) {
-        return (void *) lexbor_mraw_destroy(mraw, true);
+        goto failure;
     }
 
     doc = lexbor_mraw_calloc(mraw, sizeof(lxb_html_document_t));
@@ -83,6 +83,8 @@ lxb_html_document_interface_create(lxb_html_document_t *document)
 
     doc->mem = lexbor_mraw_calloc(mraw, sizeof(lxb_html_document_mem_t));
     if (doc->mem == NULL) {
+        lexbor_mraw_free(mraw, doc);
+
         goto failure;
     }
 
@@ -186,9 +188,15 @@ lxb_html_document_interface_destroy(lxb_html_document_t *document)
 
     lxb_tag_heap_unref(document->mem->tag_heap_ref);
     lxb_ns_heap_unref(document->mem->ns_heap_ref);
-    lexbor_mraw_destroy(document->mem->mraw, true);
-    lexbor_mraw_destroy(document->mem->text, true);
     lxb_html_parser_destroy(document->mem->parser, true);
+    lexbor_mraw_destroy(document->mem->text, true);
+
+    /*
+     * Do not move it! Always should be called in the last turn!
+     * First we create `mraw`, then we create `mem`
+     * and save pointer `mraw` to `mem`.
+     */
+    lexbor_mraw_destroy(document->mem->mraw, true);
 
     return NULL;
 }

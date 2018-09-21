@@ -28,10 +28,10 @@ lexbor_fs_dir_read(const lxb_char_t *dirpath, lexbor_fs_dir_opt_t opt,
     lexbor_fs_file_type_t f_type;
 
     char *file_begin;
-    static char full_path[4096];
+    char full_path[4096];
 
     path_len = strlen((const char *) dirpath);
-    if (path_len >= (sizeof(full_path) - 1)) {
+    if (path_len == 0 || path_len >= (sizeof(full_path) - 1)) {
         return LXB_STATUS_ERROR;
     }
 
