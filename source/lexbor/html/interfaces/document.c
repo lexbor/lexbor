@@ -65,7 +65,7 @@ lxb_html_document_interface_create(lxb_html_document_t *document)
     lxb_status_t status = lexbor_mraw_init(mraw, (4096 * 8));
 
     if (status != LXB_STATUS_OK) {
-        return NULL;
+        return (void *) lexbor_mraw_destroy(mraw, true);
     }
 
     /* For text */
@@ -73,7 +73,7 @@ lxb_html_document_interface_create(lxb_html_document_t *document)
     status = lexbor_mraw_init(text, (4096 * 12));
 
     if (status != LXB_STATUS_OK) {
-        return (void *) lexbor_mraw_destroy(mraw, true);
+        goto failure;
     }
 
     doc = lexbor_mraw_calloc(mraw, sizeof(lxb_html_document_t));
@@ -83,6 +83,8 @@ lxb_html_document_interface_create(lxb_html_document_t *document)
 
     doc->mem = lexbor_mraw_calloc(mraw, sizeof(lxb_html_document_mem_t));
     if (doc->mem == NULL) {
+        lexbor_mraw_free(mraw, doc);
+
         goto failure;
     }
 
