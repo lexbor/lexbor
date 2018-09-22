@@ -3,7 +3,7 @@ if(NOT DEFINED LEXBOR_OPTIMIZATION_LEVEL)
 endif()
 
 if(NOT DEFINED LEXBOR_C_FLAGS)
-	set(LEXBOR_C_FLAGS "-Wall -pedantic -pipe -std=c99 -fPIC -Wunused-function")
+	set(LEXBOR_C_FLAGS "-Wall -pedantic -pipe -std=c99 -fPIC")
 endif()
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${LEXBOR_OPTIMIZATION_LEVEL} ${LEXBOR_C_FLAGS}")
