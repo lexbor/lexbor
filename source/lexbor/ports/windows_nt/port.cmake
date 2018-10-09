@@ -2,6 +2,10 @@ if(NOT DEFINED LEXBOR_OPTIMIZATION_LEVEL)
 	set(LEXBOR_OPTIMIZATION_LEVEL "-O2")
 endif()
 
+if(NOT DEFINED LEXBOR_C_FLAGS)
+	set(LEXBOR_C_FLAGS "-Wall -pedantic -pipe -std=c99")
+endif()
+
 if (!UNIX AND WIN32)
     if(${CMAKE_CL_64})
         add_definitions(-D_WIN64)
