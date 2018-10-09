@@ -157,13 +157,13 @@ lxb_html_document_is_original(lxb_html_document_t *document)
         == &document->dom_document;
 }
 
-lxb_inline lexbor_mraw_t*
+lxb_inline lexbor_mraw_t *
 lxb_html_document_mraw(lxb_html_document_t *document)
 {
     return document->mem->mraw;
 }
 
-lxb_inline lexbor_mraw_t*
+lxb_inline lexbor_mraw_t *
 lxb_html_document_mraw_text(lxb_html_document_t *document)
 {
     return document->mem->text;
@@ -189,10 +189,22 @@ lxb_html_document_opt_set(lxb_html_document_t *document,
 }
 
 lxb_inline lxb_html_document_opt_t
-lxb_html_document_opt(lxb_html_document_t *document,
-                      lxb_html_document_opt_t opt)
+lxb_html_document_opt(lxb_html_document_t *document)
 {
     return document->opt;
+}
+
+lxb_inline void *
+lxb_html_document_create_struct(lxb_html_document_t *document,
+                                size_t struct_size)
+{
+    return lexbor_mraw_calloc(document->mem->mraw, struct_size);
+}
+    
+lxb_inline void *
+lxb_html_document_destroy_struct(lxb_html_document_t *document, void *data)
+{
+    return lexbor_mraw_free(document->mem->mraw, data);
 }
 
 lxb_inline lxb_dom_element_t *
@@ -204,18 +216,11 @@ lxb_html_document_create_element(lxb_html_document_t *document,
                                            local_name, lname_len,
                                            reserved_for_opt);
 }
-    
+
 lxb_inline lxb_dom_element_t *
 lxb_html_document_destroy_element(lxb_dom_element_t *element)
 {
     return lxb_dom_document_destroy_element(element);
-}
-
-lxb_inline void *
-lxb_html_document_create_struct(lxb_html_document_t *document,
-                                size_t struct_size)
-{
-    return lexbor_mraw_calloc(document->mem->mraw, struct_size);
 }
 
 
