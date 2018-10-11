@@ -16,28 +16,11 @@ The `lexbor` is being developed using the C language, without dependencies, and 
 
 * No outside dependencies
 
-Available modules:
-* Core
-* [DOM](https://dom.spec.whatwg.org/)
-* [HTML](https://html.spec.whatwg.org/multipage/)
-
-In the plans:
-* [Encoding](https://encoding.spec.whatwg.org/)
-* [CSS](https://drafts.csswg.org/)
-    * [Syntax]
-    * [CSSOM], [CSSOM-View]
-    * Modules: [Selectors], [Media], [Font] and so on
-* [URL](https://url.spec.whatwg.org/)
-* [Font](https://docs.microsoft.com/ru-ru/typography/opentype/spec/)
-* Layout
-* …
-* Rendering engine
-* …
-* Browser
+All features and [roadmap](https://lexbor.com/roadmap/) you can see on [lexbor.com](https://lexbor.com)
 
 ## Build and Installation
 
-Please, see [INSTALL.md](https://github.com/lexborisov/lexbor/blob/master/INSTALL.md)
+Please, see [documentation](https://lexbor.com/docs/lexbor/#build_and_installation) on [lexbor.com](https://lexbor.com).
 
 ## External Bindings and Wrappers
 
@@ -45,7 +28,7 @@ You can create a binding or wrapper for the `lexbor` and place the link here!
 
 ## Documentation
 
-Coming soon.
+Available on [lexbor.com](https://lexbor.com) in [Documentation](https://lexbor.com/docs/lexbor/) section.
 
 ## Getting Help
 
@@ -76,11 +59,3 @@ Alexander Borisov <lex.borisov@gmail.com>
 
 
 See [LICENSE](https://github.com/lexborisov/lexbor/blob/master/LICENSE) file.
-
-
-[Syntax]: https://drafts.csswg.org/css-syntax-3/
-[CSSOM]: https://drafts.csswg.org/cssom-1/
-[CSSOM-View]: https://drafts.csswg.org/cssom-view-1/
-[Selectors]: https://drafts.csswg.org/selectors-4/
-[Media]: https://drafts.csswg.org/mediaqueries-4/
-[Font]: https://drafts.csswg.org/css-fonts-3/
