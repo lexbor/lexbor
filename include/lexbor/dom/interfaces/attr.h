@@ -46,8 +46,17 @@ lxb_dom_attr_set_name(lxb_dom_attr_t *attr,
                       bool lowercase);
 
 LXB_API lxb_status_t
+lxb_dom_attr_set_name_wo_copy(lxb_dom_attr_t *attr,
+                              lxb_char_t *local_name, size_t local_name_len,
+                              const lxb_char_t *prefix, size_t prefix_len);
+
+LXB_API lxb_status_t
 lxb_dom_attr_set_value(lxb_dom_attr_t *attr,
                        const lxb_char_t *value, size_t value_len);
+
+LXB_API lxb_status_t
+lxb_dom_attr_set_value_wo_copy(lxb_dom_attr_t *attr,
+                               lxb_char_t *value, size_t value_len);
 
 LXB_API lxb_status_t
 lxb_dom_attr_set_existing_value(lxb_dom_attr_t *attr,

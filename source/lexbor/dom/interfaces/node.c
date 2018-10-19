@@ -389,7 +389,7 @@ lxb_dom_node_text_content_set(lxb_dom_node_t *node,
                               const lxb_char_t *content, size_t len)
 {
     lxb_status_t status;
-    
+
     switch (node->type) {
         case LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT:
         case LXB_DOM_NODE_TYPE_ELEMENT: {

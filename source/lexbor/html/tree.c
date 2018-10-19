@@ -475,21 +475,18 @@ lxb_html_tree_append_attributes(lxb_html_tree_t *tree,
             }
 
             /* TODO: Need optimization */
-            status = lxb_dom_attr_set_name(attr, local_name.data, local_name.length,
-                                           NULL, 0, false);
+            status = lxb_dom_attr_set_name_wo_copy(attr, local_name.data,
+                                                   local_name.length, NULL, 0);
             if (status != LXB_HTML_STATUS_OK) {
                 return status;
             }
 
-            lexbor_mraw_free(mraw, local_name.data);
-
             if (value.data != NULL) {
-                status = lxb_dom_attr_set_value(attr, value.data, value.length);
+                status = lxb_dom_attr_set_value_wo_copy(attr, value.data,
+                                                        value.length);
                 if (status != LXB_HTML_STATUS_OK) {
                     return status;
                 }
-
-                lexbor_mraw_free(mraw, value.data);
             }
 
             attr->node.ns = ns;

@@ -96,7 +96,23 @@ lxb_dom_attr_set_name(lxb_dom_attr_t *attr,
         attr->local_name.length = local_name_len;
     }
 
+    return lxb_dom_attr_set_name_wo_copy(attr, attr->local_name.data,
+                                         attr->local_name.length,
+                                         prefix, prefix_len);
+}
+
+lxb_status_t
+lxb_dom_attr_set_name_wo_copy(lxb_dom_attr_t *attr,
+                              lxb_char_t *local_name, size_t local_name_len,
+                              const lxb_char_t *prefix, size_t prefix_len)
+{
+    const lxb_char_t *tmp;
+    lxb_dom_document_t *doc = lxb_dom_interface_node(attr)->owner_document;
+
     size_t name_size = local_name_len + prefix_len + 1;
+
+    attr->local_name.data = local_name;
+    attr->local_name.length = local_name_len;
 
     if (attr->name.data == NULL) {
         lexbor_str_init(&attr->name, doc->text, name_size);
@@ -122,31 +138,21 @@ lxb_dom_attr_set_name(lxb_dom_attr_t *attr,
         /* U+003A COLON (:) */
         attr->name.data[prefix_len] = 0x3A;
 
-        if (lowercase) {
-            lexbor_str_data_to_lowercase(&attr->name.data[(prefix_len + 1)],
-                                         local_name, local_name_len);
-        }
-        else {
-            memcpy(&attr->name.data[(prefix_len + 1)],
-                   local_name, sizeof(lxb_char_t) * local_name_len);
-        }
+        memcpy(&attr->name.data[(prefix_len + 1)],
+               local_name, sizeof(lxb_char_t) * local_name_len);
 
         attr->name.data[name_size] = 0x00;
         attr->name.length = name_size;
     }
     else {
-        if (lowercase) {
-            lexbor_str_data_to_lowercase(attr->name.data,
-                                         local_name, local_name_len);
-        }
-        else {
-            memcpy(attr->name.data,
-                   local_name, sizeof(lxb_char_t) * local_name_len);
-        }
+        memcpy(attr->name.data,
+               local_name, sizeof(lxb_char_t) * local_name_len);
 
         attr->name.data[local_name_len] = 0x00;
         attr->name.length = local_name_len;
     }
+
+    attr->prefix_len = prefix_len;
 
     return LXB_STATUS_OK;
 }
@@ -186,6 +192,25 @@ lxb_dom_attr_set_value(lxb_dom_attr_t *attr,
     memcpy(attr->value->data, value, sizeof(lxb_char_t) * value_len);
 
     attr->value->data[value_len] = 0x00;
+    attr->value->length = value_len;
+
+    return LXB_STATUS_OK;
+}
+
+lxb_status_t
+lxb_dom_attr_set_value_wo_copy(lxb_dom_attr_t *attr,
+                               lxb_char_t *value, size_t value_len)
+{
+    if (attr->value == NULL) {
+        lxb_dom_document_t *doc = lxb_dom_interface_node(attr)->owner_document;
+
+        attr->value = lexbor_mraw_calloc(doc->mraw, sizeof(lexbor_str_t));
+        if (attr->value == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+    }
+
+    attr->value->data = value;
     attr->value->length = value_len;
 
     return LXB_STATUS_OK;

@@ -150,7 +150,7 @@ lxb_html_tokenizer_state_data_before(lxb_html_tokenizer_t *tkz,
 
     tkz->state = lxb_html_tokenizer_state_data;
 
-    return lxb_html_tokenizer_state_data(tkz, data, end);
+    return data;
 }
 
 /*

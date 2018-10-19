@@ -222,7 +222,7 @@ lxb_html_document_clean(lxb_html_document_t *document)
 {
     lxb_tag_heap_clean(document->mem->tag_heap_ref);
     lxb_ns_heap_clean(document->mem->ns_heap_ref);
-    
+
     lexbor_mraw_clean(document->mem->mraw);
     lexbor_mraw_clean(document->mem->text);
 }

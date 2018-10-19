@@ -200,7 +200,7 @@ lxb_html_document_create_struct(lxb_html_document_t *document,
 {
     return lexbor_mraw_calloc(document->mem->mraw, struct_size);
 }
-    
+
 lxb_inline void *
 lxb_html_document_destroy_struct(lxb_html_document_t *document, void *data)
 {
