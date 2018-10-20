@@ -85,7 +85,7 @@ lxb_inline void
 serialize_node(lxb_dom_node_t *node)
 {
     lxb_status_t status;
-    
+
     status = lxb_html_serialize_pretty_cb(node, LXB_HTML_SERIALIZE_OPT_UNDEF,
                                           0, serializer_callback, NULL);
     if (status != LXB_STATUS_OK) {
