@@ -129,11 +129,23 @@ LXB_API const lxb_char_t *
 lexbor_str_data_ncasecmp_first(const lxb_char_t *first, const lxb_char_t *sec,
                                size_t sec_size);
 LXB_API bool
+lexbor_str_data_ncasecmp_end(const lxb_char_t *first, const lxb_char_t *sec,
+                             size_t size);
+LXB_API bool
+lexbor_str_data_ncasecmp_contain(const lxb_char_t *where, size_t where_size,
+                                 const lxb_char_t *what, size_t what_size);
+LXB_API bool
 lexbor_str_data_ncasecmp(const lxb_char_t *first, const lxb_char_t *sec,
                          size_t size);
 LXB_API bool
 lexbor_str_data_casecmp(const lxb_char_t *first, const lxb_char_t *sec);
 
+LXB_API bool
+lexbor_str_data_ncmp_end(const lxb_char_t *first, const lxb_char_t *sec,
+                         size_t size);
+LXB_API bool
+lexbor_str_data_ncmp_contain(const lxb_char_t *where, size_t where_size,
+                             const lxb_char_t *what, size_t what_size);
 LXB_API bool
 lexbor_str_data_ncmp(const lxb_char_t *first, const lxb_char_t *sec,
                      size_t size);

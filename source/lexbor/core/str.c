@@ -353,6 +353,7 @@ lexbor_str_whitespace_from_end(lexbor_str_t *target)
 
 /*
  * Data utils
+ * TODO: All functions need optimization.
  */
 const lxb_char_t *
 lexbor_str_data_ncasecmp_first(const lxb_char_t *first, const lxb_char_t *sec,
@@ -373,6 +374,36 @@ lexbor_str_data_ncasecmp_first(const lxb_char_t *first, const lxb_char_t *sec,
     }
 
     return &first[i];
+}
+
+bool
+lexbor_str_data_ncasecmp_end(const lxb_char_t *first, const lxb_char_t *sec,
+                             size_t size)
+{
+    while (size != 0) {
+        size--;
+
+        if (lexbor_str_res_map_lowercase[ first[size] ]
+            != lexbor_str_res_map_lowercase[ sec[size] ])
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+LXB_API bool
+lexbor_str_data_ncasecmp_contain(const lxb_char_t *where, size_t where_size,
+                                 const lxb_char_t *what, size_t what_size)
+{
+    for (size_t i = 0; what_size <= (where_size - i); i++) {
+        if(lexbor_str_data_ncasecmp(&where[i], what, what_size)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 bool
@@ -407,6 +438,34 @@ lexbor_str_data_casecmp(const lxb_char_t *first, const lxb_char_t *sec)
         first++;
         sec++;
     }
+}
+
+bool
+lexbor_str_data_ncmp_end(const lxb_char_t *first, const lxb_char_t *sec,
+                         size_t size)
+{
+    while (size != 0) {
+        size--;
+
+        if (first[size] != sec[size]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool
+lexbor_str_data_ncmp_contain(const lxb_char_t *where, size_t where_size,
+                             const lxb_char_t *what, size_t what_size)
+{
+    for (size_t i = 0; what_size <= (where_size - i); i++) {
+        if(memcmp(&where[i], what, sizeof(lxb_char_t) * what_size) == 0) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 bool

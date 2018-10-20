@@ -17,6 +17,7 @@ extern "C" {
 
 
 /* More memory to God of memory! */
+/* TODO: Need hash value for name */
 struct lxb_dom_attr {
     lxb_dom_node_t    node;
 

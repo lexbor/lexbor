@@ -125,6 +125,34 @@ lxb_dom_elements_by_class_name(lxb_dom_element_t *root,
                                lxb_dom_collection_t *collection,
                                const lxb_char_t *class_name, size_t len);
 
+LXB_API lxb_status_t
+lxb_dom_elements_by_attr(lxb_dom_element_t *root,
+                         lxb_dom_collection_t *collection,
+                         const lxb_char_t *qualified_name, size_t qname_len,
+                         const lxb_char_t *value, size_t value_len,
+                         bool case_insensitive);
+
+LXB_API lxb_status_t
+lxb_dom_elements_by_attr_begin(lxb_dom_element_t *root,
+                               lxb_dom_collection_t *collection,
+                               const lxb_char_t *qualified_name, size_t qname_len,
+                               const lxb_char_t *value, size_t value_len,
+                               bool case_insensitive);
+
+LXB_API lxb_status_t
+lxb_dom_elements_by_attr_end(lxb_dom_element_t *root,
+                             lxb_dom_collection_t *collection,
+                             const lxb_char_t *qualified_name, size_t qname_len,
+                             const lxb_char_t *value, size_t value_len,
+                             bool case_insensitive);
+
+LXB_API lxb_status_t
+lxb_dom_elements_by_attr_contain(lxb_dom_element_t *root,
+                                 lxb_dom_collection_t *collection,
+                                 const lxb_char_t *qualified_name, size_t qname_len,
+                                 const lxb_char_t *value, size_t value_len,
+                                 bool case_insensitive);
+
 
 /*
  * Inline functions
