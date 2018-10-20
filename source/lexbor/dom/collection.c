@@ -40,7 +40,7 @@ lxb_dom_collection_init(lxb_dom_collection_t *col, size_t start_list_size)
 lxb_dom_collection_t *
 lxb_dom_collection_destroy(lxb_dom_collection_t *col, bool self_destroy)
 {
-    if (col == NULL || col->document == NULL) {
+    if (col == NULL) {
         return NULL;
     }
 
@@ -51,7 +51,11 @@ lxb_dom_collection_destroy(lxb_dom_collection_t *col, bool self_destroy)
     }
 
     if (self_destroy) {
-        return lexbor_mraw_free(col->document->mraw, col);
+        if (col->document != NULL) {
+            return lexbor_mraw_free(col->document->mraw, col);
+        }
+
+        return NULL;
     }
 
     return col;

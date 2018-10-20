@@ -8,12 +8,17 @@
 #include "lexbor/dom/interfaces/attr.h"
 #include "lexbor/ns/ns.h"
 
+#include "lexbor/core/utils.h"
+
 
 static lexbor_action_t
 lxb_dom_elements_by_tag_name_cb(lxb_dom_node_t *node, void *ctx);
 
 static lexbor_action_t
 lxb_dom_elements_by_tag_name_cb_all(lxb_dom_node_t *node, void *ctx);
+
+static lexbor_action_t
+lxb_dom_elements_by_class_name_cb(lxb_dom_node_t *node, void *ctx);
 
 
 typedef struct {
@@ -25,9 +30,11 @@ typedef struct {
     size_t               qname_len;
     size_t               prefix_len;
     size_t               lname_len;
+    size_t               value_len;
 
     const lxb_char_t     *local_name;
     const lxb_char_t     *qualified_name;
+    const lxb_char_t     *value;
 }
 lxb_dom_element_cb_ctx_t;
 
@@ -606,6 +613,102 @@ lxb_dom_elements_by_tag_name_cb(lxb_dom_node_t *node, void *ctx)
 
         if (cb_ctx->status != LXB_STATUS_OK) {
             return LEXBOR_ACTION_STOP;
+        }
+    }
+
+    return LEXBOR_ACTION_NEXT;
+}
+
+lxb_status_t
+lxb_dom_elements_by_class_name(lxb_dom_element_t *root,
+                               lxb_dom_collection_t *collection,
+                               const lxb_char_t *class_name, size_t len)
+{
+    if (class_name == NULL || len == 0) {
+        return LXB_STATUS_OK;
+    }
+
+    lxb_dom_element_cb_ctx_t cb_ctx = {0};
+
+    cb_ctx.col = collection;
+    cb_ctx.value = class_name;
+    cb_ctx.value_len = len;
+
+    lxb_dom_node_simple_walk(lxb_dom_interface_node(root),
+                             lxb_dom_elements_by_class_name_cb, &cb_ctx);
+
+    return cb_ctx.status;
+}
+
+static lexbor_action_t
+lxb_dom_elements_by_class_name_cb(lxb_dom_node_t *node, void *ctx)
+{
+    if (node->type != LXB_DOM_NODE_TYPE_ELEMENT) {
+        return LEXBOR_ACTION_NEXT;
+    }
+
+    lxb_dom_element_cb_ctx_t *cb_ctx = ctx;
+    lxb_dom_element_t *el = lxb_dom_interface_element(node);
+
+    if (el->attr_class == NULL
+        || el->attr_class->value->length < cb_ctx->value_len)
+    {
+        return LEXBOR_ACTION_NEXT;
+    }
+
+    const lxb_char_t *data = el->attr_class->value->data;
+    size_t length = el->attr_class->value->length;
+
+    bool is_it = false;
+    const lxb_char_t *pos = data;
+    const lxb_char_t *end = data + length;
+
+    lxb_dom_document_t *doc = el->node.owner_document;
+
+    for (; (end - data) >= cb_ctx->value_len; data++)
+    {
+        if (lexbor_utils_whitespace(*data, ==, ||)) {
+            if (pos != data && (data - pos) == cb_ctx->value_len)
+            {
+                if (doc->compat_mode == LXB_DOM_DOCUMENT_CMODE_QUIRKS) {
+                    is_it = lexbor_str_data_ncasecmp(pos, cb_ctx->value,
+                                                     cb_ctx->value_len);
+                }
+                else {
+                    is_it = lexbor_str_data_ncmp(pos, cb_ctx->value,
+                                                 cb_ctx->value_len);
+                }
+
+                if (is_it) {
+                    cb_ctx->status = lxb_dom_collection_append(cb_ctx->col,
+                                                               node);
+                    if (cb_ctx->status != LXB_STATUS_OK) {
+                        return LEXBOR_ACTION_STOP;
+                    }
+
+                    return LEXBOR_ACTION_NEXT;
+                }
+            }
+
+            pos = data + 1;
+        }
+    }
+
+    if ((end - pos) == cb_ctx->value_len) {
+        if (doc->compat_mode == LXB_DOM_DOCUMENT_CMODE_QUIRKS) {
+            is_it = lexbor_str_data_ncasecmp(pos, cb_ctx->value,
+                                             cb_ctx->value_len);
+        }
+        else {
+            is_it = lexbor_str_data_ncmp(pos, cb_ctx->value,
+                                         cb_ctx->value_len);
+        }
+
+        if (is_it) {
+            cb_ctx->status = lxb_dom_collection_append(cb_ctx->col, node);
+            if (cb_ctx->status != LXB_STATUS_OK) {
+                return LEXBOR_ACTION_STOP;
+            }
         }
     }
 

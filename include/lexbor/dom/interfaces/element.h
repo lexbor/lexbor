@@ -120,6 +120,11 @@ lxb_dom_elements_by_tag_name(lxb_dom_element_t *root,
                              lxb_dom_collection_t *collection,
                              const lxb_char_t *qualified_name, size_t len);
 
+LXB_API lxb_status_t
+lxb_dom_elements_by_class_name(lxb_dom_element_t *root,
+                               lxb_dom_collection_t *collection,
+                               const lxb_char_t *class_name, size_t len);
+
 
 /*
  * Inline functions
