@@ -4,13 +4,11 @@ import getopt, sys, os, stat, subprocess
 from multiprocessing import Process
 import warc
 
+
 cmd_wget = ["wget", "-q"]
 cmp_unzip = ["gzip", "-qq", "-k", "-d"]
 commoncrawl_url = "https://commoncrawl.s3.amazonaws.com"
 
-run_test(file_list = "warc.paths", 
-         bin_parser = "../../build/test/lexbor/html/lexbor_html_commoncrawl", 
-         save_to = ".", threads_count = 10)
 
 def run_test(file_list, bin_parser, save_to = ".", threads_count = 10):
     f = open(file_list, "r")
@@ -45,7 +43,7 @@ def run_test(file_list, bin_parser, save_to = ".", threads_count = 10):
 
         parsed = process_warc(threads_count, bin_parser, orig_filename, url, save_to)
 
-        print("Total parsed: " + parsed)
+        print("Total parsed: %s" % parsed)
 
         os.remove(orig_filename)
 
@@ -97,10 +95,16 @@ def read_doc(bin_parser, save_to, base_url, idx, html):
 
     if parser.returncode != 0:
         fp_base = os.path.basename(base_url)
-        filename = "%s/%s-%s.errlog" % (os.path.splitext(fp_base)[0], save_to, idx)
+        filename = "%s-%s-%s.errlog" % (os.path.splitext(fp_base)[0], save_to, idx)
 
         f = open(os.path.normpath(filename), 'wb')
         f.write(html)
         f.close()
 
     return len(html), len(rdata), parser.returncode
+
+
+if __name__ == "__main__":
+    run_test(file_list = "warc.paths", 
+            bin_parser = "../../build/test/lexbor/html/lexbor_html_commoncrawl", 
+            save_to = ".", threads_count = 30)
