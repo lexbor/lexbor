@@ -6,7 +6,7 @@ import warc
 
 
 cmd_wget = ["wget", "-q"]
-cmp_unzip = ["gzip", "-qq", "-k", "-d"]
+cmp_unzip = ["gzip", "-qq", "-d"]
 commoncrawl_url = "https://commoncrawl.s3.amazonaws.com"
 
 
