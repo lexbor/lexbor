@@ -94,33 +94,18 @@ lexbor_fs_dir_read(const lxb_char_t *dirpath, lexbor_fs_dir_opt_t opt,
             goto error;
         }
 
-        if (entry->d_type == DT_UNKNOWN) {
-            f_type = lexbor_fs_file_type((const lxb_char_t *) entry->d_name);
+        f_type = lexbor_fs_file_type((const lxb_char_t *) entry->d_name);
 
-            if (opt & LEXBOR_FS_DIR_OPT_WITHOUT_DIR
-                && f_type == LEXBOR_FS_FILE_TYPE_DIRECTORY)
-            {
-                continue;
-            }
-
-            if (opt & LEXBOR_FS_DIR_OPT_WITHOUT_FILE
-                && f_type == LEXBOR_FS_FILE_TYPE_FILE)
-            {
-                continue;
-            }
+        if (opt & LEXBOR_FS_DIR_OPT_WITHOUT_DIR
+            && f_type == LEXBOR_FS_FILE_TYPE_DIRECTORY)
+        {
+            continue;
         }
-        else {
-            if (opt & LEXBOR_FS_DIR_OPT_WITHOUT_DIR
-                && entry->d_type == DT_DIR)
-            {
-                continue;
-            }
 
-            if (opt & LEXBOR_FS_DIR_OPT_WITHOUT_FILE
-                && entry->d_type == DT_REG)
-            {
-                continue;
-            }
+        if (opt & LEXBOR_FS_DIR_OPT_WITHOUT_FILE
+            && f_type == LEXBOR_FS_FILE_TYPE_FILE)
+        {
+            continue;
         }
 
         /* +1 copy terminating null byte '\0' */
