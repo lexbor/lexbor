@@ -4,10 +4,13 @@ import getopt, sys, os, stat, subprocess
 from multiprocessing import Process
 import warc
 
-warc_filename = "current.warc"
-cmd_wget = ["wget", "-q",  "-O", warc_filename]
+cmd_wget = ["wget", "-q"]
 cmp_unzip = ["gzip", "-qq", "-k", "-d"]
 commoncrawl_url = "https://commoncrawl.s3.amazonaws.com"
+
+run_test(file_list = "warc.paths", 
+         bin_parser = "../../build/test/lexbor/html/lexbor_html_commoncrawl", 
+         save_to = ".", threads_count = 10)
 
 def run_test(file_list, bin_parser, save_to = ".", threads_count = 10):
     f = open(file_list, "r")
@@ -24,22 +27,27 @@ def run_test(file_list, bin_parser, save_to = ".", threads_count = 10):
         if proc.returncode:
             continue
 
+        warc_filename = os.path.basename(url)
+
         print("Unzip file: " + warc_filename)
 
         cmp_unzip.append(warc_filename)
-        proc = subprocess.run(cmd_wget)
+        proc = subprocess.run(cmp_unzip)
         del cmp_unzip[-1]
 
         if proc.returncode:
+            os.remove(warc_filename)
             continue
 
-        print("Begin process:" + url)
+        orig_filename = os.path.splitext(warc_filename)[0]
 
-        parsed = process_warc(threads_count, bin_parser, warc_filename, url, save_to)
+        print("Begin process:" + orig_filename)
+
+        parsed = process_warc(threads_count, bin_parser, orig_filename, url, save_to)
 
         print("Total parsed: " + parsed)
 
-        os.remove(warc_filename)
+        os.remove(orig_filename)
 
 def process_warc(threads_count, bin_parser, file_name, base_url, save_to = "."):
     warc_file = warc.open(file_name, 'rb')
@@ -96,7 +104,3 @@ def read_doc(bin_parser, save_to, base_url, idx, html):
         f.close()
 
     return len(html), len(rdata), parser.returncode
-
-run_test(file_list = "/Users/alexanderborisov/Downloads/warc.paths", 
-         bin_parser = "../../build/test/lexbor/html/lexbor_html_commoncrawl", 
-         save_to = ".", threads_count = 10)
