@@ -326,9 +326,10 @@ lexbor_bst_remove_by_pointer(lexbor_bst_t *bst, lexbor_bst_entry_t *entry,
         }
         else {
             right = entry->right;
-            entry->parent = parent;
 
             memcpy(entry, right, sizeof(lexbor_bst_entry_t));
+
+            entry->parent = parent;
 
             lexbor_dobject_free(bst->dobject, right);
         }
@@ -343,9 +344,10 @@ lexbor_bst_remove_by_pointer(lexbor_bst_t *bst, lexbor_bst_entry_t *entry,
         }
         else {
             left = entry->left;
-            entry->parent = parent;
 
             memcpy(entry, left, sizeof(lexbor_bst_entry_t));
+
+            entry->parent = parent;
 
             lexbor_dobject_free(bst->dobject, left);
         }
