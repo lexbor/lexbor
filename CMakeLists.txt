@@ -37,8 +37,7 @@ set(LEXBOR_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/source")
 set(LEXBOR_SOURCE_LEXBOR "${LEXBOR_SOURCE}/lexbor")
 set(LEXBOR_DIR_LIB "${CMAKE_CURRENT_SOURCE_DIR}/lib")
 set(LEXBOR_DIR_HEADER "${LEXBOR_SOURCE}")
-set(LEXBOR_DIR_API_HEADER "${CMAKE_CURRENT_SOURCE_DIR}/include")
-set(LEXBOR_DIR_API_HEADER_LEXBOR "${CMAKE_CURRENT_SOURCE_DIR}/include/lexbor")
+set(LEXBOR_DIR_HEADER_LEXBOR "${LEXBOR_SOURCE}/lexbor")
 set(LEXBOR_SOURCE_PORT_DIR "${LEXBOR_SOURCE}/ports")
 
 set(LEXBOR_LIB_NAME "${PROJECT_NAME}")
@@ -50,7 +49,7 @@ set(LEXBOR_INSTALL_DLL_EXE_DIR "bin")
 ## Project Version
 #########################
 set(LEXBOR_VERSION_PREFIX "LEXBOR_VERSION")
-set(LEXBOR_VERSION_HEADER_FILE "${LEXBOR_DIR_API_HEADER_LEXBOR}/${LEXBOR_BASE}/base.h")
+set(LEXBOR_VERSION_HEADER_FILE "${LEXBOR_DIR_HEADER_LEXBOR}/${LEXBOR_BASE}/base.h")
 
 file(STRINGS ${LEXBOR_VERSION_HEADER_FILE} LEXBOR_VERSION_PARTS
 REGEX "^#define[ \t]+${LEXBOR_VERSION_PREFIX}_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+$")
@@ -84,8 +83,8 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/config.cmake")
 ################
 ## Includes
 #########################
-include_directories(${LEXBOR_DIR_API_HEADER})
-file(GLOB_RECURSE LEXBOR_HEADERS ${LEXBOR_DIR_API_HEADER}/*.h)
+include_directories(${LEXBOR_DIR_HEADER})
+file(GLOB_RECURSE LEXBOR_HEADERS ${LEXBOR_DIR_HEADER}/*.h)
 
 ################
 ## Sources
@@ -100,7 +99,7 @@ file(GLOB_RECURSE LEXBOR_SOURCES ${LEXBOR_MODULES_SOURCES_PATH})
 ################
 ## Export LEXBOR_INCLUDE_DIRS and LEXBOR_LIBRARIES to global CACHE
 #########################
-set(LEXBOR_INCLUDES ${LEXBOR_DIR_API_HEADER} CACHE STRING "Include paths for ${PROJECT_NAME}")
+set(LEXBOR_INCLUDES ${LEXBOR_DIR_HEADER} CACHE STRING "Include paths for ${PROJECT_NAME}")
 set(LEXBOR_LIBRARIES ${LEXBOR_NAME} CACHE STRING "Libraries to link for ${PROJECT_NAME}")
 
 ################
@@ -126,7 +125,7 @@ endif()
 ## install
 #########################
 if(LEXBOR_INSTALL_HEADERS)
-    file(GLOB LEXBOR_HEADER_DIRS "${LEXBOR_DIR_API_HEADER}/*")
+    file(GLOB LEXBOR_HEADER_DIRS "${LEXBOR_DIR_HEADER}/*")
     foreach(ITEM ${LEXBOR_HEADER_DIRS})                                                                                                                                                
         if(IS_DIRECTORY "${ITEM}")
             install(DIRECTORY "${ITEM}" DESTINATION "include" FILES_MATCHING PATTERN "*.h")
