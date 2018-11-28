@@ -4,6 +4,7 @@
 <a href="https://scan.coverity.com/projects/lexborisov-lexbor">
     <img alt="Coverity Scan Build Status" src="https://scan.coverity.com/projects/16691/badge.svg"/>
 </a>
+<a href="https://twitter.com/intent/tweet?text=Development%20of%20an%20open%20source%20HTML%20Renderer%20library...&url=https%3A%2F%2Fgithub.com%2Flexbor%2Flexbor&hashtags=lexbor" class="btn"><img alt="" src="https://lexbor.com/img/twitter-share-button.png"></a>
 
 
 The `lexbor` is being developed using the C language, without dependencies, and will benefit from the following unique features:
