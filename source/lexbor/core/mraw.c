@@ -120,15 +120,13 @@ lexbor_mraw_mem_alloc(lexbor_mraw_t *mraw, size_t length)
         if (diff > lexbor_mraw_meta_size()) {
             diff -= lexbor_mraw_meta_size();
 
-            if (diff != 0) {
-                lexbor_mraw_meta_set(&chunk->data[chunk->length], &diff);
+            lexbor_mraw_meta_set(&chunk->data[chunk->length], &diff);
 
-                lexbor_bst_insert(mraw->cache,
-                           lexbor_bst_root_ref(mraw->cache), diff,
-                           lexbor_mraw_data_begin(&chunk->data[chunk->length]));
+            lexbor_bst_insert(mraw->cache,
+                              lexbor_bst_root_ref(mraw->cache), diff,
+                              lexbor_mraw_data_begin(&chunk->data[chunk->length]));
 
-                chunk->length = chunk->size;
-            }
+            chunk->length = chunk->size;
         }
 
         chunk->next = lexbor_mem_chunk_make(mem, length);
@@ -298,14 +296,11 @@ lexbor_mraw_realloc(lexbor_mraw_t *mraw, void *data, size_t new_size)
             memcpy(begin, &new_size, sizeof(size_t));
 
             new_size = diff - lexbor_mraw_meta_size();
+            begin = &((uint8_t *) data)[diff];
 
-            if (new_size > 0) {
-                begin = &((uint8_t *) data)[diff];
-
-                lexbor_mraw_meta_set(begin, &new_size);
-                lexbor_bst_insert(mraw->cache, lexbor_bst_root_ref(mraw->cache),
-                                  new_size, lexbor_mraw_data_begin(begin));
-            }
+            lexbor_mraw_meta_set(begin, &new_size);
+            lexbor_bst_insert(mraw->cache, lexbor_bst_root_ref(mraw->cache),
+                              new_size, lexbor_mraw_data_begin(begin));
         }
 
         return data;
