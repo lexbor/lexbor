@@ -13,14 +13,14 @@
 
 lxb_inline void
 lxb_dom_qualified_name_set(lxb_dom_qualified_name_t *qname, size_t size,
-                           const lxb_char_t *prefix, unsigned int prefix_len,
-                           const lxb_char_t *lname, unsigned int lname_len);
+                           const lxb_char_t *prefix, size_t prefix_len,
+                           const lxb_char_t *lname, size_t lname_len);
 
 
 lxb_dom_qualified_name_t *
 lxb_dom_qualified_name_make(lxb_dom_document_t *document,
-                            const lxb_char_t *prefix, unsigned int prefix_len,
-                            const lxb_char_t *lname, unsigned int lname_len)
+                            const lxb_char_t *prefix, size_t prefix_len,
+                            const lxb_char_t *lname, size_t lname_len)
 {
     size_t size;
     lxb_dom_qualified_name_t *qname;
@@ -47,8 +47,8 @@ lxb_dom_qualified_name_make(lxb_dom_document_t *document,
 lxb_status_t
 lxb_dom_qualified_name_change(lxb_dom_document_t *document,
                               lxb_dom_qualified_name_t *qname,
-                              const lxb_char_t *prefix, unsigned int prefix_len,
-                              const lxb_char_t *lname, unsigned int lname_len)
+                              const lxb_char_t *prefix, size_t prefix_len,
+                              const lxb_char_t *lname, size_t lname_len)
 {
     size_t size = (prefix_len + lname_len + 1);
 
@@ -68,8 +68,8 @@ lxb_dom_qualified_name_change(lxb_dom_document_t *document,
 
 lxb_inline void
 lxb_dom_qualified_name_set(lxb_dom_qualified_name_t *qname, size_t size,
-                           const lxb_char_t *prefix, unsigned int prefix_len,
-                           const lxb_char_t *lname, unsigned int lname_len)
+                           const lxb_char_t *prefix, size_t prefix_len,
+                           const lxb_char_t *lname, size_t lname_len)
 {
     if (prefix_len != 0) {
         memcpy(qname->str.data, prefix, sizeof(lxb_char_t) * prefix_len);

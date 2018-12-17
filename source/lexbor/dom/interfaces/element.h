@@ -103,8 +103,8 @@ lxb_dom_element_attr_is_exist(lxb_dom_element_t *element,
 
 LXB_API lxb_status_t
 lxb_dom_element_qualified_name_set(lxb_dom_element_t *element,
-                                   const lxb_char_t *prefix, unsigned int prefix_len,
-                                   const lxb_char_t *lname, unsigned int lname_len);
+                                   const lxb_char_t *prefix, size_t prefix_len,
+                                   const lxb_char_t *lname, size_t lname_len);
 
 LXB_API bool
 lxb_dom_element_qualified_name_cmp(lxb_dom_element_t *element, lxb_tag_id_t tag_id,

@@ -294,7 +294,8 @@ lxb_html_tree_insertion_mode_foreign_content_anything_else(lxb_html_tree_t *tree
         fixname_svg = lxb_html_tag_fixname_svg(element->element.node.tag_id);
         if (fixname_svg != NULL) {
             lxb_dom_element_qualified_name_set(&element->element, NULL, 0,
-                                               fixname_svg->name, fixname_svg->len);
+                                               fixname_svg->name,
+                                               (size_t) fixname_svg->len);
         }
     }
 

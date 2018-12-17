@@ -21,22 +21,22 @@ typedef struct {
     lexbor_str_t str;
     lxb_char_t   *upper;         /* This is a upper case copy of str.name */
 
-    unsigned int prefix_len;
-    unsigned int local_name_len;
+    size_t       prefix_len;
+    size_t       local_name_len;
 }
 lxb_dom_qualified_name_t;
 
 
 LXB_API lxb_dom_qualified_name_t *
 lxb_dom_qualified_name_make(lxb_dom_document_t *document,
-                            const lxb_char_t *prefix, unsigned int prefix_len,
-                            const lxb_char_t *lname, unsigned int lname_len);
+                            const lxb_char_t *prefix, size_t prefix_len,
+                            const lxb_char_t *lname, size_t lname_len);
 
 LXB_API lxb_status_t
 lxb_dom_qualified_name_change(lxb_dom_document_t *document,
                               lxb_dom_qualified_name_t *qname,
-                              const lxb_char_t *prefix, unsigned int prefix_len,
-                              const lxb_char_t *lname, unsigned int lname_len);
+                              const lxb_char_t *prefix, size_t prefix_len,
+                              const lxb_char_t *lname, size_t lname_len);
 
 LXB_API const lxb_char_t *
 lxb_dom_qualified_name_upper(lxb_dom_document_t *document,

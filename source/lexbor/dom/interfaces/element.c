@@ -155,8 +155,7 @@ lxb_dom_element_create(lxb_dom_document_t *document,
     if (prefix_len != 0 || lowercase == false) {
         status = lxb_dom_element_qualified_name_set(interface, prefix,
                                                     (unsigned int) prefix_len,
-                                                    local_name,
-                                                    (unsigned int) lname_len);
+                                                    local_name, lname_len);
         if (status != LXB_STATUS_OK) {
             return lxb_dom_document_destroy_interface(interface);
         }
@@ -443,13 +442,13 @@ lxb_dom_element_attr_is_exist(lxb_dom_element_t *element,
 
 lxb_status_t
 lxb_dom_element_qualified_name_set(lxb_dom_element_t *element,
-                                   const lxb_char_t *prefix, unsigned int prefix_len,
-                                   const lxb_char_t *lname, unsigned int lname_len)
+                                   const lxb_char_t *prefix, size_t prefix_len,
+                                   const lxb_char_t *lname, size_t lname_len)
 {
     if (lname_len == 0) {
         lname = lxb_tag_name_by_id(lxb_dom_interface_node(element)->owner_document->tags,
                                    lxb_dom_interface_node(element)->tag_id,
-                                   (size_t *) &lname_len);
+                                   &lname_len);
     }
 
     if (element->qualified_name != NULL) {
