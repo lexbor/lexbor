@@ -400,8 +400,7 @@ lxb_html_tokenizer_chunk_process(lxb_html_tokenizer_t *tkz,
 lxb_status_t
 lxb_html_tokenizer_end(lxb_html_tokenizer_t *tkz)
 {
-    const lxb_char_t *data = lxb_html_tokenizer_eof;
-    const lxb_char_t *end = lxb_html_tokenizer_eof + 1UL;
+    const lxb_char_t *data, *end;
 
     tkz->status = LXB_STATUS_OK;
 
@@ -412,6 +411,9 @@ lxb_html_tokenizer_end(lxb_html_tokenizer_t *tkz)
      * and try again send fake EOF.
      */
     do {
+        data = lxb_html_tokenizer_eof;
+        end = lxb_html_tokenizer_eof + 1UL;
+
         tkz->is_eof = true;
 
         while (tkz->state(tkz, data, end) < end) {
