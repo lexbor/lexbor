@@ -95,6 +95,7 @@ struct lxb_html_tokenizer {
     lxb_html_tokenizer_opt_t         opt;
     lxb_status_t                     status;
     bool                             is_eof;
+    bool                             reuse;
 
     lxb_html_tokenizer_t             *base;
     size_t                           ref_count;

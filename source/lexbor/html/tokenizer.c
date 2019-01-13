@@ -31,6 +31,10 @@ static lxb_html_token_t *
 lxb_html_tokenizer_token_done(lxb_html_tokenizer_t *tkz,
                               lxb_html_token_t *token, void *ctx);
 
+static const lxb_char_t *
+lxb_html_tokenizer_change_incoming_eof(lxb_html_tokenizer_t *tkz,
+                                       const lxb_char_t *pos);
+
 
 lxb_html_tokenizer_t *
 lxb_html_tokenizer_create(void)
@@ -402,6 +406,7 @@ lxb_html_tokenizer_end(lxb_html_tokenizer_t *tkz)
 {
     const lxb_char_t *data, *end;
 
+    tkz->reuse = false;
     tkz->status = LXB_STATUS_OK;
 
     /*
@@ -420,26 +425,27 @@ lxb_html_tokenizer_end(lxb_html_tokenizer_t *tkz)
             /* empty loop */
         }
 
-        if (tkz->incoming_node && (tkz->incoming_node->next != NULL
-                                   || tkz->incoming_node->use != tkz->incoming_node->end))
-        {
+        if (tkz->reuse) {
             tkz->is_eof = false;
             data = tkz->incoming_node->use;
 
             for (;;) {
-                while (data < end) {
-                    data = tkz->state(tkz, data, end);
+                while (data < tkz->incoming_node->end) {
+                    data = tkz->state(tkz, data, tkz->incoming_node->end);
                 }
+
+                tkz->incoming_node->use = tkz->incoming_node->end;
 
                 if (tkz->incoming_node->next == NULL) {
                     break;
                 }
 
-                tkz->incoming_node->use = end;
                 tkz->incoming_node = tkz->incoming_node->next;
 
                 data = tkz->incoming_node->begin;
             }
+
+            tkz->reuse = false;
         }
         else {
             break;
@@ -479,12 +485,18 @@ const lxb_char_t *
 lxb_html_tokenizer_change_incoming(lxb_html_tokenizer_t *tkz,
                                    const lxb_char_t *pos)
 {
-    lexbor_in_node_t *node = tkz->incoming_node;
-    tkz->incoming_node = lexbor_in_node_find(tkz->incoming_node, pos);
+    if (tkz->is_eof) {
+        return lxb_html_tokenizer_change_incoming_eof(tkz, pos);
+    }
 
-    if (tkz->incoming_node == node) {
+    if (lexbor_in_segment(tkz->incoming_node, pos)) {
+        tkz->incoming_node->use = pos;
+
         return pos;
     }
+
+    lexbor_in_node_t *node = tkz->incoming_node;
+    tkz->incoming_node = lexbor_in_node_find(tkz->incoming_node, pos);
 
     if (tkz->incoming_node == NULL) {
         tkz->status = LXB_STATUS_ERROR;
@@ -496,6 +508,39 @@ lxb_html_tokenizer_change_incoming(lxb_html_tokenizer_t *tkz,
     tkz->incoming_node->use = pos;
 
     return node->end;
+}
+
+static const lxb_char_t *
+lxb_html_tokenizer_change_incoming_eof(lxb_html_tokenizer_t *tkz,
+                                       const lxb_char_t *pos)
+{
+    if (pos == lxb_html_tokenizer_eof) {
+        return pos;
+    }
+
+    tkz->reuse = true;
+
+    if (lexbor_in_segment(tkz->incoming_node, pos)) {
+        tkz->incoming_node->use = pos;
+
+        return lxb_html_tokenizer_eof + 1;
+    }
+
+    lexbor_in_node_t *node = tkz->incoming_node;
+    tkz->incoming_node = lexbor_in_node_find(tkz->incoming_node, pos);
+
+    if (tkz->incoming_node == NULL) {
+        tkz->reuse = false;
+
+        tkz->status = LXB_STATUS_ERROR;
+        tkz->incoming_node = node;
+
+        return lxb_html_tokenizer_eof + 1;
+    }
+
+    tkz->incoming_node->use = pos;
+
+    return lxb_html_tokenizer_eof + 1;
 }
 
 lxb_ns_id_t
