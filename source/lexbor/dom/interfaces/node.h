@@ -36,7 +36,7 @@ typedef enum {
     LXB_DOM_NODE_TYPE_LAST_ENTRY             = 0x0D
 }
 lxb_dom_node_type_t;
-<a href="https://scan.coverity.com/projects/lexborisov-lexbor"><img alt="Coverity Scan Build Status" src="https://scan.coverity.com/projects/16691/badge.svg"/></a>
+
 struct lxb_dom_node {
     lxb_dom_event_target_t event_target;
 
