@@ -1,7 +1,6 @@
 # lexbor — HTML renderer
 
 [![Build Status](https://travis-ci.org/lexborisov/lexbor.svg?branch=master)](https://travis-ci.org/lexborisov/lexbor)
-<a href="https://scan.coverity.com/projects/lexborisov-lexbor"><img alt="Coverity Scan Build Status" src="https://scan.coverity.com/projects/16691/badge.svg"/></a>
 <a href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fgithub.com%2Flexbor%2Flexbor" target="_blank"><img alt="" height=20 src="http://lexbor.com/img/facebool_share_button.png"></a>
 <a href="https://twitter.com/intent/tweet?text=Development%20of%20an%20open%20source%20HTML%20Renderer%20library...&url=https%3A%2F%2Fgithub.com%2Flexbor%2Flexbor&hashtags=lexbor" target="_blank"><img alt="" height=20 src="http://lexbor.com/img/twitter_share_button.png"></a>
 
