@@ -65,7 +65,7 @@ lxb_html_tag_fixname_svg(lxb_tag_id_t tag_id)
         return NULL;
     }
 
-    return lxb_html_tag_res_fixname_svg[tag_id];
+    return &lxb_html_tag_res_fixname_svg[tag_id];
 }
 
 lxb_inline bool

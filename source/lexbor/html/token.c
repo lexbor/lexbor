@@ -829,8 +829,8 @@ lxb_html_token_data_split_ws_begin(lxb_html_token_t *token,
 
 lxb_status_t
 lxb_html_token_doctype_parse(lxb_html_token_t *token, lexbor_mraw_t *mraw,
-                             lexbor_str_t *name, lexbor_str_t *public,
-                             lexbor_str_t *system, lexbor_str_t *id_name)
+                             lexbor_str_t *name, lexbor_str_t *public_ident,
+                             lexbor_str_t *system_ident, lexbor_str_t *id_name)
 {
     /* Set all to empty string if attr not exist */
     if (token->attr_first == NULL) {
@@ -880,8 +880,8 @@ lxb_html_token_doctype_parse(lxb_html_token_t *token, lexbor_mraw_t *mraw,
     if (strncmp("public",
                 (const char *) id_name->data, id_name->length) == 0)
     {
-        lexbor_str_init(public, mraw, 0);
-        if (public->data == NULL) {
+        lexbor_str_init(public_ident, mraw, 0);
+        if (public_ident->data == NULL) {
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         }
 
@@ -889,7 +889,7 @@ lxb_html_token_doctype_parse(lxb_html_token_t *token, lexbor_mraw_t *mraw,
             return LXB_STATUS_OK;
         }
 
-        status = lxb_html_parser_char_process(&pc, public, attr->in_value,
+        status = lxb_html_parser_char_process(&pc, public_ident, attr->in_value,
                                             attr->value_begin, attr->value_end);
         if (status != LXB_STATUS_OK) {
             return status;
@@ -898,8 +898,8 @@ lxb_html_token_doctype_parse(lxb_html_token_t *token, lexbor_mraw_t *mraw,
     else if (strncmp("system",
                      (const char *) id_name->data, id_name->length) == 0)
     {
-        lexbor_str_init(system, mraw, 0);
-        if (system->data == NULL) {
+        lexbor_str_init(system_ident, mraw, 0);
+        if (system_ident->data == NULL) {
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         }
 
@@ -907,7 +907,7 @@ lxb_html_token_doctype_parse(lxb_html_token_t *token, lexbor_mraw_t *mraw,
             return LXB_STATUS_OK;
         }
 
-        status = lxb_html_parser_char_process(&pc, system, attr->in_value,
+        status = lxb_html_parser_char_process(&pc, system_ident, attr->in_value,
                                             attr->value_begin, attr->value_end);
         if (status != LXB_STATUS_OK) {
             return status;
@@ -927,7 +927,7 @@ lxb_html_token_doctype_parse(lxb_html_token_t *token, lexbor_mraw_t *mraw,
 
     pc.state = lxb_html_parser_char_data;
 
-    status = lxb_html_parser_char_process(&pc, system, attr->in_value,
+    status = lxb_html_parser_char_process(&pc, system_ident, attr->in_value,
                                           attr->value_begin, attr->value_end);
     if (status != LXB_STATUS_OK) {
         return status;
@@ -944,15 +944,15 @@ set_name_pub_sys_empty:
 
 set_pub_sys_empty:
 
-    lexbor_str_init(public, mraw, 0);
-    if (public->data == NULL) {
+    lexbor_str_init(public_ident, mraw, 0);
+    if (public_ident->data == NULL) {
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
 
 set_sys_empty:
 
-    lexbor_str_init(system, mraw, 0);
-    if (system->data == NULL) {
+    lexbor_str_init(system_ident, mraw, 0);
+    if (system_ident->data == NULL) {
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
 

@@ -126,8 +126,8 @@ lxb_html_token_data_split_ws_begin(lxb_html_token_t *token,
 
 LXB_API lxb_status_t
 lxb_html_token_doctype_parse(lxb_html_token_t *token, lexbor_mraw_t *mraw,
-                             lexbor_str_t *name, lexbor_str_t *public,
-                             lexbor_str_t *system, lexbor_str_t *id_name);
+                             lexbor_str_t *name, lexbor_str_t *public_ident,
+                             lexbor_str_t *system_ident, lexbor_str_t *id_name);
 
 LXB_API lxb_status_t
 lxb_html_token_find_attr(lxb_html_token_t *token, lxb_html_parser_char_t *pc,
@@ -147,7 +147,7 @@ lxb_html_token_clean(lxb_html_token_t *token)
 lxb_inline lxb_html_token_t *
 lxb_html_token_create_eof(lexbor_dobject_t *dobj)
 {
-    return lexbor_dobject_calloc(dobj);
+    return (lxb_html_token_t *) lexbor_dobject_calloc(dobj);
 }
 
 

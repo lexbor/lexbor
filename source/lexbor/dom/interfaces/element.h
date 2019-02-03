@@ -164,8 +164,9 @@ lxb_dom_element_qualified_name(lxb_dom_element_t *element, size_t *len)
         return lxb_dom_qualified_name(element->qualified_name, len);
     }
 
-    return lxb_tag_name_by_id(lxb_dom_interface_node(element)->owner_document->tags,
-                              lxb_dom_interface_node(element)->tag_id, len);
+    return lxb_tag_name_by_id(
+       (lxb_tag_heap_t *) lxb_dom_interface_node(element)->owner_document->tags,
+       lxb_dom_interface_node(element)->tag_id, len);
 }
 
 lxb_inline const lxb_char_t *
@@ -176,8 +177,9 @@ lxb_dom_element_qualified_name_upper(lxb_dom_element_t *element, size_t *len)
                                             element->qualified_name, len);
     }
 
-    return lxb_tag_name_upper_by_id(lxb_dom_interface_node(element)->owner_document->tags,
-                                    lxb_dom_interface_node(element)->tag_id, len);
+    return lxb_tag_name_upper_by_id(
+       (lxb_tag_heap_t *) lxb_dom_interface_node(element)->owner_document->tags,
+       lxb_dom_interface_node(element)->tag_id, len);
 }
 
 lxb_inline const lxb_char_t *
@@ -187,8 +189,9 @@ lxb_dom_element_local_name(lxb_dom_element_t *element, size_t *len)
         return lxb_dom_qualified_name_local_name(element->qualified_name, len);
     }
 
-    return lxb_tag_name_by_id(lxb_dom_interface_node(element)->owner_document->tags,
-                              lxb_dom_interface_node(element)->tag_id, len);
+    return lxb_tag_name_by_id(
+       (lxb_tag_heap_t *) lxb_dom_interface_node(element)->owner_document->tags,
+       lxb_dom_interface_node(element)->tag_id, len);
 }
 
 lxb_inline const lxb_char_t *

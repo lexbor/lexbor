@@ -1862,401 +1862,400 @@ static  lxb_html_tag_category_t lxb_html_tag_res_cats[LXB_TAG__LAST_ENTRY][LXB_N
 #ifdef LXB_HTML_TAG_RES_FIXNAME_SVG
 #ifndef LXB_HTML_TAG_RES_FIXNAME_SVG_ENABLED
 #define LXB_HTML_TAG_RES_FIXNAME_SVG_ENABLED
-static  lxb_html_tag_fixname_t * lxb_html_tag_res_fixname_svg[LXB_TAG__LAST_ENTRY] = 
+static  lxb_html_tag_fixname_t lxb_html_tag_res_fixname_svg[LXB_TAG__LAST_ENTRY] = 
 {
     /* LXB_TAG__UNDEF */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG__END_OF_FILE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG__TEXT */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG__DOCUMENT */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG__EM_COMMENT */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG__EM_DOCTYPE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_A */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_ABBR */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_ACRONYM */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_ADDRESS */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_ALTGLYPH */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "altGlyph", 8}),
+    {(const lxb_char_t *) "altGlyph", 8},
     /* LXB_TAG_ALTGLYPHDEF */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "altGlyphDef", 11}),
+    {(const lxb_char_t *) "altGlyphDef", 11},
     /* LXB_TAG_ALTGLYPHITEM */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "altGlyphItem", 12}),
+    {(const lxb_char_t *) "altGlyphItem", 12},
     /* LXB_TAG_ANIMATECOLOR */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "animateColor", 12}),
+    {(const lxb_char_t *) "animateColor", 12},
     /* LXB_TAG_ANIMATEMOTION */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "animateMotion", 13}),
+    {(const lxb_char_t *) "animateMotion", 13},
     /* LXB_TAG_ANIMATETRANSFORM */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "animateTransform", 16}),
+    {(const lxb_char_t *) "animateTransform", 16},
     /* LXB_TAG_ANNOTATION_XML */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_APPLET */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_AREA */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_ARTICLE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_ASIDE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_AUDIO */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_B */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_BASE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_BASEFONT */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_BDI */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_BDO */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_BGSOUND */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_BIG */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_BLINK */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_BLOCKQUOTE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_BODY */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_BR */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_BUTTON */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_CANVAS */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_CAPTION */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_CENTER */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_CITE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_CLIPPATH */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "clipPath", 8}),
+    {(const lxb_char_t *) "clipPath", 8},
     /* LXB_TAG_CODE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_COL */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_COLGROUP */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_DATA */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_DATALIST */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_DD */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_DEL */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_DESC */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_DETAILS */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_DFN */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_DIALOG */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_DIR */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_DIV */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_DL */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_DT */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_EM */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_EMBED */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_FEBLEND */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feBlend", 7}),
+    {(const lxb_char_t *) "feBlend", 7},
     /* LXB_TAG_FECOLORMATRIX */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feColorMatrix", 13}),
+    {(const lxb_char_t *) "feColorMatrix", 13},
     /* LXB_TAG_FECOMPONENTTRANSFER */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feComponentTransfer", 19}),
+    {(const lxb_char_t *) "feComponentTransfer", 19},
     /* LXB_TAG_FECOMPOSITE */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feComposite", 11}),
+    {(const lxb_char_t *) "feComposite", 11},
     /* LXB_TAG_FECONVOLVEMATRIX */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feConvolveMatrix", 16}),
+    {(const lxb_char_t *) "feConvolveMatrix", 16},
     /* LXB_TAG_FEDIFFUSELIGHTING */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feDiffuseLighting", 17}),
+    {(const lxb_char_t *) "feDiffuseLighting", 17},
     /* LXB_TAG_FEDISPLACEMENTMAP */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feDisplacementMap", 17}),
+    {(const lxb_char_t *) "feDisplacementMap", 17},
     /* LXB_TAG_FEDISTANTLIGHT */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feDistantLight", 14}),
+    {(const lxb_char_t *) "feDistantLight", 14},
     /* LXB_TAG_FEDROPSHADOW */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feDropShadow", 12}),
+    {(const lxb_char_t *) "feDropShadow", 12},
     /* LXB_TAG_FEFLOOD */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feFlood", 7}),
+    {(const lxb_char_t *) "feFlood", 7},
     /* LXB_TAG_FEFUNCA */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feFuncA", 7}),
+    {(const lxb_char_t *) "feFuncA", 7},
     /* LXB_TAG_FEFUNCB */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feFuncB", 7}),
+    {(const lxb_char_t *) "feFuncB", 7},
     /* LXB_TAG_FEFUNCG */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feFuncG", 7}),
+    {(const lxb_char_t *) "feFuncG", 7},
     /* LXB_TAG_FEFUNCR */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feFuncR", 7}),
+    {(const lxb_char_t *) "feFuncR", 7},
     /* LXB_TAG_FEGAUSSIANBLUR */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feGaussianBlur", 14}),
+    {(const lxb_char_t *) "feGaussianBlur", 14},
     /* LXB_TAG_FEIMAGE */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feImage", 7}),
+    {(const lxb_char_t *) "feImage", 7},
     /* LXB_TAG_FEMERGE */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feMerge", 7}),
+    {(const lxb_char_t *) "feMerge", 7},
     /* LXB_TAG_FEMERGENODE */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feMergeNode", 11}),
+    {(const lxb_char_t *) "feMergeNode", 11},
     /* LXB_TAG_FEMORPHOLOGY */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feMorphology", 12}),
+    {(const lxb_char_t *) "feMorphology", 12},
     /* LXB_TAG_FEOFFSET */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feOffset", 8}),
+    {(const lxb_char_t *) "feOffset", 8},
     /* LXB_TAG_FEPOINTLIGHT */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "fePointLight", 12}),
+    {(const lxb_char_t *) "fePointLight", 12},
     /* LXB_TAG_FESPECULARLIGHTING */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feSpecularLighting", 18}),
+    {(const lxb_char_t *) "feSpecularLighting", 18},
     /* LXB_TAG_FESPOTLIGHT */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feSpotLight", 11}),
+    {(const lxb_char_t *) "feSpotLight", 11},
     /* LXB_TAG_FETILE */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feTile", 6}),
+    {(const lxb_char_t *) "feTile", 6},
     /* LXB_TAG_FETURBULENCE */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "feTurbulence", 12}),
+    {(const lxb_char_t *) "feTurbulence", 12},
     /* LXB_TAG_FIELDSET */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_FIGCAPTION */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_FIGURE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_FONT */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_FOOTER */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_FOREIGNOBJECT */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "foreignObject", 13}),
+    {(const lxb_char_t *) "foreignObject", 13},
     /* LXB_TAG_FORM */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_FRAME */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_FRAMESET */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_GLYPHREF */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "glyphRef", 8}),
+    {(const lxb_char_t *) "glyphRef", 8},
     /* LXB_TAG_H1 */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_H2 */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_H3 */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_H4 */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_H5 */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_H6 */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_HEAD */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_HEADER */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_HGROUP */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_HR */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_HTML */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_I */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_IFRAME */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_IMAGE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_IMG */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_INPUT */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_INS */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_ISINDEX */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_KBD */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_KEYGEN */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_LABEL */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_LEGEND */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_LI */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_LINEARGRADIENT */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "linearGradient", 14}),
+    {(const lxb_char_t *) "linearGradient", 14},
     /* LXB_TAG_LINK */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_LISTING */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_MAIN */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_MALIGNMARK */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_MAP */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_MARK */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_MARQUEE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_MATH */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_MENU */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_META */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_METER */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_MFENCED */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_MGLYPH */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_MI */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_MN */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_MO */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_MS */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_MTEXT */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_MULTICOL */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_NAV */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_NEXTID */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_NOBR */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_NOEMBED */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_NOFRAMES */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_NOSCRIPT */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_OBJECT */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_OL */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_OPTGROUP */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_OPTION */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_OUTPUT */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_P */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_PARAM */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_PATH */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_PICTURE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_PLAINTEXT */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_PRE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_PROGRESS */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_Q */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_RADIALGRADIENT */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "radialGradient", 14}),
+    {(const lxb_char_t *) "radialGradient", 14},
     /* LXB_TAG_RB */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_RP */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_RT */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_RTC */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_RUBY */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_S */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_SAMP */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_SCRIPT */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_SECTION */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_SELECT */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_SLOT */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_SMALL */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_SOURCE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_SPACER */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_SPAN */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_STRIKE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_STRONG */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_STYLE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_SUB */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_SUMMARY */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_SUP */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_SVG */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_TABLE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_TBODY */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_TD */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_TEMPLATE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_TEXTAREA */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_TEXTPATH */
-    &((lxb_html_tag_fixname_t) {(const lxb_char_t *) "textPath", 8}),
+    {(const lxb_char_t *) "textPath", 8},
     /* LXB_TAG_TFOOT */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_TH */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_THEAD */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_TIME */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_TITLE */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_TR */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_TRACK */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_TT */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_U */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_UL */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_VAR */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_VIDEO */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_WBR */
-    NULL,
+    {NULL, 0},
     /* LXB_TAG_XMP */
-    NULL,
-
+    {NULL, 0}
 };
 #endif /* LXB_HTML_TAG_RES_FIXNAME_SVG_ENABLED */
 #endif /* LXB_HTML_TAG_RES_FIXNAME_SVG */

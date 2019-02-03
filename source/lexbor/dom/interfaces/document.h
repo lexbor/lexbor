@@ -126,7 +126,8 @@ lxb_dom_document_destroy_struct(lxb_dom_document_t *document, void *structure)
 lxb_inline lxb_char_t *
 lxb_dom_document_create_text(lxb_dom_document_t *document, size_t len)
 {
-    return lexbor_mraw_alloc(document->text, sizeof(lxb_char_t) * len);
+    return (lxb_char_t *) lexbor_mraw_alloc(document->text,
+                                            sizeof(lxb_char_t) * len);
 }
 
 lxb_inline void *

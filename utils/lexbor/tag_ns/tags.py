@@ -165,7 +165,7 @@ class Tags:
         cats = LXB.Res("lxb_html_tag_category_t", "lxb_html_tag_res_cats", True, [self.tag_last_entry_name, self.ns_last_entry_name])
         constructor = LXB.Res("lxb_dom_interface_constructor_f", "lxb_html_interface_res_constructors", True, [self.tag_last_entry_name, self.ns_last_entry_name])
         destructor = LXB.Res("lxb_dom_interface_destructor_f", "lxb_html_interface_res_destructor", True, [self.tag_last_entry_name, self.ns_last_entry_name])
-        svg_fixname = LXB.Res("lxb_html_tag_fixname_t *", "lxb_html_tag_res_fixname_svg", True, [self.tag_last_entry_name])
+        svg_fixname = LXB.Res("lxb_html_tag_fixname_t", "lxb_html_tag_res_fixname_svg", True, [self.tag_last_entry_name])
 
         fixname = []
 
@@ -197,9 +197,9 @@ class Tags:
                 fixname[idx].append("/* {} */\n    ".format(entry["c_name"]))
 
                 if entry["fixname"][idx] != "NULL":
-                    fixname[idx].append("&((lxb_html_tag_fixname_t) {{(const lxb_char_t *) \"{}\", {}}}),".format(entry["fixname"][idx], len(entry["fixname"][idx])))
+                    fixname[idx].append("{{(const lxb_char_t *) \"{}\", {}}},".format(entry["fixname"][idx], len(entry["fixname"][idx])))
                 else:
-                    fixname[idx].append("{},".format(entry["fixname"][idx]))
+                    fixname[idx].append("{NULL, 0},")
 
                 fixname[idx].append("\n    ")
 
@@ -217,9 +217,9 @@ class Tags:
             fixname[-1].append("/* {} */\n    ".format(entry["c_name"]))
     
             if entry["fixname"][-1] != "NULL":
-                fixname[-1].append("&((lxb_html_tag_fixname_t) {{(const lxb_char_t *) \"{}\", {}}}),".format(entry["fixname"][-1], len(entry["fixname"][-1])))
+                fixname[-1].append("{{(const lxb_char_t *) \"{}\", {}}},".format(entry["fixname"][-1], len(entry["fixname"][-1])))
             else:
-                fixname[-1].append("{},".format(entry["fixname"][-1]))
+                fixname[-1].append("{NULL, 0},")
 
             # res.append("{{(const lxb_char_t *) \"{}\", {}, {},\n        {{\n{}\n        }},\n        {{\n{}\n        }},\n        {{\n{}\n        }}\n    }}"
             #            .format(entry["name"], len(entry["name"]), entry["c_name"], "".join(ns), "".join(interface), "".join(fixname)))

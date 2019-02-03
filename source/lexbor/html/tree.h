@@ -266,7 +266,8 @@ lxb_inline lxb_dom_node_t *
 lxb_html_tree_create_node(lxb_html_tree_t *tree,
                           lxb_tag_id_t tag_id, lxb_ns_id_t ns)
 {
-    return lxb_html_interface_create(tree->document, tag_id, ns);
+    return (lxb_dom_node_t *) lxb_html_interface_create(tree->document,
+                                                        tag_id, ns);
 }
 
 lxb_inline bool
@@ -282,7 +283,8 @@ lxb_html_tree_current_node(lxb_html_tree_t *tree)
         return NULL;
     }
 
-    return tree->open_elements->list[ (tree->open_elements->length - 1) ];
+    return (lxb_dom_node_t *)
+        tree->open_elements->list[ (tree->open_elements->length - 1) ];
 }
 
 lxb_inline lxb_dom_node_t *

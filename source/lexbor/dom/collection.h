@@ -68,13 +68,13 @@ lxb_dom_collection_append(lxb_dom_collection_t *col, void *value)
 lxb_inline lxb_dom_element_t *
 lxb_dom_collection_element(lxb_dom_collection_t *col, size_t idx)
 {
-    return lexbor_array_get(&col->array, idx);
+    return (lxb_dom_element_t *) lexbor_array_get(&col->array, idx);
 }
 
 lxb_inline lxb_dom_node_t *
 lxb_dom_collection_node(lxb_dom_collection_t *col, size_t idx)
 {
-    return lexbor_array_get(&col->array, idx);
+    return (lxb_dom_node_t *) lexbor_array_get(&col->array, idx);
 }
 
 lxb_inline size_t
