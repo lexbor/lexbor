@@ -85,7 +85,7 @@ extern "C" {
                                                                                \
         while (i != 0) {                                                       \
             i--;                                                               \
-            stack = lexbor_array_obj_get(TEST_OBJ_NAME->ao_stack, i);          \
+            stack = (test_stack_t *) lexbor_array_obj_get(TEST_OBJ_NAME->ao_stack, i); \
             TEST_PRINTLN("%s:%d:%s",stack->file, stack->line, stack->func);    \
         }                                                                      \
     }                                                                          \
@@ -169,7 +169,8 @@ name(TEST_OBJ_ARG)                                                             \
 
 #define TEST_ADD(test_name)                                                    \
     do {                                                                       \
-        if (test_add(TEST_OBJ_NAME, test_name, LEXBOR_STRINGIZE(test_name))    \
+        if (test_add(TEST_OBJ_NAME, test_name,                                 \
+                     (char *) LEXBOR_STRINGIZE(test_name))                     \
             != LXB_STATUS_OK)                                                  \
         {                                                                      \
             TEST_FAILURE("Failed to add test to list");                        \
@@ -179,7 +180,7 @@ name(TEST_OBJ_ARG)                                                             \
 
 
 #define TEST_RUN(name)                                                         \
-    test_run(TEST_OBJ_NAME, name)
+    test_run(TEST_OBJ_NAME, (char *) name)
 
 
 #define TEST_RELEASE()                                                         \

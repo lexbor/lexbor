@@ -10,6 +10,9 @@ cmake_minimum_required(VERSION 3.0)
 #    LEXBOR_INSTALL_HEADERS         default: ON; The header files will be installed 
 #                                    if set to ON
 #    LEXBOR_BUILD_TESTS             default: OFF; Build tests
+#    LEXBOR_BUILD_TESTS_CPP         default: ON; Build C++ tests
+#                                    Used with LEXBOR_BUILD_TESTS
+#    LEXBOR_BUILD_EXAMPLES          default: OFF; Build all examples
 
 if(NOT DEFINED PROJECT_NAME)
 set(PROJECT_NAME "lexbor")
@@ -27,6 +30,7 @@ option(LEXBOR_BUILD_SHARED "Build shared library" ON)
 option(LEXBOR_BUILD_STATIC "Build static library" ON)
 option(LEXBOR_INSTALL_HEADERS "Install header files" ON)
 option(LEXBOR_BUILD_TESTS "Build tests" OFF)
+option(LEXBOR_BUILD_TESTS_CPP "Build C++ tests" ON)
 option(LEXBOR_BUILD_EXAMPLES "Build examples" OFF)
 
 ################
