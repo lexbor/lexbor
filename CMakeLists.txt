@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 
 # Options:
-#    PROJECT_NAME                   default: lexbor
 #    LEXBOR_OPTIMIZATION_LEVEL      default: -O2
 #    LEXBOR_C_FLAGS                 default: see this file
 #    LEXBOR_WITHOUT_THREADS         default: ON; Not used now, for the future
@@ -14,9 +13,7 @@ cmake_minimum_required(VERSION 3.0)
 #                                    Used with LEXBOR_BUILD_TESTS
 #    LEXBOR_BUILD_EXAMPLES          default: OFF; Build all examples
 
-if(NOT DEFINED PROJECT_NAME)
 set(PROJECT_NAME "lexbor")
-endif()
 
 project(${PROJECT_NAME} C)
 
