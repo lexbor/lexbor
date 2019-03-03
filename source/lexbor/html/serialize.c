@@ -668,8 +668,6 @@ lxb_html_serialize_send_escaping_string(const lxb_char_t *data, size_t len,
     const lxb_char_t *pos = data;
     const lxb_char_t *end = data + len;
 
-    printf("%s", pos);
-
     while (data != end) {
         switch (*data) {
             /* U+0026 AMPERSAND (&) */
