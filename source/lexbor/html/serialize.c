@@ -609,15 +609,26 @@ lxb_html_serialize_send_escaping_attribute_string(const lxb_char_t *data,
 
                 break;
 
-            /* U+00A0 NO-BREAK SPACE */
-            case 0xA0:
+            /* {0xC2, 0xA0} NO-BREAK SPACE */
+            case 0xC2:
+                data += 1;
+                if (data == end) {
+                    break;
+                }
+
+                if (*data != 0xA0) {
+                    continue;
+                }
+
+                data -= 1;
+
                 if (pos != data) {
                     lxb_html_serialize_send(pos, (data - pos), ctx);
                 }
 
                 lxb_html_serialize_send("&nbsp;", 6, ctx);
 
-                data++;
+                data += 2;
                 pos = data;
 
                 break;
@@ -657,6 +668,8 @@ lxb_html_serialize_send_escaping_string(const lxb_char_t *data, size_t len,
     const lxb_char_t *pos = data;
     const lxb_char_t *end = data + len;
 
+    printf("%s", pos);
+
     while (data != end) {
         switch (*data) {
             /* U+0026 AMPERSAND (&) */
@@ -672,15 +685,26 @@ lxb_html_serialize_send_escaping_string(const lxb_char_t *data, size_t len,
 
                 break;
 
-            /* U+00A0 NO-BREAK SPACE */
-            case 0xA0:
+            /* {0xC2, 0xA0} NO-BREAK SPACE */
+            case 0xC2:
+                data += 1;
+                if (data == end) {
+                    break;
+                }
+
+                if (*data != 0xA0) {
+                    continue;
+                }
+
+                data -= 1;
+
                 if (pos != data) {
                     lxb_html_serialize_send(pos, (data - pos), ctx);
                 }
 
                 lxb_html_serialize_send("&nbsp;", 6, ctx);
 
-                data++;
+                data += 2;
                 pos = data;
 
                 break;
@@ -1298,15 +1322,26 @@ lxb_html_serialize_pretty_send_escaping_string(const lxb_char_t *data, size_t le
 
                 break;
 
-            /* U+00A0 NO-BREAK SPACE */
-            case 0xA0:
+            /* {0xC2, 0xA0} NO-BREAK SPACE */
+            case 0xC2:
+                data += 1;
+                if (data == end) {
+                    break;
+                }
+
+                if (*data != 0xA0) {
+                    continue;
+                }
+
+                data -= 1;
+
                 if (pos != data) {
                     lxb_html_serialize_send(pos, (data - pos), ctx);
                 }
 
                 lxb_html_serialize_send("&nbsp;", 6, ctx);
 
-                data++;
+                data += 2;
                 pos = data;
 
                 break;

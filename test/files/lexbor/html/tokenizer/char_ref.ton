@@ -624,5 +624,41 @@
                 "text-parser": "char_ref"
             }
         ]
-    }
+    },
+    {
+        "data": "&nbsp;",
+        "tokens": [
+            {
+                "text": " ",
+                "text-parser": "char_ref"
+            }
+        ]
+    },
+    {
+        "data": "ab&nbsp;cd",
+        "tokens": [
+            {
+                "text": "ab cd",
+                "text-parser": "char_ref"
+            }
+        ]
+    },
+    {
+        "data": "&nbsp",
+        "tokens": [
+            {
+                "text": " ",
+                "text-parser": "char_ref"
+            }
+        ]
+    },
+    {
+        "data": "ab&nbspcd",
+        "tokens": [
+            {
+                "text": "ab cd",
+                "text-parser": "char_ref"
+            }
+        ]
+    },
 ]
