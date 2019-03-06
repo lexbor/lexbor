@@ -108,6 +108,21 @@ set(LEXBOR_LIBRARIES ${LEXBOR_NAME} CACHE STRING "Libraries to link for ${PROJEC
 #########################
 if(LEXBOR_BUILD_SHARED)
     add_library(${LEXBOR_LIB_NAME} SHARED ${LEXBOR_SOURCES})
+endif()
+
+if(LEXBOR_BUILD_STATIC)
+    add_library(${LEXBOR_LIB_NAME_STATIC} STATIC ${LEXBOR_SOURCES})
+endif()
+
+################
+## Features
+#########################
+include("${CMAKE_CURRENT_SOURCE_DIR}/feature.cmake")
+
+################
+## Create static/dynamic library
+#########################
+if(LEXBOR_BUILD_SHARED)
     target_link_libraries(${LEXBOR_LIB_NAME} ${CMAKE_THREAD_LIBS_INIT})
     set_target_properties(${LEXBOR_LIB_NAME} PROPERTIES OUTPUT_NAME ${LEXBOR_LIB_NAME})
     set_target_properties(${LEXBOR_LIB_NAME} PROPERTIES VERSION ${LEXBOR_VERSION_STRING} SOVERSION ${LEXBOR_VERSION_MAJOR})
@@ -115,7 +130,6 @@ if(LEXBOR_BUILD_SHARED)
 endif()
 
 if(LEXBOR_BUILD_STATIC)
-    add_library(${LEXBOR_LIB_NAME_STATIC} STATIC ${LEXBOR_SOURCES})
     target_link_libraries(${LEXBOR_LIB_NAME_STATIC} ${CMAKE_THREAD_LIBS_INIT})
     set_target_properties(${LEXBOR_LIB_NAME_STATIC} PROPERTIES OUTPUT_NAME ${LEXBOR_LIB_NAME_STATIC})
     set_target_properties(${LEXBOR_LIB_NAME_STATIC} PROPERTIES VERSION ${LEXBOR_VERSION_STRING} SOVERSION ${LEXBOR_VERSION_MAJOR})
