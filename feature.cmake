@@ -10,7 +10,7 @@ if(NOT LEXBOR_FEATURE_CEIL)
     list(APPEND CMAKE_REQUIRED_LIBRARIES m)
 
     CHECK_FUNCTION_EXISTS(ceil LEXBOR_FEATURE_CEIL)
-    if(NOT LEXBOR_FEATURE_CEIL)
+    if(LEXBOR_FEATURE_CEIL)
         target_link_libraries(${LEXBOR_LIB_NAME} m)
         target_link_libraries(${LEXBOR_LIB_NAME_STATIC} m)
     else()
