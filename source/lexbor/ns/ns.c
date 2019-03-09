@@ -139,7 +139,7 @@ lxb_ns_data_set_default(lxb_ns_heap_t *ns_heap, lxb_ns_data_t *data,
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
 
-    if (data->name == NULL || data->name_len == 0) {
+    if (data->name_len == 0) {
         return LXB_STATUS_OK;
     }
 
