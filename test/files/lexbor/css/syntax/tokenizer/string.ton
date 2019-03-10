@@ -1,0 +1,293 @@
+[
+    /* Test count: 32 */
+    /* 1 */
+    {
+        "data": $DATA{ ,12}
+            "Onimusha"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"Onimusha\""}
+        ]
+    },
+    /* 2 */
+    {
+        "data": $DATA{ ,12}
+            'Onimusha'
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"Onimusha\""}
+        ]
+    },
+    /* 3 */
+    {
+        "data": $DATA{ ,12}
+            "Onimu\nsha"
+        $DATA,
+        "tokens": [
+            {"type": "bad-string", "value": "\"Onimu\""},
+            {"type": "whitespace", "value": "\n"},
+            {"type": "ident", "value": "sha"},
+            {"type": "string", "value": "\"\""}
+        ]
+    },
+    /* 4 */
+    {
+        "data": $DATA{ ,12}
+            "Onimusha
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"Onimusha\""}
+        ]
+    },
+    /* 5 */
+    {
+        "data": $DATA{ ,12}
+            "Onimusha\\
+        $DATA,
+        "tokens": [
+        ]
+    },
+    /* 6 */
+    {
+        "data": $DATA{ ,12}
+            "Onim\\\nusha"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"Onimusha\""}
+        ]
+    },
+    /* 7 */
+    {
+        "data": $DATA{ ,12}
+            "Onim\\\r\nusha"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"Onimusha\""}
+        ]
+    },
+    /* 8 */
+    {
+        "data": $DATA{ ,12}
+            "\\67odofwar"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"godofwar\""}
+        ]
+    },
+    /* 9 */
+    {
+        "data": $DATA{ ,12}
+            "\\67 odofwar"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"godofwar\""}
+        ]
+    },
+    /* 10 */
+    {
+        "data": $DATA{ ,12}
+            "\\67  odofwar"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"g odofwar\""}
+        ]
+    },
+    /* 11 */
+    {
+        "data": $DATA{ ,12}
+            "\\67\\6F\\64\\6F\\66\\77\\61\\72"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"godofwar\""}
+        ]
+    },
+    /* 12 */
+    {
+        "data": $DATA{ ,12}
+            "\\67 \\6F \\64 \\6F \\66 \\77 \\61 \\72"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"godofwar\""}
+        ]
+    },
+    /* 13 */
+    {
+        "data": $DATA{ ,12}
+            "\\67\r\nodofwar"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"godofwar\""}
+        ]
+    },
+    /* 14 */
+    {
+        "data": $DATA{ ,12}
+            "\\67\rodofwar"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"godofwar\""}
+        ]
+    },
+    /* 15 */
+    {
+        "data": $DATA{ ,12}
+            "\\67\nodofwar"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"godofwar\""}
+        ]
+    },
+    /* 16 */
+    {
+        "data": $DATA{ ,12}
+            "\\67\r\n"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"g\""}
+        ]
+    },
+    /* 17 */
+    {
+        "data": $DATA{ ,12}
+            "\\67\r"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"g\""}
+        ]
+    },
+    /* 18 */
+    {
+        "data": $DATA{ ,12}
+            "\\67\n"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"g\""}
+        ]
+    },
+    /* 19 */
+    {
+        "data": $DATA{ ,12}
+            "resident-evil\\"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"resident-evil\\\"\""}
+        ]
+    },
+    /* 20 */
+    {
+        "data": $DATA{ ,12}
+            "resident-evil\\\n"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"resident-evil\""}
+        ]
+    },
+    /* 21 */
+    {
+        "data": $DATA{ ,12}
+            "\\67\\\fodofwar"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"godofwar\""}
+        ]
+    },
+    /* 22 */
+    {
+        "data": $DATA{ ,12}
+            "\\67\fodofwar"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"godofwar\""}
+        ]
+    },
+    /* 23 */
+    {
+        "data": $DATA{ ,12}
+            "ode >>stream xЭY|Ф≈µ?3ун#!ПMА<	яЦЁ@6!		…ЈyЙF @іYРЇ“В/R@QQ.ЄшИѕ[KХА%†®|ўELxHФkѓµZ∞VЛёґжґhЂЕ+Јjн•Рљ€Щ/"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"ode >>stream xЭY|Ф≈µ?3ун#!ПMА<	яЦЁ@6!		…ЈyЙF @іYРЇ“В/R@QQ.ЄшИѕ[KХА%†®|ўELxHФkѓµZ∞VЛёґжґhЂЕ+Јjн•Рљ€Щ/\""}
+        ]
+    },
+    /* 24 */
+    {
+        "data": $DATA{ ,12}
+            "'Final ' Fantasy'"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"'Final ' Fantasy'\""}
+        ]
+    },
+    /* 25 */
+    {
+        "data": $DATA{ ,12}
+            '"Final " Fantasy"'
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"\\\"Final \\\" Fantasy\\\"\""}
+        ]
+    },
+    /* 26 */
+    {
+        "data": $DATA{ ,12}
+            "g\\\fodofwar"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"godofwar\""}
+        ]
+    },
+    /* 27 */
+    {
+        "data": $DATA{ ,12}
+            "\\\f\\67\r\nodofwar"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"godofwar\""}
+        ]
+    },
+    /* 28 */
+    {
+        "data": $DATA{ ,12}
+            "\\67\r\nodofwar\\\f"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"godofwar\""}
+        ]
+    },
+    /* 29 */
+    {
+        "data": $DATA{ ,12}
+            "\0Sidewalks\0and\0Skeletons\0"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"�Sidewalks�and�Skeletons�\""}
+        ]
+    },
+    /* 30 */
+    {
+        "data": $DATA{ ,12}
+            "\\\0Sidewalks\\\0and\\\0Skeletons\\\0"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"�Sidewalks�and�Skeletons�\""}
+        ]
+    },
+    /* 31 */
+    {
+        "data": $DATA{ ,12}
+            "\\\0"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"�\""}
+        ]
+    },
+    /* 32 */
+    {
+        "data": $DATA{ ,12}
+            "\0"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"�\""}
+        ]
+    }
+]

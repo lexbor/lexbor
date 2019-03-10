@@ -1,0 +1,73 @@
+[
+    /* Test count: 10 */
+    /* 1 */
+    {
+        "data": "/* Comment */",
+        "tokens": [
+            {"type": "comment", "value": "/* Comment */"}
+        ]
+    },
+    /* 2 */
+    {
+        "data": "/* Comment ",
+        "tokens": [
+            {"type": "comment", "value": "/* Comment */"}
+        ]
+    },
+    /* 3 */
+    {
+        "data": "/* Comment * / */",
+        "tokens": [
+            {"type": "comment", "value": "/* Comment * / */"}
+        ]
+    },
+    /* 4 */
+    {
+        "data": "/* Comment * / */",
+        "tokens": [
+            {"type": "comment", "value": "/* Comment * / */"}
+        ]
+    },
+    /* 5 */
+    {
+        "data": "/* Comment * /* */",
+        "tokens": [
+            {"type": "comment", "value": "/* Comment * /* */"}
+        ]
+    },
+    /* 6 */
+    {
+        "data": "/* \0 */",
+        "tokens": [
+            {"type": "comment", "value": "/* � */"}
+        ]
+    },
+    /* 7 */
+    {
+        "data": "/* \\72 */",
+        "tokens": [
+            {"type": "comment", "value": "/* \\72 */"}
+        ]
+    },
+    /* 8 */
+    {
+        "data": "/* \r\n */",
+        "tokens": [
+            {"type": "comment", "value": "/* \n */"}
+        ]
+    },
+    /* 9 */
+    {
+        "data": "/* \f */",
+        "tokens": [
+            {"type": "comment", "value": "/* \n */"}
+        ]
+    },
+    /* 10 */
+    {
+        "data": "/* \f\n\r\r\n */",
+        "tokens": [
+            {"type": "comment", "value": "/* \n\n\n\n */"}
+        ]
+    },
+]

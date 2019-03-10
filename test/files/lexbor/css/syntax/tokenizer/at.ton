@@ -1,0 +1,130 @@
+[
+    /* Test count: 18 */
+    /* 1 */
+    {
+        "data": "@war",
+        "tokens": [
+            {"type": "at-keyword", "value": "@war"}
+        ]
+    },
+    /* 2 */
+    {
+        "data": "@w",
+        "tokens": [
+            {"type": "at-keyword", "value": "@w"},
+        ]
+    },
+    /* 3 */
+    {
+        "data": "@\\77 ar",
+        "tokens": [
+            {"type": "at-keyword", "value": "@war"}
+        ]
+    },
+    /* 4 */
+    {
+        "data": "@w\\61r",
+        "tokens": [
+            {"type": "at-keyword", "value": "@war"}
+        ]
+    },
+    /* 5 */
+    {
+        "data": "@wa\\72",
+        "tokens": [
+            {"type": "at-keyword", "value": "@war"}
+        ]
+    },
+    /* 6 */
+    {
+        "data": "@\\77\\61\\72",
+        "tokens": [
+            {"type": "at-keyword", "value": "@war"}
+        ]
+    },
+    /* 7 */
+    {
+        "data": "@\\77\\61",
+        "tokens": [
+            {"type": "at-keyword", "value": "@wa"},
+        ]
+    },
+    /* 8 */
+    {
+        "data": "@\\77",
+        "tokens": [
+            {"type": "at-keyword", "value": "@w"}
+        ]
+    },
+    /* 9 */
+    {
+        "data": "@--",
+        "tokens": [
+            {"type": "at-keyword", "value": "@--"}
+        ]
+    },
+    /* 10 */
+    {
+        "data": "@-_",
+        "tokens": [
+            {"type": "at-keyword", "value": "@-_"}
+        ]
+    },
+    /* 11 */
+    {
+        "data": "@-\\77",
+        "tokens": [
+            {"type": "at-keyword", "value": "@-w"}
+        ]
+    },
+    /* 12 */
+    {
+        "data": "@#",
+        "tokens": [
+            {"type": "delim", "value": "@"},
+            {"type": "delim", "value": "#"},
+        ]
+    },
+    /* 13 */
+    {
+        "data": "@�",
+        "tokens": [
+            {"type": "at-keyword", "value": "@�"}
+        ]
+    },
+    /* 14 */
+    {
+        "data": "@\0",
+        "tokens": [
+            {"type": "at-keyword", "value": "@�"}
+        ]
+    },
+    /* 15 */
+    {
+        "data": "@\\\0",
+        "tokens": [
+            {"type": "at-keyword", "value": "@�"}
+        ]
+    },
+    /* 16 */
+    {
+        "data": "@w\\\0ar",
+        "tokens": [
+            {"type": "at-keyword", "value": "@w�ar"}
+        ]
+    },
+    /* 17 */
+    {
+        "data": "@w\0ar",
+        "tokens": [
+            {"type": "at-keyword", "value": "@w�ar"}
+        ]
+    },
+    /* 18 */
+    {
+        "data": "@war\0",
+        "tokens": [
+            {"type": "at-keyword", "value": "@war�"}
+        ]
+    }
+]

@@ -1,0 +1,45 @@
+[
+    /* Test count: 5 */
+    /* 1 */
+    {
+        "data": " ",
+        "tokens": [
+            {"type": "whitespace", "value": " "}
+        ]
+    },
+    /* 2 */
+    {
+        "data": "	 	",
+        "tokens": [
+            {"type": "whitespace", "value": "	 	"}
+        ]
+    },
+    /* 3 */
+    {
+        "data": "\r",
+        "tokens": [
+            {"type": "whitespace", "value": "\n"}
+        ]
+    },
+    /* 4 */
+    {
+        "data": "\r\n",
+        "tokens": [
+            {"type": "whitespace", "value": "\n"}
+        ]
+    },
+    /* 5 */
+    {
+        "data": "\f",
+        "tokens": [
+            {"type": "whitespace", "value": "\n"}
+        ]
+    },
+    /* 6 */
+    {
+        "data": "\f\f\r	\r\n\n \r",
+        "tokens": [
+            {"type": "whitespace", "value": "\n\n\n	\n\n \n"}
+        ]
+    },
+]

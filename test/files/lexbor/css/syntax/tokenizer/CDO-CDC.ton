@@ -1,0 +1,67 @@
+[
+    /* Test count: 7 */
+    /* 1 */
+    {
+        "data": "<!--",
+        "tokens": [
+            {"type": "CDO", "value": "<!--"}
+        ]
+    },
+    /* 2 */
+    {
+        "data": "<!- -",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "delim", "value": "!"},
+            {"type": "delim", "value": "-"},
+            {"type": "whitespace", "value": " "},
+            {"type": "delim", "value": "-"}
+        ]
+    },
+    /* 3 */
+    {
+        "data": "<! --",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "delim", "value": "!"},
+            {"type": "whitespace", "value": " "},
+            {"type": "ident", "value": "--"},
+        ]
+    },
+    /* 4 */
+    {
+        "data": "< !--",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "whitespace", "value": " "},
+            {"type": "delim", "value": "!"},
+            {"type": "ident", "value": "--"}
+        ]
+    },
+    /* 5 */
+    {
+        "data": "-->",
+        "tokens": [
+            {"type": "CDC", "value": "-->"}
+        ]
+    },
+    /* 6 */
+    {
+        "data": "- ->",
+        "tokens": [
+            {"type": "delim", "value": "-"},
+            {"type": "whitespace", "value": " "},
+            {"type": "delim", "value": "-"},
+            {"type": "delim", "value": ">"}
+        ]
+    },
+    /* 7 */
+    {
+        "data": "-- >",
+        "tokens": [
+            {"type": "ident", "value": "--"},
+            {"type": "whitespace", "value": " "},
+            {"type": "delim", "value": ">"}
+        ]
+    },
+]

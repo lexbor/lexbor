@@ -1,0 +1,196 @@
+[
+    /* Test count: 25 */
+    /* 1 */
+    {
+        "data": "url(http://lexbor.com/)",
+        "tokens": [
+            {"type": "url", "value": "url(http://lexbor.com/)"}
+        ]
+    },
+    /* 2 */
+    {
+        "data": "url(  http://lexbor.com/  )",
+        "tokens": [
+            {"type": "url", "value": "url(http://lexbor.com/)"}
+        ]
+    },
+    /* 3 */
+    {
+        "data": "\\75\\72\\6C(http://lexbor.com/)",
+        "tokens": [
+            {"type": "url", "value": "url(http://lexbor.com/)"}
+        ]
+    },
+    /* 4 */
+    {
+        "data": "\\75r\\6C(http://lexbor.com/)",
+        "tokens": [
+            {"type": "url", "value": "url(http://lexbor.com/)"}
+        ]
+    },
+    /* 5 */
+    {
+        "data": "\\75rl(http://lexbor.com/)",
+        "tokens": [
+            {"type": "url", "value": "url(http://lexbor.com/)"}
+        ]
+    },
+    /* 6 */
+    {
+        "data": "u\\72\\6C(http://lexbor.com/)",
+        "tokens": [
+            {"type": "url", "value": "url(http://lexbor.com/)"}
+        ]
+    },
+    /* 7 */
+    {
+        "data": "u\\72l(http://lexbor.com/)",
+        "tokens": [
+            {"type": "url", "value": "url(http://lexbor.com/)"}
+        ]
+    },
+    /* 8 */
+    {
+        "data": "url('http://lexbor.com/')",
+        "tokens": [
+            {"type": "function", "value": "url("},
+            {"type": "string", "value": "\"http://lexbor.com/\""},
+            {"type": "right-parenthesis", "value": ")"}
+        ]
+    },
+    /* 9 */
+    {
+        "data": "url( 'http://lexbor.com/')",
+        "tokens": [
+            {"type": "function", "value": "url("},
+            {"type": "whitespace", "value": " "},
+            {"type": "string", "value": "\"http://lexbor.com/\""},
+            {"type": "right-parenthesis", "value": ")"}
+        ]
+    },
+    /* 10 */
+    {
+        "data": "\\75\\72\\6C( 'http://lexbor.com/')",
+        "tokens": [
+            {"type": "function", "value": "url("},
+            {"type": "whitespace", "value": " "},
+            {"type": "string", "value": "\"http://lexbor.com/\""},
+            {"type": "right-parenthesis", "value": ")"}
+        ]
+    },
+    /* 11 */
+    {
+        "data": "url(\"http://lexbor.com/\")",
+        "tokens": [
+            {"type": "function", "value": "url("},
+            {"type": "string", "value": "\"http://lexbor.com/\""},
+            {"type": "right-parenthesis", "value": ")"}
+        ]
+    },
+    /* 12 */
+    {
+        "data": "url( \"http://lexbor.com/\")",
+        "tokens": [
+            {"type": "function", "value": "url("},
+            {"type": "whitespace", "value": " "},
+            {"type": "string", "value": "\"http://lexbor.com/\""},
+            {"type": "right-parenthesis", "value": ")"}
+        ]
+    },
+    /* 13 */
+    {
+        "data": "\\75\\72\\6C( \"http://lexbor.com/\" )",
+        "tokens": [
+            {"type": "function", "value": "url("},
+            {"type": "whitespace", "value": " "},
+            {"type": "string", "value": "\"http://lexbor.com/\""},
+            {"type": "whitespace", "value": " "},
+            {"type": "right-parenthesis", "value": ")"}
+        ]
+    },
+    /* 14 */
+    {
+        "data": "UrL(http://lexbor.com/)",
+        "tokens": [
+            {"type": "url", "value": "url(http://lexbor.com/)"}
+        ]
+    },
+    /* 15 */
+    {
+        "data": "url(http://lexbor.com/",
+        "tokens": [
+            {"type": "url", "value": "url(http://lexbor.com/)"}
+        ]
+    },
+    /* 16 */
+    {
+        "data": "url(http://lexbor\".com/)",
+        "tokens": [
+            {"type": "bad-url", "value": "url(http://lexbor)"}
+        ]
+    },
+    /* 17 */
+    {
+        "data": "url(http://lexbor'.com/)",
+        "tokens": [
+            {"type": "bad-url", "value": "url(http://lexbor)"}
+        ]
+    },
+    /* 18 */
+    {
+        "data": "url(http://lexbor(.com/)",
+        "tokens": [
+            {"type": "bad-url", "value": "url(http://lexbor)"}
+        ]
+    },
+    /* 19 */
+    {
+        "data": "url(http://lexbor\0.com/)",
+        "tokens": [
+            {"type": "url", "value": "url(http://lexbor�.com/)"}
+        ]
+    },
+    /* 20 */
+    {
+        "data": "url(http://lexbor	.com/)",
+        "tokens": [
+            {"type": "bad-url", "value": "url(http://lexbor)"}
+        ]
+    },
+    /* 21 */
+    {
+        "data": "url(http://\\6C e\\78 bo\\72.com/)",
+        "tokens": [
+            {"type": "url", "value": "url(http://lexbor.com/)"}
+        ]
+    },
+    /* 22 */
+    {
+        "data": "_world-set-good-mode(",
+        "tokens": [
+            {"type": "function", "value": "_world-set-good-mode("}
+        ]
+    },
+    /* 23 */
+    {
+        "data": "缘木求鱼(",
+        "tokens": [
+            {"type": "function", "value": "缘木求鱼("}
+        ]
+    },
+    /* 24 */
+    {
+        "data": "123(",
+        "tokens": [
+            {"type": "number", "value": "123"},
+            {"type": "left-parenthesis", "value": "("}
+        ]
+    },
+    /* 25 */
+    {
+        "data": "\\75 \\72 \\6C (http://lexbor.com/)",
+        "tokens": [
+            {"type": "url", "value": "url(http://lexbor.com/)"}
+        ]
+    },
+]

@@ -1,0 +1,66 @@
+[
+    /* Test count: 9 */
+    /* 1 -- U+0028 LEFT PARENTHESIS (() */
+    {
+        "data": "(",
+        "tokens": [
+            {"type": "left-parenthesis", "value": "("}
+        ]
+    },
+    /* 2 -- U+0029 RIGHT PARENTHESIS ()) */
+    {
+        "data": ")",
+        "tokens": [
+            {"type": "right-parenthesis", "value": ")"}
+        ]
+    },
+    /* 3 -- U+002C COMMA (,) */
+    {
+        "data": ",",
+        "tokens": [
+            {"type": "comma", "value": ","}
+        ]
+    },
+    /* 4 -- U+003A COLON (:) */
+    {
+        "data": ":",
+        "tokens": [
+            {"type": "colon", "value": ":"}
+        ]
+    },
+    /* 5 -- U+003B SEMICOLON (;) */
+    {
+        "data": ";",
+        "tokens": [
+            {"type": "semicolon", "value": ";"}
+        ]
+    },
+    /* 6 -- U+005B LEFT SQUARE BRACKET ([) */
+    {
+        "data": "[",
+        "tokens": [
+            {"type": "left-square-bracket", "value": "["}
+        ]
+    },
+    /* 7 -- U+005D RIGHT SQUARE BRACKET (]) */
+    {
+        "data": "]",
+        "tokens": [
+            {"type": "right-square-bracket", "value": "]"}
+        ]
+    },
+    /* 8 -- U+007B LEFT CURLY BRACKET ({) */
+    {
+        "data": "{",
+        "tokens": [
+            {"type": "left-curly-bracket", "value": "{"}
+        ]
+    },
+    /* 9 -- U+007D RIGHT CURLY BRACKET (}) */
+    {
+        "data": "}",
+        "tokens": [
+            {"type": "right-curly-bracket", "value": "}"}
+        ]
+    }
+]

@@ -1,0 +1,16 @@
+[
+    /* Test count: 1 */
+    /* 1 */
+    {
+        "data": "/* Comment */123.456ident'string'#hash@media \\67mase",
+        "tokens": [
+            {"type": "comment", "value": "/* Comment */"},
+            {"type": "dimension", "value": "123.456ident"},
+            {"type": "string", "value": "\"string\""},
+            {"type": "hash", "value": "#hash"},
+            {"type": "at-keyword", "value": "@media"},
+            {"type": "whitespace", "value": " "},
+            {"type": "ident", "value": "gmase"},
+        ]
+    }
+]
