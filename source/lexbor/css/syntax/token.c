@@ -131,7 +131,7 @@ lxb_css_syntax_token_type_id_by_name(const lxb_char_t *type_name, size_t len)
         return LXB_CSS_SYNTAX_TOKEN_UNDEF;
     }
 
-    return (lxb_css_syntax_token_type_t) entry->value;
+    return (lxb_css_syntax_token_type_t) (uintptr_t) entry->value;
 }
 
 lxb_status_t
@@ -190,7 +190,6 @@ lxb_css_syntax_token_make_data_hard(lexbor_in_node_t *in, lexbor_mraw_t *mraw,
                                     const lxb_char_t *end)
 {
     size_t len = 0;
-    lxb_char_t *data;
     const lxb_char_t *ptr = end;
 
     td->is_last = false;
@@ -229,8 +228,6 @@ lxb_css_syntax_token_make_data_hard(lexbor_in_node_t *in, lexbor_mraw_t *mraw,
         }
     }
 
-    data = str->data;
-
     while (lexbor_in_segment(in, end) == false) {
         while (begin < in->end) {
             begin = td->cb(begin, in->end, str, mraw, td);
@@ -262,7 +259,6 @@ lxb_css_syntax_token_make_data_simple(lexbor_in_node_t *in, lexbor_mraw_t *mraw,
                                       const lxb_char_t *end)
 {
     size_t len = 0;
-    lxb_char_t *data;
     const lxb_char_t *ptr = end;
 
     in = lexbor_in_node_find(in, end);
@@ -297,8 +293,6 @@ lxb_css_syntax_token_make_data_simple(lexbor_in_node_t *in, lexbor_mraw_t *mraw,
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         }
     }
-
-    data = str->data;
 
     while (lexbor_in_segment(in, end) == false) {
         memcpy(&str->data[str->length], begin, (in->end - begin));

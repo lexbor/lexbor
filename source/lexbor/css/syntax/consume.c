@@ -672,10 +672,6 @@ lxb_css_syntax_consume_numeric_e_digits(lxb_css_syntax_tokenizer_t *tkz,
                                         const lxb_char_t *data,
                                         const lxb_char_t *end)
 {
-    lxb_css_syntax_token_number_t *token;
-
-    token = (lxb_css_syntax_token_number_t *) tkz->token;
-
     if (tkz->is_eof) {
         lxb_css_syntax_consume_numeric_set_float(tkz);
 
