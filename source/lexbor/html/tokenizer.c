@@ -378,19 +378,30 @@ lxb_html_tokenizer_chunk_process(lxb_html_tokenizer_t *tkz,
      * then we need to parse all next buffers again.
      */
     if (tkz->incoming_node->next != NULL) {
+        lexbor_in_node_t *in_node = tkz->incoming_node;
+
         data = tkz->incoming_node->use;
 
         for (;;) {
-            while (data < end) {
-                data = tkz->state(tkz, data, end);
+            while (data < tkz->incoming_node->end) {
+                data = tkz->state(tkz, data, tkz->incoming_node->end);
+            }
+
+            if (in_node != tkz->incoming_node) {
+                in_node = tkz->incoming_node;
+                data = tkz->incoming_node->use;
+
+                continue;
             }
 
             if (tkz->incoming_node->next == NULL) {
                 break;
             }
 
-            tkz->incoming_node->use = end;
+            tkz->incoming_node->use = tkz->incoming_node->end;
             tkz->incoming_node = tkz->incoming_node->next;
+
+            in_node = tkz->incoming_node;
 
             data = tkz->incoming_node->begin;
         }
