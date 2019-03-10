@@ -42,7 +42,7 @@ Alexander Borisov <lex.borisov@gmail.com>
 
    Lexbor.
 
-   Copyright 2018 Alexander Borisov
+   Copyright 2018-2019 Alexander Borisov
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
