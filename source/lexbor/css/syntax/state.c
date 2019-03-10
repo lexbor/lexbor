@@ -136,11 +136,11 @@ lxb_css_syntax_state_delim(lxb_css_syntax_tokenizer_t *tkz,
                            const lxb_char_t *data, const lxb_char_t *end)
 {
     lxb_css_syntax_token(tkz)->type = LXB_CSS_SYNTAX_TOKEN_DELIM;
-    lxb_css_syntax_token_delim(tkz)->character = (lxb_codepoint_t) *data;
+    lxb_css_syntax_token_delim(tkz->token)->character = (lxb_codepoint_t) *data;
 
-    lxb_css_syntax_token_delim(tkz)->begin = data;
+    lxb_css_syntax_token_delim(tkz->token)->begin = data;
     data += 1;
-    lxb_css_syntax_token_delim(tkz)->end = data;
+    lxb_css_syntax_token_delim(tkz->token)->end = data;
 
     lxb_css_syntax_state_set(tkz, lxb_css_syntax_state_data);
     lxb_css_syntax_state_token_done_m(tkz, end);
@@ -162,9 +162,9 @@ lxb_css_syntax_state_eof(lxb_css_syntax_tokenizer_t *tkz,
     lxb_css_syntax_token(tkz)->type = LXB_CSS_SYNTAX_TOKEN_IDENT;
     lxb_css_syntax_token_have_null_set(tkz);
 
-    lxb_css_syntax_token_ident(tkz)->begin = data;
+    lxb_css_syntax_token_ident(tkz->token)->begin = data;
     data += 1;
-    lxb_css_syntax_token_ident(tkz)->end = data;
+    lxb_css_syntax_token_ident(tkz->token)->end = data;
 
     lxb_css_syntax_state_set(tkz, lxb_css_syntax_state_data);
     lxb_css_syntax_state_token_done_m(tkz, end);
@@ -228,14 +228,14 @@ lxb_css_syntax_state_comment(lxb_css_syntax_tokenizer_t *tkz,
                                            tkz->incoming_node->end,
                                            LXB_CSS_SYNTAX_TOKENIZER_ERROR_EOINCO);
 
-        lxb_css_syntax_token_comment(tkz)->end = tkz->incoming_node->end;
+        lxb_css_syntax_token_comment(tkz->token)->end = tkz->incoming_node->end;
         lxb_css_syntax_state_token_done_m(tkz, end);
 
         return end;
     }
 
-    if (lxb_css_syntax_token_comment(tkz)->begin == NULL) {
-        lxb_css_syntax_token_comment(tkz)->begin = data;
+    if (lxb_css_syntax_token_comment(tkz->token)->begin == NULL) {
+        lxb_css_syntax_token_comment(tkz->token)->begin = data;
     }
 
     for (; data != end; data++) {
@@ -257,7 +257,7 @@ lxb_css_syntax_state_comment(lxb_css_syntax_tokenizer_t *tkz,
                 data += 1;
 
                 if (data == end) {
-                    lxb_css_syntax_token_comment(tkz)->end = data - 1;
+                    lxb_css_syntax_token_comment(tkz->token)->end = data - 1;
 
                     lxb_css_syntax_state_set(tkz, lxb_css_syntax_state_comment_end);
 
@@ -266,7 +266,7 @@ lxb_css_syntax_state_comment(lxb_css_syntax_tokenizer_t *tkz,
 
                 /* U+002F Forward slash (/) */
                 if (*data == 0x2F) {
-                    lxb_css_syntax_token_comment(tkz)->end = data - 1;
+                    lxb_css_syntax_token_comment(tkz->token)->end = data - 1;
 
                     lxb_css_syntax_state_set(tkz, lxb_css_syntax_state_data);
                     lxb_css_syntax_state_token_done_m(tkz, end);
@@ -293,7 +293,7 @@ lxb_css_syntax_state_comment_end(lxb_css_syntax_tokenizer_t *tkz,
                                            tkz->incoming_node->end,
                                            LXB_CSS_SYNTAX_TOKENIZER_ERROR_EOINCO);
 
-        lxb_css_syntax_token_comment(tkz)->end = tkz->incoming_node->end;
+        lxb_css_syntax_token_comment(tkz->token)->end = tkz->incoming_node->end;
         lxb_css_syntax_state_token_done_m(tkz, end);
 
         return end;
@@ -319,12 +319,12 @@ const lxb_char_t *
 lxb_css_syntax_state_whitespace(lxb_css_syntax_tokenizer_t *tkz,
                                 const lxb_char_t *data, const lxb_char_t *end)
 {
-    if (lxb_css_syntax_token_whitespace(tkz)->begin == NULL) {
-        lxb_css_syntax_token_whitespace(tkz)->begin = data;
+    if (lxb_css_syntax_token_whitespace(tkz->token)->begin == NULL) {
+        lxb_css_syntax_token_whitespace(tkz->token)->begin = data;
         lxb_css_syntax_token(tkz)->type = LXB_CSS_SYNTAX_TOKEN_WHITESPACE;
     }
     else if (tkz->is_eof) {
-        lxb_css_syntax_token_whitespace(tkz)->end = tkz->incoming_node->end;
+        lxb_css_syntax_token_whitespace(tkz->token)->end = tkz->incoming_node->end;
         lxb_css_syntax_state_token_done_m(tkz, end);
 
         return end;
@@ -353,7 +353,7 @@ lxb_css_syntax_state_whitespace(lxb_css_syntax_tokenizer_t *tkz,
                 break;
 
             default:
-                lxb_css_syntax_token_whitespace(tkz)->end = data;
+                lxb_css_syntax_token_whitespace(tkz->token)->end = data;
 
                 lxb_css_syntax_state_set(tkz, lxb_css_syntax_state_data);
                 lxb_css_syntax_state_token_done_m(tkz, end);
@@ -401,7 +401,7 @@ lxb_css_syntax_state_hash(lxb_css_syntax_tokenizer_t *tkz,
         return data;
     }
 
-    lxb_css_syntax_token_hash(tkz)->begin = data;
+    lxb_css_syntax_token_hash(tkz->token)->begin = data;
 
     if (lxb_css_syntax_res_name_map[*data] == 0x00) {
         /* U+005C REVERSE SOLIDUS (\) */
@@ -410,7 +410,7 @@ lxb_css_syntax_state_hash(lxb_css_syntax_tokenizer_t *tkz,
 
             if (data == end) {
                 tkz->begin = data - 2;
-                lxb_css_syntax_token_hash(tkz)->begin = data - 1;
+                lxb_css_syntax_token_hash(tkz->token)->begin = data - 1;
 
                 lxb_css_syntax_state_set(tkz, lxb_css_syntax_state_hash_escape);
 
@@ -457,7 +457,7 @@ lxb_css_syntax_state_hash(lxb_css_syntax_tokenizer_t *tkz,
 
                 if (data == end) {
                     tkz->end = data - 1;
-                    lxb_css_syntax_token_hash(tkz)->end = tkz->end;
+                    lxb_css_syntax_token_hash(tkz->token)->end = tkz->end;
 
                     lxb_css_syntax_state_set(tkz,
                                  lxb_css_syntax_state_hash_consume_name_escape);
@@ -472,7 +472,7 @@ lxb_css_syntax_state_hash(lxb_css_syntax_tokenizer_t *tkz,
                 if (*data == 0x0A || *data == 0x0C || *data == 0x0D) {
                     data -= 1;
 
-                    lxb_css_syntax_token_hash(tkz)->end = data;
+                    lxb_css_syntax_token_hash(tkz->token)->end = data;
 
                     lxb_css_syntax_state_set(tkz, lxb_css_syntax_state_data);
                     lxb_css_syntax_state_token_done_m(tkz, end);
@@ -497,7 +497,7 @@ lxb_css_syntax_state_hash(lxb_css_syntax_tokenizer_t *tkz,
                 lxb_css_syntax_token_have_null_set(tkz);
             }
             else {
-                lxb_css_syntax_token_hash(tkz)->end = data;
+                lxb_css_syntax_token_hash(tkz->token)->end = data;
 
                 lxb_css_syntax_state_set(tkz, lxb_css_syntax_state_data);
                 lxb_css_syntax_state_token_done_m(tkz, end);
@@ -528,7 +528,7 @@ lxb_css_syntax_state_hash_name(lxb_css_syntax_tokenizer_t *tkz,
             data += 1;
 
             if (data == end) {
-                lxb_css_syntax_token_hash(tkz)->begin = data - 1;
+                lxb_css_syntax_token_hash(tkz->token)->begin = data - 1;
                 lxb_css_syntax_state_set(tkz, lxb_css_syntax_state_hash_escape);
 
                 return data;
@@ -551,7 +551,7 @@ lxb_css_syntax_state_hash_name(lxb_css_syntax_tokenizer_t *tkz,
             lxb_css_syntax_token_escaped_set(tkz);
 
             lxb_css_syntax_token(tkz)->type = LXB_CSS_SYNTAX_TOKEN_HASH;
-            lxb_css_syntax_token_hash(tkz)->begin = data - 1;
+            lxb_css_syntax_token_hash(tkz->token)->begin = data - 1;
 
             data = lxb_css_syntax_state_check_escaped(tkz, data, end,
                                         lxb_css_syntax_state_hash_consume_name);
@@ -574,7 +574,7 @@ lxb_css_syntax_state_hash_name(lxb_css_syntax_tokenizer_t *tkz,
     }
 
     lxb_css_syntax_token(tkz)->type = LXB_CSS_SYNTAX_TOKEN_HASH;
-    lxb_css_syntax_token_hash(tkz)->begin = data;
+    lxb_css_syntax_token_hash(tkz->token)->begin = data;
 
     lxb_css_syntax_state_set(tkz, lxb_css_syntax_state_hash_consume_name);
 
@@ -619,7 +619,7 @@ lxb_css_syntax_state_hash_consume_name(lxb_css_syntax_tokenizer_t *tkz,
                                        const lxb_char_t *end)
 {
     if (tkz->is_eof) {
-        lxb_css_syntax_token_hash(tkz)->end = tkz->incoming_node->end;
+        lxb_css_syntax_token_hash(tkz->token)->end = tkz->incoming_node->end;
 
         lxb_css_syntax_state_token_done_m(tkz, end);
 
@@ -634,7 +634,7 @@ lxb_css_syntax_state_hash_consume_name(lxb_css_syntax_tokenizer_t *tkz,
 
                 if (data == end) {
                     tkz->end = data - 1;
-                    lxb_css_syntax_token_hash(tkz)->end = tkz->end;
+                    lxb_css_syntax_token_hash(tkz->token)->end = tkz->end;
 
                     lxb_css_syntax_state_set(tkz,
                                  lxb_css_syntax_state_hash_consume_name_escape);
@@ -649,7 +649,7 @@ lxb_css_syntax_state_hash_consume_name(lxb_css_syntax_tokenizer_t *tkz,
                 if (*data == 0x0A || *data == 0x0C || *data == 0x0D) {
                     data -= 1;
 
-                    lxb_css_syntax_token_hash(tkz)->end = data;
+                    lxb_css_syntax_token_hash(tkz->token)->end = data;
 
                     lxb_css_syntax_state_set(tkz, lxb_css_syntax_state_data);
                     lxb_css_syntax_state_token_done_m(tkz, end);
@@ -674,7 +674,7 @@ lxb_css_syntax_state_hash_consume_name(lxb_css_syntax_tokenizer_t *tkz,
                 lxb_css_syntax_token_have_null_set(tkz);
             }
             else {
-                lxb_css_syntax_token_hash(tkz)->end = data;
+                lxb_css_syntax_token_hash(tkz->token)->end = data;
 
                 lxb_css_syntax_state_set(tkz, lxb_css_syntax_state_data);
                 lxb_css_syntax_state_token_done_m(tkz, end);
@@ -975,7 +975,7 @@ lxb_css_syntax_state_minus(lxb_css_syntax_tokenizer_t *tkz,
             return (data + 1);
         }
 
-        lxb_css_syntax_token_ident(tkz)->begin = data - 2;
+        lxb_css_syntax_token_ident(tkz->token)->begin = data - 2;
 
         lxb_css_syntax_state_set(tkz,
                                  lxb_css_syntax_consume_ident_like_not_url);
@@ -985,7 +985,7 @@ lxb_css_syntax_state_minus(lxb_css_syntax_tokenizer_t *tkz,
     /* Check for <ident-token> */
 
     if (lxb_css_syntax_res_name_map[*data] == LXB_CSS_SYNTAX_RES_NAME_START) {
-        lxb_css_syntax_token_ident(tkz)->begin = data - 1;
+        lxb_css_syntax_token_ident(tkz->token)->begin = data - 1;
 
         lxb_css_syntax_state_set(tkz,
                                  lxb_css_syntax_consume_ident_like_not_url);
@@ -1009,7 +1009,7 @@ lxb_css_syntax_state_minus(lxb_css_syntax_tokenizer_t *tkz,
             }
 
             lxb_css_syntax_token_escaped_set(tkz);
-            lxb_css_syntax_token_ident(tkz)->begin = data - 2;
+            lxb_css_syntax_token_ident(tkz->token)->begin = data - 2;
 
             data = lxb_css_syntax_state_check_escaped(tkz, data, end,
                                         lxb_css_syntax_state_hash_consume_name);
@@ -1027,7 +1027,7 @@ lxb_css_syntax_state_minus(lxb_css_syntax_tokenizer_t *tkz,
     /* U+0000 NULL (\0) */
     else if (*data == 0x00) {
         lxb_css_syntax_token_have_null_set(tkz);
-        lxb_css_syntax_token_ident(tkz)->begin = data - 1;
+        lxb_css_syntax_token_ident(tkz->token)->begin = data - 1;
 
         lxb_css_syntax_state_set(tkz,
                                  lxb_css_syntax_consume_ident_like_not_url);
@@ -1102,7 +1102,7 @@ lxb_css_syntax_state_minus_check(lxb_css_syntax_tokenizer_t *tkz,
             return (data + 1);
         }
 
-        lxb_css_syntax_token_ident(tkz)->begin = tkz->begin;
+        lxb_css_syntax_token_ident(tkz->token)->begin = tkz->begin;
 
         lxb_css_syntax_state_set(tkz,
                                  lxb_css_syntax_consume_ident_like_not_url);
@@ -1112,7 +1112,7 @@ lxb_css_syntax_state_minus_check(lxb_css_syntax_tokenizer_t *tkz,
     /* Check for <ident-token> */
 
     if (lxb_css_syntax_res_name_map[*data] == LXB_CSS_SYNTAX_RES_NAME_START) {
-        lxb_css_syntax_token_ident(tkz)->begin = tkz->begin;
+        lxb_css_syntax_token_ident(tkz->token)->begin = tkz->begin;
 
         lxb_css_syntax_state_set(tkz,
                                  lxb_css_syntax_consume_ident_like_not_url);
@@ -1134,7 +1134,7 @@ lxb_css_syntax_state_minus_check(lxb_css_syntax_tokenizer_t *tkz,
             }
 
             lxb_css_syntax_token_escaped_set(tkz);
-            lxb_css_syntax_token_ident(tkz)->begin = tkz->begin;
+            lxb_css_syntax_token_ident(tkz->token)->begin = tkz->begin;
 
             data = lxb_css_syntax_state_check_escaped(tkz, data, end,
                                         lxb_css_syntax_state_hash_consume_name);
@@ -1152,7 +1152,7 @@ lxb_css_syntax_state_minus_check(lxb_css_syntax_tokenizer_t *tkz,
     /* U+0000 NULL (\0) */
     else if (*data == 0x00) {
         lxb_css_syntax_token_have_null_set(tkz);
-        lxb_css_syntax_token_ident(tkz)->begin = tkz->begin;
+        lxb_css_syntax_token_ident(tkz->token)->begin = tkz->begin;
 
         lxb_css_syntax_state_set(tkz,
                                  lxb_css_syntax_consume_ident_like_not_url);
@@ -1213,7 +1213,7 @@ lxb_css_syntax_state_minus_check_cdc(lxb_css_syntax_tokenizer_t *tkz,
         return (data + 1);
     }
 
-    lxb_css_syntax_token_ident(tkz)->begin = tkz->begin;
+    lxb_css_syntax_token_ident(tkz->token)->begin = tkz->begin;
     lxb_css_syntax_state_set(tkz, lxb_css_syntax_consume_ident_like_not_url);
 
     return data;
@@ -1234,7 +1234,7 @@ lxb_css_syntax_state_minus_check_solidus(lxb_css_syntax_tokenizer_t *tkz,
     }
 
     lxb_css_syntax_token_escaped_set(tkz);
-    lxb_css_syntax_token_ident(tkz)->begin = tkz->begin;
+    lxb_css_syntax_token_ident(tkz->token)->begin = tkz->begin;
 
     data = lxb_css_syntax_state_check_escaped(tkz, data, end,
                                         lxb_css_syntax_state_hash_consume_name);
@@ -1460,7 +1460,7 @@ lxb_css_syntax_state_at(lxb_css_syntax_tokenizer_t *tkz,
         return data;
     }
 
-    lxb_css_syntax_token_at_keyword(tkz)->begin = data;
+    lxb_css_syntax_token_at_keyword(tkz->token)->begin = data;
 
     if (lxb_css_syntax_res_name_map[*data] != LXB_CSS_SYNTAX_RES_NAME_START) {
         /* U+002D HYPHEN-MINUS */
@@ -1565,7 +1565,7 @@ lxb_css_syntax_state_at(lxb_css_syntax_tokenizer_t *tkz,
 
                 if (data == end) {
                     tkz->end = data - 1;
-                    lxb_css_syntax_token_at_keyword(tkz)->end = tkz->end;
+                    lxb_css_syntax_token_at_keyword(tkz->token)->end = tkz->end;
 
                     lxb_css_syntax_state_set(tkz,
                                              lxb_css_syntax_state_at_name_escape);
@@ -1580,7 +1580,7 @@ lxb_css_syntax_state_at(lxb_css_syntax_tokenizer_t *tkz,
                 if (*data == 0x0A || *data == 0x0C || *data == 0x0D) {
                     data -= 1;
 
-                    lxb_css_syntax_token_at_keyword(tkz)->end = data;
+                    lxb_css_syntax_token_at_keyword(tkz->token)->end = data;
 
                     lxb_css_syntax_state_set(tkz, lxb_css_syntax_state_data);
                     lxb_css_syntax_state_token_done_m(tkz, end);
@@ -1609,7 +1609,7 @@ lxb_css_syntax_state_at(lxb_css_syntax_tokenizer_t *tkz,
                 lxb_css_syntax_token_have_null_set(tkz);
             }
             else {
-                lxb_css_syntax_token_at_keyword(tkz)->end = data;
+                lxb_css_syntax_token_at_keyword(tkz->token)->end = data;
 
                 lxb_css_syntax_state_set(tkz, lxb_css_syntax_state_data);
                 lxb_css_syntax_state_token_done_m(tkz, end);
@@ -1632,7 +1632,7 @@ lxb_css_syntax_state_at_begin(lxb_css_syntax_tokenizer_t *tkz,
         goto consume_delim;
     }
 
-    lxb_css_syntax_token_at_keyword(tkz)->begin = data;
+    lxb_css_syntax_token_at_keyword(tkz->token)->begin = data;
 
     if (lxb_css_syntax_res_name_map[*data] != LXB_CSS_SYNTAX_RES_NAME_START) {
         /* U+002D HYPHEN-MINUS */
@@ -1842,7 +1842,7 @@ lxb_css_syntax_state_at_name(lxb_css_syntax_tokenizer_t *tkz,
                              const lxb_char_t *data, const lxb_char_t *end)
 {
     if (tkz->is_eof) {
-        lxb_css_syntax_token_at_keyword(tkz)->end = tkz->incoming_node->end;
+        lxb_css_syntax_token_at_keyword(tkz->token)->end = tkz->incoming_node->end;
         lxb_css_syntax_state_token_done_m(tkz, end);
 
         return end;
@@ -1856,7 +1856,7 @@ lxb_css_syntax_state_at_name(lxb_css_syntax_tokenizer_t *tkz,
 
                 if (data == end) {
                     tkz->end = data - 1;
-                    lxb_css_syntax_token_at_keyword(tkz)->end = tkz->end;
+                    lxb_css_syntax_token_at_keyword(tkz->token)->end = tkz->end;
 
                     lxb_css_syntax_state_set(tkz,
                                              lxb_css_syntax_state_at_name_escape);
@@ -1871,7 +1871,7 @@ lxb_css_syntax_state_at_name(lxb_css_syntax_tokenizer_t *tkz,
                 if (*data == 0x0A || *data == 0x0C || *data == 0x0D) {
                     data -= 1;
 
-                    lxb_css_syntax_token_at_keyword(tkz)->end = data;
+                    lxb_css_syntax_token_at_keyword(tkz->token)->end = data;
 
                     lxb_css_syntax_state_set(tkz, lxb_css_syntax_state_data);
                     lxb_css_syntax_state_token_done_m(tkz, end);
@@ -1896,7 +1896,7 @@ lxb_css_syntax_state_at_name(lxb_css_syntax_tokenizer_t *tkz,
                 lxb_css_syntax_token_have_null_set(tkz);
             }
             else {
-                lxb_css_syntax_token_at_keyword(tkz)->end = data;
+                lxb_css_syntax_token_at_keyword(tkz->token)->end = data;
 
                 lxb_css_syntax_state_set(tkz, lxb_css_syntax_state_data);
                 lxb_css_syntax_state_token_done_m(tkz, end);

@@ -39,24 +39,33 @@ extern "C" {
 
 
 #define lxb_css_syntax_token(tkz) ((lxb_css_syntax_token_base_t *) tkz->token)
-#define lxb_css_syntax_token_base(tkz) ((lxb_css_syntax_token_base_t *) tkz->token)
-#define lxb_css_syntax_token_number(tkz) ((lxb_css_syntax_token_number_t *) tkz->token)
-#define lxb_css_syntax_token_dimension(tkz) ((lxb_css_syntax_token_dimension_t *) tkz->token)
-#define lxb_css_syntax_token_percentage(tkz) ((lxb_css_syntax_token_percentage_t *) tkz->token)
-#define lxb_css_syntax_token_hash(tkz) ((lxb_css_syntax_token_hash_t *) tkz->token)
-#define lxb_css_syntax_token_string(tkz) ((lxb_css_syntax_token_string_t *) tkz->token)
-#define lxb_css_syntax_token_bad_string(tkz) ((lxb_css_syntax_token_bad_string_t *) tkz->token)
-#define lxb_css_syntax_token_delim(tkz) ((lxb_css_syntax_token_delim_t *) tkz->token)
-#define lxb_css_syntax_token_comment(tkz) ((lxb_css_syntax_token_comment_t *) tkz->token)
-#define lxb_css_syntax_token_whitespace(tkz) ((lxb_css_syntax_token_whitespace_t *) tkz->token)
-#define lxb_css_syntax_token_lparenthesis(tkz) ((lxb_css_syntax_token_lparenthesis_t *) tkz->token)
-#define lxb_css_syntax_token_rparenthesis(tkz) ((lxb_css_syntax_token_rparenthesis_t *) tkz->token)
-#define lxb_css_syntax_token_cdc(tkz) ((lxb_css_syntax_token_cdc_t *) tkz->token)
-#define lxb_css_syntax_token_function(tkz) ((lxb_css_syntax_token_function_t *) tkz->token)
-#define lxb_css_syntax_token_ident(tkz) ((lxb_css_syntax_token_ident_t *) tkz->token)
-#define lxb_css_syntax_token_url(tkz) ((lxb_css_syntax_token_url_t *) tkz->token)
-#define lxb_css_syntax_token_bad_url(tkz) ((lxb_css_syntax_token_bad_url_t *) tkz->token)
-#define lxb_css_syntax_token_at_keyword(tkz) ((lxb_css_syntax_token_at_keyword_t *) tkz->token)
+
+#define lxb_css_syntax_token_base(token) ((lxb_css_syntax_token_base_t *) token)
+#define lxb_css_syntax_token_ident(token) ((lxb_css_syntax_token_ident_t *) token)
+#define lxb_css_syntax_token_function(token) ((lxb_css_syntax_token_function_t *) token)
+#define lxb_css_syntax_token_at_keyword(token) ((lxb_css_syntax_token_at_keyword_t *) token)
+#define lxb_css_syntax_token_hash(token) ((lxb_css_syntax_token_hash_t *) token)
+#define lxb_css_syntax_token_string(token) ((lxb_css_syntax_token_string_t *) token)
+#define lxb_css_syntax_token_bad_string(token) ((lxb_css_syntax_token_bad_string_t *) token)
+#define lxb_css_syntax_token_url(token) ((lxb_css_syntax_token_url_t *) token)
+#define lxb_css_syntax_token_bad_url(token) ((lxb_css_syntax_token_bad_url_t *) token)
+#define lxb_css_syntax_token_delim(token) ((lxb_css_syntax_token_delim_t *) token)
+#define lxb_css_syntax_token_number(token) ((lxb_css_syntax_token_number_t *) token)
+#define lxb_css_syntax_token_percentage(token) ((lxb_css_syntax_token_percentage_t *) token)
+#define lxb_css_syntax_token_dimension(token) ((lxb_css_syntax_token_dimension_t *) token)
+#define lxb_css_syntax_token_whitespace(token) ((lxb_css_syntax_token_whitespace_t *) token)
+#define lxb_css_syntax_token_cdo(token) ((lxb_css_syntax_token_cdo_t *) token)
+#define lxb_css_syntax_token_cdc(token) ((lxb_css_syntax_token_cdc_t *) token)
+#define lxb_css_syntax_token_colon(token) ((lxb_css_syntax_token_colon_t *) token)
+#define lxb_css_syntax_token_semicolon(token) ((lxb_css_syntax_token_semicolon_t *) token)
+#define lxb_css_syntax_token_comma(token) ((lxb_css_syntax_token_comma_t *) token)
+#define lxb_css_syntax_token_ls_bracket(token) ((lxb_css_syntax_token_ls_bracket_t *) token)
+#define lxb_css_syntax_token_rs_bracket(token) ((lxb_css_syntax_token_rs_bracket_t *) token)
+#define lxb_css_syntax_token_l_parenthesis(token) ((lxb_css_syntax_token_l_parenthesis_t *) token)
+#define lxb_css_syntax_token_r_parenthesis(token) ((lxb_css_syntax_token_r_parenthesis_t *) token)
+#define lxb_css_syntax_token_lc_bracket(token) ((lxb_css_syntax_token_lc_bracket_t *) token)
+#define lxb_css_syntax_token_rc_bracket(token) ((lxb_css_syntax_token_rc_bracket_t *) token)
+#define lxb_css_syntax_token_comment(token) ((lxb_css_syntax_token_comment_t *) token)
 
 
 typedef struct lxb_css_syntax_token_data lxb_css_syntax_token_data_t;
@@ -167,40 +176,48 @@ struct lxb_css_syntax_token_delim {
 }
 typedef lxb_css_syntax_token_delim_t;
 
-typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_bad_string_t;
-typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_hash_t;
-typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_comment_t;
-typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_whitespace_t;
-typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_function_t;
 typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_ident_t;
+typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_function_t;
+typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_at_keyword_t;
+typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_hash_t;
+typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_bad_string_t;
 typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_url_t;
 typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_bad_url_t;
-typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_at_keyword_t;
 typedef lxb_css_syntax_token_number_t lxb_css_syntax_token_percentage_t;
-typedef lxb_css_syntax_token_base_t lxb_css_syntax_token_lparenthesis_t;
-typedef lxb_css_syntax_token_base_t lxb_css_syntax_token_rparenthesis_t;
-typedef lxb_css_syntax_token_base_t lxb_css_syntax_token_cdc_t;
+typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_whitespace_t;
+typedef lxb_css_syntax_token_base_t   lxb_css_syntax_token_cdo_t;
+typedef lxb_css_syntax_token_base_t   lxb_css_syntax_token_cdc_t;
+typedef lxb_css_syntax_token_base_t   lxb_css_syntax_token_colon_t;
+typedef lxb_css_syntax_token_base_t   lxb_css_syntax_token_semicolon_t;
+typedef lxb_css_syntax_token_base_t   lxb_css_syntax_token_comma_t;
+typedef lxb_css_syntax_token_base_t   lxb_css_syntax_token_ls_bracket_t;
+typedef lxb_css_syntax_token_base_t   lxb_css_syntax_token_rs_bracket_t;
+typedef lxb_css_syntax_token_base_t   lxb_css_syntax_token_l_parenthesis_t;
+typedef lxb_css_syntax_token_base_t   lxb_css_syntax_token_r_parenthesis_t;
+typedef lxb_css_syntax_token_base_t   lxb_css_syntax_token_lc_bracket_t;
+typedef lxb_css_syntax_token_base_t   lxb_css_syntax_token_rc_bracket_t;
+typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_comment_t;
 
 struct lxb_css_syntax_token {
     union lxb_css_syntax_token_u {
-        lxb_css_syntax_token_base_t         base;
-        lxb_css_syntax_token_comment_t      comment;
-        lxb_css_syntax_token_number_t       number;
-        lxb_css_syntax_token_dimension_t    dimension;
-        lxb_css_syntax_token_percentage_t   percentage;
-        lxb_css_syntax_token_hash_t         hash;
-        lxb_css_syntax_token_string_t       string;
-        lxb_css_syntax_token_bad_string_t   bad_string;
-        lxb_css_syntax_token_delim_t        delim;
-        lxb_css_syntax_token_lparenthesis_t lparenthesis;
-        lxb_css_syntax_token_rparenthesis_t rparenthesis;
-        lxb_css_syntax_token_cdc_t          cdc;
-        lxb_css_syntax_token_function_t     function;
-        lxb_css_syntax_token_ident_t        ident;
-        lxb_css_syntax_token_url_t          url;
-        lxb_css_syntax_token_bad_url_t      bad_url;
-        lxb_css_syntax_token_at_keyword_t   at_keyword;
-        lxb_css_syntax_token_whitespace_t   whitespace;
+        lxb_css_syntax_token_base_t          base;
+        lxb_css_syntax_token_comment_t       comment;
+        lxb_css_syntax_token_number_t        number;
+        lxb_css_syntax_token_dimension_t     dimension;
+        lxb_css_syntax_token_percentage_t    percentage;
+        lxb_css_syntax_token_hash_t          hash;
+        lxb_css_syntax_token_string_t        string;
+        lxb_css_syntax_token_bad_string_t    bad_string;
+        lxb_css_syntax_token_delim_t         delim;
+        lxb_css_syntax_token_l_parenthesis_t lparenthesis;
+        lxb_css_syntax_token_r_parenthesis_t rparenthesis;
+        lxb_css_syntax_token_cdc_t           cdc;
+        lxb_css_syntax_token_function_t      function;
+        lxb_css_syntax_token_ident_t         ident;
+        lxb_css_syntax_token_url_t           url;
+        lxb_css_syntax_token_bad_url_t       bad_url;
+        lxb_css_syntax_token_at_keyword_t    at_keyword;
+        lxb_css_syntax_token_whitespace_t    whitespace;
     }
     types;
 }
