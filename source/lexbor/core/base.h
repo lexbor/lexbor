@@ -26,7 +26,7 @@ extern "C" {
 #include "lexbor/core/lexbor.h"
 
 #define LEXBOR_VERSION_MAJOR 0
-#define LEXBOR_VERSION_MINOR 1
+#define LEXBOR_VERSION_MINOR 2
 #define LEXBOR_VERSION_PATCH 0
 
 #define LEXBOR_VERSION_STRING LEXBOR_STRINGIZE(LEXBOR_VERSION_MAJOR) "."       \
