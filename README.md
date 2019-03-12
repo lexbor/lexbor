@@ -15,11 +15,11 @@ The `lexbor` is being developed using the C language, without dependencies, and 
 
 * No outside dependencies
 
-All features and [roadmap](https://lexbor.com/roadmap/) you can see on [lexbor.com](https://lexbor.com)
+All features and [roadmap](http://lexbor.com/roadmap/) you can see on [lexbor.com](http://lexbor.com)
 
 ## Build and Installation
 
-Please, see [documentation](https://lexbor.com/docs/lexbor/#build_and_installation) on [lexbor.com](https://lexbor.com).
+Please, see [documentation](http://lexbor.com/docs/lexbor/#build_and_installation) on [lexbor.com](http://lexbor.com).
 
 ## External Bindings and Wrappers
 
@@ -27,7 +27,7 @@ You can create a binding or wrapper for the `lexbor` and place the link here!
 
 ## Documentation
 
-Available on [lexbor.com](https://lexbor.com) in [Documentation](https://lexbor.com/docs/lexbor/) section.
+Available on [lexbor.com](http://lexbor.com) in [Documentation](http://lexbor.com/docs/lexbor/) section.
 
 ## Getting Help
 
