@@ -343,18 +343,24 @@ lxb_html_tokenizer_chunk(lxb_html_tokenizer_t *tkz, const lxb_char_t *data,
         return tkz->status;
     }
 
-    while (tkz->incoming_first != NULL &&
-           lexbor_in_segment(tkz->incoming_first, tkz->token->begin) == false)
-    {
-        if (tkz->incoming_first->opt & LEXBOR_IN_OPT_ALLOC) {
-            lexbor_free((lxb_char_t *) tkz->incoming_first->begin);
+    if (tkz->token->begin != NULL) {
+        while (tkz->incoming_first != NULL &&
+               lexbor_in_segment(tkz->incoming_first, tkz->token->begin) == false)
+        {
+            if (tkz->incoming_first->opt & LEXBOR_IN_OPT_ALLOC) {
+                lexbor_free((lxb_char_t *) tkz->incoming_first->begin);
+            }
+
+            next_node = tkz->incoming_first->next;
+
+            lexbor_in_node_destroy(tkz->incoming, tkz->incoming_first, true);
+
+            tkz->incoming_first = next_node;
         }
 
-        next_node = tkz->incoming_first->next;
-
-        lexbor_in_node_destroy(tkz->incoming, tkz->incoming_first, true);
-
-        tkz->incoming_first = next_node;
+        if (tkz->incoming_first != NULL) {
+            tkz->incoming_first->prev = NULL;
+        }
     }
 
     return tkz->status;
@@ -377,6 +383,8 @@ lxb_html_tokenizer_chunk_process(lxb_html_tokenizer_t *tkz,
      * If some state change current incoming buffer,
      * then we need to parse all next buffers again.
      */
+
+    /* TODO: need simplify and get rid of copy-paste */
     if (tkz->incoming_node->next != NULL) {
         lexbor_in_node_t *in_node = tkz->incoming_node;
 
@@ -394,15 +402,15 @@ lxb_html_tokenizer_chunk_process(lxb_html_tokenizer_t *tkz,
                 continue;
             }
 
+            tkz->incoming_node->use = tkz->incoming_node->end;
+
             if (tkz->incoming_node->next == NULL) {
                 break;
             }
 
-            tkz->incoming_node->use = tkz->incoming_node->end;
             tkz->incoming_node = tkz->incoming_node->next;
 
             in_node = tkz->incoming_node;
-
             data = tkz->incoming_node->begin;
         }
     }
@@ -436,13 +444,23 @@ lxb_html_tokenizer_end(lxb_html_tokenizer_t *tkz)
             /* empty loop */
         }
 
+        /* TODO: need simplify and get rid of copy-paste */
         if (tkz->reuse) {
+            lexbor_in_node_t *in_node = tkz->incoming_node;
+
             tkz->is_eof = false;
             data = tkz->incoming_node->use;
 
             for (;;) {
                 while (data < tkz->incoming_node->end) {
                     data = tkz->state(tkz, data, tkz->incoming_node->end);
+                }
+
+                if (in_node != tkz->incoming_node) {
+                    in_node = tkz->incoming_node;
+                    data = tkz->incoming_node->use;
+
+                    continue;
                 }
 
                 tkz->incoming_node->use = tkz->incoming_node->end;
@@ -453,6 +471,7 @@ lxb_html_tokenizer_end(lxb_html_tokenizer_t *tkz)
 
                 tkz->incoming_node = tkz->incoming_node->next;
 
+                in_node = tkz->incoming_node;
                 data = tkz->incoming_node->begin;
             }
 
