@@ -251,7 +251,7 @@ lexbor_write_exponent(int exp, lxb_char_t *begin, lxb_char_t *end)
     if (exp < 0) {
         *begin = '-';
         begin += 1;
- 
+
         exp = -exp;
     }
     else {
