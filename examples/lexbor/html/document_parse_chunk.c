@@ -6,8 +6,7 @@
 
 #include <string.h>
 
-#include "base.h"
-
+#include "examples/lexbor/html/base.h"
 
 int
 main(int argc, const char *argv[])

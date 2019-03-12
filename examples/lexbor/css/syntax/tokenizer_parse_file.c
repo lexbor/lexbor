@@ -7,7 +7,7 @@
 #include <lexbor/css/syntax/tokenizer.h>
 #include <lexbor/core/fs.h>
 
-#include "base.h"
+#include "examples/lexbor/css/base.h"
 
 
 static lxb_css_syntax_token_t *

@@ -167,6 +167,7 @@ endif()
 ## Examples
 #########################
 if(LEXBOR_BUILD_EXAMPLES)
+    include_directories(.)
     add_subdirectory(examples)
 endif()
 

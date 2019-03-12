@@ -4,7 +4,7 @@
  * Author: Alexander Borisov <lex.borisov@gmail.com>
  */
 
-#include "base.h"
+#include "examples/lexbor/html/base.h"
 
 #include <lexbor/html/interfaces/element.h>
 

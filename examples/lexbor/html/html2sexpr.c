@@ -11,7 +11,7 @@
 #include <lexbor/core/fs.h>
 #include <lexbor/html/interfaces/template_element.h>
 
-#include "base.h"
+#include "examples/lexbor/html/base.h"
 
 
 static void
