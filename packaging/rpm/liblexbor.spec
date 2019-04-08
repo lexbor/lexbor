@@ -9,7 +9,7 @@ URL:      https://github.com/lexbor/lexbor
 Source0:  %{name}-%{version}.tar.gz
 
 %if 0%{?rhel}%{?fedora}
-BuildRequires: cmake >= 3.0
+BuildRequires: cmake >= 2.8
 BuildRequires: make
 BuildRequires: gcc
 BuildRequires: gcc-c++
