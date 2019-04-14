@@ -68,7 +68,6 @@ liblexbor: debuild/liblexbor_$(VERSION).orig.tar.gz
 	find debuild/ -maxdepth 1 -type f -name "*.deb" -exec cp {} debs/$(CODENAME)/ \;
 
 clean:
-	rm -rf debuild debuild-* debs
-	rm -f check-build-depends-*
+	rm -rf debuild debs
 
 .PHONY: default all build clean
