@@ -5,7 +5,7 @@ RELEASE ?= 1
 SRCDIR = liblexbor-$(VERSION)
 CODENAME = $(shell lsb_release -cs)
 DATE = $(shell date +"%a, %d %b %Y %T +0300")
-BUILD_DEPENDS = build-essential debhelper devscripts fakeroot lintian lsb-release xsltproc
+BUILD_DEPENDS = build-essential debhelper devscripts fakeroot lintian lsb-release xsltproc cmake
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
 default:
@@ -18,7 +18,9 @@ debuild/$(SRCDIR)/debian:
 	mkdir -p debuild/$(SRCDIR) ; \
 	cp -pr debian debuild/$(SRCDIR)
 
-mkonfly: debuild/$(SRCDIR)/debian/changelog debuild/$(SRCDIR)/debian/liblexbor.install debuild/$(SRCDIR)/debian/liblexbor-dev.install
+mkonfly: debuild/$(SRCDIR)/debian/changelog debuild/$(SRCDIR)/debian/liblexbor.install \
+         debuild/$(SRCDIR)/debian/liblexbor-dev.install \
+		 debuild/$(SRCDIR)/debian/liblexbor.dirs debuild/$(SRCDIR)/debian/liblexbor-dev.dirs
 
 debuild/$(SRCDIR)/debian/changelog: debuild/$(SRCDIR)/debian
 	cat debuild/$(SRCDIR)/debian/changelog.in | sed \
