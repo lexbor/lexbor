@@ -64,13 +64,11 @@ debuild/liblexbor_$(VERSION).orig.tar.gz: mkonfly
 liblexbor: debuild/liblexbor_$(VERSION).orig.tar.gz
 	@echo "===> Building $@ package"
 	cd debuild/$(SRCDIR) && debuild -us -uc
-	mkdir -p debs
-	find debuild/ -maxdepth 1 -type f -exec cp {} debs/ \;
-	ln -s debuild/$(SRCDIR)/build $@
+	mkdir -p debs/$(CODENAME)
+	find debuild/ -maxdepth 1 -type f -name "*.deb" -exec cp {} debs/$(CODENAME)/ \;
 
 clean:
 	rm -rf debuild debuild-* debs
 	rm -f check-build-depends-*
-	find . -maxdepth 1 -type l -delete
 
 .PHONY: default all build clean
