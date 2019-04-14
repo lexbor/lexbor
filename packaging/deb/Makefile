@@ -56,7 +56,7 @@ debuild/$(SRCDIR)/debian/liblexbor-dev.dirs: debuild/$(SRCDIR)/debian
 debuild/liblexbor_$(VERSION).orig.tar.gz: mkonfly
 	cd ../.. && tar -czf packaging/deb/debuild/$(SRCDIR).tar.gz \
 		--transform "s#^#$(SRCDIR)/#" \
-		LICENSE NOTICE CHANGELOG.md README.md CMakeLists.txt \
+		LICENSE NOTICE version CHANGELOG.md README.md CMakeLists.txt \
 		config.cmake feature.cmake source test
 	mv debuild/$(SRCDIR).tar.gz debuild/liblexbor_$(VERSION).orig.tar.gz
 	cd debuild && tar zxf liblexbor_$(VERSION).orig.tar.gz

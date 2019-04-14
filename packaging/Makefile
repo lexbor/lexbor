@@ -1,8 +1,10 @@
 #!/usr/bin/make
 
+include ../version
+
 ARCH?=x86_64
 RELEASE?=1
-VERSION?=$(shell ../get_version.sh ../source/lexbor/core/base.h)
+VERSION?=$(LEXBOR_VERSION)
 
 default:
 	@echo "available targets: rpm deb"
