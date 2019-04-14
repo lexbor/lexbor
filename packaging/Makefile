@@ -5,12 +5,16 @@ RELEASE?=1
 VERSION?=$(shell ../get_version.sh ../source/lexbor/core/base.h)
 
 default:
-	@echo "available targets: rpm"
+	@echo "available targets: rpm deb"
 
 rpm:
 	@cd rpm && VERSION=$(VERSION) RELEASE=$(RELEASE) ARCH=$(ARCH) $(MAKE) all
 
-clean:
-	make all
+deb:
+	@cd deb && VERSION=$(VERSION) RELEASE=$(RELEASE) ARCH=$(ARCH) $(MAKE) all
 
-.PHONY: default rpm clean
+clean:
+	$(MAKE) -C rpm clean
+	$(MAKE) -C deb clean
+
+.PHONY: default rpm deb clean
