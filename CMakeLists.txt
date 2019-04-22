@@ -19,6 +19,10 @@ project(${PROJECT_NAME} C)
 
 message(STATUS "Project name: ${PROJECT_NAME}")
 
+if (APPLE)
+    set(CMAKE_MACOSX_RPATH ON)
+endif (APPLE)
+
 ################
 ## Options
 #########################
