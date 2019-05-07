@@ -284,7 +284,7 @@ lxb_css_syntax_tokenizer_process(lxb_css_syntax_tokenizer_t *tkz,
 reuse:
 
         in_node = tkz->incoming_node;
-        data = tkz->incoming_node->use;
+        data = in_node->use;
 
         for (;;) {
             while (data < in_node->end) {
@@ -295,13 +295,13 @@ reuse:
                 goto reuse;
             }
 
+            in_node->use = in_node->end;
+
             if (in_node->next == NULL) {
                 break;
             }
 
-            in_node->use = in_node->end;
             in_node = in_node->next;
-
             tkz->incoming_node = in_node;
 
             data = in_node->begin;
