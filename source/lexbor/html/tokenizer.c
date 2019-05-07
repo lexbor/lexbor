@@ -370,6 +370,7 @@ static lxb_status_t
 lxb_html_tokenizer_chunk_process(lxb_html_tokenizer_t *tkz,
                                  const lxb_char_t *data, size_t size)
 {
+    lexbor_in_node_t *in_node;
     const lxb_char_t *end = data + size;
 
     tkz->is_eof = false;
@@ -383,35 +384,32 @@ lxb_html_tokenizer_chunk_process(lxb_html_tokenizer_t *tkz,
      * If some state change current incoming buffer,
      * then we need to parse all next buffers again.
      */
-
-    /* TODO: need simplify and get rid of copy-paste */
     if (tkz->incoming_node->next != NULL) {
-        lexbor_in_node_t *in_node = tkz->incoming_node;
 
-        data = tkz->incoming_node->use;
+reuse:
+
+        in_node = tkz->incoming_node;
+        data = in_node->use;
 
         for (;;) {
-            while (data < tkz->incoming_node->end) {
-                data = tkz->state(tkz, data, tkz->incoming_node->end);
+            while (data < in_node->end) {
+                data = tkz->state(tkz, data, in_node->end);
             }
 
             if (in_node != tkz->incoming_node) {
-                in_node = tkz->incoming_node;
-                data = tkz->incoming_node->use;
-
-                continue;
+                goto reuse;
             }
 
-            tkz->incoming_node->use = tkz->incoming_node->end;
+            in_node->use = in_node->end;
 
-            if (tkz->incoming_node->next == NULL) {
+            if (in_node->next == NULL) {
                 break;
             }
 
-            tkz->incoming_node = tkz->incoming_node->next;
+            in_node = in_node->next;
+            tkz->incoming_node = in_node;
 
-            in_node = tkz->incoming_node;
-            data = tkz->incoming_node->begin;
+            data = in_node->begin;
         }
     }
 
@@ -423,6 +421,7 @@ lxb_html_tokenizer_chunk_process(lxb_html_tokenizer_t *tkz,
 lxb_status_t
 lxb_html_tokenizer_end(lxb_html_tokenizer_t *tkz)
 {
+    lexbor_in_node_t *in_node;
     const lxb_char_t *data, *end;
 
     tkz->reuse = false;
@@ -446,33 +445,33 @@ lxb_html_tokenizer_end(lxb_html_tokenizer_t *tkz)
 
         /* TODO: need simplify and get rid of copy-paste */
         if (tkz->reuse) {
-            lexbor_in_node_t *in_node = tkz->incoming_node;
+
+reuse:
+
+            in_node = tkz->incoming_node;
 
             tkz->is_eof = false;
-            data = tkz->incoming_node->use;
+            data = in_node->use;
 
             for (;;) {
-                while (data < tkz->incoming_node->end) {
-                    data = tkz->state(tkz, data, tkz->incoming_node->end);
+                while (data < in_node->end) {
+                    data = tkz->state(tkz, data, in_node->end);
                 }
 
                 if (in_node != tkz->incoming_node) {
-                    in_node = tkz->incoming_node;
-                    data = tkz->incoming_node->use;
-
-                    continue;
+                    goto reuse;
                 }
 
-                tkz->incoming_node->use = tkz->incoming_node->end;
+                in_node->use = in_node->end;
 
-                if (tkz->incoming_node->next == NULL) {
+                if (in_node->next == NULL) {
                     break;
                 }
 
-                tkz->incoming_node = tkz->incoming_node->next;
+                in_node = in_node->next;
+                tkz->incoming_node = in_node;
 
-                in_node = tkz->incoming_node;
-                data = tkz->incoming_node->begin;
+                data = in_node->begin;
             }
 
             tkz->reuse = false;
