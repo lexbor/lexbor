@@ -272,6 +272,7 @@ static void
 lxb_css_syntax_tokenizer_process(lxb_css_syntax_tokenizer_t *tkz,
                                  const lxb_char_t *data, size_t size)
 {
+    lexbor_in_node_t *in_node;
     const lxb_char_t *end = data + size;
 
     while (data < end) {
@@ -279,32 +280,31 @@ lxb_css_syntax_tokenizer_process(lxb_css_syntax_tokenizer_t *tkz,
     }
 
     if (tkz->incoming_node->next != NULL) {
-        lexbor_in_node_t *in_node = tkz->incoming_node;
 
+reuse:
+
+        in_node = tkz->incoming_node;
         data = tkz->incoming_node->use;
 
         for (;;) {
-            while (data < tkz->incoming_node->end) {
-                data = tkz->state(tkz, data, tkz->incoming_node->end);
+            while (data < in_node->end) {
+                data = tkz->state(tkz, data, in_node->end);
             }
 
             if (in_node != tkz->incoming_node) {
-                in_node = tkz->incoming_node;
-                data = tkz->incoming_node->use;
-
-                continue;
+                goto reuse;
             }
 
-            if (tkz->incoming_node->next == NULL) {
+            if (in_node->next == NULL) {
                 break;
             }
 
-            tkz->incoming_node->use = tkz->incoming_node->end;
-            tkz->incoming_node = tkz->incoming_node->next;
+            in_node->use = in_node->end;
+            in_node = in_node->next;
 
-            in_node = tkz->incoming_node;
+            tkz->incoming_node = in_node;
 
-            data = tkz->incoming_node->begin;
+            data = in_node->begin;
         }
     }
 
