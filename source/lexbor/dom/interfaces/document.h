@@ -47,6 +47,7 @@ struct lxb_dom_document {
     lexbor_mraw_t               *text;
     void                        *tags;
     void                        *ns;
+    void                        *user;
 
     bool                        scripting;
 };
