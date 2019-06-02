@@ -516,7 +516,7 @@ lxb_html_tree_append_attributes_from_element(lxb_html_tree_t *tree,
 {
     lxb_status_t status;
     lxb_dom_attr_t *attr = from->first_attr;
-    lxb_dom_attr_t *new_attr = from->first_attr;
+    lxb_dom_attr_t *new_attr;
 
     while (attr != NULL) {
         new_attr = lxb_dom_attr_interface_create(element->node.owner_document);

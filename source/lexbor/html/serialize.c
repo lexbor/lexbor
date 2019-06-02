@@ -837,10 +837,8 @@ lxb_html_serialize_pretty_cb(lxb_dom_node_t *node,
             break;
 
         case LXB_DOM_NODE_TYPE_TEXT:
-            status = lxb_html_serialize_pretty_text_cb(lxb_dom_interface_text(node),
-                                                       opt, indent, cb, ctx);
-
-            return LXB_STATUS_OK;
+            return lxb_html_serialize_pretty_text_cb(lxb_dom_interface_text(node),
+                                                     opt, indent, cb, ctx);
 
         case LXB_DOM_NODE_TYPE_COMMENT: {
             bool with_indent;
