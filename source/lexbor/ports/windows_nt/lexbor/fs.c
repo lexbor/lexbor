@@ -104,7 +104,7 @@ lexbor_fs_dir_read(const lxb_char_t *dirpath, lexbor_fs_dir_opt_t opt,
             goto error;
         }
 
-        if (data.dwFileAttributes & (FILE_ATTRIBUTE_DIRECTORY | FILE_ATTRIBUTE_NORMAL) != 0) {
+        if ((data.dwFileAttributes & (FILE_ATTRIBUTE_DIRECTORY | FILE_ATTRIBUTE_NORMAL)) != 0) {
             f_type = lexbor_fs_file_type((const lxb_char_t *) data.cFileName);
 
             if (opt & LEXBOR_FS_DIR_OPT_WITHOUT_DIR
@@ -192,7 +192,7 @@ lexbor_fs_file_easy_read(const lxb_char_t *full_path, size_t *len)
     char *data;
     DWORD nread = 0;
 
-    fh = CreateFile(full_path, GENERIC_READ, FILE_SHARE_READ,
+    fh = CreateFile((LPCSTR)full_path, GENERIC_READ, FILE_SHARE_READ,
                     NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
     if (fh == INVALID_HANDLE_VALUE) {
         goto error;
@@ -223,7 +223,7 @@ lexbor_fs_file_easy_read(const lxb_char_t *full_path, size_t *len)
 
     data[size.QuadPart] = '\0';
 
-    return data;
+    return (lxb_char_t *)data;
 
 error_close:
 
