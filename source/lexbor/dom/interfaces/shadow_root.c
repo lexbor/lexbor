@@ -9,7 +9,7 @@
 
 
 lxb_dom_shadow_root_t *
-lxb_dom_shadow_root_create(lxb_dom_document_t *document)
+lxb_dom_shadow_root_interface_create(lxb_dom_document_t *document)
 {
     lxb_dom_shadow_root_t *element;
 
@@ -28,7 +28,7 @@ lxb_dom_shadow_root_create(lxb_dom_document_t *document)
 }
 
 lxb_dom_shadow_root_t *
-lxb_dom_shadow_root_destroy(lxb_dom_shadow_root_t *shadow_root)
+lxb_dom_shadow_root_interface_destroy(lxb_dom_shadow_root_t *shadow_root)
 {
     return lexbor_mraw_free(
         lxb_dom_interface_node(shadow_root)->owner_document->mraw,
