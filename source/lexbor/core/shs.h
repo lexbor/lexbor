@@ -16,14 +16,14 @@ extern "C" {
 #include "lexbor/core/base.h"
 
 
-struct {
+typedef struct {
     char   *key;
     void   *value;
 
     size_t key_len;
     size_t next;
 }
-typedef lexbor_shs_entry_t;
+lexbor_shs_entry_t;
 
 
 LXB_API const lexbor_shs_entry_t *

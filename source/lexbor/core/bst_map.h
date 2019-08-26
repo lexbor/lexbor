@@ -17,19 +17,19 @@ extern "C" {
 #include "lexbor/core/dobject.h"
 
 
-struct {
+typedef struct {
     lexbor_str_t str;
     void         *value;
 }
-typedef lexbor_bst_map_entry_t;
+lexbor_bst_map_entry_t;
 
-struct {
+typedef struct {
     lexbor_bst_t     *bst;
     lexbor_mraw_t    *mraw;
     lexbor_dobject_t *entries;
 
 }
-typedef lexbor_bst_map_t;
+lexbor_bst_map_t;
 
 
 LXB_API lexbor_bst_map_t *

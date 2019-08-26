@@ -130,21 +130,21 @@ enum lxb_css_syntax_token_data_type {
     LXB_CSS_SYNTAX_TOKEN_DATA_HAVE_NULL = 0x08
 };
 
-struct lxb_css_syntax_token_base {
+typedef struct lxb_css_syntax_token_base {
     lxb_css_syntax_token_type_t      type;
     lxb_css_syntax_token_data_type_t data_type;
 }
-typedef lxb_css_syntax_token_base_t;
+lxb_css_syntax_token_base_t;
 
-struct lxb_css_syntax_token_number {
+typedef struct lxb_css_syntax_token_number {
     lxb_css_syntax_token_base_t base;
 
     double                      num;
     bool                        is_float;
 }
-typedef lxb_css_syntax_token_number_t;
+lxb_css_syntax_token_number_t;
 
-struct lxb_css_syntax_token_dimension {
+typedef struct lxb_css_syntax_token_dimension {
     /* Do not change it. */
     lxb_css_syntax_token_number_t num;
 
@@ -154,9 +154,9 @@ struct lxb_css_syntax_token_dimension {
     const lxb_char_t              *begin;
     const lxb_char_t              *end;
 }
-typedef lxb_css_syntax_token_dimension_t;
+lxb_css_syntax_token_dimension_t;
 
-struct lxb_css_syntax_token_string {
+typedef struct lxb_css_syntax_token_string {
     lxb_css_syntax_token_base_t base;
 
     lexbor_str_t                data;
@@ -164,9 +164,9 @@ struct lxb_css_syntax_token_string {
     const lxb_char_t            *begin;
     const lxb_char_t            *end;
 }
-typedef lxb_css_syntax_token_string_t;
+lxb_css_syntax_token_string_t;
 
-struct lxb_css_syntax_token_delim {
+typedef struct lxb_css_syntax_token_delim {
     lxb_css_syntax_token_base_t base;
 
     lxb_char_t                  character;
@@ -174,7 +174,7 @@ struct lxb_css_syntax_token_delim {
     const lxb_char_t            *begin;
     const lxb_char_t            *end;
 }
-typedef lxb_css_syntax_token_delim_t;
+lxb_css_syntax_token_delim_t;
 
 typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_ident_t;
 typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_function_t;
@@ -198,7 +198,7 @@ typedef lxb_css_syntax_token_base_t   lxb_css_syntax_token_lc_bracket_t;
 typedef lxb_css_syntax_token_base_t   lxb_css_syntax_token_rc_bracket_t;
 typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_comment_t;
 
-struct lxb_css_syntax_token {
+typedef struct lxb_css_syntax_token {
     union lxb_css_syntax_token_u {
         lxb_css_syntax_token_base_t          base;
         lxb_css_syntax_token_comment_t       comment;
@@ -221,7 +221,7 @@ struct lxb_css_syntax_token {
     }
     types;
 }
-typedef lxb_css_syntax_token_t;
+lxb_css_syntax_token_t;
 
 
 LXB_API const lxb_char_t *
