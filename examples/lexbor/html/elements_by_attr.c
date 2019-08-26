@@ -9,7 +9,7 @@
 #include <lexbor/dom/collection.h>
 
 
-void
+static void
 print_collection_elements(lxb_dom_collection_t *collection)
 {
     lxb_dom_element_t *element;
