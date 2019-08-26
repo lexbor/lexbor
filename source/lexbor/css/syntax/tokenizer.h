@@ -43,7 +43,7 @@ typedef enum {
 lxb_css_syntax_process_state_t;
 
 
-struct lxb_css_syntax_tokenizer_numeric {
+typedef struct lxb_css_syntax_tokenizer_numeric {
     lxb_char_t data[128];
     lxb_char_t *buf;
     lxb_char_t *end;
@@ -53,7 +53,7 @@ struct lxb_css_syntax_tokenizer_numeric {
     bool       is_negative;
     bool       e_is_negative;
 }
-typedef lxb_css_syntax_tokenizer_numeric_t;
+lxb_css_syntax_tokenizer_numeric_t;
 
 struct lxb_css_syntax_tokenizer {
     lxb_css_syntax_tokenizer_state_f   state;

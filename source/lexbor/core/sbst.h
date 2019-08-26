@@ -16,7 +16,7 @@ extern "C" {
 #include "lexbor/core/base.h"
 
 
-struct {
+typedef struct {
     lxb_char_t key;
 
     void       *value;
@@ -26,7 +26,7 @@ struct {
     size_t     right;
     size_t     next;
 }
-typedef lexbor_sbst_entry_static_t;
+lexbor_sbst_entry_static_t;
 
 
 /*
