@@ -1,0 +1,30 @@
+
+option('perf',
+  type : 'boolean',
+  value : false,
+  description : 'Whether to build with performance code or not'
+)
+
+option('threads',
+  type : 'boolean',
+  value : false,
+  description : 'Whether to build with threads or not'
+)
+
+option('unit-tests',
+  type : 'boolean',
+  value : false,
+  description : 'Whether to build with C unit tests or not'
+)
+
+option('unit-tests-cpp',
+  type : 'boolean',
+  value : false,
+  description : 'Whether to build with C++ unit tests or not'
+)
+
+option('examples',
+  type : 'boolean',
+  value : false,
+  description : 'Whether to build with examples or not'
+)
