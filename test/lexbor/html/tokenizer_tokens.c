@@ -715,7 +715,7 @@ print_error(tokenizer_helper_t *helper, unit_kv_value_t *value)
     unit_kv_string_destroy(helper->kv, &str, false);
 }
 
-lexbor_action_t
+static lexbor_action_t
 file_callback(const lxb_char_t *fullpath, size_t fullpath_len,
               const lxb_char_t *filename, size_t filename_len, void *ctx)
 {
