@@ -117,7 +117,13 @@ ENDMACRO()
 MACRO(APPEND_TESTS name_prefix sources)
     FOREACH(src ${sources})
         get_filename_component(barename ${src} NAME_WE)
-        add_test("${name_prefix}${barename}" "${barename}" "${${name_prefix}${barename}_arg}")
+        get_filename_component(build_dir ${src} DIRECTORY)
+
+        STRING(REGEX REPLACE "^${LEXBOR_DIR_ROOT}" "" build_dir ${build_dir})
+        STRING(REGEX REPLACE "^/+" "" build_dir ${build_dir})
+
+        add_test("${name_prefix}${barename}" "${CMAKE_BINARY_DIR}/${build_dir}/${barename}"
+                 "${${name_prefix}${barename}_arg}")
 
         FOREACH(i RANGE 100)
             IF("${${name_prefix}${barename}_arg_${i}}" STREQUAL "")
@@ -125,7 +131,8 @@ MACRO(APPEND_TESTS name_prefix sources)
             ENDIF()
 
             get_filename_component(barename ${src} NAME_WE)
-            add_test("${name_prefix}${barename}_${i}" "${name_prefix}${barename}" "${${name_prefix}${barename}_arg_${i}}")
+            add_test("${name_prefix}${barename}_${i}" "${CMAKE_BINARY_DIR}/${build_dir}/${barename}"
+                     "${${name_prefix}${barename}_arg_${i}}")
         ENDFOREACH()
     ENDFOREACH()
 ENDMACRO()
