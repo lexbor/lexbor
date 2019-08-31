@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #define FAIL_AND_EXIT(...) fprintf(stderr, __VA_ARGS__"\n"); exit(1)
