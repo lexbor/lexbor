@@ -32,11 +32,11 @@ Available on [lexbor.com](https://lexbor.com) in [Documentation](https://lexbor.
 ## Getting Help
 
 * IRC: [#lexbor on `irc.freenode.net <http://freenode.net>`](http://webchat.freenode.net?channels=%23lexbor)
-* E-mail [lex.borisov@gmail.com](mailto:lex.borisov@gmail.com)
+* E-mail [support@lexbor.com](mailto:support@lexbor.com)
 
 ## AUTHOR
 
-Alexander Borisov <lex.borisov@gmail.com>
+Alexander Borisov <borisov@lexbor.com>
 
 ## COPYRIGHT AND LICENSE
 

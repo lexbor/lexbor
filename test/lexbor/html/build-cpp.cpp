@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include <iostream>
