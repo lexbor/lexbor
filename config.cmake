@@ -101,7 +101,15 @@ ENDMACRO()
 MACRO(EXECUTABLE_LIST name_prefix sources)
     FOREACH(src ${sources})
         get_filename_component(barename ${src} NAME_WE)
+        get_filename_component(build_dir ${src} DIRECTORY)
+
+        STRING(REGEX REPLACE "^${LEXBOR_DIR_ROOT}" "" build_dir ${build_dir})
+        STRING(REGEX REPLACE "^/+" "" build_dir ${build_dir})
+
         add_executable("${name_prefix}${barename}" ${src})
+        set_target_properties("${name_prefix}${barename}" PROPERTIES
+                              RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${build_dir}"
+                              OUTPUT_NAME "${barename}")
         target_link_libraries("${name_prefix}${barename}" ${ARGN})
     ENDFOREACH()
 ENDMACRO()
@@ -109,7 +117,7 @@ ENDMACRO()
 MACRO(APPEND_TESTS name_prefix sources)
     FOREACH(src ${sources})
         get_filename_component(barename ${src} NAME_WE)
-        add_test("${name_prefix}${barename}" "${name_prefix}${barename}" "${${name_prefix}${barename}_arg}")
+        add_test("${name_prefix}${barename}" "${barename}" "${${name_prefix}${barename}_arg}")
 
         FOREACH(i RANGE 100)
             IF("${${name_prefix}${barename}_arg_${i}}" STREQUAL "")
