@@ -119,20 +119,25 @@ MACRO(APPEND_TESTS name_prefix sources)
         get_filename_component(barename ${src} NAME_WE)
         get_filename_component(build_dir ${src} DIRECTORY)
 
+        STRING(REGEX REPLACE "^${CMAKE_CURRENT_SOURCE_DIR}" "/" relative_path ${build_dir})
+        set(relative_path "${relative_path}/${barename}")
+
+        STRING(REGEX REPLACE "/+" "_" arg_name ${relative_path})
+        STRING(REGEX REPLACE "^_+" "" arg_name ${arg_name})
+
         STRING(REGEX REPLACE "^${LEXBOR_DIR_ROOT}" "" build_dir ${build_dir})
         STRING(REGEX REPLACE "^/+" "" build_dir ${build_dir})
 
         add_test("${name_prefix}${barename}" "${CMAKE_BINARY_DIR}/${build_dir}/${barename}"
-                 "${${name_prefix}${barename}_arg}")
+                 "${${arg_name}_arg}")
 
         FOREACH(i RANGE 100)
-            IF("${${name_prefix}${barename}_arg_${i}}" STREQUAL "")
+            IF("${${name_prefix}${arg_name}_arg_${i}}" STREQUAL "")
                 break()
             ENDIF()
 
-            get_filename_component(barename ${src} NAME_WE)
             add_test("${name_prefix}${barename}_${i}" "${CMAKE_BINARY_DIR}/${build_dir}/${barename}"
-                     "${${name_prefix}${barename}_arg_${i}}")
+                     "${${arg_name}_arg_${i}}")
         ENDFOREACH()
     ENDFOREACH()
 ENDMACRO()

@@ -15,7 +15,7 @@ file(GLOB_RECURSE TEST_LEXBOR_CSS_SOURCES "*.c")
 ################
 ## ARGS for tests
 #########################
-set(lexbor_css_tokenizer_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/css/syntax/tokenizer")
+set(syntax_tokenizer_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/css/syntax/tokenizer")
 
 ################
 ## Create tests
