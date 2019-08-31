@@ -11,6 +11,9 @@
 extern "C" {
 #endif
 
+#include <stdint.h>
+#include <stdbool.h>
+
 /* Inline */
 #ifdef _MSC_VER
     #define lxb_inline static __forceinline
@@ -20,7 +23,7 @@ extern "C" {
 
 
 /* Simple types */
-typedef size_t        lxb_codepoint_t;
+typedef uint32_t      lxb_codepoint_t;
 typedef unsigned char lxb_char_t;
 typedef unsigned int  lxb_status_t;
 
