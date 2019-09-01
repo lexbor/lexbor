@@ -27,7 +27,7 @@ typedef struct {
 tkz_test_cmp_t;
 
 
-lxb_html_token_t *
+static lxb_html_token_t *
 test_callback_token_done(lxb_html_tokenizer_t *tkz,
                          lxb_html_token_t *token, void *ctx)
 {
