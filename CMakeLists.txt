@@ -1,17 +1,22 @@
 cmake_minimum_required(VERSION 2.8)
 
+
 # Options:
-#    LEXBOR_OPTIMIZATION_LEVEL      default: -O2
-#    LEXBOR_C_FLAGS                 default: see this file
-#    LEXBOR_WITHOUT_THREADS         default: ON; Not used now, for the future
-#    LEXBOR_BUILD_SHARED            default: ON; Create shaded library
-#    LEXBOR_BUILD_STATIC            default: ON; Create static library
-#    LEXBOR_INSTALL_HEADERS         default: ON; The header files will be installed 
-#                                    if set to ON
-#    LEXBOR_BUILD_TESTS             default: OFF; Build tests
-#    LEXBOR_BUILD_TESTS_CPP         default: ON; Build C++ tests
-#                                    Used with LEXBOR_BUILD_TESTS
-#    LEXBOR_BUILD_EXAMPLES          default: OFF; Build all examples
+#    LEXBOR_OPTIMIZATION_LEVEL           default: -O2
+#    LEXBOR_C_FLAGS                      default: see this file
+#    LEXBOR_WITHOUT_THREADS              default: ON; Not used now, for the future
+#    LEXBOR_BUILD_SHARED                 default: ON; Create shaded library
+#    LEXBOR_BUILD_STATIC                 default: ON; Create static library
+#    LEXBOR_BUILD_SEPARATELY             default: OFF; Build all modules separately.
+#                                         Each module will have its own shared library
+#    LEXBOR_INSTALL_HEADERS              default: ON; The header files will be installed
+#                                         if set to ON
+#    LEXBOR_BUILD_TESTS                  default: OFF; Build tests
+#    LEXBOR_BUILD_TESTS_CPP              default: ON; Build C++ tests.
+#                                         Used with LEXBOR_BUILD_TESTS
+#    LEXBOR_BUILD_EXAMPLES               default: OFF; Build all examples
+#    LEXBOR_PRINT_MODULE_DEPENDENCIES    default: OFF; Prints dependencies between modules
+
 
 set(PROJECT_NAME "lexbor")
 
@@ -19,9 +24,9 @@ project(${PROJECT_NAME} C)
 
 message(STATUS "Project name: ${PROJECT_NAME}")
 
-if (APPLE)
+IF(APPLE)
     set(CMAKE_MACOSX_RPATH ON)
-endif (APPLE)
+ENDIF(APPLE)
 
 ################
 ## Options
@@ -29,10 +34,12 @@ endif (APPLE)
 option(LEXBOR_WITHOUT_THREADS "Build without Threads" ON)
 option(LEXBOR_BUILD_SHARED "Build shared library" ON)
 option(LEXBOR_BUILD_STATIC "Build static library" ON)
+option(LEXBOR_BUILD_SEPARATELY "Build modules separately" OFF)
 option(LEXBOR_INSTALL_HEADERS "Install header files" ON)
 option(LEXBOR_BUILD_TESTS "Build tests" OFF)
 option(LEXBOR_BUILD_TESTS_CPP "Build C++ tests" ON)
 option(LEXBOR_BUILD_EXAMPLES "Build examples" OFF)
+option(LEXBOR_PRINT_MODULE_DEPENDENCIES "Prints dependencies" OFF)
 
 ################
 ## Version and path
@@ -46,40 +53,24 @@ set(LEXBOR_DIR_HEADER_LEXBOR "${LEXBOR_SOURCE}/lexbor" CACHE STRING "")
 set(LEXBOR_SOURCE_PORT_DIR "${LEXBOR_SOURCE}/ports" CACHE STRING "")
 set(LEXBOR_DIR_ROOT "${CMAKE_CURRENT_SOURCE_DIR}" CACHE STRING "")
 
-set(LEXBOR_LIB_NAME "${PROJECT_NAME}" CACHE STRING "")
-set(LEXBOR_LIB_NAME_STATIC "${PROJECT_NAME}_static" CACHE STRING "")
+set(LEXBOR_VERSION_FILEPATH "${CMAKE_CURRENT_SOURCE_DIR}/version" CACHE STRING "")
 
 set(LEXBOR_INSTALL_DLL_EXE_DIR "bin")
 
 ################
-## Project Version
-#########################
-set(LEXBOR_VERSION_PREFIX "LEXBOR_VERSION")
-set(LEXBOR_VERSION_HEADER_FILE "${LEXBOR_DIR_HEADER_LEXBOR}/${LEXBOR_BASE}/base.h")
-
-file(STRINGS ${LEXBOR_VERSION_HEADER_FILE} LEXBOR_VERSION_PARTS
-REGEX "^#define[ \t]+${LEXBOR_VERSION_PREFIX}_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+$")
-
-list(GET LEXBOR_VERSION_PARTS 0 LEXBOR_VERSION_MAJOR_PART)
-list(GET LEXBOR_VERSION_PARTS 1 LEXBOR_VERSION_MINOR_PART)
-list(GET LEXBOR_VERSION_PARTS 2 LEXBOR_VERSION_PATCH_PART)
-
-string(REGEX REPLACE "#define[ \t]+${LEXBOR_VERSION_PREFIX}_MAJOR[ \t]+([0-9]+).*" "\\1" LEXBOR_VERSION_MAJOR ${LEXBOR_VERSION_MAJOR_PART})
-string(REGEX REPLACE "#define[ \t]+${LEXBOR_VERSION_PREFIX}_MINOR[ \t]+([0-9]+).*" "\\1" LEXBOR_VERSION_MINOR ${LEXBOR_VERSION_MINOR_PART})
-string(REGEX REPLACE "#define[ \t]+${LEXBOR_VERSION_PREFIX}_PATCH[ \t]+([0-9]+).*" "\\1" LEXBOR_VERSION_PATCH ${LEXBOR_VERSION_PATCH_PART})
-
-set(LEXBOR_VERSION_STRING "${LEXBOR_VERSION_MAJOR}.${LEXBOR_VERSION_MINOR}.${LEXBOR_VERSION_PATCH}")
-message(STATUS "Project version: ${LEXBOR_VERSION_STRING}")
-
-################
 ## lib param
 #########################
-set(LEXBOR_LIB_NAME "${PROJECT_NAME}")
-set(LEXBOR_LIB_NAME_STATIC "${PROJECT_NAME}_static")
+IF(LEXBOR_BUILD_SEPARATELY)
+    set(LEXBOR_LIB_NAME "${PROJECT_NAME}-blank" CACHE STRING "")
+    set(LEXBOR_LIB_NAME_STATIC "${LEXBOR_LIB_NAME}_static" CACHE STRING "")
+ELSE()
+    set(LEXBOR_LIB_NAME "${PROJECT_NAME}" CACHE STRING "")
+    set(LEXBOR_LIB_NAME_STATIC "${LEXBOR_LIB_NAME}_static" CACHE STRING "")
+ENDIF()
 
-if(NOT DEFINED CMAKE_INSTALL_LIBDIR)
-set(CMAKE_INSTALL_LIBDIR "lib")
-endif()
+IF(NOT DEFINED CMAKE_INSTALL_LIBDIR)
+    set(CMAKE_INSTALL_LIBDIR "lib")
+ENDIF()
 
 ################
 ## CMake Includes
@@ -87,110 +78,166 @@ endif()
 include("${CMAKE_CURRENT_SOURCE_DIR}/config.cmake")
 
 ################
-## Includes
-#########################
-include_directories(${LEXBOR_DIR_HEADER})
-file(GLOB_RECURSE LEXBOR_HEADERS ${LEXBOR_DIR_HEADER}/*.h)
-
-################
-## Sources
-#########################
-GET_MODULES_LIST(LEXBOR_MODULES LEXBOR_MODULES_DIRS ${LEXBOR_SOURCE})
-CREATE_MODULES_SOURCES(LEXBOR_MODULES_SOURCES_PATH "${LEXBOR_MODULES_DIRS}")
-
-MODULES_PRINT("${LEXBOR_MODULES}")
-
-file(GLOB_RECURSE LEXBOR_SOURCES ${LEXBOR_MODULES_SOURCES_PATH})
-
-################
-## Export LEXBOR_INCLUDE_DIRS and LEXBOR_LIBRARIES to global CACHE
-#########################
-set(LEXBOR_INCLUDES ${LEXBOR_DIR_HEADER} CACHE STRING "Include paths for ${PROJECT_NAME}")
-set(LEXBOR_LIBRARIES ${LEXBOR_NAME} CACHE STRING "Libraries to link for ${PROJECT_NAME}")
-
-################
-## Create static/dynamic library
-#########################
-if(LEXBOR_BUILD_SHARED)
-    add_library(${LEXBOR_LIB_NAME} SHARED ${LEXBOR_SOURCES})
-endif()
-
-if(LEXBOR_BUILD_STATIC)
-    add_library(${LEXBOR_LIB_NAME_STATIC} STATIC ${LEXBOR_SOURCES})
-endif()
-
-################
 ## Features
 #########################
 include("${CMAKE_CURRENT_SOURCE_DIR}/feature.cmake")
 
 ################
-## Create static/dynamic library
+## Project Version
 #########################
-if(LEXBOR_BUILD_SHARED)
-    target_link_libraries(${LEXBOR_LIB_NAME} ${CMAKE_THREAD_LIBS_INIT})
-    set_target_properties(${LEXBOR_LIB_NAME} PROPERTIES OUTPUT_NAME ${LEXBOR_LIB_NAME})
-    set_target_properties(${LEXBOR_LIB_NAME} PROPERTIES VERSION ${LEXBOR_VERSION_STRING} SOVERSION ${LEXBOR_VERSION_MAJOR})
-    set_property(TARGET ${LEXBOR_LIB_NAME} APPEND PROPERTY COMPILE_FLAGS "-DLEXBOR_BUILDING")
-endif()
+GET_LEXBOR_VERSION(LEXBOR_VERSION_MAJOR LEXBOR_VERSION_MINOR
+                   LEXBOR_VERSION_PATCH LEXBOR_VERSION_STRING)
 
-if(LEXBOR_BUILD_STATIC)
-    target_link_libraries(${LEXBOR_LIB_NAME_STATIC} ${CMAKE_THREAD_LIBS_INIT})
-    set_target_properties(${LEXBOR_LIB_NAME_STATIC} PROPERTIES OUTPUT_NAME ${LEXBOR_LIB_NAME_STATIC})
-    set_target_properties(${LEXBOR_LIB_NAME_STATIC} PROPERTIES VERSION ${LEXBOR_VERSION_STRING} SOVERSION ${LEXBOR_VERSION_MAJOR})
-    set_property(TARGET ${LEXBOR_LIB_NAME_STATIC} APPEND PROPERTY COMPILE_FLAGS "-DLEXBOR_STATIC")
-endif()
+message(STATUS "Lexbor version: ${LEXBOR_VERSION_STRING}")
 
 ################
-## install
+## Includes
 #########################
-if(LEXBOR_INSTALL_HEADERS)
-    file(GLOB LEXBOR_HEADER_DIRS "${LEXBOR_DIR_HEADER}/*")
-    foreach(ITEM ${LEXBOR_HEADER_DIRS})                                                                                                                                                
-        if(IS_DIRECTORY "${ITEM}")
-            install(DIRECTORY "${ITEM}" DESTINATION "include" FILES_MATCHING PATTERN "*.h")
-        endif()
-    endforeach()
-endif()
+include_directories(${LEXBOR_DIR_HEADER})
 
-if(LEXBOR_BUILD_SHARED)
-    install(TARGETS ${LEXBOR_LIB_NAME}
+################
+## Export LEXBOR_INCLUDE_DIRS and LEXBOR_LIBRARIES to global CACHE
+#########################
+set(LEXBOR_INCLUDES ${LEXBOR_DIR_HEADER} CACHE STRING "Include paths for ${PROJECT_NAME}")
+set(LEXBOR_LIBRARIES ${LEXBOR_LIB_NAME} CACHE STRING "Libraries to link for ${PROJECT_NAME}")
 
-    RUNTIME DESTINATION "${LEXBOR_INSTALL_DLL_EXE_DIR}"
-    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
-endif()
+################
+## Sources
+#########################
+GET_MODULES_LIST(LEXBOR_MODULES "${LEXBOR_SOURCE}")
 
-if(LEXBOR_BUILD_STATIC)
-    install(TARGETS ${LEXBOR_LIB_NAME_STATIC}
+################
+## Build separately modules in liblexbor-<module-name>
+#########################
+IF(LEXBOR_BUILD_SEPARATELY)
+    FOREACH(module ${LEXBOR_MODULES})
+        set(lexbor_deps "${lexbor_deps} ${module}")
+        set(libname "${PROJECT_NAME}-${module}")
 
-    RUNTIME DESTINATION "${LEXBOR_INSTALL_DLL_EXE_DIR}"
-    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
-endif()
+        GET_MODULE_VERSION(major minor patch version_string
+                           "${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${module})
+
+        GET_MODULE_RESURSES(headers sources "${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${module})
+
+        IF(LEXBOR_BUILD_SHARED)
+            ADD_MODULE_LIBRARY(SHARED ${libname} ${version_string}
+                               ${major} "${sources}")
+        ENDIF()
+
+        IF(LEXBOR_BUILD_STATIC)
+            ADD_MODULE_LIBRARY(STATIC "${libname}-static" ${version_string}
+                               ${major} "${sources}")
+        ENDIF()
+
+        IF(LEXBOR_INSTALL_HEADERS)
+            INSTALL_MODULE_HEADERS("${LEXBOR_SOURCE}" "${PROJECT_NAME}" "${module}")
+        ENDIF()
+
+        INCLUDE_MODULE_CONFIG(${PROJECT_NAME} ${module} "${LEXBOR_SOURCE_LEXBOR}/${module}")
+        GET_MODULE_DEPENDENCIES(${PROJECT_NAME} ${module} module_deps)
+
+        SET_MODULE_LIB_DEPENDENCIES(${libname} "${module_deps}" "")
+        SET_MODULE_LIB_DEPENDENCIES("${libname}-static" "${module_deps}" "-static")
+
+        MODULE_PRINT(${module} ${version_string} "${module_deps}")
+    ENDFOREACH()
+
+    ## Create fake C file for liblexbor
+    set(fake_file "${CMAKE_BINARY_DIR}/fake_lexbor.c")
+    file(WRITE ${fake_file} "#include <stdlib.h>\n"
+                            "void lexbor_fake_func() {(void) lexbor_fake_func;}\n")
+
+    ## Create lexbor dynamic/static library
+    IF(LEXBOR_BUILD_SHARED)
+        ADD_MODULE_LIBRARY(SHARED ${LEXBOR_LIB_NAME} ${LEXBOR_VERSION_STRING}
+                           ${LEXBOR_VERSION_MAJOR} "${fake_file}")
+
+        SET_MODULE_LIB_DEPENDENCIES(${LEXBOR_LIB_NAME} "${lexbor_deps}" "")
+    ENDIF()
+
+    IF(LEXBOR_BUILD_STATIC)
+        ADD_MODULE_LIBRARY(STATIC ${LEXBOR_LIB_NAME_STATIC} ${LEXBOR_VERSION_STRING}
+                           ${LEXBOR_VERSION_MAJOR} "${fake_file}")
+
+        SET_MODULE_LIB_DEPENDENCIES(${LEXBOR_LIB_NAME_STATIC} "${lexbor_deps}" "-static")
+    ENDIF()
+
+ELSE()
+    ################
+    ## Build all modules in one liblexbor library
+    #########################
+
+    ## Get all source files from modules
+    FOREACH(module ${LEXBOR_MODULES})
+        GET_MODULE_RESURSES(headers sources "${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${module})
+        LIST(APPEND LEXBOR_SOURCES ${sources})
+    ENDFOREACH()
+
+    ## First, need to add target for shared and static library
+    IF(LEXBOR_BUILD_SHARED)
+        add_library(${LEXBOR_LIB_NAME} SHARED ${LEXBOR_SOURCES})
+    ENDIF()
+
+    IF(LEXBOR_BUILD_STATIC)
+        add_library(${LEXBOR_LIB_NAME_STATIC} STATIC ${LEXBOR_SOURCES})
+    ENDIF()
+
+    ## Load configurations from all modules. Print modules name and version.
+    FOREACH(module ${LEXBOR_MODULES})
+        IF(LEXBOR_INSTALL_HEADERS)
+            INSTALL_MODULE_HEADERS("${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${module})
+        ENDIF()
+
+        INCLUDE_MODULE_CONFIG(${PROJECT_NAME} ${module} "${LEXBOR_SOURCE_LEXBOR}/${module}")
+        GET_MODULE_DEPENDENCIES(${PROJECT_NAME} ${module} module_deps)
+        GET_MODULE_VERSION(major minor patch version_string
+                           "${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${module})
+
+        MODULE_PRINT(${module} ${version_string} "${module_deps}")
+    ENDFOREACH()
+
+    ## Create dynamic/static library
+    IF(LEXBOR_BUILD_SHARED)
+        ADD_MODULE_LIBRARY("" ${LEXBOR_LIB_NAME} ${LEXBOR_VERSION_STRING}
+                           ${LEXBOR_VERSION_MAJOR} "${LEXBOR_SOURCES}")
+    ENDIF()
+
+    IF(LEXBOR_BUILD_STATIC)
+        ADD_MODULE_LIBRARY("" ${LEXBOR_LIB_NAME_STATIC} ${LEXBOR_VERSION_STRING}
+                           ${LEXBOR_VERSION_MAJOR} "${LEXBOR_SOURCES}")
+    ENDIF()
+ENDIF()
+
+################
+## Sets C_FLAGS
+#########################
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${LEXBOR_OPTIMIZATION_LEVEL} ${LEXBOR_C_FLAGS}")
+message(STATUS "CFLAGS: ${CMAKE_C_FLAGS}")
+message(STATUS "CXXFLAGS: ${CMAKE_CXX_FLAGS}")
 
 ################
 ## Examples
 #########################
-if(LEXBOR_BUILD_EXAMPLES)
+IF(LEXBOR_BUILD_EXAMPLES)
     include_directories(.)
     add_subdirectory(examples)
-endif()
+ENDIF()
 
 ################
 ## Tests
 #########################
-if(LEXBOR_BUILD_TESTS)
+IF(LEXBOR_BUILD_TESTS)
     enable_testing()
     add_subdirectory(test)
-endif()
+ENDIF()
 
-if (WIN32)
+IF (WIN32)
     add_custom_command(TARGET ${LEXBOR_LIB_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_BINARY_DIR}/lib${LEXBOR_LIB_NAME}.dll" $<TARGET_FILE_DIR:${LEXBOR_LIB_NAME}>/test/lexbor/core
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_BINARY_DIR}/lib${LEXBOR_LIB_NAME}.dll" $<TARGET_FILE_DIR:${LEXBOR_LIB_NAME}>/test/lexbor/html
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_BINARY_DIR}/lib${LEXBOR_LIB_NAME}.dll" $<TARGET_FILE_DIR:${LEXBOR_LIB_NAME}>/test/lexbor/ns
         COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_CURRENT_BINARY_DIR}/lib${LEXBOR_LIB_NAME}.dll" $<TARGET_FILE_DIR:${LEXBOR_LIB_NAME}>/test/lexbor/tag)
-endif (WIN32)
+ENDIF (WIN32)
 
 ################
 ## Build an RPM.

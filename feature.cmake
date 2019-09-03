@@ -3,17 +3,20 @@ include(CheckFunctionExists)
 ################
 ## Check Math functions
 #########################
-CHECK_FUNCTION_EXISTS(ceil LEXBOR_FEATURE_CEIL)
-if(NOT LEXBOR_FEATURE_CEIL)
-    unset(LEXBOR_FEATURE_CEIL CACHE)
+MACRO(FEATURE_CHECK_FUNCTION_EXISTS target fname lib_name)
+    CHECK_FUNCTION_EXISTS(${fname} test_result)
 
-    list(APPEND CMAKE_REQUIRED_LIBRARIES m)
+    IF(NOT test_result)
+        unset(test_result CACHE)
 
-    CHECK_FUNCTION_EXISTS(ceil LEXBOR_FEATURE_CEIL)
-    if(LEXBOR_FEATURE_CEIL)
-        target_link_libraries(${LEXBOR_LIB_NAME} m)
-        target_link_libraries(${LEXBOR_LIB_NAME_STATIC} m)
-    else()
-        message(FATAL_ERROR "checking for ceil() ... not found")
+        list(APPEND CMAKE_REQUIRED_LIBRARIES ${lib_name})
+
+        CHECK_FUNCTION_EXISTS(${fname} test_result)
+
+        IF(test_result)
+            target_link_libraries(${target} ${lib_name})
+        ELSE()
+            message(FATAL_ERROR "checking for ${fname}() ... not found")
+        ENDIF()
     endif()
-endif()
+ENDMACRO()

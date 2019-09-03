@@ -4,8 +4,8 @@
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
-#ifndef LEXBOR_CSS_BASE_H
-#define LEXBOR_CSS_BASE_H
+#ifndef LEXBOR_CSS_SYNTAX_BASE_H
+#define LEXBOR_CSS_SYNTAX_BASE_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -29,4 +29,4 @@ extern "C" {
 } /* extern "C" */
 #endif
 
-#endif /* LEXBOR_CSS_BASE_H */
+#endif /* LEXBOR_CSS_SYNTAX_BASE_H */

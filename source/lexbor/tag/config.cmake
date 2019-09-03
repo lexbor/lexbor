@@ -1,0 +1,1 @@
+set(DEPENDENCIES "core")
