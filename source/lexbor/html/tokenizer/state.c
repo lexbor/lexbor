@@ -1181,8 +1181,6 @@ lxb_html_tokenizer_state_markup_declaration_open(lxb_html_tokenizer_t *tkz,
         }
 
         if (lexbor_str_data_ncasecmp((lxb_char_t *) "doctype", data, 7)) {
-            lxb_html_tokenizer_state_token_set_end(tkz, (data + 7));
-
             tkz->state = lxb_html_tokenizer_state_doctype_before;
             return (data + 7);
         }
@@ -1276,12 +1274,8 @@ lxb_html_tokenizer_state_markup_declaration_doctype(lxb_html_tokenizer_t *tkz,
     }
 
     if (*pos == '\0') {
-        pos = (data + (pos - tkz->markup));
-
-        lxb_html_tokenizer_state_token_set_end(tkz, pos);
-
         tkz->state = lxb_html_tokenizer_state_doctype_before;
-        return (pos + 1);
+        return (data + 1);
     }
 
     tkz->markup = pos;
@@ -1313,13 +1307,9 @@ lxb_html_tokenizer_state_markup_declaration_cdata(lxb_html_tokenizer_t *tkz,
         lxb_ns_id_t ns = lxb_html_tokenizer_current_namespace(tkz);
 
         if (ns != LXB_NS_HTML && ns != LXB_NS__UNDEF) {
-            data = (data + (pos - tkz->markup)) + 1;
-
-            lxb_html_tokenizer_state_token_set_begin(tkz, data);
-
             tkz->state = lxb_html_tokenizer_state_cdata_section_before;
 
-            return data;
+            return (data + 1);
         }
 
         tkz->state = lxb_html_tokenizer_state_bogus_comment_before;
@@ -1341,6 +1331,9 @@ lxb_html_tokenizer_state_cdata_section_before(lxb_html_tokenizer_t *tkz,
 {
     if (tkz->is_eof == false) {
         lxb_html_tokenizer_state_token_set_begin(tkz, data);
+    }
+    else {
+        lxb_html_tokenizer_state_token_set_begin(tkz, tkz->incoming_node->end);
     }
 
     tkz->token->tag_id = LXB_TAG__TEXT;

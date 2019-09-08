@@ -116,6 +116,13 @@ lxb_html_tokenizer_state_doctype_before(lxb_html_tokenizer_t *tkz,
                                         const lxb_char_t *data,
                                         const lxb_char_t *end)
 {
+    if (tkz->is_eof == false) {
+        lxb_html_tokenizer_state_token_set_end(tkz, data);
+    }
+    else {
+        lxb_html_tokenizer_state_token_set_end_oef(tkz);
+    }
+
     tkz->token->tag_id = LXB_TAG__EM_DOCTYPE;
 
     return lxb_html_tokenizer_state_doctype(tkz, data, end);

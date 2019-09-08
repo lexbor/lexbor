@@ -361,6 +361,9 @@ lxb_html_tokenizer_chunk(lxb_html_tokenizer_t *tkz, const lxb_char_t *data,
         if (tkz->incoming_first != NULL) {
             tkz->incoming_first->prev = NULL;
         }
+        else {
+            tkz->incoming_node = NULL;
+        }
     }
 
     return tkz->status;
