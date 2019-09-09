@@ -9,13 +9,18 @@ cmake_minimum_required(VERSION 2.8)
 #    LEXBOR_BUILD_STATIC                 default: ON; Create static library
 #    LEXBOR_BUILD_SEPARATELY             default: OFF; Build all modules separately.
 #                                         Each module will have its own shared library
-#    LEXBOR_INSTALL_HEADERS              default: ON; The header files will be installed
-#                                         if set to ON
+#    LEXBOR_BUILD_EXAMPLES               default: OFF; Build all examples
 #    LEXBOR_BUILD_TESTS                  default: OFF; Build tests
 #    LEXBOR_BUILD_TESTS_CPP              default: ON; Build C++ tests.
 #                                         Used with LEXBOR_BUILD_TESTS
-#    LEXBOR_BUILD_EXAMPLES               default: OFF; Build all examples
+#    LEXBOR_INSTALL_HEADERS              default: ON; The header files will be installed
+#                                         if set to ON
 #    LEXBOR_PRINT_MODULE_DEPENDENCIES    default: OFF; Prints dependencies between modules
+
+# For build with ASAN use CMake flag:
+#     -DCMAKE_C_FLAGS='-O0 -g -fsanitize=address'
+#     or
+#     -DLEXBOR_C_FLAGS='-O0 -g -fsanitize=address'
 
 
 set(PROJECT_NAME "lexbor")
@@ -35,11 +40,13 @@ option(LEXBOR_WITHOUT_THREADS "Build without Threads" ON)
 option(LEXBOR_BUILD_SHARED "Build shared library" ON)
 option(LEXBOR_BUILD_STATIC "Build static library" ON)
 option(LEXBOR_BUILD_SEPARATELY "Build modules separately" OFF)
-option(LEXBOR_INSTALL_HEADERS "Install header files" ON)
+option(LEXBOR_BUILD_EXAMPLES "Build examples" OFF)
 option(LEXBOR_BUILD_TESTS "Build tests" OFF)
 option(LEXBOR_BUILD_TESTS_CPP "Build C++ tests" ON)
-option(LEXBOR_BUILD_EXAMPLES "Build examples" OFF)
+option(LEXBOR_BUILD_UTILS "Build utils" OFF)
+option(LEXBOR_INSTALL_HEADERS "Install header files" ON)
 option(LEXBOR_PRINT_MODULE_DEPENDENCIES "Prints dependencies" OFF)
+
 
 ################
 ## Version and path
@@ -214,6 +221,14 @@ ENDIF()
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${LEXBOR_OPTIMIZATION_LEVEL} ${LEXBOR_C_FLAGS}")
 message(STATUS "CFLAGS: ${CMAKE_C_FLAGS}")
 message(STATUS "CXXFLAGS: ${CMAKE_CXX_FLAGS}")
+
+################
+## Check features
+#########################
+FEATURE_CHECK_ASAN(LEXBOR_HAVE_ASAN)
+IF(${LEXBOR_HAVE_ASAN})
+    add_definitions(-DLEXBOR_HAVE_ADDRESS_SANITIZER)
+ENDIF()
 
 ################
 ## Examples

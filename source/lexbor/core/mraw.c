@@ -1,10 +1,15 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2019 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/core/mraw.h"
+
+
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+    #include <sanitizer/asan_interface.h>
+#endif
 
 
 #define lexbor_mraw_meta_set(data, size)                                       \
@@ -17,10 +22,7 @@
     &((uint8_t *) (data))[ lexbor_mraw_meta_size() ]
 
 
-static inline void *
-lexbor_mraw_mem_alloc(lexbor_mraw_t *mraw, size_t length);
-
-static inline void *
+lxb_inline void *
 lexbor_mraw_realloc_tail(lexbor_mraw_t *mraw, void *data, void *begin,
                          size_t size, size_t begin_len, size_t new_size,
                          bool *is_valid);
@@ -52,6 +54,10 @@ lexbor_mraw_init(lexbor_mraw_t *mraw, size_t chunk_size)
     if (status) {
         return status;
     }
+
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+    ASAN_POISON_MEMORY_REGION(mraw->mem->chunk->data, mraw->mem->chunk->size);
+#endif
 
     /* Cache */
     mraw->cache = lexbor_bst_create();
@@ -88,7 +94,7 @@ lexbor_mraw_destroy(lexbor_mraw_t *mraw, bool destroy_self)
     return mraw;
 }
 
-static inline void *
+lxb_inline void *
 lexbor_mraw_mem_alloc(lexbor_mraw_t *mraw, size_t length)
 {
     uint8_t *data;
@@ -111,6 +117,10 @@ lexbor_mraw_mem_alloc(lexbor_mraw_t *mraw, size_t length)
 
             chunk->length = length;
 
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+            ASAN_POISON_MEMORY_REGION(chunk->data, chunk->size);
+#endif
+
             return chunk->data;
         }
 
@@ -120,7 +130,17 @@ lexbor_mraw_mem_alloc(lexbor_mraw_t *mraw, size_t length)
         if (diff > lexbor_mraw_meta_size()) {
             diff -= lexbor_mraw_meta_size();
 
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+            ASAN_UNPOISON_MEMORY_REGION(&chunk->data[chunk->length],
+                                        lexbor_mraw_meta_size());
+#endif
+
             lexbor_mraw_meta_set(&chunk->data[chunk->length], &diff);
+
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+            ASAN_POISON_MEMORY_REGION(&chunk->data[chunk->length],
+                                      diff + lexbor_mraw_meta_size());
+#endif
 
             lexbor_bst_insert(mraw->cache,
                               lexbor_bst_root_ref(mraw->cache), diff,
@@ -138,6 +158,10 @@ lexbor_mraw_mem_alloc(lexbor_mraw_t *mraw, size_t length)
         mem->chunk = chunk->next;
 
         mem->chunk_length++;
+
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+        ASAN_POISON_MEMORY_REGION(mem->chunk->data, mem->chunk->size);
+#endif
     }
 
     data = &mem->chunk->data[ mem->chunk->length ];
@@ -158,6 +182,19 @@ lexbor_mraw_alloc(lexbor_mraw_t *mraw, size_t size)
                                        lexbor_bst_root_ref(mraw->cache),
                                        size, NULL);
         if (data != NULL) {
+
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+            uint8_t *real_data = ((uint8_t *) data) - lexbor_mraw_meta_size();
+
+            /* Set unpoison for current data size */
+            ASAN_UNPOISON_MEMORY_REGION(real_data, size);
+
+            size_t cur_size = lexbor_mraw_data_size(data);
+
+            ASAN_UNPOISON_MEMORY_REGION(real_data,
+                                        (cur_size + lexbor_mraw_meta_size()));
+#endif
+
             return data;
         }
     }
@@ -167,6 +204,10 @@ lexbor_mraw_alloc(lexbor_mraw_t *mraw, size_t size)
     if (data == NULL) {
         return NULL;
     }
+
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+    ASAN_UNPOISON_MEMORY_REGION(data, (size + lexbor_mraw_meta_size()));
+#endif
 
     lexbor_mraw_meta_set(data, &size);
     return lexbor_mraw_data_begin(data);
@@ -187,7 +228,7 @@ lexbor_mraw_calloc(lexbor_mraw_t *mraw, size_t size)
 /*
  * TODO: I don't really like this interface. Perhaps need to simplify.
  */
-static inline void *
+lxb_inline void *
 lexbor_mraw_realloc_tail(lexbor_mraw_t *mraw, void *data, void *begin,
                          size_t size, size_t begin_len, size_t new_size,
                          bool *is_valid)
@@ -201,6 +242,10 @@ lexbor_mraw_realloc_tail(lexbor_mraw_t *mraw, void *data, void *begin,
             chunk->length = begin_len - lexbor_mraw_meta_size();
             return NULL;
         }
+
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+        ASAN_UNPOISON_MEMORY_REGION(begin, new_size + lexbor_mraw_meta_size());
+#endif
 
         chunk->length = begin_len + new_size;
         memcpy(begin, &new_size, sizeof(size_t));
@@ -219,7 +264,6 @@ lexbor_mraw_realloc_tail(lexbor_mraw_t *mraw, void *data, void *begin,
 
         lexbor_mem_chunk_init(mraw->mem, &new_chunk,
                               new_size + lexbor_mraw_meta_size());
-
         if(new_chunk.data == NULL) {
             return NULL;
         }
@@ -230,6 +274,10 @@ lexbor_mraw_realloc_tail(lexbor_mraw_t *mraw, void *data, void *begin,
         if (size != 0) {
             memcpy(new_data, data, sizeof(uint8_t) * size);
         }
+
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+        ASAN_UNPOISON_MEMORY_REGION(chunk->data, chunk->size);
+#endif
 
         lexbor_mem_chunk_destroy(mraw->mem, chunk, false);
 
@@ -285,6 +333,10 @@ lexbor_mraw_realloc(lexbor_mraw_t *mraw, void *data, size_t new_size)
 
     if (new_size < size) {
         if (new_size == 0) {
+
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+            ASAN_POISON_MEMORY_REGION(begin, size + lexbor_mraw_meta_size());
+#endif
             lexbor_bst_insert(mraw->cache, lexbor_bst_root_ref(mraw->cache),
                               size, data);
             return NULL;
@@ -299,6 +351,10 @@ lexbor_mraw_realloc(lexbor_mraw_t *mraw, void *data, size_t new_size)
             begin = &((uint8_t *) data)[diff];
 
             lexbor_mraw_meta_set(begin, &new_size);
+
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+            ASAN_POISON_MEMORY_REGION(begin, new_size + lexbor_mraw_meta_size());
+#endif
             lexbor_bst_insert(mraw->cache, lexbor_bst_root_ref(mraw->cache),
                               new_size, lexbor_mraw_data_begin(begin));
         }
@@ -324,6 +380,11 @@ void *
 lexbor_mraw_free(lexbor_mraw_t *mraw, void *data)
 {
     size_t size = lexbor_mraw_data_size(data);
+
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+    uint8_t *real_data = ((uint8_t *) data) - lexbor_mraw_meta_size();
+    ASAN_POISON_MEMORY_REGION(real_data, size + lexbor_mraw_meta_size());
+#endif
 
     lexbor_bst_insert(mraw->cache, lexbor_bst_root_ref(mraw->cache),
                       size, data);
