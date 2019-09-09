@@ -1274,8 +1274,10 @@ lxb_html_tokenizer_state_markup_declaration_doctype(lxb_html_tokenizer_t *tkz,
     }
 
     if (*pos == '\0') {
+        data = (data + (pos - tkz->markup));
+
         tkz->state = lxb_html_tokenizer_state_doctype_before;
-        return (data + 1);
+        return data;
     }
 
     tkz->markup = pos;
@@ -1307,9 +1309,10 @@ lxb_html_tokenizer_state_markup_declaration_cdata(lxb_html_tokenizer_t *tkz,
         lxb_ns_id_t ns = lxb_html_tokenizer_current_namespace(tkz);
 
         if (ns != LXB_NS_HTML && ns != LXB_NS__UNDEF) {
-            tkz->state = lxb_html_tokenizer_state_cdata_section_before;
+            data = (data + (pos - tkz->markup));
 
-            return (data + 1);
+            tkz->state = lxb_html_tokenizer_state_cdata_section_before;
+            return data;
         }
 
         tkz->state = lxb_html_tokenizer_state_bogus_comment_before;
