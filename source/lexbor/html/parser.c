@@ -349,6 +349,8 @@ lxb_html_parse_fragment_chunk_end(lxb_html_parser_t *parser)
 static void
 lxb_html_parse_fragment_chunk_destroy(lxb_html_parser_t *parser)
 {
+    lxb_dom_document_t *doc;
+
     if (parser->form != NULL) {
         lxb_html_form_element_interface_destroy(lxb_html_interface_form(parser->form));
 
@@ -362,6 +364,11 @@ lxb_html_parse_fragment_chunk_destroy(lxb_html_parser_t *parser)
     }
 
     if (lxb_html_document_is_original(parser->tree->document) == false) {
+        if (parser->root != NULL) {
+            doc = lxb_dom_interface_node(parser->tree->document)->owner_document;
+            parser->root->parent = &doc->node;
+        }
+
         lxb_html_document_interface_destroy(parser->tree->document);
 
         parser->tree->document = NULL;
