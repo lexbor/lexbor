@@ -77,30 +77,34 @@ main(int argc, const char * argv[])
     status = unit_kv_init(helper.kv, 256);
 
     if (status != LXB_STATUS_OK) {
-        goto done;
+        goto failed;
     }
 
     status = lexbor_array_init(&helper.tokens, 4096);
     if (status != LXB_STATUS_OK) {
-        goto done;
+        goto failed;
     }
 
     helper.mraw = lexbor_mraw_create();
     status = lexbor_mraw_init(helper.mraw, 256);
     if (status != LXB_STATUS_OK) {
-        goto done;
+        goto failed;
     }
 
     status = parse(&helper, dir_path);
     if (status != LXB_STATUS_OK) {
-        return EXIT_FAILURE;
+        goto failed;
     }
 
     TEST_RUN("lexbor/css/tokenizer");
+
+    unit_kv_destroy(helper.kv, true);
+    lexbor_array_destroy(&helper.tokens, false);
+    lexbor_mraw_destroy(helper.mraw, true);
+
     TEST_RELEASE();
 
-
-done:
+failed:
 
     unit_kv_destroy(helper.kv, true);
     lexbor_array_destroy(&helper.tokens, false);

@@ -281,6 +281,7 @@ TEST_BEGIN(destroy)
     lexbor_dobject_init(dobj, 128, sizeof(test_data_t));
 
     test_eq(lexbor_dobject_destroy(dobj, false), dobj);
+    test_eq(lexbor_dobject_destroy(dobj, true), NULL);
     test_eq(lexbor_dobject_destroy(NULL, false), NULL);
 }
 TEST_END

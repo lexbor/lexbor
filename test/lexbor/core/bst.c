@@ -347,6 +347,7 @@ TEST_BEGIN(destroy)
     test_eq(lexbor_bst_init(bst, 128), LXB_STATUS_OK);
 
     test_eq(lexbor_bst_destroy(bst, false), bst);
+    test_eq(lexbor_bst_destroy(bst, true), NULL);
     test_eq(lexbor_bst_destroy(NULL, false), NULL);
 }
 TEST_END

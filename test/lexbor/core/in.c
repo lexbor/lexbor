@@ -315,6 +315,7 @@ TEST_BEGIN(destroy)
     lexbor_in_init(incoming, 1021);
 
     test_eq(lexbor_in_destroy(incoming, false), incoming);
+    test_eq(lexbor_in_destroy(incoming, true), NULL);
     test_eq(lexbor_in_destroy(NULL, false), NULL);
 }
 TEST_END

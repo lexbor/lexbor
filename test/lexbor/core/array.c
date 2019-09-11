@@ -397,6 +397,7 @@ TEST_BEGIN(destroy)
     lexbor_array_init(array, 32);
 
     test_eq(lexbor_array_destroy(array, false), array);
+    test_eq(lexbor_array_destroy(array, true), NULL);
     test_eq(lexbor_array_destroy(NULL, false), NULL);
 }
 TEST_END

@@ -269,6 +269,7 @@ TEST_BEGIN(destroy)
     lexbor_array_obj_init(array, 32, sizeof(test_struct_t));
 
     test_eq(lexbor_array_obj_destroy(array, false), array);
+    test_eq(lexbor_array_obj_destroy(array, true), NULL);
     test_eq(lexbor_array_obj_destroy(NULL, false), NULL);
 }
 TEST_END

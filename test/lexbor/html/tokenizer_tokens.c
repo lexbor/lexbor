@@ -100,6 +100,7 @@ check_entry(tokenizer_helper_t *helper, unit_kv_value_t *entry, bool is_stream)
     lexbor_str_t *str;
     unit_kv_array_t *token_entries;
     unit_kv_value_t *data, *tokens, *errors, *quirks;
+    lxb_html_token_t *token;
 
     /* Validate */
     data = unit_kv_hash_value_nolen_c(entry, "data");
@@ -148,7 +149,7 @@ check_entry(tokenizer_helper_t *helper, unit_kv_value_t *entry, bool is_stream)
         TEST_PRINTLN("Failed to parse HTML");
         print_error(helper, data);
 
-        return LXB_STATUS_ERROR;
+        return status;
     }
 
     token_entries = unit_kv_array(tokens);
@@ -165,13 +166,18 @@ check_entry(tokenizer_helper_t *helper, unit_kv_value_t *entry, bool is_stream)
     }
 
     for (size_t i = 0; i < token_entries->length; i++) {
+        token = helper->tokens.list[i];
+
+        if (token->tag_id == LXB_TAG__END_OF_FILE) {
+            continue;
+        }
+
         if (unit_kv_is_hash(token_entries->list[i]) == false) {
             print_error(helper, token_entries->list[i]);
             return LXB_STATUS_ERROR;
         }
 
-        status = check_token(helper, token_entries->list[i],
-                             helper->tokens.list[i]);
+        status = check_token(helper, token_entries->list[i], token);
         if (status != LXB_STATUS_OK) {
             return status;
         }
@@ -719,7 +725,6 @@ static lexbor_action_t
 file_callback(const lxb_char_t *fullpath, size_t fullpath_len,
               const lxb_char_t *filename, size_t filename_len, void *ctx)
 {
-    lxb_status_t status;
     unit_kv_value_t *value;
     tokenizer_helper_t *helper;
 
@@ -735,27 +740,30 @@ file_callback(const lxb_char_t *fullpath, size_t fullpath_len,
 
     unit_kv_clean(helper->kv);
 
-    status = unit_kv_parse_file(helper->kv, (const lxb_char_t *) fullpath);
-    if (status != LXB_STATUS_OK) {
+    helper->status = unit_kv_parse_file(helper->kv,
+                                        (const lxb_char_t *) fullpath);
+    if (helper->status != LXB_STATUS_OK) {
         lexbor_str_t str = unit_kv_parse_error_as_string(helper->kv);
 
         TEST_PRINTLN("%s", str.data);
 
         unit_kv_string_destroy(helper->kv, &str, false);
 
-        return EXIT_FAILURE;
+        return LEXBOR_ACTION_STOP;
     }
 
     value = unit_kv_value(helper->kv);
     if (value == NULL) {
-        return EXIT_FAILURE;
+        helper->status = LXB_STATUS_ERROR;
+
+        return LEXBOR_ACTION_STOP;
     }
 
     TEST_PRINTLN("Check file: %s", fullpath);
 
-    status = check(helper, value);
-    if (status != LXB_STATUS_OK) {
-        return EXIT_FAILURE;
+    helper->status = check(helper, value);
+    if (helper->status != LXB_STATUS_OK) {
+        return LEXBOR_ACTION_STOP;
     }
 
     return LEXBOR_ACTION_OK;
@@ -779,9 +787,11 @@ parse(tokenizer_helper_t *helper, const char *dir_path)
 
     if (status != LXB_STATUS_OK) {
         TEST_PRINTLN("Failed to read directory: %s", dir_path);
+
+        return status;
     }
 
-    return status;
+    return helper->status;
 }
 
 void
@@ -805,15 +815,21 @@ main(int argc, const char * argv[])
     helper = init();
     if (helper == NULL) {
         TEST_PRINTLN("Failed to allocate memory for helper");
-        return EXIT_FAILURE;
+        goto failed;
     }
 
     if (parse(helper, argv[1]) != LXB_STATUS_OK) {
-        return EXIT_FAILURE;
+        goto failed;
     }
 
     destroy(helper);
 
     TEST_RUN("lexbor/html/tokenizer_tokens");
     TEST_RELEASE();
+
+failed:
+
+    destroy(helper);
+
+    return EXIT_FAILURE;
 }

@@ -563,6 +563,7 @@ TEST_BEGIN(destroy)
     lexbor_mraw_init(mraw, 1021);
 
     test_eq(lexbor_mraw_destroy(mraw, false), mraw);
+    test_eq(lexbor_mraw_destroy(mraw, true), NULL);
     test_eq(lexbor_mraw_destroy(NULL, false), NULL);
 }
 TEST_END

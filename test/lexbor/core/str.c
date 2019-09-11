@@ -381,6 +381,7 @@ TEST_BEGIN(destroy)
     test_ne(lexbor_str_init(str, mraw, 128), NULL);
 
     test_eq(lexbor_str_destroy(str, mraw, false), str);
+    test_eq(lexbor_str_destroy(str, mraw, true), NULL);
     test_eq(lexbor_str_destroy(NULL, mraw, false), NULL);
 
     TEST_CALL_ARGS(test_destroy_mraw, &mraw);

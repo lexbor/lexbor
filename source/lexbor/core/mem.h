@@ -50,6 +50,12 @@ LXB_API lexbor_mem_t *
 lexbor_mem_destroy(lexbor_mem_t *mem, bool destroy_self);
 
 
+/*
+ * The memory allocated in lexbor_mem_chunk_* functions needs to be freed
+ * by lexbor_mem_chunk_destroy function.
+ *
+ * This memory will not be automatically freed by a function lexbor_mem_destroy.
+ */
 LXB_API uint8_t *
 lexbor_mem_chunk_init(lexbor_mem_t *mem,
                       lexbor_mem_chunk_t *chunk, size_t length);
@@ -61,7 +67,10 @@ LXB_API lexbor_mem_chunk_t *
 lexbor_mem_chunk_destroy(lexbor_mem_t *mem,
                          lexbor_mem_chunk_t *chunk, bool self_destroy);
 
-
+/*
+ * The memory allocated in lexbor_mem_alloc and lexbor_mem_calloc function
+ * will be freeds after calling lexbor_mem_destroy function.
+ */
 LXB_API void *
 lexbor_mem_alloc(lexbor_mem_t *mem, size_t length);
 

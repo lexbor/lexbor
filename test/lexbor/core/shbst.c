@@ -450,6 +450,7 @@ TEST_BEGIN(destroy)
     lexbor_shbst_init(shbst, 1021);
 
     test_eq(lexbor_shbst_destroy(shbst, false), shbst);
+    test_eq(lexbor_shbst_destroy(shbst, true), NULL);
     test_eq(lexbor_shbst_destroy(NULL, false), NULL);
 }
 TEST_END

@@ -71,6 +71,8 @@ struct tokenizer_helper {
     lexbor_bst_entry_t   *types_root;
     lexbor_array_t       tokens;
     lexbor_array_t       ch_list;
+
+    lxb_status_t         status;
 };
 
 
@@ -115,6 +117,7 @@ tokenizer_helper_make(void)
         goto error;
     }
 
+    helper->status = LXB_STATUS_OK;
     helper->tkz = tokenizer_helper_tkz_init(helper);
 
     return helper;
@@ -240,6 +243,10 @@ tokenizer_helper_tkz_callback_token_done(lxb_html_tokenizer_t *tkz,
 {
     lxb_status_t status;
     tokenizer_helper_t *helper = ctx;
+
+    if (token->tag_id == LXB_TAG__END_OF_FILE) {
+        return token;
+    }
 
     status = lexbor_array_push(&helper->tokens, token);
     if (status != LXB_STATUS_OK) {
