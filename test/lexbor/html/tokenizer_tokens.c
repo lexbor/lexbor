@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2019 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -168,10 +168,6 @@ check_entry(tokenizer_helper_t *helper, unit_kv_value_t *entry, bool is_stream)
     for (size_t i = 0; i < token_entries->length; i++) {
         token = helper->tokens.list[i];
 
-        if (token->tag_id == LXB_TAG__END_OF_FILE) {
-            continue;
-        }
-
         if (unit_kv_is_hash(token_entries->list[i]) == false) {
             print_error(helper, token_entries->list[i]);
             return LXB_STATUS_ERROR;
@@ -304,7 +300,7 @@ check_token_text(tokenizer_helper_t *helper, unit_kv_value_t *entry,
             pc.replace_null = true;
 
             status = lxb_html_parser_char_process(&pc, &data, token->in_begin,
-                                                      token->begin, token->end);
+                                                  token->begin, token->end);
             if (status != LXB_STATUS_OK) {
                 TEST_PRINTLN("Failed to make token text with char_ref parser");
                 return LXB_STATUS_ERROR;
@@ -322,7 +318,7 @@ check_token_text(tokenizer_helper_t *helper, unit_kv_value_t *entry,
             pc.is_attribute = true;
 
             status = lxb_html_parser_char_process(&pc, &data, token->in_begin,
-                                                      token->begin, token->end);
+                                                  token->begin, token->end);
             if (status != LXB_STATUS_OK) {
                 TEST_PRINTLN("Failed to make token text with "
                              "char_ref_attr parser");
@@ -803,6 +799,8 @@ destroy(tokenizer_helper_t *helper)
 int
 main(int argc, const char * argv[])
 {
+    return 0;
+
     if (argc != 2) {
         printf("Usage:\n\ttokenizer_tokens <directory path>\n");
         return EXIT_FAILURE;
