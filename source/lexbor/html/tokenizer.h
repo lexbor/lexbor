@@ -38,6 +38,11 @@ typedef lxb_html_token_t *
 
 enum lxb_html_tokenizer_opt {
     LXB_HTML_TOKENIZER_OPT_UNDEF   = 0x00,
+
+    /*
+     * Without copying input buffer.
+     * The user himself monitors the safety of buffers until the end of parsing.
+     */
     LXB_HTML_TOKENIZER_OPT_WO_COPY = 0x01
 };
 
@@ -182,11 +187,23 @@ lxb_html_tokenizer_tag_heap_set(lxb_html_tokenizer_t *tkz,
     tkz->tag_heap_ref = lxb_tag_heap_ref(tag_heap);
 }
 
+lxb_inline lxb_tag_heap_t *
+lxb_html_tokenizer_tag_heap(lxb_html_tokenizer_t *tkz)
+{
+    return tkz->tag_heap_ref;
+}
+
 lxb_inline void
 lxb_html_tokenizer_ns_heap_set(lxb_html_tokenizer_t *tkz,
                                lxb_ns_heap_t *ns_heap)
 {
     tkz->ns_heap_ref = lxb_ns_heap_ref(ns_heap);
+}
+
+lxb_inline lxb_ns_heap_t *
+lxb_html_tokenizer_ns_heap(lxb_html_tokenizer_t *tkz)
+{
+    return tkz->ns_heap_ref;
 }
 
 lxb_inline void
@@ -230,7 +247,13 @@ lxb_html_tokenizer_tree_set(lxb_html_tokenizer_t *tkz, lxb_html_tree_t *tree)
     tkz->tree = tree;
 }
 
+lxb_inline lexbor_mraw_t *
+lxb_html_tokenizer_mraw(lxb_html_tokenizer_t *tkz)
+{
+    return tkz->mraw;
+}
 
+    
 #ifdef __cplusplus
 } /* extern "C" */
 #endif
