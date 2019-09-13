@@ -77,9 +77,9 @@ main(int argc, const char *argv[])
     lxb_status_t status;
     lxb_html_tokenizer_t *tkz;
 
-    const lxb_char_t data[] = "<div id=one-id class=silent ref='some a'>"
+    const lxb_char_t data[] = "<div id=one-id class=silent ref='some &copy; a'>"
                               "<option-one enabled>"
-                              "<option-two enabled=''>"
+                              "<option-two enabled='&#81'>"
                               "</div>";
 
     tkz = lxb_html_tokenizer_create();
