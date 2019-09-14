@@ -37,13 +37,20 @@ typedef lxb_html_token_t *
 
 
 enum lxb_html_tokenizer_opt {
-    LXB_HTML_TOKENIZER_OPT_UNDEF   = 0x00,
+    LXB_HTML_TOKENIZER_OPT_UNDEF         = 0x00,
 
     /*
      * Without copying input buffer.
      * The user himself monitors the safety of buffers until the end of parsing.
      */
-    LXB_HTML_TOKENIZER_OPT_WO_COPY = 0x01
+    LXB_HTML_TOKENIZER_OPT_WO_COPY       = 0x01,
+
+    /*
+     * During parsing, incoming buffers will not be destroyed.
+     * By default, when the incoming buffer is no longer needed,
+     * it is destroyed.
+     */
+    LXB_HTML_TOKENIZER_OPT_WO_IN_DESTROY = 0x02
 };
 
 struct lxb_html_tokenizer {

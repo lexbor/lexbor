@@ -296,9 +296,7 @@ lxb_html_tokenizer_chunk(lxb_html_tokenizer_t *tkz, const lxb_char_t *data,
         tkz->incoming_node = lexbor_in_node_make(tkz->incoming, tkz->incoming_node,
                                                  data, size);
         if (tkz->incoming_node == NULL) {
-            lxb_html_tokenizer_erase_incoming(tkz);
-
-            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            goto failed_in;
         }
 
         if (tkz->incoming_first == NULL) {
@@ -312,9 +310,7 @@ lxb_html_tokenizer_chunk(lxb_html_tokenizer_t *tkz, const lxb_char_t *data,
 
         copied = lexbor_malloc(sizeof(lxb_char_t) * size);
         if (copied == NULL) {
-            lxb_html_tokenizer_erase_incoming(tkz);
-
-            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            goto failed_in;
         }
 
         memcpy(copied, data, sizeof(lxb_char_t) * size);
@@ -323,9 +319,8 @@ lxb_html_tokenizer_chunk(lxb_html_tokenizer_t *tkz, const lxb_char_t *data,
                                                  copied, size);
         if (tkz->incoming_node == NULL) {
             lexbor_free(copied);
-            lxb_html_tokenizer_erase_incoming(tkz);
 
-            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            goto failed_in;
         }
 
         if (tkz->incoming_first == NULL) {
@@ -335,6 +330,10 @@ lxb_html_tokenizer_chunk(lxb_html_tokenizer_t *tkz, const lxb_char_t *data,
         tkz->incoming_node->opt = LEXBOR_IN_OPT_ALLOC;
 
         lxb_html_tokenizer_chunk_process(tkz, copied, size);
+    }
+
+    if (tkz->opt & LXB_HTML_TOKENIZER_OPT_WO_IN_DESTROY) {
+        return tkz->status;
     }
 
     if (tkz->status != LXB_STATUS_OK) {
@@ -367,6 +366,14 @@ lxb_html_tokenizer_chunk(lxb_html_tokenizer_t *tkz, const lxb_char_t *data,
     }
 
     return tkz->status;
+
+failed_in:
+
+    if ((tkz->opt & LXB_HTML_TOKENIZER_OPT_WO_IN_DESTROY) == 0) {
+        lxb_html_tokenizer_erase_incoming(tkz);
+    }
+
+    return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
 }
 
 static lxb_status_t
