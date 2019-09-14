@@ -134,6 +134,8 @@ file_callback(const lxb_char_t *fullpath, size_t fullpath_len,
 
     check_entries(kv, arr_value, ctx);
 
+    unit_kv_destroy(kv, true);
+
     return LEXBOR_ACTION_OK;
 }
 
@@ -210,18 +212,22 @@ check_entry(unit_kv_t *kv, unit_kv_value_t *hash, lxb_html_parser_t *parser)
             TEST_PRINTLN("Failed to parse fragment data:");
             TEST_FAILURE("%s", data->data);
         }
-    }
-    else {
-        document = lxb_html_parse(parser, data->data, data->length);
-        if (document == NULL) {
-            TEST_PRINTLN("Failed to parse data:");
-            TEST_FAILURE("%s", data->data);
-        }
 
-        root = lxb_dom_interface_node(document);
+        check_compare(kv, root, data, result);
+
+        lxb_html_document_destroy(lxb_html_interface_document(root->owner_document));
+        return;
     }
 
-    check_compare(kv, root, data, result);
+    document = lxb_html_parse(parser, data->data, data->length);
+    if (document == NULL) {
+        TEST_PRINTLN("Failed to parse data:");
+        TEST_FAILURE("%s", data->data);
+    }
+
+    check_compare(kv, lxb_dom_interface_node(document), data, result);
+
+    lxb_html_document_destroy(document);
 }
 
 static void
@@ -262,31 +268,35 @@ check_entry_chunk(unit_kv_t *kv, unit_kv_value_t *hash,
             TEST_PRINTLN("Failed to parse chunk fragment data:");
             TEST_FAILURE("%s", data->data);
         }
+
+        check_compare(kv, root, data, result);
+
+        lxb_html_document_destroy(lxb_html_interface_document(root->owner_document));
+        return;
     }
-    else {
-        document = lxb_html_parse_chunk_begin(parser);
-        if (document == NULL) {
-            TEST_FAILURE("Failed to init chuk parser");
-        }
 
-        for (size_t i = 0; i < data->length; i++) {
-            status = lxb_html_parse_chunk_process(parser, &data->data[i], 1);
-            if (status != LXB_STATUS_OK) {
-                TEST_PRINTLN("Failed to parse chunk data:");
-                TEST_FAILURE("%s", data->data);
-            }
-        }
+    document = lxb_html_parse_chunk_begin(parser);
+    if (document == NULL) {
+        TEST_FAILURE("Failed to init chuk parser");
+    }
 
-        status = lxb_html_parse_chunk_end(parser);
+    for (size_t i = 0; i < data->length; i++) {
+        status = lxb_html_parse_chunk_process(parser, &data->data[i], 1);
         if (status != LXB_STATUS_OK) {
             TEST_PRINTLN("Failed to parse chunk data:");
             TEST_FAILURE("%s", data->data);
         }
-
-        root = lxb_dom_interface_node(document);
     }
 
-    check_compare(kv, root, data, result);
+    status = lxb_html_parse_chunk_end(parser);
+    if (status != LXB_STATUS_OK) {
+        TEST_PRINTLN("Failed to parse chunk data:");
+        TEST_FAILURE("%s", data->data);
+    }
+
+    check_compare(kv, lxb_dom_interface_node(document), data, result);
+
+    lxb_html_document_destroy(document);
 }
 
 static void
