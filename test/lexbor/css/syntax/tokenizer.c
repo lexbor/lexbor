@@ -175,6 +175,10 @@ file_callback(const lxb_char_t *fullpath, size_t fullpath_len,
         exit(EXIT_FAILURE);
     }
 
+    if (helper->tkz != NULL) {
+        helper->tkz = lxb_css_syntax_tokenizer_destroy(helper->tkz);
+    }
+
     return LEXBOR_ACTION_OK;
 }
 
