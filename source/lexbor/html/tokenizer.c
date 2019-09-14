@@ -201,8 +201,6 @@ lxb_html_tokenizer_clean(lxb_html_tokenizer_t *tkz)
     tkz->state = lxb_html_tokenizer_state_data_before;
     tkz->state_return = NULL;
 
-    tkz->incoming_first = NULL;
-
     tkz->is_eof = false;
     tkz->status = LXB_STATUS_OK;
 
@@ -215,6 +213,8 @@ lxb_html_tokenizer_clean(lxb_html_tokenizer_t *tkz)
 
     lxb_html_tokenizer_erase_incoming(tkz);
     lexbor_in_clean(tkz->incoming);
+
+    tkz->incoming_first = NULL;
 
     lexbor_array_obj_clean(tkz->parse_errors);
 
