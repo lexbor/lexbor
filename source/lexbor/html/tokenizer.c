@@ -214,10 +214,9 @@ lxb_html_tokenizer_clean(lxb_html_tokenizer_t *tkz)
     lxb_html_tokenizer_erase_incoming(tkz);
     lexbor_in_clean(tkz->incoming);
 
-    tkz->incoming_first = NULL;
-
     lexbor_array_obj_clean(tkz->parse_errors);
 
+    tkz->incoming_first = NULL;
     tkz->incoming_node = NULL;
 }
 
