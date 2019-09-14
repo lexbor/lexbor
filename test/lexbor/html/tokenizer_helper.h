@@ -334,10 +334,11 @@ tokenizer_helper_tkz_parse_stream(lxb_html_tokenizer_t *tkz,
         return LXB_STATUS_ERROR;
     }
 
-    lexbor_array_clean(&helper->ch_list);
-    status = lexbor_array_set(&helper->ch_list, len, NULL);
-    if (status != LXB_STATUS_OK) {
-        return status;
+    if (lexbor_array_length(&helper->ch_list) < len) {
+        status = lexbor_array_set(&helper->ch_list, len, NULL);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
     }
 
     for (size_t i = 0; i < len; i++) {
