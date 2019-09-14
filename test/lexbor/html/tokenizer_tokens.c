@@ -799,8 +799,6 @@ destroy(tokenizer_helper_t *helper)
 int
 main(int argc, const char * argv[])
 {
-    return 0;
-
     if (argc != 2) {
         printf("Usage:\n\ttokenizer_tokens <directory path>\n");
         return EXIT_FAILURE;
