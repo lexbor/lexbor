@@ -44,6 +44,9 @@ main(int argc, const char *argv[])
 
     const lxb_char_t data[] = "<div><span>test</span></div>";
 
+    printf("HTML:\n%s\n\n", (char *) data);
+    printf("Result:\n");
+
     tkz = lxb_html_tokenizer_create();
     status = lxb_html_tokenizer_init(tkz);
     if (status != LXB_STATUS_OK) {

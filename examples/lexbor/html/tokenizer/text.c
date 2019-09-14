@@ -56,7 +56,7 @@ main(int argc, const char *argv[])
                               "&#x69;&#x74;&#x69;&#x65;&#x73;&excl;";
 
     printf("HTML:\n%s\n\n", (char *) data);
-    printf("Result:\n", (char *) data);
+    printf("Result:\n");
 
     tkz = lxb_html_tokenizer_create();
     status = lxb_html_tokenizer_init(tkz);
