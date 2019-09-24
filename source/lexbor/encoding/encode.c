@@ -1,0 +1,940 @@
+/*
+ * Copyright (C) 2019 Alexander Borisov
+ *
+ * Author: Alexander Borisov <borisov@lexbor.com>
+ */
+
+#include "lexbor/encoding/encode.h"
+#include "lexbor/encoding/single.h"
+#include "lexbor/encoding/multi.h"
+#include "lexbor/encoding/range.h"
+
+
+/* define or lxb_inline? */
+#define LXB_ENCODING_ENCODE_SINGLE_BYTE(table, table_size)                     \
+    const lexbor_shs_hash_t *hash;                                             \
+                                                                               \
+    if (cp < 0x80) {                                                           \
+        *(*data)++ = (lxb_char_t) cp;                                          \
+        return 1;                                                              \
+    }                                                                          \
+                                                                               \
+    hash = lexbor_shs_hash_get_static(table, table_size, cp);                  \
+    if (hash == NULL) {                                                        \
+        return LXB_ENCODING_ENCODE_ERROR;                                      \
+    }                                                                          \
+                                                                               \
+    *(*data)++ = (lxb_char_t) (uintptr_t) hash->value;                         \
+    return 1
+
+
+int8_t
+lxb_encoding_encode_default(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                            const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    return lxb_encoding_encode_utf_8(ctx, data, end, cp);
+}
+
+int8_t
+lxb_encoding_encode_auto(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                         const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    return LXB_ENCODING_ENCODE_ERROR;
+}
+
+int8_t
+lxb_encoding_encode_undefined(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                              const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    return LXB_ENCODING_ENCODE_ERROR;
+}
+
+int8_t
+lxb_encoding_encode_big5(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                         const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    const lexbor_shs_hash_t *hash;
+
+    if (cp < 0x80) {
+        *(*data)++ = (lxb_char_t) cp;
+
+        return 1;
+    }
+
+    hash = lexbor_shs_hash_get_static(lxb_encoding_multi_hash_big5,
+                                      LXB_ENCODING_MULTI_HASH_BIG5_SIZE, cp);
+    if (hash == NULL) {
+        return LXB_ENCODING_ENCODE_ERROR;
+    }
+
+    if ((*data + 2) > end) {
+        return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+    }
+
+    *(*data)++ = ((uint32_t) (uintptr_t) hash->value) / 157 + 0x81;
+
+    if ((((uint32_t) (uintptr_t) hash->value) % 157) < 0x3F) {
+        *(*data)++ = (((uint32_t) (uintptr_t) hash->value) % 157) + 0x40;
+    }
+    else {
+        *(*data)++ = (((uint32_t) (uintptr_t) hash->value) % 157) + 0x62;
+    }
+
+    return 2;
+}
+
+int8_t
+lxb_encoding_encode_euc_jp(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                           const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    const lexbor_shs_hash_t *hash;
+
+    if (cp < 0x80) {
+        *(*data)++ = (lxb_char_t) cp;
+
+        return 1;
+    }
+
+    if (cp == 0x00A5) {
+        *(*data)++ = 0x5C;
+
+        return 1;
+    }
+
+    if (cp == 0x203E) {
+        *(*data)++ = 0x7E;
+
+        return 1;
+    }
+
+    if ((*data + 2) > end) {
+        return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+    }
+
+    if ((unsigned) (cp - 0xFF61) <= (0xFF9F - 0xFF61)) {
+        *(*data)++ = 0x8E;
+        *(*data)++ = cp - 0xFF61 + 0xA1;
+
+        return 2;
+    }
+
+    if (cp == 0x2212) {
+        cp = 0xFF0D;
+    }
+
+    hash = lexbor_shs_hash_get_static(lxb_encoding_multi_hash_jis0208,
+                                      LXB_ENCODING_MULTI_HASH_JIS0208_SIZE, cp);
+    if (hash == NULL) {
+        return LXB_ENCODING_ENCODE_ERROR;
+    }
+
+    *(*data)++ = (uint32_t) (uintptr_t) hash->value / 94 + 0xA1;
+    *(*data)++ = (uint32_t) (uintptr_t) hash->value % 94 + 0xA1;
+
+    return 2;
+}
+
+int8_t
+lxb_encoding_encode_euc_kr(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                           const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    const lexbor_shs_hash_t *hash;
+
+    if (cp < 0x80) {
+        *(*data)++ = (lxb_char_t) cp;
+
+        return 1;
+    }
+
+    if ((*data + 2) > end) {
+        return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+    }
+
+    hash = lexbor_shs_hash_get_static(lxb_encoding_multi_hash_euc_kr,
+                                      LXB_ENCODING_MULTI_HASH_EUC_KR_SIZE, cp);
+    if (hash == NULL) {
+        return LXB_ENCODING_ENCODE_ERROR;
+    }
+
+    *(*data)++ = (uint32_t) (uintptr_t) hash->value / 190 + 0x81;
+    *(*data)++ = (uint32_t) (uintptr_t) hash->value % 190 + 0x41;
+
+    return 2;
+}
+
+int8_t
+lxb_encoding_encode_gbk(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                        const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    const lexbor_shs_hash_t *hash;
+
+    if (cp < 0x80) {
+        *(*data)++ = (lxb_char_t) cp;
+
+        return 1;
+    }
+
+    if (cp == 0xE5E5) {
+        return LXB_ENCODING_ENCODE_ERROR;
+    }
+
+    if (cp == 0x20AC) {
+        *(*data)++ = 0x80;
+
+        return 1;
+    }
+
+    hash = lexbor_shs_hash_get_static(lxb_encoding_multi_hash_gb18030,
+                                      LXB_ENCODING_MULTI_HASH_GB18030_SIZE, cp);
+    if (hash != NULL) {
+        if ((*data + 2) > end) {
+            return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+        }
+
+        *(*data)++ = (lxb_char_t) (uintptr_t) hash->value / 190 + 0x81;
+
+        if (((lxb_char_t) (uintptr_t) hash->value % 190) < 0x3F) {
+            *(*data)++ = ((lxb_char_t) (uintptr_t) hash->value % 190) + 0x40;
+        }
+        else {
+            *(*data)++ = ((lxb_char_t) (uintptr_t) hash->value % 190) + 0x41;
+        }
+
+        return 2;
+    }
+
+    return LXB_ENCODING_ENCODE_ERROR;
+}
+
+int8_t
+lxb_encoding_encode_ibm866(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                           const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_ibm866,
+                                    LXB_ENCODING_SINGLE_HASH_IBM866_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_iso_2022_jp(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    int8_t size;
+    unsigned state;
+    const lexbor_shs_hash_t *hash;
+
+    size = 0;
+    state = ctx->state;
+
+begin:
+
+    switch (ctx->state) {
+        case LXB_ENCODING_ENCODE_2022_JP_ASCII:
+            if (cp == 0x000E || cp == 0x000F || cp == 0x001B) {
+                goto failed;
+            }
+
+            if (cp < 0x80) {
+                *(*data)++ = (lxb_char_t) cp;
+
+                return size + 1;
+            }
+
+            if (cp == 0x00A5 || cp == 0x203E) {
+                /*
+                 * Do not switch to the ROMAN stage with prepend code point
+                 * to stream, add it immediately.
+                 */
+                if ((*data + 4) > end) {
+                    goto small_buffer;
+                }
+
+                ctx->state = LXB_ENCODING_ENCODE_2022_JP_ROMAN;
+
+                *(*data)++ = 0x1B;
+                *(*data)++ = 0x28;
+                *(*data)++ = 0x4A;
+
+                if (cp == 0x00A5) {
+                    *(*data)++ = 0x5C;
+                    return size + 4;
+                }
+
+                *(*data)++ = 0x7E;
+                return size + 4;
+            }
+
+            break;
+
+        case LXB_ENCODING_ENCODE_2022_JP_ROMAN:
+            if (cp == 0x000E || cp == 0x000F || cp == 0x001B) {
+                goto failed;
+            }
+
+            if (cp < 0x80) {
+                switch (cp) {
+                    case 0x005C:
+                    case 0x007E:
+                        break;
+
+                    case 0x00A5:
+                        *(*data)++ = 0x5C;
+                        return size + 1;
+
+                    case 0x203E:
+                        *(*data)++ = 0x7E;
+                        return size + 1;
+
+                    default:
+                        *(*data)++ = (lxb_char_t) cp;
+                        return size + 1;
+                }
+
+                /*
+                 * Do not switch to the ANSI stage with prepend code point
+                 * to stream, add it immediately.
+                 */
+                if ((*data + 4) > end) {
+                    goto small_buffer;
+                }
+
+                ctx->state = LXB_ENCODING_ENCODE_2022_JP_ASCII;
+
+                *(*data)++ = 0x1B;
+                *(*data)++ = 0x28;
+                *(*data)++ = 0x42;
+                *(*data)++ = (lxb_char_t) cp;
+
+                return size + 4;
+            }
+
+            break;
+
+        case LXB_ENCODING_ENCODE_2022_JP_JIS0208:
+            if (cp < 0x80) {
+                if ((*data + 4) > end) {
+                    goto small_buffer;
+                }
+
+                ctx->state = LXB_ENCODING_ENCODE_2022_JP_ASCII;
+
+                *(*data)++ = 0x1B;
+                *(*data)++ = 0x28;
+                *(*data)++ = 0x42;
+                *(*data)++ = (lxb_char_t) cp;
+
+                return size + 4;
+            }
+
+            if (cp == 0x00A5 || cp == 0x203E) {
+                if ((*data + 4) > end) {
+                    goto small_buffer;
+                }
+
+                ctx->state = LXB_ENCODING_ENCODE_2022_JP_ROMAN;
+
+                *(*data)++ = 0x1B;
+                *(*data)++ = 0x28;
+                *(*data)++ = 0x4A;
+
+                if (cp == 0x00A5) {
+                    *(*data)++ = 0x5C;
+                    return size + 4;
+                }
+
+                *(*data)++ = 0x7E;
+                return size + 4;
+            }
+
+            break;
+    }
+
+    if ((*data + 2) > end) {
+        goto small_buffer;
+    }
+
+    if (cp == 0x2212) {
+        cp = 0xFF0D;
+    }
+
+    if ((unsigned) (cp - 0xFF61) <= (0xFF9F - 0xFF61)) {
+        cp = lxb_encoding_multi_index_iso_2022_jp_katakana[cp - 0xFF61].codepoint;
+    }
+
+    hash = lexbor_shs_hash_get_static(lxb_encoding_multi_hash_jis0208,
+                                      LXB_ENCODING_MULTI_HASH_JIS0208_SIZE, cp);
+    if (hash == NULL) {
+        goto failed;
+    }
+
+    if (ctx->state != LXB_ENCODING_ENCODE_2022_JP_JIS0208) {
+        if ((*data + 3) > end) {
+            goto small_buffer;
+        }
+
+        *(*data)++ = 0x1B;
+        *(*data)++ = 0x24;
+        *(*data)++ = 0x42;
+
+        ctx->state = LXB_ENCODING_ENCODE_2022_JP_JIS0208;
+        size += 3;
+
+        goto begin;
+    }
+
+    *(*data)++ = (uint32_t) (uintptr_t) hash->value / 94 + 0x21;
+    *(*data)++ = (uint32_t) (uintptr_t) hash->value % 94 + 0x21;
+
+    return size + 2;
+
+small_buffer:
+
+    ctx->state = state;
+    *data -= size;
+
+    return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+
+failed:
+
+    *data -= size;
+
+    return LXB_ENCODING_ENCODE_ERROR;
+}
+
+int8_t
+lxb_encoding_encode_iso_2022_jp_eof(lxb_encoding_encode_t *ctx,
+                                    lxb_char_t **data, const lxb_char_t *end)
+{
+    if (ctx->state != LXB_ENCODING_ENCODE_2022_JP_ASCII) {
+        if ((*data + 3) > end) {
+            return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+        }
+
+        *(*data)++ = 0x1B;
+        *(*data)++ = 0x28;
+        *(*data)++ = 0x42;
+
+        ctx->state = LXB_ENCODING_ENCODE_2022_JP_ASCII;
+
+        return 3;
+    }
+
+    return 0;
+}
+
+int8_t
+lxb_encoding_encode_iso_8859_10(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_iso_8859_10,
+                                    LXB_ENCODING_SINGLE_HASH_ISO_8859_10_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_iso_8859_13(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_iso_8859_13,
+                                    LXB_ENCODING_SINGLE_HASH_ISO_8859_13_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_iso_8859_14(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_iso_8859_14,
+                                    LXB_ENCODING_SINGLE_HASH_ISO_8859_14_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_iso_8859_15(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_iso_8859_15,
+                                    LXB_ENCODING_SINGLE_HASH_ISO_8859_15_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_iso_8859_16(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_iso_8859_16,
+                                    LXB_ENCODING_SINGLE_HASH_ISO_8859_16_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_iso_8859_2(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                               const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_iso_8859_2,
+                                    LXB_ENCODING_SINGLE_HASH_ISO_8859_2_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_iso_8859_3(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                               const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_iso_8859_3,
+                                    LXB_ENCODING_SINGLE_HASH_ISO_8859_3_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_iso_8859_4(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                               const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_iso_8859_4,
+                                    LXB_ENCODING_SINGLE_HASH_ISO_8859_4_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_iso_8859_5(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                               const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_iso_8859_5,
+                                    LXB_ENCODING_SINGLE_HASH_ISO_8859_5_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_iso_8859_6(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                               const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_iso_8859_6,
+                                    LXB_ENCODING_SINGLE_HASH_ISO_8859_6_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_iso_8859_7(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                               const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_iso_8859_7,
+                                    LXB_ENCODING_SINGLE_HASH_ISO_8859_7_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_iso_8859_8(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                               const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_iso_8859_8,
+                                    LXB_ENCODING_SINGLE_HASH_ISO_8859_8_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_iso_8859_8_i(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                 const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_iso_8859_8,
+                                    LXB_ENCODING_SINGLE_HASH_ISO_8859_8_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_koi8_r(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                           const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_koi8_r,
+                                    LXB_ENCODING_SINGLE_HASH_KOI8_R_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_koi8_u(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                           const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_koi8_u,
+                                    LXB_ENCODING_SINGLE_HASH_KOI8_U_SIZE);
+}
+
+lxb_inline const lexbor_shs_hash_t *
+lxb_encoding_encode_shift_jis_index(lxb_codepoint_t cp)
+{
+    const lexbor_shs_hash_t *entry;
+
+    entry = &lxb_encoding_multi_hash_jis0208[ (cp % LXB_ENCODING_MULTI_HASH_JIS0208_SIZE) + 1 ];
+
+    do {
+        if (entry->key == cp) {
+            if ((unsigned) ((uint32_t) (uintptr_t) entry->value - 8272) > (8835 - 8272)) {
+                return entry;
+            }
+        }
+
+        entry = &lxb_encoding_multi_hash_jis0208[entry->next];
+    }
+    while (entry != lxb_encoding_multi_hash_jis0208);
+
+    return NULL;
+}
+
+int8_t
+lxb_encoding_encode_shift_jis(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                              const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    uint32_t lead, trail;
+    const lexbor_shs_hash_t *hash;
+
+    if (cp <= 0x80) {
+        *(*data)++ = (lxb_char_t) cp;
+
+        return 1;
+    }
+
+    if ((unsigned) (cp - 0xFF61) <= (0xFF9F - 0xFF61)) {
+        *(*data)++ = cp - 0xFF61 + 0xA1;
+
+        return 1;
+    }
+
+    switch (cp) {
+        case 0x00A5:
+            *(*data)++ = 0x5C;
+            return 1;
+
+        case 0x203E:
+            *(*data)++ = 0x7E;
+            return 1;
+
+        case 0x2212:
+            cp = 0xFF0D;
+            break;
+    }
+
+    hash = lxb_encoding_encode_shift_jis_index(cp);
+    if (hash == NULL) {
+        return LXB_ENCODING_ENCODE_ERROR;
+    }
+
+    if ((*data + 2) > end) {
+        return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+    }
+
+    lead = (uint32_t) (uintptr_t) hash->value / 188;
+    trail = (uint32_t) (uintptr_t) hash->value % 188;
+
+    *(*data)++ = lead + ((lead < 0x1F) ? 0x81 : 0xC1);
+    *(*data)++ = trail + ((trail < 0x3F) ? 0x40 : 0x41);
+
+    return 2;
+}
+
+lxb_inline void
+lxb_encoding_encode_utf_16_write(bool is_be, lxb_char_t **data,
+                                 lxb_codepoint_t cp)
+{
+    if (is_be) {
+        *(*data)++ = cp >> 8;
+        *(*data)++ = cp & 0x00FF;
+
+        return;
+    }
+
+    *(*data)++ = cp & 0x00FF;
+    *(*data)++ = cp >> 8;
+}
+
+lxb_inline int8_t
+lxb_encoding_encode_utf_16(lxb_encoding_encode_t *ctx, bool is_be,
+                   lxb_char_t **data, const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    if ((*data + 2) > end) {
+        return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+    }
+
+    if (cp < 0x10000) {
+        lxb_encoding_encode_utf_16_write(is_be, data, cp);
+
+        return 2;
+    }
+
+    if ((*data + 4) > end) {
+        return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+    }
+
+    cp -= 0x10000;
+
+    lxb_encoding_encode_utf_16_write(is_be, data, (0xD800 | (cp >> 0x0A)));
+    lxb_encoding_encode_utf_16_write(is_be, data, (0xDC00 | (cp & 0x03FF)));
+
+    return 4;
+}
+
+int8_t
+lxb_encoding_encode_utf_16be(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                             const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    return lxb_encoding_encode_utf_16(ctx, true, data, end, cp);
+}
+
+int8_t
+lxb_encoding_encode_utf_16le(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                             const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    return lxb_encoding_encode_utf_16(ctx, false, data, end, cp);
+}
+
+int8_t
+lxb_encoding_encode_utf_8(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                          const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    if (cp < 0x80) {
+        /* 0xxxxxxx */
+        *(*data)++ = (lxb_char_t) cp;
+
+        return 1;
+    }
+
+    if (cp < 0x800) {
+        if ((*data + 2) > end) {
+            return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+        }
+
+        /* 110xxxxx 10xxxxxx */
+        *(*data)++ = (lxb_char_t) (0xC0 | (cp >> 6  ));
+        *(*data)++ = (lxb_char_t) (0x80 | (cp & 0x3F));
+
+        return 2;
+    }
+
+    if (cp < 0x10000) {
+        if ((*data + 3) > end) {
+            return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+        }
+
+        /* 1110xxxx 10xxxxxx 10xxxxxx */
+        *(*data)++ = (lxb_char_t) (0xE0 | ((cp >> 12)));
+        *(*data)++ = (lxb_char_t) (0x80 | ((cp >> 6 ) & 0x3F));
+        *(*data)++ = (lxb_char_t) (0x80 | ( cp        & 0x3F));
+
+        return 3;
+    }
+
+    if (cp < 0x110000) {
+        if ((*data + 4) > end) {
+            return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+        }
+
+        /* 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx */
+        *(*data)++ = (lxb_char_t) (0xF0 | ( cp >> 18));
+        *(*data)++ = (lxb_char_t) (0x80 | ((cp >> 12) & 0x3F));
+        *(*data)++ = (lxb_char_t) (0x80 | ((cp >> 6 ) & 0x3F));
+        *(*data)++ = (lxb_char_t) (0x80 | ( cp        & 0x3F));
+
+        return 4;
+    }
+
+    return LXB_ENCODING_ENCODE_ERROR;
+}
+
+lxb_inline uint32_t
+lxb_encoding_encode_gb18030_range(lxb_codepoint_t cp)
+{
+    size_t mid, left, right;
+    const lxb_encoding_range_index_t *range;
+
+    if (cp == 0xE7C7) {
+        return 7457;
+    }
+
+    left = 0;
+    right = LXB_ENCODING_RANGE_INDEX_GB18030_SIZE;
+    range = lxb_encoding_range_index_gb18030;
+
+    /* Some compilers say about uninitialized mid */
+    mid = 0;
+
+    while (left < right) {
+        mid = left + (right - left) / 2;
+
+        if (range[mid].codepoint < cp) {
+            left = mid + 1;
+
+            if (left < right && range[left].codepoint > cp) {
+                break;
+            }
+        }
+        else if (range[mid].codepoint > cp) {
+            right = mid - 1;
+
+            if (right > 0 && range[right].codepoint <= cp) {
+                mid = right;
+                break;
+            }
+        }
+        else {
+            break;
+        }
+    }
+
+    return range[mid].index + cp - range[mid].codepoint;
+}
+
+int8_t
+lxb_encoding_encode_gb18030(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                            const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    uint32_t index;
+    const lexbor_shs_hash_t *hash;
+
+    if (cp < 0x80) {
+        *(*data)++ = (lxb_char_t) cp;
+
+        return 1;
+    }
+
+    if (cp == 0xE5E5) {
+        return LXB_ENCODING_ENCODE_ERROR;
+    }
+
+    hash = lexbor_shs_hash_get_static(lxb_encoding_multi_hash_gb18030,
+                                      LXB_ENCODING_MULTI_HASH_GB18030_SIZE, cp);
+    if (hash != NULL) {
+        if ((*data + 2) > end) {
+            return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+        }
+
+        *(*data)++ = (uint32_t) (uintptr_t) hash->value / 190 + 0x81;
+
+        if (((uint32_t) (uintptr_t) hash->value % 190) < 0x3F) {
+            *(*data)++ = ((uint32_t) (uintptr_t) hash->value % 190) + 0x40;
+        }
+        else {
+            *(*data)++ = ((uint32_t) (uintptr_t) hash->value % 190) + 0x41;
+        }
+
+        return 2;
+    }
+
+    if ((*data + 4) > end) {
+        return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+    }
+
+    index = lxb_encoding_encode_gb18030_range(cp);
+
+    *(*data)++ = (index / (10 * 126 * 10)) + 0x81;
+    *(*data)++ = ((index % (10 * 126 * 10)) / (10 * 126)) + 0x30;
+
+    index = (index % (10 * 126 * 10)) % (10 * 126);
+
+    *(*data)++ = (index / 10) + 0x81;
+    *(*data)++ = (index % 10) + 0x30;
+
+    return 4;
+}
+
+int8_t
+lxb_encoding_encode_macintosh(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                              const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_macintosh,
+                                    LXB_ENCODING_SINGLE_HASH_MACINTOSH_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_replacement(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    return LXB_ENCODING_ENCODE_ERROR;
+}
+
+int8_t
+lxb_encoding_encode_windows_1250(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                 const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_windows_1250,
+                                    LXB_ENCODING_SINGLE_HASH_WINDOWS_1250_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_windows_1251(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                 const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_windows_1251,
+                                    LXB_ENCODING_SINGLE_HASH_WINDOWS_1251_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_windows_1252(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                 const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_windows_1252,
+                                    LXB_ENCODING_SINGLE_HASH_WINDOWS_1252_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_windows_1253(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                 const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_windows_1253,
+                                    LXB_ENCODING_SINGLE_HASH_WINDOWS_1253_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_windows_1254(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                 const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_windows_1254,
+                                    LXB_ENCODING_SINGLE_HASH_WINDOWS_1254_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_windows_1255(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                 const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_windows_1255,
+                                    LXB_ENCODING_SINGLE_HASH_WINDOWS_1255_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_windows_1256(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                 const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_windows_1256,
+                                    LXB_ENCODING_SINGLE_HASH_WINDOWS_1256_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_windows_1257(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                 const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_windows_1257,
+                                    LXB_ENCODING_SINGLE_HASH_WINDOWS_1257_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_windows_1258(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                 const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_windows_1258,
+                                    LXB_ENCODING_SINGLE_HASH_WINDOWS_1258_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_windows_874(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_windows_874,
+                                    LXB_ENCODING_SINGLE_HASH_WINDOWS_874_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_x_mac_cyrillic(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                   const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    LXB_ENCODING_ENCODE_SINGLE_BYTE(lxb_encoding_single_hash_x_mac_cyrillic,
+                                  LXB_ENCODING_SINGLE_HASH_X_MAC_CYRILLIC_SIZE);
+}
+
+int8_t
+lxb_encoding_encode_x_user_defined(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                   const lxb_char_t *end, lxb_codepoint_t cp)
+{
+    if (cp < 0x80) {
+        *(*data)++ = (lxb_char_t) cp;
+
+        return 1;
+    }
+
+    if (cp >= 0xF780 && cp <= 0xF7FF) {
+        *(*data)++ = (lxb_char_t) (cp - 0xF780 + 0x80);
+
+        return 1;
+    }
+
+    return LXB_ENCODING_ENCODE_ERROR;
+}

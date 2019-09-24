@@ -245,14 +245,17 @@ MACRO(EXECUTABLE_LIST name_prefix sources)
 
         STRING(REGEX REPLACE "^${LEXBOR_DIR_ROOT}" "" build_dir ${build_dir})
         STRING(REGEX REPLACE "^/+" "" build_dir ${build_dir})
+        STRING(REGEX REPLACE "/+" "_" build_exe ${build_dir})
 
-        add_executable("${name_prefix}${barename}" ${src})
-        set_target_properties("${name_prefix}${barename}" PROPERTIES
+        set(exe_name "${name_prefix}${build_exe}${barename}")
+
+        add_executable("${exe_name}" ${src})
+        set_target_properties("${exe_name}" PROPERTIES
                               RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${build_dir}"
                               OUTPUT_NAME "${barename}")
 
-        add_dependencies("${name_prefix}${barename}" ${ARGN})
-        target_link_libraries("${name_prefix}${barename}" ${ARGN})
+        add_dependencies("${exe_name}" ${ARGN})
+        target_link_libraries("${exe_name}" ${ARGN})
     ENDFOREACH()
 ENDMACRO()
 
@@ -284,10 +287,14 @@ MACRO(APPEND_TESTS name_prefix sources)
     ENDFOREACH()
 ENDMACRO()
 
-MACRO(FIND_AND_APPEND_SUB_DIRS npath)
+MACRO(FIND_AND_APPEND_SUB_DIRS npath skip_error)
     FILE(GLOB children ${npath}/ ${npath}/*)
 
     FOREACH(child ${children})
+        IF(${skip_error} AND NOT EXISTS "${child}/CMakeLists.txt")
+            CONTINUE()
+        ENDIF()
+
         string(REGEX MATCH "\\.[^/]+$" MATCHSTR ${child})
         IF(IS_DIRECTORY ${child} AND MATCHSTR STREQUAL "")
             string(REGEX MATCH "[^/]+$" MATCHSTR ${child})

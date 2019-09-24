@@ -4,7 +4,7 @@
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
-#include "examples/lexbor/html/base.h"
+#include "base.h"
 
 
 int

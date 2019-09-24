@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2019 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -44,6 +44,7 @@ typedef enum {
     LXB_STATUS_ERROR                    = 0x0001,
     LXB_STATUS_ERROR_MEMORY_ALLOCATION,
     LXB_STATUS_ERROR_OBJECT_IS_NULL,
+    LXB_STATUS_ERROR_SMALL_BUFFER,
     LXB_STATUS_ERROR_INCOMPLETE_OBJECT,
     LXB_STATUS_ERROR_NO_FREE_SLOT,
     LXB_STATUS_ERROR_TOO_SMALL_SIZE,

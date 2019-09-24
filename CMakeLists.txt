@@ -4,6 +4,7 @@ cmake_minimum_required(VERSION 2.8)
 # Options:
 #    LEXBOR_OPTIMIZATION_LEVEL           default: -O2
 #    LEXBOR_C_FLAGS                      default: see this file
+#    LEXBOR_CXX_FLAGS                    default: see this file
 #    LEXBOR_WITHOUT_THREADS              default: ON; Not used now, for the future
 #    LEXBOR_BUILD_SHARED                 default: ON; Create shaded library
 #    LEXBOR_BUILD_STATIC                 default: ON; Create static library
@@ -13,11 +14,15 @@ cmake_minimum_required(VERSION 2.8)
 #    LEXBOR_BUILD_TESTS                  default: OFF; Build tests
 #    LEXBOR_BUILD_TESTS_CPP              default: ON; Build C++ tests.
 #                                         Used with LEXBOR_BUILD_TESTS
+#    LEXBOR_BUILD_UTILS                  default: OFF; Build utils/helpers for project.
+#    LEXBOR_BUILD_WITH_ASAN              default: OFF; Build with address sanitizer if possible
 #    LEXBOR_INSTALL_HEADERS              default: ON; The header files will be installed
 #                                         if set to ON
 #    LEXBOR_PRINT_MODULE_DEPENDENCIES    default: OFF; Prints dependencies between modules
 
 # For build with ASAN use CMake flag:
+#     -DLEXBOR_BUILD_WITH_ASAN=ON
+#     or
 #     -DCMAKE_C_FLAGS='-O0 -g -fsanitize=address'
 #     or
 #     -DLEXBOR_C_FLAGS='-O0 -g -fsanitize=address'
@@ -44,6 +49,7 @@ option(LEXBOR_BUILD_EXAMPLES "Build examples" OFF)
 option(LEXBOR_BUILD_TESTS "Build tests" OFF)
 option(LEXBOR_BUILD_TESTS_CPP "Build C++ tests" ON)
 option(LEXBOR_BUILD_UTILS "Build utils" OFF)
+option(LEXBOR_BUILD_WITH_ASAN "Build with address sanitizer" OFF)
 option(LEXBOR_INSTALL_HEADERS "Install header files" ON)
 option(LEXBOR_PRINT_MODULE_DEPENDENCIES "Prints dependencies" OFF)
 
@@ -219,6 +225,7 @@ ENDIF()
 ## Sets C_FLAGS
 #########################
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${LEXBOR_OPTIMIZATION_LEVEL} ${LEXBOR_C_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LEXBOR_OPTIMIZATION_LEVEL} ${LEXBOR_CXX_FLAGS}")
 message(STATUS "CFLAGS: ${CMAKE_C_FLAGS}")
 message(STATUS "CXXFLAGS: ${CMAKE_CXX_FLAGS}")
 
@@ -234,7 +241,6 @@ ENDIF()
 ## Examples
 #########################
 IF(LEXBOR_BUILD_EXAMPLES)
-    include_directories(.)
     add_subdirectory(examples)
 ENDIF()
 
@@ -244,6 +250,13 @@ ENDIF()
 IF(LEXBOR_BUILD_TESTS)
     enable_testing()
     add_subdirectory(test)
+ENDIF()
+
+################
+## Utils
+#########################
+IF(LEXBOR_BUILD_UTILS)
+    add_subdirectory(utils)
 ENDIF()
 
 IF (WIN32)

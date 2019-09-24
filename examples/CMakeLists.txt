@@ -5,4 +5,4 @@ project(lexbor_examples)
 ################
 ## Subs
 #########################
-FIND_AND_APPEND_SUB_DIRS("lexbor")
+FIND_AND_APPEND_SUB_DIRS("lexbor" OFF)

@@ -15,4 +15,4 @@ include(unit/CMakeLists.txt)
 ################
 ## Subs
 #########################
-FIND_AND_APPEND_SUB_DIRS("lexbor")
+FIND_AND_APPEND_SUB_DIRS("lexbor" OFF)

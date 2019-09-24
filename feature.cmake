@@ -22,9 +22,16 @@ MACRO(FEATURE_TRY_FUNCTION_EXISTS target fname lib_name)
 ENDMACRO()
 
 MACRO(FEATURE_CHECK_ASAN out_result)
+    set(lexbor_asan_flags "-O0 -g -fsanitize=address -fno-omit-frame-pointer")
+
+    IF(LEXBOR_BUILD_WITH_ASAN)
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${lexbor_asan_flags}")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${lexbor_asan_flags}")
+    ENDIF()
+
     set(feature_filename "${CMAKE_BINARY_DIR}/feature_check.c")
 
-    string(APPEND FEATUTE_CHECK_STRING "
+    set(FEATUTE_CHECK_STRING "
 #include <sanitizer/asan_interface.h>
 
 int main(void) {
@@ -57,6 +64,16 @@ int main(void) {
     ENDIF()
 
     file(REMOVE ${feature_filename})
+
+    IF(LEXBOR_BUILD_WITH_ASAN)
+        IF(NOT ${${out_result}})
+            STRING(REGEX REPLACE " ${lexbor_asan_flags}" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+            STRING(REGEX REPLACE " ${lexbor_asan_flags}" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+        ELSE()
+            message(STATUS "Updated CFLAGS: ${CMAKE_C_FLAGS}")
+            message(STATUS "Updated CXXFLAGS: ${CMAKE_CXX_FLAGS}")
+        ENDIF()
+    ENDIF()
 
     unset(FEATUTE_CHECK_STRING)
     unset(feature_filename)
