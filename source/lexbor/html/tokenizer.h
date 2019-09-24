@@ -260,7 +260,7 @@ lxb_html_tokenizer_mraw(lxb_html_tokenizer_t *tkz)
     return tkz->mraw;
 }
 
-    
+
 #ifdef __cplusplus
 } /* extern "C" */
 #endif
