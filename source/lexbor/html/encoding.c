@@ -144,6 +144,8 @@ lxb_html_encoding_determine(lxb_html_encoding_t *em,
                 break;
 
             case '/':
+                data++;
+
                 if ((data + 3) > end) {
                     return LXB_STATUS_OK;
                 }
