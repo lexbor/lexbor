@@ -22,7 +22,7 @@ extern "C" {
  * Before searching will be removed any leading and trailing
  * ASCII whitespace in name.
  */
-const lxb_encoding_data_t *
+LXB_API const lxb_encoding_data_t *
 lxb_encoding_data_by_pre_name(const lxb_char_t *name, size_t length);
 
 
