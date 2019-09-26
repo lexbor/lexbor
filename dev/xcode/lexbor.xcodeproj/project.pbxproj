@@ -177,6 +177,7 @@
 		0E36F56121C18C5E00B4563A /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E36F56021C18C5E00B4563A /* error.c */; };
 		0E36F56421C6849900B4563A /* consume.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E36F56321C6849900B4563A /* consume.c */; };
 		0E4E0C612242DB48001B8323 /* plog.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E4E0C602242DB47001B8323 /* plog.c */; };
+		0E5006D1233BBE92001A54DA /* encoding.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E5006CF233BBE92001A54DA /* encoding.c */; };
 		0E8F888E232019E200376B91 /* memory.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F888B232019E200376B91 /* memory.c */; };
 		0E8F888F232019E200376B91 /* perf.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F888C232019E200376B91 /* perf.c */; };
 		0E8F8890232019E200376B91 /* fs.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E8F888D232019E200376B91 /* fs.c */; };
@@ -541,6 +542,8 @@
 		0E36F56221C6849900B4563A /* consume.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = consume.h; path = ../../source/lexbor/css/syntax/consume.h; sourceTree = "<group>"; };
 		0E36F56321C6849900B4563A /* consume.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = consume.c; path = ../../source/lexbor/css/syntax/consume.c; sourceTree = "<group>"; };
 		0E4E0C602242DB47001B8323 /* plog.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = plog.c; path = ../../source/lexbor/core/plog.c; sourceTree = "<group>"; };
+		0E5006CF233BBE92001A54DA /* encoding.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = encoding.c; path = ../../source/lexbor/html/encoding.c; sourceTree = "<group>"; };
+		0E5006D0233BBE92001A54DA /* encoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = encoding.h; path = ../../source/lexbor/html/encoding.h; sourceTree = "<group>"; };
 		0E7DEAA721F65CE200F0856B /* token_res.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = token_res.h; path = ../../source/lexbor/css/syntax/token_res.h; sourceTree = "<group>"; };
 		0E8F888B232019E200376B91 /* memory.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = memory.c; path = ../../source/lexbor/ports/posix/lexbor/core/memory.c; sourceTree = "<group>"; };
 		0E8F888C232019E200376B91 /* perf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = perf.c; path = ../../source/lexbor/ports/posix/lexbor/core/perf.c; sourceTree = "<group>"; };
@@ -616,6 +619,8 @@
 				0E36F3FC21B9B07D00B4563A /* base.h */,
 				0E36F3F621B9B07D00B4563A /* html.c */,
 				0E36F3EF21B9B07D00B4563A /* html.h */,
+				0E5006D0233BBE92001A54DA /* encoding.h */,
+				0E5006CF233BBE92001A54DA /* encoding.c */,
 				0E36F3FE21B9B07E00B4563A /* in.c */,
 				0E36F3F521B9B07D00B4563A /* in.h */,
 				0E36F3F421B9B07D00B4563A /* interface_res.h */,
@@ -1245,6 +1250,7 @@
 				0E36F50E21B9B22900B4563A /* image_element.c in Sources */,
 				0E36F53621B9B22900B4563A /* script_element.c in Sources */,
 				0E36F43121B9B0CB00B4563A /* template_insertion.c in Sources */,
+				0E5006D1233BBE92001A54DA /* encoding.c in Sources */,
 				0E36F46521B9B0E500B4563A /* before_head.c in Sources */,
 				0E36F45F21B9B0E500B4563A /* after_head.c in Sources */,
 				0E36F50A21B9B22900B4563A /* br_element.c in Sources */,
