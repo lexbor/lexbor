@@ -389,13 +389,13 @@ begin:
 small_buffer:
 
     ctx->state = state;
-    *data -= size;
+    *data = *data - size;
 
     return LXB_ENCODING_ENCODE_SMALL_BUFFER;
 
 failed:
 
-    *data -= size;
+    *data = *data - size;
 
     return LXB_ENCODING_ENCODE_ERROR;
 }
