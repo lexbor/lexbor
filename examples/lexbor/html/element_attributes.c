@@ -29,9 +29,6 @@ main(int argc, const char *argv[])
 
     /* Parse */
     document = parse(html, html_len);
-    if (document == NULL) {
-        FAILED("Failed to create Document object");
-    }
 
     /* Print Incoming Data */
     PRINT("HTML:");

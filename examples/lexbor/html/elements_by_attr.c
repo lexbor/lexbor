@@ -43,9 +43,6 @@ main(int argc, const char *argv[])
     PRINT("%s", (const char *) html);
 
     document = parse(html, html_szie);
-    if (document == NULL) {
-        FAILED("Failed to create Document object");
-    }
 
     body = lxb_dom_interface_element(document->body);
 

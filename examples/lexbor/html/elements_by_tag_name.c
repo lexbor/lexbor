@@ -21,9 +21,6 @@ main(int argc, const char *argv[])
     size_t html_szie = sizeof(html) - 1;
 
     document = parse(html, html_szie);
-    if (document == NULL) {
-        FAILED("Failed to create Document object");
-    }
 
     collection = lxb_dom_collection_make(&document->dom_document, 128);
     if (collection == NULL) {
