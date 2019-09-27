@@ -95,6 +95,20 @@ lxb_dom_qualified_name_local_name(const lxb_dom_qualified_name_t *qname,
     return qname->str.data;
 }
 
+/*
+ * No inline functions for ABI.
+ */
+const lxb_char_t *
+lxb_dom_qualified_name_noi(const lxb_dom_qualified_name_t *qname, size_t *len);
+
+const lxb_char_t *
+lxb_dom_qualified_name_prefix_noi(const lxb_dom_qualified_name_t *qname,
+                                  size_t *len);
+
+const lxb_char_t *
+lxb_dom_qualified_name_local_name_noi(const lxb_dom_qualified_name_t *qname,
+                                      size_t *len);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

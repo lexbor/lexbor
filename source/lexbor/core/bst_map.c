@@ -228,3 +228,12 @@ lexbor_bst_map_remove(lexbor_bst_map_t *bst_map, lexbor_bst_entry_t **scope,
 
     return NULL;
 }
+
+/*
+ * No inline functions.
+ */
+lexbor_mraw_t *
+lexbor_bst_map_mraw_noi(lexbor_bst_map_t *bst_map)
+{
+    return lexbor_bst_map_mraw(bst_map);
+}

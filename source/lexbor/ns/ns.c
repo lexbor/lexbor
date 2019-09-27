@@ -291,3 +291,27 @@ lxb_ns_data_by_link_default(lxb_ns_heap_t *ns_heap,
 
     return hp_entry->value;
 }
+
+/*
+ * No inline functions for ABI.
+ */
+const lxb_ns_data_t *
+lxb_ns_data_by_id_noi(lxb_ns_heap_t *ns_heap, lxb_ns_id_t tag_id)
+{
+    return lxb_ns_data_by_id(ns_heap, tag_id);
+}
+
+const lxb_ns_data_t *
+lxb_ns_data_by_link_noi(lxb_ns_heap_t *ns_heap,
+                        const lxb_char_t *link, size_t len)
+{
+    return lxb_ns_data_by_link(ns_heap, link, len);
+}
+
+const lxb_ns_data_t *
+lxb_ns_find_or_append_noi(lxb_ns_heap_t *ns_heap,
+                          const lxb_char_t *link, size_t link_len,
+                          const lxb_char_t *name, size_t name_len)
+{
+    return lxb_ns_find_or_append(ns_heap, link, link_len, name, name_len);
+}

@@ -80,6 +80,18 @@ lexbor_array_size(lexbor_array_t *array)
     return array->size;
 }
 
+/*
+ * No inline functions for ABI.
+ */
+void *
+lexbor_array_get_noi(lexbor_array_t *array, size_t idx);
+
+size_t
+lexbor_array_length_noi(lexbor_array_t *array);
+
+size_t
+lexbor_array_size_noi(lexbor_array_t *array);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -223,6 +223,55 @@ lxb_html_document_destroy_element(lxb_dom_element_t *element)
     return lxb_dom_document_destroy_element(element);
 }
 
+/*
+ * No inline functions for ABI.
+ */
+lxb_html_head_element_t *
+lxb_html_document_head_element_noi(lxb_html_document_t *document);
+
+lxb_html_body_element_t *
+lxb_html_document_body_element_noi(lxb_html_document_t *document);
+
+lxb_dom_document_t *
+lxb_html_document_original_ref_noi(lxb_html_document_t *document);
+
+bool
+lxb_html_document_is_original_noi(lxb_html_document_t *document);
+
+lexbor_mraw_t *
+lxb_html_document_mraw_noi(lxb_html_document_t *document);
+
+lexbor_mraw_t *
+lxb_html_document_mraw_text_noi(lxb_html_document_t *document);
+
+lxb_tag_heap_t *
+lxb_html_document_tag_heap_noi(lxb_html_document_t *document);
+
+lxb_ns_heap_t *
+lxb_html_document_ns_heap_noi(lxb_html_document_t *document);
+
+void
+lxb_html_document_opt_set_noi(lxb_html_document_t *document,
+                              lxb_html_document_opt_t opt);
+
+lxb_html_document_opt_t
+lxb_html_document_opt_noi(lxb_html_document_t *document);
+
+void *
+lxb_html_document_create_struct_noi(lxb_html_document_t *document,
+                                    size_t struct_size);
+
+void *
+lxb_html_document_destroy_struct_noi(lxb_html_document_t *document, void *data);
+
+lxb_dom_element_t *
+lxb_html_document_create_element_noi(lxb_html_document_t *document,
+                                     const lxb_char_t *local_name,
+                                     size_t lname_len, void *reserved_for_opt);
+
+lxb_dom_element_t *
+lxb_html_document_destroy_element_noi(lxb_dom_element_t *element);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

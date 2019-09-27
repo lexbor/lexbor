@@ -72,6 +72,12 @@ lexbor_bst_map_mraw(lexbor_bst_map_t *bst_map)
     return bst_map->mraw;
 }
 
+/*
+ * No inline functions for ABI.
+ */
+lexbor_mraw_t *
+lexbor_bst_map_mraw_noi(lexbor_bst_map_t *bst_map);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

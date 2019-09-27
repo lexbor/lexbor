@@ -475,3 +475,34 @@ lxb_css_syntax_tokenizer_change_incoming_eof(lxb_css_syntax_tokenizer_t *tkz,
 
     return lxb_css_syntax_tokenizer_eof + 1;
 }
+
+/*
+ * No inline functions for ABI.
+ */
+void
+lxb_css_syntax_tokenizer_token_cb_set_noi(lxb_css_syntax_tokenizer_t *tkz,
+                                          lxb_css_syntax_tokenizer_cb_f cb_done,
+                                          void *ctx)
+{
+    lxb_css_syntax_tokenizer_token_cb_set(tkz, cb_done, ctx);
+}
+
+void
+lxb_css_syntax_tokenizer_last_needed_in_noi(lxb_css_syntax_tokenizer_t *tkz,
+                                            lexbor_in_node_t *in)
+{
+    lxb_css_syntax_tokenizer_last_needed_in(tkz, in);
+}
+
+lxb_status_t
+lxb_css_syntax_tokenizer_make_data_noi(lxb_css_syntax_tokenizer_t *tkz,
+                                       lxb_css_syntax_token_t *token)
+{
+    return lxb_css_syntax_tokenizer_make_data(tkz, token);
+}
+
+lxb_status_t
+lxb_css_syntax_tokenizer_status_noi(lxb_css_syntax_tokenizer_t *tkz)
+{
+    return lxb_css_syntax_tokenizer_status(tkz);
+}

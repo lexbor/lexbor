@@ -220,3 +220,48 @@ lexbor_in_node_pos_down(lexbor_in_node_t *node, lexbor_in_node_t **return_node,
 
     return NULL;
 }
+
+/*
+* No inline functions for ABI.
+*/
+const lxb_char_t *
+lexbor_in_node_begin_noi(const lexbor_in_node_t *node)
+{
+    return lexbor_in_node_begin(node);
+}
+
+const lxb_char_t *
+lexbor_in_node_end_noi(const lexbor_in_node_t *node)
+{
+    return lexbor_in_node_end(node);
+}
+
+size_t
+lexbor_in_node_offset_noi(const lexbor_in_node_t *node)
+{
+    return lexbor_in_node_offset(node);
+}
+
+lexbor_in_node_t *
+lexbor_in_node_next_noi(const lexbor_in_node_t *node)
+{
+    return lexbor_in_node_next(node);
+}
+
+lexbor_in_node_t *
+lexbor_in_node_prev_noi(const lexbor_in_node_t *node)
+{
+    return lexbor_in_node_prev(node);
+}
+
+lexbor_in_t *
+lexbor_in_node_in_noi(const lexbor_in_node_t *node)
+{
+    return lexbor_in_node_in(node);
+}
+
+bool
+lexbor_in_segment_noi(const lexbor_in_node_t *node, const lxb_char_t *data)
+{
+    return lexbor_in_segment(node, data);
+}

@@ -165,6 +165,15 @@ lxb_html_token_create_eof(lexbor_dobject_t *dobj)
     return (lxb_html_token_t *) lexbor_dobject_calloc(dobj);
 }
 
+/*
+ * No inline functions for ABI.
+ */
+void
+lxb_html_token_clean_noi(lxb_html_token_t *token);
+
+lxb_html_token_t *
+lxb_html_token_create_eof_noi(lexbor_dobject_t *dobj);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

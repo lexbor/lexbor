@@ -391,3 +391,18 @@ lexbor_mraw_free(lexbor_mraw_t *mraw, void *data)
 
     return NULL;
 }
+
+/*
+ * No inline functions for ABI.
+ */
+size_t
+lexbor_mraw_data_size_noi(void *data)
+{
+    return lexbor_mraw_data_size(data);
+}
+
+void
+lexbor_mraw_data_size_set_noi(void *data, size_t size)
+{
+    lexbor_mraw_data_size_set(data, size);
+}

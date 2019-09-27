@@ -189,3 +189,35 @@ lexbor_mem_calloc(lexbor_mem_t *mem, size_t length)
 
     return data;
 }
+
+/*
+ * No inline functions for ABI.
+ */
+size_t
+lexbor_mem_current_length_noi(lexbor_mem_t *mem)
+{
+    return lexbor_mem_current_length(mem);
+}
+
+size_t
+lexbor_mem_current_size_noi(lexbor_mem_t *mem)
+{
+    return lexbor_mem_current_size(mem);
+}
+
+size_t
+lexbor_mem_chunk_length_noi(lexbor_mem_t *mem)
+{
+    return lexbor_mem_chunk_length(mem);
+}
+size_t
+lexbor_mem_align_noi(size_t size)
+{
+    return lexbor_mem_align(size);
+}
+
+size_t
+lexbor_mem_align_floor_noi(size_t size)
+{
+    return lexbor_mem_align_floor(size);
+}

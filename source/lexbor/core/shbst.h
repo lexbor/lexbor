@@ -80,6 +80,12 @@ lexbor_shbst_keys(lexbor_shbst_t *shbst)
     return shbst->keys;
 }
 
+/*
+ * No inline functions for ABI.
+ */
+lexbor_mraw_t *
+lexbor_shbst_keys_noi(lexbor_shbst_t *shbst);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

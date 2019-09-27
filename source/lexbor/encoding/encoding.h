@@ -77,6 +77,21 @@ lxb_encoding_decode_function(lxb_encoding_t encoding)
     return lxb_encoding_res_map[encoding].decode;
 }
 
+/*
+ * No inline functions for ABI.
+ */
+const lxb_encoding_data_t *
+lxb_encoding_data_by_name_noi(const lxb_char_t *name, size_t length);
+
+const lxb_encoding_data_t *
+lxb_encoding_data_noi(lxb_encoding_t encoding);
+
+lxb_encoding_encode_f
+lxb_encoding_encode_function_noi(lxb_encoding_t encoding);
+
+lxb_encoding_decode_f
+lxb_encoding_decode_function_noi(lxb_encoding_t encoding);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

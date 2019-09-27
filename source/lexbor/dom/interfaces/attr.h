@@ -112,6 +112,18 @@ lxb_dom_attr_value(lxb_dom_attr_t *attr, size_t *len)
     return attr->value->data;
 }
 
+/*
+ * No inline functions for ABI.
+ */
+const lxb_char_t *
+lxb_dom_attr_qualified_name_noi(lxb_dom_attr_t *attr, size_t *len);
+
+const lxb_char_t *
+lxb_dom_attr_local_name_noi(lxb_dom_attr_t *attr, size_t *len);
+
+const lxb_char_t *
+lxb_dom_attr_value_noi(lxb_dom_attr_t *attr, size_t *len);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

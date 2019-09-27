@@ -896,3 +896,36 @@ lxb_css_syntax_token_str_cb(const lxb_char_t *data, size_t len, void *cb_ctx)
     return LXB_STATUS_OK;
 }
 
+/*
+ * No inline functions for ABI.
+ */
+lxb_css_syntax_token_t *
+lxb_css_syntax_token_create_noi(lexbor_dobject_t *dobj)
+{
+    return lxb_css_syntax_token_create(dobj);
+}
+
+void
+lxb_css_syntax_token_clean_noi(lxb_css_syntax_token_t *token)
+{
+    lxb_css_syntax_token_clean(token);
+}
+
+lxb_css_syntax_token_t *
+lxb_css_syntax_token_destroy_noi(lxb_css_syntax_token_t *token,
+                                 lexbor_dobject_t *dobj)
+{
+    return lxb_css_syntax_token_destroy(token, dobj);
+}
+
+const lxb_char_t *
+lxb_css_syntax_token_type_name_noi(lxb_css_syntax_token_t *token)
+{
+    return lxb_css_syntax_token_type_name(token);
+}
+
+lxb_css_syntax_token_type_t
+lxb_css_syntax_token_type_noi(lxb_css_syntax_token_t *token)
+{
+    return lxb_css_syntax_token_type(token);
+}

@@ -299,6 +299,55 @@ lxb_dom_element_class_attribute(lxb_dom_element_t *element)
     return element->attr_class;
 }
 
+/*
+ * No inline functions for ABI.
+ */
+const lxb_char_t *
+lxb_dom_element_qualified_name_noi(lxb_dom_element_t *element, size_t *len);
+
+const lxb_char_t *
+lxb_dom_element_qualified_name_upper_noi(lxb_dom_element_t *element,
+                                         size_t *len);
+
+const lxb_char_t *
+lxb_dom_element_local_name_noi(lxb_dom_element_t *element, size_t *len);
+
+const lxb_char_t *
+lxb_dom_element_prefix_noi(lxb_dom_element_t *element, size_t *len);
+
+const lxb_char_t *
+lxb_dom_element_tag_name_noi(lxb_dom_element_t *element, size_t *len);
+
+const lxb_char_t *
+lxb_dom_element_id_noi(lxb_dom_element_t *element, size_t *len);
+
+const lxb_char_t *
+lxb_dom_element_class_noi(lxb_dom_element_t *element, size_t *len);
+
+bool
+lxb_dom_element_is_custom_noi(lxb_dom_element_t *element);
+
+bool
+lxb_dom_element_custom_is_defined_noi(lxb_dom_element_t *element);
+
+lxb_dom_attr_t *
+lxb_dom_element_first_attribute_noi(lxb_dom_element_t *element);
+
+lxb_dom_attr_t *
+lxb_dom_element_next_attribute_noi(lxb_dom_attr_t *attr);
+
+lxb_dom_attr_t *
+lxb_dom_element_prev_attribute_noi(lxb_dom_attr_t *attr);
+
+lxb_dom_attr_t *
+lxb_dom_element_last_attribute_noi(lxb_dom_element_t *element);
+
+lxb_dom_attr_t *
+lxb_dom_element_id_attribute_noi(lxb_dom_element_t *element);
+
+lxb_dom_attr_t *
+lxb_dom_element_class_attribute_noi(lxb_dom_element_t *element);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

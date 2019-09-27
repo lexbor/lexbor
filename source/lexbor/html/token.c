@@ -982,3 +982,18 @@ done:
 
     return LXB_STATUS_OK;
 }
+
+/*
+ * No inline functions for ABI.
+ */
+void
+lxb_html_token_clean_noi(lxb_html_token_t *token)
+{
+    lxb_html_token_clean(token);
+}
+
+lxb_html_token_t *
+lxb_html_token_create_eof_noi(lexbor_dobject_t *dobj)
+{
+    return lxb_html_token_create_eof(dobj);
+}

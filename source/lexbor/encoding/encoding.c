@@ -54,3 +54,30 @@ lxb_encoding_data_by_pre_name(const lxb_char_t *name, size_t length)
 
     return entry->value;
 }
+
+/*
+ * No inline functions for ABI.
+ */
+const lxb_encoding_data_t *
+lxb_encoding_data_by_name_noi(const lxb_char_t *name, size_t length)
+{
+    return lxb_encoding_data_by_name(name, length);
+}
+
+const lxb_encoding_data_t *
+lxb_encoding_data_noi(lxb_encoding_t encoding)
+{
+    return lxb_encoding_data(encoding);
+}
+
+lxb_encoding_encode_f
+lxb_encoding_encode_function_noi(lxb_encoding_t encoding)
+{
+    return lxb_encoding_encode_function(encoding);
+}
+
+lxb_encoding_decode_f
+lxb_encoding_decode_function_noi(lxb_encoding_t encoding)
+{
+    return lxb_encoding_decode_function(encoding);
+}

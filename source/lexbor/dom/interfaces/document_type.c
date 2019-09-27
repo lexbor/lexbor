@@ -34,3 +34,26 @@ lxb_dom_document_type_interface_destroy(lxb_dom_document_type_t *document_type)
         lxb_dom_interface_node(document_type)->owner_document->mraw,
         document_type);
 }
+
+/*
+ * No inline functions for ABI.
+ */
+const lxb_char_t *
+lxb_dom_document_type_name_noi(lxb_dom_document_type_t *doc_type, size_t *len)
+{
+    return lxb_dom_document_type_name(doc_type, len);
+}
+
+const lxb_char_t *
+lxb_dom_document_type_public_id_noi(lxb_dom_document_type_t *doc_type,
+                                    size_t *len)
+{
+    return lxb_dom_document_type_public_id(doc_type, len);
+}
+
+const lxb_char_t *
+lxb_dom_document_type_system_id_noi(lxb_dom_document_type_t *doc_type,
+                                    size_t *len)
+{
+    return lxb_dom_document_type_system_id(doc_type, len);
+}

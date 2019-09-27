@@ -452,3 +452,30 @@ lxb_html_parse_chunk_end(lxb_html_parser_t *parser)
 
     return parser->status;
 }
+
+/*
+ * No inline functions for ABI.
+ */
+void
+lxb_html_parser_set_without_copy_noi(lxb_html_parser_t *parser)
+{
+    return lxb_html_parser_set_without_copy(parser);
+}
+
+lxb_html_tokenizer_t *
+lxb_html_parser_tokenizer_noi(lxb_html_parser_t *parser)
+{
+    return lxb_html_parser_tokenizer(parser);
+}
+
+lxb_html_tree_t *
+lxb_html_parser_tree_noi(lxb_html_parser_t *parser)
+{
+    return lxb_html_parser_tree(parser);
+}
+
+lxb_status_t
+lxb_html_parser_status_noi(lxb_html_parser_t *parser)
+{
+    return lxb_html_parser_status(parser);
+}

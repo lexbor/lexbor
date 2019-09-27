@@ -652,3 +652,99 @@ lxb_html_tokenizer_set_state_by_tag(lxb_html_tokenizer_t *tkz, bool scripting,
             break;
     }
 }
+
+/*
+ * No inline functions for ABI.
+ */
+void
+lxb_html_tokenizer_status_set_noi(lxb_html_tokenizer_t *tkz,
+                                  lxb_status_t status)
+{
+    lxb_html_tokenizer_status_set(tkz, status);
+}
+
+void
+lxb_html_tokenizer_opt_set_noi(lxb_html_tokenizer_t *tkz,
+                               lxb_html_tokenizer_opt_t opt)
+{
+    lxb_html_tokenizer_opt_set(tkz, opt);
+}
+
+lxb_html_tokenizer_opt_t
+lxb_html_tokenizer_opt_noi(lxb_html_tokenizer_t *tkz)
+{
+    return lxb_html_tokenizer_opt(tkz);
+}
+
+void
+lxb_html_tokenizer_tag_heap_set_noi(lxb_html_tokenizer_t *tkz,
+                                    lxb_tag_heap_t *tag_heap)
+{
+    lxb_html_tokenizer_tag_heap_set(tkz, tag_heap);
+}
+
+lxb_tag_heap_t *
+lxb_html_tokenizer_tag_heap_noi(lxb_html_tokenizer_t *tkz)
+{
+    return lxb_html_tokenizer_tag_heap(tkz);
+}
+
+void
+lxb_html_tokenizer_ns_heap_set_noi(lxb_html_tokenizer_t *tkz,
+                                   lxb_ns_heap_t *ns_heap)
+{
+    return lxb_html_tokenizer_ns_heap_set(tkz, ns_heap);
+}
+
+lxb_ns_heap_t *
+lxb_html_tokenizer_ns_heap_noi(lxb_html_tokenizer_t *tkz)
+{
+    return lxb_html_tokenizer_ns_heap(tkz);
+}
+
+void
+lxb_html_tokenizer_callback_token_done_set_noi(lxb_html_tokenizer_t *tkz,
+                                               lxb_html_tokenizer_token_f call_func,
+                                               void *ctx)
+{
+    return lxb_html_tokenizer_callback_token_done_set(tkz, call_func, ctx);
+}
+
+void *
+lxb_html_tokenizer_callback_token_done_ctx_noi(lxb_html_tokenizer_t *tkz)
+{
+    return lxb_html_tokenizer_callback_token_done_ctx(tkz);
+}
+
+void
+lxb_html_tokenizer_state_set_noi(lxb_html_tokenizer_t *tkz,
+                                 lxb_html_tokenizer_state_f state)
+{
+    lxb_html_tokenizer_state_set(tkz, state);
+}
+
+void
+lxb_html_tokenizer_tmp_tag_id_set_noi(lxb_html_tokenizer_t *tkz,
+                                      lxb_tag_id_t tag_id)
+{
+    lxb_html_tokenizer_tmp_tag_id_set(tkz, tag_id);
+}
+
+lxb_html_tree_t *
+lxb_html_tokenizer_tree_noi(lxb_html_tokenizer_t *tkz)
+{
+    return lxb_html_tokenizer_tree(tkz);
+}
+
+void
+lxb_html_tokenizer_tree_set_noi(lxb_html_tokenizer_t *tkz,
+                                lxb_html_tree_t *tree)
+{
+    lxb_html_tokenizer_tree_set(tkz, tree);
+}
+
+lexbor_mraw_t *
+lxb_html_tokenizer_mraw_noi(lxb_html_tokenizer_t *tkz)
+{
+    return lxb_html_tokenizer_mraw(tkz);
+}

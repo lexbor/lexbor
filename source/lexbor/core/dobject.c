@@ -168,3 +168,18 @@ lexbor_dobject_by_absolute_position(lexbor_dobject_t *dobject, size_t pos)
 
     return &chunk->data[chunk_pos % chunk->size];
 }
+
+/*
+ * No inline functions for ABI.
+ */
+size_t
+lexbor_dobject_allocated_noi(lexbor_dobject_t *dobject)
+{
+    return lexbor_dobject_allocated(dobject);
+}
+
+size_t
+lexbor_dobject_cache_length_noi(lexbor_dobject_t *dobject)
+{
+    return lexbor_dobject_cache_length(dobject);
+}

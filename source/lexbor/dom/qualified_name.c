@@ -130,3 +130,26 @@ lxb_dom_qualified_name_upper(lxb_dom_document_t *document,
 
     return qname->upper;
 }
+
+/*
+ * No inline functions for ABI.
+ */
+const lxb_char_t *
+lxb_dom_qualified_name_noi(const lxb_dom_qualified_name_t *qname, size_t *len)
+{
+    return lxb_dom_qualified_name(qname, len);
+}
+
+const lxb_char_t *
+lxb_dom_qualified_name_prefix_noi(const lxb_dom_qualified_name_t *qname,
+                                  size_t *len)
+{
+    return lxb_dom_qualified_name_prefix(qname, len);
+}
+
+const lxb_char_t *
+lxb_dom_qualified_name_local_name_noi(const lxb_dom_qualified_name_t *qname,
+                                      size_t *len)
+{
+    return lxb_dom_qualified_name_local_name(qname, len);
+}

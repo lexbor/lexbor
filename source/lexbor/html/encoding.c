@@ -532,3 +532,36 @@ value_state:
 
     return data;
 }
+
+/*
+ * No inline functions for ABI.
+ */
+lxb_html_encoding_t *
+lxb_html_encoding_create_noi(void)
+{
+    return lxb_html_encoding_create();
+}
+
+void
+lxb_html_encoding_clean_noi(lxb_html_encoding_t *em)
+{
+    lxb_html_encoding_clean(em);
+}
+
+lxb_html_encoding_entry_t *
+lxb_html_encoding_meta_entry_noi(lxb_html_encoding_t *em, size_t idx)
+{
+    return lxb_html_encoding_meta_entry(em, idx);
+}
+
+size_t
+lxb_html_encoding_meta_length_noi(lxb_html_encoding_t *em)
+{
+    return lxb_html_encoding_meta_length(em);
+}
+
+lexbor_array_obj_t *
+lxb_html_encoding_meta_result_noi(lxb_html_encoding_t *em)
+{
+    return lxb_html_encoding_meta_result(em);
+}

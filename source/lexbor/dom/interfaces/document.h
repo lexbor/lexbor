@@ -137,6 +137,31 @@ lxb_dom_document_destroy_text(lxb_dom_document_t *document, lxb_char_t *text)
     return lexbor_mraw_free(document->text, text);
 }
 
+/*
+ * No inline functions for ABI.
+ */
+lxb_dom_interface_t *
+lxb_dom_document_create_interface_noi(lxb_dom_document_t *document,
+                                      lxb_tag_id_t tag_id, lxb_ns_id_t ns);
+
+lxb_dom_interface_t *
+lxb_dom_document_destroy_interface_noi(lxb_dom_interface_t *interface);
+
+void *
+lxb_dom_document_create_struct_noi(lxb_dom_document_t *document,
+                                   size_t struct_size);
+
+void *
+lxb_dom_document_destroy_struct_noi(lxb_dom_document_t *document,
+                                    void *structure);
+
+lxb_char_t *
+lxb_dom_document_create_text_noi(lxb_dom_document_t *document, size_t len);
+
+void *
+lxb_dom_document_destroy_text_noi(lxb_dom_document_t *document,
+                                  lxb_char_t *text);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

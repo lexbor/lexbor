@@ -183,3 +183,24 @@ lexbor_array_delete(lexbor_array_t *array, size_t begin, size_t length)
 
     array->length -= length;
 }
+
+/*
+ * No inline functions.
+ */
+void *
+lexbor_array_get_noi(lexbor_array_t *array, size_t idx)
+{
+    return lexbor_array_get(array, idx);
+}
+
+size_t
+lexbor_array_length_noi(lexbor_array_t *array)
+{
+    return lexbor_array_length(array);
+}
+
+size_t
+lexbor_array_size_noi(lexbor_array_t *array)
+{
+    return lexbor_array_size(array);
+}

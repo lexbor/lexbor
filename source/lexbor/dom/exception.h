@@ -58,6 +58,13 @@ lxb_dom_exception_code_ref_set(lxb_dom_exception_code_t *var,
     return NULL;
 }
 
+/*
+ * No inline functions for ABI.
+ */
+void *
+lxb_dom_exception_code_ref_set_noi(lxb_dom_exception_code_t *var,
+                                   lxb_dom_exception_code_t code);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

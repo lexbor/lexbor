@@ -74,6 +74,15 @@ lexbor_mraw_data_size_set(void *data, size_t size)
     memcpy(data, &size, sizeof(size_t));
 }
 
+/*
+ * No inline functions for ABI.
+ */
+size_t
+lexbor_mraw_data_size_noi(void *data);
+
+void
+lexbor_mraw_data_size_set_noi(void *data, size_t size);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

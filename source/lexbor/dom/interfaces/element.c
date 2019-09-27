@@ -1014,3 +1014,97 @@ lxb_dom_elements_by_attr_cmp_contain_case(lxb_dom_element_cb_ctx_t *ctx,
 
     return false;
 }
+
+/*
+ * No inline functions for ABI.
+ */
+const lxb_char_t *
+lxb_dom_element_qualified_name_noi(lxb_dom_element_t *element, size_t *len)
+{
+    return lxb_dom_element_qualified_name(element, len);
+}
+
+const lxb_char_t *
+lxb_dom_element_qualified_name_upper_noi(lxb_dom_element_t *element,
+                                         size_t *len)
+{
+    return lxb_dom_element_qualified_name_upper(element, len);
+}
+
+const lxb_char_t *
+lxb_dom_element_local_name_noi(lxb_dom_element_t *element, size_t *len)
+{
+    return lxb_dom_element_local_name(element, len);
+}
+
+const lxb_char_t *
+lxb_dom_element_prefix_noi(lxb_dom_element_t *element, size_t *len)
+{
+    return lxb_dom_element_prefix(element, len);
+}
+
+const lxb_char_t *
+lxb_dom_element_tag_name_noi(lxb_dom_element_t *element, size_t *len)
+{
+    return lxb_dom_element_tag_name(element, len);
+}
+
+const lxb_char_t *
+lxb_dom_element_id_noi(lxb_dom_element_t *element, size_t *len)
+{
+    return lxb_dom_element_id(element, len);
+}
+
+const lxb_char_t *
+lxb_dom_element_class_noi(lxb_dom_element_t *element, size_t *len)
+{
+    return lxb_dom_element_class(element, len);
+}
+
+bool
+lxb_dom_element_is_custom_noi(lxb_dom_element_t *element)
+{
+    return lxb_dom_element_is_custom(element);
+}
+
+bool
+lxb_dom_element_custom_is_defined_noi(lxb_dom_element_t *element)
+{
+    return lxb_dom_element_custom_is_defined(element);
+}
+
+lxb_dom_attr_t *
+lxb_dom_element_first_attribute_noi(lxb_dom_element_t *element)
+{
+    return lxb_dom_element_first_attribute(element);
+}
+
+lxb_dom_attr_t *
+lxb_dom_element_next_attribute_noi(lxb_dom_attr_t *attr)
+{
+    return lxb_dom_element_next_attribute(attr);
+}
+
+lxb_dom_attr_t *
+lxb_dom_element_prev_attribute_noi(lxb_dom_attr_t *attr)
+{
+    return lxb_dom_element_prev_attribute(attr);
+}
+
+lxb_dom_attr_t *
+lxb_dom_element_last_attribute_noi(lxb_dom_element_t *element)
+{
+    return lxb_dom_element_last_attribute(element);
+}
+
+lxb_dom_attr_t *
+lxb_dom_element_id_attribute_noi(lxb_dom_element_t *element)
+{
+    return lxb_dom_element_id_attribute(element);
+}
+
+lxb_dom_attr_t *
+lxb_dom_element_class_attribute_noi(lxb_dom_element_t *element)
+{
+    return lxb_dom_element_class_attribute(element);
+}

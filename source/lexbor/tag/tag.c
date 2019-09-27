@@ -208,3 +208,60 @@ lxb_tag_data_by_name_default_cb(lxb_tag_heap_t *tag_heap,
 
     return hp_entry->value;
 }
+
+/*
+ * No inline functions for ABI.
+ */
+const lxb_tag_data_t *
+lxb_tag_data_by_id_noi(lxb_tag_heap_t *tag_heap, lxb_tag_id_t tag_id)
+{
+    return lxb_tag_data_by_id(tag_heap, tag_id);
+}
+
+const lxb_tag_data_t *
+lxb_tag_data_by_name_noi(lxb_tag_heap_t *tag_heap,
+                         const lxb_char_t *name, size_t len)
+{
+    return lxb_tag_data_by_name(tag_heap, name, len);
+}
+
+
+const lxb_char_t *
+lxb_tag_name_by_id_noi(lxb_tag_heap_t *tag_heap, lxb_tag_id_t tag_id,
+                       size_t *len)
+{
+    return lxb_tag_name_by_id(tag_heap, tag_id, len);
+}
+
+const lxb_char_t *
+lxb_tag_name_upper_by_id_noi(lxb_tag_heap_t *tag_heap,
+                             lxb_tag_id_t tag_id, size_t *len)
+{
+    return lxb_tag_name_upper_by_id(tag_heap, tag_id, len);
+}
+
+lxb_tag_id_t
+lxb_tag_id_by_name_noi(lxb_tag_heap_t *tag_heap,
+                       const lxb_char_t *name, size_t len)
+{
+    return lxb_tag_id_by_name(tag_heap, name, len);
+}
+
+size_t
+lxb_tag_heap_ref_count_noi(lxb_tag_heap_t *tag_heap)
+{
+    return lxb_tag_heap_ref_count(tag_heap);
+}
+
+lexbor_mraw_t *
+lxb_tag_heap_mraw_noi(lxb_tag_heap_t *tag_heap)
+{
+    return lxb_tag_heap_mraw(tag_heap);
+}
+
+const lxb_tag_data_t *
+lxb_tag_find_or_append_noi(lxb_tag_heap_t *tag_heap,
+                           const lxb_char_t *name, size_t len)
+{
+    return lxb_tag_find_or_append(tag_heap, name, len);
+}

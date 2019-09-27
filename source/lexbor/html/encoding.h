@@ -79,6 +79,24 @@ lxb_html_encoding_meta_result(lxb_html_encoding_t *em)
     return &em->result;
 }
 
+/*
+ * No inline functions for ABI.
+ */
+lxb_html_encoding_t *
+lxb_html_encoding_create_noi(void);
+
+void
+lxb_html_encoding_clean_noi(lxb_html_encoding_t *em);
+
+lxb_html_encoding_entry_t *
+lxb_html_encoding_meta_entry_noi(lxb_html_encoding_t *em, size_t idx);
+
+size_t
+lxb_html_encoding_meta_length_noi(lxb_html_encoding_t *em);
+
+lexbor_array_obj_t *
+lxb_html_encoding_meta_result_noi(lxb_html_encoding_t *em);
+
 
 #ifdef __cplusplus
 } /* extern "C" */
