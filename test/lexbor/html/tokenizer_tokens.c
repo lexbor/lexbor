@@ -399,7 +399,7 @@ check_token_type(tokenizer_helper_t *helper, unit_kv_value_t *entry,
             return LXB_STATUS_ERROR;
         }
 
-        need_type |= (lxb_html_token_type_t) bm_entry->value;
+        need_type |= (lxb_html_token_type_t) (uintptr_t) bm_entry->value;
     }
 
     if (need_type != token->type) {
