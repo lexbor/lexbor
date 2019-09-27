@@ -693,7 +693,7 @@ void
 lxb_html_tokenizer_ns_heap_set_noi(lxb_html_tokenizer_t *tkz,
                                    lxb_ns_heap_t *ns_heap)
 {
-    return lxb_html_tokenizer_ns_heap_set(tkz, ns_heap);
+    lxb_html_tokenizer_ns_heap_set(tkz, ns_heap);
 }
 
 lxb_ns_heap_t *
@@ -707,7 +707,7 @@ lxb_html_tokenizer_callback_token_done_set_noi(lxb_html_tokenizer_t *tkz,
                                                lxb_html_tokenizer_token_f call_func,
                                                void *ctx)
 {
-    return lxb_html_tokenizer_callback_token_done_set(tkz, call_func, ctx);
+    lxb_html_tokenizer_callback_token_done_set(tkz, call_func, ctx);
 }
 
 void *

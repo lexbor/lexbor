@@ -581,11 +581,11 @@ lexbor_str_size_noi(lexbor_str_t *str)
 void
 lexbor_str_data_set_noi(lexbor_str_t *str, lxb_char_t *data)
 {
-    return lexbor_str_data_set(str, data);
+    lexbor_str_data_set(str, data);
 }
 
 void
 lexbor_str_length_set_noi(lexbor_str_t *str, size_t length)
 {
-    return lexbor_str_length_set(str, length);
+    lexbor_str_length_set(str, length);
 }

@@ -459,7 +459,7 @@ lxb_html_parse_chunk_end(lxb_html_parser_t *parser)
 void
 lxb_html_parser_set_without_copy_noi(lxb_html_parser_t *parser)
 {
-    return lxb_html_parser_set_without_copy(parser);
+    lxb_html_parser_set_without_copy(parser);
 }
 
 lxb_html_tokenizer_t *

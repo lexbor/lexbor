@@ -56,7 +56,7 @@ lexbor_plog_create_noi(void)
 void
 lexbor_plog_clean_noi(lexbor_plog_t *plog)
 {
-    return lexbor_plog_clean(plog);
+    lexbor_plog_clean(plog);
 }
 
 void *
