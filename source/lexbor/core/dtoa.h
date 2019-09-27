@@ -14,6 +14,8 @@
 extern "C" {
 #endif
 
+#include "lexbor/core/base.h"
+
 
 LXB_API size_t
 lexbor_dtoa(double value, lxb_char_t *begin, size_t len);
