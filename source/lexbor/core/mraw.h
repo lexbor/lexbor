@@ -74,6 +74,19 @@ lexbor_mraw_data_size_set(void *data, size_t size)
     memcpy(data, &size, sizeof(size_t));
 }
 
+lxb_inline void *
+lexbor_mraw_dup(lexbor_mraw_t *mraw, void *src, size_t size)
+{
+    void *data = lexbor_mraw_alloc(mraw, size);
+
+    if (data != NULL) {
+        memcpy(data, src, size);
+    }
+
+    return data;
+}
+
+
 /*
  * No inline functions for ABI.
  */
@@ -82,6 +95,9 @@ lexbor_mraw_data_size_noi(void *data);
 
 void
 lexbor_mraw_data_size_set_noi(void *data, size_t size);
+
+void *
+lexbor_mraw_dup_noi(lexbor_mraw_t *mraw, void *src, size_t size);
 
 
 #ifdef __cplusplus
