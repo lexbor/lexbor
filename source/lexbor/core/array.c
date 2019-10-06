@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/core/array.h"
@@ -182,4 +182,25 @@ lexbor_array_delete(lexbor_array_t *array, size_t begin, size_t length)
             sizeof(void *) * (array->length - end_len));
 
     array->length -= length;
+}
+
+/*
+ * No inline functions.
+ */
+void *
+lexbor_array_get_noi(lexbor_array_t *array, size_t idx)
+{
+    return lexbor_array_get(array, idx);
+}
+
+size_t
+lexbor_array_length_noi(lexbor_array_t *array)
+{
+    return lexbor_array_length(array);
+}
+
+size_t
+lexbor_array_size_noi(lexbor_array_t *array)
+{
+    return lexbor_array_size(array);
 }

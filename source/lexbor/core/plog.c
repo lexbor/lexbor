@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/core/plog.h"
@@ -42,4 +42,32 @@ lexbor_plog_destroy(lexbor_plog_t *plog, bool self_destroy)
     }
 
     return plog;
+}
+
+/*
+ * No inline functions.
+ */
+lexbor_plog_t *
+lexbor_plog_create_noi(void)
+{
+    return lexbor_plog_create();
+}
+
+void
+lexbor_plog_clean_noi(lexbor_plog_t *plog)
+{
+    lexbor_plog_clean(plog);
+}
+
+void *
+lexbor_plog_push_noi(lexbor_plog_t *plog, const lxb_char_t *data, void *ctx,
+                     unsigned id)
+{
+    return lexbor_plog_push(plog, data, ctx, id);
+}
+
+size_t
+lexbor_plog_length_noi(lexbor_plog_t *plog)
+{
+    return lexbor_plog_length(plog);
 }

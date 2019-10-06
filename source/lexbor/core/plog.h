@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #ifndef LEXBOR_PLOG_H
@@ -53,11 +53,13 @@ lxb_inline void *
 lexbor_plog_push(lexbor_plog_t *plog, const lxb_char_t *data, void *ctx,
                  unsigned id)
 {
+    lexbor_plog_entry_t *entry;
+
     if (plog == NULL) {
         return NULL;
     }
 
-    lexbor_plog_entry_t *entry = (lexbor_plog_entry_t *) lexbor_array_obj_push(&plog->list);
+    entry = (lexbor_plog_entry_t *) lexbor_array_obj_push(&plog->list);
     if (entry == NULL) {
         return NULL;
     }
@@ -74,6 +76,22 @@ lexbor_plog_length(lexbor_plog_t *plog)
 {
     return lexbor_array_obj_length(&plog->list);
 }
+
+/*
+ * No inline functions for ABI.
+ */
+lexbor_plog_t *
+lexbor_plog_create_noi(void);
+
+void
+lexbor_plog_clean_noi(lexbor_plog_t *plog);
+
+void *
+lexbor_plog_push_noi(lexbor_plog_t *plog, const lxb_char_t *data, void *ctx,
+                     unsigned id);
+
+size_t
+lexbor_plog_length_noi(lexbor_plog_t *plog);
 
 
 #ifdef __cplusplus

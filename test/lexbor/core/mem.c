@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include <unit/test.h>
@@ -178,6 +178,7 @@ TEST_BEGIN(destroy)
     lexbor_mem_init(mem, 1021);
 
     test_eq(lexbor_mem_destroy(mem, false), mem);
+    test_eq(lexbor_mem_destroy(mem, true), NULL);
     test_eq(lexbor_mem_destroy(NULL, false), NULL);
 }
 TEST_END
@@ -265,7 +266,7 @@ TEST_END
 
 TEST_BEGIN(chunk_destroy)
 {
-    lexbor_mem_chunk_t *chunk;
+    lexbor_mem_chunk_t *chunk, *chunk_null;
 
     lexbor_mem_t *mem = lexbor_mem_create();
     lexbor_mem_init(mem, 1024);
@@ -281,16 +282,21 @@ TEST_BEGIN(chunk_destroy)
     test_ne(chunk, NULL);
     test_eq(chunk->data, NULL);
 
-    chunk = lexbor_mem_chunk_destroy(mem, NULL, false);
-    test_eq(chunk, NULL);
-
-    chunk = lexbor_mem_chunk_destroy(NULL, NULL, false);
-    test_eq(chunk, NULL);
+    chunk = lexbor_mem_chunk_destroy(mem, chunk, true);
 
     chunk = lexbor_mem_chunk_make(mem, 0);
     test_ne(chunk, NULL);
 
-    chunk = lexbor_mem_chunk_destroy(NULL, chunk, false);
+    chunk_null = lexbor_mem_chunk_destroy(NULL, chunk, false);
+    test_eq(chunk_null, NULL);
+
+    chunk = lexbor_mem_chunk_destroy(mem, chunk, true);
+    test_eq(chunk, NULL);
+
+    chunk = lexbor_mem_chunk_destroy(mem, NULL, false);
+    test_eq(chunk, NULL);
+
+    chunk = lexbor_mem_chunk_destroy(NULL, NULL, false);
     test_eq(chunk, NULL);
 
     lexbor_mem_destroy(mem, true);

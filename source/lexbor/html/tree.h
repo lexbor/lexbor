@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #ifndef LEXBOR_HTML_TREE_H
@@ -366,6 +366,61 @@ lxb_html_tree_attach_document(lxb_html_tree_t *tree, lxb_html_document_t *doc)
 {
     tree->document = doc;
 }
+
+/*
+ * No inline functions for ABI.
+ */
+lxb_status_t
+lxb_html_tree_begin_noi(lxb_html_tree_t *tree, lxb_html_document_t *document);
+
+lxb_status_t
+lxb_html_tree_chunk_noi(lxb_html_tree_t *tree, const lxb_char_t *html,
+                        size_t size);
+
+lxb_status_t
+lxb_html_tree_end_noi(lxb_html_tree_t *tree);
+
+lxb_status_t
+lxb_html_tree_build_noi(lxb_html_tree_t *tree, lxb_html_document_t *document,
+                        const lxb_char_t *html, size_t size);
+
+lxb_dom_node_t *
+lxb_html_tree_create_node_noi(lxb_html_tree_t *tree,
+                              lxb_tag_id_t tag_id, lxb_ns_id_t ns);
+
+bool
+lxb_html_tree_node_is_noi(lxb_dom_node_t *node, lxb_tag_id_t tag_id);
+
+lxb_dom_node_t *
+lxb_html_tree_current_node_noi(lxb_html_tree_t *tree);
+
+lxb_dom_node_t *
+lxb_html_tree_adjusted_current_node_noi(lxb_html_tree_t *tree);
+
+lxb_html_element_t *
+lxb_html_tree_insert_html_element_noi(lxb_html_tree_t *tree,
+                                      lxb_html_token_t *token);
+
+void
+lxb_html_tree_insert_node_noi(lxb_dom_node_t *to, lxb_dom_node_t *node,
+                              lxb_html_tree_insertion_position_t ipos);
+
+void
+lxb_html_tree_acknowledge_token_self_closing_noi(lxb_html_tree_t *tree,
+                                             lxb_html_token_t *token);
+
+bool
+lxb_html_tree_mathml_text_integration_point_noi(lxb_dom_node_t *node);
+
+bool
+lxb_html_tree_scripting_noi(lxb_html_tree_t *tree);
+
+void
+lxb_html_tree_scripting_set_noi(lxb_html_tree_t *tree, bool scripting);
+
+void
+lxb_html_tree_attach_document_noi(lxb_html_tree_t *tree,
+                                  lxb_html_document_t *doc);
 
 
 #ifdef __cplusplus

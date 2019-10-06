@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include <unit/test.h>
@@ -27,7 +27,7 @@ typedef struct {
 tkz_test_cmp_t;
 
 
-lxb_html_token_t *
+static lxb_html_token_t *
 test_callback_token_done(lxb_html_tokenizer_t *tkz,
                          lxb_html_token_t *token, void *ctx)
 {
@@ -120,9 +120,11 @@ TEST_END
 
 TEST_BEGIN(data_by_id)
 {
-    lxb_html_tokenizer_t *tkz;
+    test_eq(0, 0);
 
-    TEST_CALL_ARGS(tkz_init, &tkz);
+//    lxb_html_tokenizer_t *tkz;
+
+//    TEST_CALL_ARGS(tkz_init, &tkz);
     //    TEST_CALL_ARGS(tkz_process, tkz);
 }
 TEST_END

@@ -1,10 +1,10 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
-#include "examples/lexbor/html/base.h"
+#include "base.h"
 
 #include <lexbor/dom/collection.h>
 
@@ -43,9 +43,6 @@ main(int argc, const char *argv[])
     PRINT("%s", (const char *) html);
 
     document = parse(html, html_szie);
-    if (document == NULL) {
-        FAILED("Failed to create Document object");
-    }
 
     body = lxb_dom_interface_element(document->body);
 

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/html/tokenizer/state_doctype.h"
@@ -116,6 +116,13 @@ lxb_html_tokenizer_state_doctype_before(lxb_html_tokenizer_t *tkz,
                                         const lxb_char_t *data,
                                         const lxb_char_t *end)
 {
+    if (tkz->is_eof == false) {
+        lxb_html_tokenizer_state_token_set_end(tkz, data);
+    }
+    else {
+        lxb_html_tokenizer_state_token_set_end_oef(tkz);
+    }
+
     tkz->token->tag_id = LXB_TAG__EM_DOCTYPE;
 
     return lxb_html_tokenizer_state_doctype(tkz, data, end);

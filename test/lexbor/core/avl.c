@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include <unit/test.h>
@@ -1123,6 +1123,7 @@ TEST_BEGIN(destroy)
     lexbor_avl_init(avl, 1021);
 
     test_eq(lexbor_avl_destroy(avl, false), avl);
+    test_eq(lexbor_avl_destroy(avl, true), NULL);
     test_eq(lexbor_avl_destroy(NULL, false), NULL);
 }
 TEST_END

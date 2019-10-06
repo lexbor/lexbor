@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/dom/collection.h"
@@ -59,4 +59,37 @@ lxb_dom_collection_destroy(lxb_dom_collection_t *col, bool self_destroy)
     }
 
     return col;
+}
+
+/*
+ * No inline functions for ABI.
+ */
+void
+lxb_dom_collection_clean_noi(lxb_dom_collection_t *col)
+{
+    lxb_dom_collection_clean(col);
+}
+
+lxb_status_t
+lxb_dom_collection_append_noi(lxb_dom_collection_t *col, void *value)
+{
+    return lxb_dom_collection_append(col, value);
+}
+
+lxb_dom_element_t *
+lxb_dom_collection_element_noi(lxb_dom_collection_t *col, size_t idx)
+{
+    return lxb_dom_collection_element(col, idx);
+}
+
+lxb_dom_node_t *
+lxb_dom_collection_node_noi(lxb_dom_collection_t *col, size_t idx)
+{
+    return lxb_dom_collection_node(col, idx);
+}
+
+size_t
+lxb_dom_collection_length_noi(lxb_dom_collection_t *col)
+{
+    return lxb_dom_collection_length(col);
 }

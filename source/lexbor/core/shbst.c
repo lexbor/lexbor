@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/core/shbst.h"
@@ -383,4 +383,13 @@ lexbor_shbst_replace(lexbor_shbst_t *shbst, const lxb_char_t *key,
     }
 
     return entry;
+}
+
+/*
+ * No inline functions for ABI.
+ */
+lexbor_mraw_t *
+lexbor_shbst_keys_noi(lexbor_shbst_t *shbst)
+{
+    return lexbor_shbst_keys(shbst);
 }

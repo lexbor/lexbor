@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/dom/interfaces/attr.h"
@@ -318,4 +318,25 @@ lxb_dom_attr_compare(lxb_dom_attr_t *first, lxb_dom_attr_t *second)
     }
 
     return false;
+}
+
+/*
+ * No inline functions for ABI.
+ */
+const lxb_char_t *
+lxb_dom_attr_qualified_name_noi(lxb_dom_attr_t *attr, size_t *len)
+{
+    return lxb_dom_attr_qualified_name(attr, len);
+}
+
+const lxb_char_t *
+lxb_dom_attr_local_name_noi(lxb_dom_attr_t *attr, size_t *len)
+{
+    return lxb_dom_attr_local_name(attr, len);
+}
+
+const lxb_char_t *
+lxb_dom_attr_value_noi(lxb_dom_attr_t *attr, size_t *len)
+{
+    return lxb_dom_attr_value(attr, len);
 }

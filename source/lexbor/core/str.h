@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #ifndef LEXBOR_STR_H
@@ -201,6 +201,24 @@ lexbor_str_length_set(lexbor_str_t *str, size_t length)
 {
     str->length = length;
 }
+
+/*
+ * No inline functions for ABI.
+ */
+lxb_char_t *
+lexbor_str_data_noi(lexbor_str_t *str);
+
+size_t
+lexbor_str_length_noi(lexbor_str_t *str);
+
+size_t
+lexbor_str_size_noi(lexbor_str_t *str);
+
+void
+lexbor_str_data_set_noi(lexbor_str_t *str, lxb_char_t *data);
+
+void
+lexbor_str_length_set_noi(lexbor_str_t *str, size_t length);
 
 
 #ifdef __cplusplus

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #ifndef LEXBOR_ARRAY_OBJ_H
@@ -97,6 +97,28 @@ lexbor_array_obj_last(lexbor_array_obj_t *array)
 
     return array->list + ((array->length - 1) * array->struct_size);
 }
+
+
+/*
+ * No inline functions for ABI.
+ */
+void
+lexbor_array_obj_erase_noi(lexbor_array_obj_t *array);
+
+void *
+lexbor_array_obj_get_noi(lexbor_array_obj_t *array, size_t idx);
+
+size_t
+lexbor_array_obj_length_noi(lexbor_array_obj_t *array);
+
+size_t
+lexbor_array_obj_size_noi(lexbor_array_obj_t *array);
+
+size_t
+lexbor_array_obj_struct_size_noi(lexbor_array_obj_t *array);
+
+void *
+lexbor_array_obj_last_noi(lexbor_array_obj_t *array);
 
 
 #ifdef __cplusplus

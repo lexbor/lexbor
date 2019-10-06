@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include <lexbor/core/fs.h>
@@ -77,30 +77,34 @@ main(int argc, const char * argv[])
     status = unit_kv_init(helper.kv, 256);
 
     if (status != LXB_STATUS_OK) {
-        goto done;
+        goto failed;
     }
 
     status = lexbor_array_init(&helper.tokens, 4096);
     if (status != LXB_STATUS_OK) {
-        goto done;
+        goto failed;
     }
 
     helper.mraw = lexbor_mraw_create();
     status = lexbor_mraw_init(helper.mraw, 256);
     if (status != LXB_STATUS_OK) {
-        goto done;
+        goto failed;
     }
 
     status = parse(&helper, dir_path);
     if (status != LXB_STATUS_OK) {
-        return EXIT_FAILURE;
+        goto failed;
     }
 
     TEST_RUN("lexbor/css/tokenizer");
+
+    unit_kv_destroy(helper.kv, true);
+    lexbor_array_destroy(&helper.tokens, false);
+    lexbor_mraw_destroy(helper.mraw, true);
+
     TEST_RELEASE();
 
-
-done:
+failed:
 
     unit_kv_destroy(helper.kv, true);
     lexbor_array_destroy(&helper.tokens, false);
@@ -169,6 +173,10 @@ file_callback(const lxb_char_t *fullpath, size_t fullpath_len,
     status = check(helper, value);
     if (status != LXB_STATUS_OK) {
         exit(EXIT_FAILURE);
+    }
+
+    if (helper->tkz != NULL) {
+        helper->tkz = lxb_css_syntax_tokenizer_destroy(helper->tkz);
     }
 
     return LEXBOR_ACTION_OK;

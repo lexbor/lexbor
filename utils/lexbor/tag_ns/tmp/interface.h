@@ -1,14 +1,14 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #ifndef LEXBOR_%%M_PREFIX%%_%%M_NAME%%_H
 #define LEXBOR_%%M_PREFIX%%_%%M_NAME%%_H
 
 #ifdef __cplusplus
-//extern "C" {
+extern "C" {
 #endif
 
 #include "lexbor/%%prefix%%/interface.h"

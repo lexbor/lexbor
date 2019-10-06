@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #ifndef LEXBOR_BST_MAP_H
@@ -71,6 +71,12 @@ lexbor_bst_map_mraw(lexbor_bst_map_t *bst_map)
 {
     return bst_map->mraw;
 }
+
+/*
+ * No inline functions for ABI.
+ */
+lexbor_mraw_t *
+lexbor_bst_map_mraw_noi(lexbor_bst_map_t *bst_map);
 
 
 #ifdef __cplusplus

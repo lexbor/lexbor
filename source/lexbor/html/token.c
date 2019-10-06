@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/html/token.h"
@@ -315,43 +315,32 @@ lxb_status_t
 lxb_html_token_parse_data(lxb_html_token_t *token, lxb_html_parser_char_t *pc,
                           lexbor_str_t *str, lexbor_mraw_t *mraw)
 {
-    lxb_status_t status = LXB_STATUS_ERROR;
-
     pc->mraw = mraw;
 
     if (token->type & LXB_HTML_TOKEN_TYPE_TEXT) {
         pc->state = lxb_html_parser_char_ref_data;
         pc->is_attribute = false;
         pc->replace_null = false;
-
-        status = lxb_html_parser_char_process(pc, str, token->in_begin,
-                                              token->begin, token->end);
     }
-    else if (token->type & LXB_HTML_TOKEN_TYPE_DATA)
-    {
+    else if (token->type & LXB_HTML_TOKEN_TYPE_DATA) {
         pc->state = lxb_html_parser_char_data;
         pc->replace_null = true;
-
-        status = lxb_html_parser_char_process(pc, str, token->in_begin,
-                                              token->begin, token->end);
     }
     else if (token->type & LXB_HTML_TOKEN_TYPE_RCDATA) {
         pc->state = lxb_html_parser_char_ref_data;
         pc->is_attribute = false;
         pc->replace_null = true;
-
-        status = lxb_html_parser_char_process(pc, str, token->in_begin,
-                                              token->begin, token->end);
     }
     else if (token->type & LXB_HTML_TOKEN_TYPE_CDATA) {
         pc->state = lxb_html_parser_char_data;
         pc->replace_null = false;
-
-        status = lxb_html_parser_char_process(pc, str, token->in_begin,
-                                              token->begin, token->end);
+    }
+    else {
+        return LXB_STATUS_ERROR;
     }
 
-    return status;
+    return lxb_html_parser_char_process(pc, str, token->in_begin,
+                                        token->begin, token->end);
 }
 
 lxb_tag_id_t
@@ -574,13 +563,13 @@ lxb_html_token_process_state_hexademical(lxb_html_token_process_t *process,
 {
     while (data != end) {
         if (lexbor_str_res_map_hex[ *data ] == LEXBOR_STR_RES_SLIP) {
-            process->state = process->amp_return_state;
+            process->state = process->return_state;
 
             if(*data == ';') {
                 data++;
             }
 
-            return process->amp_end_state(process, data, end);
+            return process->end_state(process, data, end);
         }
 
         if (process->num <= 0x10FFFF) {
@@ -601,13 +590,13 @@ lxb_html_token_process_state_decimal(lxb_html_token_process_t *process,
 {
     while (data != end) {
         if (lexbor_str_res_map_num[ *data ] == LEXBOR_STR_RES_SLIP) {
-            process->state = process->amp_return_state;
+            process->state = process->return_state;
 
             if (*data == ';') {
                 data++;
             }
 
-            return process->amp_end_state(process, data, end);
+            return process->end_state(process, data, end);
         }
 
         if (process->num <= 0x10FFFF) {
@@ -626,8 +615,8 @@ lxb_html_token_data_skip_ws_begin(lxb_html_token_t *token)
     lxb_html_token_process_t process = {0};
 
     process.state = lxb_html_token_skip_ws_begin_state_before;
-    process.amp_return_state = lxb_html_token_skip_ws_begin_state_before;
-    process.amp_end_state = lxb_html_token_skip_ws_begin_state_end;
+    process.return_state = lxb_html_token_skip_ws_begin_state_before;
+    process.end_state = lxb_html_token_skip_ws_begin_state_end;
 
     return lxb_html_token_process_data(&process, token);
 }
@@ -715,8 +704,8 @@ lxb_html_token_data_skip_one_newline_begin(lxb_html_token_t *token)
     lxb_html_token_process_t process = {0};
 
     process.state = lxb_html_token_skip_one_newline_state_before;
-    process.amp_return_state = lxb_html_token_skip_one_newline_state_before;
-    process.amp_end_state = lxb_html_token_skip_one_newline_state_end;
+    process.return_state = lxb_html_token_skip_one_newline_state_before;
+    process.end_state = lxb_html_token_skip_one_newline_state_end;
 
     return lxb_html_token_process_data(&process, token);
 }
@@ -992,4 +981,19 @@ done:
     lexbor_str_destroy(&str, mraw, false);
 
     return LXB_STATUS_OK;
+}
+
+/*
+ * No inline functions for ABI.
+ */
+void
+lxb_html_token_clean_noi(lxb_html_token_t *token)
+{
+    lxb_html_token_clean(token);
+}
+
+lxb_html_token_t *
+lxb_html_token_create_eof_noi(lexbor_dobject_t *dobj)
+{
+    return lxb_html_token_create_eof(dobj);
 }

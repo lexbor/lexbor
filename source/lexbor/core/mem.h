@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #ifndef LEXBOR_MEM_H
@@ -50,6 +50,12 @@ LXB_API lexbor_mem_t *
 lexbor_mem_destroy(lexbor_mem_t *mem, bool destroy_self);
 
 
+/*
+ * The memory allocated in lexbor_mem_chunk_* functions needs to be freed
+ * by lexbor_mem_chunk_destroy function.
+ *
+ * This memory will not be automatically freed by a function lexbor_mem_destroy.
+ */
 LXB_API uint8_t *
 lexbor_mem_chunk_init(lexbor_mem_t *mem,
                       lexbor_mem_chunk_t *chunk, size_t length);
@@ -61,7 +67,10 @@ LXB_API lexbor_mem_chunk_t *
 lexbor_mem_chunk_destroy(lexbor_mem_t *mem,
                          lexbor_mem_chunk_t *chunk, bool self_destroy);
 
-
+/*
+ * The memory allocated in lexbor_mem_alloc and lexbor_mem_calloc function
+ * will be freeds after calling lexbor_mem_destroy function.
+ */
 LXB_API void *
 lexbor_mem_alloc(lexbor_mem_t *mem, size_t length);
 
@@ -105,6 +114,23 @@ lexbor_mem_align_floor(size_t size)
            ? size - (size % LEXBOR_MEM_ALIGN_STEP)
            : size;
 }
+
+/*
+ * No inline functions for ABI.
+ */
+size_t
+lexbor_mem_current_length_noi(lexbor_mem_t *mem);
+
+size_t
+lexbor_mem_current_size_noi(lexbor_mem_t *mem);
+
+size_t
+lexbor_mem_chunk_length_noi(lexbor_mem_t *mem);
+size_t
+lexbor_mem_align_noi(size_t size);
+
+size_t
+lexbor_mem_align_floor_noi(size_t size);
 
 
 #ifdef __cplusplus

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #ifndef LEXBOR_DOM_PROCESSING_INSTRUCTION_H
@@ -42,6 +42,13 @@ lxb_dom_processing_instruction_target(lxb_dom_processing_instruction_t *pi,
 
     return pi->target.data;
 }
+
+/*
+ * No inline functions for ABI.
+ */
+const lxb_char_t *
+lxb_dom_processing_instruction_target_noi(lxb_dom_processing_instruction_t *pi,
+                                          size_t *len);
 
 
 #ifdef __cplusplus

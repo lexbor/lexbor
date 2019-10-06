@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/core/str.h"
@@ -555,4 +555,37 @@ lexbor_str_data_find_uppercase(const lxb_char_t *data, size_t len)
     }
 
     return NULL;
+}
+
+/*
+ * No inline functions for ABI.
+ */
+lxb_char_t *
+lexbor_str_data_noi(lexbor_str_t *str)
+{
+    return lexbor_str_data(str);
+}
+
+size_t
+lexbor_str_length_noi(lexbor_str_t *str)
+{
+    return lexbor_str_length(str);
+}
+
+size_t
+lexbor_str_size_noi(lexbor_str_t *str)
+{
+    return lexbor_str_size(str);
+}
+
+void
+lexbor_str_data_set_noi(lexbor_str_t *str, lxb_char_t *data)
+{
+    lexbor_str_data_set(str, data);
+}
+
+void
+lexbor_str_length_set_noi(lexbor_str_t *str, size_t length)
+{
+    lexbor_str_length_set(str, length);
 }

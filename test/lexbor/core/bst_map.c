@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include <unit/test.h>
@@ -174,6 +174,7 @@ TEST_BEGIN(destroy)
     test_eq(lexbor_bst_map_init(bst_map, 128), LXB_STATUS_OK);
 
     test_eq(lexbor_bst_map_destroy(bst_map, false), bst_map);
+    test_eq(lexbor_bst_map_destroy(bst_map, true), NULL);
     test_eq(lexbor_bst_map_destroy(NULL, false), NULL);
 }
 TEST_END

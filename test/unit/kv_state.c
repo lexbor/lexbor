@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "unit/kv.h"
@@ -377,12 +377,12 @@ unit_kv_state_data_param_before_count(unit_kv_t *kv, const lxb_char_t *data,
     if (*data != 0x2C) {
         kv->status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
         kv->error_pos = data;
-        
+
         return end;
     }
-    
+
     kv->state = unit_kv_state_data_param_count;
-    
+
     return (data + 1);
 }
 
@@ -531,13 +531,13 @@ unit_kv_state_data_body(unit_kv_t *kv,
                 kv->state_return = unit_kv_state_data_body;
 
                 return (data + 1);
-                
+
             /* U+0024 DOLLAR SIGN ($) */
             case 0x24:
                 kv->state = unit_kv_state_data_body_end;
-                
+
                 return (data + 1);
-                
+
             /* EOF */
             case 0x00:
                 if (kv->is_eof) {
@@ -570,14 +570,14 @@ unit_kv_state_data_body_before_end_skip(unit_kv_t *kv, const lxb_char_t *data,
                                         const lxb_char_t *end)
 {
     size_t i = kv->data_skip_count;
-    
+
     while (i != 0 && *data == kv->data_skip) {
         i--;
         data++;
     }
-    
+
     kv->state = unit_kv_state_data_body_before_end;
-    
+
     return data;
 }
 

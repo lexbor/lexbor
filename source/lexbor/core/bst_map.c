@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/core/bst_map.h"
@@ -227,4 +227,13 @@ lexbor_bst_map_remove(lexbor_bst_map_t *bst_map, lexbor_bst_entry_t **scope,
     while (bst_entry != NULL);
 
     return NULL;
+}
+
+/*
+ * No inline functions.
+ */
+lexbor_mraw_t *
+lexbor_bst_map_mraw_noi(lexbor_bst_map_t *bst_map)
+{
+    return lexbor_bst_map_mraw(bst_map);
 }

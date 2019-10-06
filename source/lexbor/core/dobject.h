@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #ifndef LEXBOR_DOBJECT_H
@@ -72,6 +72,15 @@ lexbor_dobject_cache_length(lexbor_dobject_t *dobject)
 {
     return lexbor_array_length(dobject->cache);
 }
+
+/*
+ * No inline functions for ABI.
+ */
+size_t
+lexbor_dobject_allocated_noi(lexbor_dobject_t *dobject);
+
+size_t
+lexbor_dobject_cache_length_noi(lexbor_dobject_t *dobject);
 
 
 #ifdef __cplusplus

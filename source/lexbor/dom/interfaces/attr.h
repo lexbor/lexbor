@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #ifndef LEXBOR_DOM_ATTR_H
@@ -111,6 +111,18 @@ lxb_dom_attr_value(lxb_dom_attr_t *attr, size_t *len)
 
     return attr->value->data;
 }
+
+/*
+ * No inline functions for ABI.
+ */
+const lxb_char_t *
+lxb_dom_attr_qualified_name_noi(lxb_dom_attr_t *attr, size_t *len);
+
+const lxb_char_t *
+lxb_dom_attr_local_name_noi(lxb_dom_attr_t *attr, size_t *len);
+
+const lxb_char_t *
+lxb_dom_attr_value_noi(lxb_dom_attr_t *attr, size_t *len);
 
 
 #ifdef __cplusplus

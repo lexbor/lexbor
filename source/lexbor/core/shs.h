@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #ifndef LEXBOR_SHS_H
@@ -25,10 +25,42 @@ typedef struct {
 }
 lexbor_shs_entry_t;
 
+struct {
+    uint32_t key;
+    void     *value;
+
+    size_t   next;
+}
+typedef lexbor_shs_hash_t;
+
 
 LXB_API const lexbor_shs_entry_t *
 lexbor_shs_entry_get_static(const lexbor_shs_entry_t *tree,
                             const lxb_char_t *key, size_t size);
+
+
+/*
+ * Inline functions
+ */
+lxb_inline const lexbor_shs_hash_t *
+lexbor_shs_hash_get_static(const lexbor_shs_hash_t *table,
+                           const size_t table_size, const uint32_t key)
+{
+    const lexbor_shs_hash_t *entry;
+
+    entry = &table[ (key % table_size) + 1 ];
+
+    do {
+        if (entry->key == key) {
+            return entry;
+        }
+
+        entry = &table[entry->next];
+    }
+    while (entry != table);
+
+    return NULL;
+}
 
 
 #ifdef __cplusplus

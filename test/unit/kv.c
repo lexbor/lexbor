@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "unit/kv.h"
@@ -423,12 +423,12 @@ unit_kv_parse_error_as_string(unit_kv_t *kv)
 
         return str;
     }
-    
+
     if (kv->status == LXB_STATUS_ERROR) {
         data = (lxb_char_t *) "Failed to allocate memory";
-        
+
         lexbor_str_append(&str, kv->mraw, data, strlen((const char *) data));
-        
+
         return str;
     }
 

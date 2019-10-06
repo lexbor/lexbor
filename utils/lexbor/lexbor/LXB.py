@@ -39,9 +39,166 @@ class Temp:
         w_fh.write(''.join(self.buffer))
         w_fh.close()
 
+class Switch:
+    def __init__(self):
+        self.buffer = []
+
+    def append(self, key_id, value, break_val = 'break;', is_comment = False):
+        self.buffer.append([int(key_id, 0), value, break_val, is_comment])
+
+    def create(self, var, default, default_break_val = 'break;', on_line = False, data_before = None):
+            result = []
+            data = self.buffer
+
+            if data_before:
+                result.append("{}\n\n".format(data_before))
+
+            result.append("switch ({}) \n{{\n    ".format(var))
+
+            if on_line:
+                for entry in data:
+                    if entry[3] == False:
+                        result.append("case {}: {} {}\n    ".format(entry[0], entry[1], entry[2]))
+                    else:
+                        result.append("{}".format(entry[0]))
+
+                result.append("default: {} {}\n".format(default, default_break_val))
+
+            else:
+                for entry in data:
+                    if entry[3] == False:
+                        tmp = "case {}:\n        {}\n        {}\n    "
+                        result.append((tmp).format(entry[0], entry[1], entry[2]))
+                    else:
+                        result.append("{}".format(entry[0]))
+
+                tmp = "default:\n        {}\n        {}\n"
+                result.append(tmp.format(default, default_break_val))
+
+            result.append("}")
+
+            return result
+
+class HashKey:
+    def __init__(self, max_table_size, name, prefix = ''):
+        self.max_table_size = max_table_size
+        self.struct_name = 'lexbor_shs_hash_t'
+        self.name = name
+        self.prefix = prefix
+
+        self.buffer = []
+
+    def hash_id(self, hash_id):
+        return hash_id
+
+    def append(self, key_id, value):
+        self.buffer.append([self.hash_id(int(key_id, 0)), value])
+
+    def create(self, terminate_value = '{0, NULL, 0}', rate = 2, is_const = True, data_before = None):
+        test = self.test(int(self.max_table_size / 1.2), int(self.max_table_size * 1.2))
+
+        rate_dn = rate - 1
+        buffer = self.buffer
+        table_size = test['size']
+        table = [None] * (table_size + 1)
+
+        self.table_size = table_size
+        self.max_deep = test['max']
+
+        for entry in buffer:
+            idx = (entry[0] % table_size) + 1
+
+            if table[idx] == None:
+                table[idx] = [entry[0], entry[1], 0]
+                continue
+
+            while table[idx][2] != 0:
+                idx = table[idx][2]
+
+            table.append([entry[0], entry[1], 0])
+            table[idx][2] = len(table) - 1
+
+        result = []
+
+        if data_before:
+            result.append("{}\n\n".format(data_before))
+
+        result.append("/* Table size: {}; Max deep: {} */\n".format(self.table_size, self.max_deep))
+
+        prefix = ''
+        if self.prefix != '':
+            prefix = self.prefix + ' '
+
+        var_name = "{}{} {} {}[{}]".format(prefix, ("const" if is_const else ""),
+                                            self.struct_name, self.name, len(table))
+
+        result.append("{} = \n{{\n    ".format(var_name))
+
+        result.append("{},".format(terminate_value))
+
+        for idx in range(1, len(table) - 1):
+            entry = table[idx]
+
+            if entry:
+                result.append("{{{}, {}, {}}},".format(entry[0], entry[1], entry[2]))
+            else:
+                result.append("{0, NULL, 0},")
+
+            if int(idx) % rate == rate_dn:
+                result.append("\n    ")
+            else:
+                result.append(" ")
+
+        if len(table):
+            entry = table[-1]
+            if entry:
+                result.append("{{{}, {}, {}}}\n".format(entry[0], entry[1], entry[2]))
+            else:
+                result.append("{0, NULL, 0}\n")
+
+        result.append("};")
+
+        return [result, '#define {}_SIZE {}'.format(self.name.upper(), self.table_size),
+                'extern ' + var_name + ';', self.table_size]
+
+    def test(self, begin, end):
+        result = []
+        buffer = self.buffer
+
+        for table_size in range(begin, end):
+            table = [0] * table_size
+
+            for entry in buffer:
+                table[ entry[0] % table_size ] += 1
+
+            stat = {'empty': 0, 'max': 0, 'size': table_size}
+
+            for val in table:
+                if val == 0:
+                    stat['empty'] += 1
+                elif val > stat['max']:
+                    stat['max'] = val
+
+            result.append(stat)
+
+        result.sort(key=lambda x: x['max'])
+
+        best_result = []
+        for entry in result:
+            if entry['max'] != result[0]['max']:
+                break
+
+            best_result.append(entry)
+
+        best_result.sort(key=lambda x: x['size'])
+
+        print(best_result[0])
+
+        return best_result[0]
+
 
 class Res:
-    def __init__(self, struct_name, name, include_def, size = None):
+    def __init__(self, struct_name, name, include_def, size = None, prefix = 'static'):
         if isinstance(size, list):
             self.size = size
         else:
@@ -50,6 +207,7 @@ class Res:
             else:
                 self.size = []
 
+        self.prefix = prefix
         self.name = name
         self.struct_name = struct_name
         self.include_def = include_def
@@ -76,7 +234,11 @@ class Res:
         for size in self.size:
             sizes.append("[{}]".format(size))
 
-        result.append("static {} {} {}{} = \n{{\n    ".format(("const" if is_const else ""),
+        prefix = ''
+        if self.prefix != '':
+            prefix = self.prefix + ' '
+
+        result.append("{}{} {} {}{} = \n{{\n    ".format(prefix, ("const" if is_const else ""),
             self.struct_name, self.name, ("".join(sizes) if len(sizes) != 0 else "")))
 
         for idx in range(0, len(data) - 1):
@@ -102,7 +264,7 @@ class Res:
         return result
 
 class SHS:
-    def __init__(self, data, table_size, include_def = False):
+    def __init__(self, data, table_size, include_def = False, prefix = 'static'):
         self.include_def = include_def
 
         self.data = {}
@@ -117,6 +279,8 @@ class SHS:
         
         self.max = 0
         self.used = 0
+
+        self.prefix = prefix
 
         self.init(data, table_size)
 
@@ -146,9 +310,13 @@ class SHS:
             result.append("#ifndef {}_ENABLED\n".format(data_name.upper()))
             result.append("#define {}_ENABLED\n".format(data_name.upper()))
 
-        result.append("static const lexbor_shs_entry_t {}[] = \n{{\n    ".format(data_name))
+        prefix = ''
+        if self.prefix != '':
+            prefix = self.prefix + ' '
 
-        for key in range(0, self.table_size):
+        result.append("{}const lexbor_shs_entry_t {}[] = \n{{\n    ".format(prefix, data_name))
+
+        for key in range(0, self.idx):
             if key not in lst:
                  result.append("{{{}, {}, {}, {}}}".format("NULL", "NULL", 0, 0))
             else:
@@ -161,7 +329,7 @@ class SHS:
             if int(key) % 2 == 1:
                 result.append("\n    ")
 
-        key = self.table_size
+        key = self.idx
 
         if key not in lst:
             result.append("{{{}, {}, {}, {}}}".format("NULL", "NULL", 0, 0))
@@ -185,7 +353,7 @@ class SHS:
             idx = self.make_id(entry['key'], self.table_size)
 
             if len(self.table[idx]) == 0:
-                self.used += 1;
+                self.used += 1
 
             self.table[idx].append(entry)
             self.table[idx].sort(key = lambda entr: len(entr['key']))
@@ -205,7 +373,7 @@ class SHS:
                 idx = self.make_id(entry['key'], i)
     
                 if idx not in result:
-                    used += 1;
+                    used += 1
                     result[idx] = 0
     
                 result[idx] += 1
@@ -220,11 +388,10 @@ class SHS:
         return stat
 
     def build(self):
-        idx = 0
         result = {}
         unused = []
 
-        result[0] = [None, "NULL", self.table_size, 0, True];
+        result[0] = [None, "NULL", self.table_size, 0, True]
 
         for key in range(1, self.real_table_size):
             if len(self.table[key]) == 0:
@@ -238,7 +405,7 @@ class SHS:
                     len(entry["key"]),
                     0,
                     True
-                ];
+                ]
 
         self.idx = self.table_size
         self.unused = unused
@@ -259,7 +426,7 @@ class SHS:
                     len(entry["key"]),
                     0,
                     False
-                ];
+                ]
 
                 result[ last_entry[3] ] = new_entry
                 last_entry = new_entry
@@ -273,7 +440,7 @@ class SHS:
             return idx
 
         self.idx += 1
-        return self.idx;
+        return self.idx
     
 
 class FormatEnum:

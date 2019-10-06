@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/core/array_obj.h"
@@ -138,4 +138,43 @@ lexbor_array_obj_delete(lexbor_array_obj_t *array, size_t begin, size_t length)
             * ((array->length - end_len) * array->struct_size));
 
     array->length -= length;
+}
+
+/*
+ * No inline functions.
+ */
+void
+lexbor_array_obj_erase_noi(lexbor_array_obj_t *array)
+{
+    lexbor_array_obj_erase(array);
+}
+
+void *
+lexbor_array_obj_get_noi(lexbor_array_obj_t *array, size_t idx)
+{
+    return lexbor_array_obj_get(array, idx);
+}
+
+size_t
+lexbor_array_obj_length_noi(lexbor_array_obj_t *array)
+{
+    return lexbor_array_obj_length(array);
+}
+
+size_t
+lexbor_array_obj_size_noi(lexbor_array_obj_t *array)
+{
+    return lexbor_array_obj_size(array);
+}
+
+size_t
+lexbor_array_obj_struct_size_noi(lexbor_array_obj_t *array)
+{
+    return lexbor_array_obj_struct_size(array);
+}
+
+void *
+lexbor_array_obj_last_noi(lexbor_array_obj_t *array)
+{
+    return lexbor_array_obj_last(array);
 }

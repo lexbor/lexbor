@@ -1,10 +1,15 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2019 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/core/dobject.h"
+
+
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+    #include <sanitizer/asan_interface.h>
+#endif
 
 
 lexbor_dobject_t *
@@ -39,6 +44,11 @@ lexbor_dobject_init(lexbor_dobject_t *dobject,
     if (status) {
         return status;
     }
+
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+    ASAN_POISON_MEMORY_REGION(dobject->mem->chunk->data,
+                              dobject->mem->chunk->size);
+#endif
 
     /* Array */
     dobject->cache = lexbor_array_create();
@@ -82,13 +92,25 @@ lexbor_dobject_alloc(lexbor_dobject_t *dobject)
 
     if (lexbor_array_length(dobject->cache) != 0) {
         dobject->allocated++;
+
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+        data = lexbor_array_pop(dobject->cache);
+        ASAN_UNPOISON_MEMORY_REGION(data, dobject->struct_size);
+
+        return data;
+#else
         return lexbor_array_pop(dobject->cache);
+#endif
     }
 
     data = lexbor_mem_alloc(dobject->mem, dobject->struct_size);
     if (data == NULL) {
         return NULL;
     }
+
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+    ASAN_UNPOISON_MEMORY_REGION(data, dobject->struct_size);
+#endif
 
     dobject->allocated++;
 
@@ -113,6 +135,10 @@ lexbor_dobject_free(lexbor_dobject_t *dobject, void *data)
     if (data == NULL) {
         return NULL;
     }
+
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+    ASAN_POISON_MEMORY_REGION(data, dobject->struct_size);
+#endif
 
     if (lexbor_array_push(dobject->cache, data) == LXB_STATUS_OK) {
         dobject->allocated--;
@@ -141,4 +167,19 @@ lexbor_dobject_by_absolute_position(lexbor_dobject_t *dobject, size_t pos)
     }
 
     return &chunk->data[chunk_pos % chunk->size];
+}
+
+/*
+ * No inline functions for ABI.
+ */
+size_t
+lexbor_dobject_allocated_noi(lexbor_dobject_t *dobject)
+{
+    return lexbor_dobject_allocated(dobject);
+}
+
+size_t
+lexbor_dobject_cache_length_noi(lexbor_dobject_t *dobject)
+{
+    return lexbor_dobject_cache_length(dobject);
 }

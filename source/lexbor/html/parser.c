@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/html/parser.h"
@@ -349,6 +349,8 @@ lxb_html_parse_fragment_chunk_end(lxb_html_parser_t *parser)
 static void
 lxb_html_parse_fragment_chunk_destroy(lxb_html_parser_t *parser)
 {
+    lxb_dom_document_t *doc;
+
     if (parser->form != NULL) {
         lxb_html_form_element_interface_destroy(lxb_html_interface_form(parser->form));
 
@@ -362,6 +364,11 @@ lxb_html_parse_fragment_chunk_destroy(lxb_html_parser_t *parser)
     }
 
     if (lxb_html_document_is_original(parser->tree->document) == false) {
+        if (parser->root != NULL) {
+            doc = lxb_dom_interface_node(parser->tree->document)->owner_document;
+            parser->root->parent = &doc->node;
+        }
+
         lxb_html_document_interface_destroy(parser->tree->document);
 
         parser->tree->document = NULL;
@@ -444,4 +451,31 @@ lxb_html_parse_chunk_end(lxb_html_parser_t *parser)
     parser->state = LXB_HTML_PARSER_STATE_END;
 
     return parser->status;
+}
+
+/*
+ * No inline functions for ABI.
+ */
+void
+lxb_html_parser_set_without_copy_noi(lxb_html_parser_t *parser)
+{
+    lxb_html_parser_set_without_copy(parser);
+}
+
+lxb_html_tokenizer_t *
+lxb_html_parser_tokenizer_noi(lxb_html_parser_t *parser)
+{
+    return lxb_html_parser_tokenizer(parser);
+}
+
+lxb_html_tree_t *
+lxb_html_parser_tree_noi(lxb_html_parser_t *parser)
+{
+    return lxb_html_parser_tree(parser);
+}
+
+lxb_status_t
+lxb_html_parser_status_noi(lxb_html_parser_t *parser)
+{
+    return lxb_html_parser_status(parser);
 }

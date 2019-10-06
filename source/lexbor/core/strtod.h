@@ -14,6 +14,8 @@
 extern "C" {
 #endif
 
+#include "lexbor/core/base.h"
+
 
 LXB_API double
 lexbor_strtod_internal(const lxb_char_t *start, size_t length, int exp);

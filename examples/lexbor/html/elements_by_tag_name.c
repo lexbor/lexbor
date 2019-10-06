@@ -1,10 +1,10 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
-#include "examples/lexbor/html/base.h"
+#include "base.h"
 
 #include <lexbor/dom/collection.h>
 
@@ -21,9 +21,6 @@ main(int argc, const char *argv[])
     size_t html_szie = sizeof(html) - 1;
 
     document = parse(html, html_szie);
-    if (document == NULL) {
-        FAILED("Failed to create Document object");
-    }
 
     collection = lxb_dom_collection_make(&document->dom_document, 128);
     if (collection == NULL) {

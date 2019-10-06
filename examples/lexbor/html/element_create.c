@@ -1,10 +1,10 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
-#include "examples/lexbor/html/base.h"
+#include "base.h"
 
 
 int
@@ -22,9 +22,6 @@ main(int argc, const char *argv[])
 
     /* Parse */
     document = parse((const lxb_char_t *) "", 0);
-    if (document == NULL) {
-        FAILED("Failed to create Document object");
-    }
 
     body = lxb_html_document_body_element(document);
 

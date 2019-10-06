@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #ifndef LEXBOR_DOM_EXCEPTION_H
@@ -57,6 +57,13 @@ lxb_dom_exception_code_ref_set(lxb_dom_exception_code_t *var,
 
     return NULL;
 }
+
+/*
+ * No inline functions for ABI.
+ */
+void *
+lxb_dom_exception_code_ref_set_noi(lxb_dom_exception_code_t *var,
+                                   lxb_dom_exception_code_t code);
 
 
 #ifdef __cplusplus

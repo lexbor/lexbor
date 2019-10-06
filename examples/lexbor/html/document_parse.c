@@ -1,12 +1,12 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include <string.h>
 
-#include "examples/lexbor/html/base.h"
+#include "base.h"
 
 
 int

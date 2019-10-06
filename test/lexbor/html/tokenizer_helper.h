@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/core/array.h"
@@ -71,6 +71,8 @@ struct tokenizer_helper {
     lexbor_bst_entry_t   *types_root;
     lexbor_array_t       tokens;
     lexbor_array_t       ch_list;
+
+    lxb_status_t         status;
 };
 
 
@@ -115,6 +117,7 @@ tokenizer_helper_make(void)
         goto error;
     }
 
+    helper->status = LXB_STATUS_OK;
     helper->tkz = tokenizer_helper_tkz_init(helper);
 
     return helper;
@@ -241,6 +244,10 @@ tokenizer_helper_tkz_callback_token_done(lxb_html_tokenizer_t *tkz,
     lxb_status_t status;
     tokenizer_helper_t *helper = ctx;
 
+    if (token->tag_id == LXB_TAG__END_OF_FILE) {
+        return token;
+    }
+
     status = lexbor_array_push(&helper->tokens, token);
     if (status != LXB_STATUS_OK) {
         tkz->status = status;
@@ -268,6 +275,8 @@ tokenizer_helper_tkz_init(tokenizer_helper_t *helper)
         lexbor_array_destroy(&helper->tokens,false);
         return lxb_html_tokenizer_destroy(tkz);
     }
+
+    lxb_html_tokenizer_opt_set(tkz, LXB_HTML_TOKENIZER_OPT_WO_IN_DESTROY);
 
     lxb_html_tokenizer_callback_token_done_set(tkz,
                                        tokenizer_helper_tkz_callback_token_done,
@@ -325,10 +334,11 @@ tokenizer_helper_tkz_parse_stream(lxb_html_tokenizer_t *tkz,
         return LXB_STATUS_ERROR;
     }
 
-    lexbor_array_clean(&helper->ch_list);
-    status = lexbor_array_set(&helper->ch_list, len, NULL);
-    if (status != LXB_STATUS_OK) {
-        return status;
+    if (lexbor_array_length(&helper->ch_list) < len) {
+        status = lexbor_array_set(&helper->ch_list, len, NULL);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
     }
 
     for (size_t i = 0; i < len; i++) {

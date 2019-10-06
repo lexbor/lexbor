@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #ifndef LEXBOR_TYPES_H
@@ -10,6 +10,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+#include <stdint.h>
+#include <stdbool.h>
 
 /* Inline */
 #ifdef _MSC_VER
@@ -20,7 +23,7 @@ extern "C" {
 
 
 /* Simple types */
-typedef size_t        lxb_codepoint_t;
+typedef uint32_t      lxb_codepoint_t;
 typedef unsigned char lxb_char_t;
 typedef unsigned int  lxb_status_t;
 

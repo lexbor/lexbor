@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #ifndef LEXBOR_HTML_TOKEN_H
@@ -61,12 +61,13 @@ lxb_html_token_t;
 
 struct lxb_html_token_process {
     lxb_html_token_process_state_f state;
-    lxb_html_token_process_state_f amp_return_state;
-    lxb_html_token_process_state_f amp_end_state;
+    lxb_html_token_process_state_f return_state;
+    lxb_html_token_process_state_f end_state;
 
     lxb_html_token_t               *token;
     lxb_html_token_t               tmp_token;
 
+    void                           *context;
     unsigned long                  num;
 
     lxb_status_t                   status;
@@ -94,14 +95,24 @@ lxb_html_token_attr_delete(lxb_html_token_t *token,
 LXB_API size_t
 lxb_html_token_data_calc_length(lxb_html_token_t *token);
 
+/*
+ * Adds data from the token to the string as is, without changing them.
+ */
 LXB_API lxb_status_t
 lxb_html_token_make_data(lxb_html_token_t *token, lexbor_str_t *str,
                          lexbor_mraw_t *mraw);
 
+/*
+ * Adds data from the token to the string, replacing \0 char
+ * to Replacement character and set everything to lower case.
+ */
 LXB_API lxb_status_t
 lxb_html_token_make_data_strict(lxb_html_token_t *token, lexbor_str_t *str,
                                 lexbor_mraw_t *mraw);
 
+/*
+ * Adds data from the token to the string based on the type of token.
+ */
 LXB_API lxb_status_t
 lxb_html_token_parse_data(lxb_html_token_t *token, lxb_html_parser_char_t *pc,
                           lexbor_str_t *str, lexbor_mraw_t *mraw);
@@ -110,6 +121,10 @@ LXB_API lxb_tag_id_t
 lxb_html_token_tag_id_from_data(lxb_tag_heap_t *tag_heap,
                                 lxb_html_token_t *token);
 
+/*
+ * Processes token data using a callback from
+ * the lxb_html_token_process_t structure.
+ */
 LXB_API lxb_status_t
 lxb_html_token_process_data(lxb_html_token_process_t *process,
                             lxb_html_token_t *token);
@@ -149,6 +164,15 @@ lxb_html_token_create_eof(lexbor_dobject_t *dobj)
 {
     return (lxb_html_token_t *) lexbor_dobject_calloc(dobj);
 }
+
+/*
+ * No inline functions for ABI.
+ */
+void
+lxb_html_token_clean_noi(lxb_html_token_t *token);
+
+lxb_html_token_t *
+lxb_html_token_create_eof_noi(lexbor_dobject_t *dobj);
 
 
 #ifdef __cplusplus

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #ifndef LEXBOR_HTML_TOKENIZER_H
@@ -37,8 +37,20 @@ typedef lxb_html_token_t *
 
 
 enum lxb_html_tokenizer_opt {
-    LXB_HTML_TOKENIZER_OPT_UNDEF   = 0x00,
-    LXB_HTML_TOKENIZER_OPT_WO_COPY = 0x01
+    LXB_HTML_TOKENIZER_OPT_UNDEF         = 0x00,
+
+    /*
+     * Without copying input buffer.
+     * The user himself monitors the safety of buffers until the end of parsing.
+     */
+    LXB_HTML_TOKENIZER_OPT_WO_COPY       = 0x01,
+
+    /*
+     * During parsing, incoming buffers will not be destroyed.
+     * By default, when the incoming buffer is no longer needed,
+     * it is destroyed.
+     */
+    LXB_HTML_TOKENIZER_OPT_WO_IN_DESTROY = 0x02
 };
 
 struct lxb_html_tokenizer {
@@ -182,11 +194,23 @@ lxb_html_tokenizer_tag_heap_set(lxb_html_tokenizer_t *tkz,
     tkz->tag_heap_ref = lxb_tag_heap_ref(tag_heap);
 }
 
+lxb_inline lxb_tag_heap_t *
+lxb_html_tokenizer_tag_heap(lxb_html_tokenizer_t *tkz)
+{
+    return tkz->tag_heap_ref;
+}
+
 lxb_inline void
 lxb_html_tokenizer_ns_heap_set(lxb_html_tokenizer_t *tkz,
                                lxb_ns_heap_t *ns_heap)
 {
     tkz->ns_heap_ref = lxb_ns_heap_ref(ns_heap);
+}
+
+lxb_inline lxb_ns_heap_t *
+lxb_html_tokenizer_ns_heap(lxb_html_tokenizer_t *tkz)
+{
+    return tkz->ns_heap_ref;
 }
 
 lxb_inline void
@@ -229,6 +253,66 @@ lxb_html_tokenizer_tree_set(lxb_html_tokenizer_t *tkz, lxb_html_tree_t *tree)
 {
     tkz->tree = tree;
 }
+
+lxb_inline lexbor_mraw_t *
+lxb_html_tokenizer_mraw(lxb_html_tokenizer_t *tkz)
+{
+    return tkz->mraw;
+}
+
+/*
+ * No inline functions for ABI.
+ */
+void
+lxb_html_tokenizer_status_set_noi(lxb_html_tokenizer_t *tkz,
+                                  lxb_status_t status);
+
+void
+lxb_html_tokenizer_opt_set_noi(lxb_html_tokenizer_t *tkz,
+                               lxb_html_tokenizer_opt_t opt);
+
+lxb_html_tokenizer_opt_t
+lxb_html_tokenizer_opt_noi(lxb_html_tokenizer_t *tkz);
+
+void
+lxb_html_tokenizer_tag_heap_set_noi(lxb_html_tokenizer_t *tkz,
+                                    lxb_tag_heap_t *tag_heap);
+
+lxb_tag_heap_t *
+lxb_html_tokenizer_tag_heap_noi(lxb_html_tokenizer_t *tkz);
+
+void
+lxb_html_tokenizer_ns_heap_set_noi(lxb_html_tokenizer_t *tkz,
+                                   lxb_ns_heap_t *ns_heap);
+
+lxb_ns_heap_t *
+lxb_html_tokenizer_ns_heap_noi(lxb_html_tokenizer_t *tkz);
+
+void
+lxb_html_tokenizer_callback_token_done_set_noi(lxb_html_tokenizer_t *tkz,
+                                               lxb_html_tokenizer_token_f call_func,
+                                               void *ctx);
+
+void *
+lxb_html_tokenizer_callback_token_done_ctx_noi(lxb_html_tokenizer_t *tkz);
+
+void
+lxb_html_tokenizer_state_set_noi(lxb_html_tokenizer_t *tkz,
+                                 lxb_html_tokenizer_state_f state);
+
+void
+lxb_html_tokenizer_tmp_tag_id_set_noi(lxb_html_tokenizer_t *tkz,
+                                      lxb_tag_id_t tag_id);
+
+lxb_html_tree_t *
+lxb_html_tokenizer_tree_noi(lxb_html_tokenizer_t *tkz);
+
+void
+lxb_html_tokenizer_tree_set_noi(lxb_html_tokenizer_t *tkz,
+                                lxb_html_tree_t *tree);
+
+lexbor_mraw_t *
+lxb_html_tokenizer_mraw_noi(lxb_html_tokenizer_t *tkz);
 
 
 #ifdef __cplusplus

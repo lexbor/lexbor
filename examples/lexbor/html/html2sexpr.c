@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2019 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  *
  * Convert html tag tree into s-expression string in stdout
  */
@@ -11,7 +11,7 @@
 #include <lexbor/core/fs.h>
 #include <lexbor/html/interfaces/template_element.h>
 
-#include "examples/lexbor/html/base.h"
+#include "base.h"
 
 
 static void

@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #ifndef LEXBOR_MRAW_H
@@ -73,6 +73,31 @@ lexbor_mraw_data_size_set(void *data, size_t size)
     data = (((uint8_t *) data) - lexbor_mraw_meta_size());
     memcpy(data, &size, sizeof(size_t));
 }
+
+lxb_inline void *
+lexbor_mraw_dup(lexbor_mraw_t *mraw, void *src, size_t size)
+{
+    void *data = lexbor_mraw_alloc(mraw, size);
+
+    if (data != NULL) {
+        memcpy(data, src, size);
+    }
+
+    return data;
+}
+
+
+/*
+ * No inline functions for ABI.
+ */
+size_t
+lexbor_mraw_data_size_noi(void *data);
+
+void
+lexbor_mraw_data_size_set_noi(void *data, size_t size);
+
+void *
+lexbor_mraw_dup_noi(lexbor_mraw_t *mraw, void *src, size_t size);
 
 
 #ifdef __cplusplus

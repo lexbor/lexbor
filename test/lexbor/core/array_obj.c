@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2018 Alexander Borisov
  *
- * Author: Alexander Borisov <lex.borisov@gmail.com>
+ * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include <unit/test.h>
@@ -269,6 +269,7 @@ TEST_BEGIN(destroy)
     lexbor_array_obj_init(array, 32, sizeof(test_struct_t));
 
     test_eq(lexbor_array_obj_destroy(array, false), array);
+    test_eq(lexbor_array_obj_destroy(array, true), NULL);
     test_eq(lexbor_array_obj_destroy(NULL, false), NULL);
 }
 TEST_END
