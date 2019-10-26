@@ -60,12 +60,19 @@ lxb_html_document_interface_create(lxb_html_document_t *document)
         return doc;
     }
 
+    doc = lexbor_calloc(1, sizeof(lxb_html_document_t));
+    if (doc == NULL) {
+        return NULL;
+    }
+
+    text = NULL;
+
     /* For nodes */
     mraw = lexbor_mraw_create();
     lxb_status_t status = lexbor_mraw_init(mraw, (4096 * 8));
 
     if (status != LXB_STATUS_OK) {
-        return (void *) lexbor_mraw_destroy(mraw, true);
+        goto failed;
     }
 
     /* For text */
@@ -73,19 +80,14 @@ lxb_html_document_interface_create(lxb_html_document_t *document)
     status = lexbor_mraw_init(text, (4096 * 12));
 
     if (status != LXB_STATUS_OK) {
-        goto failure;
-    }
-
-    doc = lexbor_mraw_calloc(mraw, sizeof(lxb_html_document_t));
-    if (doc == NULL) {
-        goto failure;
+        goto failed;
     }
 
     doc->mem = lexbor_mraw_calloc(mraw, sizeof(lxb_html_document_mem_t));
     if (doc->mem == NULL) {
         lexbor_mraw_free(mraw, doc);
 
-        goto failure;
+        goto failed;
     }
 
     doc->mem->mraw = mraw;
@@ -106,10 +108,14 @@ lxb_html_document_interface_create(lxb_html_document_t *document)
 
     return doc;
 
-failure:
+failed:
 
     lexbor_mraw_destroy(mraw, true);
     lexbor_mraw_destroy(text, true);
+
+    if (doc != NULL) {
+        lexbor_free(doc);
+    }
 
     return NULL;
 }
@@ -198,7 +204,7 @@ lxb_html_document_interface_destroy(lxb_html_document_t *document)
      */
     lexbor_mraw_destroy(document->mem->mraw, true);
 
-    return NULL;
+    return lexbor_free(document);
 }
 
 lxb_html_document_t *
@@ -220,11 +226,33 @@ lxb_html_document_create(void)
 void
 lxb_html_document_clean(lxb_html_document_t *document)
 {
+    lxb_dom_node_t *node;
+
+    lxb_html_document_mem_t mem = *document->mem;
+
     lxb_tag_heap_clean(document->mem->tag_heap_ref);
     lxb_ns_heap_clean(document->mem->ns_heap_ref);
 
     lexbor_mraw_clean(document->mem->mraw);
     lexbor_mraw_clean(document->mem->text);
+
+    document->mem = lexbor_mraw_calloc(document->mem->mraw,
+                                       sizeof(lxb_html_document_mem_t));
+    if (document->mem == NULL) {
+        return;
+    }
+
+    node = lxb_dom_interface_node(document);
+    node->owner_document = lxb_dom_interface_document(document);
+
+    node->type = LXB_DOM_NODE_TYPE_DOCUMENT;
+    node->tag_id = LXB_TAG__DOCUMENT;
+    node->ns = LXB_NS_HTML;
+
+    node->first_child = NULL;
+    node->last_child = NULL;
+
+    *document->mem = mem;
 }
 
 lxb_html_document_t *
