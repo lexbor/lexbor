@@ -226,13 +226,14 @@ lxb_html_encoding_meta(lxb_html_encoding_t *em,
                        const lxb_char_t *data, const lxb_char_t *end)
 {
     size_t i, len, cur;
-    bool got_pragma;
+    bool got_pragma, have_content;
     uint8_t need_pragma;
     const lxb_char_t *name, *name_end;
     const lxb_char_t *value, *value_end;
     lxb_html_encoding_entry_t *attr;
 
     got_pragma = false;
+    have_content = false;
     need_pragma = 0x00;
     cur = lexbor_array_obj_length(&em->result);
 
@@ -295,7 +296,7 @@ lxb_html_encoding_meta(lxb_html_encoding_t *em,
         }
 
         if (lexbor_str_data_ncasecmp((lxb_char_t *) "content", name, 7)) {
-            if (cur == lexbor_array_obj_length(&em->result)) {
+            if (have_content == false) {
 
                 name = lxb_html_encoding_content(value, value_end, &name_end);
                 if (name == NULL) {
@@ -309,9 +310,10 @@ lxb_html_encoding_meta(lxb_html_encoding_t *em,
 
                 attr->name = name;
                 attr->end = name_end;
-            }
 
-            need_pragma = 0x02;
+                need_pragma = 0x02;
+                have_content = true;
+            }
 
             continue;
         }
