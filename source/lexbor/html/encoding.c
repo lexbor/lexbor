@@ -196,6 +196,9 @@ lxb_html_encoding_determine(lxb_html_encoding_t *em,
             skip_attributes:
 
                 data = lxb_html_encoding_skip_name(data, end);
+                if (data >= end) {
+                    return LXB_STATUS_OK;
+                }
 
                 if (*data == '>') {
                     data++;
