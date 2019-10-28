@@ -247,7 +247,7 @@ MACRO(EXECUTABLE_LIST name_prefix sources)
         STRING(REGEX REPLACE "^/+" "" build_dir ${build_dir})
         STRING(REGEX REPLACE "/+" "_" build_exe ${build_dir})
 
-        set(exe_name "${name_prefix}${build_exe}${barename}")
+        set(exe_name "${name_prefix}${build_exe}_${barename}")
 
         add_executable("${exe_name}" ${src})
         set_target_properties("${exe_name}" PROPERTIES
