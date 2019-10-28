@@ -30,7 +30,7 @@ cmake_minimum_required(VERSION 2.8)
 
 set(PROJECT_NAME "lexbor")
 
-project(${PROJECT_NAME} C)
+project(${PROJECT_NAME})
 
 message(STATUS "Project name: ${PROJECT_NAME}")
 
