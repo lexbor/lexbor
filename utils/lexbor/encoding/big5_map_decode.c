@@ -23,14 +23,13 @@
 
 int main(int argc, const char * argv[])
 {
-    int8_t len;
     size_t size;
+    lxb_char_t data[8];
+    lxb_status_t status;
+    lxb_encoding_encode_t ctx;
+    const lxb_codepoint_t *cp;
     const lxb_encoding_data_t *enc_data;
     const lxb_encoding_multi_index_t *entry;
-
-    lxb_char_t data[8];
-    lxb_char_t *ref = data;
-    const lxb_char_t *end = data + sizeof(data);
 
     const char *filepath = "./big5_map_decode.txt";
 
@@ -58,23 +57,24 @@ int main(int argc, const char * argv[])
            / sizeof(lxb_encoding_multi_index_t);
 
     for (size_t i = 0; i < size; i++) {
-        lxb_encoding_encode_t ctx = {0};
-
         entry = &lxb_encoding_multi_index_big5[i];
 
-        if (entry->codepoint > LXB_ENCODING_DECODE_MAX_CODEPOINT) {
+        if (entry->codepoint == LXB_ENCODING_ERROR_CODEPOINT) {
             continue;
         }
 
-        len = enc_data->encode(&ctx, &ref, end, entry->codepoint);
-        if (len < LXB_ENCODING_ENCODE_OK) {
-            printf("Failed to encoding code point: %u\n",
-                   entry->codepoint);
+        cp = &entry->codepoint;
+
+        lxb_encoding_encode_init(&ctx, enc_data, data, sizeof(data));
+
+        status = enc_data->encode(&ctx, &cp, (cp + 1));
+        if (status != LXB_STATUS_OK) {
+            printf("Failed to encoding code point: 0x%04X; Status %d\n",
+                   entry->codepoint, status);
             return EXIT_FAILURE;
         }
 
-        ref -= len;
-        append_to_file(fc, ref, len, entry->codepoint);
+        append_to_file(fc, ctx.buffer_out, ctx.buffer_used, entry->codepoint);
     }
 
     fprintf(fc, "\n# END\n");

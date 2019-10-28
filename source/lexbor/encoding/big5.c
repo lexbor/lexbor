@@ -17,948 +17,948 @@
 
 const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] = 
 {
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe4\x8f\xb0", 3, 0x43F0}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xe4\xb0\xb2", 3, 0x4C32}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xe4\x98\x83", 3, 0x4603}, /* (<CJK Ideograph Extension A>) */
@@ -997,7 +997,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xf0\xa3\xbd\xa1", 4, 0x23F61}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe6\x99\x8d", 3, 0x664D}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe5\x9b\xbb", 3, 0x56FB}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe7\xb6\x95", 3, 0x7D95}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe5\xa4\x9d", 3, 0x591D}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa8\xae\xb9", 4, 0x28BB9}, /* (<CJK Ideograph Extension B>) */
@@ -1085,37 +1085,37 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe6\x8b\x81", 3, 0x62C1}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe7\x81\xae", 3, 0x706E}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\xbf\x8b", 3, 0x9FCB}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe3\x87\x80", 3, 0x31C0}, /* (CJK STROKE T) */
     {(lxb_char_t *) "\xe3\x87\x81", 3, 0x31C1}, /* (CJK STROKE WG) */
     {(lxb_char_t *) "\xe3\x87\x82", 3, 0x31C2}, /* (CJK STROKE XG) */
@@ -1150,9 +1150,9 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xc3\x93", 2, 0x00D3}, /* (LATIN CAPITAL LETTER O WITH ACUTE) */
     {(lxb_char_t *) "\xc7\x91", 2, 0x01D1}, /* (LATIN CAPITAL LETTER O WITH CARON) */
     {(lxb_char_t *) "\xc3\x92", 2, 0x00D2}, /* (LATIN CAPITAL LETTER O WITH GRAVE) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe1\xba\xbe", 3, 0x1EBE}, /* (LATIN CAPITAL LETTER E WITH CIRCUMFLEX AND ACUTE) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe1\xbb\x80", 3, 0x1EC0}, /* (LATIN CAPITAL LETTER E WITH CIRCUMFLEX AND GRAVE) */
     {(lxb_char_t *) "\xc3\x8a", 2, 0x00CA}, /* (LATIN CAPITAL LETTER E WITH CIRCUMFLEX) */
     {(lxb_char_t *) "\xc4\x81", 2, 0x0101}, /* (LATIN SMALL LETTER A WITH MACRON) */
@@ -1181,110 +1181,110 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xc7\x9a", 2, 0x01DA}, /* (LATIN SMALL LETTER U WITH DIAERESIS AND CARON) */
     {(lxb_char_t *) "\xc7\x9c", 2, 0x01DC}, /* (LATIN SMALL LETTER U WITH DIAERESIS AND GRAVE) */
     {(lxb_char_t *) "\xc3\xbc", 2, 0x00FC}, /* (LATIN SMALL LETTER U WITH DIAERESIS) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe1\xba\xbf", 3, 0x1EBF}, /* (LATIN SMALL LETTER E WITH CIRCUMFLEX AND ACUTE) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe1\xbb\x81", 3, 0x1EC1}, /* (LATIN SMALL LETTER E WITH CIRCUMFLEX AND GRAVE) */
     {(lxb_char_t *) "\xc3\xaa", 2, 0x00EA}, /* (LATIN SMALL LETTER E WITH CIRCUMFLEX) */
     {(lxb_char_t *) "\xc9\xa1", 2, 0x0261}, /* (LATIN SMALL LETTER SCRIPT G) */
     {(lxb_char_t *) "\xe2\x8f\x9a", 3, 0x23DA}, /* (EARTH GROUND) */
     {(lxb_char_t *) "\xe2\x8f\x9b", 3, 0x23DB}, /* (FUSE) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xf0\xaa\x8e\xa9", 4, 0x2A3A9}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa1\x85\x85", 4, 0x21145}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe6\x94\x8a", 3, 0x650A}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe4\xb8\xbd", 3, 0x4E3D}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe6\xbb\x9d", 3, 0x6EDD}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\xb5\x8e", 3, 0x9D4E}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\x87\x9f", 3, 0x91DF}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xf0\xa7\x9c\xb5", 4, 0x27735}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe6\x92\x91", 3, 0x6491}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe4\xbc\x9a", 3, 0x4F1A}, /* (<CJK Ideograph>) */
@@ -1342,20 +1342,20 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe6\xa5\x86", 3, 0x6946}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe7\xab\x89", 3, 0x7AC9}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe5\x88\xa7", 3, 0x5227}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe9\x86\x8c", 3, 0x918C}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe7\xa2\xb8", 3, 0x78B8}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\x85\x9e", 3, 0x915E}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe8\x82\xbc", 3, 0x80BC}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe8\xb4\x8b", 3, 0x8D0B}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe8\x83\xb6", 3, 0x80F6}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa0\xa7\xa7", 4, 0x209E7}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe8\x82\x9f", 3, 0x809F}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\xbb\x87", 3, 0x9EC7}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe4\xb3\x8d", 3, 0x4CCD}, /* (<CJK Ideograph Extension A>) */
@@ -1367,11 +1367,11 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe9\xb8\x8a", 3, 0x9E0A}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xaa\x84\xb3", 4, 0x2A133}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe3\x97\x81", 3, 0x35C1}, /* (<CJK Ideograph Extension A>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe6\xba\x9a", 3, 0x6E9A}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe8\x88\xbe", 3, 0x823E}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe7\x94\x99", 3, 0x7519}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe4\xa4\x91", 3, 0x4911}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xe9\xa9\xac", 3, 0x9A6C}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\xaa\x8f", 3, 0x9A8F}, /* (<CJK Ideograph>) */
@@ -1432,7 +1432,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe3\x97\x85", 3, 0x35C5}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xf0\xa7\xb6\x84", 4, 0x27D84}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe5\x94\xa5", 3, 0x5525}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xf0\xa0\xb1\x82", 4, 0x20C42}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa0\xb4\x95", 4, 0x20D15}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa5\x84\xab", 4, 0x2512B}, /* (<CJK Ideograph Extension B>) */
@@ -1465,7 +1465,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xf0\xa2\xb2\xa9", 4, 0x22CA9}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa8\x89\x96", 4, 0x28256}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa4\x93\x93", 4, 0x244D3}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xf0\xa0\xb5\x86", 4, 0x20D46}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa9\xa9\x8d", 4, 0x29A4D}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa8\x83\xa9", 4, 0x280E9}, /* (<CJK Ideograph Extension B>) */
@@ -1483,7 +1483,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xf0\xa2\xb5\x84", 4, 0x22D44}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe9\xb5\xae", 3, 0x9D6E}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\xa0\x95", 3, 0x9815}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe4\x8f\x99", 3, 0x43D9}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xf0\xa6\x82\xa5", 4, 0x260A5}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe6\x92\xb4", 3, 0x64B4}, /* (<CJK Ideograph>) */
@@ -1503,13 +1503,13 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xf0\xa2\x86\xa1", 4, 0x221A1}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa8\xad\x8c", 4, 0x28B4C}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa0\x9c\xb1", 4, 0x20731}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe4\xa0\x8b", 3, 0x480B}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xf0\xa0\x86\xa9", 4, 0x201A9}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe3\xbf\xba", 3, 0x3FFA}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xe5\xa1\xb3", 3, 0x5873}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa2\xb6\x8d", 4, 0x22D8D}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xf0\xa4\x97\x88", 4, 0x245C8}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa0\x93\xbc", 4, 0x204FC}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa6\x82\x97", 4, 0x26097}, /* (<CJK Ideograph Extension B>) */
@@ -1518,7 +1518,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe5\x95\xb9", 3, 0x5579}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe4\x82\xbb", 3, 0x40BB}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xe4\x8e\xba", 3, 0x43BA}, /* (<CJK Ideograph Extension A>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe4\xaa\xb4", 3, 0x4AB4}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xf0\xa2\xa9\xa6", 4, 0x22A66}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa1\x82\x9d", 4, 0x2109D}, /* (<CJK Ideograph Extension B>) */
@@ -1532,12 +1532,12 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe5\x9a\xa1", 3, 0x56A1}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe6\x91\xbc", 3, 0x647C}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe3\xb9\x83", 3, 0x3E43}, /* (<CJK Ideograph Extension A>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xf0\xaa\x98\x81", 4, 0x2A601}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa0\xb8\x89", 4, 0x20E09}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa2\xab\x8f", 4, 0x22ACF}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa2\xb3\x89", 4, 0x22CC9}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xf0\xa1\x83\x88", 4, 0x210C8}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa3\xa7\x82", 4, 0x239C2}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe3\xa6\x92", 3, 0x3992}, /* (<CJK Ideograph Extension A>) */
@@ -1553,8 +1553,8 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe3\x92\xbc", 3, 0x34BC}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xe6\xb0\xbd", 3, 0x6C3D}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa4\xb8\xbb", 4, 0x24E3B}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xf0\xa7\x95\xb4", 4, 0x27574}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa2\xba\x8b", 4, 0x22E8B}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa2\x88\x88", 4, 0x22208}, /* (<CJK Ideograph Extension B>) */
@@ -1577,7 +1577,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xf0\xa0\xb5\x87", 4, 0x20D47}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa1\x85\x8f", 4, 0x2114F}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa0\xb9\x8c", 4, 0x20E4C}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xf0\xa0\xba\xab", 4, 0x20EAB}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa0\xae\xa9", 4, 0x20BA9}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa0\xb5\x88", 4, 0x20D48}, /* (<CJK Ideograph Extension B>) */
@@ -1607,7 +1607,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe5\x93\x8c", 3, 0x54CC}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe8\x8b\x84", 3, 0x82C4}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe5\x96\xb9", 3, 0x55B9}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xf0\xa9\xbb\x83", 4, 0x29EC3}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe9\xb0\xa6", 3, 0x9C26}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\xaa\xb6", 3, 0x9AB6}, /* (<CJK Ideograph>) */
@@ -1710,7 +1710,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe7\xbd\x93", 3, 0x7F53}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa6\x89\xaa", 4, 0x2626A}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe3\x93\x81", 3, 0x34C1}, /* (<CJK Ideograph Extension A>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xf0\xa6\x8d\x8b", 4, 0x2634B}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe8\x80\x82", 3, 0x8002}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe8\x82\x80", 3, 0x8080}, /* (<CJK Ideograph>) */
@@ -1743,7 +1743,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe9\x98\x9d", 3, 0x961D}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe6\x88\xb7", 3, 0x6237}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\x92\xa2", 3, 0x94A2}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe5\x80\xbb", 3, 0x503B}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe6\xb7\xbe", 3, 0x6DFE}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa9\xb1\xb3", 4, 0x29C73}, /* (<CJK Ideograph Extension B>) */
@@ -1812,7 +1812,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe6\xa9\x83", 3, 0x6A43}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa3\xb1\xa3", 4, 0x23C63}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe6\xb3\xbf", 3, 0x6CFF}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe7\x88\x80", 3, 0x7200}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa4\x94\x85", 4, 0x24505}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe7\x8e\x8c", 3, 0x738C}, /* (<CJK Ideograph>) */
@@ -1844,14 +1844,14 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe4\x81\xb1", 3, 0x4071}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xe4\x8a\xa2", 3, 0x42A2}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xe5\xa8\x9a", 3, 0x5A1A}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe9\xa1\xa8", 3, 0x9868}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe6\x9d\xab", 3, 0x676B}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe4\x89\xb6", 3, 0x4276}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xe5\x9c\xbd", 3, 0x573D}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe8\x97\x96", 3, 0x85D6}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa4\xa5\xbb", 4, 0x2497B}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe8\x8a\xbf", 3, 0x82BF}, /* (<CJK Ideograph>) */
@@ -1875,7 +1875,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xf0\xa2\x9e\x96", 4, 0x22796}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe4\x8e\x9a", 3, 0x439A}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xe4\x94\xb6", 3, 0x4536}, /* (<CJK Ideograph Extension A>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe5\xb3\x95", 3, 0x5CD5}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa3\xac\x9a", 4, 0x23B1A}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe8\xab\xb9", 3, 0x8AF9}, /* (<CJK Ideograph>) */
@@ -1902,7 +1902,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xf0\xa9\xa3\xba", 4, 0x298FA}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe5\xbc\xbb", 3, 0x5F3B}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa0\xae\x9f", 4, 0x20B9F}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xf0\xa2\x87\x81", 4, 0x221C1}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa8\xa5\xad", 4, 0x2896D}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe4\x84\x82", 3, 0x4102}, /* (<CJK Ideograph Extension A>) */
@@ -4132,7 +4132,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe9\xa1\x87", 3, 0x9847}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\xaa\xbd", 3, 0x9ABD}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa2\xb1\x8c", 4, 0x22C4C}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xf0\xa2\xb2\x88", 4, 0x22C88}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa2\xb2\xb7", 4, 0x22CB7}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa5\xaf\xa8", 4, 0x25BE8}, /* (<CJK Ideograph Extension B>) */
@@ -4644,7 +4644,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe6\x81\xa2", 3, 0x6062}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa7\x96\xa3", 4, 0x275A3}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa0\xbf\xad", 4, 0x20FED}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xf0\xa6\x81\x88", 4, 0x26048}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa1\x86\x87", 4, 0x21187}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe7\x86\xa3", 3, 0x71A3}, /* (<CJK Ideograph>) */
@@ -4668,7 +4668,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe5\x9e\xaa", 3, 0x57AA}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa5\xaa\x95", 4, 0x25A95}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa0\xa5\xb9", 4, 0x20979}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe3\xa9\x92", 3, 0x3A52}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xf0\xa2\x91\xa5", 4, 0x22465}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe7\x8d\xb4", 3, 0x7374}, /* (<CJK Ideograph>) */
@@ -4716,7 +4716,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe6\x84\x99", 3, 0x6119}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa3\x83\x9a", 4, 0x230DA}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa4\x8f\xb2", 4, 0x243F2}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe5\x99\x9d", 3, 0x565D}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa1\x8a\xa9", 4, 0x212A9}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe5\x9e\xa7", 3, 0x57A7}, /* (<CJK Ideograph>) */
@@ -4741,7 +4741,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xf0\xa6\xb4\xa2", 4, 0x26D22}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa4\xab\xa2", 4, 0x24AE2}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa0\xb5\xb1", 4, 0x20D71}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe5\x87\xbe", 3, 0x51FE}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa1\xbc\x8f", 4, 0x21F0F}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe5\xb6\x8e", 3, 0x5D8E}, /* (<CJK Ideograph>) */
@@ -4802,11 +4802,11 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xf0\xa1\x9d\xad", 4, 0x2176D}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe9\xa7\x9a", 3, 0x99DA}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe5\x89\xb3", 3, 0x5273}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe9\x85\x99", 3, 0x9159}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\x9a\x81", 3, 0x9681}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\x85\x9c", 3, 0x915C}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe9\x85\x91", 3, 0x9151}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa8\xba\x97", 4, 0x28E97}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe6\x8d\xbf", 3, 0x637F}, /* (<CJK Ideograph>) */
@@ -4821,7 +4821,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe7\xb1\xb0", 3, 0x7C70}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa5\xb0\xa1", 4, 0x25C21}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa3\xb3\xbd", 4, 0x23CFD}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xf0\xa4\xa4\x99", 4, 0x24919}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe7\x9b\x96", 3, 0x76D6}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\xae\x9d", 3, 0x9B9D}, /* (<CJK Ideograph>) */
@@ -4829,7 +4829,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xf0\xa0\xb3\x94", 4, 0x20CD4}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe8\x8e\xbe", 3, 0x83BE}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe8\xa1\x82", 3, 0x8842}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe5\xb1\x8a", 3, 0x5C4A}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe6\xa7\x80", 3, 0x69C0}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe5\x83\xad", 3, 0x50ED}, /* (<CJK Ideograph>) */
@@ -4847,7 +4847,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe3\x97\xbe", 3, 0x35FE}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xe5\xbc\x8c", 3, 0x5F0C}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe3\x97\xb3", 3, 0x35F3}, /* (<CJK Ideograph Extension A>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe6\xad\x92", 3, 0x6B52}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\x85\xbc", 3, 0x917C}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\xbe\xa5", 3, 0x9FA5}, /* (<CJK Ideograph>) */
@@ -4859,16 +4859,16 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe9\xba\x84", 3, 0x9E84}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe7\x85\xba", 3, 0x717A}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe7\xac\x94", 3, 0x7B14}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe6\xaf\xba", 3, 0x6BFA}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe8\xa0\x98", 3, 0x8818}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe7\xbd\xb8", 3, 0x7F78}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe5\x98\xa0", 3, 0x5620}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xaa\x99\x8a", 4, 0x2A64A}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe8\xb9\xb7", 3, 0x8E77}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\xbd\x93", 3, 0x9F53}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe8\xb7\x94", 3, 0x8DD4}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe8\xb9\x8f", 3, 0x8E4F}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\xb8\x9c", 3, 0x9E1C}, /* (<CJK Ideograph>) */
@@ -4904,13 +4904,13 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe5\xbe\xba", 3, 0x5FBA}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe8\xa2\xa0", 3, 0x88A0}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe4\x92\xb7", 3, 0x44B7}, /* (<CJK Ideograph Extension A>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xf0\xa1\xa0\xbb", 4, 0x2183B}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xf0\xa6\xb8\x85", 4, 0x26E05}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe8\xa9\xbe", 3, 0x8A7E}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa2\x94\x9b", 4, 0x2251B}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe6\x83\xbd", 3, 0x60FD}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe7\x99\xa7", 3, 0x7667}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\xab\x97", 3, 0x9AD7}, /* (<CJK Ideograph>) */
@@ -4918,7 +4918,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe9\x8d\xae", 3, 0x936E}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\xae\x8f", 3, 0x9B8F}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe8\x9f\xb5", 3, 0x87F5}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe8\xa0\x8f", 3, 0x880F}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe8\xb3\xb7", 3, 0x8CF7}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe7\x8c\xac", 3, 0x732C}, /* (<CJK Ideograph>) */
@@ -4934,7 +4934,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe4\xb0\x84", 3, 0x4C04}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xe9\xba\x96", 3, 0x9E96}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe6\x85\xbd", 3, 0x617D}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe5\x9d\x9f", 3, 0x575F}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe6\x85\xaf", 3, 0x616F}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe6\x8a\xa6", 3, 0x62A6}, /* (<CJK Ideograph>) */
@@ -4951,7 +4951,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xf0\xa8\xaf\x82", 4, 0x28BC2}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe8\xbf\x9a", 3, 0x8FDA}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa8\xb8\xb9", 4, 0x28E39}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe5\x83\x99", 3, 0x50D9}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa1\xb5\x86", 4, 0x21D46}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe7\xa4\x86", 3, 0x7906}, /* (<CJK Ideograph>) */
@@ -4959,9 +4959,9 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe9\x98\xb8", 3, 0x9638}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa0\xbc\xbb", 4, 0x20F3B}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe4\x81\xa5", 3, 0x4065}, /* (<CJK Ideograph Extension A>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe7\x9f\xbe", 3, 0x77FE}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe7\xb3\x82", 3, 0x7CC2}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa5\xbc\x9a", 4, 0x25F1A}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe7\xb3\x9a", 3, 0x7CDA}, /* (<CJK Ideograph>) */
@@ -4997,7 +4997,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe3\x98\xb5", 3, 0x3635}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xe6\xa6\xb2", 3, 0x69B2}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe8\xb6\xa6", 3, 0x8DA6}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe8\xa6\xa9", 3, 0x89A9}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe7\x91\xa8", 3, 0x7468}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe6\xb6\xb9", 3, 0x6DB9}, /* (<CJK Ideograph>) */
@@ -5011,7 +5011,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe3\xb3\x91", 3, 0x3CD1}, /* (<CJK Ideograph Extension A>) */
     {(lxb_char_t *) "\xe7\x85\xa2", 3, 0x7162}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe6\x81\xb7", 3, 0x6077}, /* (<CJK Ideograph>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe7\xbd\xb1", 3, 0x7F71}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa8\xac\xad", 4, 0x28B2D}, /* (<CJK Ideograph Extension B>) */
     {(lxb_char_t *) "\xe7\x89\x90", 3, 0x7250}, /* (<CJK Ideograph>) */
@@ -5483,35 +5483,35 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe2\x90\x9f", 3, 0x241F}, /* (SYMBOL FOR UNIT SEPARATOR) */
     {(lxb_char_t *) "\xe2\x90\xa1", 3, 0x2421}, /* (SYMBOL FOR DELETE) */
     {(lxb_char_t *) "\xe2\x82\xac", 3, 0x20AC}, /* (EURO SIGN) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xe4\xb8\x80", 3, 0x4E00}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe4\xb9\x99", 3, 0x4E59}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe4\xb8\x81", 3, 0x4E01}, /* (<CJK Ideograph>) */
@@ -11231,46 +11231,46 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe5\x86\x88", 3, 0x5188}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe9\xbe\xb1", 3, 0x9FB1}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xf0\xa7\x98\x87", 4, 0x27607}, /* (<CJK Ideograph Extension B>) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xef\xbf\xa2", 3, 0xFFE2}, /* (FULLWIDTH NOT SIGN) */
     {(lxb_char_t *) "\xef\xbf\xa4", 3, 0xFFE4}, /* (FULLWIDTH BROKEN BAR) */
     {(lxb_char_t *) "\xef\xbc\x87", 3, 0xFF07}, /* (FULLWIDTH APOSTROPHE) */
@@ -11308,9 +11308,9 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782] =
     {(lxb_char_t *) "\xe2\xbb\x97", 3, 0x2ED7}, /* (CJK RADICAL RAIN) */
     {(lxb_char_t *) "\xe2\xbb\x9e", 3, 0x2EDE}, /* (CJK RADICAL EAT TWO) */
     {(lxb_char_t *) "\xe2\xbb\xa3", 3, 0x2EE3}, /* (CJK RADICAL BONE) */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
-    {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
+    {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {(lxb_char_t *) "\xca\x83", 2, 0x0283}, /* (LATIN SMALL LETTER ESH) */
     {(lxb_char_t *) "\xc9\x90", 2, 0x0250}, /* (LATIN SMALL LETTER TURNED A) */
     {(lxb_char_t *) "\xc9\x9b", 2, 0x025B}, /* (LATIN SMALL LETTER OPEN E) */

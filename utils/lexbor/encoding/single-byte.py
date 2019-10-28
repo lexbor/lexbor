@@ -166,7 +166,8 @@ def toHex(s):
 
 if __name__ == "__main__":
 
-    sb = SingleByte("single-byte", "tmp/single_test.c", "../../../test/lexbor/encoding")
+    sb = SingleByte("single-byte", "tmp/single_byte_test.c",
+                    "../../../test/lexbor/encoding/single")
 
     sb.save_res("tmp/single.h", "../../../source/lexbor/encoding/single.h",
                 "tmp/single.c", "../../../source/lexbor/encoding/single.c")
