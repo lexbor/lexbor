@@ -34,10 +34,6 @@ project(${PROJECT_NAME} C)
 
 message(STATUS "Project name: ${PROJECT_NAME}")
 
-IF(APPLE)
-    set(CMAKE_MACOSX_RPATH ON)
-ENDIF(APPLE)
-
 ################
 ## Options
 #########################
@@ -69,6 +65,17 @@ set(LEXBOR_DIR_ROOT "${CMAKE_CURRENT_SOURCE_DIR}" CACHE STRING "")
 set(LEXBOR_VERSION_FILEPATH "${CMAKE_CURRENT_SOURCE_DIR}/version" CACHE STRING "")
 
 set(LEXBOR_INSTALL_DLL_EXE_DIR "bin")
+
+################
+## RPATH
+#########################
+include(GNUInstallDirs)
+
+IF(APPLE)
+    set(CMAKE_MACOSX_RPATH ON)
+
+    set(CMAKE_INSTALL_NAME_DIR ${CMAKE_INSTALL_FULL_LIBDIR})
+ENDIF(APPLE)
 
 ################
 ## lib param
