@@ -16,7 +16,7 @@ extern "C" {
 
 
 #define LXB_DOM_VERSION_MAJOR 0
-#define LXB_DOM_VERSION_MINOR 1
+#define LXB_DOM_VERSION_MINOR 2
 #define LXB_DOM_VERSION_PATCH 0
 
 #define LXB_DOM_VERSION_STRING                                                 \

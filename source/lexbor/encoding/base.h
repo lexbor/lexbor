@@ -15,7 +15,7 @@ extern "C" {
 #include "lexbor/encoding/const.h"
 
 
-#define LXB_ENCODING_VERSION_MAJOR 1
+#define LXB_ENCODING_VERSION_MAJOR 2
 #define LXB_ENCODING_VERSION_MINOR 0
 #define LXB_ENCODING_VERSION_PATCH 0
 
