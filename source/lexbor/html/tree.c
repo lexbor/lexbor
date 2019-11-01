@@ -190,6 +190,14 @@ lxb_html_tree_token_callback(lxb_html_tokenizer_t *tkz,
 {
     lxb_status_t status;
 
+    if (token->tag_id == LXB_TAG__UNDEF) {
+        token->tag_id = lxb_html_token_tag_id_from_data(tkz->tag_heap, token);
+        if (token->tag_id == LXB_TAG__UNDEF) {
+            tkz->status = LXB_STATUS_ERROR;
+            return NULL;
+        }
+    }
+
     status = lxb_html_tree_insertion_mode(ctx, token);
     if (status != LXB_STATUS_OK) {
         tkz->status = status;
@@ -635,7 +643,7 @@ lxb_html_tree_insert_character(lxb_html_tree_t *tree, lxb_html_token_t *token,
     lxb_html_parser_char_t pc = {0};
 
     status = lxb_html_token_parse_data(token, &pc, &str,
-                                       tree->document->mem->text);
+                                       tree->document->dom_document.text);
     if (status != LXB_STATUS_OK) {
         return status;
     }
@@ -697,14 +705,14 @@ lxb_html_tree_insert_character_for_data(lxb_html_tree_t *tree,
     if (chrs != NULL) {
         /* This is error. This can not happen, but... */
         if (chrs->data.data == NULL) {
-            data = lexbor_str_init(&chrs->data, tree->document->mem->text,
+            data = lexbor_str_init(&chrs->data, tree->document->dom_document.text,
                                    str->length);
             if (data == NULL) {
                 return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
             }
         }
 
-        data = lexbor_str_append(&chrs->data, tree->document->mem->text,
+        data = lexbor_str_append(&chrs->data, tree->document->dom_document.text,
                                  str->data, str->length);
         if (data == NULL) {
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
@@ -758,7 +766,7 @@ lxb_html_tree_insert_comment(lxb_html_tree_t *tree,
     }
 
     status = lxb_html_token_parse_data(token, &pc, &comment->char_data.data,
-                                       tree->document->mem->text);
+                                       tree->document->dom_document.text);
     if (status != LXB_STATUS_OK) {
         return lxb_dom_comment_interface_destroy(comment);
     }
@@ -786,7 +794,7 @@ lxb_html_tree_create_document_type_from_token(lxb_html_tree_t *tree,
     doc_type = lxb_dom_interface_document_type(doctype_node);
 
     /* Parse */
-    status = lxb_html_token_doctype_parse(token, tree->document->mem->mraw,
+    status = lxb_html_token_doctype_parse(token, tree->document->dom_document.mraw,
                                           &doc_type->name, &doc_type->public_id,
                                           &doc_type->system_id, &id_name);
     if (status != LXB_STATUS_OK) {

@@ -94,10 +94,7 @@ lxb_html_tokenizer_init(lxb_html_tokenizer_t *tkz)
     }
 
     tkz->tree = NULL;
-
-    /* and set def values */
-    tkz->tag_heap_ref = NULL;
-    tkz->ns_heap_ref = NULL;
+    tkz->tag_heap = NULL;
 
     tkz->state = lxb_html_tokenizer_state_data_before;
     tkz->state_return = NULL;
@@ -120,7 +117,7 @@ lxb_html_tokenizer_inherit(lxb_html_tokenizer_t *tkz_to,
 {
     lxb_status_t status;
 
-    tkz_to->tag_heap_ref = lxb_tag_heap_ref(tkz_from->tag_heap_ref);
+    tkz_to->tag_heap = tkz_from->tag_heap;
 
     tkz_to->mraw = tkz_from->mraw;
 
@@ -204,9 +201,6 @@ lxb_html_tokenizer_clean(lxb_html_tokenizer_t *tkz)
     tkz->is_eof = false;
     tkz->status = LXB_STATUS_OK;
 
-    lxb_tag_heap_clean(tkz->tag_heap_ref);
-    lxb_ns_heap_clean(tkz->ns_heap_ref);
-
     lexbor_mraw_clean(tkz->mraw);
     lexbor_dobject_clean(tkz->dobj_token);
     lexbor_dobject_clean(tkz->dobj_token_attr);
@@ -227,9 +221,6 @@ lxb_html_tokenizer_destroy(lxb_html_tokenizer_t *tkz)
         return NULL;
     }
 
-    tkz->tag_heap_ref = lxb_tag_heap_unref(tkz->tag_heap_ref);
-    tkz->ns_heap_ref = lxb_ns_heap_unref(tkz->ns_heap_ref);
-
     lxb_html_tokenizer_erase_incoming(tkz);
 
     if (tkz->base == NULL) {
@@ -243,6 +234,19 @@ lxb_html_tokenizer_destroy(lxb_html_tokenizer_t *tkz)
     tkz->parse_errors = lexbor_array_obj_destroy(tkz->parse_errors, true);
 
     return lexbor_free(tkz);
+}
+
+lxb_status_t
+lxb_html_tokenizer_tag_heap_make(lxb_html_tokenizer_t *tkz, size_t table_size)
+{
+    tkz->tag_heap = lxb_tag_heap_create();
+    return lxb_tag_heap_init(tkz->tag_heap, table_size);
+}
+
+void
+lxb_html_tokenizer_tag_heap_destroy(lxb_html_tokenizer_t *tkz)
+{
+    tkz->tag_heap = lxb_tag_heap_destroy(tkz->tag_heap);
 }
 
 static void
@@ -270,16 +274,6 @@ lxb_html_tokenizer_begin(lxb_html_tokenizer_t *tkz)
     tkz->token = lxb_html_token_create(tkz->dobj_token);
     if (tkz->token == NULL) {
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-    }
-
-    if (tkz->tag_heap_ref == NULL) {
-        lxb_status_t status;
-
-        tkz->tag_heap_ref = lxb_tag_heap_create();
-        status = lxb_tag_heap_init(tkz->tag_heap_ref, 128);
-        if (status != LXB_STATUS_OK) {
-            return status;
-        }
     }
 
     return LXB_STATUS_OK;
@@ -687,19 +681,6 @@ lxb_tag_heap_t *
 lxb_html_tokenizer_tag_heap_noi(lxb_html_tokenizer_t *tkz)
 {
     return lxb_html_tokenizer_tag_heap(tkz);
-}
-
-void
-lxb_html_tokenizer_ns_heap_set_noi(lxb_html_tokenizer_t *tkz,
-                                   lxb_ns_heap_t *ns_heap)
-{
-    lxb_html_tokenizer_ns_heap_set(tkz, ns_heap);
-}
-
-lxb_ns_heap_t *
-lxb_html_tokenizer_ns_heap_noi(lxb_html_tokenizer_t *tkz)
-{
-    return lxb_html_tokenizer_ns_heap(tkz);
 }
 
 void

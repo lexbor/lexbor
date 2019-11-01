@@ -116,7 +116,7 @@ lxb_html_tree_insertion_mode_in_frameset(lxb_html_tree_t *tree,
             lxb_html_parser_char_t pc = {0};
 
             tree->status = lxb_html_token_parse_data(token, &pc, &str,
-                                                     tree->document->mem->text);
+                                             tree->document->dom_document.text);
             if (tree->status != LXB_STATUS_OK) {
                 return lxb_html_tree_process_abort(tree);
             }

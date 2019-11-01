@@ -47,8 +47,6 @@ lxb_ns_heap_init(lxb_ns_heap_t *ns_heap, size_t table_size)
         return status;
     }
 
-    lxb_ns_heap_ref(ns_heap);
-
     /* For links */
     ns_heap->heap_link = lexbor_shbst_create();
     status = lexbor_shbst_init(ns_heap->heap_link, table_size);
@@ -61,34 +59,6 @@ lxb_ns_heap_init(lxb_ns_heap_t *ns_heap, size_t table_size)
     ns_heap->by_link = lxb_ns_data_by_link_default;
 
     return LXB_STATUS_OK;
-}
-
-lxb_ns_heap_t *
-lxb_ns_heap_ref(lxb_ns_heap_t *ns_heap)
-{
-    if (ns_heap == NULL) {
-        return NULL;
-    }
-
-    ns_heap->ref_count++;
-
-    return ns_heap;
-}
-
-lxb_ns_heap_t *
-lxb_ns_heap_unref(lxb_ns_heap_t *ns_heap)
-{
-    if (ns_heap == NULL || ns_heap->ref_count == 0) {
-        return NULL;
-    }
-
-    ns_heap->ref_count--;
-
-    if (ns_heap->ref_count == 0) {
-        lxb_ns_heap_destroy(ns_heap);
-    }
-
-    return NULL;
 }
 
 void

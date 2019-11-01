@@ -47,8 +47,6 @@ struct lxb_ns_heap {
 
     lxb_ns_data_by_id_f      by_id;
     lxb_ns_data_by_link_f    by_link;
-
-    size_t                   ref_count;
 };
 
 
@@ -57,12 +55,6 @@ lxb_ns_heap_create(void);
 
 LXB_API lxb_status_t
 lxb_ns_heap_init(lxb_ns_heap_t *ns_heap, size_t table_size);
-
-LXB_API lxb_ns_heap_t *
-lxb_ns_heap_ref(lxb_ns_heap_t *ns_heap);
-
-LXB_API lxb_ns_heap_t *
-lxb_ns_heap_unref(lxb_ns_heap_t *ns_heap);
 
 LXB_API void
 lxb_ns_heap_clean(lxb_ns_heap_t *ns_heap);

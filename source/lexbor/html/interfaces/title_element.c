@@ -14,7 +14,7 @@ lxb_html_title_element_interface_create(lxb_html_document_t *document)
 {
     lxb_html_title_element_t *element;
 
-    element = lexbor_mraw_calloc(document->mem->mraw,
+    element = lexbor_mraw_calloc(document->dom_document.mraw,
                                  sizeof(lxb_html_title_element_t));
     if (element == NULL) {
         return NULL;

@@ -276,6 +276,8 @@ tokenizer_helper_tkz_init(tokenizer_helper_t *helper)
         return lxb_html_tokenizer_destroy(tkz);
     }
 
+    lxb_html_tokenizer_tag_heap_make(tkz, 128);
+
     lxb_html_tokenizer_opt_set(tkz, LXB_HTML_TOKENIZER_OPT_WO_IN_DESTROY);
 
     lxb_html_tokenizer_callback_token_done_set(tkz,
@@ -374,6 +376,7 @@ tokenizer_helper_tkz_destroy(lxb_html_tokenizer_t *tkz)
         lexbor_array_destroy(&helper->tokens, false);
     }
 
+    lxb_html_tokenizer_tag_heap_destroy(tkz);
     lxb_html_tokenizer_destroy(tkz);
 }
 

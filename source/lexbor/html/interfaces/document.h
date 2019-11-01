@@ -35,16 +35,6 @@ enum lxb_html_document_opt {
     LXB_HTML_DOCUMENT_PARSE_WO_COPY = 0x01
 };
 
-typedef struct {
-    lexbor_mraw_t     *mraw;
-    lexbor_mraw_t     *text;
-    lxb_tag_heap_t    *tag_heap_ref;
-    lxb_ns_heap_t     *ns_heap_ref;
-
-    void              *parser;       /* lxb_html_parser_t * */
-}
-lxb_html_document_mem_t;
-
 struct lxb_html_document {
     lxb_dom_document_t              dom_document;
 
@@ -53,8 +43,6 @@ struct lxb_html_document {
     lxb_html_head_element_t         *head;
     lxb_html_body_element_t         *body;
 
-    lxb_html_document_mem_t         *mem;
-
     lxb_html_document_ready_state_t ready_state;
 
     lxb_html_document_opt_t         opt;
@@ -62,11 +50,6 @@ struct lxb_html_document {
 
 LXB_API lxb_html_document_t *
 lxb_html_document_interface_create(lxb_html_document_t *document);
-
-LXB_API lxb_status_t
-lxb_html_document_interface_init(lxb_html_document_t *document,
-                                 lxb_tag_heap_t *tag_heap,
-                                 lxb_ns_heap_t *ns_heap);
 
 LXB_API lxb_html_document_t *
 lxb_html_document_interface_destroy(lxb_html_document_t *document);
@@ -160,25 +143,25 @@ lxb_html_document_is_original(lxb_html_document_t *document)
 lxb_inline lexbor_mraw_t *
 lxb_html_document_mraw(lxb_html_document_t *document)
 {
-    return document->mem->mraw;
+    return (lexbor_mraw_t *) lxb_dom_interface_document(document)->mraw;
 }
 
 lxb_inline lexbor_mraw_t *
 lxb_html_document_mraw_text(lxb_html_document_t *document)
 {
-    return document->mem->text;
+    return (lexbor_mraw_t *) lxb_dom_interface_document(document)->text;
 }
 
 lxb_inline lxb_tag_heap_t *
 lxb_html_document_tag_heap(lxb_html_document_t *document)
 {
-    return document->mem->tag_heap_ref;
+    return (lxb_tag_heap_t *) lxb_dom_interface_document(document)->tags;
 }
 
 lxb_inline lxb_ns_heap_t *
 lxb_html_document_ns_heap(lxb_html_document_t *document)
 {
-    return document->mem->ns_heap_ref;
+    return (lxb_ns_heap_t *) lxb_dom_interface_document(document)->ns;
 }
 
 lxb_inline void
@@ -198,13 +181,14 @@ lxb_inline void *
 lxb_html_document_create_struct(lxb_html_document_t *document,
                                 size_t struct_size)
 {
-    return lexbor_mraw_calloc(document->mem->mraw, struct_size);
+    return lexbor_mraw_calloc(lxb_dom_interface_document(document)->mraw,
+                              struct_size);
 }
 
 lxb_inline void *
 lxb_html_document_destroy_struct(lxb_html_document_t *document, void *data)
 {
-    return lexbor_mraw_free(document->mem->mraw, data);
+    return lexbor_mraw_free(lxb_dom_interface_document(document)->mraw, data);
 }
 
 lxb_inline lxb_dom_element_t *

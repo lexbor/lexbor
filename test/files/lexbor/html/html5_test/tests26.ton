@@ -1,5 +1,5 @@
 [
-    /* Test count: 16 */
+    /* Test count: 17 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -344,4 +344,18 @@
                 <button>
         $DATA
     },
+    /* Test number: 17 */
+    {
+        "data": $DATA{ ,12}
+            <sometag><p><button>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <sometag>
+                  <p>
+                    <button>
+      $DATA
+  },
 ]

@@ -63,7 +63,7 @@ parse(const lxb_char_t *html, size_t html_len)
     }
 
     /* Destroy parser */
-    lxb_html_parser_destroy(parser, true);
+    lxb_html_parser_destroy(parser);
 
     return document;
 }
