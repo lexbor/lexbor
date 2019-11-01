@@ -276,13 +276,10 @@ lxb_inline lxb_status_t
 lxb_utils_http_parse_field(lxb_utils_http_t *http, const lxb_char_t **data,
                            const lxb_char_t *end)
 {
-    bool is_new;
-    lxb_status_t status;
     lexbor_str_t *str;
     const lxb_char_t *p;
 
     str = &http->tmp;
-    is_new = str->length == 0;
 
     p = memchr(*data, '\n', (end - *data));
 
@@ -323,23 +320,6 @@ lxb_utils_http_parse_field(lxb_utils_http_t *http, const lxb_char_t **data,
     }
 
     http->state = LXB_UTILS_HTTP_STATE_HEAD_END;
-
-    /* After version? */
-    if (is_new) {
-        return LXB_STATUS_OK;
-    }
-
-    status = lxb_utils_http_split_field(http, str);
-    if (status != LXB_STATUS_OK) {
-        return status;
-    }
-
-    lexbor_str_clean_all(&http->tmp);
-
-    lexbor_str_init(&http->tmp, http->mraw, 64);
-    if (http->tmp.data == NULL) {
-        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-    }
 
     return LXB_STATUS_OK;
 
@@ -444,6 +424,17 @@ lxb_utils_http_parse(lxb_utils_http_t *http,
         if (status != LXB_STATUS_OK) {
             return status;
         }
+    }
+
+    /*
+     * TODO:
+     * We cannot know whether we have a body or not.
+     * Need to implementation reading of the body.
+     *
+     * Please, see Content-Length and Transfer-Encoding with "chunked".
+     */
+    if (http->state == LXB_UTILS_HTTP_STATE_HEAD_END) {
+        return LXB_STATUS_OK;
     }
 
     return LXB_STATUS_NEXT;
