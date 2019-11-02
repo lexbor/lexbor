@@ -265,7 +265,9 @@ MACRO(APPEND_TESTS name_prefix sources)
         get_filename_component(build_dir ${src} DIRECTORY)
 
         STRING(REGEX REPLACE "^${CMAKE_CURRENT_SOURCE_DIR}" "/" relative_path ${build_dir})
+
         set(relative_path "${relative_path}/${barename}")
+        STRING(REGEX REPLACE "^/+" "" relative_path ${relative_path})
 
         STRING(REGEX REPLACE "/+" "_" arg_name ${relative_path})
         STRING(REGEX REPLACE "^_+" "" arg_name ${arg_name})
@@ -273,7 +275,7 @@ MACRO(APPEND_TESTS name_prefix sources)
         STRING(REGEX REPLACE "^${LEXBOR_DIR_ROOT}" "" build_dir ${build_dir})
         STRING(REGEX REPLACE "^/+" "" build_dir ${build_dir})
 
-        add_test("${name_prefix}${barename}" "${CMAKE_BINARY_DIR}/${build_dir}/${barename}"
+        add_test("${name_prefix}${arg_name}" "${CMAKE_BINARY_DIR}/${build_dir}/${barename}"
                  "${${arg_name}_arg}")
 
         FOREACH(i RANGE 100)

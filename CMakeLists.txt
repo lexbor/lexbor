@@ -245,18 +245,18 @@ IF(${LEXBOR_HAVE_ASAN})
 ENDIF()
 
 ################
-## Examples
-#########################
-IF(LEXBOR_BUILD_EXAMPLES)
-    add_subdirectory(examples)
-ENDIF()
-
-################
 ## Tests
 #########################
 IF(LEXBOR_BUILD_TESTS)
     enable_testing()
     add_subdirectory(test)
+ENDIF()
+
+################
+## Examples
+#########################
+IF(LEXBOR_BUILD_EXAMPLES)
+    add_subdirectory(examples)
 ENDIF()
 
 ################
