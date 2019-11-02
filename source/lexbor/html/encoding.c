@@ -458,6 +458,8 @@ name_state:
             case 0x09: case 0x0A:
             case 0x0C: case 0x0D:
             case 0x20:
+                *name_end = data;
+
                 data++;
                 goto spaces_state;
 

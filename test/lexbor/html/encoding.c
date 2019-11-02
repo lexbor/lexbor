@@ -194,6 +194,9 @@ TEST_BEGIN(by_meta)
 
     status = check("<meta charset=\"windows-1251\" name=\"viewport\" content=\"width\">", "windows-1251", 0);
     test_eq(status, LXB_STATUS_OK);
+
+    status = check("<meta bu charset=\"windows-1251\" be name=\"viewport\" bu content=\"width\" be>", "windows-1251", 0);
+    test_eq(status, LXB_STATUS_OK);
 }
 TEST_END
 
