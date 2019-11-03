@@ -624,6 +624,10 @@ lxb_utils_warc_parse_block(lxb_utils_warc_t *warc, const lxb_char_t **data,
 
         if (warc->skip == false && warc->content_cb != NULL) {
             status = warc->content_cb(warc, *data, end);
+
+            if (status != LXB_STATUS_OK) {
+                warc->skip = true;
+            }
         }
 
         warc->content_read = warc->content_length;
@@ -637,6 +641,10 @@ lxb_utils_warc_parse_block(lxb_utils_warc_t *warc, const lxb_char_t **data,
 
     if (warc->skip == false && warc->content_cb != NULL) {
         status = warc->content_cb(warc, *data, end);
+
+        if (status != LXB_STATUS_OK) {
+            warc->skip = true;
+        }
     }
 
     warc->content_read += end - *data;
