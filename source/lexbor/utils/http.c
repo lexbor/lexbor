@@ -10,7 +10,7 @@
 
 
 #ifndef LXB_UTILS_HTTP_MAX_HEADER_FIELD
-    #define LXB_UTILS_HTTP_MAX_HEADER_FIELD 4096 * 4
+    #define LXB_UTILS_HTTP_MAX_HEADER_FIELD 4096 * 32
 #endif
 
 
@@ -205,7 +205,7 @@ lxb_utils_http_parse_version(lxb_utils_http_t *http, const lxb_char_t **data,
         *data = end;
 
         if (str->length > LXB_UTILS_HTTP_MAX_HEADER_FIELD) {
-            goto failed;
+            goto to_large;
         }
 
         return LXB_STATUS_OK;
@@ -224,6 +224,10 @@ lxb_utils_http_parse_version(lxb_utils_http_t *http, const lxb_char_t **data,
     }
 
     (void) lexbor_str_length_set(str, http->mraw, (str->length - 1));
+
+    if (str->length > LXB_UTILS_HTTP_MAX_HEADER_FIELD) {
+        goto to_large;
+    }
 
     if (lexbor_str_data_ncasecmp(str->data,
                                  (const lxb_char_t *) "HTTP/", 5) == false)
@@ -264,6 +268,12 @@ lxb_utils_http_parse_version(lxb_utils_http_t *http, const lxb_char_t **data,
     http->tmp.length = 0;
 
     return LXB_STATUS_OK;
+
+to_large:
+
+    http->error = "Too large header version field.";
+
+    return LXB_STATUS_ABORTED;
 
 failed:
 
@@ -314,6 +324,10 @@ lxb_utils_http_parse_field(lxb_utils_http_t *http, const lxb_char_t **data,
 
     /* Check for end of header */
     if (str->length != 0) {
+        if (str->length > LXB_UTILS_HTTP_MAX_HEADER_FIELD) {
+            goto to_large;
+        }
+
         http->state = LXB_UTILS_HTTP_STATE_HEAD_FIELD_WS;
 
         return LXB_STATUS_OK;
