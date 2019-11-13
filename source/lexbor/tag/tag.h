@@ -16,7 +16,6 @@ extern "C" {
 #include "lexbor/core/dobject.h"
 #include "lexbor/core/str.h"
 
-#include "lexbor/ns/const.h"
 #include "lexbor/tag/const.h"
 
 

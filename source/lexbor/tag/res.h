@@ -24,14 +24,6 @@
 #error You need to include "lexbor/tag/const.h".
 #endif /* LXB_TAG_CONST_VERSION */
 
-#ifdef LXB_NS_CONST_VERSION
-#ifndef LXB_NS_CONST_VERSION_253D4AFDA959234B48A478B956C3C777
-#error Mismatched namespaces version! See "lexbor/ns/const.h".
-#endif /* LXB_NS_CONST_VERSION_253D4AFDA959234B48A478B956C3C777 */
-#else
-#error You need to include "lexbor/ns/const.h".
-#endif /* LXB_NS_CONST_VERSION */
-
 #ifdef LXB_TAG_RES_DATA_DEFAULT
 #ifndef LXB_TAG_RES_DATA_DEFAULT_ENABLED
 #define LXB_TAG_RES_DATA_DEFAULT_ENABLED

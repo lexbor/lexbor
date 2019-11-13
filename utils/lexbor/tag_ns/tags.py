@@ -429,7 +429,6 @@ class Tags:
         lxb_temp = LXB.Temp(temp_file, save_to)
 
         lxb_temp.pattern_append("%%CHECK_TAG_VERSION%%", self.enum_hash_ifdef())
-        lxb_temp.pattern_append("%%CHECK_NS_VERSION%%", self.ns_hash_ifdef())
         lxb_temp.pattern_append("%%TAG_DATA%%", ''.join(self.tag_data_create_default()))
         lxb_temp.pattern_append("%%SHS_DATA%%", ''.join(data))
 

@@ -18,8 +18,6 @@
 
 %%CHECK_TAG_VERSION%%
 
-%%CHECK_NS_VERSION%%
-
 %%TAG_DATA%%
 
 %%SHS_DATA%%
