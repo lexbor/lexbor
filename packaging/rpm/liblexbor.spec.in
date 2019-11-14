@@ -55,10 +55,12 @@ rm -rf %{buildroot}
 %doc README.md LICENSE NOTICE
 %{_libdir}/%{name}.*
 %exclude %{_libdir}/*.a
+%exclude %{_libdir}/%{name}.%{lib_ext}
 
 %files devel
 %defattr(-,root,root,-)
 %doc README.md LICENSE NOTICE
+%{_libdir}/%{name}.%{lib_ext}
 %{_libdir}/%{name}_static.a
 %{_includedir}/*
 
