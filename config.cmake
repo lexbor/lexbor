@@ -67,7 +67,7 @@ MACRO(LIST_TO_COLUMN tlist column join_by out_result)
 
         STRING(LENGTH "${tmp}" str_len)
 
-        IF("${str_len}" GREATER_EQUAL "${column}")
+        IF("${str_len}" GREATER "${column}" OR "${str_len}" EQUAL "${column}")
             set(out "${out}\n${line}${join_by_cls}")
 
             set(line "")
