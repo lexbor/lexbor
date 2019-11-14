@@ -1,4 +1,7 @@
 set(DEPENDENCIES "")
+set(DESCRIPTION "The main module of the Lexbor project.
+The module includes various algorithms and methods for working with memory:
+AVL Tree, Array, String, Memory Pool and so on.")
 
 # For LEXBOR_BUILD_SEPARATELY is ON
 IF(TARGET ${CURRENT_LIB_NAME})

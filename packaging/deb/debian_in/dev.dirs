@@ -1,2 +1,2 @@
 usr/lib/%%ARCH%%
-usr/include
+%%INCLUDES%%

@@ -52,6 +52,56 @@ endif (WIN32)
 ################
 ## Macro
 #########################
+MACRO(LIST_TO_COLUMN tlist column join_by out_result)
+    set(out "")
+    set(line "")
+
+    STRING(STRIP ${join_by} join_by_cls)
+
+    FOREACH(mname ${tlist})
+        IF(NOT "${line}" STREQUAL "")
+            set(tmp "${line}${join_by}${mname}")
+        ELSE()
+            set(tmp "${mname}")
+        ENDIF()
+
+        STRING(LENGTH "${tmp}" str_len)
+
+        IF("${str_len}" GREATER_EQUAL "${column}")
+            set(out "${out}\n${line}${join_by_cls}")
+
+            set(line "")
+            set(tmp "${mname}")
+        ENDIF()
+
+        set(line ${tmp})
+    ENDFOREACH()
+
+    IF(NOT "${line}" STREQUAL "")
+        set(out "${out}\n${line}")
+    ENDIF()
+
+    STRING(STRIP ${out} out)
+    set(${out_result} ${out})
+
+    unset(line)
+    unset(out)
+ENDMACRO()
+
+MACRO(SUBDIRLIST curdir prefix postfix out_result)
+    FILE(GLOB_RECURSE children LIST_DIRECTORIES true RELATIVE ${curdir} ${curdir}/*)
+
+    SET(dirlist "")
+
+    FOREACH(child ${children})
+        IF(IS_DIRECTORY "${curdir}/${child}")
+            LIST(APPEND dirlist "${prefix}${child}${postfix}")
+        ENDIF()
+    ENDFOREACH()
+
+    SET(${out_result} ${dirlist})
+ENDMACRO()
+
 MACRO(GET_MODULES_SUB_LIST modules curdir)
     FILE(GLOB children ${curdir}/ ${curdir}/*)
 
@@ -86,24 +136,56 @@ ENDMACRO()
 MACRO(INCLUDE_MODULE_CONFIG pname module module_dir)
     set(conf_path "${module_dir}/config.cmake")
 
-    set(DEPENDENCIES "")
-
-    IF(EXISTS "${conf_path}")
-        set(CURRENT_LIB_NAME "${PROJECT_NAME}-${module}")
-        set(CURRENT_LIB_NAME_STATIC "${PROJECT_NAME}-${module}-static")
-
-        include("${conf_path}")
-    ENDIF()
-
-    IF(NOT DEPENDENCIES STREQUAL "")
-        STRING(REGEX REPLACE "[ \t\n]+" " " DEPENDENCIES ${DEPENDENCIES})
-    ENDIF()
-
     string(TOUPPER ${module} module_upper)
     string(TOUPPER ${pname} pname_upper)
 
-    set(tmp "${pname_upper}_${module_upper}_DEPENDENCIES")
-    set(${tmp} "${DEPENDENCIES}")
+    set(tmp "${pname_upper}_${module_upper}_INCLUDED")
+
+    IF("${${tmp}}" STREQUAL "")
+        set(${tmp} TRUE)
+
+        set(DEPENDENCIES "")
+
+        IF(EXISTS "${conf_path}")
+            set(CURRENT_LIB_NAME "${PROJECT_NAME}-${module}")
+            set(CURRENT_LIB_NAME_STATIC "${PROJECT_NAME}-${module}-static")
+
+            include("${conf_path}")
+        ENDIF()
+
+        IF(NOT DEPENDENCIES STREQUAL "")
+            STRING(REGEX REPLACE "[ \t\n]+" " " DEPENDENCIES ${DEPENDENCIES})
+        ENDIF()
+
+        set(tmp "${pname_upper}_${module_upper}_DEPENDENCIES")
+        set(${tmp} "${DEPENDENCIES}")
+
+        set(tmp "${pname_upper}_${module_upper}_TITLE")
+        set(${tmp} "${TITLE}")
+
+        set(tmp "${pname_upper}_${module_upper}_DESCRIPTION")
+        set(${tmp} "${DESCRIPTION}")
+    ENDIF()
+ENDMACRO()
+
+MACRO(GET_MODULE_TITLE pname module result)
+    string(TOUPPER ${module} module_upper)
+    string(TOUPPER ${pname} pname_upper)
+
+    set(${result} "${${pname_upper}_${module_upper}_TITLE}")
+
+    unset(module_upper)
+    unset(pname_upper)
+ENDMACRO()
+
+MACRO(GET_MODULE_DESCRIPTION pname module result)
+    string(TOUPPER ${module} module_upper)
+    string(TOUPPER ${pname} pname_upper)
+
+    set(${result} "${${pname_upper}_${module_upper}_DESCRIPTION}")
+
+    unset(module_upper)
+    unset(pname_upper)
 ENDMACRO()
 
 MACRO(GET_MODULE_DEPENDENCIES pname module result)
@@ -111,6 +193,19 @@ MACRO(GET_MODULE_DEPENDENCIES pname module result)
     string(TOUPPER ${pname} pname_upper)
 
     set(${result} "${${pname_upper}_${module_upper}_DEPENDENCIES}")
+
+    unset(module_upper)
+    unset(pname_upper)
+ENDMACRO()
+
+MACRO(GET_MODULE_INCLUDED pname module result)
+    string(TOUPPER ${module} module_upper)
+    string(TOUPPER ${pname} pname_upper)
+
+    set(${result} "${${pname_upper}_${module_upper}_INCLUDED}")
+
+    unset(module_upper)
+    unset(pname_upper)
 ENDMACRO()
 
 MACRO(GET_MODULE_RESURSES headers sources source_dir pname module)
@@ -134,25 +229,33 @@ MACRO(GET_MODULE_VERSION major minor patch vstr source_dir pname module)
     set(version_file "${source_dir}/${pname}/${module}/base.h")
     set(version_prefix "LXB_${module_upper}_VERSION")
 
-    IF(module STREQUAL "core")
+    IF(${module} STREQUAL "core")
         set(version_prefix "LEXBOR_VERSION")
     ENDIF()
 
-    file(STRINGS ${version_file} VERSION_PARTS
-         REGEX "^#define[ \t]+${version_prefix}_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+$")
+    set(version_cache "${version_prefix}_CACHE")
 
-    list(GET VERSION_PARTS 0 VERSION_MAJOR_PART)
-    list(GET VERSION_PARTS 1 VERSION_MINOR_PART)
-    list(GET VERSION_PARTS 2 VERSION_PATCH_PART)
+    IF(NOT "${${version_cache}}" STREQUAL "")
+        set(${vstr} "${${version_cache}}")
+    ELSE()
+        file(STRINGS ${version_file} VERSION_PARTS
+            REGEX "^#define[ \t]+${version_prefix}_(MAJOR|MINOR|PATCH)[ \t]+[0-9]+$")
 
-    string(REGEX REPLACE "#define[ \t]+${version_prefix}_MAJOR[ \t]+([0-9]+).*" "\\1" A ${VERSION_MAJOR_PART})
-    string(REGEX REPLACE "#define[ \t]+${version_prefix}_MINOR[ \t]+([0-9]+).*" "\\1" B ${VERSION_MINOR_PART})
-    string(REGEX REPLACE "#define[ \t]+${version_prefix}_PATCH[ \t]+([0-9]+).*" "\\1" C ${VERSION_PATCH_PART})
+        list(GET VERSION_PARTS 0 VERSION_MAJOR_PART)
+        list(GET VERSION_PARTS 1 VERSION_MINOR_PART)
+        list(GET VERSION_PARTS 2 VERSION_PATCH_PART)
 
-    set(${major} ${A})
-    set(${minor} ${B})
-    set(${patch} ${C})
-    set(${vstr} "${A}.${B}.${C}")
+        string(REGEX REPLACE "#define[ \t]+${version_prefix}_MAJOR[ \t]+([0-9]+).*" "\\1" A ${VERSION_MAJOR_PART})
+        string(REGEX REPLACE "#define[ \t]+${version_prefix}_MINOR[ \t]+([0-9]+).*" "\\1" B ${VERSION_MINOR_PART})
+        string(REGEX REPLACE "#define[ \t]+${version_prefix}_PATCH[ \t]+([0-9]+).*" "\\1" C ${VERSION_PATCH_PART})
+
+        set(${major} ${A})
+        set(${minor} ${B})
+        set(${patch} ${C})
+        set(${vstr} "${A}.${B}.${C}")
+
+        set(${version_cache} "${${vstr}}")
+    ENDIF()
 ENDMACRO()
 
 MACRO(GET_LEXBOR_VERSION major minor patch vstr)
@@ -312,6 +415,416 @@ MACRO(FIND_AND_APPEND_SUB_DIRS npath skip_error)
             ENDIF()
         ENDIF()
     ENDFOREACH()
+ENDMACRO()
+
+MACRO(MAKE_RPM_SPEC module libname out_result)
+    INCLUDE_MODULE_CONFIG(${PROJECT_NAME} ${module} "${LEXBOR_SOURCE_LEXBOR}/${module}")
+
+    GET_MODULE_VERSION(major minor patch version_string
+                       "${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${module})
+    GET_MODULE_DEPENDENCIES(${PROJECT_NAME} ${module} deps)
+
+    set(requires "")
+    set(requires_devel "")
+
+    IF(NOT ${deps} STREQUAL "")
+        string(REPLACE " " ";" deps ${deps})
+    ENDIF()
+
+    FOREACH(dep ${deps})
+        IF(${dep} STREQUAL "")
+            CONTINUE()
+        ENDIF()
+
+        GET_MODULE_VERSION(dep_major dep_minor dep_patch dep_version_string
+                           "${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${dep})
+
+        set(dep_libname "${PROJECT_NAME}-${dep}")
+        set(requires "${requires}Requires: lib${dep_libname} = %{epoch}:${dep_version_string}-%{release}\n")
+        set(requires_devel "${requires_devel}Requires: lib${dep_libname}-devel = %{epoch}:${dep_version_string}-%{release}\n")
+    ENDFOREACH()
+
+    file(READ "${CMAKE_CURRENT_SOURCE_DIR}/packaging/rpm/liblexbor-module.spec.in" rpm_module_in)
+
+    GET_MODULE_DESCRIPTION("${PROJECT_NAME}" ${module} desc)
+
+    STRING(REGEX REPLACE "%%NAME%%" "${module}" rpm_module_in ${rpm_module_in})
+    STRING(REGEX REPLACE "%%LIBNAME%%" "${libname}" rpm_module_in ${rpm_module_in})
+    STRING(REGEX REPLACE "%%VERSION%%" "${version_string}" rpm_module_in ${rpm_module_in})
+    STRING(REGEX REPLACE "%%REQUIRES%%" "${requires}" rpm_module_in ${rpm_module_in})
+    STRING(REGEX REPLACE "%%REQUIRES_DEVEL%%" "${requires_devel}" rpm_module_in ${rpm_module_in})
+    STRING(REGEX REPLACE "%%DESCRIPTION%%" "${desc}" rpm_module_in ${rpm_module_in})
+
+    set(${out_result} ${rpm_module_in})
+ENDMACRO()
+
+MACRO(CREATE_RPM_SPEC_FILE)
+    set(modules_specs "")
+    set(req_modules "")
+    set(req_modules_devel "")
+
+    FOREACH(module ${LEXBOR_MODULES})
+        set(libname "${PROJECT_NAME}-${module}")
+
+        MAKE_RPM_SPEC(${module} ${libname} module_spec)
+
+        set(modules_specs "${modules_specs}${module_spec}\n")
+
+        GET_MODULE_VERSION(major minor patch version_string
+                        "${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${module})
+
+        set(req_modules "${req_modules}Requires: lib${libname} = %{epoch}:${version_string}-%{release}\n")
+        set(req_modules_devel "${req_modules_devel}Requires: lib${libname}-devel = %{epoch}:${version_string}-%{release}\n")
+    ENDFOREACH()
+
+    STRING(STRIP ${modules_specs} modules_specs)
+
+    set(sorted_modules ${LEXBOR_MODULES})
+    LIST(SORT sorted_modules)
+
+    LIST_TO_COLUMN("${sorted_modules}" "80" ", " modules_names)
+
+    file(READ "${CMAKE_CURRENT_SOURCE_DIR}/packaging/rpm/liblexbor.spec.in"
+        rpm_spec_in)
+
+    STRING(REGEX REPLACE "%%REQUIRES%%" "${req_modules}" rpm_spec_in ${rpm_spec_in})
+    STRING(REGEX REPLACE "%%REQUIRES_DEVEL%%" "${req_modules_devel}" rpm_spec_in ${rpm_spec_in})
+    STRING(REGEX REPLACE "%%MODULES_SPECS%%" "${modules_specs}" rpm_spec_in ${rpm_spec_in})
+    STRING(REGEX REPLACE "%%MODULES_NAMES%%" "${modules_names}" rpm_spec_in ${rpm_spec_in})
+
+    file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/packaging/rpm/liblexbor.spec"
+        "${rpm_spec_in}")
+
+    unset(modules_specs)
+    unset(req_modules)
+    unset(req_modules_devel)
+ENDMACRO()
+
+MACRO(CREATE_DEB_DIRS with_inc module libname arch debian_in_dir debian_dir)
+    file(READ "${debian_in_dir}/dirs" dirs)
+    file(READ "${debian_in_dir}/dev.dirs" dev_dirs)
+    file(READ "${debian_in_dir}/install" inst)
+    file(READ "${debian_in_dir}/dev.install" dev_inst)
+
+    STRING(REGEX REPLACE "%%ARCH%%" "${arch}" dirs "${dirs}")
+    STRING(REGEX REPLACE "%%ARCH%%" "${arch}" dev_dirs "${dev_dirs}")
+    STRING(REGEX REPLACE "%%ARCH%%" "${arch}" inst "${inst}")
+    STRING(REGEX REPLACE "%%ARCH%%" "${arch}" dev_inst "${dev_inst}")
+    STRING(REGEX REPLACE "%%LIBNAME%%" "${libname}" inst "${inst}")
+    STRING(REGEX REPLACE "%%LIBNAME%%" "${libname}" dev_inst "${dev_inst}")
+
+    IF(${with_inc})
+        IF(NOT ${module} STREQUAL "")
+            STRING(REGEX REPLACE "%%INCLUDES%%" "usr/include/lexbor/${module}" dev_dirs "${dev_dirs}")
+            STRING(REGEX REPLACE "%%INCLUDES%%" "usr/include/lexbor/${module}" dev_inst "${dev_inst}")
+        ELSE()
+            STRING(REGEX REPLACE "%%INCLUDES%%" "usr/include/lexbor" dev_dirs "${dev_dirs}")
+            STRING(REGEX REPLACE "%%INCLUDES%%" "usr/include/lexbor" dev_inst "${dev_inst}")
+        ENDIF()
+    ELSE()
+        STRING(REGEX REPLACE "%%INCLUDES%%" "" dev_dirs "${dev_dirs}")
+        STRING(REGEX REPLACE "%%INCLUDES%%" "" dev_inst "${dev_inst}")
+    ENDIF()
+
+    file(WRITE "${debian_dir}/lib${libname}.dirs" "${dirs}")
+    file(WRITE "${debian_dir}/lib${libname}-dev.dirs" "${dev_dirs}")
+    file(WRITE "${debian_dir}/lib${libname}.install" "${inst}")
+    file(WRITE "${debian_dir}/lib${libname}-dev.install" "${dev_inst}")
+
+    unset(dirs)
+    unset(dev_dirs)
+    unset(inst)
+    unset(dev_inst)
+ENDMACRO()
+
+MACRO(PACKAGE_DEB_CREATE_MAKEFILES)
+    set(mkdeps "")
+    set(mkmodules "")
+
+    # Create deps for modules
+    file(READ "${CMAKE_CURRENT_SOURCE_DIR}/packaging/deb/Makefile.module.in" mkmodule_in)
+
+    FOREACH(module ${LEXBOR_MODULES})
+        set(libname "${PROJECT_NAME}-${module}")
+        set(module_out "${mkmodule_in}")
+        set(deps_cp "")
+
+        INCLUDE_MODULE_CONFIG(${PROJECT_NAME} ${module} "${LEXBOR_SOURCE_LEXBOR}/${module}")
+
+        GET_MODULE_VERSION(major minor patch version_string
+                           "${LEXBOR_SOURCE}" ${PROJECT_NAME} ${module})
+        GET_MODULE_DEPENDENCIES(${PROJECT_NAME} ${module} deps)
+
+        LIST(APPEND mkdeps "lib${libname}")
+        LIST(APPEND deps_cp "source/${PROJECT_NAME}/${module}")
+        LIST(APPEND deps_cp "source/${PROJECT_NAME}/ports/${LEXBOR_OS_PORT_NAME}/config.cmake")
+
+        set(port_path "source/${PROJECT_NAME}/ports/${LEXBOR_OS_PORT_NAME}/${PROJECT_NAME}/${module}")
+
+        IF(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${port_path}")
+            LIST(APPEND deps_cp "${port_path}")
+        ENDIF()
+
+        IF(NOT ${deps} STREQUAL "")
+            string(REPLACE " " ";" deps ${deps})
+
+            FOREACH(dep ${deps})
+                LIST(APPEND deps_cp "source/${PROJECT_NAME}/${dep}")
+
+                set(port_path "source/${PROJECT_NAME}/ports/${LEXBOR_OS_PORT_NAME}/${PROJECT_NAME}/${dep}")
+
+                IF(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/${port_path}")
+                    LIST(APPEND deps_cp "${port_path}")
+                ENDIF()
+            ENDFOREACH()
+        ENDIF()
+
+        LIST(JOIN deps_cp " " deps_cp)
+
+        STRING(REGEX REPLACE "%%MODULE%%" "${module}" module_out "${module_out}")
+        STRING(REGEX REPLACE "%%LIBNAME%%" "${libname}" module_out "${module_out}")
+        STRING(REGEX REPLACE "%%MODULE_VERSION%%" "${version_string}" module_out "${module_out}")
+        STRING(REGEX REPLACE "%%FOR_COPY%%" "${deps_cp}" module_out "${module_out}")
+
+        set(mkmodules "${mkmodules}\n# ${module}\n${module_out}")
+    ENDFOREACH()
+
+    # Create Makefile
+    file(READ "${CMAKE_CURRENT_SOURCE_DIR}/packaging/deb/Makefile.in" mkfile_in)
+
+    LIST(JOIN mkdeps " " mkdeps)
+    STRING(REGEX REPLACE "%%MODULES_DEPS%%" "${mkdeps}" mkfile_in "${mkfile_in}")
+    STRING(REGEX REPLACE "%%MODULES%%" "${mkmodules}" mkfile_in "${mkfile_in}")
+
+    file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/packaging/deb/Makefile" "${mkfile_in}")
+
+    unset(port_path)
+    unset(mkdeps)
+    unset(mkmodules)
+    unset(deps_cp)
+    unset(libname)
+    unset(mkfile_in)
+    unset(module_out)
+    unset(mkmodule_in)
+ENDMACRO()
+
+MACRO(PACKAGE_DEB_CREATE_DEBIAN_MAIN)
+    set(debian_dir "${CMAKE_CURRENT_SOURCE_DIR}/packaging/deb/debian/${PROJECT_NAME}")
+    set(debian_in_dir "${CMAKE_CURRENT_SOURCE_DIR}/packaging/deb/debian_main_in")
+
+    message(STATUS "Create DEB files for \"${PROJECT_NAME}\": ${debian_dir}")
+
+    set(deps "${LEXBOR_MODULES}")
+
+    file(MAKE_DIRECTORY "${debian_dir}/source")
+
+    # changelog
+    file(READ "${debian_in_dir}/changelog" data)
+    STRING(REGEX REPLACE "%%LIBNAME%%" "${PROJECT_NAME}" data "${data}")
+    file(WRITE "${debian_dir}/changelog" "${data}")
+
+    # compat
+    file(COPY "${debian_in_dir}/compat" DESTINATION "${debian_dir}")
+
+    # docs
+    file(COPY "${debian_in_dir}/docs" DESTINATION "${debian_dir}")
+
+    # rules
+    file(COPY "${debian_in_dir}/rules" DESTINATION "${debian_dir}")
+
+    # source/format
+    file(COPY "${debian_in_dir}/source/format" DESTINATION "${debian_dir}/source")
+
+    # control
+    file(READ "${debian_in_dir}/control" data)
+    STRING(REGEX REPLACE "%%VERSION%%" "${LEXBOR_VERSION_STRING}" data "${data}")
+
+    # control -- sort modules
+    set(sorted_modules ${deps})
+    LIST(SORT sorted_modules)
+
+    LIST_TO_COLUMN("${sorted_modules}" "79" ", " modules_names)
+
+    IF(NOT ${modules_names} STREQUAL "")
+        STRING(REGEX REPLACE "\n" "\n " modules_names ${modules_names})
+        STRING(STRIP ${modules_names} modules_names)
+    ENDIF()
+
+    # control -- replace and save
+    STRING(REGEX REPLACE "%%NAME%%" "${module}" data "${data}")
+    STRING(REGEX REPLACE "%%LIBNAME%%" "${PROJECT_NAME}" data "${data}")
+    STRING(REGEX REPLACE "%%MODULES_NAMES%%" "${modules_names}" data ${data})
+
+    file(WRITE "${debian_dir}/control" "${data}")
+
+    # copyright
+    file(READ "${debian_in_dir}/copyright" data)
+
+    set(files "")
+    string(TIMESTAMP year "%Y")
+
+    SUBDIRLIST("${CMAKE_CURRENT_SOURCE_DIR}/source" "source/" "/*" dirs_list)
+
+    LIST(APPEND files ${dirs_list})
+    LIST(JOIN files "\n " files)
+
+    STRING(REGEX REPLACE "%%YEAR%%" "${year}" data "${data}")
+    STRING(REGEX REPLACE "%%FILES%%" "${files}" data "${data}")
+
+    file(WRITE "${debian_dir}/copyright" "${data}")
+
+    # dirs and install
+    CREATE_DEB_DIRS(TRUE "" ${PROJECT_NAME} "${arch}" "${debian_in_dir}" "${debian_dir}")
+ENDMACRO()
+
+MACRO(PACKAGE_DEB_CREATE_DEBIAN arch)
+    PACKAGE_DEB_CREATE_DEBIAN_MAIN(${arch})
+
+    FOREACH(module ${LEXBOR_MODULES})
+        set(libname "${PROJECT_NAME}-${module}")
+        set(debian_dir "${CMAKE_CURRENT_SOURCE_DIR}/packaging/deb/debian/${module}")
+        set(debian_in_dir "${CMAKE_CURRENT_SOURCE_DIR}/packaging/deb/debian_in")
+
+        message(STATUS "Create DEB files for \"${module}\": ${debian_dir}")
+
+        INCLUDE_MODULE_CONFIG(${PROJECT_NAME} ${module} "${LEXBOR_SOURCE_LEXBOR}/${module}")
+
+        GET_MODULE_VERSION(major minor patch version_string
+                           "${LEXBOR_SOURCE}" ${PROJECT_NAME} ${module})
+        GET_MODULE_DEPENDENCIES(${PROJECT_NAME} ${module} deps)
+
+        IF(NOT "${deps}" STREQUAL "")
+            string(REPLACE " " ";" deps ${deps})
+        ENDIF()
+
+        file(MAKE_DIRECTORY "${debian_dir}/source")
+
+        # changelog
+        file(READ "${debian_in_dir}/changelog" data)
+        STRING(REGEX REPLACE "%%LIBNAME%%" "${libname}" data "${data}")
+        file(WRITE "${debian_dir}/changelog" "${data}")
+
+        # compat
+        file(COPY "${debian_in_dir}/compat" DESTINATION "${debian_dir}")
+
+        # docs
+        file(COPY "${debian_in_dir}/docs" DESTINATION "${debian_dir}")
+
+        # rules
+        file(COPY "${debian_in_dir}/rules" DESTINATION "${debian_dir}")
+
+        # source/format
+        file(COPY "${debian_in_dir}/source/format" DESTINATION "${debian_dir}/source")
+
+        # control
+        file(READ "${debian_in_dir}/control" data)
+
+        # control -- Depends
+        set(requires "\${misc:Depends}, \${shlibs:Depends}")
+        set(requires_devel "\${misc:Depends}")
+
+        FOREACH(dep ${deps})
+            IF("${dep}" STREQUAL "")
+                CONTINUE()
+            ENDIF()
+
+            GET_MODULE_VERSION(dep_major dep_minor dep_patch dep_version_string
+                               "${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${dep})
+
+            set(dep_libname "${PROJECT_NAME}-${dep}")
+            LIST(APPEND requires "lib${dep_libname} (= ${dep_version_string})")
+            LIST(APPEND requires_devel "lib${dep_libname}-dev (= ${dep_version_string})")
+        ENDFOREACH()
+
+        LIST(JOIN requires ",\n         " requires)
+        LIST(JOIN requires_devel ",\n         " requires_devel)
+    
+        set(requires "Depends: ${requires}\n")
+        set(requires_devel "Depends: ${requires_devel}\n")
+
+        # control -- description
+        GET_MODULE_DESCRIPTION("${PROJECT_NAME}" ${module} desc)
+
+        IF(NOT "${desc}" STREQUAL "")
+            STRING(REGEX REPLACE "\n" "\n " desc ${desc})
+            STRING(STRIP ${desc} desc)
+            set(desc " ${desc}")
+        ENDIF()
+
+        IF(NOT "${desc}" STREQUAL "")
+            STRING(REGEX REPLACE "(^|\n) (\n|$)" "\\1 .\\2" desc ${desc})
+        ENDIF()
+
+        # control -- replace and save
+        STRING(REGEX REPLACE "%%NAME%%" "${module}" data "${data}")
+        STRING(REGEX REPLACE "%%LIBNAME%%" "${libname}" data "${data}")
+        STRING(REGEX REPLACE "%%DEPENDS%%" "${requires}" data ${data})
+        STRING(REGEX REPLACE "%%DEPENDS_DEVEL%%" "${requires_devel}" data ${data})
+        STRING(REGEX REPLACE "%%DESCRIPTION%%" "${desc}" data ${data})
+
+        file(WRITE "${debian_dir}/control" "${data}")
+
+        # copyright
+        file(READ "${debian_in_dir}/copyright" data)
+
+        set(files "")
+        set(deps_with "${deps};${module}")
+        string(TIMESTAMP year "%Y")
+
+        FOREACH(dep ${deps_with})
+            IF("${dep}" STREQUAL "")
+                CONTINUE()
+            ENDIF()
+
+            SUBDIRLIST("${CMAKE_CURRENT_SOURCE_DIR}/source/${PROJECT_NAME}/${dep}"
+                       "source/${PROJECT_NAME}/${dep}/" "/*" dirs_list)
+            LIST(APPEND files "source/${PROJECT_NAME}/${dep}/*")
+            LIST(APPEND files ${dirs_list})
+        ENDFOREACH()
+
+        LIST(JOIN files "\n " files)
+
+        STRING(REGEX REPLACE "%%NAME%%" "${module}" data "${data}")
+        STRING(REGEX REPLACE "%%YEAR%%" "${year}" data "${data}")
+        STRING(REGEX REPLACE "%%FILES%%" "${files}" data "${data}")
+
+        file(WRITE "${debian_dir}/copyright" "${data}")
+
+        # dirs and install
+        CREATE_DEB_DIRS(TRUE ${module} ${libname} "${arch}" "${debian_in_dir}"
+                        "${debian_dir}")
+    ENDFOREACH()
+
+    unset(requires)
+    unset(requires_devel)
+    unset(dirs_list)
+    unset(files)
+    unset(year)
+    unset(deps)
+    unset(data)
+    unset(debian_in_dir)
+    unset(debian_dir)
+    unset(dep_libname)
+    unset(libname)
+    unset(arch)
+ENDMACRO()
+
+MACRO(CREATE_DEB_FILES)
+    execute_process(COMMAND "dpkg-architecture" "-qDEB_HOST_MULTIARCH"
+                    OUTPUT_VARIABLE arch)
+
+    IF("${arch}" STREQUAL "")
+        message(FATAL_ERROR "Failed to get current architecture")
+    ENDIF()
+
+    STRING(STRIP ${arch} arch)
+
+    PACKAGE_DEB_CREATE_MAKEFILES(${arch})
+    PACKAGE_DEB_CREATE_DEBIAN(${arch})
+
+    return()
+
+    unset(arch)
 ENDMACRO()
 
 ################

@@ -1,0 +1,1 @@
+usr/lib/lib%%LIBNAME%%*.so.* usr/lib/%%ARCH%%

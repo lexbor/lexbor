@@ -19,6 +19,8 @@ MACRO(FEATURE_TRY_FUNCTION_EXISTS target fname lib_name)
             message(FATAL_ERROR "checking for ${fname}() ... not found")
         ENDIF()
     ENDIF()
+
+    unset(test_result CACHE)
 ENDMACRO()
 
 MACRO(FEATURE_CHECK_ASAN out_result)

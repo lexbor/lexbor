@@ -49,8 +49,8 @@ say_yes=${say_yes=""}
 builddir=${builddir=build}
 base="liblexbor-$version"
 archive="$base.tar.gz"
-files="CMakeLists.txt config.cmake feature.cmake README.md INSTALL.md NOTICE LICENSE source"
-lib_extension=*.so*
+files="CMakeLists.txt config.cmake feature.cmake README.md INSTALL.md NOTICE LICENSE source version"
+lib_extension=so
 
 if [[ -z $version ]]; then
     echo $0: RPM build error: version argument not set.
@@ -63,7 +63,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
     echo "Linux"
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     echo "macOS"
-    lib_extension=*.dylib
+    lib_extension=dylib
 elif [[ "$OSTYPE" == "cygwin" ]]; then
     echo "Windows POSIX"
 elif [[ "$OSTYPE" == "msys" ]]; then

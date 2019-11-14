@@ -1,0 +1,25 @@
+debuild/%%MODULE%%/debian:
+	set -e ; \\
+	mkdir -p debuild/%%MODULE%%/debian ; \\
+	cp -pr debian/%%MODULE%%/* debuild/%%MODULE%%/debian/
+
+debuild/%%MODULE%%/debian/changelog: debuild/%%MODULE%%/debian
+	cat debuild/%%MODULE%%/debian/changelog | sed \\
+		-e "s#%%VERSION%%#%%MODULE_VERSION%%#g" \\
+		-e "s#%%RELEASE%%#$(RELEASE)#g" \\
+		-e "s#%%CODENAME%%#$(CODENAME)#g" \\
+		-e "s#%%DATE%%#$(DATE)#g" \\
+		> debuild/%%MODULE%%/debian/changelog.out
+	rm debuild/%%MODULE%%/debian/changelog
+	mv debuild/%%MODULE%%/debian/changelog.out debuild/%%MODULE%%/debian/changelog
+
+debuild/lib%%LIBNAME%%_%%MODULE_VERSION%%.orig.tar.gz: debuild/%%MODULE%%/debian/changelog
+	cd ../.. && tar -czf packaging/deb/debuild/%%MODULE%%.tar.gz \\
+		LICENSE NOTICE version CHANGELOG.md README.md CMakeLists.txt \\
+		config.cmake feature.cmake %%FOR_COPY%%
+	mv debuild/%%MODULE%%.tar.gz debuild/lib%%LIBNAME%%_%%MODULE_VERSION%%.orig.tar.gz
+	cd debuild/%%MODULE%% && tar zxf ../lib%%LIBNAME%%_%%MODULE_VERSION%%.orig.tar.gz
+
+lib%%LIBNAME%%: debuild/lib%%LIBNAME%%_%%MODULE_VERSION%%.orig.tar.gz
+	@echo "===> Building $@ package"
+	cd debuild/%%MODULE%% && debuild -us -uc
