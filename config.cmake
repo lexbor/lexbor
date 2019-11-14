@@ -52,6 +52,22 @@ endif (WIN32)
 ################
 ## Macro
 #########################
+MACRO(LIST_JOIN tlist glue out)
+    set(value "")
+    set(nlist "${${tlist}}")
+
+    FOREACH(entry ${nlist})
+        set(value "${entry}${glue}${value}")
+    ENDFOREACH()
+
+    STRING(REGEX REPLACE "${glue}\$" " " value ${value})
+
+    set(${out} "${value}")
+
+    unset(value)
+    unset(nlist)
+ENDMACRO()
+
 MACRO(LIST_TO_COLUMN tlist column join_by out_result)
     set(out "")
     set(line "")
@@ -88,16 +104,19 @@ MACRO(LIST_TO_COLUMN tlist column join_by out_result)
     unset(out)
 ENDMACRO()
 
-MACRO(SUBDIRLIST curdir prefix postfix out_result)
-    FILE(GLOB_RECURSE children LIST_DIRECTORIES true RELATIVE ${curdir} ${curdir}/*)
-
-    SET(dirlist "")
+MACRO(SUBDIRLIST_PRIVATE curdir prefix postfix to_list)
+    FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
 
     FOREACH(child ${children})
         IF(IS_DIRECTORY "${curdir}/${child}")
-            LIST(APPEND dirlist "${prefix}${child}${postfix}")
+            LIST(APPEND ${to_list} "${prefix}${child}${postfix}")
+            SUBDIRLIST_PRIVATE("${curdir}/${child}" "${prefix}${child}/" "${postfix}" ${to_list})
         ENDIF()
     ENDFOREACH()
+ENDMACRO()
+
+MACRO(SUBDIRLIST curdir prefix postfix out_result)
+    SUBDIRLIST_PRIVATE("${curdir}" "${prefix}" "${postfix}" dirlist)
 
     SET(${out_result} ${dirlist})
 ENDMACRO()
@@ -579,7 +598,7 @@ MACRO(PACKAGE_DEB_CREATE_MAKEFILES)
             ENDFOREACH()
         ENDIF()
 
-        LIST(JOIN deps_cp " " deps_cp)
+        LIST_JOIN(deps_cp " " deps_cp)
 
         STRING(REGEX REPLACE "%%MODULE%%" "${module}" module_out "${module_out}")
         STRING(REGEX REPLACE "%%LIBNAME%%" "${libname}" module_out "${module_out}")
@@ -592,7 +611,7 @@ MACRO(PACKAGE_DEB_CREATE_MAKEFILES)
     # Create Makefile
     file(READ "${CMAKE_CURRENT_SOURCE_DIR}/packaging/deb/Makefile.in" mkfile_in)
 
-    LIST(JOIN mkdeps " " mkdeps)
+    LIST_JOIN(mkdeps " " mkdeps)
     STRING(REGEX REPLACE "%%MODULES_DEPS%%" "${mkdeps}" mkfile_in "${mkfile_in}")
     STRING(REGEX REPLACE "%%MODULES%%" "${mkmodules}" mkfile_in "${mkfile_in}")
 
@@ -666,7 +685,7 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN_MAIN)
     SUBDIRLIST("${CMAKE_CURRENT_SOURCE_DIR}/source" "source/" "/*" dirs_list)
 
     LIST(APPEND files ${dirs_list})
-    LIST(JOIN files "\n " files)
+    LIST_JOIN(files "\n " files)
 
     STRING(REGEX REPLACE "%%YEAR%%" "${year}" data "${data}")
     STRING(REGEX REPLACE "%%FILES%%" "${files}" data "${data}")
@@ -736,8 +755,8 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN arch)
             LIST(APPEND requires_devel "lib${dep_libname}-dev (= ${dep_version_string})")
         ENDFOREACH()
 
-        LIST(JOIN requires ",\n         " requires)
-        LIST(JOIN requires_devel ",\n         " requires_devel)
+        LIST_JOIN(requires ",\n         " requires)
+        LIST_JOIN(requires_devel ",\n         " requires_devel)
     
         set(requires "Depends: ${requires}\n")
         set(requires_devel "Depends: ${requires_devel}\n")
@@ -782,7 +801,7 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN arch)
             LIST(APPEND files ${dirs_list})
         ENDFOREACH()
 
-        LIST(JOIN files "\n " files)
+        LIST_JOIN(files "\n " files)
 
         STRING(REGEX REPLACE "%%NAME%%" "${module}" data "${data}")
         STRING(REGEX REPLACE "%%YEAR%%" "${year}" data "${data}")
