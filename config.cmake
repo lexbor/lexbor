@@ -627,7 +627,7 @@ MACRO(PACKAGE_DEB_CREATE_MAKEFILES)
     unset(mkmodule_in)
 ENDMACRO()
 
-MACRO(PACKAGE_DEB_CREATE_DEBIAN_MAIN)
+MACRO(PACKAGE_DEB_CREATE_DEBIAN_MAIN arch codename curdate)
     set(debian_dir "${CMAKE_CURRENT_SOURCE_DIR}/packaging/deb/debian/${PROJECT_NAME}")
     set(debian_in_dir "${CMAKE_CURRENT_SOURCE_DIR}/packaging/deb/debian_main_in")
 
@@ -640,6 +640,10 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN_MAIN)
     # changelog
     file(READ "${debian_in_dir}/changelog" data)
     STRING(REGEX REPLACE "%%LIBNAME%%" "${PROJECT_NAME}" data "${data}")
+    STRING(REGEX REPLACE "%%VERSION%%" "${LEXBOR_VERSION_STRING}" data "${data}")
+    STRING(REGEX REPLACE "%%DISTRO%%" "${LEXBOR_MAKE_DISTRO_NUM}" data "${data}")
+    STRING(REGEX REPLACE "%%CODENAME%%" "${codename}" data "${data}")
+    STRING(REGEX REPLACE "%%DATE%%" "${curdate}" data "${data}")
     file(WRITE "${debian_dir}/changelog" "${data}")
 
     # compat
@@ -656,7 +660,7 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN_MAIN)
 
     # control
     file(READ "${debian_in_dir}/control" data)
-    STRING(REGEX REPLACE "%%VERSION%%" "${LEXBOR_VERSION_STRING}" data "${data}")
+    STRING(REGEX REPLACE "%%VERSION_DISTRO%%" "${LEXBOR_VERSION_STRING}-${LEXBOR_MAKE_DISTRO_NUM}~${codename}" data "${data}")
 
     # control -- sort modules
     set(sorted_modules ${deps})
@@ -696,8 +700,8 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN_MAIN)
     CREATE_DEB_DIRS(TRUE "" ${PROJECT_NAME} "${arch}" "${debian_in_dir}" "${debian_dir}")
 ENDMACRO()
 
-MACRO(PACKAGE_DEB_CREATE_DEBIAN arch)
-    PACKAGE_DEB_CREATE_DEBIAN_MAIN(${arch})
+MACRO(PACKAGE_DEB_CREATE_DEBIAN arch codename curdate)
+    PACKAGE_DEB_CREATE_DEBIAN_MAIN(${arch} "${codename}" "${curdate}")
 
     FOREACH(module ${LEXBOR_MODULES})
         set(libname "${PROJECT_NAME}-${module}")
@@ -721,6 +725,10 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN arch)
         # changelog
         file(READ "${debian_in_dir}/changelog" data)
         STRING(REGEX REPLACE "%%LIBNAME%%" "${libname}" data "${data}")
+        STRING(REGEX REPLACE "%%VERSION%%" "${version_string}" data "${data}")
+        STRING(REGEX REPLACE "%%DISTRO%%" "${LEXBOR_MAKE_DISTRO_NUM}" data "${data}")
+        STRING(REGEX REPLACE "%%CODENAME%%" "${codename}" data "${data}")
+        STRING(REGEX REPLACE "%%DATE%%" "${curdate}" data "${data}")
         file(WRITE "${debian_dir}/changelog" "${data}")
 
         # compat
@@ -739,8 +747,11 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN arch)
         file(READ "${debian_in_dir}/control" data)
 
         # control -- Depends
+        set(version_distro "${version_string}-${LEXBOR_MAKE_DISTRO_NUM}~${codename}")
+    
         set(requires "\${misc:Depends}, \${shlibs:Depends}")
         set(requires_devel "\${misc:Depends}")
+        set(requires_devel "lib${libname} (= ${version_distro})")
 
         FOREACH(dep ${deps})
             IF("${dep}" STREQUAL "")
@@ -750,9 +761,11 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN arch)
             GET_MODULE_VERSION(dep_major dep_minor dep_patch dep_version_string
                                "${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${dep})
 
+            set(dep_version_distro "${dep_version_string}-${LEXBOR_MAKE_DISTRO_NUM}~${codename}")
+
             set(dep_libname "${PROJECT_NAME}-${dep}")
-            LIST(APPEND requires "lib${dep_libname} (= ${dep_version_string})")
-            LIST(APPEND requires_devel "lib${dep_libname}-dev (= ${dep_version_string})")
+            LIST(APPEND requires "lib${dep_libname} (= ${dep_version_distro})")
+            LIST(APPEND requires_devel "lib${dep_libname}-dev (= ${dep_version_distro})")
         ENDFOREACH()
 
         LIST_JOIN(requires ",\n         " requires)
@@ -836,14 +849,29 @@ MACRO(CREATE_DEB_FILES)
         message(FATAL_ERROR "Failed to get current architecture")
     ENDIF()
 
+    execute_process(COMMAND "lsb_release" "-cs" OUTPUT_VARIABLE codename)
+
+    IF("${codename}" STREQUAL "")
+        message(FATAL_ERROR "Failed to get current codename")
+    ENDIF()
+
+    execute_process(COMMAND "date" "+%a, %d %b %Y %T +0300"
+                    OUTPUT_VARIABLE curdate)
+
+    IF("${curdate}" STREQUAL "")
+        message(FATAL_ERROR "Failed to get current date")
+    ENDIF()
+
     STRING(STRIP ${arch} arch)
+    STRING(STRIP ${codename} codename)
+    STRING(STRIP ${curdate} curdate)
 
     PACKAGE_DEB_CREATE_MAKEFILES(${arch})
-    PACKAGE_DEB_CREATE_DEBIAN(${arch})
-
-    return()
+    PACKAGE_DEB_CREATE_DEBIAN(${arch} "${codename}" "${curdate}")
 
     unset(arch)
+    unset(codename)
+    unset(curdate)
 ENDMACRO()
 
 ################

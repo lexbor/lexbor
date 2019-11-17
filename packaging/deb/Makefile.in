@@ -4,7 +4,6 @@ RELEASE ?= 1
 
 SRCDIR = liblexbor-$(VERSION)
 CODENAME = $(shell lsb_release -cs)
-DATE = $(shell date +"%a, %d %b %Y %T +0300")
 BUILD_DEPENDS = build-essential debhelper devscripts fakeroot lintian lsb-release xsltproc cmake
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
 
@@ -20,17 +19,7 @@ debuild/$(SRCDIR)/debian:
 	mkdir -p debuild/$(SRCDIR)/debian ; \
 	cp -pr debian/lexbor/* debuild/$(SRCDIR)/debian/
 
-debuild/$(SRCDIR)/debian/changelog: debuild/$(SRCDIR)/debian
-	cat debuild/$(SRCDIR)/debian/changelog | sed \
-		-e "s#%%VERSION%%#$(VERSION)#g" \
-		-e "s#%%RELEASE%%#$(RELEASE)#g" \
-		-e "s#%%CODENAME%%#$(CODENAME)#g" \
-		-e "s#%%DATE%%#$(DATE)#g" \
-		> debuild/$(SRCDIR)/debian/changelog.out
-	rm debuild/$(SRCDIR)/debian/changelog
-	mv debuild/$(SRCDIR)/debian/changelog.out debuild/$(SRCDIR)/debian/changelog
-
-debuild/liblexbor_$(VERSION).orig.tar.gz: debuild/$(SRCDIR)/debian/changelog
+debuild/liblexbor_$(VERSION).orig.tar.gz: debuild/$(SRCDIR)/debian
 	cd ../.. && tar -czf packaging/deb/debuild/$(SRCDIR).tar.gz \
 		LICENSE NOTICE version CHANGELOG.md README.md CMakeLists.txt \
 		config.cmake feature.cmake source

@@ -1,4 +1,4 @@
-lib%%LIBNAME%% (%%VERSION%%-%%RELEASE%%~%%CODENAME%%) %%CODENAME%%; urgency=medium
+lib%%LIBNAME%% (%%VERSION%%-%%DISTRO%%~%%CODENAME%%) %%CODENAME%%; urgency=medium
 
   * Please, see changelog at 
     https://github.com/lexbor/lexbor/blob/master/CHANGELOG.md

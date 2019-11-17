@@ -20,8 +20,9 @@ cmake_minimum_required(VERSION 2.8)
 #                                         if set to ON
 #    LEXBOR_MAKE_RPM_FILES               default: OFF; Create "spec" files in "packaging" direcotry
 #                                         for create packages
-#    LEXBOR_MAKE_DEB_FILES               efault: OFF; Create "control" files in "packaging" direcotry
+#    LEXBOR_MAKE_DEB_FILES               default: OFF; Create "control" files in "packaging" direcotry
 #                                         for create packages
+#    LEXBOR_MAKE_DISTRO_NUM              default: 1; For packaging
 #    LEXBOR_PRINT_MODULE_DEPENDENCIES    default: OFF; Prints dependencies between modules
 
 # For build with ASAN use CMake flag:
@@ -53,6 +54,10 @@ option(LEXBOR_BUILD_WITH_ASAN "Build with address sanitizer" OFF)
 option(LEXBOR_INSTALL_HEADERS "Install header files" ON)
 option(LEXBOR_MAKE_PACKAGES_FILES "Create files for build packages" OFF)
 option(LEXBOR_PRINT_MODULE_DEPENDENCIES "Prints dependencies" OFF)
+
+IF(NOT LEXBOR_MAKE_DISTRO_NUM)
+    set(LEXBOR_MAKE_DISTRO_NUM "1")
+ENDIF()
 
 ################
 ## Version and path

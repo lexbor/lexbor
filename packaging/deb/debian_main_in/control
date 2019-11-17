@@ -25,7 +25,7 @@ Description: Lexbor is development of an open source HTML Renderer library.
 Package: liblexbor-dev
 Section: libdevel
 Architecture: any
-Depends: ${misc:Depends}, liblexbor (= %%VERSION%%)
+Depends: ${misc:Depends}, liblexbor (= %%VERSION_DISTRO%%)
 Description: Static library and headers for the liblexbor.
  All modules included in this library.
  .
