@@ -30,7 +30,7 @@ The `lexbor` is being developed using the `C` language, without dependencies.
 * Support parsing [by chunks](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/css/syntax/tokenizer_chunks.c).
 * Please, see [roadmap](https://lexbor.com/roadmap/#css) of CSS Modules support.
 
-### Encoding
+### Encoding Module
 * Fully conformance with the [Encoding specification](https://encoding.spec.whatwg.org/).
 * Support `40 encodings` for encode/decode.
 * Support [single](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/encoding/single/from_to.c) and [buffering](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/encoding/buffer/from_to.c) encode/decode.
