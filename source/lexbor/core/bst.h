@@ -87,7 +87,6 @@ lexbor_bst_remove_close(lexbor_bst_t *bst, lexbor_bst_entry_t **root,
 
 LXB_API void *
 lexbor_bst_remove_by_pointer(lexbor_bst_t *bst, lexbor_bst_entry_t *entry,
-                             lexbor_bst_entry_t *parent,
                              lexbor_bst_entry_t **root);
 
 

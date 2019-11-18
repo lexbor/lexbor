@@ -1,0 +1,15 @@
+debuild/%%MODULE%%/debian:
+	set -e ; \\
+	mkdir -p debuild/%%MODULE%%/debian ; \\
+	cp -pr debian/%%MODULE%%/* debuild/%%MODULE%%/debian/
+
+debuild/lib%%LIBNAME%%_%%MODULE_VERSION%%.orig.tar.gz: debuild/%%MODULE%%/debian
+	cd ../.. && tar -czf packaging/deb/debuild/%%MODULE%%.tar.gz \\
+		LICENSE NOTICE version CHANGELOG.md README.md CMakeLists.txt \\
+		config.cmake feature.cmake %%FOR_COPY%%
+	mv debuild/%%MODULE%%.tar.gz debuild/lib%%LIBNAME%%_%%MODULE_VERSION%%.orig.tar.gz
+	cd debuild/%%MODULE%% && tar zxf ../lib%%LIBNAME%%_%%MODULE_VERSION%%.orig.tar.gz
+
+lib%%LIBNAME%%: debuild/lib%%LIBNAME%%_%%MODULE_VERSION%%.orig.tar.gz
+	@echo "===> Building $@ package"
+	cd debuild/%%MODULE%% && debuild -us -uc

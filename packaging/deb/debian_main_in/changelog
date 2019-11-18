@@ -1,0 +1,6 @@
+lib%%LIBNAME%% (%%VERSION%%-%%DISTRO%%~%%CODENAME%%) %%CODENAME%%; urgency=medium
+
+  * Please, see changelog at 
+    https://github.com/lexbor/lexbor/blob/master/CHANGELOG.md
+
+ -- Alexander Borisov <borisov@lexbor.com>  %%DATE%%

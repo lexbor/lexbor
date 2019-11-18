@@ -48,42 +48,12 @@ lxb_tag_heap_init(lxb_tag_heap_t *tag_heap, size_t table_size)
         return status;
     }
 
-    lxb_tag_heap_ref(tag_heap);
-
     tag_heap->by_id = lxb_tag_data_by_id_default_cb;
     tag_heap->by_name = lxb_tag_data_by_name_default_cb;
 
     tag_heap->heap = lexbor_shbst_create();
 
     return lexbor_shbst_init(tag_heap->heap, table_size);
-}
-
-lxb_tag_heap_t *
-lxb_tag_heap_ref(lxb_tag_heap_t *tag_heap)
-{
-    if (tag_heap == NULL) {
-        return NULL;
-    }
-
-    tag_heap->ref_count++;
-
-    return tag_heap;
-}
-
-lxb_tag_heap_t *
-lxb_tag_heap_unref(lxb_tag_heap_t *tag_heap)
-{
-    if (tag_heap == NULL || tag_heap->ref_count == 0) {
-        return NULL;
-    }
-
-    tag_heap->ref_count--;
-
-    if (tag_heap->ref_count == 0) {
-        lxb_tag_heap_destroy(tag_heap);
-    }
-
-    return NULL;
 }
 
 void
@@ -93,10 +63,8 @@ lxb_tag_heap_clean(lxb_tag_heap_t *tag_heap)
         return;
     }
 
-    if (tag_heap->ref_count == 1) {
-        lexbor_dobject_clean(tag_heap->data);
-        lexbor_shbst_clean(tag_heap->heap);
-    }
+    lexbor_dobject_clean(tag_heap->data);
+    lexbor_shbst_clean(tag_heap->heap);
 }
 
 lxb_tag_heap_t *
@@ -245,12 +213,6 @@ lxb_tag_id_by_name_noi(lxb_tag_heap_t *tag_heap,
                        const lxb_char_t *name, size_t len)
 {
     return lxb_tag_id_by_name(tag_heap, name, len);
-}
-
-size_t
-lxb_tag_heap_ref_count_noi(lxb_tag_heap_t *tag_heap)
-{
-    return lxb_tag_heap_ref_count(tag_heap);
 }
 
 lexbor_mraw_t *

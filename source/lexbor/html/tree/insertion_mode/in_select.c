@@ -110,14 +110,14 @@ lxb_html_tree_insertion_mode_in_select_text(lxb_html_tree_t *tree,
     pc.drop_null = true;
 
     tree->status = lxb_html_token_parse_data(token, &pc, &str,
-                                             tree->document->mem->text);
+                                             tree->document->dom_document.text);
     if (tree->status != LXB_STATUS_OK) {
         return lxb_html_tree_process_abort(tree);
     }
 
     /* Can be zero only if all NULL are gone */
     if (str.length == 0) {
-        lexbor_str_destroy(&str, tree->document->mem->text, false);
+        lexbor_str_destroy(&str, tree->document->dom_document.text, false);
 
         return true;
     }

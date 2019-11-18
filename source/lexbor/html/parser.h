@@ -32,14 +32,13 @@ typedef struct {
     lxb_html_tree_t         *tree;
     lxb_html_tree_t         *original_tree;
 
-    lxb_tag_heap_t          *tag_heap;
-    lxb_ns_heap_t           *ns_heap;
-
     lxb_dom_node_t          *root;
     lxb_dom_node_t          *form;
 
     lxb_html_parser_state_t state;
     lxb_status_t            status;
+
+    size_t                  ref_count;
 }
 lxb_html_parser_t;
 
@@ -54,7 +53,13 @@ LXB_API void
 lxb_html_parser_clean(lxb_html_parser_t *parser);
 
 LXB_API lxb_html_parser_t *
-lxb_html_parser_destroy(lxb_html_parser_t *parser, bool self_destroy);
+lxb_html_parser_destroy(lxb_html_parser_t *parser);
+
+LXB_API lxb_html_parser_t *
+lxb_html_parser_ref(lxb_html_parser_t *parser);
+
+LXB_API lxb_html_parser_t *
+lxb_html_parser_unref(lxb_html_parser_t *parser);
 
 
 LXB_API lxb_html_document_t *
@@ -74,10 +79,6 @@ lxb_html_parse_fragment_by_tag_id(lxb_html_parser_t *parser,
 
 LXB_API lxb_html_document_t *
 lxb_html_parse_chunk_begin(lxb_html_parser_t *parser);
-
-LXB_API lxb_status_t
-lxb_html_parse_chunk_prepare(lxb_html_parser_t *parser,
-                             lxb_html_document_t *document);
 
 LXB_API lxb_status_t
 lxb_html_parse_chunk_process(lxb_html_parser_t *parser,
@@ -127,20 +128,29 @@ lxb_html_parser_status(lxb_html_parser_t *parser)
     return parser->status;
 }
 
+lxb_inline lxb_status_t
+lxb_html_parser_state(lxb_html_parser_t *parser)
+{
+    return parser->state;
+}
+
 /*
  * No inline functions for ABI.
  */
-void
+LXB_API void
 lxb_html_parser_set_without_copy_noi(lxb_html_parser_t *parser);
 
-lxb_html_tokenizer_t *
+LXB_API lxb_html_tokenizer_t *
 lxb_html_parser_tokenizer_noi(lxb_html_parser_t *parser);
 
-lxb_html_tree_t *
+LXB_API lxb_html_tree_t *
 lxb_html_parser_tree_noi(lxb_html_parser_t *parser);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_parser_status_noi(lxb_html_parser_t *parser);
+
+LXB_API lxb_status_t
+lxb_html_parser_state_noi(lxb_html_parser_t *parser);
 
 
 #ifdef __cplusplus

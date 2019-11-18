@@ -60,12 +60,7 @@ struct lxb_html_tokenizer {
     lxb_html_tokenizer_token_f       callback_token_done;
     void                             *callback_token_ctx;
 
-    /*
-     * A tokenizer create an lxb_tag_heap_t and lxb_ns_heap_t object
-     * if this objects is NULL.
-     */
-    lxb_tag_heap_t                   *tag_heap_ref;
-    lxb_ns_heap_t                    *ns_heap_ref;
+    lxb_tag_heap_t                   *tag_heap;
 
     /* For a temp strings and other templary data */
     lexbor_mraw_t                    *mraw;
@@ -141,6 +136,11 @@ lxb_html_tokenizer_clean(lxb_html_tokenizer_t *tkz);
 LXB_API lxb_html_tokenizer_t *
 lxb_html_tokenizer_destroy(lxb_html_tokenizer_t *tkz);
 
+LXB_API lxb_status_t
+lxb_html_tokenizer_tag_heap_make(lxb_html_tokenizer_t *tkz, size_t table_size);
+
+LXB_API void
+lxb_html_tokenizer_tag_heap_destroy(lxb_html_tokenizer_t *tkz);
 
 LXB_API lxb_status_t
 lxb_html_tokenizer_begin(lxb_html_tokenizer_t *tkz);
@@ -191,26 +191,13 @@ lxb_inline void
 lxb_html_tokenizer_tag_heap_set(lxb_html_tokenizer_t *tkz,
                                 lxb_tag_heap_t *tag_heap)
 {
-    tkz->tag_heap_ref = lxb_tag_heap_ref(tag_heap);
+    tkz->tag_heap = tag_heap;
 }
 
 lxb_inline lxb_tag_heap_t *
 lxb_html_tokenizer_tag_heap(lxb_html_tokenizer_t *tkz)
 {
-    return tkz->tag_heap_ref;
-}
-
-lxb_inline void
-lxb_html_tokenizer_ns_heap_set(lxb_html_tokenizer_t *tkz,
-                               lxb_ns_heap_t *ns_heap)
-{
-    tkz->ns_heap_ref = lxb_ns_heap_ref(ns_heap);
-}
-
-lxb_inline lxb_ns_heap_t *
-lxb_html_tokenizer_ns_heap(lxb_html_tokenizer_t *tkz)
-{
-    return tkz->ns_heap_ref;
+    return tkz->tag_heap;
 }
 
 lxb_inline void

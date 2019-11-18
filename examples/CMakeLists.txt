@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(lexbor_examples)
+project("lexbor_examples")
 
 ################
 ## Subs

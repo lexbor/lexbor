@@ -83,7 +83,7 @@ lxb_html_tree_insertion_mode_foreign_content_text(lxb_html_tree_t *tree,
     lexbor_str_t str = {0};
     lxb_html_parser_char_t pc = {0};
 
-    pc.mraw = tree->document->mem->text;
+    pc.mraw = tree->document->dom_document.text;
     pc.state = lxb_html_parser_char_data;
     pc.replace_null = true;
 
@@ -95,7 +95,7 @@ lxb_html_tree_insertion_mode_foreign_content_text(lxb_html_tree_t *tree,
 
     /* Can be zero only if all NULL are gone */
     if (str.length == 0) {
-        lexbor_str_destroy(&str, tree->document->mem->text, false);
+        lexbor_str_destroy(&str, tree->document->dom_document.text, false);
 
         return true;
     }
@@ -184,18 +184,20 @@ lxb_html_tree_insertion_mode_foreign_content_all(lxb_html_tree_t *tree,
                                                  lxb_html_token_t *token)
 {
     lxb_dom_node_t *node;
+    lexbor_mraw_t *text;
 
     if (token->tag_id == LXB_TAG_FONT) {
         lexbor_str_t str = {0};
         lxb_html_token_attr_t *attr = token->attr_first;
 
+        text = tree->document->dom_document.text;
+
         while (attr != NULL) {
             str.length = 0;
 
-            tree->status = lxb_html_token_attr_make_name(attr, &str,
-                                                         tree->document->mem->text);
+            tree->status = lxb_html_token_attr_make_name(attr, &str, text);
             if (tree->status != LXB_STATUS_OK) {
-                lexbor_str_destroy(&str, tree->document->mem->text, false);
+                lexbor_str_destroy(&str, text, false);
 
                 return lxb_html_tree_process_abort(tree);
             }
@@ -203,7 +205,7 @@ lxb_html_tree_insertion_mode_foreign_content_all(lxb_html_tree_t *tree,
             if (str.length == 5
                 && lexbor_str_data_cmp((const lxb_char_t *) "color", str.data))
             {
-                lexbor_str_destroy(&str, tree->document->mem->text, false);
+                lexbor_str_destroy(&str, text, false);
 
                 goto go_next;
             }
@@ -212,7 +214,7 @@ lxb_html_tree_insertion_mode_foreign_content_all(lxb_html_tree_t *tree,
                 && (lexbor_str_data_cmp((const lxb_char_t *) "face", str.data)
                     || lexbor_str_data_cmp((const lxb_char_t *) "size", str.data)))
             {
-                lexbor_str_destroy(&str, tree->document->mem->text, false);
+                lexbor_str_destroy(&str, text, false);
 
                 goto go_next;
             }
@@ -220,7 +222,7 @@ lxb_html_tree_insertion_mode_foreign_content_all(lxb_html_tree_t *tree,
             attr = attr->next;
         }
 
-        lexbor_str_destroy(&str, tree->document->mem->text, false);
+        lexbor_str_destroy(&str, text, false);
 
         return lxb_html_tree_insertion_mode_foreign_content_anything_else(tree,
                                                                           token);

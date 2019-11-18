@@ -73,7 +73,7 @@ main(int argc, const char *argv[])
 
     /* Destroy */
     lxb_html_document_destroy(document);
-    lxb_html_parser_destroy(parser, true);
+    lxb_html_parser_destroy(parser);
 
     return 0;
 }

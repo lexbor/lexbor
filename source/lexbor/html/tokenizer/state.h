@@ -14,17 +14,6 @@ extern "C" {
 #include "lexbor/html/tokenizer.h"
 
 
-#define lxb_html_tokenizer_state_token_set_tag_id(tkz, v_end)                  \
-    do {                                                                       \
-        tkz->token->tag_id = lxb_html_token_tag_id_from_data(tkz->tag_heap_ref,\
-                                                             tkz->token);      \
-        if (tkz->token->tag_id == LXB_TAG__UNDEF) {                            \
-            tkz->status = LXB_STATUS_ERROR;                                    \
-            return v_end;                                                      \
-        }                                                                      \
-    }                                                                          \
-    while (0)
-
 #define lxb_html_tokenizer_state_token_set_begin(tkz, v_begin)                 \
     do {                                                                       \
         tkz->token->in_begin = tkz->incoming_node;                             \

@@ -10,9 +10,7 @@ import LXB
 
 class Encoding:
     prefix = 'LXB_ENCODING_'
-    shs_name = 'lxb_encoding_res_shs_entities'
     const_typename = 'lxb_encoding_t'
-    data_name = 'lxb_encoding_res_map'
     data_typename = 'lxb_encoding_data_t'
     last_entry_name = 'LAST_ENTRY'
 
@@ -39,7 +37,7 @@ class Encoding:
 
         self.strict = strict
 
-    def make_shs(self):
+    def make_shs(self, shs_name, data_name):
         idx = 2 # Skip first three data position (DEFAULT, AUTO, UNDEFINED)
         tlist = []
 
@@ -47,7 +45,7 @@ class Encoding:
             idx += 1
 
             for name in encode['labels']:
-                value = '(void *) &lxb_encoding_res_map[{}]'.format(idx)
+                value = '(void *) &{}[{}]'.format(data_name, idx)
 
                 tlist.append({'key': name.lower(), 'value': value})
 
@@ -60,7 +58,7 @@ class Encoding:
             print('Table size: ' + str(test[0][2]))
             print('Max deep: ' + str(test[0][0]))
 
-        buf = shs.create(self.shs_name)
+        buf = shs.create(shs_name)
 
         if not self.silent:
             print(''.join(buf))
@@ -107,32 +105,40 @@ class Encoding:
 
         return buf
 
-    def make_data(self):
-        res = LXB.Res(self.data_typename, self.data_name 
+    def make_data(self, data_name):
+        res = LXB.Res(self.data_typename, data_name 
                         + '[{}]'.format(self.make_name_upper(self.last_entry_name)), 
                         False, None, '')
 
-        res.append('{{{}, {}, {}, (lxb_char_t *) "DEFAULT"}}'.format(
+        res.append('{{{}, {}, {},\n     {}, {}, (lxb_char_t *) "DEFAULT"}}'.format(
                 self.make_name_upper('DEFAULT'),
                 self.make_function_name("DEFAULT", 'encode'),
-                self.make_function_name("DEFAULT", 'decode')))
+                self.make_function_name("DEFAULT", 'decode'),
+                self.make_function_name("DEFAULT_SINGLE", 'encode'),
+                self.make_function_name("DEFAULT_SINGLE", 'decode')))
 
-        res.append('{{{}, {}, {}, (lxb_char_t *) "AUTO"}}'.format(
+        res.append('{{{}, {}, {},\n     {}, {}, (lxb_char_t *) "AUTO"}}'.format(
                 self.make_name_upper('AUTO'),
                 self.make_function_name("AUTO", 'encode'),
-                self.make_function_name("AUTO", 'decode')))
+                self.make_function_name("AUTO", 'decode'),
+                self.make_function_name("AUTO_SINGLE", 'encode'),
+                self.make_function_name("AUTO_SINGLE", 'decode')))
 
-        res.append('{{{}, {}, {}, (lxb_char_t *) "UNDEFINED"}}'.format(
+        res.append('{{{}, {}, {},\n     {}, {}, (lxb_char_t *) "UNDEFINED"}}'.format(
                 self.make_name_upper('UNDEFINED'),
                 self.make_function_name("UNDEFINED", 'encode'),
-                self.make_function_name("UNDEFINED", 'decode')))
+                self.make_function_name("UNDEFINED", 'decode'),
+                self.make_function_name("UNDEFINED_SINGLE", 'encode'),
+                self.make_function_name("UNDEFINED_SINGLE", 'decode')))
 
         for encode in self.strict:
             name = encode['name']
-            value = '{{{}, {}, {}, (lxb_char_t *) "{}"}}'.format(
+            value = '{{{}, {}, {},\n     {}, {}, (lxb_char_t *) "{}"}}'.format(
                 self.make_name_upper(name),
                 self.make_function_name(name, 'encode'),
-                self.make_function_name(name, 'decode'), name)
+                self.make_function_name(name, 'decode'),
+                self.make_function_name(name + '_single', 'encode'),
+                self.make_function_name(name + '_single', 'decode'), name)
 
             res.append(value)
 
@@ -153,8 +159,8 @@ class Encoding:
         lxb_temp.save()
 
     def save_res(self, temp_file_h, save_to_h, temp_file_c, save_to_c):
-        data = self.make_data()
-        shs = self.make_shs()
+        data = self.make_data('lxb_encoding_res_map')
+        shs = self.make_shs('lxb_encoding_res_shs_entities', 'lxb_encoding_res_map')
 
         lxb_temp = LXB.Temp(temp_file_h, save_to_h)
         lxb_temp.pattern_append("%%MAX%%", self.make_name_upper(self.last_entry_name))

@@ -107,7 +107,7 @@ lexbor_shbst_clean(lexbor_shbst_t *shbst)
     lexbor_mraw_clean(shbst->keys);
     lexbor_dobject_clean(shbst->entries);
 
-    memset(shbst->table, 0, sizeof(void *) * shbst->table_size);
+    memset(shbst->table, 0, sizeof(void *) * (shbst->table_size + 1));
 }
 
 lexbor_shbst_t *

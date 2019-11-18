@@ -93,6 +93,11 @@ LXB_API void
 lxb_dom_node_simple_walk(lxb_dom_node_t *root,
                          lxb_dom_node_simple_walker_f walker_cb, void *ctx);
 
+/*
+ * Memory of returns value will be freed in document destroy moment.
+ * If you need to release returned resource after use, then call the
+ * lxb_dom_document_destroy_text(node->owner_document, text) function.
+ */
 LXB_API lxb_char_t *
 lxb_dom_node_text_content(lxb_dom_node_t *node, size_t *len);
 

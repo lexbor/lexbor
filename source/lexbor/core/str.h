@@ -196,10 +196,22 @@ lexbor_str_data_set(lexbor_str_t *str, lxb_char_t *data)
     str->data = data;
 }
 
-lxb_inline void
-lexbor_str_length_set(lexbor_str_t *str, size_t length)
+lxb_inline lxb_char_t *
+lexbor_str_length_set(lexbor_str_t *str, lexbor_mraw_t *mraw, size_t length)
 {
+    if (length >= lexbor_str_size(str)) {
+        lxb_char_t *tmp;
+
+        tmp = lexbor_str_realloc(str, mraw, length + 1);
+        if (tmp == NULL) {
+            return NULL;
+        }
+    }
+
     str->length = length;
+    str->data[length] = 0x00;
+
+    return str->data;
 }
 
 /*
@@ -217,8 +229,9 @@ lexbor_str_size_noi(lexbor_str_t *str);
 void
 lexbor_str_data_set_noi(lexbor_str_t *str, lxb_char_t *data);
 
-void
-lexbor_str_length_set_noi(lexbor_str_t *str, size_t length);
+lxb_char_t *
+lexbor_str_length_set_noi(lexbor_str_t *str, lexbor_mraw_t *mraw,
+                          size_t length);
 
 
 #ifdef __cplusplus

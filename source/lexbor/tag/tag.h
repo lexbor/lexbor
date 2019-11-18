@@ -16,7 +16,6 @@ extern "C" {
 #include "lexbor/core/dobject.h"
 #include "lexbor/core/str.h"
 
-#include "lexbor/ns/const.h"
 #include "lexbor/tag/const.h"
 
 
@@ -46,8 +45,6 @@ struct lxb_tag_heap {
 
     lxb_tag_data_by_id_f   by_id;
     lxb_tag_data_by_name_f by_name;
-
-    size_t                 ref_count;
 };
 
 
@@ -56,12 +53,6 @@ lxb_tag_heap_create(void);
 
 LXB_API lxb_status_t
 lxb_tag_heap_init(lxb_tag_heap_t *tag_heap, size_t table_size);
-
-LXB_API lxb_tag_heap_t *
-lxb_tag_heap_ref(lxb_tag_heap_t *tag_heap);
-
-LXB_API lxb_tag_heap_t *
-lxb_tag_heap_unref(lxb_tag_heap_t *tag_heap);
 
 LXB_API void
 lxb_tag_heap_clean(lxb_tag_heap_t *tag_heap);
@@ -148,12 +139,6 @@ lxb_tag_id_by_name(lxb_tag_heap_t *tag_heap, const lxb_char_t *name, size_t len)
     return data->tag_id;
 }
 
-lxb_inline size_t
-lxb_tag_heap_ref_count(lxb_tag_heap_t *tag_heap)
-{
-    return tag_heap->ref_count;
-}
-
 lxb_inline lexbor_mraw_t *
 lxb_tag_heap_mraw(lxb_tag_heap_t *tag_heap)
 {
@@ -195,9 +180,6 @@ lxb_tag_name_upper_by_id_noi(lxb_tag_heap_t *tag_heap,
 lxb_tag_id_t
 lxb_tag_id_by_name_noi(lxb_tag_heap_t *tag_heap,
                        const lxb_char_t *name, size_t len);
-
-size_t
-lxb_tag_heap_ref_count_noi(lxb_tag_heap_t *tag_heap);
 
 lexbor_mraw_t *
 lxb_tag_heap_mraw_noi(lxb_tag_heap_t *tag_heap);

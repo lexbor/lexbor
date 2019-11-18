@@ -114,3 +114,61 @@ lexbor_conv_data_to_double(const lxb_char_t **start, size_t len)
 
     return lexbor_strtod_internal(data, pos - data, exponent);
 }
+
+unsigned long
+lexbor_conv_data_to_ulong(const lxb_char_t **data, size_t length)
+{
+    const lxb_char_t *p = *data;
+    const lxb_char_t *end = p + length;
+    unsigned long last_number = 0, number = 0;
+
+    for (; p < end; p++) {
+        if (*p < '0' || *p > '9') {
+            goto done;
+        }
+
+        number = (*p - '0') + number * 10;
+
+        if (last_number > number) {
+            *data = p - 1;
+            return last_number;
+        }
+
+        last_number = number;
+    }
+
+done:
+
+    *data = p;
+
+    return number;
+}
+
+unsigned
+lexbor_conv_data_to_uint(const lxb_char_t **data, size_t length)
+{
+    const lxb_char_t *p = *data;
+    const lxb_char_t *end = p + length;
+    unsigned last_number = 0, number = 0;
+
+    for (; p < end; p++) {
+        if (*p < '0' || *p > '9') {
+            goto done;
+        }
+
+        number = (*p - '0') + number * 10;
+
+        if (last_number > number) {
+            *data = p - 1;
+            return last_number;
+        }
+
+        last_number = number;
+    }
+
+done:
+
+    *data = p;
+
+    return number;
+}

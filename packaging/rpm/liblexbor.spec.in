@@ -1,0 +1,73 @@
+Name:     liblexbor
+Version:  %{lib_version}
+Release:  1%{?dist}
+Epoch:    1
+Summary:  Lexbor is development of an open source HTML Renderer library.
+License:  Apache 2.0
+Group:    Development/Tools
+URL:      https://github.com/lexbor/lexbor
+Source0:  %{name}-%{version}.tar.gz
+
+%if 0%{?rhel}%{?fedora}
+BuildRequires: cmake >= 2.8
+BuildRequires: make
+BuildRequires: gcc
+BuildRequires: gcc-c++
+%endif
+
+%description
+Modules:
+%%MODULES_NAMES%%
+
+%package devel
+Requires: %{name} = %{epoch}:%{version}-%{release}
+Summary:  Static library and headers for the liblexbor.
+Provides: %{name}-devel
+Group:    Development/Tools
+
+%description devel
+Modules:
+%%MODULES_NAMES%%
+
+%prep
+%setup -qn %{name}-%{version}
+
+%build
+export CFLAGS='%{optflags}'
+export CXXFLAGS='%{optflags}'
+cmake -DCMAKE_BUILD_TYPE=RELEASE -DLEXBOR_BUILD_SEPARATELY=ON \
+      -DLEXBOR_BUILD_STATIC=ON -DLEXBOR_BUILD_SHARED=ON \
+      -DCMAKE_INSTALL_PREFIX:PATH=%{_prefix} -DCMAKE_INSTALL_LIBDIR=%{_libdir} .
+make %{?_smp_mflags}
+
+%install
+rm -rf %{buildroot}
+make DESTDIR=%{buildroot} install
+
+%clean
+rm -rf %{buildroot}
+
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
+
+%files
+%defattr(-,root,root)
+%doc README.md LICENSE NOTICE
+%{_libdir}/%{name}.*
+%exclude %{_libdir}/*.a
+%exclude %{_libdir}/%{name}.%{lib_ext}
+
+%files devel
+%defattr(-,root,root,-)
+%doc README.md LICENSE NOTICE
+%{_libdir}/%{name}.%{lib_ext}
+%{_libdir}/%{name}_static.a
+%{_includedir}/*
+
+# Modules
+%%MODULES_SPECS%%
+# End of modules
+
+%changelog
+* Mon Apr 01 2019 Please, see changelog at https://github.com/lexbor/lexbor/blob/master/CHANGELOG.md - 0.2.0-1
+- release

@@ -341,14 +341,16 @@ lxb_html_tree_insertion_mode_in_table_input(lxb_html_tree_t *tree,
                                             lxb_html_token_t *token)
 {
     lexbor_str_t str = {0};
+    lexbor_mraw_t *text;
     lxb_html_element_t *element;
     lxb_html_token_attr_t *attr = token->attr_first;
+
+    text = tree->document->dom_document.text;
 
     while (attr != NULL) {
         str.length = 0;
 
-        tree->status = lxb_html_token_attr_make_name(attr, &str,
-                                                     tree->document->mem->text);
+        tree->status = lxb_html_token_attr_make_name(attr, &str, text);
         if (tree->status != LXB_STATUS_OK) {
             return lxb_html_tree_process_abort(tree);
         }
@@ -359,8 +361,7 @@ lxb_html_tree_insertion_mode_in_table_input(lxb_html_tree_t *tree,
         {
             str.length = 0;
 
-            tree->status = lxb_html_token_attr_make_value(attr, &str,
-                                                          tree->document->mem->text);
+            tree->status = lxb_html_token_attr_make_value(attr, &str, text);
             if (tree->status != LXB_STATUS_OK) {
                 return lxb_html_tree_process_abort(tree);
             }
@@ -375,13 +376,13 @@ lxb_html_tree_insertion_mode_in_table_input(lxb_html_tree_t *tree,
         attr = attr->next;
     }
 
-    lexbor_str_destroy(&str, tree->document->mem->text, false);
+    lexbor_str_destroy(&str, text, false);
 
     return lxb_html_tree_insertion_mode_in_table_anything_else(tree, token);
 
 have_hidden:
 
-    lexbor_str_destroy(&str, tree->document->mem->text, false);
+    lexbor_str_destroy(&str, text, false);
 
     lxb_html_tree_parse_error(tree, token, LXB_HTML_RULES_ERROR_UNTO);
 

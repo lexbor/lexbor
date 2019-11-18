@@ -241,9 +241,7 @@ check_token_tag(tokenizer_helper_t *helper, unit_kv_value_t *entry,
 
     str = unit_kv_string(value);
 
-    tag_id = lxb_tag_id_by_name(helper->tkz->tag_heap_ref,
-                                str->data, str->length);
-
+    tag_id = lxb_tag_id_by_name(helper->tkz->tag_heap, str->data, str->length);
     if (token->tag_id != tag_id) {
         TEST_PRINTLN("Parameter 'tag' not match");
         print_error(helper, value);

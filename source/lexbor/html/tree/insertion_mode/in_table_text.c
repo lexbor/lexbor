@@ -40,7 +40,7 @@ lxb_html_tree_insertion_mode_in_table_text(lxb_html_tree_t *tree,
         }
 
         tree->status = lxb_html_token_parse_data(token, &pc, text,
-                                                 tree->document->mem->text);
+                                             tree->document->dom_document.text);
         if (tree->status != LXB_STATUS_OK) {
             lxb_html_tree_insertion_mode_in_table_text_erase(tree);
 
@@ -49,7 +49,7 @@ lxb_html_tree_insertion_mode_in_table_text(lxb_html_tree_t *tree,
 
         if (text->length == 0) {
             lexbor_array_obj_pop(pt_list);
-            lexbor_str_destroy(text, tree->document->mem->text, false);
+            lexbor_str_destroy(text, tree->document->dom_document.text, false);
 
             return true;
         }
@@ -116,6 +116,6 @@ lxb_html_tree_insertion_mode_in_table_text_erase(lxb_html_tree_t *tree)
     for (size_t i = 0; i < lexbor_array_obj_length(pt_list); i++) {
         text = lexbor_array_obj_get(pt_list, i);
 
-        lexbor_str_destroy(text, tree->document->mem->text, false);
+        lexbor_str_destroy(text, tree->document->dom_document.text, false);
     }
 }

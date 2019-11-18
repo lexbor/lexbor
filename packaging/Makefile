@@ -16,7 +16,11 @@ deb:
 	@cd deb && VERSION=$(VERSION) RELEASE=$(RELEASE) ARCH=$(ARCH) $(MAKE) all
 
 clean:
+ifneq (,$(wildcard rpm/Makefile))
 	$(MAKE) -C rpm clean
+endif
+ifneq (,$(wildcard deb/Makefile))
 	$(MAKE) -C deb clean
+endif
 
 .PHONY: default rpm deb clean

@@ -131,7 +131,7 @@ class MultiByte:
                                                                           entries[3], entries[1].decode('utf-8')))
                 res.append('/* {} */'.format(entries[4].decode('utf-8')), is_comment = True)
             else:
-                res.append('{NULL, 0, LXB_ENCODING_DECODE_ERROR}')
+                res.append('{NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}')
                 res.append('/* Not defined */', is_comment = True)
 
         buf = res.create()

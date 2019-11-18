@@ -1,0 +1,205 @@
+/* Font
+---------------------------------------- */
+/* 
+ * Open Sans ( https://fonts.google.com/specimen/Open+Sans )
+ * License: Apache License, Version 2.0
+ * Copyright Steve Matteson
+ */
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 300;
+    src: local('Open Sans Light'), local('OpenSans-Light'), url(../font/opensans_v15_latin_300_normal.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Open Sans Regular'), local('OpenSans-Regular'), url(../font/opensans_v15_latin_400_normal.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Open Sans Bold'), local('OpenSans-Bold'), url(../font/opensans_v15_latin_700_normal.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* 
+ * Source-Code-Pro ( https://github.com/adobe-fonts/source-code-pro )
+ * License: SIL Open Font License 1.1
+ * Copyright Adobe Systems Incorporated (http://www.adobe.com/)
+ */
+@font-face {
+    font-family: 'Source Code Pro';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Source Code Pro Regular'), local('SourceCodePro-Regular'), url(../font/SourceCodePro-Regular.otf.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Default
+---------------------------------------- */
+html, body {height: 100%}
+body, html, p, ol, li, dl, dd, dt, h1, h2, h3, h4, h5, h6, form, fieldset, td, th, caption, address, textarea, legend {margin: 0; padding: 0}
+a img, fieldset {border: 0}
+table {border-collapse: collapse}
+td, th {font-weight: normal}
+body {font: 14px/1.2 'Open Sans', arial, sans-serif; color: #313841; background: #f1f1f1}
+a {color: #0366d6; text-decoration: none; outline: none; padding: 0 1px}
+a:hover {color: #0366d6; border-bottom: 1px solid #0366d6}
+input, textarea, select {font: 14px; color: #000; margin: 0; padding: 0; outline: none}
+
+.page:after, .navigation ul:after, .block-all:after, .face-right:after, 
+.navigation:after, .head-content:after, .body-content:after, .footer:after {content: ''; display: block; clear: both; visibility: hidden; height: 0; line-height: 0; font-size: 0}
+
+*, ::after, ::before {box-sizing: border-box}
+
+h1, h2, h3, h4, h5, h6 {color: #802022; font-weight: 600; line-height: 1.25; margin: 30px 0 22px 0}
+
+h1 {color: #802022; font: 2.3em 'Open Sans', arial, sans-serif; margin: 1.2em 0 0.6em 0; padding-bottom: 6px; border-bottom: 1px solid #bdbdbd}
+h2 {color: #802022; font: 1.6em 'Open Sans', arial, sans-serif; margin: 1.2em 0 0.6em 0; padding-bottom: 6px; border-bottom: 1px solid #bdbdbd}
+h3 {color: #802022; font: 1.3em 'Open Sans', arial, sans-serif; margin: 1.2em 0 0.6em 0; padding-bottom: 6px; border-bottom: 1px solid #bdbdbd}
+h4 {color: #000000; font: 1.1em 'Open Sans', arial, sans-serif; font-weight: 700; margin: 1.0em 0 0.6em}
+h5 {color: #000000; margin: 0.3em 0}
+h6 {color: #000000; margin: 0.3em 0}
+
+form h3 {color: #2b353f; font: 18px 'Open Sans', sans-serif; margin: 0 0 8px 28px}
+form .input-button-content {margin: 10px 0 8px 28px}
+
+/* Markdown
+---------------------------------------- */
+.markdown-body > *:first-child {margin-top: 0 !important}
+
+.markdown-body p {line-height: 1.5em; padding: 0 0 1rem 0}
+.markdown-body p + h1, .markdown-body p + h2, 
+.markdown-body p + h3, .markdown-body p + h4,
+.markdown-body p + h5, .markdown-body p + h6 {margin-top: 0}
+
+.markdown-body img[alt=Done] {margin-bottom: -5px}
+.markdown-body img[alt="In progress"] {margin-bottom: -5px}
+.markdown-body ul, .markdown-body ol {margin: 0 0  1.5em 1.5em; padding: 0; line-height: 1.7em}
+
+.markdown-body h1 a, .markdown-body h2 a, 
+.markdown-body h3 a, .markdown-body h4 a, 
+.markdown-body h5 a, .markdown-body h6 a {margin: 0 0 0 0.4em;  border: none; text-decoration: none;  box-sizing: border-box; font-weight: normal; float: right}
+
+.markdown-body .anchor {visibility: hidden}
+
+.markdown-body h1:hover .anchor,
+.markdown-body h2:hover .anchor,
+.markdown-body h3:hover .anchor,
+.markdown-body h4:hover .anchor,
+.markdown-body h5:hover .anchor,
+.markdown-body h6:hover .anchor {visibility: inherit}
+
+.markdown-body table {width: 100%; border-collapse: collapse; border-spacing: 0; margin: 0 0 10px}
+.markdown-body table tr:nth-child(2n) {background-color: #e6e6e6;}
+.markdown-body table tr {text-align: left}
+.markdown-body table th {font-weight: 700; text-align: center}
+.markdown-body table th, .markdown-body table td {border: 1px solid #afb8be; padding: 8px 12px; line-height: 1.4em}
+
+.markdown-body .typedef-header {width: 8.2em !important}
+
+.markdown-body .api-function-action {width: 7em !important}
+.markdown-body .api-function-name {width: 16em !important}
+.markdown-body .function-list-desc {width: 100%}
+.markdown-body .function-list-return {width: 3em !important}
+
+/* Code
+---------------------------------------- */
+code {font: 14px 'Source Code Pro', monospace; border-radius: 3px; background-color: #d8d8d8; padding: 0 2px 0 2px}
+.code {background-color: rgb(41, 42, 48); color: #ececec; border-radius: 4px; padding: 8px 10px; margin: 0 0 1.8rem; overflow: auto}
+pre code {font-size: 13px; background-color: initial; border-radius: initial; padding: initial}
+
+/* Highlight
+---------------------------------------- */
+.highlight .defftype {color: rgb(182, 240, 147)}
+.highlight .deffname {color: inherit}
+.highlight .deftype {color: rgb(182, 240, 147)}
+.highlight .ffname {color: rgb(182, 240, 147)}
+.highlight .var {color: inherit}
+.highlight .text {color: rgb(254, 126, 111)}
+.highlight .number {color: rgb(161, 160, 245)}
+.highlight .type {color: rgb(115, 202, 195)}
+.highlight .std-type {color: rgb(253, 123, 177)}
+.highlight .std {color: rgb(253, 123, 177)}
+.highlight .std-bn {color: rgb(253, 123, 177)}
+.highlight .std-macros {color: rgb(252, 159, 83)}
+.highlight .comment {color: rgb(127, 140, 147)}
+.highlight .mpath {color: rgb(182, 240, 147)}
+
+/* Head
+---------------------------------------- */
+.head {background-color: #323841; font-size: 14px; color: #fff}
+.head a {color: #fff}
+.head a:hover {border-bottom: 1px solid #fff}
+.head li {list-style: none}
+
+.head-left {float: left; color: #afb8be; width: 115px; height: 100%; background-color: #292e36; text-align: center}
+.head-left a {color: #afb8be; line-height: 43px}
+.head-left a:hover {border-bottom: 1px solid #afb8be}
+.head-left span {line-height: 43px}
+
+.head-right {float: left}
+.head-right ul {padding: 0 0 0 35px; line-height: 43px; margin: 0}
+.head-right li {padding: 0 30px 0 0; float: left; list-style: none; margin: 0}
+
+/* Navigation
+---------------------------------------- */
+.navigation ul {list-style: none; margin: 30px 0 0px; padding-left: 115px}
+.navigation ul li {float: left;}
+.navigation ul li:first-child {padding-left: 0 !important}
+.navigation ul li.nav-spliter {padding: 0 8px}
+
+/* Markdown refs
+---------------------------------------- */
+.markdown-refs ul {margin: 0 0 5px 1.5em; padding: 0; list-style: none}
+.markdown-refs ul:first-child {margin-left: 0 !important}
+.markdown-refs ul li:first-child {margin-top: 10px}
+.markdown-refs ul li:last-child {margin-bottom: 0}
+.markdown-refs ul li {margin-bottom: 10px}
+.markdown-refs ul li a {color: #313841; text-decoration: none; outline: none; padding: 3px}
+.markdown-refs ul li a:hover {border-bottom: 1px solid #f1f1f1;  outline: none; color: #f1f1f1; background-color: #313841}
+
+/* Block
+---------------------------------------- */
+.block-all {color: #f1f1f1; font-size: 13px}
+.block-grey {background-color: #7f8b96; padding: 4px 8px; float: left; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px}
+.block-grey-6px {overflow: hidden; height: 40px; background-color: #7f8b96; padding: 4px 8px; float: left; -webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px}
+
+/* PR
+---------------------------------------- */
+.pr {margin-top: 50px}
+div.pr-icons {margin: 0 30px 30px 85px;}
+img.pr-icons {position: absolute; top: 0.9em; left: 15px; height: 64px; line-height: 1.2}
+
+.pr-title {font-size: 1.6em; font-weight: normal; color: #454553; margin: 0.3em 0}
+
+/* Body
+---------------------------------------- */
+.page {min-height: 100%}
+.body {width: 100%}
+.body {margin-top: 50px}
+
+.body .content {width: 90%; margin: 0 auto; padding: 0 6px 95px}
+
+.body .split {overflow: hidden; width: 90%; margin: 0 auto; padding: 0 6px 95px}
+.body .split .left {float: left; width: 200px}
+.body .split .left-content {width: 100%; overflow: auto}
+.body .split .right {overflow: hidden;  min-width: 400px}
+.body .split .right-content {width: 100%; float: left}
+
+.hide-this {visibility: hidden}
+.hide {display: none}
+
+/* Footer
+---------------------------------------- */
+.footer {height: 55px; margin: -55px 0 0; background: url(../img/head_bg.png) repeat-x 0 44px #323841; color: #fff; text-shadow: 0 1px #12333d}
+.footer a {color: #fff}
+.footer-content {margin: 0 auto; width: 90%; padding: 20px 6px 0; overflow: hidden}
+.copy {font-style: normal}

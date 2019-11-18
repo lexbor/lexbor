@@ -294,6 +294,9 @@ lxb_dom_node_text_content(lxb_dom_node_t *node, size_t *len)
 
             lxb_dom_node_simple_walk(node, lxb_dom_node_text_content_concatenate,
                                      &text);
+
+            text -= length;
+
             break;
 
         case LXB_DOM_NODE_TYPE_ATTRIBUTE: {

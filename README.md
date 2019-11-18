@@ -57,4 +57,4 @@ Alexander Borisov <borisov@lexbor.com>
    limitations under the License.
 
 
-See [LICENSE](https://github.com/lexborisov/lexbor/blob/master/LICENSE) file.
+Please, see [LICENSE](https://github.com/lexbor/lexbor/blob/master/LICENSE) file.

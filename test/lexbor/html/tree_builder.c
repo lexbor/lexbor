@@ -186,7 +186,7 @@ check_entries(unit_kv_t *kv, unit_kv_value_t *value, lxb_html_parser_t *parser)
         check_entry(kv, entries->list[i], parser);
         check_entry_chunk(kv, entries->list[i], parser);
 
-        lxb_html_parser_destroy(parser, true);
+        lxb_html_parser_destroy(parser);
     }
 }
 

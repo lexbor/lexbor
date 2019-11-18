@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(lexbor_utils)
+project("lexbor_utils")
 
 ################
 ## Search and Includes
