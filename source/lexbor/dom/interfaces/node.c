@@ -432,37 +432,37 @@ lxb_dom_node_text_content_set(lxb_dom_node_t *node,
 }
 
 unsigned int
-lxb_dom_node_tag_id(lxb_dom_node_t *node)
+lxb_dom_node_tag_id_noi(lxb_dom_node_t *node)
 {
-  return node->tag_id;
+    return lxb_dom_node_tag_id(node);
 }
 
 lxb_dom_node_t *
-lxb_dom_node_next(lxb_dom_node_t *node)
+lxb_dom_node_next_noi(lxb_dom_node_t *node)
 {
-  return node->next;
+    return lxb_dom_node_next(node);
 }
 
 lxb_dom_node_t *
-lxb_dom_node_prev(lxb_dom_node_t *node)
+lxb_dom_node_prev_noi(lxb_dom_node_t *node)
 {
-  return node->prev;
+    return lxb_dom_node_prev(node);
 }
 
 lxb_dom_node_t *
-lxb_dom_node_parent(lxb_dom_node_t *node)
+lxb_dom_node_parent_noi(lxb_dom_node_t *node)
 {
-  return node->parent;
+    return lxb_dom_node_parent(node);
 }
 
 lxb_dom_node_t *
-lxb_dom_node_first_child(lxb_dom_node_t *node)
+lxb_dom_node_first_child_noi(lxb_dom_node_t *node)
 {
-  return node->first_child;
+    return lxb_dom_node_first_child(node);
 }
 
 lxb_dom_node_t *
-lxb_dom_node_last_child(lxb_dom_node_t *node)
+lxb_dom_node_last_child_noi(lxb_dom_node_t *node)
 {
-  return node->last_child;
+    return lxb_dom_node_last_child(node);
 }
