@@ -430,3 +430,39 @@ lxb_dom_node_text_content_set(lxb_dom_node_t *node,
 
     return LXB_STATUS_OK;
 }
+
+unsigned int
+lxb_dom_node_tag_id(lxb_dom_node_t *node)
+{
+  return node->tag_id;
+}
+
+lxb_dom_node_t *
+lxb_dom_node_next(lxb_dom_node_t *node)
+{
+  return node->next;
+}
+
+lxb_dom_node_t *
+lxb_dom_node_prev(lxb_dom_node_t *node)
+{
+  return node->prev;
+}
+
+lxb_dom_node_t *
+lxb_dom_node_parent(lxb_dom_node_t *node)
+{
+  return node->parent;
+}
+
+lxb_dom_node_t *
+lxb_dom_node_first_child(lxb_dom_node_t *node)
+{
+  return node->first_child;
+}
+
+lxb_dom_node_t *
+lxb_dom_node_last_child(lxb_dom_node_t *node)
+{
+  return node->last_child;
+}

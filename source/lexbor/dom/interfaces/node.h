@@ -93,6 +93,24 @@ LXB_API void
 lxb_dom_node_simple_walk(lxb_dom_node_t *root,
                          lxb_dom_node_simple_walker_f walker_cb, void *ctx);
 
+LXB_API unsigned int
+lxb_dom_node_tag_id(lxb_dom_node_t *node);
+
+LXB_API lxb_dom_node_t *
+lxb_dom_node_next(lxb_dom_node_t *node);
+
+LXB_API lxb_dom_node_t *
+lxb_dom_node_prev(lxb_dom_node_t *node);
+
+LXB_API lxb_dom_node_t *
+lxb_dom_node_parent(lxb_dom_node_t *node);
+
+LXB_API lxb_dom_node_t *
+lxb_dom_node_first_child(lxb_dom_node_t *node);
+
+LXB_API lxb_dom_node_t *
+lxb_dom_node_last_child(lxb_dom_node_t *node);
+
 /*
  * Memory of returns value will be freed in document destroy moment.
  * If you need to release returned resource after use, then call the
