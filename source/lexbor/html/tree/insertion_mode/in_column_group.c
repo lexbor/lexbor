@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2019 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -8,74 +8,27 @@
 #include "lexbor/html/tree/open_elements.h"
 
 
-static bool
-lxb_html_tree_insertion_mode_in_column_group_text(lxb_html_tree_t *tree,
-                                                  lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_column_group_comment(lxb_html_tree_t *tree,
-                                                     lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_column_group_html(lxb_html_tree_t *tree,
-                                                  lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_column_group_col(lxb_html_tree_t *tree,
-                                                 lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_column_group_colgroup_closed(lxb_html_tree_t *tree,
-                                                             lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_column_group_col_closed(lxb_html_tree_t *tree,
-                                                        lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_column_group_template_open_closed(lxb_html_tree_t *tree,
-                                                                  lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_column_group_end_of_file(lxb_html_tree_t *tree,
-                                                         lxb_html_token_t *token);
-
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_column_group_anything_else(lxb_html_tree_t *tree,
-                                                           lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_column_group_anything_else_closed(lxb_html_tree_t *tree,
-                                                                  lxb_html_token_t *token);
-
-
-#include "lexbor/html/tree/insertion_mode/in_column_group_res.h"
-
-
-bool
-lxb_html_tree_insertion_mode_in_column_group(lxb_html_tree_t *tree,
-                                             lxb_html_token_t *token)
+                                                           lxb_html_token_t *token)
 {
-    if (token->tag_id >= LXB_TAG__LAST_ENTRY) {
-        if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
-            return lxb_html_tree_insertion_mode_in_column_group_anything_else_closed(tree,
-                                                                                     token);
-        }
+    lxb_dom_node_t *node = lxb_html_tree_current_node(tree);
 
-        return lxb_html_tree_insertion_mode_in_column_group_anything_else(tree,
-                                                                          token);
+    if (lxb_html_tree_node_is(node, LXB_TAG_COLGROUP) == false) {
+        lxb_html_tree_parse_error(tree, token,
+                                  LXB_HTML_RULES_ERROR_MIELINOPELST);
+
+        return true;
     }
 
-    if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
-        return lxb_html_tree_insertion_mode_in_column_group_closed_res[token->tag_id](tree,
-                                                                                      token);
-    }
+    lxb_html_tree_open_elements_pop(tree);
 
-    return lxb_html_tree_insertion_mode_in_column_group_res[token->tag_id](tree,
-                                                                           token);
+    tree->mode = lxb_html_tree_insertion_mode_in_table;
+
+    return false;
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_column_group_text(lxb_html_tree_t *tree,
                                                   lxb_html_token_t *token)
 {
@@ -101,7 +54,7 @@ lxb_html_tree_insertion_mode_in_column_group_text(lxb_html_tree_t *tree,
                                                                       token);
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_column_group_comment(lxb_html_tree_t *tree,
                                                      lxb_html_token_t *token)
 {
@@ -117,14 +70,14 @@ lxb_html_tree_insertion_mode_in_column_group_comment(lxb_html_tree_t *tree,
     return true;
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_column_group_html(lxb_html_tree_t *tree,
                                                   lxb_html_token_t *token)
 {
     return lxb_html_tree_insertion_mode_in_body(tree, token);
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_column_group_col(lxb_html_tree_t *tree,
                                                  lxb_html_token_t *token)
 {
@@ -143,7 +96,7 @@ lxb_html_tree_insertion_mode_in_column_group_col(lxb_html_tree_t *tree,
     return true;
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_column_group_colgroup_closed(lxb_html_tree_t *tree,
                                                              lxb_html_token_t *token)
 {
@@ -163,7 +116,7 @@ lxb_html_tree_insertion_mode_in_column_group_colgroup_closed(lxb_html_tree_t *tr
     return true;
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_column_group_col_closed(lxb_html_tree_t *tree,
                                                         lxb_html_token_t *token)
 {
@@ -172,43 +125,70 @@ lxb_html_tree_insertion_mode_in_column_group_col_closed(lxb_html_tree_t *tree,
     return true;
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_column_group_template_open_closed(lxb_html_tree_t *tree,
                                                                   lxb_html_token_t *token)
 {
     return lxb_html_tree_insertion_mode_in_head(tree, token);
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_column_group_end_of_file(lxb_html_tree_t *tree,
                                                          lxb_html_token_t *token)
 {
     return lxb_html_tree_insertion_mode_in_body(tree, token);
 }
 
-static bool
-lxb_html_tree_insertion_mode_in_column_group_anything_else(lxb_html_tree_t *tree,
-                                                           lxb_html_token_t *token)
-{
-    lxb_dom_node_t *node = lxb_html_tree_current_node(tree);
-
-    if (lxb_html_tree_node_is(node, LXB_TAG_COLGROUP) == false) {
-        lxb_html_tree_parse_error(tree, token,
-                                  LXB_HTML_RULES_ERROR_MIELINOPELST);
-
-        return true;
-    }
-
-    lxb_html_tree_open_elements_pop(tree);
-
-    tree->mode = lxb_html_tree_insertion_mode_in_table;
-
-    return false;
-}
-
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_column_group_anything_else_closed(lxb_html_tree_t *tree,
                                                                   lxb_html_token_t *token)
 {
     return lxb_html_tree_insertion_mode_in_column_group_anything_else(tree, token);
+}
+
+bool
+lxb_html_tree_insertion_mode_in_column_group(lxb_html_tree_t *tree,
+                                             lxb_html_token_t *token)
+{
+    if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
+        switch (token->tag_id) {
+            case LXB_TAG_COLGROUP:
+                return lxb_html_tree_insertion_mode_in_column_group_colgroup_closed(tree,
+                                                                                    token);
+            case LXB_TAG_COL:
+                return lxb_html_tree_insertion_mode_in_column_group_col_closed(tree,
+                                                                               token);
+            case LXB_TAG_TEMPLATE:
+                return lxb_html_tree_insertion_mode_in_column_group_template_open_closed(tree,
+                                                                                         token);
+            default:
+                return lxb_html_tree_insertion_mode_in_column_group_anything_else_closed(tree,
+                                                                                         token);
+        }
+    }
+
+    switch (token->tag_id) {
+        case LXB_TAG__TEXT:
+            return lxb_html_tree_insertion_mode_in_column_group_text(tree,
+                                                                     token);
+        case LXB_TAG__EM_COMMENT:
+            return lxb_html_tree_insertion_mode_in_column_group_comment(tree,
+                                                                        token);
+        case LXB_TAG_HTML:
+            return lxb_html_tree_insertion_mode_in_column_group_html(tree,
+                                                                     token);
+        case LXB_TAG_COL:
+            return lxb_html_tree_insertion_mode_in_column_group_col(tree,
+                                                                    token);
+        case LXB_TAG_TEMPLATE:
+            return lxb_html_tree_insertion_mode_in_column_group_template_open_closed(tree,
+                                                                                     token);
+
+        case LXB_TAG__END_OF_FILE:
+            return lxb_html_tree_insertion_mode_in_column_group_end_of_file(tree,
+                                                                            token);
+        default:
+            return lxb_html_tree_insertion_mode_in_column_group_anything_else(tree,
+                                                                              token);
+    }
 }

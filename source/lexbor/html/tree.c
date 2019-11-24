@@ -244,7 +244,7 @@ lxb_html_tree_construction_dispatcher(lxb_html_tree_t *tree,
 
     adjusted = lxb_html_tree_adjusted_current_node(tree);
 
-    if (tree->open_elements->length == 0 || adjusted->ns == LXB_NS_HTML) {
+    if (adjusted == NULL || adjusted->ns == LXB_NS_HTML) {
         return tree->mode(tree, token);
     }
 
