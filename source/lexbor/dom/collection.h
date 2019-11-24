@@ -86,6 +86,9 @@ lxb_dom_collection_length(lxb_dom_collection_t *col)
 /*
  * No inline functions for ABI.
  */
+lxb_dom_collection_t *
+lxb_dom_collection_make_noi(lxb_dom_document_t *document, size_t start_list_size);
+
 void
 lxb_dom_collection_clean_noi(lxb_dom_collection_t *col);
 

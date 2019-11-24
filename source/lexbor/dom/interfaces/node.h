@@ -105,6 +105,66 @@ LXB_API lxb_status_t
 lxb_dom_node_text_content_set(lxb_dom_node_t *node,
                               const lxb_char_t *content, size_t len);
 
+/*
+ * Inline functions
+ */
+lxb_inline unsigned int
+lxb_dom_node_tag_id(lxb_dom_node_t *node)
+{
+    return node->tag_id;
+}
+
+lxb_inline lxb_dom_node_t *
+lxb_dom_node_next(lxb_dom_node_t *node)
+{
+    return node->next;
+}
+
+lxb_inline lxb_dom_node_t *
+lxb_dom_node_prev(lxb_dom_node_t *node)
+{
+    return node->prev;
+}
+
+lxb_inline lxb_dom_node_t *
+lxb_dom_node_parent(lxb_dom_node_t *node)
+{
+    return node->parent;
+}
+
+lxb_inline lxb_dom_node_t *
+lxb_dom_node_first_child(lxb_dom_node_t *node)
+{
+    return node->first_child;
+}
+
+lxb_inline lxb_dom_node_t *
+lxb_dom_node_last_child(lxb_dom_node_t *node)
+{
+    return node->last_child;
+}
+
+/*
+ * No inline functions for ABI.
+ */
+unsigned int
+lxb_dom_node_tag_id_noi(lxb_dom_node_t *node);
+
+lxb_dom_node_t *
+lxb_dom_node_next_noi(lxb_dom_node_t *node);
+
+lxb_dom_node_t *
+lxb_dom_node_prev_noi(lxb_dom_node_t *node);
+
+lxb_dom_node_t *
+lxb_dom_node_parent_noi(lxb_dom_node_t *node);
+
+lxb_dom_node_t *
+lxb_dom_node_first_child_noi(lxb_dom_node_t *node);
+
+lxb_dom_node_t *
+lxb_dom_node_last_child_noi(lxb_dom_node_t *node);
+
 
 #ifdef __cplusplus
 } /* extern "C" */
