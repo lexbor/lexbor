@@ -191,12 +191,13 @@ lxb_utils_warc_destroy(lxb_utils_warc_t *warc, bool self_destroy)
 lxb_status_t
 lxb_utils_warc_parse_file(lxb_utils_warc_t *warc, FILE *fh)
 {
+#define LXB_UTILS_WARC_BUFFER_SIZE 4096 * 2
+
     size_t size;
     lxb_status_t status;
 
     const lxb_char_t *buf_ref;
-    static const size_t buffer_size = 4096 * 2;
-    lxb_char_t buffer[buffer_size];
+    lxb_char_t buffer[LXB_UTILS_WARC_BUFFER_SIZE];
 
     if (fh == NULL) {
         return LXB_STATUS_ERROR_WRONG_ARGS;
@@ -205,8 +206,9 @@ lxb_utils_warc_parse_file(lxb_utils_warc_t *warc, FILE *fh)
     do {
         buf_ref = buffer;
 
-        size = fread(buffer, sizeof(lxb_char_t), buffer_size, fh);
-        if (size != buffer_size) {
+        size = fread(buffer, sizeof(lxb_char_t),
+                     LXB_UTILS_WARC_BUFFER_SIZE, fh);
+        if (size != LXB_UTILS_WARC_BUFFER_SIZE) {
             if (feof(fh)) {
                 return lxb_utils_warc_parse(warc, &buf_ref, (buffer + size));
             }
@@ -214,11 +216,14 @@ lxb_utils_warc_parse_file(lxb_utils_warc_t *warc, FILE *fh)
             return LXB_STATUS_ERROR;
         }
 
-        status = lxb_utils_warc_parse(warc, &buf_ref, (buffer + buffer_size));
+        status = lxb_utils_warc_parse(warc, &buf_ref,
+                                      (buffer + LXB_UTILS_WARC_BUFFER_SIZE));
     }
     while (status == LXB_STATUS_OK);
 
     return lxb_utils_warc_parse_eof(warc);
+
+#undef LXB_UTILS_WARC_BUFFER_SIZE
 }
 
 lxb_status_t
