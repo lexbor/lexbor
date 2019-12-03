@@ -341,6 +341,26 @@ lxb_encoding_decode_function(lxb_encoding_t encoding)
     return lxb_encoding_res_map[encoding].decode;
 }
 
+lxb_inline lxb_status_t
+lxb_encoding_data_call_encode(lxb_encoding_data_t *encoding_data, lxb_encoding_encode_t *ctx,
+                              const lxb_codepoint_t **cp, const lxb_codepoint_t *end)
+{
+    return encoding_data->encode(ctx, cp, end);
+}
+
+lxb_inline lxb_status_t
+lxb_encoding_data_call_decode(lxb_encoding_data_t *encoding_data, lxb_encoding_decode_t *ctx,
+                              const lxb_char_t **data, const lxb_char_t *end)
+{
+    return encoding_data->decode(ctx, data, end);
+}
+
+lxb_inline lxb_encoding_t
+lxb_encoding_data_encoding(lxb_encoding_data_t *data)
+{
+    return data->encoding;
+}
+
 /*
  * No inline functions for ABI.
  */
@@ -431,6 +451,21 @@ lxb_encoding_encode_function_noi(lxb_encoding_t encoding);
 LXB_API lxb_encoding_decode_f
 lxb_encoding_decode_function_noi(lxb_encoding_t encoding);
 
+LXB_API lxb_status_t
+lxb_encoding_data_call_encode_noi(lxb_encoding_data_t *encoding_data, lxb_encoding_encode_t *ctx,
+                                  const lxb_codepoint_t **cp, const lxb_codepoint_t *end);
+LXB_API lxb_status_t
+lxb_encoding_data_call_decode_noi(lxb_encoding_data_t *encoding_data, lxb_encoding_decode_t *ctx,
+                                  const lxb_char_t **data, const lxb_char_t *end);
+
+LXB_API lxb_encoding_t
+lxb_encoding_data_encoding_noi(lxb_encoding_data_t *data);
+
+LXB_API size_t
+lxb_encoding_encode_t_sizeof();
+
+LXB_API size_t
+lxb_encoding_decode_t_sizeof();
 
 #ifdef __cplusplus
 } /* extern "C" */
