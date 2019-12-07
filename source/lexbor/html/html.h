@@ -15,6 +15,49 @@ extern "C" {
 #include "lexbor/tag/const.h"
 #include "lexbor/html/interfaces/document.h"
 
+/*
+ * Inline functions
+ */
+lxb_inline bool
+lxb_html_node_is_void(lxb_dom_node_t *node)
+{
+    if (node->ns != LXB_NS_HTML) {
+        return false;
+    }
+
+    switch (node->tag_id) {
+        case LXB_TAG_AREA:
+        case LXB_TAG_BASE:
+        case LXB_TAG_BASEFONT:
+        case LXB_TAG_BGSOUND:
+        case LXB_TAG_BR:
+        case LXB_TAG_COL:
+        case LXB_TAG_EMBED:
+        case LXB_TAG_FRAME:
+        case LXB_TAG_HR:
+        case LXB_TAG_IMG:
+        case LXB_TAG_INPUT:
+        case LXB_TAG_KEYGEN:
+        case LXB_TAG_LINK:
+        case LXB_TAG_META:
+        case LXB_TAG_PARAM:
+        case LXB_TAG_SOURCE:
+        case LXB_TAG_TRACK:
+        case LXB_TAG_WBR:
+            return true;
+
+        default:
+            return false;
+    }
+
+    return false;
+}
+
+/*
+ * No inline functions for ABI.
+ */
+LXB_API bool
+lxb_html_node_is_void_noi(lxb_dom_node_t *node);
 
 
 #ifdef __cplusplus

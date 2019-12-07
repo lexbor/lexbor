@@ -50,9 +50,6 @@ static lxb_status_t
 lxb_html_serialize_node_cb(lxb_dom_node_t *node,
                            lxb_html_serialize_cb_f cb, void *ctx);
 
-lxb_inline lxb_status_t
-lxb_html_serialize_node_is_void(lxb_dom_node_t *node);
-
 static lxb_status_t
 lxb_html_serialize_element_cb(lxb_dom_element_t *element,
                               lxb_html_serialize_cb_f cb, void *ctx);
@@ -275,7 +272,7 @@ lxb_html_serialize_node_cb(lxb_dom_node_t *node,
             }
         }
 
-        skip_it = lxb_html_serialize_node_is_void(node);
+        skip_it = lxb_html_node_is_void(node);
 
         if (skip_it == false && node->first_child != NULL) {
             node = node->first_child;
@@ -284,7 +281,7 @@ lxb_html_serialize_node_cb(lxb_dom_node_t *node,
             while(node != root && node->next == NULL)
             {
                 if (node->type == LXB_DOM_NODE_TYPE_ELEMENT
-                    && lxb_html_serialize_node_is_void(node) == false)
+                    && lxb_html_node_is_void(node) == false)
                 {
                     status = lxb_html_serialize_element_closed_cb(lxb_dom_interface_element(node),
                                                                   cb, ctx);
@@ -297,7 +294,7 @@ lxb_html_serialize_node_cb(lxb_dom_node_t *node,
             }
 
             if (node->type == LXB_DOM_NODE_TYPE_ELEMENT
-                && lxb_html_serialize_node_is_void(node) == false)
+                && lxb_html_node_is_void(node) == false)
             {
                 status = lxb_html_serialize_element_closed_cb(lxb_dom_interface_element(node),
                                                               cb, ctx);
@@ -315,41 +312,6 @@ lxb_html_serialize_node_cb(lxb_dom_node_t *node,
     }
 
     return LXB_STATUS_OK;
-}
-
-lxb_inline lxb_status_t
-lxb_html_serialize_node_is_void(lxb_dom_node_t *node)
-{
-    if (node->ns != LXB_NS_HTML) {
-        return false;
-    }
-
-    switch (node->tag_id) {
-        case LXB_TAG_AREA:
-        case LXB_TAG_BASE:
-        case LXB_TAG_BASEFONT:
-        case LXB_TAG_BGSOUND:
-        case LXB_TAG_BR:
-        case LXB_TAG_COL:
-        case LXB_TAG_EMBED:
-        case LXB_TAG_FRAME:
-        case LXB_TAG_HR:
-        case LXB_TAG_IMG:
-        case LXB_TAG_INPUT:
-        case LXB_TAG_KEYGEN:
-        case LXB_TAG_LINK:
-        case LXB_TAG_META:
-        case LXB_TAG_PARAM:
-        case LXB_TAG_SOURCE:
-        case LXB_TAG_TRACK:
-        case LXB_TAG_WBR:
-            return true;
-
-        default:
-            return false;
-    }
-
-    return false;
 }
 
 static lxb_status_t
@@ -1001,7 +963,7 @@ lxb_html_serialize_pretty_node_cb(lxb_dom_node_t *node,
             }
         }
 
-        skip_it = lxb_html_serialize_node_is_void(node);
+        skip_it = lxb_html_node_is_void(node);
 
         if (skip_it == false && node->first_child != NULL) {
             deep++;
@@ -1012,7 +974,7 @@ lxb_html_serialize_pretty_node_cb(lxb_dom_node_t *node,
             while(node != root && node->next == NULL)
             {
                 if (node->type == LXB_DOM_NODE_TYPE_ELEMENT
-                    && lxb_html_serialize_node_is_void(node) == false)
+                    && lxb_html_node_is_void(node) == false)
                 {
                     if ((opt & LXB_HTML_SERIALIZE_OPT_WITHOUT_CLOSING) == 0) {
                         lxb_html_serialize_send_indent(deep, ctx);
@@ -1033,7 +995,7 @@ lxb_html_serialize_pretty_node_cb(lxb_dom_node_t *node,
             }
 
             if (node->type == LXB_DOM_NODE_TYPE_ELEMENT
-                && lxb_html_serialize_node_is_void(node) == false)
+                && lxb_html_node_is_void(node) == false)
             {
                 if ((opt & LXB_HTML_SERIALIZE_OPT_WITHOUT_CLOSING) == 0) {
                     lxb_html_serialize_send_indent(deep, ctx);
