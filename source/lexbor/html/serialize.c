@@ -46,11 +46,7 @@ lxb_html_serialize_ctx_t;
 static lxb_status_t
 lxb_html_serialize_str_callback(const lxb_char_t *data, size_t len, void *ctx);
 
-static lxb_status_t
-lxb_html_serialize_node_cb(lxb_dom_node_t *node,
-                           lxb_html_serialize_cb_f cb, void *ctx);
-
-lxb_inline lxb_status_t
+bool
 lxb_html_serialize_node_is_void(lxb_dom_node_t *node);
 
 static lxb_status_t
@@ -244,7 +240,7 @@ lxb_html_serialize_tree_str(lxb_dom_node_t *node, lexbor_str_t *str)
                                       lxb_html_serialize_str_callback, &ctx);
 }
 
-static lxb_status_t
+lxb_status_t
 lxb_html_serialize_node_cb(lxb_dom_node_t *node,
                            lxb_html_serialize_cb_f cb, void *ctx)
 {
@@ -317,7 +313,7 @@ lxb_html_serialize_node_cb(lxb_dom_node_t *node,
     return LXB_STATUS_OK;
 }
 
-lxb_inline lxb_status_t
+bool
 lxb_html_serialize_node_is_void(lxb_dom_node_t *node)
 {
     if (node->ns != LXB_NS_HTML) {

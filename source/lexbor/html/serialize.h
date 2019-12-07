@@ -47,6 +47,10 @@ lxb_html_serialize_tree_cb(lxb_dom_node_t *node,
                            lxb_html_serialize_cb_f cb, void *ctx);
 
 LXB_API lxb_status_t
+lxb_html_serialize_node_cb(lxb_dom_node_t *node,
+                           lxb_html_serialize_cb_f cb, void *ctx);
+
+LXB_API lxb_status_t
 lxb_html_serialize_tree_str(lxb_dom_node_t *node, lexbor_str_t *str);
 
 LXB_API lxb_status_t
@@ -68,7 +72,6 @@ LXB_API lxb_status_t
 lxb_html_serialize_pretty_tree_str(lxb_dom_node_t *node,
                                    lxb_html_serialize_opt_t opt, size_t indent,
                                    lexbor_str_t *str);
-
 
 #ifdef __cplusplus
 } /* extern "C" */
