@@ -202,7 +202,7 @@ lxb_html_serialize_str_callback(const lxb_char_t *data, size_t len, void *ctx)
 }
 
 lxb_status_t
-lxb_html_serialize_tree_cb(lxb_dom_node_t *node,
+lxb_html_serialize_deep_cb(lxb_dom_node_t *node,
                            lxb_html_serialize_cb_f cb, void *ctx)
 {
     lxb_status_t status;
@@ -222,7 +222,7 @@ lxb_html_serialize_tree_cb(lxb_dom_node_t *node,
 }
 
 lxb_status_t
-lxb_html_serialize_tree_str(lxb_dom_node_t *node, lexbor_str_t *str)
+lxb_html_serialize_deep_str(lxb_dom_node_t *node, lexbor_str_t *str)
 {
     lxb_html_serialize_ctx_t ctx;
 
@@ -237,7 +237,7 @@ lxb_html_serialize_tree_str(lxb_dom_node_t *node, lexbor_str_t *str)
     ctx.str = str;
     ctx.mraw = node->owner_document->text;
 
-    return lxb_html_serialize_tree_cb(node,
+    return lxb_html_serialize_deep_cb(node,
                                       lxb_html_serialize_str_callback, &ctx);
 }
 
@@ -263,7 +263,7 @@ lxb_html_serialize_node_cb(lxb_dom_node_t *node,
             if (temp->content != NULL) {
                 if (temp->content->node.first_child != NULL)
                 {
-                    status = lxb_html_serialize_tree_cb(&temp->content->node,
+                    status = lxb_html_serialize_deep_cb(&temp->content->node,
                                                         cb, ctx);
                     if (status != LXB_STATUS_OK) {
                         return status;
@@ -883,7 +883,7 @@ lxb_html_serialize_pretty_str(lxb_dom_node_t *node,
 }
 
 lxb_status_t
-lxb_html_serialize_pretty_tree_cb(lxb_dom_node_t *node,
+lxb_html_serialize_pretty_deep_cb(lxb_dom_node_t *node,
                                   lxb_html_serialize_opt_t opt, size_t indent,
                                   lxb_html_serialize_cb_f cb, void *ctx)
 {
@@ -904,7 +904,7 @@ lxb_html_serialize_pretty_tree_cb(lxb_dom_node_t *node,
 }
 
 lxb_status_t
-lxb_html_serialize_pretty_tree_str(lxb_dom_node_t *node,
+lxb_html_serialize_pretty_deep_str(lxb_dom_node_t *node,
                                    lxb_html_serialize_opt_t opt, size_t indent,
                                    lexbor_str_t *str)
 {
@@ -921,7 +921,7 @@ lxb_html_serialize_pretty_tree_str(lxb_dom_node_t *node,
     ctx.str = str;
     ctx.mraw = node->owner_document->text;
 
-    return lxb_html_serialize_pretty_tree_cb(node, opt, indent,
+    return lxb_html_serialize_pretty_deep_cb(node, opt, indent,
                                              lxb_html_serialize_str_callback,
                                              &ctx);
 }
@@ -953,7 +953,7 @@ lxb_html_serialize_pretty_node_cb(lxb_dom_node_t *node,
                     lxb_html_serialize_send("#document-fragment", 18, ctx);
                     lxb_html_serialize_send("\n", 1, ctx);
 
-                    status = lxb_html_serialize_pretty_tree_cb(&temp->content->node,
+                    status = lxb_html_serialize_pretty_deep_cb(&temp->content->node,
                                                                opt, (deep + 2),
                                                                cb, ctx);
                     if (status != LXB_STATUS_OK) {
@@ -1251,6 +1251,95 @@ lxb_html_serialize_pretty_document_cb(lxb_dom_document_t *document,
     lxb_html_serialize_send("#document", 9, ctx);
 
     return LXB_STATUS_OK;
+}
+
+lxb_status_t
+lxb_html_serialize_tree_cb(lxb_dom_node_t *node,
+                           lxb_html_serialize_cb_f cb, void *ctx)
+{
+    /* For a document we must serialize all children without document node. */
+    if (node->tag_id == LXB_TAG__DOCUMENT) {
+        node = node->first_child;
+
+        while (node != NULL) {
+            lxb_status_t status = lxb_html_serialize_node_cb(node, cb, ctx);
+            if (status != LXB_STATUS_OK) {
+                return status;
+            }
+
+            node = node->next;
+        }
+
+        return LXB_STATUS_OK;
+    }
+
+    return lxb_html_serialize_node_cb(node, cb, ctx);
+}
+
+lxb_status_t
+lxb_html_serialize_tree_str(lxb_dom_node_t *node, lexbor_str_t *str)
+{
+    lxb_html_serialize_ctx_t ctx;
+
+    if (str->data == NULL) {
+        lexbor_str_init(str, node->owner_document->text, 1024);
+
+        if (str->data == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+    }
+
+    ctx.str = str;
+    ctx.mraw = node->owner_document->text;
+
+    return lxb_html_serialize_tree_cb(node, lxb_html_serialize_str_callback, &ctx);
+}
+
+lxb_status_t
+lxb_html_serialize_pretty_tree_cb(lxb_dom_node_t *node,
+                                  lxb_html_serialize_opt_t opt, size_t indent,
+                                  lxb_html_serialize_cb_f cb, void *ctx)
+{
+    /* For a document we must serialize all children without document node. */
+    if (node->tag_id == LXB_TAG__DOCUMENT) {
+        node = node->first_child;
+
+        while (node != NULL) {
+            lxb_status_t status = lxb_html_serialize_pretty_node_cb(node, opt, indent, cb, ctx);
+            if (status != LXB_STATUS_OK) {
+                return status;
+            }
+
+            node = node->next;
+        }
+
+        return LXB_STATUS_OK;
+    }
+
+    return lxb_html_serialize_pretty_node_cb(node, opt, indent, cb, ctx);
+}
+
+lxb_status_t
+lxb_html_serialize_pretty_tree_str(lxb_dom_node_t *node,
+                                   lxb_html_serialize_opt_t opt, size_t indent,
+                                   lexbor_str_t *str)
+{
+    lxb_html_serialize_ctx_t ctx;
+
+    if (str->data == NULL) {
+        lexbor_str_init(str, node->owner_document->text, 1024);
+
+        if (str->data == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+    }
+
+    ctx.str = str;
+    ctx.mraw = node->owner_document->text;
+
+    return lxb_html_serialize_pretty_tree_cb(node, opt, indent,
+                                             lxb_html_serialize_str_callback,
+                                             &ctx);
 }
 
 static lxb_status_t
