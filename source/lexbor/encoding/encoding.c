@@ -218,3 +218,35 @@ lxb_encoding_decode_function_noi(lxb_encoding_t encoding)
 {
     return lxb_encoding_decode_function(encoding);
 }
+
+lxb_status_t
+lxb_encoding_data_call_encode_noi(lxb_encoding_data_t *encoding_data, lxb_encoding_encode_t *ctx,
+                                  const lxb_codepoint_t **cp, const lxb_codepoint_t *end)
+{
+    return lxb_encoding_data_call_encode(encoding_data, ctx, cp, end);
+}
+
+lxb_status_t
+lxb_encoding_data_call_decode_noi(lxb_encoding_data_t *encoding_data, lxb_encoding_decode_t *ctx,
+                                  const lxb_char_t **data, const lxb_char_t *end)
+{
+    return lxb_encoding_data_call_decode(encoding_data, ctx, data, end);
+}
+
+lxb_encoding_t
+lxb_encoding_data_encoding_noi(lxb_encoding_data_t *data)
+{
+    return lxb_encoding_data_encoding(data);
+}
+
+size_t
+lxb_encoding_encode_t_sizeof()
+{
+    return sizeof(lxb_encoding_encode_t);
+}
+
+size_t
+lxb_encoding_decode_t_sizeof()
+{
+    return sizeof(lxb_encoding_decode_t);
+}

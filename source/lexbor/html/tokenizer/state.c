@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2019 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -197,9 +197,6 @@ lxb_html_tokenizer_state_data(lxb_html_tokenizer_t *tkz,
 
                 lxb_html_tokenizer_error_add(tkz->parse_errors, data,
                                              LXB_HTML_TOKENIZER_ERROR_UNNUCH);
-                break;
-
-            default:
                 break;
         }
 

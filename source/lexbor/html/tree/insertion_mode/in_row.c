@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2019 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -9,64 +9,25 @@
 #include "lexbor/html/tree/active_formatting.h"
 
 
-static bool
-lxb_html_tree_insertion_mode_in_row_thtd(lxb_html_tree_t *tree,
-                                         lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_row_tr_closed(lxb_html_tree_t *tree,
-                                              lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_row_ct_open_closed(lxb_html_tree_t *tree,
-                                                   lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_row_tbtfth_closed(lxb_html_tree_t *tree,
-                                                  lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_row_bcht_closed(lxb_html_tree_t *tree,
-                                                lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_row_anything_else(lxb_html_tree_t *tree,
-                                                  lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_row_anything_else_closed(lxb_html_tree_t *tree,
-                                                         lxb_html_token_t *token);
-
 static void
-lxb_html_tree_clear_stack_back_to_table_row(lxb_html_tree_t *tree);
-
-
-#include "lexbor/html/tree/insertion_mode/in_row_res.h"
-
-
-bool
-lxb_html_tree_insertion_mode_in_row(lxb_html_tree_t *tree,
-                                    lxb_html_token_t *token)
+lxb_html_tree_clear_stack_back_to_table_row(lxb_html_tree_t *tree)
 {
-    if (token->tag_id >= LXB_TAG__LAST_ENTRY) {
-        if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
-            return lxb_html_tree_insertion_mode_in_row_anything_else_closed(tree, token);
-        }
+    lxb_dom_node_t *current = lxb_html_tree_current_node(tree);
 
-        return lxb_html_tree_insertion_mode_in_row_anything_else(tree, token);
+    while ((current->tag_id != LXB_TAG_TR
+            && current->tag_id != LXB_TAG_TEMPLATE
+            && current->tag_id != LXB_TAG_HTML)
+           || current->ns != LXB_NS_HTML)
+    {
+        lxb_html_tree_open_elements_pop(tree);
+        current = lxb_html_tree_current_node(tree);
     }
-
-    if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
-        return lxb_html_tree_insertion_mode_in_row_closed_res[token->tag_id](tree, token);
-    }
-
-    return lxb_html_tree_insertion_mode_in_row_res[token->tag_id](tree, token);
 }
 
 /*
  * "th", "td"
  */
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_row_thtd(lxb_html_tree_t *tree,
                                          lxb_html_token_t *token)
 {
@@ -91,7 +52,7 @@ lxb_html_tree_insertion_mode_in_row_thtd(lxb_html_tree_t *tree,
     return true;
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_row_tr_closed(lxb_html_tree_t *tree,
                                               lxb_html_token_t *token)
 {
@@ -118,7 +79,7 @@ lxb_html_tree_insertion_mode_in_row_tr_closed(lxb_html_tree_t *tree,
  * "tfoot", "thead", "tr"
  * An end tag whose tag name is "table"
  */
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_row_ct_open_closed(lxb_html_tree_t *tree,
                                                    lxb_html_token_t *token)
 {
@@ -143,7 +104,7 @@ lxb_html_tree_insertion_mode_in_row_ct_open_closed(lxb_html_tree_t *tree,
 /*
  * "tbody", "tfoot", "thead"
  */
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_row_tbtfth_closed(lxb_html_tree_t *tree,
                                                   lxb_html_token_t *token)
 {
@@ -174,7 +135,7 @@ lxb_html_tree_insertion_mode_in_row_tbtfth_closed(lxb_html_tree_t *tree,
 /*
  * "body", "caption", "col", "colgroup", "html", "td", "th"
  */
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_row_bcht_closed(lxb_html_tree_t *tree,
                                                 lxb_html_token_t *token)
 {
@@ -183,31 +144,68 @@ lxb_html_tree_insertion_mode_in_row_bcht_closed(lxb_html_tree_t *tree,
     return true;
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_row_anything_else(lxb_html_tree_t *tree,
                                                   lxb_html_token_t *token)
 {
     return lxb_html_tree_insertion_mode_in_table(tree, token);
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_row_anything_else_closed(lxb_html_tree_t *tree,
                                                          lxb_html_token_t *token)
 {
     return lxb_html_tree_insertion_mode_in_row_anything_else(tree, token);
 }
 
-static void
-lxb_html_tree_clear_stack_back_to_table_row(lxb_html_tree_t *tree)
+bool
+lxb_html_tree_insertion_mode_in_row(lxb_html_tree_t *tree,
+                                    lxb_html_token_t *token)
 {
-    lxb_dom_node_t *current = lxb_html_tree_current_node(tree);
+    if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
+        switch (token->tag_id) {
+            case LXB_TAG_TR:
+                return lxb_html_tree_insertion_mode_in_row_tr_closed(tree,
+                                                                     token);
+            case LXB_TAG_TABLE:
+                return lxb_html_tree_insertion_mode_in_row_ct_open_closed(tree,
+                                                                          token);
+            case LXB_TAG_TBODY:
+            case LXB_TAG_TFOOT:
+            case LXB_TAG_THEAD:
+                return lxb_html_tree_insertion_mode_in_row_tbtfth_closed(tree,
+                                                                         token);
+            case LXB_TAG_BODY:
+            case LXB_TAG_CAPTION:
+            case LXB_TAG_COL:
+            case LXB_TAG_COLGROUP:
+            case LXB_TAG_HTML:
+            case LXB_TAG_TD:
+            case LXB_TAG_TH:
+                return lxb_html_tree_insertion_mode_in_row_bcht_closed(tree,
+                                                                       token);
+            default:
+                return lxb_html_tree_insertion_mode_in_row_anything_else_closed(tree,
+                                                                                token);
+        }
+    }
 
-    while ((current->tag_id != LXB_TAG_TR
-            && current->tag_id != LXB_TAG_TEMPLATE
-            && current->tag_id != LXB_TAG_HTML)
-           || current->ns != LXB_NS_HTML)
-    {
-        lxb_html_tree_open_elements_pop(tree);
-        current = lxb_html_tree_current_node(tree);
+    switch (token->tag_id) {
+        case LXB_TAG_TH:
+        case LXB_TAG_TD:
+            return lxb_html_tree_insertion_mode_in_row_thtd(tree, token);
+
+        case LXB_TAG_CAPTION:
+        case LXB_TAG_COL:
+        case LXB_TAG_COLGROUP:
+        case LXB_TAG_TBODY:
+        case LXB_TAG_TFOOT:
+        case LXB_TAG_THEAD:
+        case LXB_TAG_TR:
+            return lxb_html_tree_insertion_mode_in_row_ct_open_closed(tree,
+                                                                      token);
+        default:
+            return lxb_html_tree_insertion_mode_in_row_anything_else(tree,
+                                                                     token);
     }
 }

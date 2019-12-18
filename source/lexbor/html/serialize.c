@@ -50,9 +50,6 @@ static lxb_status_t
 lxb_html_serialize_node_cb(lxb_dom_node_t *node,
                            lxb_html_serialize_cb_f cb, void *ctx);
 
-lxb_inline lxb_status_t
-lxb_html_serialize_node_is_void(lxb_dom_node_t *node);
-
 static lxb_status_t
 lxb_html_serialize_element_cb(lxb_dom_element_t *element,
                               lxb_html_serialize_cb_f cb, void *ctx);
@@ -205,7 +202,7 @@ lxb_html_serialize_str_callback(const lxb_char_t *data, size_t len, void *ctx)
 }
 
 lxb_status_t
-lxb_html_serialize_tree_cb(lxb_dom_node_t *node,
+lxb_html_serialize_deep_cb(lxb_dom_node_t *node,
                            lxb_html_serialize_cb_f cb, void *ctx)
 {
     lxb_status_t status;
@@ -225,7 +222,7 @@ lxb_html_serialize_tree_cb(lxb_dom_node_t *node,
 }
 
 lxb_status_t
-lxb_html_serialize_tree_str(lxb_dom_node_t *node, lexbor_str_t *str)
+lxb_html_serialize_deep_str(lxb_dom_node_t *node, lexbor_str_t *str)
 {
     lxb_html_serialize_ctx_t ctx;
 
@@ -240,7 +237,7 @@ lxb_html_serialize_tree_str(lxb_dom_node_t *node, lexbor_str_t *str)
     ctx.str = str;
     ctx.mraw = node->owner_document->text;
 
-    return lxb_html_serialize_tree_cb(node,
+    return lxb_html_serialize_deep_cb(node,
                                       lxb_html_serialize_str_callback, &ctx);
 }
 
@@ -266,7 +263,7 @@ lxb_html_serialize_node_cb(lxb_dom_node_t *node,
             if (temp->content != NULL) {
                 if (temp->content->node.first_child != NULL)
                 {
-                    status = lxb_html_serialize_tree_cb(&temp->content->node,
+                    status = lxb_html_serialize_deep_cb(&temp->content->node,
                                                         cb, ctx);
                     if (status != LXB_STATUS_OK) {
                         return status;
@@ -275,7 +272,7 @@ lxb_html_serialize_node_cb(lxb_dom_node_t *node,
             }
         }
 
-        skip_it = lxb_html_serialize_node_is_void(node);
+        skip_it = lxb_html_node_is_void(node);
 
         if (skip_it == false && node->first_child != NULL) {
             node = node->first_child;
@@ -284,7 +281,7 @@ lxb_html_serialize_node_cb(lxb_dom_node_t *node,
             while(node != root && node->next == NULL)
             {
                 if (node->type == LXB_DOM_NODE_TYPE_ELEMENT
-                    && lxb_html_serialize_node_is_void(node) == false)
+                    && lxb_html_node_is_void(node) == false)
                 {
                     status = lxb_html_serialize_element_closed_cb(lxb_dom_interface_element(node),
                                                                   cb, ctx);
@@ -297,7 +294,7 @@ lxb_html_serialize_node_cb(lxb_dom_node_t *node,
             }
 
             if (node->type == LXB_DOM_NODE_TYPE_ELEMENT
-                && lxb_html_serialize_node_is_void(node) == false)
+                && lxb_html_node_is_void(node) == false)
             {
                 status = lxb_html_serialize_element_closed_cb(lxb_dom_interface_element(node),
                                                               cb, ctx);
@@ -315,41 +312,6 @@ lxb_html_serialize_node_cb(lxb_dom_node_t *node,
     }
 
     return LXB_STATUS_OK;
-}
-
-lxb_inline lxb_status_t
-lxb_html_serialize_node_is_void(lxb_dom_node_t *node)
-{
-    if (node->ns != LXB_NS_HTML) {
-        return false;
-    }
-
-    switch (node->tag_id) {
-        case LXB_TAG_AREA:
-        case LXB_TAG_BASE:
-        case LXB_TAG_BASEFONT:
-        case LXB_TAG_BGSOUND:
-        case LXB_TAG_BR:
-        case LXB_TAG_COL:
-        case LXB_TAG_EMBED:
-        case LXB_TAG_FRAME:
-        case LXB_TAG_HR:
-        case LXB_TAG_IMG:
-        case LXB_TAG_INPUT:
-        case LXB_TAG_KEYGEN:
-        case LXB_TAG_LINK:
-        case LXB_TAG_META:
-        case LXB_TAG_PARAM:
-        case LXB_TAG_SOURCE:
-        case LXB_TAG_TRACK:
-        case LXB_TAG_WBR:
-            return true;
-
-        default:
-            return false;
-    }
-
-    return false;
 }
 
 static lxb_status_t
@@ -921,7 +883,7 @@ lxb_html_serialize_pretty_str(lxb_dom_node_t *node,
 }
 
 lxb_status_t
-lxb_html_serialize_pretty_tree_cb(lxb_dom_node_t *node,
+lxb_html_serialize_pretty_deep_cb(lxb_dom_node_t *node,
                                   lxb_html_serialize_opt_t opt, size_t indent,
                                   lxb_html_serialize_cb_f cb, void *ctx)
 {
@@ -942,7 +904,7 @@ lxb_html_serialize_pretty_tree_cb(lxb_dom_node_t *node,
 }
 
 lxb_status_t
-lxb_html_serialize_pretty_tree_str(lxb_dom_node_t *node,
+lxb_html_serialize_pretty_deep_str(lxb_dom_node_t *node,
                                    lxb_html_serialize_opt_t opt, size_t indent,
                                    lexbor_str_t *str)
 {
@@ -959,7 +921,7 @@ lxb_html_serialize_pretty_tree_str(lxb_dom_node_t *node,
     ctx.str = str;
     ctx.mraw = node->owner_document->text;
 
-    return lxb_html_serialize_pretty_tree_cb(node, opt, indent,
+    return lxb_html_serialize_pretty_deep_cb(node, opt, indent,
                                              lxb_html_serialize_str_callback,
                                              &ctx);
 }
@@ -991,7 +953,7 @@ lxb_html_serialize_pretty_node_cb(lxb_dom_node_t *node,
                     lxb_html_serialize_send("#document-fragment", 18, ctx);
                     lxb_html_serialize_send("\n", 1, ctx);
 
-                    status = lxb_html_serialize_pretty_tree_cb(&temp->content->node,
+                    status = lxb_html_serialize_pretty_deep_cb(&temp->content->node,
                                                                opt, (deep + 2),
                                                                cb, ctx);
                     if (status != LXB_STATUS_OK) {
@@ -1001,7 +963,7 @@ lxb_html_serialize_pretty_node_cb(lxb_dom_node_t *node,
             }
         }
 
-        skip_it = lxb_html_serialize_node_is_void(node);
+        skip_it = lxb_html_node_is_void(node);
 
         if (skip_it == false && node->first_child != NULL) {
             deep++;
@@ -1012,7 +974,7 @@ lxb_html_serialize_pretty_node_cb(lxb_dom_node_t *node,
             while(node != root && node->next == NULL)
             {
                 if (node->type == LXB_DOM_NODE_TYPE_ELEMENT
-                    && lxb_html_serialize_node_is_void(node) == false)
+                    && lxb_html_node_is_void(node) == false)
                 {
                     if ((opt & LXB_HTML_SERIALIZE_OPT_WITHOUT_CLOSING) == 0) {
                         lxb_html_serialize_send_indent(deep, ctx);
@@ -1033,7 +995,7 @@ lxb_html_serialize_pretty_node_cb(lxb_dom_node_t *node,
             }
 
             if (node->type == LXB_DOM_NODE_TYPE_ELEMENT
-                && lxb_html_serialize_node_is_void(node) == false)
+                && lxb_html_node_is_void(node) == false)
             {
                 if ((opt & LXB_HTML_SERIALIZE_OPT_WITHOUT_CLOSING) == 0) {
                     lxb_html_serialize_send_indent(deep, ctx);
@@ -1289,6 +1251,95 @@ lxb_html_serialize_pretty_document_cb(lxb_dom_document_t *document,
     lxb_html_serialize_send("#document", 9, ctx);
 
     return LXB_STATUS_OK;
+}
+
+lxb_status_t
+lxb_html_serialize_tree_cb(lxb_dom_node_t *node,
+                           lxb_html_serialize_cb_f cb, void *ctx)
+{
+    /* For a document we must serialize all children without document node. */
+    if (node->tag_id == LXB_TAG__DOCUMENT) {
+        node = node->first_child;
+
+        while (node != NULL) {
+            lxb_status_t status = lxb_html_serialize_node_cb(node, cb, ctx);
+            if (status != LXB_STATUS_OK) {
+                return status;
+            }
+
+            node = node->next;
+        }
+
+        return LXB_STATUS_OK;
+    }
+
+    return lxb_html_serialize_node_cb(node, cb, ctx);
+}
+
+lxb_status_t
+lxb_html_serialize_tree_str(lxb_dom_node_t *node, lexbor_str_t *str)
+{
+    lxb_html_serialize_ctx_t ctx;
+
+    if (str->data == NULL) {
+        lexbor_str_init(str, node->owner_document->text, 1024);
+
+        if (str->data == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+    }
+
+    ctx.str = str;
+    ctx.mraw = node->owner_document->text;
+
+    return lxb_html_serialize_tree_cb(node, lxb_html_serialize_str_callback, &ctx);
+}
+
+lxb_status_t
+lxb_html_serialize_pretty_tree_cb(lxb_dom_node_t *node,
+                                  lxb_html_serialize_opt_t opt, size_t indent,
+                                  lxb_html_serialize_cb_f cb, void *ctx)
+{
+    /* For a document we must serialize all children without document node. */
+    if (node->tag_id == LXB_TAG__DOCUMENT) {
+        node = node->first_child;
+
+        while (node != NULL) {
+            lxb_status_t status = lxb_html_serialize_pretty_node_cb(node, opt, indent, cb, ctx);
+            if (status != LXB_STATUS_OK) {
+                return status;
+            }
+
+            node = node->next;
+        }
+
+        return LXB_STATUS_OK;
+    }
+
+    return lxb_html_serialize_pretty_node_cb(node, opt, indent, cb, ctx);
+}
+
+lxb_status_t
+lxb_html_serialize_pretty_tree_str(lxb_dom_node_t *node,
+                                   lxb_html_serialize_opt_t opt, size_t indent,
+                                   lexbor_str_t *str)
+{
+    lxb_html_serialize_ctx_t ctx;
+
+    if (str->data == NULL) {
+        lexbor_str_init(str, node->owner_document->text, 1024);
+
+        if (str->data == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+    }
+
+    ctx.str = str;
+    ctx.mraw = node->owner_document->text;
+
+    return lxb_html_serialize_pretty_tree_cb(node, opt, indent,
+                                             lxb_html_serialize_str_callback,
+                                             &ctx);
 }
 
 static lxb_status_t

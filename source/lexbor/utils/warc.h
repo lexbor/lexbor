@@ -80,7 +80,7 @@ lxb_utils_warc_destroy(lxb_utils_warc_t *warc, bool self_destroy);
 
 
 LXB_API lxb_status_t
-lxb_warc_parse_file(lxb_utils_warc_t *warc, FILE *fh);
+lxb_utils_warc_parse_file(lxb_utils_warc_t *warc, FILE *fh);
 
 /*
  * We must call lxb_warc_parse_eof after processing.

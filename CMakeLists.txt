@@ -141,43 +141,6 @@ IF(LEXBOR_MAKE_DEB_FILES)
 ENDIF()
 
 ################
-## Build separately modules in liblexbor-<module-name>
-#########################
-IF(LEXBOR_BUILD_SEPARATELY)
-    FOREACH(module ${LEXBOR_MODULES})
-        set(lexbor_deps "${lexbor_deps} ${module}")
-        set(libname "${PROJECT_NAME}-${module}")
-
-        GET_MODULE_VERSION(major minor patch version_string
-                           "${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${module})
-
-        GET_MODULE_RESURSES(headers sources "${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${module})
-
-        IF(LEXBOR_BUILD_SHARED)
-            ADD_MODULE_LIBRARY(SHARED ${libname} ${version_string}
-                               ${major} "${sources}")
-        ENDIF()
-
-        IF(LEXBOR_BUILD_STATIC)
-            ADD_MODULE_LIBRARY(STATIC "${libname}_static" ${version_string}
-                               ${major} "${sources}")
-        ENDIF()
-
-        IF(LEXBOR_INSTALL_HEADERS)
-            INSTALL_MODULE_HEADERS("${LEXBOR_SOURCE}" "${PROJECT_NAME}" "${module}")
-        ENDIF()
-
-        INCLUDE_MODULE_CONFIG(${PROJECT_NAME} ${module} "${LEXBOR_SOURCE_LEXBOR}/${module}")
-        GET_MODULE_DEPENDENCIES(${PROJECT_NAME} ${module} module_deps)
-
-        SET_MODULE_LIB_DEPENDENCIES(${libname} "${module_deps}" "")
-        SET_MODULE_LIB_DEPENDENCIES("${libname}_static" "${module_deps}" "_static")
-
-        MODULE_PRINT(${module} ${version_string} "${module_deps}")
-    ENDFOREACH()
-ENDIF()
-
-################
 ## Build all modules in one liblexbor library
 #########################
 set(LEXBOR_LIB_NAME "${PROJECT_NAME}")
@@ -223,6 +186,43 @@ ENDIF()
 IF(LEXBOR_BUILD_STATIC)
     ADD_MODULE_LIBRARY("" ${LEXBOR_LIB_NAME_STATIC} ${LEXBOR_VERSION_STRING}
                        ${LEXBOR_VERSION_MAJOR} "${LEXBOR_SOURCES}")
+ENDIF()
+
+################
+## Build separately modules in liblexbor-<module-name>
+#########################
+IF(LEXBOR_BUILD_SEPARATELY)
+    FOREACH(module ${LEXBOR_MODULES})
+        set(lexbor_deps "${lexbor_deps} ${module}")
+        set(libname "${PROJECT_NAME}-${module}")
+
+        GET_MODULE_VERSION(major minor patch version_string
+                           "${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${module})
+
+        GET_MODULE_RESURSES(headers sources "${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${module})
+
+        IF(LEXBOR_BUILD_SHARED)
+            ADD_MODULE_LIBRARY(SHARED ${libname} ${version_string}
+                               ${major} "${sources}")
+        ENDIF()
+
+        IF(LEXBOR_BUILD_STATIC)
+            ADD_MODULE_LIBRARY(STATIC "${libname}_static" ${version_string}
+                               ${major} "${sources}")
+        ENDIF()
+
+        IF(LEXBOR_INSTALL_HEADERS)
+            INSTALL_MODULE_HEADERS("${LEXBOR_SOURCE}" "${PROJECT_NAME}" "${module}")
+        ENDIF()
+
+        INCLUDE_MODULE_CONFIG(${PROJECT_NAME} ${module} "${LEXBOR_SOURCE_LEXBOR}/${module}")
+        GET_MODULE_DEPENDENCIES(${PROJECT_NAME} ${module} module_deps)
+
+        SET_MODULE_LIB_DEPENDENCIES(${libname} "${module_deps}" "")
+        SET_MODULE_LIB_DEPENDENCIES("${libname}_static" "${module_deps}" "_static")
+
+        MODULE_PRINT(${module} ${version_string} "${module_deps}")
+    ENDFOREACH()
 ENDIF()
 
 ################

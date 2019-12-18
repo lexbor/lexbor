@@ -336,14 +336,15 @@ lxb_html_tree_acknowledge_token_self_closing(lxb_html_tree_t *tree,
 lxb_inline bool
 lxb_html_tree_mathml_text_integration_point(lxb_dom_node_t *node)
 {
-    if (node->ns == LXB_NS_MATH
-        && (node->tag_id == LXB_TAG_MI
-            || node->tag_id == LXB_TAG_MO
-            || node->tag_id == LXB_TAG_MN
-            || node->tag_id == LXB_TAG_MS
-            || node->tag_id == LXB_TAG_MTEXT))
-    {
-        return true;
+    if (node->ns == LXB_NS_MATH) {
+        switch (node->tag_id) {
+            case LXB_TAG_MI:
+            case LXB_TAG_MO:
+            case LXB_TAG_MN:
+            case LXB_TAG_MS:
+            case LXB_TAG_MTEXT:
+                return true;
+        }
     }
 
     return false;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2019 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -8,53 +8,10 @@
 #include "lexbor/html/tree/open_elements.h"
 
 
-static bool
-lxb_html_tree_insertion_mode_in_select_in_table_ct(lxb_html_tree_t *tree,
-                                                   lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_select_in_table_ct_closed(lxb_html_tree_t *tree,
-                                                          lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_select_in_table_anything_else(lxb_html_tree_t *tree,
-                                                              lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_select_in_table_anything_else_closed(lxb_html_tree_t *tree,
-                                                                     lxb_html_token_t *token);
-
-
-#include "lexbor/html/tree/insertion_mode/in_select_in_table_res.h"
-
-
-bool
-lxb_html_tree_insertion_mode_in_select_in_table(lxb_html_tree_t *tree,
-                                                lxb_html_token_t *token)
-{
-    if (token->tag_id >= LXB_TAG__LAST_ENTRY) {
-        if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
-            return lxb_html_tree_insertion_mode_in_select_in_table_anything_else_closed(tree,
-                                                                                        token);
-        }
-
-        return lxb_html_tree_insertion_mode_in_select_in_table_anything_else(tree,
-                                                                             token);
-    }
-
-    if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
-        return lxb_html_tree_insertion_mode_in_select_in_table_closed_res[token->tag_id](tree,
-                                                                                         token);
-    }
-
-    return lxb_html_tree_insertion_mode_in_select_in_table_res[token->tag_id](tree,
-                                                                              token);
-}
-
 /*
  * "caption", "table", "tbody", "tfoot", "thead", "tr", "td", "th"
  */
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_in_table_ct(lxb_html_tree_t *tree,
                                                    lxb_html_token_t *token)
 {
@@ -71,7 +28,7 @@ lxb_html_tree_insertion_mode_in_select_in_table_ct(lxb_html_tree_t *tree,
 /*
  * "caption", "table", "tbody", "tfoot", "thead", "tr", "td", "th"
  */
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_in_table_ct_closed(lxb_html_tree_t *tree,
                                                           lxb_html_token_t *token)
 {
@@ -93,14 +50,14 @@ lxb_html_tree_insertion_mode_in_select_in_table_ct_closed(lxb_html_tree_t *tree,
     return false;
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_in_table_anything_else(lxb_html_tree_t *tree,
                                                               lxb_html_token_t *token)
 {
     return lxb_html_tree_insertion_mode_in_select(tree, token);
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_in_table_anything_else_closed(lxb_html_tree_t *tree,
                                                                      lxb_html_token_t *token)
 {
@@ -108,3 +65,51 @@ lxb_html_tree_insertion_mode_in_select_in_table_anything_else_closed(lxb_html_tr
                                                                          token);
 }
 
+bool
+lxb_html_tree_insertion_mode_in_select_in_table(lxb_html_tree_t *tree,
+                                                lxb_html_token_t *token)
+{
+    if (token->tag_id >= LXB_TAG__LAST_ENTRY) {
+        if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
+            return lxb_html_tree_insertion_mode_in_select_in_table_anything_else_closed(tree,
+                                                                                        token);
+        }
+
+        return lxb_html_tree_insertion_mode_in_select_in_table_anything_else(tree,
+                                                                             token);
+    }
+
+    if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
+        switch (token->tag_id) {
+            case LXB_TAG_CAPTION:
+            case LXB_TAG_TABLE:
+            case LXB_TAG_TBODY:
+            case LXB_TAG_TFOOT:
+            case LXB_TAG_THEAD:
+            case LXB_TAG_TR:
+            case LXB_TAG_TH:
+            case LXB_TAG_TD:
+                return lxb_html_tree_insertion_mode_in_select_in_table_ct_closed(tree,
+                                                                                 token);
+            default:
+                return lxb_html_tree_insertion_mode_in_select_in_table_anything_else_closed(tree,
+                                                                                            token);
+        }
+    }
+
+    switch (token->tag_id) {
+        case LXB_TAG_CAPTION:
+        case LXB_TAG_TABLE:
+        case LXB_TAG_TBODY:
+        case LXB_TAG_TFOOT:
+        case LXB_TAG_THEAD:
+        case LXB_TAG_TR:
+        case LXB_TAG_TH:
+        case LXB_TAG_TD:
+            return lxb_html_tree_insertion_mode_in_select_in_table_ct(tree,
+                                                                      token);
+        default:
+            return lxb_html_tree_insertion_mode_in_select_in_table_anything_else(tree,
+                                                                                 token);
+    }
+}

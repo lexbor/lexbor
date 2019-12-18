@@ -128,6 +128,7 @@ main(int argc, const char *argv[])
         FAILED("Failed to ending of parsing the html data");
     }
 
+    lxb_tag_heap_destroy(tags);
     lxb_html_tokenizer_destroy(tkz);
 
     return 0;
