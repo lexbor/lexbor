@@ -25,7 +25,7 @@ lxb_html_node_is_void(lxb_dom_node_t *node)
         return false;
     }
 
-    switch (node->tag_id) {
+    switch (node->local_name) {
         case LXB_TAG_AREA:
         case LXB_TAG_BASE:
         case LXB_TAG_BASEFONT:
