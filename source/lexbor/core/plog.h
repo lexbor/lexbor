@@ -40,7 +40,7 @@ lexbor_plog_destroy(lexbor_plog_t *plog, bool self_destroy);
 lxb_inline lexbor_plog_t *
 lexbor_plog_create(void)
 {
-    return lexbor_calloc(1, sizeof(lexbor_plog_t));
+    return (lexbor_plog_t *) lexbor_calloc(1, sizeof(lexbor_plog_t));
 }
 
 lxb_inline void

@@ -308,7 +308,7 @@ lxb_encoding_data_by_name(const lxb_char_t *name, size_t length)
         return NULL;
     }
 
-    return entry->value;
+    return (const lxb_encoding_data_t *) entry->value;
 }
 
 lxb_inline const lxb_encoding_data_t *

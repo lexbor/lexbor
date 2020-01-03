@@ -249,7 +249,7 @@ lxb_css_syntax_token_serialize_str(lxb_css_syntax_token_t *token,
 lxb_inline lxb_css_syntax_token_t *
 lxb_css_syntax_token_create(lexbor_dobject_t *dobj)
 {
-    return lexbor_dobject_calloc(dobj);
+    return (lxb_css_syntax_token_t *) lexbor_dobject_calloc(dobj);
 }
 
 lxb_inline void
@@ -262,7 +262,7 @@ lxb_inline lxb_css_syntax_token_t *
 lxb_css_syntax_token_destroy(lxb_css_syntax_token_t *token,
                              lexbor_dobject_t *dobj)
 {
-    return lexbor_dobject_free(dobj, token);
+    return (lxb_css_syntax_token_t *) lexbor_dobject_free(dobj, token);
 }
 
 lxb_inline const lxb_char_t *

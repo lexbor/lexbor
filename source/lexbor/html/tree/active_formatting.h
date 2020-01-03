@@ -59,20 +59,20 @@ lxb_html_tree_active_formatting_current_node(lxb_html_tree_t *tree)
         return NULL;
     }
 
-    return tree->active_formatting->list
+    return (lxb_dom_node_t *) tree->active_formatting->list
         [ (tree->active_formatting->length - 1) ];
 }
 
 lxb_inline lxb_dom_node_t *
 lxb_html_tree_active_formatting_first(lxb_html_tree_t *tree)
 {
-    return lexbor_array_get(tree->active_formatting, 0);
+    return (lxb_dom_node_t *) lexbor_array_get(tree->active_formatting, 0);
 }
 
 lxb_inline lxb_dom_node_t *
 lxb_html_tree_active_formatting_get(lxb_html_tree_t *tree, size_t idx)
 {
-    return lexbor_array_get(tree->active_formatting, idx);
+    return (lxb_dom_node_t *) lexbor_array_get(tree->active_formatting, idx);
 }
 
 lxb_inline lxb_status_t
@@ -85,7 +85,7 @@ lxb_html_tree_active_formatting_push(lxb_html_tree_t *tree,
 lxb_inline lxb_dom_node_t *
 lxb_html_tree_active_formatting_pop(lxb_html_tree_t *tree)
 {
-    return lexbor_array_pop(tree->active_formatting);
+    return (lxb_dom_node_t *) lexbor_array_pop(tree->active_formatting);
 }
 
 lxb_inline lxb_status_t
