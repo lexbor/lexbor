@@ -17,7 +17,7 @@ extern "C" {
 
 #define LXB_CSS_SYNTAX_VERSION_MAJOR 0
 #define LXB_CSS_SYNTAX_VERSION_MINOR 1
-#define LXB_CSS_SYNTAX_VERSION_PATCH 0
+#define LXB_CSS_SYNTAX_VERSION_PATCH 1
 
 #define LXB_CSS_SYNTAX_VERSION_STRING                                          \
     LEXBOR_STRINGIZE(LXB_CSS_SYNTAX_VERSION_MAJOR) "."                         \
