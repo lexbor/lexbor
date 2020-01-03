@@ -306,7 +306,7 @@ check_compare(unit_kv_t *kv, lxb_dom_node_t *root,
     lxb_status_t status;
     lexbor_str_t res = {0};
 
-    status = lxb_html_serialize_pretty_tree_str(root,
+    status = lxb_html_serialize_pretty_deep_str(root,
                                                 LXB_HTML_SERIALIZE_OPT_WITHOUT_CLOSING
                                                 |LXB_HTML_SERIALIZE_OPT_RAW
                                                 |LXB_HTML_SERIALIZE_OPT_TAG_WITH_NS

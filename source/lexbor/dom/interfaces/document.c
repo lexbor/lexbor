@@ -419,3 +419,9 @@ lxb_dom_document_destroy_text_noi(lxb_dom_document_t *document,
 {
     return lxb_dom_document_destroy_text(document, text);
 }
+
+lxb_dom_element_t *
+lxb_dom_document_element_noi(lxb_dom_document_t *document)
+{
+    return lxb_dom_document_element(document);
+}
