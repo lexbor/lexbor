@@ -15,7 +15,7 @@ extern "C" {
 #include "lexbor/core/base.h"
 
 
-#define LXB_NS_VERSION_MAJOR 0
+#define LXB_NS_VERSION_MAJOR 1
 #define LXB_NS_VERSION_MINOR 2
 #define LXB_NS_VERSION_PATCH 0
 
