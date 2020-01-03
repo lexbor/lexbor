@@ -14,7 +14,7 @@ extern "C" {
 #include "lexbor/core/base.h"
 
 
-#define LXB_HTML_VERSION_MAJOR 0
+#define LXB_HTML_VERSION_MAJOR 1
 #define LXB_HTML_VERSION_MINOR 4
 #define LXB_HTML_VERSION_PATCH 0
 
