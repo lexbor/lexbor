@@ -1249,7 +1249,7 @@ lxb_html_serialize_tree_cb(lxb_dom_node_t *node,
                            lxb_html_serialize_cb_f cb, void *ctx)
 {
     /* For a document we must serialize all children without document node. */
-    if (node->tag_id == LXB_TAG__DOCUMENT) {
+    if (node->local_name == LXB_TAG__DOCUMENT) {
         node = node->first_child;
 
         while (node != NULL) {
@@ -1292,11 +1292,12 @@ lxb_html_serialize_pretty_tree_cb(lxb_dom_node_t *node,
                                   lxb_html_serialize_cb_f cb, void *ctx)
 {
     /* For a document we must serialize all children without document node. */
-    if (node->tag_id == LXB_TAG__DOCUMENT) {
+    if (node->local_name == LXB_TAG__DOCUMENT) {
         node = node->first_child;
 
         while (node != NULL) {
-            lxb_status_t status = lxb_html_serialize_pretty_node_cb(node, opt, indent, cb, ctx);
+            lxb_status_t status = lxb_html_serialize_pretty_node_cb(node, opt,
+                                                               indent, cb, ctx);
             if (status != LXB_STATUS_OK) {
                 return status;
             }
