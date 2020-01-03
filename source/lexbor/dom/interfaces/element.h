@@ -15,7 +15,6 @@ extern "C" {
 
 #include "lexbor/dom/interfaces/document.h"
 #include "lexbor/dom/interfaces/node.h"
-#include "lexbor/dom/qualified_name.h"
 #include "lexbor/dom/collection.h"
 #include "lexbor/dom/interfaces/attr.h"
 
@@ -33,8 +32,15 @@ lxb_dom_element_custom_state_t;
 struct lxb_dom_element {
     lxb_dom_node_t                 node;
 
+    /* For example: <LalAla:DiV Fix:Me="value"> */
+
+    /* uppercase, with prefix: LALALA:DIV */
+    lxb_dom_attr_id_t              upper_name;
+
+    /* original, with prefix: LalAla:DiV */
+    lxb_dom_attr_id_t              qualified_name;
+
     lexbor_str_t                   *is_value;
-    lxb_dom_qualified_name_t       *qualified_name;
 
     lxb_dom_attr_t                 *first_attr;
     lxb_dom_attr_t                 *last_attr;
@@ -58,7 +64,7 @@ lxb_dom_element_create(lxb_dom_document_t *document,
                        const lxb_char_t *ns_name, size_t ns_len,
                        const lxb_char_t *prefix, size_t prefix_len,
                        const lxb_char_t *is, size_t is_len,
-                       bool sync_custom, bool lowercase);
+                       bool sync_custom);
 
 LXB_API lxb_dom_element_t *
 lxb_dom_element_destroy(lxb_dom_element_t *element);
@@ -92,24 +98,26 @@ lxb_dom_element_attr_remove(lxb_dom_element_t *element, lxb_dom_attr_t *attr);
 
 LXB_API lxb_dom_attr_t *
 lxb_dom_element_attr_by_name(lxb_dom_element_t *element,
-                             const lxb_char_t *qualified_name, size_t qn_len);
+                             const lxb_char_t *qualified_name, size_t length);
+
+LXB_API lxb_dom_attr_t *
+lxb_dom_element_attr_by_local_name_data(lxb_dom_element_t *element,
+                                        const lxb_dom_attr_data_t *data);
+
+LXB_API lxb_dom_attr_t *
+lxb_dom_element_attr_by_id(lxb_dom_element_t *element,
+                           lxb_dom_attr_id_t attr_id);
+
+LXB_API lxb_dom_attr_t *
+lxb_dom_element_attr_by_data(lxb_dom_element_t *element,
+                             const lxb_dom_attr_data_t *data);
 
 LXB_API bool
 lxb_dom_element_compare(lxb_dom_element_t *first, lxb_dom_element_t *second);
 
 LXB_API lxb_dom_attr_t *
 lxb_dom_element_attr_is_exist(lxb_dom_element_t *element,
-                              const lxb_char_t *qualified_name, size_t len);
-
-LXB_API lxb_status_t
-lxb_dom_element_qualified_name_set(lxb_dom_element_t *element,
-                                   const lxb_char_t *prefix, size_t prefix_len,
-                                   const lxb_char_t *lname, size_t lname_len);
-
-LXB_API bool
-lxb_dom_element_qualified_name_cmp(lxb_dom_element_t *element, lxb_tag_id_t tag_id,
-                                   const lxb_char_t *prefix, size_t prefix_len,
-                                   const lxb_char_t *lname, size_t lname_len);
+                              const lxb_char_t *qualified_name, size_t length);
 
 LXB_API lxb_status_t
 lxb_dom_element_is_set(lxb_dom_element_t *element,
@@ -153,75 +161,25 @@ lxb_dom_elements_by_attr_contain(lxb_dom_element_t *root,
                                  const lxb_char_t *value, size_t value_len,
                                  bool case_insensitive);
 
+LXB_API const lxb_char_t *
+lxb_dom_element_qualified_name(lxb_dom_element_t *element, size_t *len);
+
+LXB_API const lxb_char_t *
+lxb_dom_element_qualified_name_upper(lxb_dom_element_t *element, size_t *len);
+
+LXB_API const lxb_char_t *
+lxb_dom_element_local_name(lxb_dom_element_t *element, size_t *len);
+
+LXB_API const lxb_char_t *
+lxb_dom_element_prefix(lxb_dom_element_t *element, size_t *len);
+
+LXB_API const lxb_char_t *
+lxb_dom_element_tag_name(lxb_dom_element_t *element, size_t *len);
+
 
 /*
  * Inline functions
  */
-lxb_inline const lxb_char_t *
-lxb_dom_element_qualified_name(lxb_dom_element_t *element, size_t *len)
-{
-    if (element->qualified_name != NULL) {
-        return lxb_dom_qualified_name(element->qualified_name, len);
-    }
-
-    return lxb_tag_name_by_id(
-       (lxb_tag_heap_t *) lxb_dom_interface_node(element)->owner_document->tags,
-       lxb_dom_interface_node(element)->tag_id, len);
-}
-
-lxb_inline const lxb_char_t *
-lxb_dom_element_qualified_name_upper(lxb_dom_element_t *element, size_t *len)
-{
-    if (element->qualified_name != NULL) {
-        return lxb_dom_qualified_name_upper(lxb_dom_interface_node(element)->owner_document,
-                                            element->qualified_name, len);
-    }
-
-    return lxb_tag_name_upper_by_id(
-       (lxb_tag_heap_t *) lxb_dom_interface_node(element)->owner_document->tags,
-       lxb_dom_interface_node(element)->tag_id, len);
-}
-
-lxb_inline const lxb_char_t *
-lxb_dom_element_local_name(lxb_dom_element_t *element, size_t *len)
-{
-    if (element->qualified_name != NULL) {
-        return lxb_dom_qualified_name_local_name(element->qualified_name, len);
-    }
-
-    return lxb_tag_name_by_id(
-       (lxb_tag_heap_t *) lxb_dom_interface_node(element)->owner_document->tags,
-       lxb_dom_interface_node(element)->tag_id, len);
-}
-
-lxb_inline const lxb_char_t *
-lxb_dom_element_prefix(lxb_dom_element_t *element, size_t *len)
-{
-    if (element->qualified_name == NULL) {
-        if (len != NULL) {
-            *len = 0;
-        }
-
-        return NULL;
-    }
-
-    return lxb_dom_qualified_name_prefix(element->qualified_name, len);
-}
-
-lxb_inline const lxb_char_t *
-lxb_dom_element_tag_name(lxb_dom_element_t *element, size_t *len)
-{
-    lxb_dom_document_t *doc = lxb_dom_interface_node(element)->owner_document;
-
-    if (element->node.ns != LXB_NS_HTML
-        || doc->type != LXB_DOM_DOCUMENT_DTYPE_HTML)
-    {
-        lxb_dom_element_qualified_name(element, len);
-    }
-
-    return lxb_dom_element_qualified_name_upper(element, len);
-}
-
 lxb_inline const lxb_char_t *
 lxb_dom_element_id(lxb_dom_element_t *element, size_t *len)
 {
@@ -299,25 +257,22 @@ lxb_dom_element_class_attribute(lxb_dom_element_t *element)
     return element->attr_class;
 }
 
+lxb_inline lxb_tag_id_t
+lxb_dom_element_tag_id(lxb_dom_element_t *element)
+{
+    return lxb_dom_interface_node(element)->local_name;
+}
+
+lxb_inline lxb_ns_id_t
+lxb_dom_element_ns_id(lxb_dom_element_t *element)
+{
+    return lxb_dom_interface_node(element)->ns;
+}
+
+
 /*
  * No inline functions for ABI.
  */
-const lxb_char_t *
-lxb_dom_element_qualified_name_noi(lxb_dom_element_t *element, size_t *len);
-
-const lxb_char_t *
-lxb_dom_element_qualified_name_upper_noi(lxb_dom_element_t *element,
-                                         size_t *len);
-
-const lxb_char_t *
-lxb_dom_element_local_name_noi(lxb_dom_element_t *element, size_t *len);
-
-const lxb_char_t *
-lxb_dom_element_prefix_noi(lxb_dom_element_t *element, size_t *len);
-
-const lxb_char_t *
-lxb_dom_element_tag_name_noi(lxb_dom_element_t *element, size_t *len);
-
 const lxb_char_t *
 lxb_dom_element_id_noi(lxb_dom_element_t *element, size_t *len);
 

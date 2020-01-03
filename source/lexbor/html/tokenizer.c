@@ -94,7 +94,7 @@ lxb_html_tokenizer_init(lxb_html_tokenizer_t *tkz)
     }
 
     tkz->tree = NULL;
-    tkz->tag_heap = NULL;
+    tkz->tags = NULL;
 
     tkz->state = lxb_html_tokenizer_state_data_before;
     tkz->state_return = NULL;
@@ -117,8 +117,7 @@ lxb_html_tokenizer_inherit(lxb_html_tokenizer_t *tkz_to,
 {
     lxb_status_t status;
 
-    tkz_to->tag_heap = tkz_from->tag_heap;
-
+    tkz_to->tags = tkz_from->tags;
     tkz_to->mraw = tkz_from->mraw;
 
     /* Token and Attributes */
@@ -237,16 +236,16 @@ lxb_html_tokenizer_destroy(lxb_html_tokenizer_t *tkz)
 }
 
 lxb_status_t
-lxb_html_tokenizer_tag_heap_make(lxb_html_tokenizer_t *tkz, size_t table_size)
+lxb_html_tokenizer_tags_make(lxb_html_tokenizer_t *tkz, size_t table_size)
 {
-    tkz->tag_heap = lxb_tag_heap_create();
-    return lxb_tag_heap_init(tkz->tag_heap, table_size);
+    tkz->tags = lexbor_hash_create();
+    return lexbor_hash_init(tkz->tags, table_size, sizeof(lxb_tag_data_t));
 }
 
 void
-lxb_html_tokenizer_tag_heap_destroy(lxb_html_tokenizer_t *tkz)
+lxb_html_tokenizer_tags_destroy(lxb_html_tokenizer_t *tkz)
 {
-    tkz->tag_heap = lxb_tag_heap_destroy(tkz->tag_heap);
+    tkz->tags = lexbor_hash_destroy(tkz->tags, true);
 }
 
 static void
@@ -668,19 +667,6 @@ lxb_html_tokenizer_opt_t
 lxb_html_tokenizer_opt_noi(lxb_html_tokenizer_t *tkz)
 {
     return lxb_html_tokenizer_opt(tkz);
-}
-
-void
-lxb_html_tokenizer_tag_heap_set_noi(lxb_html_tokenizer_t *tkz,
-                                    lxb_tag_heap_t *tag_heap)
-{
-    lxb_html_tokenizer_tag_heap_set(tkz, tag_heap);
-}
-
-lxb_tag_heap_t *
-lxb_html_tokenizer_tag_heap_noi(lxb_html_tokenizer_t *tkz)
-{
-    return lxb_html_tokenizer_tag_heap(tkz);
 }
 
 void

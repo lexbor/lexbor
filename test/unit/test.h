@@ -262,7 +262,7 @@ name(TEST_OBJ_ARG)                                                             \
 
 #define test_eq_str_n(have, need, size, act)                                   \
     do {                                                                       \
-        if (strncmp((need), (have), (size)) act 0) {                           \
+        if (memcmp((need), (have), (size)) act 0) {                            \
             TEST_OBJ_NAME->bad++;                                              \
             TEST_OBJ_NAME->error = true;                                       \
                                                                                \
@@ -310,6 +310,20 @@ name(TEST_OBJ_ARG)                                                             \
 #define test_ne(have, need)                                                    \
     do {                                                                       \
         if ((have) == (need)) {                                                \
+            TEST_OBJ_NAME->bad++;                                              \
+            TEST_OBJ_NAME->error = true;                                       \
+                                                                               \
+            fprintf(stdout, "Failure\n%s:%d:%s\n",                             \
+                    __FILE__, __LINE__, __func__);                             \
+            return NULL;                                                       \
+        }                                                                      \
+    }                                                                          \
+    while (0)
+
+/* > */
+#define test_gt(have, need)                                                    \
+    do {                                                                       \
+        if ((have) < (need)) {                                                 \
             TEST_OBJ_NAME->bad++;                                              \
             TEST_OBJ_NAME->error = true;                                       \
                                                                                \

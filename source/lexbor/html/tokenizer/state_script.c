@@ -267,7 +267,7 @@ lxb_html_tokenizer_state_script_data_end_tag_name(lxb_html_tokenizer_t *tkz,
             case 0x0D:
             case 0x20:
                 tag_id = lxb_html_in_tag_id(tkz->tmp_incoming_node,
-                                   tkz->tag_heap, tkz->markup, data, tkz->mraw);
+                                   tkz->tags, tkz->markup, data, tkz->mraw);
 
                 if (tkz->tmp_tag_id != tag_id) {
                     goto anything_else;
@@ -280,7 +280,7 @@ lxb_html_tokenizer_state_script_data_end_tag_name(lxb_html_tokenizer_t *tkz,
             /* U+002F SOLIDUS (/) */
             case 0x2F:
                 tag_id = lxb_html_in_tag_id(tkz->tmp_incoming_node,
-                                   tkz->tag_heap, tkz->markup, data, tkz->mraw);
+                                   tkz->tags, tkz->markup, data, tkz->mraw);
 
                 if (tkz->tmp_tag_id != tag_id) {
                     goto anything_else;
@@ -293,7 +293,7 @@ lxb_html_tokenizer_state_script_data_end_tag_name(lxb_html_tokenizer_t *tkz,
             /* U+003E GREATER-THAN SIGN (>) */
             case 0x3E:
                 tag_id = lxb_html_in_tag_id(tkz->tmp_incoming_node,
-                                   tkz->tag_heap, tkz->markup, data, tkz->mraw);
+                                   tkz->tags, tkz->markup, data, tkz->mraw);
 
                 if (tkz->tmp_tag_id != tag_id) {
                     goto anything_else;
@@ -653,7 +653,7 @@ lxb_html_tokenizer_state_script_data_escaped_end_tag_name(
             case 0x0D:
             case 0x20:
                 tag_id = lxb_html_in_tag_id(tkz->tmp_incoming_node,
-                                   tkz->tag_heap, tkz->markup, data, tkz->mraw);
+                                       tkz->tags, tkz->markup, data, tkz->mraw);
 
                 if (tkz->tmp_tag_id != tag_id) {
                     goto anything_else;
@@ -666,7 +666,7 @@ lxb_html_tokenizer_state_script_data_escaped_end_tag_name(
             /* U+002F SOLIDUS (/) */
             case 0x2F:
                 tag_id = lxb_html_in_tag_id(tkz->tmp_incoming_node,
-                                   tkz->tag_heap, tkz->markup, data, tkz->mraw);
+                                       tkz->tags, tkz->markup, data, tkz->mraw);
 
                 if (tkz->tmp_tag_id != tag_id) {
                     goto anything_else;
@@ -679,7 +679,7 @@ lxb_html_tokenizer_state_script_data_escaped_end_tag_name(
             /* U+003E GREATER-THAN SIGN (>) */
             case 0x3E:
                 tag_id = lxb_html_in_tag_id(tkz->tmp_incoming_node,
-                                   tkz->tag_heap, tkz->markup, data, tkz->mraw);
+                                       tkz->tags, tkz->markup, data, tkz->mraw);
 
                 if (tkz->tmp_tag_id != tag_id) {
                     goto anything_else;

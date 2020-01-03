@@ -273,7 +273,7 @@ lxb_html_tree_create_node(lxb_html_tree_t *tree,
 lxb_inline bool
 lxb_html_tree_node_is(lxb_dom_node_t *node, lxb_tag_id_t tag_id)
 {
-    return node->tag_id == tag_id && node->ns == LXB_NS_HTML;
+    return node->local_name == tag_id && node->ns == LXB_NS_HTML;
 }
 
 lxb_inline lxb_dom_node_t *
@@ -337,7 +337,7 @@ lxb_inline bool
 lxb_html_tree_mathml_text_integration_point(lxb_dom_node_t *node)
 {
     if (node->ns == LXB_NS_MATH) {
-        switch (node->tag_id) {
+        switch (node->local_name) {
             case LXB_TAG_MI:
             case LXB_TAG_MO:
             case LXB_TAG_MN:

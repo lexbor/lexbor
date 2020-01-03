@@ -19,14 +19,14 @@
 TEST_BEGIN(names)
 {
     const lxb_ns_data_t *entry;
-    lxb_ns_heap_t *ns_heap;
+    lexbor_hash_t *ns;
 
-    ns_heap = lxb_ns_heap_create();
-    test_eq(lxb_ns_heap_init(ns_heap, 32), LXB_STATUS_OK);
+    ns = lexbor_hash_create();
+    test_eq(lexbor_hash_init(ns, 32, sizeof(lxb_ns_data_t)), LXB_STATUS_OK);
 
 %%TEST_NAMES%%
 
-    lxb_ns_heap_destroy(ns_heap);
+    lexbor_hash_destroy(ns, true);
 }
 TEST_END
 

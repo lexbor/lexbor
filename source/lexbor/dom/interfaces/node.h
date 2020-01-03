@@ -40,6 +40,12 @@ lxb_dom_node_type_t;
 struct lxb_dom_node {
     lxb_dom_event_target_t event_target;
 
+    /* For example: <LalAla:DiV Fix:Me="value"> */
+
+    uintptr_t              local_name; /* , lowercase, without prefix: div */
+    uintptr_t              prefix;     /* lowercase: lalala */
+    uintptr_t              ns;         /* namespace */
+
     lxb_dom_document_t     *owner_document;
 
     lxb_dom_node_t         *next;
@@ -47,9 +53,6 @@ struct lxb_dom_node {
     lxb_dom_node_t         *parent;
     lxb_dom_node_t         *first_child;
     lxb_dom_node_t         *last_child;
-
-    unsigned int           ns;
-    unsigned int           tag_id;
 
     lxb_dom_node_type_t    type;
 
@@ -108,10 +111,10 @@ lxb_dom_node_text_content_set(lxb_dom_node_t *node,
 /*
  * Inline functions
  */
-lxb_inline unsigned int
+lxb_inline lxb_tag_id_t
 lxb_dom_node_tag_id(lxb_dom_node_t *node)
 {
-    return node->tag_id;
+    return node->local_name;
 }
 
 lxb_inline lxb_dom_node_t *
@@ -147,7 +150,7 @@ lxb_dom_node_last_child(lxb_dom_node_t *node)
 /*
  * No inline functions for ABI.
  */
-unsigned int
+lxb_tag_id_t
 lxb_dom_node_tag_id_noi(lxb_dom_node_t *node);
 
 lxb_dom_node_t *

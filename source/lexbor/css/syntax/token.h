@@ -83,7 +83,7 @@ struct lxb_css_syntax_token_data {
     lexbor_in_node_t               *node_done;
     lxb_status_t                   status;
     int                            count;
-    size_t                         num;
+    uint32_t                       num;
     bool                           is_last;
 };
 

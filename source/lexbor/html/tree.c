@@ -23,6 +23,18 @@
 #include "lexbor/html/tokenizer/state_rcdata.h"
 
 
+lxb_dom_attr_data_t *
+lxb_dom_attr_local_name_append(lexbor_hash_t *hash,
+                               const lxb_char_t *name, size_t length);
+
+lxb_dom_attr_data_t *
+lxb_dom_attr_qualified_name_append(lexbor_hash_t *hash, const lxb_char_t *name,
+                                   size_t length);
+
+const lxb_tag_data_t *
+lxb_tag_append_lower(lexbor_hash_t *hash,
+                     const lxb_char_t *name, size_t length);
+
 static lxb_html_token_t *
 lxb_html_tree_token_callback(lxb_html_tokenizer_t *tkz,
                              lxb_html_token_t *token, void *ctx);
@@ -191,7 +203,8 @@ lxb_html_tree_token_callback(lxb_html_tokenizer_t *tkz,
     lxb_status_t status;
 
     if (token->tag_id == LXB_TAG__UNDEF) {
-        token->tag_id = lxb_html_token_tag_id_from_data(tkz->tag_heap, token);
+        token->tag_id = lxb_html_token_tag_id_from_data(tkz->tags, token,
+                                                        tkz->mraw);
         if (token->tag_id == LXB_TAG__UNDEF) {
             tkz->status = LXB_STATUS_ERROR;
             return NULL;
@@ -262,7 +275,7 @@ lxb_html_tree_construction_dispatcher(lxb_html_tree_t *tree,
         }
     }
 
-    if (adjusted->tag_id == LXB_TAG_ANNOTATION_XML
+    if (adjusted->local_name == LXB_TAG_ANNOTATION_XML
         && adjusted->ns == LXB_NS_MATH
         && (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) == 0
         && token->tag_id == LXB_TAG_SVG)
@@ -313,11 +326,11 @@ lxb_html_tree_appropriate_place_inserting_node(lxb_html_tree_t *tree,
     }
 
     if (tree->foster_parenting && target->ns == LXB_NS_HTML
-           && (target->tag_id == LXB_TAG_TABLE
-            || target->tag_id == LXB_TAG_TBODY
-            || target->tag_id == LXB_TAG_TFOOT
-            || target->tag_id == LXB_TAG_THEAD
-            || target->tag_id == LXB_TAG_TR))
+           && (target->local_name == LXB_TAG_TABLE
+            || target->local_name == LXB_TAG_TBODY
+            || target->local_name == LXB_TAG_TFOOT
+            || target->local_name == LXB_TAG_THEAD
+            || target->local_name == LXB_TAG_TR))
     {
         lxb_dom_node_t *last_temp, *last_table;
         size_t last_temp_idx, last_table_idx;
@@ -345,7 +358,7 @@ lxb_html_tree_appropriate_place_inserting_node(lxb_html_tree_t *tree,
             adjusted_location = lxb_html_tree_open_elements_first(tree);
 
             lexbor_assert(adjusted_location != NULL);
-            lexbor_assert(adjusted_location->tag_id == LXB_TAG_HTML);
+            lexbor_assert(adjusted_location->local_name == LXB_TAG_HTML);
         }
         else if (last_table->parent != NULL) {
             adjusted_location = last_table;
@@ -438,18 +451,42 @@ lxb_html_tree_create_element_for_token(lxb_html_tree_t *tree,
     }
     else {
         status = lxb_html_tree_append_attributes_from_element(tree, element,
-                                                              token->base_element,
-                                                              ns);
+                                                       token->base_element, ns);
     }
 
     if (status != LXB_HTML_STATUS_OK) {
         return lxb_html_interface_destroy(element);
     }
 
-    node->tag_id = token->tag_id;
-    node->ns = ns;
-
     return lxb_html_interface_element(node);
+}
+
+lxb_inline const lxb_dom_attr_data_t *
+lxb_html_tree_attr_make_name(lexbor_hash_t *attrs, lxb_html_token_attr_t *attr,
+                             lxb_html_parser_char_t *pc, lexbor_str_t *name)
+{
+    lxb_status_t status;
+    const lxb_dom_attr_data_t *data;
+
+    if (lexbor_in_segment(attr->in_name, attr->name_end)) {
+        data = lxb_dom_attr_local_name_append(attrs, attr->name_begin,
+                                           (attr->name_end - attr->name_begin));
+        if (data != NULL) {
+            return data;
+        }
+    }
+
+    pc->state = lxb_html_parser_char_data_lcase;
+
+    name->length = 0;
+
+    status = lxb_html_parser_char_process(pc, name, attr->in_name,
+                                          attr->name_begin, attr->name_end);
+    if (status != LXB_STATUS_OK) {
+        return NULL;
+    }
+
+    return lxb_dom_attr_local_name_append(attrs, name->data, name->length);
 }
 
 lxb_status_t
@@ -460,57 +497,73 @@ lxb_html_tree_append_attributes(lxb_html_tree_t *tree,
     lxb_status_t status;
     lxb_dom_attr_t *attr;
     lexbor_str_t local_name, value;
+    const lxb_dom_attr_data_t *data;
     lxb_html_parser_char_t pc = {0};
     lxb_html_token_attr_t *token_attr = token->attr_first;
     lexbor_mraw_t *mraw = element->node.owner_document->text;
+    lexbor_hash_t *attrs = element->node.owner_document->attrs;
+
+    pc.mraw = mraw;
+    pc.replace_null = true;
+    pc.is_attribute = true;
+
+    local_name.data = NULL;
 
     while (token_attr != NULL) {
-        local_name.data = NULL;
         value.data = NULL;
 
-        status = lxb_html_token_attr_parse(token_attr, &pc, &local_name, &value,
-                                           mraw);
-        if (status != LXB_HTML_STATUS_OK) {
-            return status;
+        data = lxb_html_tree_attr_make_name(attrs, token_attr, &pc, &local_name);
+        if (data == NULL) {
+            return LXB_STATUS_ERROR;
         }
 
-        attr = lxb_dom_element_attr_is_exist(element, local_name.data,
-                                             local_name.length);
-        if (attr == NULL) {
-            attr = lxb_dom_attr_interface_create(element->node.owner_document);
-            if (attr == NULL) {
-                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-            }
+        attr = lxb_dom_element_attr_by_local_name_data(element, data);
+        if (attr != NULL) {
+            token_attr = token_attr->next;
+            continue;
+        }
 
-            /* TODO: Need optimization */
-            status = lxb_dom_attr_set_name_wo_copy(attr, local_name.data,
-                                                   local_name.length, NULL, 0);
+        if (token_attr->value_begin != NULL) {
+            pc.state = lxb_html_parser_char_ref_data;
+
+            status = lxb_html_parser_char_process(&pc, &value, token_attr->in_value,
+                                    token_attr->value_begin, token_attr->value_end);
+            if (status != LXB_STATUS_OK) {
+                return status;
+            }
+        }
+
+        attr = lxb_dom_attr_interface_create(element->node.owner_document);
+        if (attr == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+
+        if (value.data != NULL) {
+            status = lxb_dom_attr_set_value_wo_copy(attr, value.data,
+                                                    value.length);
             if (status != LXB_HTML_STATUS_OK) {
                 return status;
             }
-
-            if (value.data != NULL) {
-                status = lxb_dom_attr_set_value_wo_copy(attr, value.data,
-                                                        value.length);
-                if (status != LXB_HTML_STATUS_OK) {
-                    return status;
-                }
-            }
-
-            attr->node.ns = ns;
-
-            /* Fix for adjust MathML/SVG attributes */
-            if (tree->before_append_attr != NULL) {
-                status = tree->before_append_attr(tree, attr, NULL);
-                if (status != LXB_STATUS_OK) {
-                    return status;
-                }
-            }
-
-            lxb_dom_element_attr_append(element, attr);
         }
 
+        attr->node.local_name = data->attr_id;
+        attr->node.ns = ns;
+
+        /* Fix for adjust MathML/SVG attributes */
+        if (tree->before_append_attr != NULL) {
+            status = tree->before_append_attr(tree, attr, NULL);
+            if (status != LXB_STATUS_OK) {
+                return status;
+            }
+        }
+
+        lxb_dom_element_attr_append(element, attr);
+
         token_attr = token_attr->next;
+    }
+
+    if (local_name.data != NULL) {
+        lexbor_mraw_free(mraw, local_name.data);
     }
 
     return LXB_HTML_STATUS_OK;
@@ -559,12 +612,23 @@ lxb_status_t
 lxb_html_tree_adjust_mathml_attributes(lxb_html_tree_t *tree,
                                        lxb_dom_attr_t *attr, void *ctx)
 {
-    if (attr->name.length == 13
-        && lexbor_str_data_cmp(attr->name.data,
+    lexbor_hash_t *attrs;
+    const lxb_dom_attr_data_t *data;
+
+    attrs = attr->node.owner_document->attrs;
+    data = lxb_dom_attr_data_by_id(attrs, attr->node.local_name);
+
+    if (data->entry.length == 13
+        && lexbor_str_data_cmp(lexbor_hash_entry_str(&data->entry),
                                (const lxb_char_t *) "definitionurl"))
     {
-        memcpy(attr->name.data, "definitionURL", sizeof(lxb_char_t) * 13);
-        memcpy(attr->local_name.data, "definitionURL", sizeof(lxb_char_t) * 13);
+        data = lxb_dom_attr_qualified_name_append(attrs,
+                                      (const lxb_char_t *) "definitionURL", 13);
+        if (data == NULL) {
+            return LXB_STATUS_ERROR;
+        }
+
+        attr->qualified_name = data->attr_id;
     }
 
     return LXB_STATUS_OK;
@@ -574,23 +638,33 @@ lxb_status_t
 lxb_html_tree_adjust_svg_attributes(lxb_html_tree_t *tree,
                                     lxb_dom_attr_t *attr, void *ctx)
 {
+    lexbor_hash_t *attrs;
+    const lxb_dom_attr_data_t *data;
+    const lxb_html_tree_res_attr_adjust_t *adjust;
+
     size_t len = sizeof(lxb_html_tree_res_attr_adjust_svg_map)
         / sizeof(lxb_html_tree_res_attr_adjust_t);
 
-    const lxb_html_tree_res_attr_adjust_t *adjust;
+    attrs = attr->node.owner_document->attrs;
+
+    data = lxb_dom_attr_data_by_id(attrs, attr->node.local_name);
 
     for (size_t i = 0; i < len; i++) {
         adjust = &lxb_html_tree_res_attr_adjust_svg_map[i];
 
-        if (attr->name.length == adjust->len
-            && lexbor_str_data_cmp(attr->name.data,
+        if (data->entry.length == adjust->len
+            && lexbor_str_data_cmp(lexbor_hash_entry_str(&data->entry),
                                    (const lxb_char_t *) adjust->from))
         {
-            memcpy(attr->name.data, adjust->to,
-                   sizeof(lxb_char_t) * adjust->len);
+            data = lxb_dom_attr_qualified_name_append(attrs,
+                                (const lxb_char_t *) adjust->to, adjust->len);
+            if (data == NULL) {
+                return LXB_STATUS_ERROR;
+            }
 
-            memcpy(attr->local_name.data, adjust->to,
-                   sizeof(lxb_char_t) * adjust->len);
+            attr->qualified_name = data->attr_id;
+
+            return LXB_STATUS_OK;
         }
     }
 
@@ -601,28 +675,55 @@ lxb_status_t
 lxb_html_tree_adjust_foreign_attributes(lxb_html_tree_t *tree,
                                         lxb_dom_attr_t *attr, void *ctx)
 {
-    size_t local_name_len;
+    size_t lname_length;
+    lexbor_hash_t *tags, *attrs, *prefix;
+    const lxb_tag_data_t *tag_data;
+    const lxb_ns_prefix_data_t *prefix_data;
+    const lxb_dom_attr_data_t *data;
+    const lxb_html_tree_res_attr_adjust_foreign_t *adjust;
 
     size_t len = sizeof(lxb_html_tree_res_attr_adjust_foreign_map)
         / sizeof(lxb_html_tree_res_attr_adjust_foreign_t);
 
-    const lxb_html_tree_res_attr_adjust_foreign_t *adjust;
+    tags = attr->node.owner_document->tags;
+    attrs = attr->node.owner_document->attrs;
+    prefix = attr->node.owner_document->prefix;
+
+    data = lxb_dom_attr_data_by_id(attrs, attr->node.local_name);
 
     for (size_t i = 0; i < len; i++) {
         adjust = &lxb_html_tree_res_attr_adjust_foreign_map[i];
 
-        if (attr->name.length == adjust->name_len
-            && lexbor_str_data_cmp(attr->name.data,
+        if (data->entry.length == adjust->name_len
+            && lexbor_str_data_cmp(lexbor_hash_entry_str(&data->entry),
                                    (const lxb_char_t *) adjust->name))
         {
             if (adjust->prefix_len != 0) {
-                local_name_len = (adjust->name_len - adjust->prefix_len - 1);
+                data = lxb_dom_attr_qualified_name_append(attrs,
+                           (const lxb_char_t *) adjust->name, adjust->name_len);
+                if (data == NULL) {
+                    return LXB_STATUS_ERROR;
+                }
 
-                lxb_dom_attr_set_name(attr,
-                                      (const lxb_char_t *) adjust->local_name,
-                                      local_name_len,
-                                      (const lxb_char_t *) adjust->prefix,
-                                      adjust->prefix_len, false);
+                attr->qualified_name = data->attr_id;
+
+                lname_length = adjust->name_len - adjust->prefix_len - 1;
+
+                tag_data = lxb_tag_append_lower(tags,
+                         (const lxb_char_t *) adjust->local_name, lname_length);
+                if (tag_data == NULL) {
+                    return LXB_STATUS_ERROR;
+                }
+
+                attr->node.local_name = tag_data->tag_id;
+
+                prefix_data = lxb_ns_prefix_append(prefix,
+                       (const lxb_char_t *) adjust->prefix, adjust->prefix_len);
+                if (prefix_data == NULL) {
+                    return LXB_STATUS_ERROR;
+                }
+
+                attr->node.prefix = prefix_data->prefix_id;
             }
 
             attr->node.ns = adjust->ns;
@@ -681,7 +782,7 @@ lxb_html_tree_insert_character_for_data(lxb_html_tree_t *tree,
 
     if (ipos == LXB_HTML_TREE_INSERTION_POSITION_BEFORE) {
         /* No need check namespace */
-        if (pos->prev != NULL && pos->prev->tag_id == LXB_TAG__TEXT) {
+        if (pos->prev != NULL && pos->prev->local_name == LXB_TAG__TEXT) {
             chrs = lxb_dom_interface_character_data(pos->prev);
 
             if (ret_node != NULL) {
@@ -692,7 +793,7 @@ lxb_html_tree_insert_character_for_data(lxb_html_tree_t *tree,
     else {
         /* No need check namespace */
         if (pos->last_child != NULL
-            && pos->last_child->tag_id == LXB_TAG__TEXT)
+            && pos->last_child->local_name == LXB_TAG__TEXT)
         {
             chrs = lxb_dom_interface_character_data(pos->last_child);
 
@@ -878,7 +979,7 @@ lxb_html_tree_generate_implied_end_tags(lxb_html_tree_t *tree,
 
         lexbor_assert(node != NULL);
 
-        switch (node->tag_id) {
+        switch (node->local_name) {
             case LXB_TAG_DD:
             case LXB_TAG_DT:
             case LXB_TAG_LI:
@@ -889,7 +990,7 @@ lxb_html_tree_generate_implied_end_tags(lxb_html_tree_t *tree,
             case LXB_TAG_RP:
             case LXB_TAG_RT:
             case LXB_TAG_RTC:
-                if(node->tag_id == ex_tag && node->ns == ex_ns) {
+                if(node->local_name == ex_tag && node->ns == ex_ns) {
                     return;
                 }
 
@@ -917,7 +1018,7 @@ lxb_html_tree_generate_all_implied_end_tags_thoroughly(lxb_html_tree_t *tree,
 
         lexbor_assert(node != NULL);
 
-        switch (node->tag_id) {
+        switch (node->local_name) {
             case LXB_TAG_CAPTION:
             case LXB_TAG_COLGROUP:
             case LXB_TAG_DD:
@@ -936,7 +1037,7 @@ lxb_html_tree_generate_all_implied_end_tags_thoroughly(lxb_html_tree_t *tree,
             case LXB_TAG_TH:
             case LXB_TAG_THEAD:
             case LXB_TAG_TR:
-                if(node->tag_id == ex_tag && node->ns == ex_ns) {
+                if(node->local_name == ex_tag && node->ns == ex_ns) {
                     return;
                 }
 
@@ -989,7 +1090,7 @@ lxb_html_tree_reset_insertion_mode_appropriately(lxb_html_tree_t *tree)
         }
 
         /* Step 4 */
-        if (node->tag_id == LXB_TAG_SELECT) {
+        if (node->local_name == LXB_TAG_SELECT) {
             /* Step 4.1 */
             if (last) {
                 tree->mode = lxb_html_tree_insertion_mode_in_select;
@@ -1026,7 +1127,7 @@ lxb_html_tree_reset_insertion_mode_appropriately(lxb_html_tree_t *tree)
         }
 
         /* Step 5-15 */
-        switch (node->tag_id) {
+        switch (node->local_name) {
             case LXB_TAG_TD:
             case LXB_TAG_TH:
                 if (last == false) {
@@ -1116,11 +1217,11 @@ lxb_html_tree_element_in_scope(lxb_html_tree_t *tree, lxb_tag_id_t tag_id,
         idx--;
         node = list[idx];
 
-        if (node->tag_id == tag_id && node->ns == ns) {
+        if (node->local_name == tag_id && node->ns == ns) {
             return node;
         }
 
-        if (lxb_html_tag_is_category(node->tag_id, node->ns, ct)) {
+        if (lxb_html_tag_is_category(node->local_name, node->ns, ct)) {
             return NULL;
         }
     }
@@ -1146,7 +1247,7 @@ lxb_html_tree_element_in_scope_by_node(lxb_html_tree_t *tree,
             return node;
         }
 
-        if (lxb_html_tag_is_category(node->tag_id, node->ns, ct)) {
+        if (lxb_html_tag_is_category(node->local_name, node->ns, ct)) {
             return NULL;
         }
     }
@@ -1166,7 +1267,7 @@ lxb_html_tree_element_in_scope_h123456(lxb_html_tree_t *tree)
         idx--;
         node = list[idx];
 
-        switch (node->tag_id) {
+        switch (node->local_name) {
             case LXB_TAG_H1:
             case LXB_TAG_H2:
             case LXB_TAG_H3:
@@ -1183,7 +1284,9 @@ lxb_html_tree_element_in_scope_h123456(lxb_html_tree_t *tree)
                 break;
         }
 
-        if (lxb_html_tag_is_category(node->tag_id, LXB_NS_HTML, LXB_HTML_TAG_CATEGORY_SCOPE)) {
+        if (lxb_html_tag_is_category(node->local_name, LXB_NS_HTML,
+                                     LXB_HTML_TAG_CATEGORY_SCOPE))
+        {
             return NULL;
         }
     }
@@ -1203,7 +1306,7 @@ lxb_html_tree_element_in_scope_tbody_thead_tfoot(lxb_html_tree_t *tree)
         idx--;
         node = list[idx];
 
-        switch (node->tag_id) {
+        switch (node->local_name) {
             case LXB_TAG_TBODY:
             case LXB_TAG_THEAD:
             case LXB_TAG_TFOOT:
@@ -1217,7 +1320,9 @@ lxb_html_tree_element_in_scope_tbody_thead_tfoot(lxb_html_tree_t *tree)
                 break;
         }
 
-        if (lxb_html_tag_is_category(node->tag_id, LXB_NS_HTML, LXB_HTML_TAG_CATEGORY_SCOPE_TABLE)) {
+        if (lxb_html_tag_is_category(node->local_name, LXB_NS_HTML,
+                                     LXB_HTML_TAG_CATEGORY_SCOPE_TABLE))
+        {
             return NULL;
         }
     }
@@ -1237,7 +1342,7 @@ lxb_html_tree_element_in_scope_td_th(lxb_html_tree_t *tree)
         idx--;
         node = list[idx];
 
-        switch (node->tag_id) {
+        switch (node->local_name) {
             case LXB_TAG_TD:
             case LXB_TAG_TH:
                 if (node->ns == LXB_NS_HTML) {
@@ -1250,7 +1355,9 @@ lxb_html_tree_element_in_scope_td_th(lxb_html_tree_t *tree)
                 break;
         }
 
-        if (lxb_html_tag_is_category(node->tag_id, LXB_NS_HTML, LXB_HTML_TAG_CATEGORY_SCOPE_TABLE)) {
+        if (lxb_html_tag_is_category(node->local_name, LXB_NS_HTML,
+                                     LXB_HTML_TAG_CATEGORY_SCOPE_TABLE))
+        {
             return NULL;
         }
     }
@@ -1266,7 +1373,7 @@ lxb_html_tree_check_scope_element(lxb_html_tree_t *tree)
     for (size_t i = 0; i < tree->open_elements->length; i++) {
         node = tree->open_elements->list[i];
 
-        switch (node->tag_id) {
+        switch (node->local_name) {
             case LXB_TAG_DD:
             case LXB_TAG_DT:
             case LXB_TAG_LI:
@@ -1367,7 +1474,7 @@ lxb_html_tree_adoption_agency_algorithm(lxb_html_tree_t *tree,
             if (afe_list[idx] == marker) {
                     return true;
             }
-            else if (afe_list[idx]->tag_id == subject) {
+            else if (afe_list[idx]->local_name == subject) {
                 formatting_index = idx;
                 formatting_element = afe_list[idx];
 
@@ -1420,7 +1527,7 @@ lxb_html_tree_adoption_agency_algorithm(lxb_html_tree_t *tree,
              furthest_block_idx < oel_idx;
              furthest_block_idx++)
         {
-            is = lxb_html_tag_is_category(oel_list[furthest_block_idx]->tag_id,
+            is = lxb_html_tag_is_category(oel_list[furthest_block_idx]->local_name,
                                           oel_list[furthest_block_idx]->ns,
                                           LXB_HTML_TAG_CATEGORY_SPECIAL);
             if (is) {
@@ -1498,7 +1605,7 @@ lxb_html_tree_adoption_agency_algorithm(lxb_html_tree_t *tree,
             /* State 14.7 */
             lxb_html_token_t fake_token = {0};
 
-            fake_token.tag_id = node->tag_id;
+            fake_token.tag_id = node->local_name;
             fake_token.base_element = node;
 
             element = lxb_html_tree_create_element_for_token(tree, &fake_token,
@@ -1553,7 +1660,7 @@ lxb_html_tree_adoption_agency_algorithm(lxb_html_tree_t *tree,
         /* State 16 */
         lxb_html_token_t fake_token = {0};
 
-        fake_token.tag_id = formatting_element->tag_id;
+        fake_token.tag_id = formatting_element->local_name;
         fake_token.base_element = formatting_element;
 
         element = lxb_html_tree_create_element_for_token(tree, &fake_token,
@@ -1615,7 +1722,7 @@ bool
 lxb_html_tree_html_integration_point(lxb_dom_node_t *node)
 {
     if (node->ns == LXB_NS_MATH
-        && node->tag_id == LXB_TAG_ANNOTATION_XML)
+        && node->local_name == LXB_TAG_ANNOTATION_XML)
     {
         lxb_dom_attr_t *attr;
         attr = lxb_dom_element_attr_is_exist(lxb_dom_interface_element(node),
@@ -1643,9 +1750,9 @@ lxb_html_tree_html_integration_point(lxb_dom_node_t *node)
     }
 
     if (node->ns == LXB_NS_SVG
-        && (node->tag_id == LXB_TAG_FOREIGNOBJECT
-            || node->tag_id == LXB_TAG_DESC
-            || node->tag_id == LXB_TAG_TITLE))
+        && (node->local_name == LXB_TAG_FOREIGNOBJECT
+            || node->local_name == LXB_TAG_DESC
+            || node->local_name == LXB_TAG_TITLE))
     {
         return true;
     }

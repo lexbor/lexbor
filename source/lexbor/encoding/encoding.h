@@ -302,8 +302,8 @@ lxb_encoding_data_by_name(const lxb_char_t *name, size_t length)
         return NULL;
     }
 
-    entry = lexbor_shs_entry_get_static(lxb_encoding_res_shs_entities,
-                                        name, length);
+    entry = lexbor_shs_entry_get_lower_static(lxb_encoding_res_shs_entities,
+                                              name, length);
     if (entry == NULL) {
         return NULL;
     }
@@ -462,10 +462,11 @@ LXB_API lxb_encoding_t
 lxb_encoding_data_encoding_noi(lxb_encoding_data_t *data);
 
 LXB_API size_t
-lxb_encoding_encode_t_sizeof();
+lxb_encoding_encode_t_sizeof(void);
 
 LXB_API size_t
-lxb_encoding_decode_t_sizeof();
+lxb_encoding_decode_t_sizeof(void);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

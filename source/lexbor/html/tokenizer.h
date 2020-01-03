@@ -60,7 +60,7 @@ struct lxb_html_tokenizer {
     lxb_html_tokenizer_token_f       callback_token_done;
     void                             *callback_token_ctx;
 
-    lxb_tag_heap_t                   *tag_heap;
+    lexbor_hash_t                    *tags;
 
     /* For a temp strings and other templary data */
     lexbor_mraw_t                    *mraw;
@@ -137,10 +137,10 @@ LXB_API lxb_html_tokenizer_t *
 lxb_html_tokenizer_destroy(lxb_html_tokenizer_t *tkz);
 
 LXB_API lxb_status_t
-lxb_html_tokenizer_tag_heap_make(lxb_html_tokenizer_t *tkz, size_t table_size);
+lxb_html_tokenizer_tags_make(lxb_html_tokenizer_t *tkz, size_t table_size);
 
 LXB_API void
-lxb_html_tokenizer_tag_heap_destroy(lxb_html_tokenizer_t *tkz);
+lxb_html_tokenizer_tags_destroy(lxb_html_tokenizer_t *tkz);
 
 LXB_API lxb_status_t
 lxb_html_tokenizer_begin(lxb_html_tokenizer_t *tkz);
@@ -188,16 +188,15 @@ lxb_html_tokenizer_opt(lxb_html_tokenizer_t *tkz)
 }
 
 lxb_inline void
-lxb_html_tokenizer_tag_heap_set(lxb_html_tokenizer_t *tkz,
-                                lxb_tag_heap_t *tag_heap)
+lxb_html_tokenizer_tags_set(lxb_html_tokenizer_t *tkz, lexbor_hash_t *tags)
 {
-    tkz->tag_heap = tag_heap;
+    tkz->tags = tags;
 }
 
-lxb_inline lxb_tag_heap_t *
-lxb_html_tokenizer_tag_heap(lxb_html_tokenizer_t *tkz)
+lxb_inline lexbor_hash_t *
+lxb_html_tokenizer_tags(lxb_html_tokenizer_t *tkz)
 {
-    return tkz->tag_heap;
+    return tkz->tags;
 }
 
 lxb_inline void
@@ -260,20 +259,6 @@ lxb_html_tokenizer_opt_set_noi(lxb_html_tokenizer_t *tkz,
 
 lxb_html_tokenizer_opt_t
 lxb_html_tokenizer_opt_noi(lxb_html_tokenizer_t *tkz);
-
-void
-lxb_html_tokenizer_tag_heap_set_noi(lxb_html_tokenizer_t *tkz,
-                                    lxb_tag_heap_t *tag_heap);
-
-lxb_tag_heap_t *
-lxb_html_tokenizer_tag_heap_noi(lxb_html_tokenizer_t *tkz);
-
-void
-lxb_html_tokenizer_ns_heap_set_noi(lxb_html_tokenizer_t *tkz,
-                                   lxb_ns_heap_t *ns_heap);
-
-lxb_ns_heap_t *
-lxb_html_tokenizer_ns_heap_noi(lxb_html_tokenizer_t *tkz);
 
 void
 lxb_html_tokenizer_callback_token_done_set_noi(lxb_html_tokenizer_t *tkz,

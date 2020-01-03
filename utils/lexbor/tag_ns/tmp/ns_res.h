@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2019 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -19,6 +19,11 @@
 
 %%CHECK_NS_VERSION%%
 
+
 %%NS_DATA%%
+
+%%NS_PREFIX_DATA%%
+
+%%SHS_DATA%%
 
 %%SHS_DATA_LINK%%

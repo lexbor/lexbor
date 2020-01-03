@@ -299,7 +299,8 @@ class SHS:
         key = key.lower()
         return ((((ord(key[:1]) * ord(key[-1:])) * ord(key[:1])) + len(key)) % table_size) + 1
 
-    def create(self, data_name):
+    def create(self, data_name, rate = 2):
+        rate_dn = rate - 1
         result = []
 
         self.make()
@@ -326,7 +327,7 @@ class SHS:
 
             result.append(", ")
 
-            if int(key) % 2 == 1:
+            if int(key) % rate == rate_dn:
                 result.append("\n    ")
 
         key = self.idx

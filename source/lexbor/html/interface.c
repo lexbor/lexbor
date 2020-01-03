@@ -51,7 +51,7 @@ lxb_html_interface_create(lxb_html_document_t *document, lxb_tag_id_t tag_id,
         return NULL;
     }
 
-    node->tag_id = tag_id;
+    node->local_name = tag_id;
     node->ns = ns;
 
     return node;
@@ -72,7 +72,7 @@ lxb_html_interface_destroy(lxb_dom_interface_t *interface)
         case LXB_DOM_NODE_TYPE_ELEMENT:
         case LXB_DOM_NODE_TYPE_DOCUMENT:
         case LXB_DOM_NODE_TYPE_DOCUMENT_TYPE:
-            if (node->tag_id >= LXB_TAG__LAST_ENTRY) {
+            if (node->local_name >= LXB_TAG__LAST_ENTRY) {
                 if (node->ns == LXB_NS_HTML) {
                     return lxb_html_unknown_element_interface_destroy(interface);
                 }
@@ -85,7 +85,7 @@ lxb_html_interface_destroy(lxb_dom_interface_t *interface)
                 }
             }
             else {
-                return lxb_html_interface_res_destructor[node->tag_id][node->ns](interface);
+                return lxb_html_interface_res_destructor[node->local_name][node->ns](interface);
             }
 
         case LXB_DOM_NODE_TYPE_ATTRIBUTE:

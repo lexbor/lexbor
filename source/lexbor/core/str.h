@@ -138,6 +138,12 @@ LXB_API bool
 lexbor_str_data_ncasecmp(const lxb_char_t *first, const lxb_char_t *sec,
                          size_t size);
 LXB_API bool
+lexbor_str_data_nlocmp_right(const lxb_char_t *first, const lxb_char_t *sec,
+                             size_t size);
+LXB_API bool
+lexbor_str_data_nupcmp_right(const lxb_char_t *first, const lxb_char_t *sec,
+                             size_t size);
+LXB_API bool
 lexbor_str_data_casecmp(const lxb_char_t *first, const lxb_char_t *sec);
 
 LXB_API bool

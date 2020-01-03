@@ -258,7 +258,7 @@ lxb_html_serialize_node_cb(lxb_dom_node_t *node,
             return status;
         }
 
-        if (node->tag_id == LXB_TAG_TEMPLATE) {
+        if (node->local_name == LXB_TAG_TEMPLATE) {
             lxb_html_template_element_t *temp;
 
             temp = lxb_html_interface_template(node);
@@ -324,7 +324,7 @@ lxb_html_serialize_node_is_void(lxb_dom_node_t *node)
         return false;
     }
 
-    switch (node->tag_id) {
+    switch (node->local_name) {
         case LXB_TAG_AREA:
         case LXB_TAG_BASE:
         case LXB_TAG_BASEFONT:
@@ -361,17 +361,8 @@ lxb_html_serialize_element_cb(lxb_dom_element_t *element,
     size_t len = 0;
 
     lxb_dom_attr_t *attr;
-    lxb_dom_node_t *node = lxb_dom_interface_node(element);
 
-    if (node->ns == LXB_NS_HTML || node->ns == LXB_NS_MATH
-        || node->ns == LXB_NS_SVG)
-    {
-        tag_name = lxb_dom_element_local_name(element, &len);
-    }
-    else {
-        tag_name = lxb_dom_element_qualified_name(element, &len);
-    }
-
+    tag_name = lxb_dom_element_qualified_name(element, &len);
     if (tag_name == NULL) {
         return LXB_STATUS_ERROR;
     }
@@ -422,17 +413,7 @@ lxb_html_serialize_element_closed_cb(lxb_dom_element_t *element,
     const lxb_char_t *tag_name;
     size_t len = 0;
 
-    lxb_dom_node_t *node = lxb_dom_interface_node(element);
-
-    if (node->ns == LXB_NS_HTML || node->ns == LXB_NS_MATH
-        || node->ns == LXB_NS_SVG)
-    {
-        tag_name = lxb_dom_element_local_name(element, &len);
-    }
-    else {
-        tag_name = lxb_dom_element_qualified_name(element, &len);
-    }
-
+    tag_name = lxb_dom_element_qualified_name(element, &len);
     if (tag_name == NULL) {
         return LXB_STATUS_ERROR;
     }
@@ -454,7 +435,7 @@ lxb_html_serialize_text_cb(lxb_dom_text_t *text,
     lxb_dom_document_t *doc = node->owner_document;
     lexbor_str_t *data = &text->char_data.data;
 
-    switch (node->parent->tag_id) {
+    switch (node->parent->local_name) {
         case LXB_TAG_STYLE:
         case LXB_TAG_SCRIPT:
         case LXB_TAG_XMP:
@@ -751,35 +732,43 @@ static lxb_status_t
 lxb_html_serialize_attribute_cb(lxb_dom_attr_t *attr, bool has_raw,
                                 lxb_html_serialize_cb_f cb, void *ctx)
 {
+    size_t length;
     lxb_status_t status;
+    const lxb_char_t *str;
+    const lxb_dom_attr_data_t *data;
+
+    data = lxb_dom_attr_data_by_id(attr->node.owner_document->attrs,
+                                   attr->node.local_name);
+    if (data == NULL) {
+        return LXB_STATUS_ERROR;
+    }
 
     if (attr->node.ns == LXB_NS__UNDEF) {
-        lxb_html_serialize_send(attr->local_name.data, attr->local_name.length,
-                                ctx);
-
+        lxb_html_serialize_send(lexbor_hash_entry_str(&data->entry),
+                                data->entry.length, ctx);
         goto value;
     }
 
     if (attr->node.ns == LXB_NS_XML) {
         lxb_html_serialize_send((const lxb_char_t *) "xml:", 4, ctx);
-        lxb_html_serialize_send(attr->local_name.data, attr->local_name.length,
-                                ctx);
+        lxb_html_serialize_send(lexbor_hash_entry_str(&data->entry),
+                                data->entry.length, ctx);
 
         goto value;
     }
 
     if (attr->node.ns == LXB_NS_XMLNS)
     {
-        if (attr->local_name.length == 5
-            && lexbor_str_data_cmp(attr->local_name.data,
+        if (data->entry.length == 5
+            && lexbor_str_data_cmp(lexbor_hash_entry_str(&data->entry),
                                    (const lxb_char_t *) "xmlns"))
         {
             lxb_html_serialize_send((const lxb_char_t *) "xmlns", 5, ctx);
         }
         else {
             lxb_html_serialize_send((const lxb_char_t *) "xmlns:", 5, ctx);
-            lxb_html_serialize_send(attr->local_name.data, attr->local_name.length,
-                                    ctx);
+            lxb_html_serialize_send(lexbor_hash_entry_str(&data->entry),
+                                    data->entry.length, ctx);
         }
 
         goto value;
@@ -787,13 +776,18 @@ lxb_html_serialize_attribute_cb(lxb_dom_attr_t *attr, bool has_raw,
 
     if (attr->node.ns == LXB_NS_XLINK) {
         lxb_html_serialize_send((const lxb_char_t *) "xlink:", 6, ctx);
-        lxb_html_serialize_send(attr->local_name.data, attr->local_name.length,
-                                ctx);
+        lxb_html_serialize_send(lexbor_hash_entry_str(&data->entry),
+                                data->entry.length, ctx);
 
         goto value;
     }
 
-    lxb_html_serialize_send(attr->name.data, attr->name.length, ctx);
+    str = lxb_dom_attr_qualified_name(attr, &length);
+    if (str == NULL) {
+        return LXB_STATUS_ERROR;
+    }
+
+    lxb_html_serialize_send(str, length, ctx);
 
 value:
 
@@ -1071,15 +1065,7 @@ lxb_html_serialize_pretty_element_cb(lxb_dom_element_t *element,
     lxb_dom_attr_t *attr;
     lxb_dom_node_t *node = lxb_dom_interface_node(element);
 
-    if (node->ns == LXB_NS_HTML || node->ns == LXB_NS_MATH
-        || node->ns == LXB_NS_SVG)
-    {
-        tag_name = lxb_dom_element_local_name(element, &len);
-    }
-    else {
-        tag_name = lxb_dom_element_qualified_name(element, &len);
-    }
-
+    tag_name = lxb_dom_element_qualified_name(element, &len);
     if (tag_name == NULL) {
         return LXB_STATUS_ERROR;
     }
@@ -1089,17 +1075,22 @@ lxb_html_serialize_pretty_element_cb(lxb_dom_element_t *element,
     if (element->node.ns != LXB_NS_HTML
         && opt & LXB_HTML_SERIALIZE_OPT_TAG_WITH_NS)
     {
-        size_t ns_len;
-        const lxb_char_t *ns_name;
+        const lxb_ns_prefix_data_t *data = NULL;
 
-        ns_name = lxb_ns_lower_name_by_id(node->owner_document->ns,
-                                          element->node.ns, &ns_len);
-        if (ns_name == NULL) {
-            return LXB_STATUS_ERROR;
+        if (element->node.prefix != LXB_NS__UNDEF) {
+            data = lxb_ns_prefix_data_by_id(node->owner_document->prefix,
+                                            element->node.prefix);
+        }
+        else if (element->node.ns < LXB_NS__LAST_ENTRY) {
+            data = lxb_ns_prefix_data_by_id(node->owner_document->prefix,
+                                             element->node.ns);
         }
 
-        lxb_html_serialize_send(ns_name, ns_len, ctx);
-        lxb_html_serialize_send(":", 1, ctx);
+        if (data != NULL) {
+            lxb_html_serialize_send(lexbor_hash_entry_str(&data->entry),
+                                    data->entry.length, ctx);
+            lxb_html_serialize_send(":", 1, ctx);
+        }
     }
 
     lxb_html_serialize_send(tag_name, len, ctx);
@@ -1176,7 +1167,7 @@ lxb_html_serialize_pretty_text_cb(lxb_dom_text_t *text,
         return LXB_STATUS_OK;
     }
 
-    switch (node->parent->tag_id) {
+    switch (node->parent->local_name) {
         case LXB_TAG_STYLE:
         case LXB_TAG_SCRIPT:
         case LXB_TAG_XMP:

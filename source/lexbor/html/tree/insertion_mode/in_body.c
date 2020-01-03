@@ -215,7 +215,7 @@ lxb_html_tree_insertion_mode_in_body_body(lxb_html_tree_t *tree,
     lxb_html_tree_parse_error(tree, token, LXB_HTML_RULES_ERROR_UNTO);
 
     node = lxb_html_tree_open_elements_get(tree, 1);
-    if (node == NULL || node->tag_id != LXB_TAG_BODY) {
+    if (node == NULL || node->local_name != LXB_TAG_BODY) {
         return true;
     }
 
@@ -247,7 +247,7 @@ lxb_html_tree_insertion_mode_in_body_frameset(lxb_html_tree_t *tree,
     lxb_html_tree_parse_error(tree, token, LXB_HTML_RULES_ERROR_UNTO);
 
     node = lxb_html_tree_open_elements_get(tree, 1);
-    if (node == NULL || node->tag_id != LXB_TAG_BODY) {
+    if (node == NULL || node->local_name != LXB_TAG_BODY) {
         return true;
     }
 
@@ -389,7 +389,7 @@ lxb_html_tree_insertion_mode_in_body_h123456(lxb_html_tree_t *tree,
 
     node = lxb_html_tree_current_node(tree);
 
-    switch (node->tag_id) {
+    switch (node->local_name) {
         case LXB_TAG_H1:
         case LXB_TAG_H2:
         case LXB_TAG_H3:
@@ -515,7 +515,7 @@ lxb_html_tree_insertion_mode_in_body_li(lxb_html_tree_t *tree,
             break;
         }
 
-        is_special = lxb_html_tag_is_category(node->tag_id, node->ns,
+        is_special = lxb_html_tag_is_category(node->local_name, node->ns,
                                               LXB_HTML_TAG_CATEGORY_SPECIAL);
         if (is_special
             && lxb_html_tree_node_is(node, LXB_TAG_ADDRESS) == false
@@ -595,7 +595,7 @@ lxb_html_tree_insertion_mode_in_body_dd_dt(lxb_html_tree_t *tree,
             break;
         }
 
-        is_special = lxb_html_tag_is_category(node->tag_id, node->ns,
+        is_special = lxb_html_tag_is_category(node->local_name, node->ns,
                                               LXB_HTML_TAG_CATEGORY_SPECIAL);
         if (is_special
             && lxb_html_tree_node_is(node, LXB_TAG_ADDRESS) == false
@@ -1666,7 +1666,7 @@ lxb_html_tree_insertion_mode_in_body_anything_else_closed(lxb_html_tree_t *tree,
             return true;
         }
 
-        is = lxb_html_tag_is_category(list[len]->tag_id, list[len]->ns,
+        is = lxb_html_tag_is_category(list[len]->local_name, list[len]->ns,
                                       LXB_HTML_TAG_CATEGORY_SPECIAL);
         if (is) {
             lxb_html_tree_parse_error(tree, token,

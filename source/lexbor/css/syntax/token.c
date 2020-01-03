@@ -125,8 +125,8 @@ lxb_css_syntax_token_type_id_by_name(const lxb_char_t *type_name, size_t len)
 {
     const lexbor_shs_entry_t *entry;
 
-    entry = lexbor_shs_entry_get_static(lxb_css_syntax_token_res_name_shs_map,
-                                        type_name, len);
+    entry = lexbor_shs_entry_get_lower_static(lxb_css_syntax_token_res_name_shs_map,
+                                              type_name, len);
     if (entry == NULL) {
         return LXB_CSS_SYNTAX_TOKEN_UNDEF;
     }
