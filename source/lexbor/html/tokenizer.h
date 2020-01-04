@@ -286,6 +286,9 @@ lxb_html_tokenizer_tree_set_noi(lxb_html_tokenizer_t *tkz,
 lexbor_mraw_t *
 lxb_html_tokenizer_mraw_noi(lxb_html_tokenizer_t *tkz);
 
+lexbor_hash_t *
+lxb_html_tokenizer_tags_noi(lxb_html_tokenizer_t *tkz);
+
 
 #ifdef __cplusplus
 } /* extern "C" */
