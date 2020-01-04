@@ -53,6 +53,7 @@ struct lxb_dom_node {
     lxb_dom_node_t         *parent;
     lxb_dom_node_t         *first_child;
     lxb_dom_node_t         *last_child;
+    void                   *user;
 
     lxb_dom_node_type_t    type;
 
