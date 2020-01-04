@@ -715,3 +715,9 @@ lxb_html_tokenizer_mraw_noi(lxb_html_tokenizer_t *tkz)
 {
     return lxb_html_tokenizer_mraw(tkz);
 }
+
+lexbor_hash_t *
+lxb_html_tokenizer_tags_noi(lxb_html_tokenizer_t *tkz)
+{
+    return lxb_html_tokenizer_tags(tkz);
+}
