@@ -93,6 +93,11 @@ lxb_html_document_create(void)
 void
 lxb_html_document_clean(lxb_html_document_t *document)
 {
+    document->body = NULL;
+    document->head = NULL;
+    document->iframe_srcdoc = NULL;
+    document->ready_state = LXB_HTML_DOCUMENT_READY_STATE_UNDEF;
+
     lxb_dom_document_clean(lxb_dom_interface_document(document));
 }
 

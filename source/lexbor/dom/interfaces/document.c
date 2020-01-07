@@ -163,6 +163,8 @@ lxb_dom_document_clean(lxb_dom_document_t *document)
 
     document->node.first_child = NULL;
     document->node.last_child = NULL;
+    document->element = NULL;
+    document->doctype = NULL;
 
     return LXB_STATUS_OK;
 }
