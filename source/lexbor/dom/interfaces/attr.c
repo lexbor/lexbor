@@ -226,7 +226,8 @@ lxb_dom_attr_compare(lxb_dom_attr_t *first, lxb_dom_attr_t *second)
             return false;
         }
 
-        if (first->value->length == second->value->length
+        if (second->value != NULL
+            && first->value->length == second->value->length
             && lexbor_str_data_ncmp(first->value->data, second->value->data,
                                     first->value->length))
         {
