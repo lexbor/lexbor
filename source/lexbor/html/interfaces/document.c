@@ -93,14 +93,7 @@ lxb_html_document_create(void)
 void
 lxb_html_document_clean(lxb_html_document_t *document)
 {
-    lxb_dom_document_t *doc = lxb_dom_interface_document(document);
-
-    if (doc->node.owner_document == doc) {
-        
-    }
-
-    doc->node.first_child = NULL;
-    doc->node.last_child = NULL;
+    lxb_dom_document_clean(lxb_dom_interface_document(document));
 }
 
 lxb_html_document_t *

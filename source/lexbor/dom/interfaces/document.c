@@ -161,6 +161,9 @@ lxb_dom_document_clean(lxb_dom_document_t *document)
         lexbor_hash_clean(document->prefix);
     }
 
+    document->node.first_child = NULL;
+    document->node.last_child = NULL;
+
     return LXB_STATUS_OK;
 }
 
