@@ -74,5 +74,5 @@ lexbor_action_t;
 } /* extern "C" */
 #endif
 
-#endif /* LEXBOR_MYOSI_H */
+#endif /* LEXBOR_BASE_H */
 
