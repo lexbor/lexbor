@@ -25,13 +25,13 @@ typedef struct {
 }
 lexbor_shs_entry_t;
 
-struct {
+typedef struct {
     uint32_t key;
     void     *value;
 
     size_t   next;
 }
-typedef lexbor_shs_hash_t;
+lexbor_shs_hash_t;
 
 
 LXB_API const lexbor_shs_entry_t *
