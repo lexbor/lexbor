@@ -161,7 +161,7 @@ lxb_html_tree_active_formatting_reconstruct_elements(lxb_html_tree_t *tree)
     while (af_idx < af->length) {
         node = list[af_idx];
 
-        fake_token.tag_id = node->tag_id;
+        fake_token.tag_id = node->local_name;
         fake_token.base_element = node;
 
         element = lxb_html_tree_insert_html_element(tree, &fake_token);
@@ -194,7 +194,7 @@ lxb_html_tree_active_formatting_between_last_marker(lxb_html_tree_t *tree,
             return NULL;
         }
 
-        if (list[idx]->tag_id == tag_idx && list[idx]->ns == LXB_NS_HTML) {
+        if (list[idx]->local_name == tag_idx && list[idx]->ns == LXB_NS_HTML) {
             if (return_idx) {
                 *return_idx = idx;
             }
@@ -222,7 +222,7 @@ lxb_html_tree_active_formatting_push_with_check_dupl(lxb_html_tree_t *tree,
             break;
         }
 
-        if(list[idx]->tag_id == node->tag_id && list[idx]->ns == node->ns
+        if(list[idx]->local_name == node->local_name && list[idx]->ns == node->ns
             && lxb_dom_element_compare(lxb_dom_interface_element(list[idx]),
                                        lxb_dom_interface_element(node)))
         {

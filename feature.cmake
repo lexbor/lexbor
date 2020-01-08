@@ -13,12 +13,17 @@ MACRO(FEATURE_TRY_FUNCTION_EXISTS target fname lib_name)
 
         CHECK_FUNCTION_EXISTS(${fname} test_result)
 
+        STRING(REGEX REPLACE "${lib_name}" "" CMAKE_REQUIRED_LIBRARIES
+               ${CMAKE_REQUIRED_LIBRARIES})
+
         IF(test_result)
             target_link_libraries(${target} ${lib_name})
         ELSE()
             message(FATAL_ERROR "checking for ${fname}() ... not found")
         ENDIF()
     ENDIF()
+
+    unset(test_result CACHE)
 ENDMACRO()
 
 MACRO(FEATURE_CHECK_ASAN out_result)

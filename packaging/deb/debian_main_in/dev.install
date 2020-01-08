@@ -1,0 +1,3 @@
+usr/lib/lib%%LIBNAME%%*.a usr/lib/%%ARCH%%
+usr/lib/lib%%LIBNAME%%*.so usr/lib/%%ARCH%%
+%%INCLUDES%%

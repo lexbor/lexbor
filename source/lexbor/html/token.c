@@ -78,6 +78,10 @@ lxb_html_token_skip_one_newline_state_end(lxb_html_token_process_t *process,
                                           const lxb_char_t *data,
                                           const lxb_char_t *end);
 
+const lxb_tag_data_t *
+lxb_tag_append_lower(lexbor_hash_t *hash,
+                     const lxb_char_t *name, size_t length);
+
 
 lxb_html_token_t *
 lxb_html_token_create(lexbor_dobject_t *dobj)
@@ -344,23 +348,16 @@ lxb_html_token_parse_data(lxb_html_token_t *token, lxb_html_parser_char_t *pc,
 }
 
 lxb_tag_id_t
-lxb_html_token_tag_id_from_data(lxb_tag_heap_t *tag_heap,
-                                lxb_html_token_t *token)
+lxb_html_token_tag_id_from_data(lexbor_hash_t *hash, lxb_html_token_t *token,
+                                lexbor_mraw_t *mraw)
 {
-    lxb_tag_id_t tag_id;
     const lxb_tag_data_t *tag_data;
 
     if (lexbor_in_segment(token->in_begin, token->end) == true
         && (token->type & LXB_HTML_TOKEN_TYPE_NULL) == 0)
     {
-        tag_id = lxb_tag_id_by_name(tag_heap, token->begin,
-                                         (token->end - token->begin));
-        if (tag_id != LXB_TAG__UNDEF) {
-            return tag_id;
-        }
-
-        tag_data = lxb_tag_append(tag_heap, token->begin,
-                                       (token->end - token->begin));
+        tag_data = lxb_tag_append_lower(hash, token->begin,
+                                        (token->end - token->begin));
         if (tag_data == NULL) {
             return LXB_TAG__UNDEF;
         }
@@ -370,27 +367,17 @@ lxb_html_token_tag_id_from_data(lxb_tag_heap_t *tag_heap,
 
     lxb_status_t status;
     lexbor_str_t str = {0};
-    lexbor_mraw_t *mraw = lxb_tag_heap_mraw(tag_heap);
 
     status = lxb_html_token_make_data_strict(token, &str, mraw);
     if (status != LXB_STATUS_OK) {
         return LXB_TAG__UNDEF;
     }
 
-    tag_id = lxb_tag_id_by_name(tag_heap, str.data, str.length);
-    if (tag_id != LXB_TAG__UNDEF) {
-        /*
-         * Need destroy str.
-         * We did check, the data was found and str is no longer needed.
-         */
-        lexbor_str_destroy(&str, mraw, false);
+    tag_data = lxb_tag_append_lower(hash, str.data, str.length);
 
-        return tag_id;
-    }
+    lexbor_str_destroy(&str, mraw, false);
 
-    tag_data = lxb_tag_append_wo_copy(tag_heap, str.data, str.length);
     if (tag_data == NULL) {
-        /* No need destroy str */
         return LXB_TAG__UNDEF;
     }
 

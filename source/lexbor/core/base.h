@@ -23,9 +23,9 @@ extern "C" {
 #include "lexbor/core/types.h"
 #include "lexbor/core/lexbor.h"
 
-#define LEXBOR_VERSION_MAJOR 0
-#define LEXBOR_VERSION_MINOR 2
-#define LEXBOR_VERSION_PATCH 0
+#define LEXBOR_VERSION_MAJOR 1
+#define LEXBOR_VERSION_MINOR 3
+#define LEXBOR_VERSION_PATCH 1
 
 #define LEXBOR_VERSION_STRING LEXBOR_STRINGIZE(LEXBOR_VERSION_MAJOR) "."       \
                               LEXBOR_STRINGIZE(LEXBOR_VERSION_MINOR) "."       \
@@ -53,15 +53,19 @@ typedef enum {
     LXB_STATUS_ERROR_WRONG_STAGE,
     LXB_STATUS_ERROR_UNEXPECTED_RESULT,
     LXB_STATUS_ERROR_UNEXPECTED_DATA,
+    LXB_STATUS_CONTINUE,
+    LXB_STATUS_SMALL_BUFFER,
     LXB_STATUS_ABORTED,
-    LXB_STATUS_STOPPED
+    LXB_STATUS_STOPPED,
+    LXB_STATUS_NEXT,
+    LXB_STATUS_STOP,
 }
 lexbor_status_t;
 
 typedef enum {
     LEXBOR_ACTION_OK    = 0x00,
-    LEXBOR_ACTION_NEXT  = 0x01,
-    LEXBOR_ACTION_STOP  = 0x02
+    LEXBOR_ACTION_STOP  = 0x01,
+    LEXBOR_ACTION_NEXT  = 0x02
 }
 lexbor_action_t;
 
@@ -70,5 +74,5 @@ lexbor_action_t;
 } /* extern "C" */
 #endif
 
-#endif /* LEXBOR_MYOSI_H */
+#endif /* LEXBOR_BASE_H */
 

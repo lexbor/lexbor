@@ -1,0 +1,24 @@
+Source: lib%%LIBNAME%%
+Section: libs
+Priority: optional
+Maintainer: Alexander Borisov <borisov@lexbor.com>
+Standards-Version: 3.9.5
+Vcs-Git: git://github.com/lexbor/lexbor.git
+Vcs-Browser: https://github.com/lexbor/lexbor
+Homepage: https://lexbor.com
+Build-Depends: debhelper (>= 9),
+               cmake (>= 2.8),
+               linux-libc-dev
+
+Package: lib%%LIBNAME%%
+Section: libs
+Architecture: any
+Multi-Arch: same
+%%DEPENDS%%Description: Shared "%%NAME%%" library from the Lexbor project.
+%%DESCRIPTION%%
+
+Package: lib%%LIBNAME%%-dev
+Section: libdevel
+Architecture: any
+%%DEPENDS_DEVEL%%Description: Static "%%NAME%%" library and headers from the Lexbor project.
+%%DESCRIPTION%%

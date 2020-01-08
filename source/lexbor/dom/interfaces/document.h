@@ -12,6 +12,7 @@ extern "C" {
 #endif
 
 #include "lexbor/core/mraw.h"
+#include "lexbor/core/hash.h"
 
 #include "lexbor/dom/interface.h"
 #include "lexbor/dom/interfaces/node.h"
@@ -45,9 +46,15 @@ struct lxb_dom_document {
 
     lexbor_mraw_t               *mraw;
     lexbor_mraw_t               *text;
-    void                        *tags;
-    void                        *ns;
+    lexbor_hash_t               *tags;
+    lexbor_hash_t               *attrs;
+    lexbor_hash_t               *prefix;
+    lexbor_hash_t               *ns;
+    void                        *parser;
     void                        *user;
+
+    bool                        tags_inherited;
+    bool                        ns_inherited;
 
     bool                        scripting;
 };
@@ -58,6 +65,21 @@ lxb_dom_document_interface_create(lxb_dom_document_t *document);
 
 LXB_API lxb_dom_document_t *
 lxb_dom_document_interface_destroy(lxb_dom_document_t *document);
+
+LXB_API lxb_dom_document_t *
+lxb_dom_document_create(lxb_dom_document_t *owner);
+
+LXB_API lxb_status_t
+lxb_dom_document_init(lxb_dom_document_t *document, lxb_dom_document_t *owner,
+                      lxb_dom_interface_create_f create_interface,
+                      lxb_dom_interface_destroy_f destroy_interface,
+                      lxb_dom_document_dtype_t type, unsigned int ns);
+
+LXB_API lxb_status_t
+lxb_dom_document_clean(lxb_dom_document_t *document);
+
+LXB_API lxb_dom_document_t *
+lxb_dom_document_destroy(lxb_dom_document_t *document);
 
 LXB_API void
 lxb_dom_document_attach_doctype(lxb_dom_document_t *document,
@@ -137,6 +159,12 @@ lxb_dom_document_destroy_text(lxb_dom_document_t *document, lxb_char_t *text)
     return lexbor_mraw_free(document->text, text);
 }
 
+lxb_inline lxb_dom_element_t *
+lxb_dom_document_element(lxb_dom_document_t *document)
+{
+    return document->element;
+}
+
 /*
  * No inline functions for ABI.
  */
@@ -161,6 +189,9 @@ lxb_dom_document_create_text_noi(lxb_dom_document_t *document, size_t len);
 void *
 lxb_dom_document_destroy_text_noi(lxb_dom_document_t *document,
                                   lxb_char_t *text);
+
+lxb_dom_element_t *
+lxb_dom_document_element_noi(lxb_dom_document_t *document);
 
 
 #ifdef __cplusplus

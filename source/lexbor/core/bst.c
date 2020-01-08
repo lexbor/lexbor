@@ -228,8 +228,7 @@ lexbor_bst_remove(lexbor_bst_t *bst, lexbor_bst_entry_t **scope, size_t size)
 
     while (entry != NULL) {
         if (entry->size == size) {
-            return lexbor_bst_remove_by_pointer(bst, entry,
-                                                entry->parent, scope);
+            return lexbor_bst_remove_by_pointer(bst, entry, scope);
         }
         else if (size > entry->size) {
             entry = entry->right;
@@ -255,8 +254,7 @@ lexbor_bst_remove_close(lexbor_bst_t *bst, lexbor_bst_entry_t **scope,
                 *found_size = entry->size;
             }
 
-            return lexbor_bst_remove_by_pointer(bst, entry,
-                                                entry->parent, scope);
+            return lexbor_bst_remove_by_pointer(bst, entry, scope);
         }
         else if (size > entry->size) {
             entry = entry->right;
@@ -272,7 +270,7 @@ lexbor_bst_remove_close(lexbor_bst_t *bst, lexbor_bst_entry_t **scope,
             *found_size = max->size;
         }
 
-        return lexbor_bst_remove_by_pointer(bst, max, max->parent, scope);
+        return lexbor_bst_remove_by_pointer(bst, max, scope);
     }
 
     if (found_size != NULL) {
@@ -284,7 +282,6 @@ lexbor_bst_remove_close(lexbor_bst_t *bst, lexbor_bst_entry_t **scope,
 
 void *
 lexbor_bst_remove_by_pointer(lexbor_bst_t *bst, lexbor_bst_entry_t *entry,
-                             lexbor_bst_entry_t *parent,
                              lexbor_bst_entry_t **root)
 {
     void *value;
@@ -306,9 +303,9 @@ lexbor_bst_remove_by_pointer(lexbor_bst_t *bst, lexbor_bst_entry_t *entry,
     value = entry->value;
 
     if (entry->left == NULL && entry->right == NULL) {
-        if (parent != NULL) {
-            if (parent->left == entry)  parent->left  = NULL;
-            if (parent->right == entry) parent->right = NULL;
+        if (entry->parent != NULL) {
+            if (entry->parent->left == entry)  entry->parent->left  = NULL;
+            if (entry->parent->right == entry) entry->parent->right = NULL;
         }
         else {
             *root = NULL;
@@ -317,63 +314,88 @@ lexbor_bst_remove_by_pointer(lexbor_bst_t *bst, lexbor_bst_entry_t *entry,
         lexbor_dobject_free(bst->dobject, entry);
     }
     else if (entry->left == NULL) {
-        if (parent == NULL) {
+        if (entry->parent == NULL) {
             entry->right->parent = NULL;
 
             *root = entry->right;
 
             lexbor_dobject_free(bst->dobject, entry);
+
+            entry = *root;
         }
         else {
             right = entry->right;
+            right->parent = entry->parent;
 
             memcpy(entry, right, sizeof(lexbor_bst_entry_t));
 
-            entry->parent = parent;
-
             lexbor_dobject_free(bst->dobject, right);
+        }
+
+        if (entry->right != NULL) {
+            entry->right->parent = entry;
+        }
+
+        if (entry->left != NULL) {
+            entry->left->parent = entry;
         }
     }
     else if (entry->right == NULL) {
-        if (parent == NULL) {
+        if (entry->parent == NULL) {
             entry->left->parent = NULL;
 
             *root = entry->left;
 
             lexbor_dobject_free(bst->dobject, entry);
+
+            entry = *root;
         }
         else {
             left = entry->left;
+            left->parent = entry->parent;
 
             memcpy(entry, left, sizeof(lexbor_bst_entry_t));
 
-            entry->parent = parent;
-
             lexbor_dobject_free(bst->dobject, left);
+        }
+
+        if (entry->right != NULL) {
+            entry->right->parent = entry;
+        }
+
+        if (entry->left != NULL) {
+            entry->left->parent = entry;
         }
     }
     else {
-        lexbor_bst_entry_t *left_free = entry->right;
-        lexbor_bst_entry_t *left_free_parent = entry;
+        left = entry->right;
 
-        while (left_free->left != NULL) {
-            left_free_parent = left_free;
-            left_free = left_free->left;
+        while (left->left != NULL) {
+            left = left->left;
         }
 
         /* Swap */
-        entry->size  = left_free->size;
-        entry->next  = left_free->next;
-        entry->value = left_free->value;
+        entry->size  = left->size;
+        entry->next  = left->next;
+        entry->value = left->value;
 
-        if (left_free_parent->left == left_free) {
-            left_free_parent->left = left_free->right;
+        /* Change parrent */
+        if (entry->right == left) {
+            entry->right = left->right;
+
+            if (entry->right != NULL) {
+                left->right->parent = entry;
+            }
         }
         else {
-            left_free_parent->right = left_free->right;
+            left->parent->left = left->right;
+
+            if (left->right != NULL) {
+                left->right->parent = left->parent;
+            }
         }
 
-        lexbor_dobject_free(bst->dobject, left_free);
+        lexbor_dobject_free(bst->dobject, left);
     }
 
     return value;

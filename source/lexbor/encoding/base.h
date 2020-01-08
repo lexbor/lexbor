@@ -15,9 +15,9 @@ extern "C" {
 #include "lexbor/encoding/const.h"
 
 
-#define LXB_ENCODING_VERSION_MAJOR 1
+#define LXB_ENCODING_VERSION_MAJOR 2
 #define LXB_ENCODING_VERSION_MINOR 0
-#define LXB_ENCODING_VERSION_PATCH 0
+#define LXB_ENCODING_VERSION_PATCH 1
 
 #define LXB_ENCODING_VERSION_STRING                                            \
         LEXBOR_STRINGIZE(LXB_ENCODING_VERSION_MAJOR) "."                       \
@@ -25,7 +25,11 @@ extern "C" {
         LEXBOR_STRINGIZE(LXB_ENCODING_VERSION_PATCH)
 
 
-#define LXB_ENCODING_REPLACEMENT_BYTES "\xEF\xBF\xBD"
+#define LXB_ENCODING_REPLACEMENT_BYTES ((lxb_char_t *) "\xEF\xBF\xBD")
+
+#define LXB_ENCODING_REPLACEMENT_BUFFER_LEN 1
+#define LXB_ENCODING_REPLACEMENT_BUFFER                                        \
+    (&(const lxb_codepoint_t) {LXB_ENCODING_REPLACEMENT_CODEPOINT})
 
 
 /*
@@ -34,19 +38,20 @@ extern "C" {
 enum {
     LXB_ENCODING_REPLACEMENT_SIZE      = 0x03,
     LXB_ENCODING_REPLACEMENT_CODEPOINT = 0xFFFD,
-    LXB_ENCODING_MAX_CODEPOINT         = 0x10FFFF
-};
-
-enum {
-    LXB_ENCODING_DECODE_MAX_CODEPOINT = LXB_ENCODING_MAX_CODEPOINT,
-    LXB_ENCODING_DECODE_ERROR         = 0xAFFFFF,
-    LXB_ENCODING_DECODE_CONTINUE      = 0xBFFFFF
+    LXB_ENCODING_MAX_CODEPOINT         = 0x10FFFF,
+    LXB_ENCODING_ERROR_CODEPOINT       = 0x1FFFFF
 };
 
 enum {
     LXB_ENCODING_ENCODE_OK           =  0x00,
     LXB_ENCODING_ENCODE_ERROR        = -0x01,
     LXB_ENCODING_ENCODE_SMALL_BUFFER = -0x02
+};
+
+enum {
+    LXB_ENCODING_DECODE_MAX_CODEPOINT = LXB_ENCODING_MAX_CODEPOINT,
+    LXB_ENCODING_DECODE_ERROR         = LXB_ENCODING_ERROR_CODEPOINT,
+    LXB_ENCODING_DECODE_CONTINUE      = 0x2FFFFF
 };
 
 enum {
@@ -67,7 +72,7 @@ enum {
 };
 
 typedef struct {
-    unsigned   needed;
+    unsigned   need;
     lxb_char_t lower;
     lxb_char_t upper;
 }
@@ -95,10 +100,30 @@ typedef struct {
 }
 lxb_encoding_ctx_2022_jp_t;
 
+typedef struct lxb_encoding_data lxb_encoding_data_t;
+
 typedef struct {
-    lxb_codepoint_t codepoint;
-    lxb_codepoint_t second_codepoint;
-    bool            prepend;
+    const lxb_encoding_data_t *encoding_data;
+
+    /* Out buffer */
+    lxb_codepoint_t           *buffer_out;
+    size_t                    buffer_length;
+    size_t                    buffer_used;
+
+    /*
+     * Bad code points will be replaced to user code point.
+     * If replace_to == 0 stop parsing and return error ot user.
+     */
+    const lxb_codepoint_t     *replace_to;
+    size_t                    replace_len;
+
+    /* Not for users */
+    lxb_codepoint_t           codepoint;
+    lxb_codepoint_t           second_codepoint;
+    bool                      prepend;
+    bool                      have_error;
+
+    lxb_status_t              status;
 
     union {
         lxb_encoding_ctx_utf_8_t   utf_8;
@@ -111,41 +136,64 @@ typedef struct {
 lxb_encoding_decode_t;
 
 typedef struct {
-    unsigned state;
+    const lxb_encoding_data_t *encoding_data;
+
+    /* Out buffer */
+    lxb_char_t                *buffer_out;
+    size_t                    buffer_length;
+    size_t                    buffer_used;
+
+    /*
+     * Bad code points will be replaced to user bytes.
+     * If replace_to == NULL stop parsing and return error ot user.
+     */
+    const lxb_char_t          *replace_to;
+    size_t                    replace_len;
+
+    unsigned                  state;
 }
 lxb_encoding_encode_t;
 
-typedef int8_t
-(*lxb_encoding_encode_f)(lxb_encoding_encode_t *ctx, lxb_char_t **data,
-                         const lxb_char_t *end, lxb_codepoint_t cp);
-
 /*
- * Why can't I pass a char ** to a function which expects a const char **?
- * http://c-faq.com/ansi/constmismatch.html
- *
- * Short answer: use cast (const char **).
- *
- * For example:
- *     lxb_encoding_ctx_t ctx = {0};
- *     const lxb_encoding_data_t *enc;
- *
- *     lxb_char_t *data = (lxb_char_t *) "\x81\x30\x84\x36";
- *
- *     enc = lxb_encoding_data(LXB_ENCODING_GB18030);
- *
- *     enc->decode(&ctx, (const lxb_char_t **) &data, data + 4);
- */
-typedef lxb_codepoint_t
+* Why can't I pass a char ** to a function which expects a const char **?
+* http://c-faq.com/ansi/constmismatch.html
+*
+* Short answer: use cast (const char **).
+*
+* For example:
+*     lxb_encoding_ctx_t ctx = {0};
+*     const lxb_encoding_data_t *enc;
+*
+*     lxb_char_t *data = (lxb_char_t *) "\x81\x30\x84\x36";
+*
+*     enc = lxb_encoding_data(LXB_ENCODING_GB18030);
+*
+*     enc->decode(&ctx, (const lxb_char_t **) &data, data + 4);
+*/
+typedef lxb_status_t
+(*lxb_encoding_encode_f)(lxb_encoding_encode_t *ctx, const lxb_codepoint_t **cp,
+                         const lxb_codepoint_t *end);
+
+typedef lxb_status_t
 (*lxb_encoding_decode_f)(lxb_encoding_decode_t *ctx,
                          const lxb_char_t **data, const lxb_char_t *end);
 
-typedef struct {
-    lxb_encoding_t        encoding;
-    lxb_encoding_encode_f encode;
-    lxb_encoding_decode_f decode;
-    lxb_char_t            *name;
-}
-lxb_encoding_data_t;
+typedef int8_t
+(*lxb_encoding_encode_single_f)(lxb_encoding_encode_t *ctx, lxb_char_t **data,
+                                const lxb_char_t *end, lxb_codepoint_t cp);
+
+typedef lxb_codepoint_t
+(*lxb_encoding_decode_single_f)(lxb_encoding_decode_t *ctx,
+                                const lxb_char_t **data, const lxb_char_t *end);
+
+struct lxb_encoding_data {
+    lxb_encoding_t               encoding;
+    lxb_encoding_encode_f        encode;
+    lxb_encoding_decode_f        decode;
+    lxb_encoding_encode_single_f encode_single;
+    lxb_encoding_decode_single_f decode_single;
+    lxb_char_t                   *name;
+};
 
 typedef struct {
     lxb_char_t      *name;

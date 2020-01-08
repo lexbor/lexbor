@@ -43,7 +43,7 @@ lxb_html_tree_open_elements_pop_until_tag_id(lxb_html_tree_t *tree,
 
         node = list[ tree->open_elements->length ];
 
-        if (node->tag_id == tag_id && node->ns == ns) {
+        if (node->local_name == tag_id && node->ns == ns) {
             if (exclude == false) {
                 tree->open_elements->length++;
             }
@@ -64,7 +64,7 @@ lxb_html_tree_open_elements_pop_until_h123456(lxb_html_tree_t *tree)
 
         node = list[ tree->open_elements->length ];
 
-        switch (node->tag_id) {
+        switch (node->local_name) {
             case LXB_TAG_H1:
             case LXB_TAG_H2:
             case LXB_TAG_H3:
@@ -94,7 +94,7 @@ lxb_html_tree_open_elements_pop_until_td_th(lxb_html_tree_t *tree)
 
         node = list[ tree->open_elements->length ];
 
-        switch (node->tag_id) {
+        switch (node->local_name) {
             case LXB_TAG_TD:
             case LXB_TAG_TH:
                 if (node->ns == LXB_NS_HTML) {
@@ -202,7 +202,7 @@ lxb_html_tree_open_elements_find(lxb_html_tree_t *tree,
     for (size_t i = 0; i < tree->open_elements->length; i++) {
         node = list[i];
 
-        if (node->tag_id == tag_id && node->ns == ns) {
+        if (node->local_name == tag_id && node->ns == ns) {
             if (return_index) {
                 *return_index = i;
             }
@@ -232,7 +232,7 @@ lxb_html_tree_open_elements_find_reverse(lxb_html_tree_t *tree,
         len--;
         node = list[len];
 
-        if (node->tag_id == tag_id && node->ns == ns) {
+        if (node->local_name == tag_id && node->ns == ns) {
             if (return_index) {
                 *return_index = len;
             }

@@ -213,8 +213,7 @@ lexbor_bst_map_remove(lexbor_bst_map_t *bst_map, lexbor_bst_entry_t **scope,
         {
             void *value = entry->value;
 
-            lexbor_bst_remove_by_pointer(bst_map->bst, bst_entry,
-                                         bst_entry->parent, scope);
+            lexbor_bst_remove_by_pointer(bst_map->bst, bst_entry, scope);
 
             lexbor_str_destroy(&entry->str, bst_map->mraw, false);
             lexbor_dobject_free(bst_map->entries, entry);

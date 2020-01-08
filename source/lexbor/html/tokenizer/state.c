@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2019 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -197,9 +197,6 @@ lxb_html_tokenizer_state_data(lxb_html_tokenizer_t *tkz,
 
                 lxb_html_tokenizer_error_add(tkz->parse_errors, data,
                                              LXB_HTML_TOKENIZER_ERROR_UNNUCH);
-                break;
-
-            default:
                 break;
         }
 
@@ -434,7 +431,6 @@ lxb_html_tokenizer_state_tag_name(lxb_html_tokenizer_t *tkz,
                 tkz->state = lxb_html_tokenizer_state_data_before;
 
                 lxb_html_tokenizer_state_token_set_end(tkz, data);
-                lxb_html_tokenizer_state_token_set_tag_id(tkz, end);
                 lxb_html_tokenizer_state_token_done_m(tkz, end);
 
                 return (data + 1);
@@ -655,7 +651,6 @@ lxb_html_tokenizer_state_after_attribute_name(lxb_html_tokenizer_t *tkz,
             case 0x3E:
                 tkz->state = lxb_html_tokenizer_state_data_before;
 
-                lxb_html_tokenizer_state_token_set_tag_id(tkz, end);
                 lxb_html_tokenizer_state_token_done_m(tkz, end);
 
                 return (data + 1);
@@ -728,7 +723,6 @@ lxb_html_tokenizer_state_before_attribute_value(lxb_html_tokenizer_t *tkz,
                 lxb_html_tokenizer_error_add(tkz->parse_errors, data,
                                              LXB_HTML_TOKENIZER_ERROR_MIATVA);
 
-                lxb_html_tokenizer_state_token_set_tag_id(tkz, end);
                 lxb_html_tokenizer_state_token_done_m(tkz, end);
 
                 return (data + 1);
@@ -926,7 +920,6 @@ lxb_html_tokenizer_state_attribute_value_unquoted(lxb_html_tokenizer_t *tkz,
                 tkz->state = lxb_html_tokenizer_state_data_before;
 
                 lxb_html_tokenizer_state_token_attr_set_value_end(tkz, data);
-                lxb_html_tokenizer_state_token_set_tag_id(tkz, end);
                 lxb_html_tokenizer_state_token_done_m(tkz, end);
 
                 return (data + 1);
@@ -1015,7 +1008,6 @@ lxb_html_tokenizer_state_after_attribute_value_quoted(lxb_html_tokenizer_t *tkz,
         case 0x3E:
             tkz->state = lxb_html_tokenizer_state_data_before;
 
-            lxb_html_tokenizer_state_token_set_tag_id(tkz, end);
             lxb_html_tokenizer_state_token_done_m(tkz, end);
 
             return (data + 1);
@@ -1056,7 +1048,6 @@ lxb_html_tokenizer_state_self_closing_start_tag(lxb_html_tokenizer_t *tkz,
             tkz->state = lxb_html_tokenizer_state_data_before;
             tkz->token->type |= LXB_HTML_TOKEN_TYPE_CLOSE_SELF;
 
-            lxb_html_tokenizer_state_token_set_tag_id(tkz, end);
             lxb_html_tokenizer_state_token_done_m(tkz, end);
 
             return (data + 1);

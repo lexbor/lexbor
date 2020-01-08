@@ -2,6 +2,29 @@
 
 ## [Unreleased]
 
+## [0.4.0] - 2019-11-18
+### Added
+- Encoding module.
+- Utils module.
+- CMake option for build all modules separately.
+- Examples for html tokenizer.
+- HTML: prescan the byte stream to determine encoding function.
+- Aliases for inline functions for use ABI of library.
+- Support ASAN for memory pool.
+- Core: added dup function for mraw.
+- More statuses.
+- Converting functions for string to number.
+
+### Fixed
+- Full path for cmake test command.
+- HTML: fixed parse '<![[CDATA[' chunks.
+- Use after free document element in fragment parse.
+- HTML: fixed memory leak in tokenizer.
+- HTML: fixed pointer offset for lxb_dom_node_text_content() function.
+- HTML: fixed use-after-free after clearing a document.
+
+### Changed
+- Core: changed lexbor_str_length_set() function.
 
 ## [0.2.0] - 2019-03-12
 ### Added

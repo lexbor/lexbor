@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2019 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -83,6 +83,51 @@ lxb_html_parser_char_process(lxb_html_parser_char_t *pc, lexbor_str_t *str,
     return pc->status;
 }
 
+
+lxb_status_t
+lxb_html_parser_char_copy(lexbor_str_t *str, lexbor_mraw_t *mraw,
+                          const lexbor_in_node_t *in_node,
+                          const lxb_char_t *data, const lxb_char_t *end)
+{
+    lxb_status_t status;
+
+    if (str->data == NULL) {
+        if (lexbor_in_segment(in_node, end)) {
+            lexbor_str_init(str, mraw, (end - data));
+        }
+        else {
+            lexbor_str_init(str, mraw, (in_node->end - data));
+        }
+
+        if (str->data == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+    }
+
+    while (lexbor_in_segment(in_node, end) == false) {
+        status = lxb_html_str_append(str, mraw, data, (in_node->end - data));
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+
+        if (in_node->next == NULL) {
+            return LXB_STATUS_ERROR;
+        }
+
+        in_node = in_node->next;
+        data = in_node->begin;
+    }
+
+    if (data < end) {
+        status = lxb_html_str_append(str, mraw, data, (end - data));
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+    }
+
+    return LXB_STATUS_OK;
+}
+
 /*
  * Preprocessing (replace CRLF to LF and CR to LF)
  * and replace U+0000 NULL character to U+FFFD REPLACEMENT CHARACTER.
@@ -98,10 +143,9 @@ lxb_html_parser_char_data(lxb_html_parser_char_t *pc, lexbor_str_t *str,
         if (*data == 0x0D) {
             data++;
 
-            begin = lexbor_str_append(str, pc->mraw, begin, (data - begin));
-            if (begin == NULL) {
-                pc->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-
+            pc->status = lxb_html_str_append(str, pc->mraw, begin,
+                                             (data - begin));
+            if (pc->status != LXB_STATUS_OK) {
                 return end;
             }
 
@@ -129,11 +173,9 @@ lxb_html_parser_char_data(lxb_html_parser_char_t *pc, lexbor_str_t *str,
 
             if (pc->replace_null == false) {
                 if (pc->drop_null) {
-                    begin = lexbor_str_append(str, pc->mraw, begin,
-                                              (data - begin));
-                    if (begin == NULL) {
-                        pc->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-
+                    pc->status = lxb_html_str_append(str, pc->mraw, begin,
+                                                     (data - begin));
+                    if (pc->status != LXB_STATUS_OK) {
                         return end;
                     }
 
@@ -148,21 +190,17 @@ lxb_html_parser_char_data(lxb_html_parser_char_t *pc, lexbor_str_t *str,
             }
 
             if (begin != data) {
-                begin = lexbor_str_append(str, pc->mraw, begin, (data - begin));
-                if (begin == NULL) {
-                    pc->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-
+                pc->status = lxb_html_str_append(str, pc->mraw, begin,
+                                                 (data - begin));
+                if (pc->status != LXB_STATUS_OK) {
                     return end;
                 }
             }
 
-            begin = lexbor_str_append(str, pc->mraw,
+            pc->status = lxb_html_str_append(str, pc->mraw,
                          lexbor_str_res_ansi_replacement_character,
                          sizeof(lexbor_str_res_ansi_replacement_character) - 1);
-
-            if (begin == NULL) {
-                pc->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-
+            if (pc->status != LXB_STATUS_OK) {
                 return end;
             }
 
@@ -175,10 +213,8 @@ lxb_html_parser_char_data(lxb_html_parser_char_t *pc, lexbor_str_t *str,
     }
 
     if (begin != data) {
-        begin = lexbor_str_append(str, pc->mraw, begin, (data - begin));
-        if (begin == NULL) {
-            pc->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-
+        pc->status = lxb_html_str_append(str, pc->mraw, begin, (data - begin));
+        if (pc->status != LXB_STATUS_OK) {
             return end;
         }
     }
@@ -276,13 +312,10 @@ lxb_html_parser_char_data_lcase(lxb_html_parser_char_t *pc, lexbor_str_t *str,
                 }
             }
 
-            begin = lexbor_str_append(str, pc->mraw,
+            pc->status = lxb_html_str_append(str, pc->mraw,
                          lexbor_str_res_ansi_replacement_character,
                          sizeof(lexbor_str_res_ansi_replacement_character) - 1);
-
-            if (begin == NULL) {
-                pc->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-
+            if (pc->status != LXB_STATUS_OK) {
                 return end;
             }
 

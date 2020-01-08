@@ -121,7 +121,7 @@ class MultiByte:
         print("Flat buffer size:", buffer_size)
 
         res = LXB.Res(self.flat_index_typename, 
-                self.make_var_name(name) + '[{}]'.format(buffer_size), False, None, '')
+                self.make_var_name(name) + '[{}]'.format(buffer_size), False, None, 'LXB_API')
 
         for idx in range(0, buffer_size):
             if idx in values:
@@ -131,7 +131,7 @@ class MultiByte:
                                                                           entries[3], entries[1].decode('utf-8')))
                 res.append('/* {} */'.format(entries[4].decode('utf-8')), is_comment = True)
             else:
-                res.append('{NULL, 0, LXB_ENCODING_DECODE_ERROR}')
+                res.append('{NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}')
                 res.append('/* Not defined */', is_comment = True)
 
         buf = res.create()
@@ -142,7 +142,7 @@ class MultiByte:
         buffer_size = self.buffer_size(values)
         name = self.make_hash_name(name)
 
-        hash_key = LXB.HashKey(buffer_size, name)
+        hash_key = LXB.HashKey(buffer_size, name, 'LXB_API')
 
         for idx in range(0, buffer_size):
             if idx in values:

@@ -15,7 +15,7 @@
 #include "lexbor/core/shs.h"
 
 
-const lxb_encoding_multi_index_t lxb_encoding_multi_index_gb18030[23940] = 
+LXB_API const lxb_encoding_multi_index_t lxb_encoding_multi_index_gb18030[23940] = 
 {
     {(lxb_char_t *) "\xe4\xb8\x82", 3, 0x4E02}, /* (<CJK Ideograph>) */
     {(lxb_char_t *) "\xe4\xb8\x84", 3, 0x4E04}, /* (<CJK Ideograph>) */
@@ -23960,7 +23960,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_gb18030[23940] =
 };
 
 /* Table size: 19950; Max deep: 3 */
-const lexbor_shs_hash_t lxb_encoding_multi_hash_gb18030[23941] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_multi_hash_gb18030[23941] = 
 {
     {0, NULL, 0},{39900, (void *) 22230, 0},
     {39901, (void *) 22231, 0},

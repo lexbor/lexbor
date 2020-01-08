@@ -129,8 +129,10 @@ class HashKey:
         if self.prefix != '':
             prefix = self.prefix + ' '
 
-        var_name = "{}{} {} {}[{}]".format(prefix, ("const" if is_const else ""),
+        extern_name = "{} {} {}[{}]".format(("const" if is_const else ""),
                                             self.struct_name, self.name, len(table))
+
+        var_name = "{}{}".format(prefix, extern_name)
 
         result.append("{} = \n{{\n    ".format(var_name))
 
@@ -159,7 +161,7 @@ class HashKey:
         result.append("};")
 
         return [result, '#define {}_SIZE {}'.format(self.name.upper(), self.table_size),
-                'extern ' + var_name + ';', self.table_size]
+                'extern ' + extern_name + ';', self.table_size]
 
     def test(self, begin, end):
         result = []
@@ -299,7 +301,8 @@ class SHS:
         key = key.lower()
         return ((((ord(key[:1]) * ord(key[-1:])) * ord(key[:1])) + len(key)) % table_size) + 1
 
-    def create(self, data_name):
+    def create(self, data_name, rate = 2):
+        rate_dn = rate - 1
         result = []
 
         self.make()
@@ -326,7 +329,7 @@ class SHS:
 
             result.append(", ")
 
-            if int(key) % 2 == 1:
+            if int(key) % rate == rate_dn:
                 result.append("\n    ")
 
         key = self.idx

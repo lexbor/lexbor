@@ -24,7 +24,7 @@ lxb_html_in_make(lexbor_in_node_t *node,
                  lexbor_str_t *str, lexbor_mraw_t *mraw);
 
 LXB_API lxb_tag_id_t
-lxb_html_in_tag_id(lexbor_in_node_t *node, lxb_tag_heap_t *tag_heap,
+lxb_html_in_tag_id(lexbor_in_node_t *node, lexbor_hash_t *hash,
                    const lxb_char_t *begin, const lxb_char_t *end,
                    lexbor_mraw_t *mraw);
 

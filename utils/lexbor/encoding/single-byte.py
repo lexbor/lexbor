@@ -100,7 +100,7 @@ class SingleByte:
 
     def make_flat_index(self, name, values):
         res = LXB.Res(self.flat_index_typename, 
-                self.make_var_name(name) + '[{}]'.format(self.buffer_size), False, None, '')
+                self.make_var_name(name) + '[{}]'.format(self.buffer_size), False, None, 'LXB_API')
 
         for idx in range(0, self.buffer_size):
             if idx in values:
@@ -119,7 +119,7 @@ class SingleByte:
     def make_hash_index(self, name, values):
         name = self.make_hash_name(name)
 
-        hash_key = LXB.HashKey(412, name)
+        hash_key = LXB.HashKey(412, name, 'LXB_API')
 
         for idx in range(0, self.buffer_size):
             if idx in values:
@@ -166,7 +166,8 @@ def toHex(s):
 
 if __name__ == "__main__":
 
-    sb = SingleByte("single-byte", "tmp/single_test.c", "../../../test/lexbor/encoding")
+    sb = SingleByte("single-byte", "tmp/single_byte_test.c",
+                    "../../../test/lexbor/encoding/single")
 
     sb.save_res("tmp/single.h", "../../../source/lexbor/encoding/single.h",
                 "tmp/single.c", "../../../source/lexbor/encoding/single.c")

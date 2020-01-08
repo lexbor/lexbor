@@ -4,6 +4,8 @@
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
+#include <inttypes.h>
+
 #include "lexbor/html/tokenizer.h"
 
 
@@ -21,17 +23,28 @@ token_callback(lxb_html_tokenizer_t *tkz, lxb_html_token_t *token, void *ctx)
 {
     bool is_close;
     const lxb_char_t *name;
-    lxb_tag_heap_t *tag_heap = lxb_html_tokenizer_tag_heap(tkz);
+    lexbor_mraw_t *mraw;
+    lexbor_hash_t *tags = lxb_html_tokenizer_tags(tkz);
 
-    name = lxb_tag_name_by_id(tag_heap, token->tag_id, NULL);
+    mraw = lxb_html_tokenizer_mraw(tkz);
+
+    if (token->tag_id == LXB_TAG__UNDEF) {
+        token->tag_id = lxb_html_token_tag_id_from_data(tags, token, mraw);
+        if (token->tag_id == LXB_TAG__UNDEF) {
+            lxb_html_tokenizer_status_set(tkz, LXB_STATUS_ERROR);
+            return NULL;
+        }
+    }
+
+    name = lxb_tag_name_by_id(tags, token->tag_id, NULL);
     if (name == NULL) {
         FAILED("Failed to get token name");
     }
 
     is_close = token->type & LXB_HTML_TOKEN_TYPE_CLOSE;
 
-    printf("Tag name: %s; Tag id: %u; Is close: %s\n", name, token->tag_id,
-           (is_close ? "true" : "false"));
+    printf("Tag name: %s; Tag id: %" PRIxPTR "; Is close: %s\n", name,
+           token->tag_id, (is_close ? "true" : "false"));
 
     return token;
 }
@@ -51,6 +64,11 @@ main(int argc, const char *argv[])
     status = lxb_html_tokenizer_init(tkz);
     if (status != LXB_STATUS_OK) {
         FAILED("Failed to create tokenizer object");
+    }
+
+    status = lxb_html_tokenizer_tags_make(tkz, 64);
+    if (status != LXB_STATUS_OK) {
+        FAILED("Failed to create tokenizer tags");
     }
 
     /* Without copying input buffer */
@@ -73,6 +91,7 @@ main(int argc, const char *argv[])
         FAILED("Failed to ending of parsing the html data");
     }
 
+    lxb_html_tokenizer_tags_destroy(tkz);
     lxb_html_tokenizer_destroy(tkz);
 
     return 0;

@@ -35,7 +35,7 @@ decode_gb18030_range(uint32_t index)
     if ((unsigned) (index - 39419) < (189000 - 39419)
         || index > 1237575)
     {
-        return LXB_ENCODING_DECODE_ERROR;
+        return LXB_STATUS_ERROR;
     }
 
     if (index == 7457) {
@@ -77,15 +77,14 @@ decode_gb18030_range(uint32_t index)
 
 int main(int argc, const char * argv[])
 {
-    int8_t len;
     size_t size;
+    lxb_char_t data[8];
+    lxb_status_t status;
     lxb_codepoint_t cp;
+    lxb_encoding_encode_t ctx;
+    const lxb_codepoint_t *cps;
     const lxb_encoding_data_t *enc_data;
     const lxb_encoding_multi_index_t *entry;
-
-    lxb_char_t data[8];
-    lxb_char_t *ref = data;
-    const lxb_char_t *end = data + sizeof(data);
 
     const char *filepath = "./gb18030_map_decode.txt";
 
@@ -113,25 +112,24 @@ int main(int argc, const char * argv[])
            / sizeof(lxb_encoding_multi_index_t);
 
     for (size_t i = 0; i < size; i++) {
-        lxb_encoding_encode_t ctx = {0};
-
         entry = &lxb_encoding_multi_index_gb18030[i];
 
-        if (entry->codepoint > LXB_ENCODING_DECODE_MAX_CODEPOINT) {
+        if (entry->codepoint == LXB_ENCODING_ERROR_CODEPOINT) {
             continue;
         }
 
-        len = enc_data->encode(&ctx, &ref, end, entry->codepoint);
-        if (len < LXB_ENCODING_ENCODE_OK) {
+        cps = &entry->codepoint;
+
+        lxb_encoding_encode_init(&ctx, enc_data, data, sizeof(data));
+
+        status = enc_data->encode(&ctx, &cps, (cps + 1));
+        if (status != LXB_STATUS_OK) {
             printf("Failed to encoding: "LEXBOR_FORMAT_Z"\n", i);
             return EXIT_FAILURE;
         }
 
-        ref -= len;
-        append_to_file(fc, ref, len, entry->codepoint);
+        append_to_file(fc, ctx.buffer_out, ctx.buffer_used, entry->codepoint);
     }
-
-    append_to_file(fc, (lxb_char_t *) "\xA3\xA0", 2, 0x3000);
 
     /* Range index */
     uint32_t first, second, third, last, pointer;
@@ -141,25 +139,27 @@ int main(int argc, const char * argv[])
             for (third = 0x81; third <= 0xB0; third++) {
                 for (last = 0x30; last <= 0x39; last++) {
 
-                    lxb_encoding_encode_t ctx = {0};
-
                     pointer = ((first  - 0x81) * (10 * 126 * 10))
                     + ((second - 0x30) * (10 * 126))
                     + ((third  - 0x81) * 10) + last - 0x30;
 
                     cp = decode_gb18030_range(pointer);
-                    if (cp > LXB_ENCODING_DECODE_MAX_CODEPOINT) {
+                    if (cp == LXB_STATUS_ERROR) {
                         continue;
                     }
 
-                    len = enc_data->encode(&ctx, &ref, end, cp);
-                    if (len < LXB_ENCODING_ENCODE_OK) {
+                    cps = &cp;
+
+                    lxb_encoding_encode_init(&ctx, enc_data,
+                                             data, sizeof(data));
+
+                    status = enc_data->encode(&ctx, &cps, (cps + 1));
+                    if (status != LXB_STATUS_OK) {
                         printf("Failed to encoding: %u\n", cp);
                         return EXIT_FAILURE;
                     }
 
-                    ref -= len;
-                    append_to_file(fc, ref, len, cp);
+                    append_to_file(fc, ctx.buffer_out, ctx.buffer_used, cp);
                 }
             }
         }

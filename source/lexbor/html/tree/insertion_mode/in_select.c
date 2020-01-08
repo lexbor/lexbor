@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2019 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -8,94 +8,7 @@
 #include "lexbor/html/tree/open_elements.h"
 
 
-static bool
-lxb_html_tree_insertion_mode_in_select_text(lxb_html_tree_t *tree,
-                                            lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_select_comment(lxb_html_tree_t *tree,
-                                               lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_select_doctype(lxb_html_tree_t *tree,
-                                               lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_select_html(lxb_html_tree_t *tree,
-                                            lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_select_option(lxb_html_tree_t *tree,
-                                              lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_select_optgroup(lxb_html_tree_t *tree,
-                                                lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_select_optgroup_closed(lxb_html_tree_t *tree,
-                                                       lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_select_option_closed(lxb_html_tree_t *tree,
-                                                     lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_select_select_closed(lxb_html_tree_t *tree,
-                                                     lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_select_select(lxb_html_tree_t *tree,
-                                              lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_select_ikt(lxb_html_tree_t *tree,
-                                           lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_select_st_open_closed(lxb_html_tree_t *tree,
-                                                      lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_select_end_of_file(lxb_html_tree_t *tree,
-                                                   lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_select_anything_else(lxb_html_tree_t *tree,
-                                                     lxb_html_token_t *token);
-
-static bool
-lxb_html_tree_insertion_mode_in_select_anything_else_closed(lxb_html_tree_t *tree,
-                                                            lxb_html_token_t *token);
-
-
-#include "lexbor/html/tree/insertion_mode/in_select_res.h"
-
-
-bool
-lxb_html_tree_insertion_mode_in_select(lxb_html_tree_t *tree,
-                                       lxb_html_token_t *token)
-{
-    if (token->tag_id >= LXB_TAG__LAST_ENTRY) {
-        if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
-            return lxb_html_tree_insertion_mode_in_select_anything_else_closed(tree,
-                                                                               token);
-        }
-
-        return lxb_html_tree_insertion_mode_in_select_anything_else(tree,
-                                                                    token);
-    }
-
-    if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
-        return lxb_html_tree_insertion_mode_in_select_closed_res[token->tag_id](tree,
-                                                                                token);
-    }
-
-    return lxb_html_tree_insertion_mode_in_select_res[token->tag_id](tree,
-                                                                     token);
-}
-
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_text(lxb_html_tree_t *tree,
                                             lxb_html_token_t *token)
 {
@@ -110,14 +23,14 @@ lxb_html_tree_insertion_mode_in_select_text(lxb_html_tree_t *tree,
     pc.drop_null = true;
 
     tree->status = lxb_html_token_parse_data(token, &pc, &str,
-                                             tree->document->mem->text);
+                                             tree->document->dom_document.text);
     if (tree->status != LXB_STATUS_OK) {
         return lxb_html_tree_process_abort(tree);
     }
 
     /* Can be zero only if all NULL are gone */
     if (str.length == 0) {
-        lexbor_str_destroy(&str, tree->document->mem->text, false);
+        lexbor_str_destroy(&str, tree->document->dom_document.text, false);
 
         return true;
     }
@@ -130,7 +43,7 @@ lxb_html_tree_insertion_mode_in_select_text(lxb_html_tree_t *tree,
     return true;
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_comment(lxb_html_tree_t *tree,
                                                lxb_html_token_t *token)
 {
@@ -146,7 +59,7 @@ lxb_html_tree_insertion_mode_in_select_comment(lxb_html_tree_t *tree,
     return true;
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_doctype(lxb_html_tree_t *tree,
                                                lxb_html_token_t *token)
 {
@@ -155,14 +68,14 @@ lxb_html_tree_insertion_mode_in_select_doctype(lxb_html_tree_t *tree,
     return true;
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_html(lxb_html_tree_t *tree,
                                             lxb_html_token_t *token)
 {
     return lxb_html_tree_insertion_mode_in_body(tree, token);
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_option(lxb_html_tree_t *tree,
                                               lxb_html_token_t *token)
 {
@@ -183,7 +96,7 @@ lxb_html_tree_insertion_mode_in_select_option(lxb_html_tree_t *tree,
     return true;
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_optgroup(lxb_html_tree_t *tree,
                                                 lxb_html_token_t *token)
 {
@@ -210,7 +123,7 @@ lxb_html_tree_insertion_mode_in_select_optgroup(lxb_html_tree_t *tree,
     return true;
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_optgroup_closed(lxb_html_tree_t *tree,
                                                        lxb_html_token_t *token)
 {
@@ -239,7 +152,7 @@ lxb_html_tree_insertion_mode_in_select_optgroup_closed(lxb_html_tree_t *tree,
     return true;
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_option_closed(lxb_html_tree_t *tree,
                                                      lxb_html_token_t *token)
 {
@@ -256,7 +169,7 @@ lxb_html_tree_insertion_mode_in_select_option_closed(lxb_html_tree_t *tree,
     return true;
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_select_closed(lxb_html_tree_t *tree,
                                                      lxb_html_token_t *token)
 {
@@ -278,7 +191,7 @@ lxb_html_tree_insertion_mode_in_select_select_closed(lxb_html_tree_t *tree,
     return true;
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_select(lxb_html_tree_t *tree,
                                               lxb_html_token_t *token)
 {
@@ -303,7 +216,7 @@ lxb_html_tree_insertion_mode_in_select_select(lxb_html_tree_t *tree,
 /*
  * "input", "keygen", "textarea"
  */
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_ikt(lxb_html_tree_t *tree,
                                            lxb_html_token_t *token)
 {
@@ -329,21 +242,21 @@ lxb_html_tree_insertion_mode_in_select_ikt(lxb_html_tree_t *tree,
  * A start tag whose tag name is one of: "script", "template"
  * An end tag whose tag name is "template"
  */
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_st_open_closed(lxb_html_tree_t *tree,
                                                       lxb_html_token_t *token)
 {
     return lxb_html_tree_insertion_mode_in_head(tree, token);
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_end_of_file(lxb_html_tree_t *tree,
                                                    lxb_html_token_t *token)
 {
     return lxb_html_tree_insertion_mode_in_body(tree, token);
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_anything_else(lxb_html_tree_t *tree,
                                                      lxb_html_token_t *token)
 {
@@ -352,11 +265,75 @@ lxb_html_tree_insertion_mode_in_select_anything_else(lxb_html_tree_t *tree,
     return true;
 }
 
-static bool
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_select_anything_else_closed(lxb_html_tree_t *tree,
                                                             lxb_html_token_t *token)
 {
     lxb_html_tree_parse_error(tree, token, LXB_HTML_RULES_ERROR_UNCLTO);
 
     return true;
+}
+
+bool
+lxb_html_tree_insertion_mode_in_select(lxb_html_tree_t *tree,
+                                       lxb_html_token_t *token)
+{
+    if (token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {
+        switch (token->tag_id) {
+            case LXB_TAG_OPTGROUP:
+                return lxb_html_tree_insertion_mode_in_select_optgroup_closed(tree,
+                                                                              token);
+            case LXB_TAG_OPTION:
+                return lxb_html_tree_insertion_mode_in_select_option_closed(tree,
+                                                                            token);
+            case LXB_TAG_SELECT:
+                return lxb_html_tree_insertion_mode_in_select_select_closed(tree,
+                                                                            token);
+            case LXB_TAG_TEMPLATE:
+                return lxb_html_tree_insertion_mode_in_select_st_open_closed(tree,
+                                                                             token);
+            default:
+                return lxb_html_tree_insertion_mode_in_select_anything_else_closed(tree,
+                                                                                   token);
+        }
+    }
+
+    switch (token->tag_id) {
+        case LXB_TAG__TEXT:
+            return lxb_html_tree_insertion_mode_in_select_text(tree, token);
+
+        case LXB_TAG__EM_COMMENT:
+            return lxb_html_tree_insertion_mode_in_select_comment(tree, token);
+
+        case LXB_TAG__EM_DOCTYPE:
+            return lxb_html_tree_insertion_mode_in_select_doctype(tree, token);
+
+        case LXB_TAG_HTML:
+            return lxb_html_tree_insertion_mode_in_select_html(tree, token);
+
+        case LXB_TAG_OPTION:
+            return lxb_html_tree_insertion_mode_in_select_option(tree, token);
+
+        case LXB_TAG_OPTGROUP:
+            return lxb_html_tree_insertion_mode_in_select_optgroup(tree, token);
+
+        case LXB_TAG_SELECT:
+            return lxb_html_tree_insertion_mode_in_select_select(tree, token);
+
+        case LXB_TAG_INPUT:
+        case LXB_TAG_KEYGEN:
+        case LXB_TAG_TEXTAREA:
+            return lxb_html_tree_insertion_mode_in_select_ikt(tree, token);
+
+        case LXB_TAG_SCRIPT:
+        case LXB_TAG_TEMPLATE:
+            return lxb_html_tree_insertion_mode_in_select_st_open_closed(tree,
+                                                                         token);
+        case LXB_TAG__END_OF_FILE:
+            return lxb_html_tree_insertion_mode_in_select_end_of_file(tree,
+                                                                      token);
+        default:
+            return lxb_html_tree_insertion_mode_in_select_anything_else(tree,
+                                                                        token);
+    }
 }

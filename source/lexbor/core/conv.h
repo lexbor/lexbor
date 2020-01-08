@@ -21,6 +21,12 @@ lexbor_conv_float_to_data(double num, lxb_char_t *buf, size_t len);
 LXB_API double
 lexbor_conv_data_to_double(const lxb_char_t **start, size_t len);
 
+LXB_API unsigned long
+lexbor_conv_data_to_ulong(const lxb_char_t **data, size_t length);
+
+LXB_API unsigned
+lexbor_conv_data_to_uint(const lxb_char_t **data, size_t length);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

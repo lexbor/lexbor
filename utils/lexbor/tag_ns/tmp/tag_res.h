@@ -18,9 +18,9 @@
 
 %%CHECK_TAG_VERSION%%
 
-%%CHECK_NS_VERSION%%
-
 %%TAG_DATA%%
+
+%%TAG_DATA_UPPER%%
 
 %%SHS_DATA%%
 

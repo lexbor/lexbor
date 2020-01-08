@@ -40,6 +40,12 @@ lxb_dom_node_type_t;
 struct lxb_dom_node {
     lxb_dom_event_target_t event_target;
 
+    /* For example: <LalAla:DiV Fix:Me="value"> */
+
+    uintptr_t              local_name; /* , lowercase, without prefix: div */
+    uintptr_t              prefix;     /* lowercase: lalala */
+    uintptr_t              ns;         /* namespace */
+
     lxb_dom_document_t     *owner_document;
 
     lxb_dom_node_t         *next;
@@ -47,9 +53,7 @@ struct lxb_dom_node {
     lxb_dom_node_t         *parent;
     lxb_dom_node_t         *first_child;
     lxb_dom_node_t         *last_child;
-
-    unsigned int           ns;
-    unsigned int           tag_id;
+    void                   *user;
 
     lxb_dom_node_type_t    type;
 
@@ -93,12 +97,77 @@ LXB_API void
 lxb_dom_node_simple_walk(lxb_dom_node_t *root,
                          lxb_dom_node_simple_walker_f walker_cb, void *ctx);
 
+/*
+ * Memory of returns value will be freed in document destroy moment.
+ * If you need to release returned resource after use, then call the
+ * lxb_dom_document_destroy_text(node->owner_document, text) function.
+ */
 LXB_API lxb_char_t *
 lxb_dom_node_text_content(lxb_dom_node_t *node, size_t *len);
 
 LXB_API lxb_status_t
 lxb_dom_node_text_content_set(lxb_dom_node_t *node,
                               const lxb_char_t *content, size_t len);
+
+/*
+ * Inline functions
+ */
+lxb_inline lxb_tag_id_t
+lxb_dom_node_tag_id(lxb_dom_node_t *node)
+{
+    return node->local_name;
+}
+
+lxb_inline lxb_dom_node_t *
+lxb_dom_node_next(lxb_dom_node_t *node)
+{
+    return node->next;
+}
+
+lxb_inline lxb_dom_node_t *
+lxb_dom_node_prev(lxb_dom_node_t *node)
+{
+    return node->prev;
+}
+
+lxb_inline lxb_dom_node_t *
+lxb_dom_node_parent(lxb_dom_node_t *node)
+{
+    return node->parent;
+}
+
+lxb_inline lxb_dom_node_t *
+lxb_dom_node_first_child(lxb_dom_node_t *node)
+{
+    return node->first_child;
+}
+
+lxb_inline lxb_dom_node_t *
+lxb_dom_node_last_child(lxb_dom_node_t *node)
+{
+    return node->last_child;
+}
+
+/*
+ * No inline functions for ABI.
+ */
+lxb_tag_id_t
+lxb_dom_node_tag_id_noi(lxb_dom_node_t *node);
+
+lxb_dom_node_t *
+lxb_dom_node_next_noi(lxb_dom_node_t *node);
+
+lxb_dom_node_t *
+lxb_dom_node_prev_noi(lxb_dom_node_t *node);
+
+lxb_dom_node_t *
+lxb_dom_node_parent_noi(lxb_dom_node_t *node);
+
+lxb_dom_node_t *
+lxb_dom_node_first_child_noi(lxb_dom_node_t *node);
+
+lxb_dom_node_t *
+lxb_dom_node_last_child_noi(lxb_dom_node_t *node);
 
 
 #ifdef __cplusplus

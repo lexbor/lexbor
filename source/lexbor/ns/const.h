@@ -17,7 +17,8 @@
 #define LXB_NS_CONST_VERSION "253D4AFDA959234B48A478B956C3C777"
 #define LXB_NS_CONST_VERSION_253D4AFDA959234B48A478B956C3C777
 
-typedef unsigned int lxb_ns_id_t;
+typedef uintptr_t lxb_ns_id_t;
+typedef uintptr_t lxb_ns_prefix_id_t;
 
 typedef enum {
     LXB_NS__UNDEF      = 0x00,

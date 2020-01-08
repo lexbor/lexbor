@@ -1,5 +1,5 @@
 [
-    /* Test count: 16 */
+    /* Test count: 18 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -342,6 +342,47 @@
                 <button>
                   <p>
                 <button>
+        $DATA
+    },
+    /* Test number: 17 */
+    {
+        "data": $DATA{ ,12}
+            <sometag><p><button>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <sometag>
+                  <p>
+                    <button>
+        $DATA
+    },
+    /* Test number: 18 */
+    {
+        "data": $DATA{ ,12}
+            <p><font data=1 size=4><font data=1 color=red><font data=1 size=4><font data=1 size=4><font data=1 size=4><font size=4 data=1><font data=1 size=4><font color=red><p>X
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <p>
+                  <font data="1" size="4">
+                    <font data="1" color="red">
+                      <font data="1" size="4">
+                        <font data="1" size="4">
+                          <font data="1" size="4">
+                            <font size="4" data="1">
+                              <font data="1" size="4">
+                                <font color="red">
+                <p>
+                  <font data="1" color="red">
+                    <font data="1" size="4">
+                      <font size="4" data="1">
+                        <font data="1" size="4">
+                          <font color="red">
+                            "X"
         $DATA
     },
 ]

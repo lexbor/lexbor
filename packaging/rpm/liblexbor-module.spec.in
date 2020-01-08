@@ -1,0 +1,35 @@
+%package %%NAME%%
+Version:  %%VERSION%%
+Release:  1%{?dist}
+Epoch:    1
+Summary:  Shared "%%NAME%%" library from the Lexbor project.
+License:  Apache 2.0
+URL:      https://github.com/lexbor/lexbor
+Group:    Development/Tools
+%%REQUIRES%%
+%description %%NAME%%
+%%DESCRIPTION%%
+
+%files %%NAME%%
+%defattr(-,root,root,-)
+%{_libdir}/lib%%LIBNAME%%*
+%exclude %{_libdir}/*.a
+%exclude %{_libdir}/lib%%LIBNAME%%.%{lib_ext}
+
+%package %%NAME%%-devel
+Version:  %%VERSION%%
+Release:  1%{?dist}
+Epoch:    1
+Summary:  Static "%%NAME%%" library and headers from the Lexbor project.
+License:  Apache 2.0
+URL:      https://github.com/lexbor/lexbor
+Group:    Development/Tools
+%%REQUIRES_DEVEL%%
+%description %%NAME%%-devel
+%%DESCRIPTION%%
+
+%files %%NAME%%-devel
+%defattr(-,root,root,-)
+%{_libdir}/lib%%LIBNAME%%.%{lib_ext}
+%{_libdir}/*%%LIBNAME%%_static.a
+%{_includedir}/lexbor/%%NAME%%/*

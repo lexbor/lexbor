@@ -75,7 +75,7 @@ lexbor_mraw_data_size_set(void *data, size_t size)
 }
 
 lxb_inline void *
-lexbor_mraw_dup(lexbor_mraw_t *mraw, void *src, size_t size)
+lexbor_mraw_dup(lexbor_mraw_t *mraw, const void *src, size_t size)
 {
     void *data = lexbor_mraw_alloc(mraw, size);
 
@@ -97,7 +97,7 @@ void
 lexbor_mraw_data_size_set_noi(void *data, size_t size);
 
 void *
-lexbor_mraw_dup_noi(lexbor_mraw_t *mraw, void *src, size_t size);
+lexbor_mraw_dup_noi(lexbor_mraw_t *mraw, const void *src, size_t size);
 
 
 #ifdef __cplusplus

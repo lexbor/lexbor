@@ -23,7 +23,7 @@ extern "C" {
 
 #define lexbor_str_check_size_arg_m(str, size, mraw, plus_len, return_fail)    \
     do {                                                                       \
-        lxb_char_t *tmp;                                                       \
+        void *tmp;                                                             \
                                                                                \
         if (str->length > (SIZE_MAX - (plus_len)))                             \
             return (return_fail);                                              \
@@ -36,7 +36,7 @@ extern "C" {
                 return (return_fail);                                          \
             }                                                                  \
                                                                                \
-            str->data = tmp;                                                   \
+            str->data = (lxb_char_t *) tmp;                                    \
         }                                                                      \
     }                                                                          \
     while (0)
@@ -138,6 +138,12 @@ LXB_API bool
 lexbor_str_data_ncasecmp(const lxb_char_t *first, const lxb_char_t *sec,
                          size_t size);
 LXB_API bool
+lexbor_str_data_nlocmp_right(const lxb_char_t *first, const lxb_char_t *sec,
+                             size_t size);
+LXB_API bool
+lexbor_str_data_nupcmp_right(const lxb_char_t *first, const lxb_char_t *sec,
+                             size_t size);
+LXB_API bool
 lexbor_str_data_casecmp(const lxb_char_t *first, const lxb_char_t *sec);
 
 LXB_API bool
@@ -196,10 +202,22 @@ lexbor_str_data_set(lexbor_str_t *str, lxb_char_t *data)
     str->data = data;
 }
 
-lxb_inline void
-lexbor_str_length_set(lexbor_str_t *str, size_t length)
+lxb_inline lxb_char_t *
+lexbor_str_length_set(lexbor_str_t *str, lexbor_mraw_t *mraw, size_t length)
 {
+    if (length >= lexbor_str_size(str)) {
+        lxb_char_t *tmp;
+
+        tmp = lexbor_str_realloc(str, mraw, length + 1);
+        if (tmp == NULL) {
+            return NULL;
+        }
+    }
+
     str->length = length;
+    str->data[length] = 0x00;
+
+    return str->data;
 }
 
 /*
@@ -217,8 +235,9 @@ lexbor_str_size_noi(lexbor_str_t *str);
 void
 lexbor_str_data_set_noi(lexbor_str_t *str, lxb_char_t *data);
 
-void
-lexbor_str_length_set_noi(lexbor_str_t *str, size_t length);
+lxb_char_t *
+lexbor_str_length_set_noi(lexbor_str_t *str, lexbor_mraw_t *mraw,
+                          size_t length);
 
 
 #ifdef __cplusplus

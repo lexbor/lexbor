@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2019 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -71,6 +71,10 @@ lxb_html_parser_char_process(lxb_html_parser_char_t *pc, lexbor_str_t *str,
                              const lexbor_in_node_t *in_node,
                              const lxb_char_t *data, const lxb_char_t *end);
 
+LXB_API lxb_status_t
+lxb_html_parser_char_copy(lexbor_str_t *str, lexbor_mraw_t *mraw,
+                          const lexbor_in_node_t *in_node,
+                          const lxb_char_t *data, const lxb_char_t *end);
 
 LXB_API const lxb_char_t *
 lxb_html_parser_char_data(lxb_html_parser_char_t *cr, lexbor_str_t *str,
@@ -84,6 +88,24 @@ LXB_API const lxb_char_t *
 lxb_html_parser_char_ref_data(lxb_html_parser_char_t *pc, lexbor_str_t *str,
                               const lxb_char_t *data, const lxb_char_t *end);
 
+
+/*
+ * Inline functions
+ */
+lxb_inline lxb_status_t
+lxb_html_str_append(lexbor_str_t *str, lexbor_mraw_t *mraw,
+                    const lxb_char_t *buff, size_t length)
+{
+    lexbor_str_check_size_arg_m(str, lexbor_str_size(str), mraw, (length + 1),
+                                LXB_STATUS_ERROR_MEMORY_ALLOCATION);
+
+    memcpy((str->data + str->length), buff, length);
+
+    str->length += length;
+    str->data[str->length] = '\0';
+
+    return LXB_STATUS_OK;
+}
 
 #ifdef __cplusplus
 } /* extern "C" */

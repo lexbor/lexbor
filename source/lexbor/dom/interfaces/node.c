@@ -294,6 +294,9 @@ lxb_dom_node_text_content(lxb_dom_node_t *node, size_t *len)
 
             lxb_dom_node_simple_walk(node, lxb_dom_node_text_content_concatenate,
                                      &text);
+
+            text -= length;
+
             break;
 
         case LXB_DOM_NODE_TYPE_ATTRIBUTE: {
@@ -426,4 +429,40 @@ lxb_dom_node_text_content_set(lxb_dom_node_t *node,
     }
 
     return LXB_STATUS_OK;
+}
+
+lxb_tag_id_t
+lxb_dom_node_tag_id_noi(lxb_dom_node_t *node)
+{
+    return lxb_dom_node_tag_id(node);
+}
+
+lxb_dom_node_t *
+lxb_dom_node_next_noi(lxb_dom_node_t *node)
+{
+    return lxb_dom_node_next(node);
+}
+
+lxb_dom_node_t *
+lxb_dom_node_prev_noi(lxb_dom_node_t *node)
+{
+    return lxb_dom_node_prev(node);
+}
+
+lxb_dom_node_t *
+lxb_dom_node_parent_noi(lxb_dom_node_t *node)
+{
+    return lxb_dom_node_parent(node);
+}
+
+lxb_dom_node_t *
+lxb_dom_node_first_child_noi(lxb_dom_node_t *node)
+{
+    return lxb_dom_node_first_child(node);
+}
+
+lxb_dom_node_t *
+lxb_dom_node_last_child_noi(lxb_dom_node_t *node)
+{
+    return lxb_dom_node_last_child(node);
 }

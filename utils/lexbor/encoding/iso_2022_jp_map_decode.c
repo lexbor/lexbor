@@ -21,25 +21,25 @@
     }                                                                          \
     while (0)
 
-#define encode_to_file(fc, ref, end, cp)                                       \
+#define encode_to_file(fc, _cp)                                                \
     do {                                                                       \
-        memset(&ctx, 0, sizeof(lxb_encoding_encode_t));                        \
+        cps = &_cp;                                                            \
                                                                                \
-        len = enc_data->encode(&ctx, &ref, end, cp);                           \
-        if (len < LXB_ENCODING_ENCODE_OK) {                                    \
-            printf("Failed to encoding code point: %u\n", cp);                 \
+        lxb_encoding_encode_init(&ctx, enc_data, data, sizeof(data));          \
+                                                                               \
+        status = enc_data->encode(&ctx, &cps, (cps + 1));                      \
+        if (status != LXB_STATUS_OK) {                                         \
+            printf("Failed to encoding code point: %u\n", _cp);                \
             return EXIT_FAILURE;                                               \
         }                                                                      \
                                                                                \
-        len_eof = lxb_encoding_encode_iso_2022_jp_eof(&ctx, &ref,              \
-                                                      ref + (end - ref));      \
-        if (len_eof < LXB_ENCODING_ENCODE_OK) {                                \
-            printf("Failed to encoding code point: %u\n", cp);                 \
+        status = lxb_encoding_encode_finish(&ctx);                             \
+        if (status != LXB_STATUS_OK) {                                         \
+            printf("Failed to encoding code point: %u\n", _cp);                \
             return EXIT_FAILURE;                                               \
         }                                                                      \
                                                                                \
-        ref -= len + len_eof;                                                  \
-        append_to_file(fc, ref, len + len_eof, cp);                            \
+        append_to_file(fc, ctx.buffer_out, ctx.buffer_used, _cp);              \
     }                                                                          \
     while (0)
 
@@ -47,14 +47,13 @@
 int main(int argc, const char * argv[])
 {
     size_t size;
-    int8_t len, len_eof;
+    lxb_char_t data[12];
+    lxb_status_t status;
+    lxb_codepoint_t cp;
     lxb_encoding_encode_t ctx;
+    const lxb_codepoint_t *cps;
     const lxb_encoding_data_t *enc_data;
     const lxb_encoding_multi_index_t *entry;
-
-    lxb_char_t data[12];
-    lxb_char_t *ref = data;
-    const lxb_char_t *end = data + sizeof(data);
 
     const char *filepath = "./iso_2022_jp_map_decode.txt";
 
@@ -82,7 +81,7 @@ int main(int argc, const char * argv[])
             continue;
         }
 
-        encode_to_file(fc, ref, end, i);
+        encode_to_file(fc, i);
     }
 
     /* Single index */
@@ -92,15 +91,11 @@ int main(int argc, const char * argv[])
     for (size_t i = 0; i < size; i++) {
         entry = &lxb_encoding_multi_index_iso_2022_jp_katakana[i];
 
-        if (entry->codepoint > LXB_ENCODING_DECODE_MAX_CODEPOINT) {
+        if (entry->codepoint == LXB_ENCODING_ERROR_CODEPOINT) {
             continue;
         }
 
-        encode_to_file(fc, ref, end, entry->codepoint);
-    }
-
-    for (lxb_codepoint_t i = 0xFF61; i <= 0xFF9F; i++) {
-        encode_to_file(fc, ref, end, i);
+        encode_to_file(fc, entry->codepoint);
     }
 
     size = sizeof(lxb_encoding_multi_index_jis0208)
@@ -109,17 +104,16 @@ int main(int argc, const char * argv[])
     for (size_t i = 0; i < size; i++) {
         entry = &lxb_encoding_multi_index_jis0208[i];
 
-        if (entry->codepoint > LXB_ENCODING_DECODE_MAX_CODEPOINT) {
+        if (entry->codepoint == LXB_ENCODING_ERROR_CODEPOINT) {
             continue;
         }
 
-        encode_to_file(fc, ref, end, entry->codepoint);
+        encode_to_file(fc, entry->codepoint);
     }
 
-    encode_to_file(fc, ref, end, 0x2212);
-    encode_to_file(fc, ref, end, 0xFF0D);
-    encode_to_file(fc, ref, end, 0x203E);
-    encode_to_file(fc, ref, end, 0x00A5);
+    cp = 0xFF0D; encode_to_file(fc, cp);
+    cp = 0x203E; encode_to_file(fc, cp);
+    cp = 0x00A5; encode_to_file(fc, cp);
 
     fprintf(fc, "\n# END\n");
 

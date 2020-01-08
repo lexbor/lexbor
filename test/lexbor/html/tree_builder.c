@@ -27,7 +27,7 @@ typedef struct {
 fragment_entry_t;
 
 
-static lxb_tag_heap_t *test_tag_heap;
+static lexbor_hash_t *test_tags;
 
 
 static lxb_status_t
@@ -186,7 +186,7 @@ check_entries(unit_kv_t *kv, unit_kv_value_t *value, lxb_html_parser_t *parser)
         check_entry(kv, entries->list[i], parser);
         check_entry_chunk(kv, entries->list[i], parser);
 
-        lxb_html_parser_destroy(parser, true);
+        lxb_html_parser_destroy(parser);
     }
 }
 
@@ -306,7 +306,7 @@ check_compare(unit_kv_t *kv, lxb_dom_node_t *root,
     lxb_status_t status;
     lexbor_str_t res = {0};
 
-    status = lxb_html_serialize_pretty_tree_str(root,
+    status = lxb_html_serialize_pretty_deep_str(root,
                                                 LXB_HTML_SERIALIZE_OPT_WITHOUT_CLOSING
                                                 |LXB_HTML_SERIALIZE_OPT_RAW
                                                 |LXB_HTML_SERIALIZE_OPT_TAG_WITH_NS
@@ -388,7 +388,7 @@ hash_get_fragment(unit_kv_t *kv, unit_kv_value_t *hash)
     tag_name = hash_get_str(kv, data, "tag");
     ns_name = hash_get_str(kv, data, "ns");
 
-    tag_id = lxb_tag_id_by_name(test_tag_heap, tag_name->data, tag_name->length);
+    tag_id = lxb_tag_id_by_name(test_tags, tag_name->data, tag_name->length);
     if (tag_id == LXB_TAG__UNDEF) {
         TEST_PRINTLN("Unknown tag: %.*s",
                      (int) tag_name->length, tag_name->data);
@@ -480,9 +480,8 @@ main(int argc, const char * argv[])
         return EXIT_FAILURE;
     }
 
-    test_tag_heap = lxb_tag_heap_create();
-    status = lxb_tag_heap_init(test_tag_heap, 128);
-
+    test_tags = lexbor_hash_create();
+    status = lexbor_hash_init(test_tags, 128, sizeof(lxb_tag_data_t));
     if (status != LXB_STATUS_OK) {
         TEST_FAILURE("Failed to create tag heap object");
     }
@@ -495,7 +494,7 @@ main(int argc, const char * argv[])
         return EXIT_FAILURE;
     }
 
-    lxb_tag_heap_destroy(test_tag_heap);
+    lexbor_hash_destroy(test_tags, true);
 
     TEST_RELEASE();
 }

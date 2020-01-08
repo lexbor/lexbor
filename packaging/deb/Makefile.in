@@ -1,0 +1,40 @@
+#!/usr/bin/make
+
+RELEASE ?= 1
+
+SRCDIR = liblexbor-$(VERSION)
+CODENAME = $(shell lsb_release -cs)
+BUILD_DEPENDS = build-essential debhelper devscripts fakeroot lintian lsb-release xsltproc cmake
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
+default:
+	@echo "available targets: all build clean"
+
+all: liblexbor modules
+	mkdir -p debs/$(CODENAME)
+	find debuild/ -maxdepth 1 -type f -name "*.deb" -exec cp {} debs/$(CODENAME)/ \;
+
+debuild/$(SRCDIR)/debian:
+	set -e ; \
+	mkdir -p debuild/$(SRCDIR)/debian ; \
+	cp -pr debian/lexbor/* debuild/$(SRCDIR)/debian/
+
+debuild/liblexbor_$(VERSION).orig.tar.gz: debuild/$(SRCDIR)/debian
+	cd ../.. && tar -czf packaging/deb/debuild/$(SRCDIR).tar.gz \
+		LICENSE NOTICE version CHANGELOG.md README.md CMakeLists.txt \
+		config.cmake feature.cmake source
+	mv debuild/$(SRCDIR).tar.gz debuild/liblexbor_$(VERSION).orig.tar.gz
+	cd debuild/$(SRCDIR) && tar zxf ../liblexbor_$(VERSION).orig.tar.gz
+
+liblexbor: debuild/liblexbor_$(VERSION).orig.tar.gz
+	@echo "===> Building $@ package"
+	cd debuild/$(SRCDIR) && debuild -us -uc
+
+modules: %%MODULES_DEPS%%
+
+%%MODULES%%
+
+clean:
+	rm -rf debuild debs debian
+
+.PHONY: default all build clean
