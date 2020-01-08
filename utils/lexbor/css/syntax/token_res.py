@@ -41,7 +41,7 @@ def create(name, enum_tokens):
     tlist = []
 
     for (key, value) in enum_tokens.items():
-        tlist.append({'key': key, 'value': "(void *) " + value})
+        tlist.append({'key': key.lower(), 'value': "(void *) " + value})
 
     shs = LXB.SHS(tlist, 0, True)
 

@@ -18,7 +18,7 @@
 #define LXB_TAG_CONST_VERSION_%%HASH%%
 
 
-typedef unsigned int lxb_tag_id_t;
+typedef uintptr_t lxb_tag_id_t;
 
 %%BODY%%
 

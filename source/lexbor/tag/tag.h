@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2019 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -11,7 +11,7 @@
 extern "C" {
 #endif
 
-#include "lexbor/core/shbst.h"
+#include "lexbor/core/hash.h"
 #include "lexbor/core/shs.h"
 #include "lexbor/core/dobject.h"
 #include "lexbor/core/str.h"
@@ -19,80 +19,32 @@ extern "C" {
 #include "lexbor/tag/const.h"
 
 
-typedef struct lxb_tag_data lxb_tag_data_t;
-typedef struct lxb_tag_heap lxb_tag_heap_t;
-
-
-typedef const lxb_tag_data_t *
-(*lxb_tag_data_by_id_f)(lxb_tag_heap_t *tag_heap, lxb_tag_id_t tag_id);
-
-typedef const lxb_tag_data_t *
-(*lxb_tag_data_by_name_f)(lxb_tag_heap_t *tag_heap,
-                          const lxb_char_t *name, size_t len);
-
-
-struct lxb_tag_data {
-    const lxb_char_t *name;
-    const lxb_char_t *name_upper;
-    size_t           name_len;
-
-    lxb_tag_id_t     tag_id;
-};
-
-struct lxb_tag_heap {
-    lexbor_shbst_t         *heap;
-    lexbor_dobject_t       *data;
-
-    lxb_tag_data_by_id_f   by_id;
-    lxb_tag_data_by_name_f by_name;
-};
-
-
-LXB_API lxb_tag_heap_t *
-lxb_tag_heap_create(void);
-
-LXB_API lxb_status_t
-lxb_tag_heap_init(lxb_tag_heap_t *tag_heap, size_t table_size);
-
-LXB_API void
-lxb_tag_heap_clean(lxb_tag_heap_t *tag_heap);
-
-LXB_API lxb_tag_heap_t *
-lxb_tag_heap_destroy(lxb_tag_heap_t *tag_heap);
+typedef struct {
+    lexbor_hash_entry_t entry;
+    lxb_tag_id_t        tag_id;
+    size_t              ref_count;
+    bool                read_only;
+}
+lxb_tag_data_t;
 
 
 LXB_API const lxb_tag_data_t *
-lxb_tag_append(lxb_tag_heap_t *tag_heap, const lxb_char_t *name, size_t len);
+lxb_tag_data_by_id(lexbor_hash_t *hash, lxb_tag_id_t tag_id);
 
-/*
- * Append a tag without name copying.
- * Name should always be created only using the local 'mraw'.
- * For get local 'mraw' use 'lxb_tag_heap_mraw' function.
- */
 LXB_API const lxb_tag_data_t *
-lxb_tag_append_wo_copy(lxb_tag_heap_t *tag_heap, lxb_char_t *name, size_t len);
+lxb_tag_data_by_name(lexbor_hash_t *hash, const lxb_char_t *name, size_t len);
 
+LXB_API const lxb_tag_data_t *
+lxb_tag_data_by_name_upper(lexbor_hash_t *hash,
+                           const lxb_char_t *name, size_t len);
 
 /*
  * Inline functions
  */
-lxb_inline const lxb_tag_data_t *
-lxb_tag_data_by_id(lxb_tag_heap_t *tag_heap, lxb_tag_id_t tag_id)
-{
-    return tag_heap->by_id(tag_heap, tag_id);
-}
-
-lxb_inline const lxb_tag_data_t *
-lxb_tag_data_by_name(lxb_tag_heap_t *tag_heap,
-                     const lxb_char_t *name, size_t len)
-{
-    return tag_heap->by_name(tag_heap, name, len);
-}
-
 lxb_inline const lxb_char_t *
-lxb_tag_name_by_id(lxb_tag_heap_t *tag_heap, lxb_tag_id_t tag_id, size_t *len)
+lxb_tag_name_by_id(lexbor_hash_t *hash, lxb_tag_id_t tag_id, size_t *len)
 {
-    const lxb_tag_data_t *data = tag_heap->by_id(tag_heap, tag_id);
+    const lxb_tag_data_t *data = lxb_tag_data_by_id(hash, tag_id);
     if (data == NULL) {
         if (len != NULL) {
             *len = 0;
@@ -102,17 +54,16 @@ lxb_tag_name_by_id(lxb_tag_heap_t *tag_heap, lxb_tag_id_t tag_id, size_t *len)
     }
 
     if (len != NULL) {
-        *len = data->name_len;
+        *len = data->entry.length;
     }
 
-    return data->name;
+    return lexbor_hash_entry_str(&data->entry);
 }
 
 lxb_inline const lxb_char_t *
-lxb_tag_name_upper_by_id(lxb_tag_heap_t *tag_heap,
-                         lxb_tag_id_t tag_id, size_t *len)
+lxb_tag_name_upper_by_id(lexbor_hash_t *hash, lxb_tag_id_t tag_id, size_t *len)
 {
-    const lxb_tag_data_t *data = tag_heap->by_id(tag_heap, tag_id);
+    const lxb_tag_data_t *data = lxb_tag_data_by_id(hash, tag_id);
     if (data == NULL) {
         if (len != NULL) {
             *len = 0;
@@ -122,16 +73,16 @@ lxb_tag_name_upper_by_id(lxb_tag_heap_t *tag_heap,
     }
 
     if (len != NULL) {
-        *len = data->name_len;
+        *len = data->entry.length;
     }
 
-    return data->name_upper;
+    return lexbor_hash_entry_str(&data->entry);
 }
 
 lxb_inline lxb_tag_id_t
-lxb_tag_id_by_name(lxb_tag_heap_t *tag_heap, const lxb_char_t *name, size_t len)
+lxb_tag_id_by_name(lexbor_hash_t *hash, const lxb_char_t *name, size_t len)
 {
-    const lxb_tag_data_t *data = tag_heap->by_name(tag_heap, name, len);
+    const lxb_tag_data_t *data = lxb_tag_data_by_name(hash, name, len);
     if (data == NULL) {
         return LXB_TAG__UNDEF;
     }
@@ -140,53 +91,29 @@ lxb_tag_id_by_name(lxb_tag_heap_t *tag_heap, const lxb_char_t *name, size_t len)
 }
 
 lxb_inline lexbor_mraw_t *
-lxb_tag_heap_mraw(lxb_tag_heap_t *tag_heap)
+lxb_tag_mraw(lexbor_hash_t *hash)
 {
-    return lexbor_shbst_keys(tag_heap->heap);
+    return lexbor_hash_mraw(hash);
 }
 
-lxb_inline const lxb_tag_data_t *
-lxb_tag_find_or_append(lxb_tag_heap_t *tag_heap,
-                       const lxb_char_t *name, size_t len)
-{
-    const lxb_tag_data_t *tag_data;
-
-    tag_data = lxb_tag_data_by_name(tag_heap, name, len);
-    if (tag_data != NULL) {
-        return tag_data;
-    }
-
-    return lxb_tag_append(tag_heap, name, len);
-}
 
 /*
  * No inline functions for ABI.
  */
-const lxb_tag_data_t *
-lxb_tag_data_by_id_noi(lxb_tag_heap_t *tag_heap, lxb_tag_id_t tag_id);
-
-const lxb_tag_data_t *
-lxb_tag_data_by_name_noi(lxb_tag_heap_t *tag_heap,
-                         const lxb_char_t *name, size_t len);
-
-const lxb_char_t *
-lxb_tag_name_by_id_noi(lxb_tag_heap_t *tag_heap, lxb_tag_id_t tag_id,
+LXB_API const lxb_char_t *
+lxb_tag_name_by_id_noi(lexbor_hash_t *hash, lxb_tag_id_t tag_id,
                        size_t *len);
 
-const lxb_char_t *
-lxb_tag_name_upper_by_id_noi(lxb_tag_heap_t *tag_heap,
+LXB_API const lxb_char_t *
+lxb_tag_name_upper_by_id_noi(lexbor_hash_t *hash,
                              lxb_tag_id_t tag_id, size_t *len);
 
-lxb_tag_id_t
-lxb_tag_id_by_name_noi(lxb_tag_heap_t *tag_heap,
+LXB_API lxb_tag_id_t
+lxb_tag_id_by_name_noi(lexbor_hash_t *hash,
                        const lxb_char_t *name, size_t len);
 
-lexbor_mraw_t *
-lxb_tag_heap_mraw_noi(lxb_tag_heap_t *tag_heap);
-
-const lxb_tag_data_t *
-lxb_tag_find_or_append_noi(lxb_tag_heap_t *tag_heap,
-                           const lxb_char_t *name, size_t len);
+LXB_API lexbor_mraw_t *
+lxb_tag_mraw_noi(lexbor_hash_t *hash);
 
 
 #ifdef __cplusplus

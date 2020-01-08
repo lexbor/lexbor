@@ -23,7 +23,7 @@ extern "C" {
 #include "lexbor/core/types.h"
 #include "lexbor/core/lexbor.h"
 
-#define LEXBOR_VERSION_MAJOR 0
+#define LEXBOR_VERSION_MAJOR 1
 #define LEXBOR_VERSION_MINOR 3
 #define LEXBOR_VERSION_PATCH 1
 
@@ -74,5 +74,5 @@ lexbor_action_t;
 } /* extern "C" */
 #endif
 
-#endif /* LEXBOR_MYOSI_H */
+#endif /* LEXBOR_BASE_H */
 

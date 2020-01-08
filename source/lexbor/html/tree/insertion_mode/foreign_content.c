@@ -12,6 +12,12 @@
 #include "lexbor/html/interfaces/element.h"
 
 
+lxb_status_t
+lxb_dom_element_qualified_name_set(lxb_dom_element_t *element,
+                                   const lxb_char_t *prefix, size_t prefix_len,
+                                   const lxb_char_t *lname, size_t lname_len);
+
+
 lxb_inline bool
 lxb_html_tree_insertion_mode_foreign_content_anything_else_closed(lxb_html_tree_t *tree,
                                                                   lxb_html_token_t *token)
@@ -24,13 +30,13 @@ lxb_html_tree_insertion_mode_foreign_content_anything_else_closed(lxb_html_tree_
 
     size_t idx = tree->open_elements->length - 1;
 
-    if (idx > 0 && list[idx]->tag_id != token->tag_id) {
+    if (idx > 0 && list[idx]->local_name != token->tag_id) {
         lxb_html_tree_parse_error(tree, token,
                                   LXB_HTML_RULES_ERROR_UNELINOPELST);
     }
 
     while (idx != 0) {
-        if (list[idx]->tag_id == token->tag_id) {
+        if (list[idx]->local_name == token->tag_id) {
             lxb_html_tree_open_elements_pop_until_node(tree, list[idx], true);
 
             return true;
@@ -55,7 +61,7 @@ lxb_html_tree_insertion_mode_foreign_content_script_closed(lxb_html_tree_t *tree
 {
     lxb_dom_node_t *node = lxb_html_tree_current_node(tree);
 
-    if (node->tag_id != LXB_TAG_SCRIPT || node->ns != LXB_NS_SVG) {
+    if (node->local_name != LXB_TAG_SCRIPT || node->ns != LXB_NS_SVG) {
         return lxb_html_tree_insertion_mode_foreign_content_anything_else_closed(tree,
                                                                                  token);
     }
@@ -89,7 +95,7 @@ lxb_html_tree_insertion_mode_foreign_content_anything_else(lxb_html_tree_t *tree
     }
 
     if (node->ns == LXB_NS_SVG) {
-        fixname_svg = lxb_html_tag_fixname_svg(element->element.node.tag_id);
+        fixname_svg = lxb_html_tag_fixname_svg(element->element.node.local_name);
         if (fixname_svg != NULL && fixname_svg->name != NULL) {
             lxb_dom_element_qualified_name_set(&element->element, NULL, 0,
                                                fixname_svg->name,

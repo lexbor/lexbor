@@ -15,7 +15,7 @@
 #include "lexbor/core/shs.h"
 
 
-const lxb_encoding_multi_index_t lxb_encoding_multi_index_iso_2022_jp_katakana[63] = 
+LXB_API const lxb_encoding_multi_index_t lxb_encoding_multi_index_iso_2022_jp_katakana[63] = 
 {
     {(lxb_char_t *) "\xe3\x80\x82", 3, 0x3002}, /* (IDEOGRAPHIC FULL STOP) */
     {(lxb_char_t *) "\xe3\x80\x8c", 3, 0x300C}, /* (LEFT CORNER BRACKET) */
@@ -83,7 +83,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_iso_2022_jp_katakana[6
 };
 
 /* Table size: 52; Max deep: 2 */
-const lexbor_shs_hash_t lxb_encoding_multi_hash_iso_2022_jp_katakana[72] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_multi_hash_iso_2022_jp_katakana[72] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {12481, (void *) 32, 0},

@@ -46,8 +46,8 @@ lxb_encoding_data_by_pre_name(const lxb_char_t *name, size_t length)
         return NULL;
     }
 
-    entry = lexbor_shs_entry_get_static(lxb_encoding_res_shs_entities,
-                                        name, (end - name));
+    entry = lexbor_shs_entry_get_lower_static(lxb_encoding_res_shs_entities,
+                                              name, (end - name));
     if (entry == NULL) {
         return NULL;
     }
@@ -240,13 +240,13 @@ lxb_encoding_data_encoding_noi(lxb_encoding_data_t *data)
 }
 
 size_t
-lxb_encoding_encode_t_sizeof()
+lxb_encoding_encode_t_sizeof(void)
 {
     return sizeof(lxb_encoding_encode_t);
 }
 
 size_t
-lxb_encoding_decode_t_sizeof()
+lxb_encoding_decode_t_sizeof(void)
 {
     return sizeof(lxb_encoding_decode_t);
 }

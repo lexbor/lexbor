@@ -68,13 +68,13 @@ lxb_html_tree_open_elements_find_reverse(lxb_html_tree_t *tree,
 lxb_inline lxb_dom_node_t *
 lxb_html_tree_open_elements_first(lxb_html_tree_t *tree)
 {
-    return lexbor_array_get(tree->open_elements, 0);
+    return (lxb_dom_node_t *) lexbor_array_get(tree->open_elements, 0);
 }
 
 lxb_inline lxb_dom_node_t *
 lxb_html_tree_open_elements_get(lxb_html_tree_t *tree, size_t idx)
 {
-    return lexbor_array_get(tree->open_elements, idx);
+    return (lxb_dom_node_t *) lexbor_array_get(tree->open_elements, idx);
 }
 
 lxb_inline lxb_status_t
@@ -86,7 +86,7 @@ lxb_html_tree_open_elements_push(lxb_html_tree_t *tree, lxb_dom_node_t *node)
 lxb_inline lxb_dom_node_t *
 lxb_html_tree_open_elements_pop(lxb_html_tree_t *tree)
 {
-    return lexbor_array_pop(tree->open_elements);
+    return (lxb_dom_node_t *) lexbor_array_pop(tree->open_elements);
 }
 
 lxb_inline lxb_status_t

@@ -431,7 +431,7 @@ lxb_dom_node_text_content_set(lxb_dom_node_t *node,
     return LXB_STATUS_OK;
 }
 
-unsigned int
+lxb_tag_id_t
 lxb_dom_node_tag_id_noi(lxb_dom_node_t *node)
 {
     return lxb_dom_node_tag_id(node);

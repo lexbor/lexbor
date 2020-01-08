@@ -15,7 +15,7 @@
 #include "lexbor/core/shs.h"
 
 
-const lxb_encoding_multi_index_t lxb_encoding_multi_index_jis0212[7211] = 
+LXB_API const lxb_encoding_multi_index_t lxb_encoding_multi_index_jis0212[7211] = 
 {
     {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
     {NULL, 0, LXB_ENCODING_ERROR_CODEPOINT}, /* Not defined */
@@ -7231,7 +7231,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_jis0212[7211] =
 };
 
 /* Table size: 6923; Max deep: 3 */
-const lexbor_shs_hash_t lxb_encoding_multi_hash_jis0212[8552] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_multi_hash_jis0212[8552] = 
 {
     {0, NULL, 0},{27692, (void *) 3525, 0},
     {0, NULL, 0},

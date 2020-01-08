@@ -118,7 +118,7 @@ tree_walker(lxb_dom_node_t *node, lxb_html_serialize_cb_f cb, void *ctx)
                 return status;
             }
 
-            if (node->tag_id == LXB_TAG_TEMPLATE) {
+            if (node->local_name == LXB_TAG_TEMPLATE) {
                 temp = lxb_html_interface_template(node);
 
                 if (temp->content != NULL) {

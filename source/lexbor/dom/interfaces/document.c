@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2019 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -68,7 +68,7 @@ lxb_dom_document_init(lxb_dom_document_t *document, lxb_dom_document_t *owner,
     node = lxb_dom_interface_node(document);
 
     node->type = LXB_DOM_NODE_TYPE_DOCUMENT;
-    node->tag_id = LXB_TAG__DOCUMENT;
+    node->local_name = LXB_TAG__DOCUMENT;
     node->ns = ns;
 
     if (owner != NULL) {
@@ -76,6 +76,8 @@ lxb_dom_document_init(lxb_dom_document_t *document, lxb_dom_document_t *owner,
         document->text = owner->text;
         document->tags = owner->tags;
         document->ns = owner->ns;
+        document->prefix = owner->prefix;
+        document->attrs = owner->attrs;
         document->parser = owner->parser;
         document->user = owner->user;
         document->scripting = owner->scripting;
@@ -105,6 +107,32 @@ lxb_dom_document_init(lxb_dom_document_t *document, lxb_dom_document_t *owner,
         goto failed;
     }
 
+    document->tags = lexbor_hash_create();
+    status = lexbor_hash_init(document->tags, 128, sizeof(lxb_tag_data_t));
+    if (status != LXB_STATUS_OK) {
+        goto failed;
+    }
+
+    document->ns = lexbor_hash_create();
+    status = lexbor_hash_init(document->ns, 128, sizeof(lxb_ns_data_t));
+    if (status != LXB_STATUS_OK) {
+        goto failed;
+    }
+
+    document->prefix = lexbor_hash_create();
+    status = lexbor_hash_init(document->prefix, 128,
+                              sizeof(lxb_dom_attr_data_t));
+    if (status != LXB_STATUS_OK) {
+        goto failed;
+    }
+
+    document->attrs = lexbor_hash_create();
+    status = lexbor_hash_init(document->attrs, 128,
+                              sizeof(lxb_dom_attr_data_t));
+    if (status != LXB_STATUS_OK) {
+        goto failed;
+    }
+
     node->owner_document = document;
 
     return LXB_STATUS_OK;
@@ -113,8 +141,32 @@ failed:
 
     lexbor_mraw_destroy(document->mraw, true);
     lexbor_mraw_destroy(document->text, true);
+    lexbor_hash_destroy(document->tags, true);
+    lexbor_hash_destroy(document->ns, true);
+    lexbor_hash_destroy(document->attrs, true);
+    lexbor_hash_destroy(document->prefix, true);
 
     return LXB_STATUS_ERROR;
+}
+
+lxb_status_t
+lxb_dom_document_clean(lxb_dom_document_t *document)
+{
+    if (lxb_dom_interface_node(document)->owner_document == document) {
+        lexbor_mraw_clean(document->mraw);
+        lexbor_mraw_clean(document->text);
+        lexbor_hash_clean(document->tags);
+        lexbor_hash_clean(document->ns);
+        lexbor_hash_clean(document->attrs);
+        lexbor_hash_clean(document->prefix);
+    }
+
+    document->node.first_child = NULL;
+    document->node.last_child = NULL;
+    document->element = NULL;
+    document->doctype = NULL;
+
+    return LXB_STATUS_OK;
 }
 
 lxb_dom_document_t *
@@ -134,6 +186,10 @@ lxb_dom_document_destroy(lxb_dom_document_t *document)
 
     lexbor_mraw_destroy(document->text, true);
     lexbor_mraw_destroy(document->mraw, true);
+    lexbor_hash_destroy(document->tags, true);
+    lexbor_hash_destroy(document->ns, true);
+    lexbor_hash_destroy(document->attrs, true);
+    lexbor_hash_destroy(document->prefix, true);
 
     return lexbor_free(document);
 }
@@ -161,26 +217,20 @@ lxb_dom_document_create_element(lxb_dom_document_t *document,
 
     const lxb_char_t *ns_link;
     size_t ns_len;
-    bool lowercase;
 
     if (document->type == LXB_DOM_DOCUMENT_DTYPE_HTML) {
         ns_link = (const lxb_char_t *) "http://www.w3.org/1999/xhtml";
 
         /* FIXME: he will get len at the compilation stage?!? */
         ns_len = strlen((const char *) ns_link);
-
-        lowercase = true;
     }
     else {
         ns_link = NULL;
         ns_len = 0;
-
-        lowercase = false;
     }
 
     return lxb_dom_element_create(document, local_name, lname_len,
-                                  ns_link, ns_len, NULL, 0, NULL, 0,
-                                  true, lowercase);
+                                  ns_link, ns_len, NULL, 0, NULL, 0, true);
 }
 
 lxb_dom_element_t *

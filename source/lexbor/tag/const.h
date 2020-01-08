@@ -18,7 +18,7 @@
 #define LXB_TAG_CONST_VERSION_A161EC911182C3254E7A972D5C51DF86
 
 
-typedef unsigned int lxb_tag_id_t;
+typedef uintptr_t lxb_tag_id_t;
 
 typedef enum {
     LXB_TAG__UNDEF              = 0x0000,

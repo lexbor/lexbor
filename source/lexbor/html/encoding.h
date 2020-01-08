@@ -51,7 +51,8 @@ lxb_html_encoding_content(const lxb_char_t *data, const lxb_char_t *end,
 lxb_inline lxb_html_encoding_t *
 lxb_html_encoding_create(void)
 {
-    return lexbor_calloc(1, sizeof(lxb_html_encoding_t));
+    return (lxb_html_encoding_t *) lexbor_calloc(1,
+                                                 sizeof(lxb_html_encoding_t));
 }
 
 lxb_inline void
@@ -64,7 +65,7 @@ lxb_html_encoding_clean(lxb_html_encoding_t *em)
 lxb_inline lxb_html_encoding_entry_t *
 lxb_html_encoding_meta_entry(lxb_html_encoding_t *em, size_t idx)
 {
-    return lexbor_array_obj_get(&em->result, idx);
+    return (lxb_html_encoding_entry_t *) lexbor_array_obj_get(&em->result, idx);
 }
 
 lxb_inline size_t

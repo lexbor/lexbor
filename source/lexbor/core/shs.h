@@ -25,19 +25,26 @@ typedef struct {
 }
 lexbor_shs_entry_t;
 
-struct {
+typedef struct {
     uint32_t key;
     void     *value;
 
     size_t   next;
 }
-typedef lexbor_shs_hash_t;
+lexbor_shs_hash_t;
 
 
 LXB_API const lexbor_shs_entry_t *
 lexbor_shs_entry_get_static(const lexbor_shs_entry_t *tree,
                             const lxb_char_t *key, size_t size);
 
+LXB_API const lexbor_shs_entry_t *
+lexbor_shs_entry_get_lower_static(const lexbor_shs_entry_t *root,
+                                  const lxb_char_t *key, size_t key_len);
+
+LXB_API const lexbor_shs_entry_t *
+lexbor_shs_entry_get_upper_static(const lexbor_shs_entry_t *root,
+                                  const lxb_char_t *key, size_t key_len);
 
 /*
  * Inline functions

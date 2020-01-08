@@ -34,7 +34,8 @@ lxb_html_tree_template_insertion_current(lxb_html_tree_t *tree)
 
     lxb_html_tree_template_insertion_t *tmp_ins;
 
-    tmp_ins = lexbor_array_obj_last(tree->template_insertion_modes);
+    tmp_ins = (lxb_html_tree_template_insertion_t *)
+              lexbor_array_obj_last(tree->template_insertion_modes);
 
     return tmp_ins->mode;
 }
@@ -44,7 +45,8 @@ lxb_html_tree_template_insertion_get(lxb_html_tree_t *tree, size_t idx)
 {
     lxb_html_tree_template_insertion_t *tmp_ins;
 
-    tmp_ins = lexbor_array_obj_get(tree->template_insertion_modes, idx);
+    tmp_ins = (lxb_html_tree_template_insertion_t *)
+              lexbor_array_obj_get(tree->template_insertion_modes, idx);
     if (tmp_ins == NULL) {
         return NULL;
     }
@@ -64,7 +66,8 @@ lxb_html_tree_template_insertion_push(lxb_html_tree_t *tree,
 {
     lxb_html_tree_template_insertion_t *tmp_ins;
 
-    tmp_ins = lexbor_array_obj_push(tree->template_insertion_modes);
+    tmp_ins = (lxb_html_tree_template_insertion_t *)
+              lexbor_array_obj_push(tree->template_insertion_modes);
     if (tmp_ins == NULL) {
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
@@ -79,7 +82,8 @@ lxb_html_tree_template_insertion_pop(lxb_html_tree_t *tree)
 {
     lxb_html_tree_template_insertion_t *tmp_ins;
 
-    tmp_ins = lexbor_array_obj_pop(tree->template_insertion_modes);
+    tmp_ins = (lxb_html_tree_template_insertion_t *)
+              lexbor_array_obj_pop(tree->template_insertion_modes);
     if (tmp_ins == NULL) {
         return NULL;
     }

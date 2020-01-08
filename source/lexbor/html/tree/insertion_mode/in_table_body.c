@@ -13,11 +13,11 @@ lxb_html_tree_clear_stack_back_to_table_body(lxb_html_tree_t *tree)
 {
     lxb_dom_node_t *current = lxb_html_tree_current_node(tree);
 
-    while ((current->tag_id != LXB_TAG_TBODY
-            && current->tag_id != LXB_TAG_TFOOT
-            && current->tag_id != LXB_TAG_THEAD
-            && current->tag_id != LXB_TAG_TEMPLATE
-            && current->tag_id != LXB_TAG_HTML)
+    while ((current->local_name != LXB_TAG_TBODY
+            && current->local_name != LXB_TAG_TFOOT
+            && current->local_name != LXB_TAG_THEAD
+            && current->local_name != LXB_TAG_TEMPLATE
+            && current->local_name != LXB_TAG_HTML)
            || current->ns != LXB_NS_HTML)
     {
         lxb_html_tree_open_elements_pop(tree);

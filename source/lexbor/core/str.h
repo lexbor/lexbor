@@ -23,7 +23,7 @@ extern "C" {
 
 #define lexbor_str_check_size_arg_m(str, size, mraw, plus_len, return_fail)    \
     do {                                                                       \
-        lxb_char_t *tmp;                                                       \
+        void *tmp;                                                             \
                                                                                \
         if (str->length > (SIZE_MAX - (plus_len)))                             \
             return (return_fail);                                              \
@@ -36,7 +36,7 @@ extern "C" {
                 return (return_fail);                                          \
             }                                                                  \
                                                                                \
-            str->data = tmp;                                                   \
+            str->data = (lxb_char_t *) tmp;                                    \
         }                                                                      \
     }                                                                          \
     while (0)
@@ -137,6 +137,12 @@ lexbor_str_data_ncasecmp_contain(const lxb_char_t *where, size_t where_size,
 LXB_API bool
 lexbor_str_data_ncasecmp(const lxb_char_t *first, const lxb_char_t *sec,
                          size_t size);
+LXB_API bool
+lexbor_str_data_nlocmp_right(const lxb_char_t *first, const lxb_char_t *sec,
+                             size_t size);
+LXB_API bool
+lexbor_str_data_nupcmp_right(const lxb_char_t *first, const lxb_char_t *sec,
+                             size_t size);
 LXB_API bool
 lexbor_str_data_casecmp(const lxb_char_t *first, const lxb_char_t *sec);
 

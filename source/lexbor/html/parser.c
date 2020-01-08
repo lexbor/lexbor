@@ -160,7 +160,7 @@ lxb_html_parse_fragment(lxb_html_parser_t *parser, lxb_html_element_t *element,
 {
     return lxb_html_parse_fragment_by_tag_id(parser,
                                              parser->tree->document,
-                                             element->element.node.tag_id,
+                                             element->element.node.local_name,
                                              element->element.node.ns,
                                              html, size);
 }
@@ -276,7 +276,7 @@ lxb_html_parse_fragment_chunk_begin(lxb_html_parser_t *parser,
     parser->original_tree = lxb_html_tokenizer_tree(parser->tkz);
     lxb_html_tokenizer_tree_set(parser->tkz, parser->tree);
 
-    lxb_html_tokenizer_tag_heap_set(parser->tkz, doc->tags);
+    lxb_html_tokenizer_tags_set(parser->tkz, doc->tags);
 
     parser->status = lxb_html_tree_begin(parser->tree, new_doc);
 
@@ -380,7 +380,7 @@ lxb_html_parse_chunk_prepare(lxb_html_parser_t *parser,
     parser->original_tree = lxb_html_tokenizer_tree(parser->tkz);
     lxb_html_tokenizer_tree_set(parser->tkz, parser->tree);
 
-    lxb_html_tokenizer_tag_heap_set(parser->tkz, document->dom_document.tags);
+    lxb_html_tokenizer_tags_set(parser->tkz, document->dom_document.tags);
 
     parser->status = lxb_html_tree_begin(parser->tree, document);
     if (parser->status != LXB_STATUS_OK) {

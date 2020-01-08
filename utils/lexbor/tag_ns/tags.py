@@ -26,8 +26,10 @@ def computeMD5hash(my_string):
 class Tags:
     tag_prefix = "lxb_tag"
     tag_res_data = "lxb_tag_res_data_default"
+    tag_res_data_upper = "lxb_tag_res_data_upper_default"
     ns_prefix = "lxb_ns"
     ns_res_data = "lxb_ns_res_data"
+    ns_res_prefix_data = "lxb_ns_prefix_res_data"
     cat_prefix = "lxb_html_tag_category"
     cat_empty = "LXB_HTML_TAG_CATEGORY__UNDEF"
     creation_interface = "lxb_dom_interface_constructor_f"
@@ -66,8 +68,8 @@ class Tags:
             if len(link) == 0:
                 link = self.ns[self.ns_list[idx]]["name"]
 
-            ns_shs_list.append({"key": self.ns_list[idx], "value": "&{}[{}]".format(self.ns_res_data, idx)})
-            ns_shs_link_list.append({"key": link, "value": "&{}[{}]".format(self.ns_res_data, idx)})
+            ns_shs_list.append({"key": self.ns_list[idx].lower(), "value": "(void *) &{}[{}]".format(self.ns_res_prefix_data, idx)})
+            ns_shs_link_list.append({"key": link.lower(), "value": "(void *) &{}[{}]".format(self.ns_res_data, idx)})
 
         self.ns_hash = self.ns_make_hash(self.ns_list)
         self.ns_shs_list = ns_shs_list
@@ -138,7 +140,7 @@ class Tags:
         enum_list.sort(key = lambda entr: (entr["sort"], entr["c_name"]))
 
         for idx in range(0, len(enum_list)):
-            shs[ enum_list[idx]["name"] ]["value"] = "&{}[{}]".format(self.tag_res_data, idx)
+            shs[ enum_list[idx]["name"] ]["value"] = "(void *) &{}[{}]".format(self.tag_res_data, idx)
 
         self.shs_list = shs_list
 
@@ -152,13 +154,20 @@ class Tags:
         return shs_list
 
     def tag_data_create_default(self):
-        result = []
-        res = LXB.Res("lxb_tag_data_t", self.tag_res_data, True, self.tag_last_entry_name)
+        res = LXB.Res("lxb_tag_data_t", self.tag_res_data, False, self.tag_last_entry_name)
+        res_upper = LXB.Res("lxb_tag_data_t", self.tag_res_data_upper, False, self.tag_last_entry_name)
 
         for entry in self.enum_list:
-            res.append("{{(const lxb_char_t *) \"{}\", (const lxb_char_t *) \"{}\", {}, {}}}".format(entry["name"], entry["name"].upper(), len(entry["name"]), entry["c_name"]))
+            # res.append("{{{{.u.long_str = (lxb_char_t *) \"{}\", .length = {}, .next = NULL}},\n     (const lxb_char_t *) \"{}\", {}, 1, true}}".format(entry["name"], len(entry["name"]), entry["name"].upper(), entry["c_name"]))
 
-        return res.create(1, False)
+            if len(entry["name"]) > 16:
+                res.append("{{{{.u.long_str = (lxb_char_t *) \"{}\", .length = {}, .next = NULL}}, {}, 1, true}}".format(entry["name"], len(entry["name"]), entry["c_name"]))
+                res_upper.append("{{{{.u.long_str = (lxb_char_t *) \"{}\", .length = {}, .next = NULL}}, {}, 1, true}}".format(entry["name"].upper(), len(entry["name"]), entry["c_name"]))
+            else:
+                res.append("{{{{.u.short_str = \"{}\", .length = {}, .next = NULL}}, {}, 1, true}}".format(entry["name"], len(entry["name"]), entry["c_name"]))
+                res_upper.append("{{{{.u.short_str = \"{}\", .length = {}, .next = NULL}}, {}, 1, true}}".format(entry["name"].upper(), len(entry["name"]), entry["c_name"]))
+
+        return [res.create(1, True), res_upper.create(1, True)]
 
     def tag_data_create_html(self):
         result = []
@@ -240,20 +249,35 @@ class Tags:
                 svg_fixname.create(1, False)]
 
     def ns_data_create(self):
-        result = []
-        res = LXB.Res("lxb_ns_data_t", self.ns_res_data, True, self.ns_last_entry_name)
+        res = LXB.Res("lxb_ns_data_t", self.ns_res_data, False, self.ns_last_entry_name)
+        res_prefix = LXB.Res("lxb_ns_prefix_data_t", self.ns_res_prefix_data, False, self.ns_last_entry_name)
 
         for name in self.ns_list:
-            res.append("{{\"{0}\", \"{1}\", {2}, \"{3}\", {4}, {5}}}".format(
-                self.ns[name]["name"],
-                self.ns[name]["name"].lower(),
-                len(self.ns[name]["name"]),
-                self.ns[name]["link"],
+            str_name = ''
+
+            if len(self.ns[name]["link"]) > 16:
+                str_name = ".u.long_str = (lxb_char_t *) \"{}\"".format(self.ns[name]["link"])
+            else:
+                str_name = ".u.short_str = \"{}\"".format(self.ns[name]["link"])
+
+            res.append("{{{{{}, .length = {}, .next = NULL}}, {}, 1, true}}".format(
+                str_name,
                 len(self.ns[name]["link"]),
                 self.ns[name]["c_name"]
             ))
 
-        return res.create(1, False)
+            if len(self.ns[name]["name"]) > 16:
+                str_name = ".u.long_str = (lxb_char_t *) \"{}\"".format(self.ns[name]["name"].lower())
+            else:
+                str_name = ".u.short_str = \"{}\"".format(self.ns[name]["name"].lower())
+
+            res_prefix.append("{{{{{}, .length = {}, .next = NULL}}, {}, 1, true}}".format(
+                str_name,
+                len(self.ns[name]["name"]),
+                self.ns[name]["c_name"]
+            ))
+
+        return [res.create(1, True), res_prefix.create(1, True)]
 
     def ns_make_hash(self, ns_list):
         result = []
@@ -305,7 +329,7 @@ class Tags:
         self.ns_save(result, temp_file, save_to)
 
     def ns_shs_create(self, name):
-        self.ns_shs = LXB.SHS(self.ns_shs_list, 0, True)
+        self.ns_shs = LXB.SHS(self.ns_shs_list, 0, False)
 
         test = self.ns_shs.make_test(5, 128)
         self.ns_shs.table_size_set(test[0][2])
@@ -313,19 +337,22 @@ class Tags:
         return self.ns_shs.create(name)
 
     def ns_shs_link_create(self, name):
-        self.ns_shs_link = LXB.SHS(self.ns_shs_link_list, 0, True)
+        self.ns_shs_link = LXB.SHS(self.ns_shs_link_list, 0, False)
 
         test = self.ns_shs_link.make_test(5, 128)
         self.ns_shs_link.table_size_set(test[0][2])
 
-        return self.ns_shs_link.create(name)
+        return self.ns_shs_link.create(name, 1)
 
     def ns_shs_save(self, data, data_link, temp_file, save_to):
         lxb_temp = LXB.Temp(temp_file, save_to)
 
+        res, res_prefix = self.ns_data_create()
+
         lxb_temp.pattern_append("%%CHECK_NS_VERSION%%", self.ns_hash_ifdef())
-        lxb_temp.pattern_append("%%NS_DATA%%", ''.join(self.ns_data_create()))
-        # lxb_temp.pattern_append("%%SHS_DATA%%", ''.join(data))
+        lxb_temp.pattern_append("%%NS_DATA%%", ''.join(res))
+        lxb_temp.pattern_append("%%NS_PREFIX_DATA%%", ''.join(res_prefix))
+        lxb_temp.pattern_append("%%SHS_DATA%%", ''.join(data))
         lxb_temp.pattern_append("%%SHS_DATA_LINK%%", ''.join(data_link))
 
         lxb_temp.build()
@@ -346,12 +373,9 @@ class Tags:
         ns = self.ns
 
         for name in self.ns_list:
-            if len(ns[name]["link"]) == 0:
-                result.append("    entry = lxb_ns_data_by_link(ns_heap, (const lxb_char_t *) \"{}\", {});".format(ns[name]["name"], len(ns[name]["name"])))
-                result.append("    test_ne(entry, NULL); test_eq_str(entry->name, \"{}\");".format(ns[name]["name"]))
-            else:
-                result.append("    entry = lxb_ns_data_by_link(ns_heap, (const lxb_char_t *) \"{}\", {});".format(ns[name]["link"], len(ns[name]["link"])))
-                result.append("    test_ne(entry, NULL); test_eq_str(entry->link, \"{}\");".format(ns[name]["link"]))
+            if len(ns[name]["link"]) != 0:
+                result.append("    entry = lxb_ns_data_by_link(ns, (const lxb_char_t *) \"{}\", {});".format(ns[name]["link"], len(ns[name]["link"])))
+                result.append("    test_ne(entry, NULL); test_eq_str(lexbor_hash_entry_str(&entry->entry), \"{}\");".format(ns[name]["link"]))
 
         return result
 
@@ -418,7 +442,7 @@ class Tags:
         self.enum_save(result, temp_file, save_to)
 
     def shs_create(self, name):
-        self.shs = LXB.SHS(self.shs_list, 0, True)
+        self.shs = LXB.SHS(self.shs_list, 0, False)
 
         test = self.shs.make_test(128, 1024)
         self.shs.table_size_set(test[0][2])
@@ -426,10 +450,16 @@ class Tags:
         return self.shs.create(name)
 
     def shs_save(self, data, temp_file, save_to):
+        res_lower, res_upper = self.tag_data_create_default()
+
+        res_lower = ''.join(res_lower)
+        res_upper = ''.join(res_upper)
+
         lxb_temp = LXB.Temp(temp_file, save_to)
 
         lxb_temp.pattern_append("%%CHECK_TAG_VERSION%%", self.enum_hash_ifdef())
-        lxb_temp.pattern_append("%%TAG_DATA%%", ''.join(self.tag_data_create_default()))
+        lxb_temp.pattern_append("%%TAG_DATA%%", res_lower)
+        lxb_temp.pattern_append("%%TAG_DATA_UPPER%%", res_upper)
         lxb_temp.pattern_append("%%SHS_DATA%%", ''.join(data))
 
         lxb_temp.build()
@@ -477,8 +507,8 @@ class Tags:
         result = []
 
         for entry in self.shs_list:
-            result.append("    entry = lxb_tag_data_by_name(tag_heap, (const lxb_char_t *) \"{}\", {});".format(entry["key"], len(entry["key"])))
-            result.append("    test_ne(entry, NULL); test_eq_u_str(entry->name, (const lxb_char_t *) \"{}\");".format(entry["key"]))
+            result.append("    entry = lxb_tag_data_by_name(tags, (const lxb_char_t *) \"{}\", {});".format(entry["key"], len(entry["key"])))
+            result.append("    test_ne(entry, NULL); test_eq_u_str(lexbor_hash_entry_str(&entry->entry), (const lxb_char_t *) \"{}\");".format(entry["key"]))
 
         return result
 

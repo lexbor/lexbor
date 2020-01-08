@@ -30,7 +30,7 @@ lxb_dom_interface_create(lxb_dom_document_t *document, lxb_tag_id_t tag_id,
         return NULL;
     }
 
-    domel->node.tag_id = tag_id;
+    domel->node.local_name = tag_id;
     domel->node.ns = ns;
 
     return domel;

@@ -57,34 +57,11 @@ lxb_html_document_interface_create(lxb_html_document_t *document)
                                    icreator, lxb_html_interface_destroy,
                                    LXB_DOM_DOCUMENT_DTYPE_HTML, LXB_NS_HTML);
     if (status != LXB_STATUS_OK) {
-        goto failed;
-    }
-
-    if (document == NULL) {
-        doc->tags = lxb_tag_heap_create();
-        status = lxb_tag_heap_init(doc->tags, 128);
-
-        if (status != LXB_STATUS_OK) {
-            goto failed;
-        }
-
-        doc->ns = lxb_ns_heap_create();
-        status = lxb_ns_heap_init(doc->ns, 128);
-
-        if (status != LXB_STATUS_OK) {
-            goto failed;
-        }
+        (void) lxb_dom_document_destroy(doc);
+        return NULL;
     }
 
     return lxb_html_interface_document(doc);
-
-failed:
-
-    (void) lxb_tag_heap_destroy(doc->tags);
-    (void) lxb_ns_heap_destroy(doc->ns);
-    (void) lxb_dom_document_destroy(doc);
-
-    return NULL;
 }
 
 lxb_html_document_t *
@@ -99,8 +76,6 @@ lxb_html_document_interface_destroy(lxb_html_document_t *document)
     doc = lxb_dom_interface_document(document);
 
     if (doc->node.owner_document == doc) {
-        (void) lxb_tag_heap_destroy(doc->tags);
-        (void) lxb_ns_heap_destroy(doc->ns);
         (void) lxb_html_parser_unref(doc->parser);
     }
 
@@ -118,18 +93,12 @@ lxb_html_document_create(void)
 void
 lxb_html_document_clean(lxb_html_document_t *document)
 {
-    lxb_dom_document_t *doc = lxb_dom_interface_document(document);
+    document->body = NULL;
+    document->head = NULL;
+    document->iframe_srcdoc = NULL;
+    document->ready_state = LXB_HTML_DOCUMENT_READY_STATE_UNDEF;
 
-    if (doc->node.owner_document == doc) {
-        lxb_tag_heap_clean(doc->tags);
-        lxb_ns_heap_clean(doc->ns);
-
-        lexbor_mraw_clean(doc->mraw);
-        lexbor_mraw_clean(doc->text);
-    }
-
-    doc->node.first_child = NULL;
-    doc->node.last_child = NULL;
+    lxb_dom_document_clean(lxb_dom_interface_document(document));
 }
 
 lxb_html_document_t *
@@ -230,7 +199,7 @@ lxb_html_document_parse_fragment(lxb_html_document_t *document,
     parser = document->dom_document.parser;
 
     status = lxb_html_parse_fragment_chunk_begin(parser, document,
-                                                 element->node.tag_id,
+                                                 element->node.local_name,
                                                  element->node.ns);
     if (status != LXB_STATUS_OK) {
         goto failed;
@@ -265,7 +234,7 @@ lxb_html_document_parse_fragment_chunk_begin(lxb_html_document_t *document,
     }
 
     return lxb_html_parse_fragment_chunk_begin(parser, document,
-                                               element->node.tag_id,
+                                               element->node.local_name,
                                                element->node.ns);
 }
 
@@ -381,7 +350,7 @@ lxb_html_document_title_raw(lxb_html_document_t *document, size_t *len)
 static lexbor_action_t
 lxb_html_document_title_walker(lxb_dom_node_t *node, void *ctx)
 {
-    if (node->tag_id == LXB_TAG_TITLE) {
+    if (node->local_name == LXB_TAG_TITLE) {
         *((void **) ctx) = node;
 
         return LEXBOR_ACTION_STOP;
@@ -429,18 +398,6 @@ lxb_html_document_mraw_text_noi(lxb_html_document_t *document)
     return lxb_html_document_mraw_text(document);
 }
 
-lxb_tag_heap_t *
-lxb_html_document_tag_heap_noi(lxb_html_document_t *document)
-{
-    return lxb_html_document_tag_heap(document);
-}
-
-lxb_ns_heap_t *
-lxb_html_document_ns_heap_noi(lxb_html_document_t *document)
-{
-    return lxb_html_document_ns_heap(document);
-}
-
 void
 lxb_html_document_opt_set_noi(lxb_html_document_t *document,
                               lxb_html_document_opt_t opt)
@@ -467,7 +424,7 @@ lxb_html_document_destroy_struct_noi(lxb_html_document_t *document, void *data)
     return lxb_html_document_destroy_struct(document, data);
 }
 
-lxb_dom_element_t *
+lxb_html_element_t *
 lxb_html_document_create_element_noi(lxb_html_document_t *document,
                                      const lxb_char_t *local_name,
                                      size_t lname_len, void *reserved_for_opt)

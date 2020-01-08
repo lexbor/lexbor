@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2019 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -25,40 +25,73 @@
 #error You need to include "lexbor/ns/const.h".
 #endif /* LXB_NS_CONST_VERSION */
 
-#ifdef LXB_NS_RES_DATA
-#ifndef LXB_NS_RES_DATA_ENABLED
-#define LXB_NS_RES_DATA_ENABLED
-static  lxb_ns_data_t lxb_ns_res_data[LXB_NS__LAST_ENTRY] = 
-{
-    {"#undef", "#undef", 6, "", 0, LXB_NS__UNDEF},
-    {"#any", "#any", 4, "", 0, LXB_NS__ANY},
-    {"HTML", "html", 4, "http://www.w3.org/1999/xhtml", 28, LXB_NS_HTML},
-    {"Math", "math", 4, "http://www.w3.org/1998/Math/MathML", 34, LXB_NS_MATH},
-    {"SVG", "svg", 3, "http://www.w3.org/2000/svg", 26, LXB_NS_SVG},
-    {"XLink", "xlink", 5, "http://www.w3.org/1999/xlink", 28, LXB_NS_XLINK},
-    {"XML", "xml", 3, "http://www.w3.org/XML/1998/namespace", 36, LXB_NS_XML},
-    {"XMLNS", "xmlns", 5, "http://www.w3.org/2000/xmlns/", 29, LXB_NS_XMLNS}
-};
-#endif /* LXB_NS_RES_DATA_ENABLED */
-#endif /* LXB_NS_RES_DATA */
 
-#ifdef LXB_NS_RES_SHS_LINK_DATA
-#ifndef LXB_NS_RES_SHS_LINK_DATA_ENABLED
-#define LXB_NS_RES_SHS_LINK_DATA_ENABLED
+static const lxb_ns_data_t lxb_ns_res_data[LXB_NS__LAST_ENTRY] = 
+{
+    {{.u.short_str = "", .length = 0, .next = NULL}, LXB_NS__UNDEF, 1, true},
+    {{.u.short_str = "", .length = 0, .next = NULL}, LXB_NS__ANY, 1, true},
+    {{.u.long_str = (lxb_char_t *) "http://www.w3.org/1999/xhtml", .length = 28, .next = NULL}, LXB_NS_HTML, 1, true},
+    {{.u.long_str = (lxb_char_t *) "http://www.w3.org/1998/Math/MathML", .length = 34, .next = NULL}, LXB_NS_MATH, 1, true},
+    {{.u.long_str = (lxb_char_t *) "http://www.w3.org/2000/svg", .length = 26, .next = NULL}, LXB_NS_SVG, 1, true},
+    {{.u.long_str = (lxb_char_t *) "http://www.w3.org/1999/xlink", .length = 28, .next = NULL}, LXB_NS_XLINK, 1, true},
+    {{.u.long_str = (lxb_char_t *) "http://www.w3.org/XML/1998/namespace", .length = 36, .next = NULL}, LXB_NS_XML, 1, true},
+    {{.u.long_str = (lxb_char_t *) "http://www.w3.org/2000/xmlns/", .length = 29, .next = NULL}, LXB_NS_XMLNS, 1, true}
+};
+
+static const lxb_ns_prefix_data_t lxb_ns_prefix_res_data[LXB_NS__LAST_ENTRY] = 
+{
+    {{.u.short_str = "#undef", .length = 6, .next = NULL}, LXB_NS__UNDEF, 1, true},
+    {{.u.short_str = "#any", .length = 4, .next = NULL}, LXB_NS__ANY, 1, true},
+    {{.u.short_str = "html", .length = 4, .next = NULL}, LXB_NS_HTML, 1, true},
+    {{.u.short_str = "math", .length = 4, .next = NULL}, LXB_NS_MATH, 1, true},
+    {{.u.short_str = "svg", .length = 3, .next = NULL}, LXB_NS_SVG, 1, true},
+    {{.u.short_str = "xlink", .length = 5, .next = NULL}, LXB_NS_XLINK, 1, true},
+    {{.u.short_str = "xml", .length = 3, .next = NULL}, LXB_NS_XML, 1, true},
+    {{.u.short_str = "xmlns", .length = 5, .next = NULL}, LXB_NS_XMLNS, 1, true}
+};
+
+static const lexbor_shs_entry_t lxb_ns_res_shs_data[] = 
+{
+    {NULL, NULL, 28, 0}, {"html", (void *) &lxb_ns_prefix_res_data[2], 4, 0}, 
+    {"xmlns", (void *) &lxb_ns_prefix_res_data[7], 5, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {"svg", (void *) &lxb_ns_prefix_res_data[4], 3, 0}, 
+    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {"math", (void *) &lxb_ns_prefix_res_data[3], 4, 0}, 
+    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {"#undef", (void *) &lxb_ns_prefix_res_data[0], 6, 0}, 
+    {"xlink", (void *) &lxb_ns_prefix_res_data[5], 5, 0}, {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
+    {"#any", (void *) &lxb_ns_prefix_res_data[1], 4, 0}, {NULL, NULL, 0, 0}, 
+    {"xml", (void *) &lxb_ns_prefix_res_data[6], 3, 0}
+};
+
 static const lexbor_shs_entry_t lxb_ns_res_shs_link_data[] = 
 {
-    {NULL, NULL, 22, 0}, {"http://www.w3.org/1999/xhtml", &lxb_ns_res_data[2], 28, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"http://www.w3.org/2000/xmlns/", &lxb_ns_res_data[7], 29, 0}, {"http://www.w3.org/1998/Math/MathML", &lxb_ns_res_data[3], 34, 0}, 
-    {NULL, NULL, 0, 0}, {"http://www.w3.org/1999/xlink", &lxb_ns_res_data[5], 28, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, {NULL, NULL, 0, 0}, 
-    {"#any", &lxb_ns_res_data[1], 4, 0}, {"http://www.w3.org/2000/svg", &lxb_ns_res_data[4], 26, 0}, 
-    {NULL, NULL, 0, 0}, {"#undef", &lxb_ns_res_data[0], 6, 0}, 
-    {NULL, NULL, 0, 0}, {"http://www.w3.org/XML/1998/namespace", &lxb_ns_res_data[6], 36, 0}, 
+    {NULL, NULL, 22, 0}, 
+    {"http://www.w3.org/1999/xhtml", (void *) &lxb_ns_res_data[2], 28, 0}, 
+    {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, 
+    {"http://www.w3.org/2000/xmlns/", (void *) &lxb_ns_res_data[7], 29, 0}, 
+    {"http://www.w3.org/1998/math/mathml", (void *) &lxb_ns_res_data[3], 34, 0}, 
+    {NULL, NULL, 0, 0}, 
+    {"http://www.w3.org/1999/xlink", (void *) &lxb_ns_res_data[5], 28, 0}, 
+    {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, 
+    {NULL, NULL, 0, 0}, 
+    {"#any", (void *) &lxb_ns_res_data[1], 4, 0}, 
+    {"http://www.w3.org/2000/svg", (void *) &lxb_ns_res_data[4], 26, 0}, 
+    {NULL, NULL, 0, 0}, 
+    {"#undef", (void *) &lxb_ns_res_data[0], 6, 0}, 
+    {NULL, NULL, 0, 0}, 
+    {"http://www.w3.org/xml/1998/namespace", (void *) &lxb_ns_res_data[6], 36, 0}, 
     {NULL, NULL, 0, 0}
 };
-#endif /* LXB_NS_RES_SHS_LINK_DATA_ENABLED */
-#endif /* LXB_NS_RES_SHS_LINK_DATA */

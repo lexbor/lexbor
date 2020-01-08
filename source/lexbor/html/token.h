@@ -118,8 +118,8 @@ lxb_html_token_parse_data(lxb_html_token_t *token, lxb_html_parser_char_t *pc,
                           lexbor_str_t *str, lexbor_mraw_t *mraw);
 
 LXB_API lxb_tag_id_t
-lxb_html_token_tag_id_from_data(lxb_tag_heap_t *tag_heap,
-                                lxb_html_token_t *token);
+lxb_html_token_tag_id_from_data(lexbor_hash_t *hash, lxb_html_token_t *token,
+                                lexbor_mraw_t *mraw);
 
 /*
  * Processes token data using a callback from

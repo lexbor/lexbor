@@ -14,9 +14,9 @@ lxb_html_tree_clear_stack_back_to_table_context(lxb_html_tree_t *tree)
 {
     lxb_dom_node_t *current = lxb_html_tree_current_node(tree);
 
-    while ((current->tag_id != LXB_TAG_TABLE
-            && current->tag_id != LXB_TAG_TEMPLATE
-            && current->tag_id != LXB_TAG_HTML)
+    while ((current->local_name != LXB_TAG_TABLE
+            && current->local_name != LXB_TAG_TEMPLATE
+            && current->local_name != LXB_TAG_HTML)
            || current->ns != LXB_NS_HTML)
     {
         lxb_html_tree_open_elements_pop(tree);
@@ -31,11 +31,11 @@ lxb_html_tree_insertion_mode_in_table_text_open(lxb_html_tree_t *tree,
     lxb_dom_node_t *node = lxb_html_tree_current_node(tree);
 
     if (node->ns == LXB_NS_HTML &&
-        (node->tag_id == LXB_TAG_TABLE
-         || node->tag_id == LXB_TAG_TBODY
-         || node->tag_id == LXB_TAG_TFOOT
-         || node->tag_id == LXB_TAG_THEAD
-         || node->tag_id == LXB_TAG_TR))
+        (node->local_name == LXB_TAG_TABLE
+         || node->local_name == LXB_TAG_TBODY
+         || node->local_name == LXB_TAG_TFOOT
+         || node->local_name == LXB_TAG_THEAD
+         || node->local_name == LXB_TAG_TR))
     {
         tree->pending_table.text_list->length = 0;
         tree->pending_table.have_non_ws = false;
