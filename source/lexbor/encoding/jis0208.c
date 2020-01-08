@@ -15,7 +15,7 @@
 #include "lexbor/core/shs.h"
 
 
-const lxb_encoding_multi_index_t lxb_encoding_multi_index_jis0208[11104] = 
+LXB_API const lxb_encoding_multi_index_t lxb_encoding_multi_index_jis0208[11104] = 
 {
     {(lxb_char_t *) "\xe3\x80\x80", 3, 0x3000}, /* (IDEOGRAPHIC SPACE) */
     {(lxb_char_t *) "\xe3\x80\x81", 3, 0x3001}, /* (IDEOGRAPHIC COMMA) */
@@ -11124,7 +11124,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_jis0208[11104] =
 };
 
 /* Table size: 9253; Max deep: 4 */
-const lexbor_shs_hash_t lxb_encoding_multi_hash_jis0208[11349] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_multi_hash_jis0208[11349] = 
 {
     {0, NULL, 0},{27759, (void *) 8427, 11144},
     {27760, (void *) 3134, 0},

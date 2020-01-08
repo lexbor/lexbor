@@ -49,7 +49,7 @@ class Encoding:
 
                 tlist.append({'key': name.lower(), 'value': value})
 
-        shs = LXB.SHS(tlist, 0, False, '')
+        shs = LXB.SHS(tlist, 0, False, 'LXB_API')
 
         test = shs.make_test(20, 2048)
         shs.table_size_set(test[0][2])
@@ -108,7 +108,7 @@ class Encoding:
     def make_data(self, data_name):
         res = LXB.Res(self.data_typename, data_name 
                         + '[{}]'.format(self.make_name_upper(self.last_entry_name)), 
-                        False, None, '')
+                        False, None, 'LXB_API')
 
         res.append('{{{}, {}, {},\n     {}, {}, (lxb_char_t *) "DEFAULT"}}'.format(
                 self.make_name_upper('DEFAULT'),

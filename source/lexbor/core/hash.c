@@ -34,13 +34,13 @@ const lexbor_hash_insert_t lexbor_hash_insert_upper_var = {
     .cmp = lexbor_str_data_nupcmp_right
 };
 
-const lexbor_hash_insert_t
+LXB_API const lexbor_hash_insert_t
 *lexbor_hash_insert_raw = &lexbor_hash_insert_var;
 
-const lexbor_hash_insert_t
+LXB_API const lexbor_hash_insert_t
 *lexbor_hash_insert_lower = &lexbor_hash_insert_lower_var;
 
-const lexbor_hash_insert_t
+LXB_API const lexbor_hash_insert_t
 *lexbor_hash_insert_upper = &lexbor_hash_insert_upper_var;
 
 /* Search variable. */
@@ -59,13 +59,13 @@ const lexbor_hash_search_t lexbor_hash_search_upper_var = {
     .cmp = lexbor_str_data_nupcmp_right
 };
 
-const lexbor_hash_search_t
+LXB_API const lexbor_hash_search_t
 *lexbor_hash_search_raw = &lexbor_hash_search_var;
 
-const lexbor_hash_search_t
+LXB_API const lexbor_hash_search_t
 *lexbor_hash_search_lower = &lexbor_hash_search_lower_var;
 
-const lexbor_hash_search_t
+LXB_API const lexbor_hash_search_t
 *lexbor_hash_search_upper = &lexbor_hash_search_upper_var;
 
 

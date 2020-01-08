@@ -15,7 +15,7 @@
 #include "lexbor/core/shs.h"
 
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_ibm866[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_ibm866[128] = 
 {
     {(lxb_char_t *) "\xd0\x90", 2, 0x0410}, /* (CYRILLIC CAPITAL LETTER A) */
     {(lxb_char_t *) "\xd0\x91", 2, 0x0411}, /* (CYRILLIC CAPITAL LETTER BE) */
@@ -147,7 +147,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_ibm866[128] =
     {(lxb_char_t *) "\xc2\xa0", 2, 0x00A0}, /* (NO-BREAK SPACE) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_10[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_10[128] = 
 {
     {(lxb_char_t *) "\xc2\x80", 2, 0x0080}, /* (<control>) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -279,7 +279,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_10[128] =
     {(lxb_char_t *) "\xc4\xb8", 2, 0x0138}, /* (LATIN SMALL LETTER KRA) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_13[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_13[128] = 
 {
     {(lxb_char_t *) "\xc2\x80", 2, 0x0080}, /* (<control>) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -411,7 +411,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_13[128] =
     {(lxb_char_t *) "\xe2\x80\x99", 3, 0x2019}, /* (RIGHT SINGLE QUOTATION MARK) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_14[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_14[128] = 
 {
     {(lxb_char_t *) "\xc2\x80", 2, 0x0080}, /* (<control>) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -543,7 +543,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_14[128] =
     {(lxb_char_t *) "\xc3\xbf", 2, 0x00FF}, /* (LATIN SMALL LETTER Y WITH DIAERESIS) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_15[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_15[128] = 
 {
     {(lxb_char_t *) "\xc2\x80", 2, 0x0080}, /* (<control>) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -675,7 +675,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_15[128] =
     {(lxb_char_t *) "\xc3\xbf", 2, 0x00FF}, /* (LATIN SMALL LETTER Y WITH DIAERESIS) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_16[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_16[128] = 
 {
     {(lxb_char_t *) "\xc2\x80", 2, 0x0080}, /* (<control>) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -807,7 +807,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_16[128] =
     {(lxb_char_t *) "\xc3\xbf", 2, 0x00FF}, /* (LATIN SMALL LETTER Y WITH DIAERESIS) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_2[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_2[128] = 
 {
     {(lxb_char_t *) "\xc2\x80", 2, 0x0080}, /* (<control>) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -939,7 +939,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_2[128] =
     {(lxb_char_t *) "\xcb\x99", 2, 0x02D9}, /* (DOT ABOVE) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_3[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_3[128] = 
 {
     {(lxb_char_t *) "\xc2\x80", 2, 0x0080}, /* (<control>) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -1071,7 +1071,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_3[128] =
     {(lxb_char_t *) "\xcb\x99", 2, 0x02D9}, /* (DOT ABOVE) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_4[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_4[128] = 
 {
     {(lxb_char_t *) "\xc2\x80", 2, 0x0080}, /* (<control>) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -1203,7 +1203,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_4[128] =
     {(lxb_char_t *) "\xcb\x99", 2, 0x02D9}, /* (DOT ABOVE) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_5[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_5[128] = 
 {
     {(lxb_char_t *) "\xc2\x80", 2, 0x0080}, /* (<control>) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -1335,7 +1335,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_5[128] =
     {(lxb_char_t *) "\xd1\x9f", 2, 0x045F}, /* (CYRILLIC SMALL LETTER DZHE) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_6[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_6[128] = 
 {
     {(lxb_char_t *) "\xc2\x80", 2, 0x0080}, /* (<control>) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -1467,7 +1467,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_6[128] =
     {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_7[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_7[128] = 
 {
     {(lxb_char_t *) "\xc2\x80", 2, 0x0080}, /* (<control>) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -1599,7 +1599,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_7[128] =
     {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_8[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_8[128] = 
 {
     {(lxb_char_t *) "\xc2\x80", 2, 0x0080}, /* (<control>) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -1731,7 +1731,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_iso_8859_8[128] =
     {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_koi8_r[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_koi8_r[128] = 
 {
     {(lxb_char_t *) "\xe2\x94\x80", 3, 0x2500}, /* (BOX DRAWINGS LIGHT HORIZONTAL) */
     {(lxb_char_t *) "\xe2\x94\x82", 3, 0x2502}, /* (BOX DRAWINGS LIGHT VERTICAL) */
@@ -1863,7 +1863,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_koi8_r[128] =
     {(lxb_char_t *) "\xd0\xaa", 2, 0x042A}, /* (CYRILLIC CAPITAL LETTER HARD SIGN) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_koi8_u[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_koi8_u[128] = 
 {
     {(lxb_char_t *) "\xe2\x94\x80", 3, 0x2500}, /* (BOX DRAWINGS LIGHT HORIZONTAL) */
     {(lxb_char_t *) "\xe2\x94\x82", 3, 0x2502}, /* (BOX DRAWINGS LIGHT VERTICAL) */
@@ -1995,7 +1995,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_koi8_u[128] =
     {(lxb_char_t *) "\xd0\xaa", 2, 0x042A}, /* (CYRILLIC CAPITAL LETTER HARD SIGN) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_macintosh[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_macintosh[128] = 
 {
     {(lxb_char_t *) "\xc3\x84", 2, 0x00C4}, /* (LATIN CAPITAL LETTER A WITH DIAERESIS) */
     {(lxb_char_t *) "\xc3\x85", 2, 0x00C5}, /* (LATIN CAPITAL LETTER A WITH RING ABOVE) */
@@ -2127,7 +2127,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_macintosh[128] =
     {(lxb_char_t *) "\xcb\x87", 2, 0x02C7}, /* (CARON) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1250[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1250[128] = 
 {
     {(lxb_char_t *) "\xe2\x82\xac", 3, 0x20AC}, /* (EURO SIGN) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -2259,7 +2259,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1250[128] =
     {(lxb_char_t *) "\xcb\x99", 2, 0x02D9}, /* (DOT ABOVE) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1251[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1251[128] = 
 {
     {(lxb_char_t *) "\xd0\x82", 2, 0x0402}, /* (CYRILLIC CAPITAL LETTER DJE) */
     {(lxb_char_t *) "\xd0\x83", 2, 0x0403}, /* (CYRILLIC CAPITAL LETTER GJE) */
@@ -2391,7 +2391,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1251[128] =
     {(lxb_char_t *) "\xd1\x8f", 2, 0x044F}, /* (CYRILLIC SMALL LETTER YA) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1252[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1252[128] = 
 {
     {(lxb_char_t *) "\xe2\x82\xac", 3, 0x20AC}, /* (EURO SIGN) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -2523,7 +2523,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1252[128] =
     {(lxb_char_t *) "\xc3\xbf", 2, 0x00FF}, /* (LATIN SMALL LETTER Y WITH DIAERESIS) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1253[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1253[128] = 
 {
     {(lxb_char_t *) "\xe2\x82\xac", 3, 0x20AC}, /* (EURO SIGN) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -2655,7 +2655,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1253[128] =
     {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1254[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1254[128] = 
 {
     {(lxb_char_t *) "\xe2\x82\xac", 3, 0x20AC}, /* (EURO SIGN) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -2787,7 +2787,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1254[128] =
     {(lxb_char_t *) "\xc3\xbf", 2, 0x00FF}, /* (LATIN SMALL LETTER Y WITH DIAERESIS) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1255[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1255[128] = 
 {
     {(lxb_char_t *) "\xe2\x82\xac", 3, 0x20AC}, /* (EURO SIGN) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -2919,7 +2919,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1255[128] =
     {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1256[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1256[128] = 
 {
     {(lxb_char_t *) "\xe2\x82\xac", 3, 0x20AC}, /* (EURO SIGN) */
     {(lxb_char_t *) "\xd9\xbe", 2, 0x067E}, /* (ARABIC LETTER PEH) */
@@ -3051,7 +3051,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1256[128] =
     {(lxb_char_t *) "\xdb\x92", 2, 0x06D2}, /* (ARABIC LETTER YEH BARREE) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1257[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1257[128] = 
 {
     {(lxb_char_t *) "\xe2\x82\xac", 3, 0x20AC}, /* (EURO SIGN) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -3183,7 +3183,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1257[128] =
     {(lxb_char_t *) "\xcb\x99", 2, 0x02D9}, /* (DOT ABOVE) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1258[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1258[128] = 
 {
     {(lxb_char_t *) "\xe2\x82\xac", 3, 0x20AC}, /* (EURO SIGN) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -3315,7 +3315,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_windows_1258[128] =
     {(lxb_char_t *) "\xc3\xbf", 2, 0x00FF}, /* (LATIN SMALL LETTER Y WITH DIAERESIS) */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_windows_874[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_windows_874[128] = 
 {
     {(lxb_char_t *) "\xe2\x82\xac", 3, 0x20AC}, /* (EURO SIGN) */
     {(lxb_char_t *) "\xc2\x81", 2, 0x0081}, /* (<control>) */
@@ -3447,7 +3447,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_windows_874[128] =
     {NULL, 0, LXB_ENCODING_DECODE_ERROR}, /* Not defined */
 };
 
-const lxb_encoding_single_index_t lxb_encoding_single_index_x_mac_cyrillic[128] = 
+LXB_API const lxb_encoding_single_index_t lxb_encoding_single_index_x_mac_cyrillic[128] = 
 {
     {(lxb_char_t *) "\xd0\x90", 2, 0x0410}, /* (CYRILLIC CAPITAL LETTER A) */
     {(lxb_char_t *) "\xd0\x91", 2, 0x0411}, /* (CYRILLIC CAPITAL LETTER BE) */
@@ -3580,7 +3580,7 @@ const lxb_encoding_single_index_t lxb_encoding_single_index_x_mac_cyrillic[128] 
 };
 
 /* Table size: 344; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_ibm866[345] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_ibm866[345] = 
 {
     {0, NULL, 0},{9632, (void *) 254, 0},
     {0, NULL, 0},
@@ -3929,7 +3929,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_ibm866[345] =
 };
 
 /* Table size: 343; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_10[344] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_10[344] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {0, NULL, 0},
@@ -4277,7 +4277,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_10[344] =
 };
 
 /* Table size: 345; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_13[346] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_13[346] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {346, (void *) 218, 0},
@@ -4627,7 +4627,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_13[346] =
 };
 
 /* Table size: 407; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_14[408] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_14[408] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {0, NULL, 0},
@@ -5039,7 +5039,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_14[408] =
 };
 
 /* Table size: 344; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_15[345] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_15[345] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {0, NULL, 0},
@@ -5388,7 +5388,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_15[345] =
 };
 
 /* Table size: 413; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_16[414] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_16[414] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {0, NULL, 0},
@@ -5806,7 +5806,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_16[414] =
 };
 
 /* Table size: 368; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_2[369] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_2[369] = 
 {
     {0, NULL, 0},{368, (void *) 219, 0},
     {369, (void *) 251, 0},
@@ -6179,7 +6179,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_2[369] =
 };
 
 /* Table size: 343; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_3[344] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_3[344] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {0, NULL, 0},
@@ -6527,7 +6527,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_3[344] =
 };
 
 /* Table size: 343; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_4[344] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_4[344] = 
 {
     {0, NULL, 0},{343, (void *) 179, 0},
     {0, NULL, 0},
@@ -6875,7 +6875,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_4[344] =
 };
 
 /* Table size: 343; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_5[344] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_5[344] = 
 {
     {0, NULL, 0},{1029, (void *) 165, 0},
     {1030, (void *) 166, 0},
@@ -7223,7 +7223,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_5[344] =
 };
 
 /* Table size: 343; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_6[344] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_6[344] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {0, NULL, 0},
@@ -7571,7 +7571,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_6[344] =
 };
 
 /* Table size: 344; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_7[345] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_7[345] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {0, NULL, 0},
@@ -7920,7 +7920,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_7[345] =
 };
 
 /* Table size: 347; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_8[348] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_8[348] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {0, NULL, 0},
@@ -8272,7 +8272,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_iso_8859_8[348] =
 };
 
 /* Table size: 486; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_koi8_r[487] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_koi8_r[487] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {0, NULL, 0},
@@ -8763,7 +8763,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_koi8_r[487] =
 };
 
 /* Table size: 380; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_koi8_u[381] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_koi8_u[381] = 
 {
     {0, NULL, 0},{9500, (void *) 134, 0},
     {0, NULL, 0},
@@ -9148,7 +9148,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_koi8_u[381] =
 };
 
 /* Table size: 343; Max deep: 2 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_macintosh[351] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_macintosh[351] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {0, NULL, 0},
@@ -9503,7 +9503,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_macintosh[351] =
 };
 
 /* Table size: 432; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1250[433] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1250[433] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {0, NULL, 0},
@@ -9940,7 +9940,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1250[433] =
 };
 
 /* Table size: 362; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1251[363] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1251[363] = 
 {
     {0, NULL, 0},{1086, (void *) 238, 0},
     {1087, (void *) 239, 0},
@@ -10307,7 +10307,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1251[363] =
 };
 
 /* Table size: 373; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1252[374] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1252[374] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {0, NULL, 0},
@@ -10685,7 +10685,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1252[374] =
 };
 
 /* Table size: 354; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1253[355] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1253[355] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {0, NULL, 0},
@@ -11044,7 +11044,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1253[355] =
 };
 
 /* Table size: 354; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1254[355] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1254[355] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {0, NULL, 0},
@@ -11403,7 +11403,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1254[355] =
 };
 
 /* Table size: 467; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1255[468] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1255[468] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {0, NULL, 0},
@@ -11875,7 +11875,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1255[468] =
 };
 
 /* Table size: 343; Max deep: 2 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1256[357] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1256[357] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {0, NULL, 0},
@@ -12236,7 +12236,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1256[357] =
 };
 
 /* Table size: 355; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1257[356] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1257[356] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {711, (void *) 142, 0},
@@ -12596,7 +12596,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1257[356] =
 };
 
 /* Table size: 405; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1258[406] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1258[406] = 
 {
     {0, NULL, 0},{0, NULL, 0},
     {0, NULL, 0},
@@ -13006,7 +13006,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_windows_1258[406] =
 };
 
 /* Table size: 359; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_windows_874[360] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_windows_874[360] = 
 {
     {0, NULL, 0},{3590, (void *) 166, 0},
     {3591, (void *) 167, 0},
@@ -13370,7 +13370,7 @@ const lexbor_shs_hash_t lxb_encoding_single_hash_windows_874[360] =
 };
 
 /* Table size: 373; Max deep: 1 */
-const lexbor_shs_hash_t lxb_encoding_single_hash_x_mac_cyrillic[374] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_single_hash_x_mac_cyrillic[374] = 
 {
     {0, NULL, 0},{1119, (void *) 219, 0},
     {0, NULL, 0},

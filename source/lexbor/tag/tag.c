@@ -9,7 +9,7 @@
 #include "lexbor/tag/res.h"
 
 
-const lxb_tag_data_t *
+LXB_API const lxb_tag_data_t *
 lxb_tag_append(lexbor_hash_t *hash, lxb_tag_id_t tag_id,
                const lxb_char_t *name, size_t length)
 {
@@ -37,7 +37,7 @@ lxb_tag_append(lexbor_hash_t *hash, lxb_tag_id_t tag_id,
     return data;
 }
 
-const lxb_tag_data_t *
+LXB_API const lxb_tag_data_t *
 lxb_tag_append_lower(lexbor_hash_t *hash, const lxb_char_t *name, size_t length)
 {
     lxb_tag_data_t *data;

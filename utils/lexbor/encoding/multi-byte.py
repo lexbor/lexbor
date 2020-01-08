@@ -121,7 +121,7 @@ class MultiByte:
         print("Flat buffer size:", buffer_size)
 
         res = LXB.Res(self.flat_index_typename, 
-                self.make_var_name(name) + '[{}]'.format(buffer_size), False, None, '')
+                self.make_var_name(name) + '[{}]'.format(buffer_size), False, None, 'LXB_API')
 
         for idx in range(0, buffer_size):
             if idx in values:
@@ -142,7 +142,7 @@ class MultiByte:
         buffer_size = self.buffer_size(values)
         name = self.make_hash_name(name)
 
-        hash_key = LXB.HashKey(buffer_size, name)
+        hash_key = LXB.HashKey(buffer_size, name, 'LXB_API')
 
         for idx in range(0, buffer_size):
             if idx in values:

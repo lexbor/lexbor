@@ -13,7 +13,7 @@
 #include "lexbor/encoding/base.h"
 
 
-const lxb_encoding_range_index_t lxb_encoding_range_index_gb18030[207] = 
+LXB_API const lxb_encoding_range_index_t lxb_encoding_range_index_gb18030[207] = 
 {
     {0, 0x0080}, {36, 0x00A5}, {38, 0x00A9}, {45, 0x00B2},
     {50, 0x00B8}, {81, 0x00D8}, {89, 0x00E2}, {95, 0x00EB},

@@ -13,7 +13,7 @@
 #include "lexbor/ns/res.h"
 
 
-const lxb_ns_data_t *
+LXB_API const lxb_ns_data_t *
 lxb_ns_append(lexbor_hash_t *hash, const lxb_char_t *link, size_t length)
 {
     lxb_ns_data_t *data;

@@ -79,7 +79,7 @@ class RangeByte:
 
     def make_range_index(self, name, values):
         res = LXB.Res(self.range_index_typename, 
-                self.make_range_name(name) + '[{}]'.format(len(values)), False, None, '')
+                self.make_range_name(name) + '[{}]'.format(len(values)), False, None, 'LXB_API')
 
         for entry in values:
             res.append('{{{}, {}}}'.format(entry[0].decode('utf-8'), entry[1].decode('utf-8')))

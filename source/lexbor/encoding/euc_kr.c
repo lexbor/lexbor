@@ -15,7 +15,7 @@
 #include "lexbor/core/shs.h"
 
 
-const lxb_encoding_multi_index_t lxb_encoding_multi_index_euc_kr[23750] = 
+LXB_API const lxb_encoding_multi_index_t lxb_encoding_multi_index_euc_kr[23750] = 
 {
     {(lxb_char_t *) "\xea\xb0\x82", 3, 0xAC02}, /* (HANGUL SYLLABLE GAGG) */
     {(lxb_char_t *) "\xea\xb0\x83", 3, 0xAC03}, /* (HANGUL SYLLABLE GAGS) */
@@ -23770,7 +23770,7 @@ const lxb_encoding_multi_index_t lxb_encoding_multi_index_euc_kr[23750] =
 };
 
 /* Table size: 28041; Max deep: 2 */
-const lexbor_shs_hash_t lxb_encoding_multi_hash_euc_kr[30109] = 
+LXB_API const lexbor_shs_hash_t lxb_encoding_multi_hash_euc_kr[30109] = 
 {
     {0, NULL, 0},{28041, (void *) 18224, 0},
     {0, NULL, 0},

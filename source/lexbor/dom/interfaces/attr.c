@@ -238,7 +238,7 @@ lxb_dom_attr_compare(lxb_dom_attr_t *first, lxb_dom_attr_t *second)
     return false;
 }
 
-lxb_dom_attr_data_t *
+LXB_API lxb_dom_attr_data_t *
 lxb_dom_attr_local_name_append(lexbor_hash_t *hash,
                                const lxb_char_t *name, size_t length)
 {
@@ -265,7 +265,7 @@ lxb_dom_attr_local_name_append(lexbor_hash_t *hash,
     return data;
 }
 
-lxb_dom_attr_data_t *
+LXB_API lxb_dom_attr_data_t *
 lxb_dom_attr_qualified_name_append(lexbor_hash_t *hash, const lxb_char_t *name,
                                    size_t length)
 {
