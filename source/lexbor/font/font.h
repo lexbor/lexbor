@@ -12,6 +12,7 @@ extern "C" {
 #endif
 
 #include "lexbor/core/mraw.h"
+/* Required */
 #include "lexbor/font/cmap.h"
 #include "lexbor/font/head.h"
 #include "lexbor/font/hhea.h"
@@ -20,12 +21,17 @@ extern "C" {
 #include "lexbor/font/name.h"
 #include "lexbor/font/os_2.h"
 #include "lexbor/font/post.h"
+/* Truetype */
+#include "lexbor/font/loca.h"
+#include "lexbor/font/glyf.h"
 
 
 /*
  * TODO
  * X: done
  * n: not entirely done
+ *
+ * Required:
  * [n] cmap FIXME: format 2 not done
  * [X] head
  * [X] hhea
@@ -34,7 +40,16 @@ extern "C" {
  * [n] name FIXME: last array not done
  * [X] os_2
  * [n] post FIXME: str_data not done
+ *
+ * Truetype:
+ * [ ] cvt
+ * [ ] fpgm
+ * [X] glyf
+ * [X] loca
+ * [ ] prep
+ * [ ] gasp
  */
+
 typedef enum {
     /* Required Tables. */
     LXB_FONT_TABLE_TYPE_CMAP = 1885433187,
@@ -164,6 +179,8 @@ typedef struct lxb_font_s {
 
     lexbor_mraw_t         *mraw;
 
+    /* Required tables. */
+    lxb_font_table_cmap_t *table_cmap;
     lxb_font_table_head_t *table_head;
     lxb_font_table_hhea_t *table_hhea;
     lxb_font_table_hmtx_t *table_hmtx;
@@ -171,6 +188,10 @@ typedef struct lxb_font_s {
     lxb_font_table_name_t *table_name;
     lxb_font_table_os_2_t *table_os_2;
     lxb_font_table_post_t *table_post;
+
+    /* TrueType tables. */
+    lxb_font_table_loca_t *table_glyf;
+    lxb_font_table_loca_t *table_loca;
 }
 lxb_font_t;
 

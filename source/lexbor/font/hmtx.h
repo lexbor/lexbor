@@ -25,8 +25,8 @@ extern "C" {
 typedef struct lxb_font_s lxb_font_t;
 
 typedef struct {
-  uint16_t advance_width;
-  int16_t lsb;
+    uint16_t advance_width;
+    int16_t lsb;
 }
 long_hor_metric_t;
 

@@ -39,6 +39,46 @@ lxb_font_cmap_format_0(lxb_font_t *mf, subtable_t *subtable,
 }
 
 static lxb_status_t
+lxb_font_cmap_format_2(lxb_font_t *mf, subtable_t *subtable,
+                       uint8_t *font_data, size_t size, size_t offset)
+{
+    subtable_format_2_t *header;
+    uint8_t *data;
+    uint16_t keys_data;
+    uint32_t sub_headers_count;
+    uint8_t i;
+
+    subtable->header = NULL;
+
+    if (size < (offset + 4 + 2 * 256)) {
+        return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
+    }
+
+    header = LXB_FONT_ALLOC(1, subtable_format_2_t);
+    if (header == NULL){
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    data = font_data + offset;
+
+    header->length = lxb_font_read_u16(&data);
+    header->language = lxb_font_read_u16(&data);
+    for (i = 0; i < 256; i++) {
+        header->sub_header_keys[i] = lxb_font_read_u16(&data);
+    }
+
+    /*
+     * The number of elements of 'subheaders' array is the maximum value
+     * found in 'sub_header_keys' field.
+     */
+    /* FIXME */
+
+    subtable->header = header;
+
+    return LXB_STATUS_OK;
+}
+
+static lxb_status_t
 lxb_font_cmap_format_4(lxb_font_t *mf, subtable_t *subtable,
                        uint8_t *font_data, size_t size, size_t offset)
 {
@@ -533,10 +573,13 @@ lxb_font_table_cmap(lxb_font_t *mf, uint8_t *font_data, size_t size)
                                                     font_data, size, offset_subtable);
                 break;
             case 2:
+                mf->status = lxb_font_cmap_format_2(mf, table->subtables + i,
+                                                    font_data, size, offset_subtable);
                 /* FIXME: todo... */
                 break;
             case 4:
-                /* FIXME: todo... */
+                mf->status = lxb_font_cmap_format_4(mf, table->subtables + i,
+                                                    font_data, size, offset_subtable);
                 break;
             case 6:
                 mf->status = lxb_font_cmap_format_6(mf, table->subtables + i,
@@ -562,7 +605,7 @@ lxb_font_table_cmap(lxb_font_t *mf, uint8_t *font_data, size_t size)
                 mf->status = lxb_font_cmap_format_14(mf, table->subtables + i,
                                                      font_data, size, offset_subtable);
                 break;
-            defaut:
+            default:
                 return lxb_font_failed(mf, LXB_STATUS_ERROR_UNEXPECTED_DATA);
         }
 

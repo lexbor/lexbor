@@ -136,9 +136,16 @@ lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
 
     }
 
-    /* Check that the required fonts are loaded. */
+    /* Check that the required font tables are loaded. */
     for (int32_t i = LXB_FONT_TKEY_CMAP; i <= LXB_FONT_TKEY_POST; i++) {
-        if (mf->cache.tables_offset[LXB_FONT_TKEY_HEAD] == 0) {
+        if (mf->cache.tables_offset[i] == 0) {
+            return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
+        }
+    }
+
+    /* Check that the TrueType font tables are loaded. */
+    for (int32_t i = LXB_FONT_TKEY_GLYF; i <= LXB_FONT_TKEY_LOCA; i++) {
+        if (mf->cache.tables_offset[i] == 0) {
             return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
         }
     }
@@ -151,16 +158,23 @@ lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
     }
 
 
-    /* TODO cmap */
+    /* Required tables. */
+    LXB_FONT_TABLE_LOAD(cmap);
     LXB_FONT_TABLE_LOAD(head);
-    /* LXB_FONT_TABLE_LOAD(hhea); */
-    /* LXB_FONT_TABLE_LOAD(maxp); */
+    LXB_FONT_TABLE_LOAD(hhea);
+    LXB_FONT_TABLE_LOAD(maxp);
     /* hmtx table must be parsed after hhea and maxp tables. */
-    /* LXB_FONT_TABLE_LOAD(hmtx); */
-    /* LXB_FONT_TABLE_LOAD(name); */
-    /* LXB_FONT_TABLE_LOAD(os_2); */
-    /* post table must be parsed after maxp tables. */
-    /* LXB_FONT_TABLE_LOAD(post); */
+    LXB_FONT_TABLE_LOAD(hmtx);
+    LXB_FONT_TABLE_LOAD(name);
+    LXB_FONT_TABLE_LOAD(os_2);
+    /* post table must be parsed after maxp table. */
+    LXB_FONT_TABLE_LOAD(post);
+
+    /* TrueType tables. */
+    /* loca table must be parsed after head and maxp tables. */
+    LXB_FONT_TABLE_LOAD(loca);
+    /* glyf table must be parsed after maxp and loca tables */
+    LXB_FONT_TABLE_LOAD(glyf);
 
 #undef LXB_FONT_TABLE_LOAD
 
@@ -239,7 +253,7 @@ lxb_font_load_from_file(lxb_font_t *mf, const lxb_char_t *filepath,
     }
 
     pos = 12;
-    if (size < pos) {
+    if ((size_t) size < pos) {
         status = LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
         goto failed;
     }
