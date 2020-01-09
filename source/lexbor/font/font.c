@@ -61,6 +61,7 @@ lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
     void *res;
     uint32_t tag;
     uint32_t offset;
+    uint32_t length;
 
     data = &font_data;
 
@@ -69,12 +70,13 @@ lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
         /* FIXME: specification mentions a checksum test. Should we do it ? */
         lxb_font_read_u32(data); /* checkSum */
         offset = lxb_font_read_u32(data);
-        lxb_font_read_u32(data); /* length */
+        length = lxb_font_read_u32(data);
 
 
 #define LXB_FONT_TABLE_CACHE(type_)                                            \
     case LXB_FONT_TABLE_TYPE_ ## type_:                                        \
         mf->cache.tables_offset[ LXB_FONT_TKEY_ ## type_ ] = offset;           \
+        mf->cache.tables_length[ LXB_FONT_TKEY_ ## type_ ] = length;           \
         break
 
 
@@ -144,7 +146,7 @@ lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
     }
 
     /* Check that the TrueType font tables are loaded. */
-    for (int32_t i = LXB_FONT_TKEY_GLYF; i <= LXB_FONT_TKEY_LOCA; i++) {
+    for (int32_t i = LXB_FONT_TKEY_CVT; i <= LXB_FONT_TKEY_GASP; i++) {
         if (mf->cache.tables_offset[i] == 0) {
             return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
         }
@@ -171,10 +173,14 @@ lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
     LXB_FONT_TABLE_LOAD(post);
 
     /* TrueType tables. */
+    LXB_FONT_TABLE_LOAD(cvt);
+    LXB_FONT_TABLE_LOAD(fpgm);
     /* loca table must be parsed after head and maxp tables. */
     LXB_FONT_TABLE_LOAD(loca);
     /* glyf table must be parsed after maxp and loca tables */
     LXB_FONT_TABLE_LOAD(glyf);
+    LXB_FONT_TABLE_LOAD(prep);
+    LXB_FONT_TABLE_LOAD(gasp);
 
 #undef LXB_FONT_TABLE_LOAD
 

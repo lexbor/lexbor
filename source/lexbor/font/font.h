@@ -22,8 +22,12 @@ extern "C" {
 #include "lexbor/font/os_2.h"
 #include "lexbor/font/post.h"
 /* Truetype */
+#include "lexbor/font/cvt.h"
+#include "lexbor/font/fpgm.h"
+#include "lexbor/font/gasp.h"
 #include "lexbor/font/loca.h"
 #include "lexbor/font/glyf.h"
+#include "lexbor/font/prep.h"
 
 
 /*
@@ -42,12 +46,12 @@ extern "C" {
  * [n] post FIXME: str_data not done
  *
  * Truetype:
- * [ ] cvt
- * [ ] fpgm
+ * [X] cvt
+ * [X] fpgm
  * [X] glyf
  * [X] loca
- * [ ] prep
- * [ ] gasp
+ * [X] prep
+ * [X] gasp
  */
 
 typedef enum {
@@ -175,6 +179,7 @@ typedef struct lxb_font_s {
 
     struct {
         uint32_t tables_offset[LXB_FONT_TKEY_LAST__ENTRY];
+        uint32_t tables_length[LXB_FONT_TKEY_LAST__ENTRY];
     } cache;
 
     lexbor_mraw_t         *mraw;
@@ -190,8 +195,12 @@ typedef struct lxb_font_s {
     lxb_font_table_post_t *table_post;
 
     /* TrueType tables. */
-    lxb_font_table_loca_t *table_glyf;
+    lxb_font_table_cvt_t *table_cvt;
+    lxb_font_table_fpgm_t *table_fpgm;
+    lxb_font_table_gasp_t *table_gasp;
+    lxb_font_table_glyf_t *table_glyf;
     lxb_font_table_loca_t *table_loca;
+    lxb_font_table_prep_t *table_prep;
 }
 lxb_font_t;
 

@@ -575,7 +575,6 @@ lxb_font_table_cmap(lxb_font_t *mf, uint8_t *font_data, size_t size)
             case 2:
                 mf->status = lxb_font_cmap_format_2(mf, table->subtables + i,
                                                     font_data, size, offset_subtable);
-                /* FIXME: todo... */
                 break;
             case 4:
                 mf->status = lxb_font_cmap_format_4(mf, table->subtables + i,
