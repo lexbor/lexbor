@@ -35,8 +35,8 @@ lxb_font_table_maxp(lxb_font_t *mf, uint8_t* font_data, size_t size)
      * - Otherwise (OpenType CFF), version must be equal to 0x00010000.
      */
     version = lxb_font_read_32(&data);
-    if ((mf->is_truetype && (version != 0x00005000)) ||
-        (!mf->is_truetype && (version != 0x00010000))) {
+    if ((!mf->is_truetype && (version != 0x00005000)) ||
+        (mf->is_truetype && (version != 0x00010000))) {
         return lxb_font_failed(mf, LXB_STATUS_ERROR_UNEXPECTED_DATA);
     }
 
