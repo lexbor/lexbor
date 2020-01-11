@@ -57,20 +57,21 @@ lxb_font_destroy(lxb_font_t *mf, bool self_destroy)
 static lxb_status_t
 lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
 {
-    uint8_t **data;
+    uint8_t *data;
     void *res;
     uint32_t tag;
     uint32_t offset;
     uint32_t length;
 
-    data = &font_data;
+    /* Move to the beginning of the table records array. */
+    data = font_data + 12;
 
     for (uint16_t i = 0; i < mf->num_tables; i++) {
-        tag = lxb_font_read_u32_as_net(data);
+        tag = lxb_font_read_u32_as_net(&data);
         /* FIXME: specification mentions a checksum test. Should we do it ? */
-        lxb_font_read_u32(data); /* checkSum */
-        offset = lxb_font_read_u32(data);
-        length = lxb_font_read_u32(data);
+        lxb_font_read_u32(&data); /* checkSum */
+        offset = lxb_font_read_u32(&data);
+        length = lxb_font_read_u32(&data);
 
 
 #define LXB_FONT_TABLE_CACHE(type_)                                            \
@@ -134,7 +135,9 @@ lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
             LXB_FONT_TABLE_CACHE(CPAL);
         }
 
+
 #undef LXB_FONT_TABLE_CACHE
+
 
     }
 
@@ -152,10 +155,22 @@ lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
         }
     }
 
+    /* Check that the SVG font table is loaded. */
+    /* if (mf->cache.tables_offset[LXB_FONT_TKEY_SVG] == 0) { */
+    /*   return LXB_STATUS_ERROR_INCOMPLETE_OBJECT; */
+    /* } */
+
+    /* Check that the Bitmap glyphs font tables are loaded. */
+    /* for (int32_t i = LXB_FONT_TKEY_EBSC; i <= LXB_FONT_TKEY_EBSC; i++) { */
+    /*     if (mf->cache.tables_offset[i] == 0) { */
+    /*         return LXB_STATUS_ERROR_INCOMPLETE_OBJECT; */
+    /*     } */
+    /* } */
+
 
 #define LXB_FONT_TABLE_LOAD(type_)                                             \
-    res = lxb_font_table_ ## type_(mf, font_data, size);                       \
-    if (res == NULL) {                                                         \
+    mf->table_ ## type_ = lxb_font_table_ ## type_(mf, font_data, size);       \
+    if (mf->table_ ## type_ == NULL) {                                         \
         return mf->status;                                                     \
     }
 
@@ -181,6 +196,12 @@ lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
     LXB_FONT_TABLE_LOAD(glyf);
     LXB_FONT_TABLE_LOAD(prep);
     LXB_FONT_TABLE_LOAD(gasp);
+
+    /* /\* SVG table *\/ */
+    /* LXB_FONT_TABLE_LOAD(svg); */
+
+    /* /\* Bitmap glyphs table *\/ */
+    /* LXB_FONT_TABLE_LOAD(ebsc); */
 
 #undef LXB_FONT_TABLE_LOAD
 
