@@ -566,6 +566,8 @@ lxb_font_table_cmap(lxb_font_t *mf, uint8_t *font_data, size_t size)
 
         data = font_data + offset_subtable;
         table->subtables[i].format = lxb_font_read_u16(&data);
+        /* Subtable format has just been read, so increase ofsset by 2. */
+        offset_subtable += 2;
 
         switch (table->subtables[i].format) {
             case 0:
