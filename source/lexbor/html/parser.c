@@ -371,7 +371,7 @@ lxb_html_parse_fragment_chunk_destroy(lxb_html_parser_t *parser)
     }
 }
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_parse_chunk_prepare(lxb_html_parser_t *parser,
                              lxb_html_document_t *document)
 {
