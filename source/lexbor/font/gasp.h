@@ -19,7 +19,8 @@ typedef struct lxb_font_s lxb_font_t;
 typedef struct {
     uint16_t range_max_ppem;
     uint16_t range_gasp_behavior;
-} gasp_range_t;
+}
+gasp_range_t;
 
 typedef struct {
     /* uint16_t version ignored. */
