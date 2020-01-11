@@ -21,13 +21,17 @@ extern "C" {
 #include "lexbor/font/name.h"
 #include "lexbor/font/os_2.h"
 #include "lexbor/font/post.h"
-/* Truetype */
+/* TrueType */
 #include "lexbor/font/cvt.h"
 #include "lexbor/font/fpgm.h"
 #include "lexbor/font/gasp.h"
 #include "lexbor/font/loca.h"
 #include "lexbor/font/glyf.h"
 #include "lexbor/font/prep.h"
+/* SVG */
+#include "lexbor/font/svg.h"
+/* Bitmap glyphs */
+#include "lexbor/font/ebsc.h"
 
 
 /*
@@ -52,6 +56,17 @@ extern "C" {
  * [X] loca
  * [X] prep
  * [X] gasp
+ *
+ * SVG
+ * [X] svg
+ *
+ * Bitmap glyphs
+ * [ ] ebdt
+ * [ ] eblc
+ * [X] ebsc
+ * [ ] cbdt
+ * [ ] cblc
+ * [ ] sbix
  */
 
 typedef enum {
@@ -66,7 +81,7 @@ typedef enum {
     LXB_FONT_TABLE_TYPE_POST = 1953722224,
 
     /* Tables Related to TrueType Outlines. */
-    LXB_FONT_TABLE_TYPE_CVT  = 1953915648,
+    LXB_FONT_TABLE_TYPE_CVT  = 544503395,
     LXB_FONT_TABLE_TYPE_FPGM = 1835495526,
     LXB_FONT_TABLE_TYPE_GLYF = 1719233639,
     LXB_FONT_TABLE_TYPE_LOCA = 1633906540,
@@ -201,6 +216,12 @@ typedef struct lxb_font_s {
     lxb_font_table_glyf_t *table_glyf;
     lxb_font_table_loca_t *table_loca;
     lxb_font_table_prep_t *table_prep;
+
+    /* SVG */
+    lxb_font_table_svg_t *table_svg;
+
+    /* Bitmap glyphs */
+    lxb_font_table_ebsc_t *table_ebsc;
 }
 lxb_font_t;
 
