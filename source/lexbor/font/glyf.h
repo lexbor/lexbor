@@ -31,7 +31,7 @@ typedef enum {
     LXB_FONT_Y_IS_SAME_OR_POSITIVE_Y_SHORT_VECTOR = 1 << 5,
     LXB_FONT_OVERLAP_SIMPLE = 1 << 6
 }
-lxb_font_simple_glyphe_flags_t;
+lxb_font_simple_glyph_flags_t;
 
 typedef enum {
     LXB_FONT_ARG_1_AND_2_ARE_WORDS = 1 << 0,
@@ -48,7 +48,7 @@ typedef enum {
     LXB_FONT_SCALED_COMPONENT_OFFSET = 1 << 11,
     LXB_FONT_UNSCALED_COMPONENT_OFFSET = 1 << 12
 }
-lxb_font_composite_glyphe_flags_t;
+lxb_font_composite_glyph_flags_t;
 
 typedef struct lxb_font_s lxb_font_t;
 
@@ -61,7 +61,7 @@ typedef struct {
     int16_t *x_coordinates;
     int16_t *y_coordinates;
 }
-simple_glyphe_t;
+simple_glyph_t;
 
 typedef struct {
     uint16_t flags;
@@ -69,7 +69,7 @@ typedef struct {
     uint16_t argument1;
     uint16_t argument2;
 }
-composite_glyphe_t;
+composite_glyph_t;
 
 typedef struct {
     /* Header. */
@@ -79,14 +79,14 @@ typedef struct {
     int16_t x_max;
     int16_t y_max;
     union {
-        simple_glyphe_t simple_glyphe;
-        composite_glyphe_t composite_glyphe;
-    } glyphe;
+        simple_glyph_t simple_glyph;
+        composite_glyph_t composite_glyph;
+    } glyph;
 }
-glyphe_t;
+glyph_t;
 
 typedef struct {
-    glyphe_t *glyphes;
+    glyph_t *glyphs;
 }
 lxb_font_table_glyf_t;
 
