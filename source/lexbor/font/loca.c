@@ -16,6 +16,7 @@ lxb_font_table_loca(lxb_font_t *mf, uint8_t* font_data, size_t size)
     uint8_t *data;
     uint32_t offset;
     uint32_t pos;
+    uint32_t offset_size;
     int16_t index_to_loc;
     uint16_t num_glyphs;
     uint16_t i;
@@ -41,9 +42,15 @@ lxb_font_table_loca(lxb_font_t *mf, uint8_t* font_data, size_t size)
     data = font_data + offset;
 
     index_to_loc = mf->table_head->index_to_loc_format;
-    pos = offset + ((index_to_loc == 1) ? (num_glyphs * 4) : (num_glyphs * 2));
+    offset_size = (index_to_loc == 1) ? (num_glyphs * 4) : (num_glyphs * 2);
+    pos = offset + offset_size;
     if (size < pos) {
         return lxb_font_failed(mf, LXB_STATUS_ERROR_INCOMPLETE_OBJECT);
+    }
+
+    table->offsets = LXB_FONT_ALLOC(offset_size, uint8_t);
+    if (table->offsets == NULL) {
+        return lxb_font_failed(mf, LXB_STATUS_ERROR_MEMORY_ALLOCATION);
     }
 
     if (index_to_loc == 1) {
