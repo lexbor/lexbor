@@ -54,7 +54,7 @@ lxb_inline int32_t lxb_font_read_32(uint8_t **data)
 
 lxb_inline uint32_t lxb_font_read_u32_as_net(uint8_t **data)
 {
-  return (uint32_t)(lxb_font_read_u8(data)       |
+  return (uint32_t)(lxb_font_read_u8(data)      |
                    lxb_font_read_u8(data) << 8  |
                    lxb_font_read_u8(data) << 16 |
                    lxb_font_read_u8(data) << 24);
