@@ -11,19 +11,19 @@
 
 static lxb_status_t
 lxb_font_simple_glyph_load(lxb_font_t *mf, uint8_t *data,
-                           glyphe_t *glyphe, size_t size, uint32_t pos)
+                           glyph_t *glyph, size_t size, uint32_t pos)
 {
 
 
-#define SG(field_) glyphe->glyphe.simple_glyphe.field_
+#define SG(field_) glyph->glyph.simple_glyph.field_
 
-#define SG_ALLOC(field_, count_, type_)                     \
-    do {                                                    \
-        SG(field_) = LXB_FONT_ALLOC(count_, type_);         \
-        if (SG(field_) == NULL) {                           \
-            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;      \
-        }                                                   \
-    }                                                       \
+#define SG_ALLOC(field_, count_, type_)                                        \
+    do {                                                                       \
+        SG(field_) = LXB_FONT_ALLOC(count_, type_);                            \
+        if (SG(field_) == NULL) {                                              \
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;                         \
+        }                                                                      \
+    }                                                                          \
     while (0)
 
 
@@ -38,18 +38,18 @@ lxb_font_simple_glyph_load(lxb_font_t *mf, uint8_t *data,
     uint16_t i;
     uint8_t flag;
 
-    pos += 2 * glyphe->number_of_contours + 2;
+    pos += 2 * glyph->number_of_contours + 2;
     if (size < pos) {
         return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
     }
 
-    SG_ALLOC(end_pts_of_contours, glyphe->number_of_contours, uint16_t);
+    SG_ALLOC(end_pts_of_contours, glyph->number_of_contours, uint16_t);
 
-    for (i = 0; i < glyphe->number_of_contours; i++) {
+    for (i = 0; i < glyph->number_of_contours; i++) {
         SG(end_pts_of_contours)[i] = lxb_font_read_u16(&data);
     }
 
-    points_count = SG(end_pts_of_contours)[glyphe->number_of_contours - 1] + 1;
+    points_count = SG(end_pts_of_contours)[glyph->number_of_contours - 1] + 1;
 
     SG(instruction_length) = lxb_font_read_u16(&data);
 
@@ -204,19 +204,19 @@ lxb_font_simple_glyph_load(lxb_font_t *mf, uint8_t *data,
 
 static lxb_status_t
 lxb_font_composite_glyph_load(lxb_font_t *mf, uint8_t *data,
-                              glyphe_t *glyphe, size_t size, uint32_t pos)
+                              glyph_t *glyph, size_t size, uint32_t pos)
 {
 
 
-#define CG(field_) glyphe->glyphe.composite_glyphe.field_
+#define CG(field_) glyph->glyph.composite_glyph.field_
 
-#define CG_ALLOC(field_, count_, type_)                     \
-    do {                                                    \
-        CG(field_) = LXB_FONT_ALLOC(count_, type_);         \
-        if (CG(field_) == NULL) {                           \
-            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;      \
-        }                                                   \
-    }                                                       \
+#define CG_ALLOC(field_, count_, type_)                                        \
+    do {                                                                       \
+        CG(field_) = LXB_FONT_ALLOC(count_, type_);                            \
+        if (CG(field_) == NULL) {                                              \
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;                         \
+        }                                                                      \
+    }                                                                          \
     while (0)
 
 
@@ -274,7 +274,7 @@ lxb_font_table_glyf(lxb_font_t *mf, uint8_t* font_data, size_t size)
 {
     lxb_font_table_glyf_t *table;
     uint8_t *data;
-    glyphe_t *glyphe;
+    glyph_t *glyph;
     uint32_t offset;
     uint32_t pos;
     uint16_t num_glyphs;
@@ -289,18 +289,18 @@ lxb_font_table_glyf(lxb_font_t *mf, uint8_t* font_data, size_t size)
     if (num_glyphs == 0) {
         return lxb_font_failed(mf, LXB_STATUS_ERROR_INCOMPLETE_OBJECT);
     }
-    table->glyphes = LXB_FONT_ALLOC(num_glyphs, glyphe_t);
-    if (table->glyphes == NULL) {
+    table->glyphs = LXB_FONT_ALLOC(num_glyphs, glyph_t);
+    if (table->glyphs == NULL) {
         return lxb_font_failed(mf, LXB_STATUS_ERROR_MEMORY_ALLOCATION);
     }
 
-    memset(table->glyphes, 0, sizeof(glyphe_t));
+    memset(table->glyphs, 0, sizeof(glyph_t));
 
     for (i = 0; i < num_glyphs; i++) {
         offset = mf->cache.tables_offset[LXB_FONT_TKEY_GLYF];
         offset += mf->table_loca->offsets[i];
         data = font_data + offset;
-        glyphe = table->glyphes + i;
+        glyph = table->glyphs + i;
 
         pos = offset + 10;
         if (size < pos) {
@@ -308,31 +308,34 @@ lxb_font_table_glyf(lxb_font_t *mf, uint8_t* font_data, size_t size)
         }
 
         /* Parse the header. */
-        glyphe->number_of_contours = lxb_font_read_16(&data);
+        glyph->number_of_contours = lxb_font_read_16(&data);
 
-        glyphe->x_min = lxb_font_read_16(&data);
-        glyphe->y_min = lxb_font_read_16(&data);
-        glyphe->x_max = lxb_font_read_16(&data);
-        glyphe->y_max = lxb_font_read_16(&data);
+        glyph->x_min = lxb_font_read_16(&data);
+        glyph->y_min = lxb_font_read_16(&data);
+        glyph->x_max = lxb_font_read_16(&data);
+        glyph->y_max = lxb_font_read_16(&data);
 
-        /* Parse simple glyphe. */
-        if (glyphe->number_of_contours >= 0) {
+        /* FIXME: mraw problem with simple glyphes ? */
+#if 0
+        /* Parse simple glyph. */
+        if (glyph->number_of_contours >= 0) {
             lxb_status_t status;
 
-            status = lxb_font_simple_glyph_load(mf, data, glyphe, size, pos);
+            status = lxb_font_simple_glyph_load(mf, data, glyph, size, pos);
             if (status != LXB_STATUS_OK) {
                 return lxb_font_failed(mf, status);
             }
         }
-        /* Parse composite glyphe. */
+        /* Parse composite glyph. */
         else {
             lxb_status_t status;
 
-            status = lxb_font_composite_glyph_load(mf, data, glyphe, size, pos);
+            status = lxb_font_composite_glyph_load(mf, data, glyph, size, pos);
             if (status != LXB_STATUS_OK) {
                 return lxb_font_failed(mf, status);
             }
         }
+#endif
     }
 
     return table;
