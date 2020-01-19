@@ -33,6 +33,12 @@ extern "C" {
 /* Bitmap glyphs */
 #include "lexbor/font/ebsc.h"
 
+#define LXB_FONT_MAKE_TAG_ID(c1_, c2_, c3_, c4_)                               \
+    ((((uint32_t) (c4_)) << 24) |                                              \
+     (((uint32_t) (c3_)) << 16) |                                              \
+     (((uint32_t) (c2_)) <<  8) |                                              \
+     (((uint32_t) (c1_))      ))
+
 
 /*
  * TODO
@@ -57,6 +63,11 @@ extern "C" {
  * [X] prep
  * [X] gasp
  *
+ * CFF outlines
+ * [ ] cff
+ * [ ] cff2
+ * [ ] vorg
+ *
  * SVG
  * [X] svg
  *
@@ -67,64 +78,120 @@ extern "C" {
  * [ ] cbdt
  * [ ] cblc
  * [ ] sbix
+ *
+ * Advanced typographic
+ * [ ] base
+ * [ ] gdef
+ * [ ] gpos
+ * [ ] gsub
+ * [ ] jstf
+ * [ ] math
+ *
+ * OpenType font variations
+ * [ ] avar
+ * [ ] cvar
+ * [ ] fvar
+ * [ ] gvar
+ * [ ] hvar
+ * [ ] mvar
+ * [ ] stat
+ * [ ] vvar
+ *
+ * Color fonts
+ * [ ] colr
+ * [ ] cpal
+ * [ ] cbdt (see Bitmap glyphs)
+ * [ ] cblc (see Bitmap glyphs)
+ * [ ] sbix (see Bitmap glyphs)
+ * [X] svg  (see SVG)
+ *
+ * Other OpentType
+ * [ ] dsig
+ * [ ] hdmx
+ * [ ] kern
+ * [ ] ltsh
+ * [ ] merg
+ * [ ] meta
+ * [ ] stat
+ * [ ] pclt
+ * [ ] vdmx
+ * [ ] vhea
+ * [ ] vmtx
  */
 
 typedef enum {
     /* Required Tables. */
-    LXB_FONT_TABLE_TYPE_CMAP = 1885433187,
-    LXB_FONT_TABLE_TYPE_HEAD = 1684104552,
-    LXB_FONT_TABLE_TYPE_HHEA = 1634035816,
-    LXB_FONT_TABLE_TYPE_HMTX = 2020896104,
-    LXB_FONT_TABLE_TYPE_MAXP = 1886937453,
-    LXB_FONT_TABLE_TYPE_NAME = 1701667182,
-    LXB_FONT_TABLE_TYPE_OS_2 = 841962319,   // OS/2
-    LXB_FONT_TABLE_TYPE_POST = 1953722224,
+    LXB_FONT_TABLE_TAG_ID_CMAP = LXB_FONT_MAKE_TAG_ID('c', 'm', 'a', 'p'),
+    LXB_FONT_TABLE_TAG_ID_HEAD = LXB_FONT_MAKE_TAG_ID('h', 'e', 'a', 'd'),
+    LXB_FONT_TABLE_TAG_ID_HHEA = LXB_FONT_MAKE_TAG_ID('h', 'h', 'e', 'a'),
+    LXB_FONT_TABLE_TAG_ID_HMTX = LXB_FONT_MAKE_TAG_ID('h', 'm', 't', 'x'),
+    LXB_FONT_TABLE_TAG_ID_MAXP = LXB_FONT_MAKE_TAG_ID('m', 'a', 'x', 'p'),
+    LXB_FONT_TABLE_TAG_ID_NAME = LXB_FONT_MAKE_TAG_ID('n', 'a', 'm', 'e'),
+    LXB_FONT_TABLE_TAG_ID_OS_2 = LXB_FONT_MAKE_TAG_ID('O', 'S', '/', '2'),
+    LXB_FONT_TABLE_TAG_ID_POST = LXB_FONT_MAKE_TAG_ID('p', 'o', 's', 't'),
 
     /* Tables Related to TrueType Outlines. */
-    LXB_FONT_TABLE_TYPE_CVT  = 544503395,
-    LXB_FONT_TABLE_TYPE_FPGM = 1835495526,
-    LXB_FONT_TABLE_TYPE_GLYF = 1719233639,
-    LXB_FONT_TABLE_TYPE_LOCA = 1633906540,
-    LXB_FONT_TABLE_TYPE_PREP = 1885696624,
-    LXB_FONT_TABLE_TYPE_GASP = 1886609767,
+    LXB_FONT_TABLE_TAG_ID_CVT  = LXB_FONT_MAKE_TAG_ID('c', 'v', 't', ' '),
+    LXB_FONT_TABLE_TAG_ID_FPGM = LXB_FONT_MAKE_TAG_ID('f', 'p', 'g', 'm'),
+    LXB_FONT_TABLE_TAG_ID_GLYF = LXB_FONT_MAKE_TAG_ID('g', 'l', 'y', 'f'),
+    LXB_FONT_TABLE_TAG_ID_LOCA = LXB_FONT_MAKE_TAG_ID('l', 'o', 'c', 'a'),
+    LXB_FONT_TABLE_TAG_ID_PREP = LXB_FONT_MAKE_TAG_ID('p', 'r', 'e', 'p'),
+    LXB_FONT_TABLE_TAG_ID_GASP = LXB_FONT_MAKE_TAG_ID('g', 'a', 's', 'p'),
 
-    /* Tables Related to PostScript Outlines. */
-    LXB_FONT_TABLE_TYPE_CFF  = 1179009792,
-    LXB_FONT_TABLE_TYPE_VORG = 1196576598,
+    /* Tables Related to CFF Outlines. */
+    LXB_FONT_TABLE_TAG_ID_CFF  = LXB_FONT_MAKE_TAG_ID('C', 'F', 'F', ' '),
+    LXB_FONT_TABLE_TAG_ID_CFF2 = LXB_FONT_MAKE_TAG_ID('C', 'F', 'F', '2'),
+    LXB_FONT_TABLE_TAG_ID_VORG = LXB_FONT_MAKE_TAG_ID('V', 'O', 'R', 'G'),
 
     /* Tables Related to SVG. */
-    LXB_FONT_TABLE_TYPE_SVG  = 1196839680,
+    LXB_FONT_TABLE_TAG_ID_SVG  = LXB_FONT_MAKE_TAG_ID('S', 'V', 'G', ' '),
 
     /* Tables Related to Bitmap Glyphs. */
-    LXB_FONT_TABLE_TYPE_EBDT = 1413759557,
-    LXB_FONT_TABLE_TYPE_EBLC = 1129071173,
-    LXB_FONT_TABLE_TYPE_EBSC = 1129529925,
-    LXB_FONT_TABLE_TYPE_CBDT = 1413759555,
-    LXB_FONT_TABLE_TYPE_CBLC = 1129071171,
+    LXB_FONT_TABLE_TAG_ID_EBDT = LXB_FONT_MAKE_TAG_ID('E', 'B', 'D', 'T'),
+    LXB_FONT_TABLE_TAG_ID_EBLC = LXB_FONT_MAKE_TAG_ID('E', 'B', 'L', 'C'),
+    LXB_FONT_TABLE_TAG_ID_EBSC = LXB_FONT_MAKE_TAG_ID('E', 'B', 'S', 'C'),
+    LXB_FONT_TABLE_TAG_ID_CBDT = LXB_FONT_MAKE_TAG_ID('C', 'B', 'D', 'T'),
+    LXB_FONT_TABLE_TAG_ID_CBLC = LXB_FONT_MAKE_TAG_ID('C', 'B', 'L', 'C'),
+    LXB_FONT_TABLE_TAG_ID_SBIX = LXB_FONT_MAKE_TAG_ID('s', 'b', 'i', 'x'),
 
     /* Advanced Typographic Tables. */
-    LXB_FONT_TABLE_TYPE_BASE = 1163084098,
-    LXB_FONT_TABLE_TYPE_GDEF = 1178944583,
-    LXB_FONT_TABLE_TYPE_GPOS = 1397706823,
-    LXB_FONT_TABLE_TYPE_GSUB = 1112888135,
-    LXB_FONT_TABLE_TYPE_JSTF = 1179931466,
-    LXB_FONT_TABLE_TYPE_MATH = 1213481293,
+    LXB_FONT_TABLE_TAG_ID_BASE = LXB_FONT_MAKE_TAG_ID('B', 'A', 'S', 'E'),
+    LXB_FONT_TABLE_TAG_ID_GDEF = LXB_FONT_MAKE_TAG_ID('G', 'D', 'E', 'F'),
+    LXB_FONT_TABLE_TAG_ID_GPOS = LXB_FONT_MAKE_TAG_ID('G', 'P', 'O', 'S'),
+    LXB_FONT_TABLE_TAG_ID_GSUB = LXB_FONT_MAKE_TAG_ID('G', 'S', 'U', 'B'),
+    LXB_FONT_TABLE_TAG_ID_JSTF = LXB_FONT_MAKE_TAG_ID('J', 'S', 'T', 'F'),
+    LXB_FONT_TABLE_TAG_ID_MATH = LXB_FONT_MAKE_TAG_ID('M', 'A', 'T', 'H'),
 
-    /* Other OpenType Tables. */
-    LXB_FONT_TABLE_TYPE_DSIG = 1195987780,
-    LXB_FONT_TABLE_TYPE_HDMX = 2020435048,
-    LXB_FONT_TABLE_TYPE_KERN = 1852990827,
-    LXB_FONT_TABLE_TYPE_LTSH = 1213420620,
-    LXB_FONT_TABLE_TYPE_PCLT = 1414284112,
-    LXB_FONT_TABLE_TYPE_VDMX = 1481458774,
-    LXB_FONT_TABLE_TYPE_VHEA = 1634035830,
-    LXB_FONT_TABLE_TYPE_VMTX = 2020896118,
-    LXB_FONT_TABLE_TYPE_COLR = 1380732739,
-    LXB_FONT_TABLE_TYPE_CPAL = 1279348803
+    /* OpenType Font Variation Tables. */
+    LXB_FONT_TABLE_TAG_ID_AVAR = LXB_FONT_MAKE_TAG_ID('A', 'V', 'A', 'R'),
+    LXB_FONT_TABLE_TAG_ID_CVAR = LXB_FONT_MAKE_TAG_ID('C', 'V', 'A', 'R'),
+    LXB_FONT_TABLE_TAG_ID_FVAR = LXB_FONT_MAKE_TAG_ID('F', 'V', 'A', 'R'),
+    LXB_FONT_TABLE_TAG_ID_GVAR = LXB_FONT_MAKE_TAG_ID('G', 'V', 'A', 'R'),
+    LXB_FONT_TABLE_TAG_ID_HVAR = LXB_FONT_MAKE_TAG_ID('H', 'V', 'A', 'R'),
+    LXB_FONT_TABLE_TAG_ID_MVAR = LXB_FONT_MAKE_TAG_ID('M', 'V', 'A', 'R'),
+    LXB_FONT_TABLE_TAG_ID_STAT = LXB_FONT_MAKE_TAG_ID('S', 'T', 'A', 'T'),
+    LXB_FONT_TABLE_TAG_ID_VVAR = LXB_FONT_MAKE_TAG_ID('V', 'V', 'A', 'R'),
+
+    /* Color Fonts Related Tables. */
+    LXB_FONT_TABLE_TAG_ID_COLR = LXB_FONT_MAKE_TAG_ID('C', 'O', 'L', 'R'),
+    LXB_FONT_TABLE_TAG_ID_CPAL = LXB_FONT_MAKE_TAG_ID('C', 'P', 'A', 'L'),
+
+    /* Other OpenType Tables */
+    LXB_FONT_TABLE_TAG_ID_DSIG = LXB_FONT_MAKE_TAG_ID('D', 'S', 'I', 'G'),
+    LXB_FONT_TABLE_TAG_ID_HDMX = LXB_FONT_MAKE_TAG_ID('h', 'd', 'm', 'x'),
+    LXB_FONT_TABLE_TAG_ID_KERN = LXB_FONT_MAKE_TAG_ID('k', 'e', 'r', 'n'),
+    LXB_FONT_TABLE_TAG_ID_LTSH = LXB_FONT_MAKE_TAG_ID('L', 'T', 'S', 'H'),
+    LXB_FONT_TABLE_TAG_ID_MERG = LXB_FONT_MAKE_TAG_ID('M', 'E', 'R', 'G'),
+    LXB_FONT_TABLE_TAG_ID_META = LXB_FONT_MAKE_TAG_ID('m', 'e', 't', 'a'),
+    LXB_FONT_TABLE_TAG_ID_PCLT = LXB_FONT_MAKE_TAG_ID('P', 'C', 'L', 'T'),
+    LXB_FONT_TABLE_TAG_ID_VDMX = LXB_FONT_MAKE_TAG_ID('V', 'E', 'M', 'X'),
+    LXB_FONT_TABLE_TAG_ID_VHEA = LXB_FONT_MAKE_TAG_ID('v', 'h', 'e', 'a'),
+    LXB_FONT_TABLE_TAG_ID_VMTX = LXB_FONT_MAKE_TAG_ID('v', 'm', 't', 'x')
 }
-lxb_font_table_t;
+lxb_font_table_tag_id_t;
 
 typedef enum {
+    /* Required Tables. */
     LXB_FONT_TKEY_CMAP,
     LXB_FONT_TKEY_HEAD,
     LXB_FONT_TKEY_HHEA,
@@ -133,36 +200,57 @@ typedef enum {
     LXB_FONT_TKEY_NAME,
     LXB_FONT_TKEY_OS_2,
     LXB_FONT_TKEY_POST,
+    /* Tables Related to TrueType Outlines. */
     LXB_FONT_TKEY_CVT ,
     LXB_FONT_TKEY_FPGM,
     LXB_FONT_TKEY_GLYF,
     LXB_FONT_TKEY_LOCA,
     LXB_FONT_TKEY_PREP,
     LXB_FONT_TKEY_GASP,
+    /* Tables Related to CFF Outlines. */
     LXB_FONT_TKEY_CFF ,
+    LXB_FONT_TKEY_CFF2,
     LXB_FONT_TKEY_VORG,
+    /* Tables Related to SVG. */
     LXB_FONT_TKEY_SVG ,
+    /* Tables Related to Bitmap Glyphs. */
     LXB_FONT_TKEY_EBDT,
     LXB_FONT_TKEY_EBLC,
     LXB_FONT_TKEY_EBSC,
     LXB_FONT_TKEY_CBDT,
     LXB_FONT_TKEY_CBLC,
+    LXB_FONT_TKEY_SBIX,
+    /* Advanced Typographic Tables. */
     LXB_FONT_TKEY_BASE,
     LXB_FONT_TKEY_GDEF,
     LXB_FONT_TKEY_GPOS,
     LXB_FONT_TKEY_GSUB,
     LXB_FONT_TKEY_JSTF,
     LXB_FONT_TKEY_MATH,
+    /* OpenType Font Variation Tables. */
+    LXB_FONT_TKEY_AVAR,
+    LXB_FONT_TKEY_CVAR,
+    LXB_FONT_TKEY_FVAR,
+    LXB_FONT_TKEY_GVAR,
+    LXB_FONT_TKEY_HVAR,
+    LXB_FONT_TKEY_MVAR,
+    LXB_FONT_TKEY_STAT,
+    LXB_FONT_TKEY_VVAR,
+    /* Color Fonts Related Tables. */
+    LXB_FONT_TKEY_COLR,
+    LXB_FONT_TKEY_CPAL,
+    /* Other OpenType Tables */
     LXB_FONT_TKEY_DSIG,
     LXB_FONT_TKEY_HDMX,
     LXB_FONT_TKEY_KERN,
     LXB_FONT_TKEY_LTSH,
+    LXB_FONT_TKEY_MERG,
+    LXB_FONT_TKEY_META,
     LXB_FONT_TKEY_PCLT,
     LXB_FONT_TKEY_VDMX,
     LXB_FONT_TKEY_VHEA,
     LXB_FONT_TKEY_VMTX,
-    LXB_FONT_TKEY_COLR,
-    LXB_FONT_TKEY_CPAL,
+
     LXB_FONT_TKEY_LAST__ENTRY
 }
 lxb_font_table_key_t;
