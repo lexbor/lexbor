@@ -75,7 +75,7 @@ lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
 
 
 #define LXB_FONT_TABLE_CACHE(type_)                                            \
-    case LXB_FONT_TABLE_TYPE_ ## type_:                                        \
+    case LXB_FONT_TABLE_TAG_ID_ ## type_:                                      \
         mf->cache.tables_offset[ LXB_FONT_TKEY_ ## type_ ] = offset;           \
         mf->cache.tables_length[ LXB_FONT_TKEY_ ## type_ ] = length;           \
         break
