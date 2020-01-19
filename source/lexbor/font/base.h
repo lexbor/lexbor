@@ -23,8 +23,8 @@ extern "C" {
         LEXBOR_STRINGIZE(LXB_FONT_VERSION_MINOR) "."                           \
         LEXBOR_STRINGIZE(LXB_FONT_VERSION_PATCH)
 
-#define LXB_FONT_ALLOC(count_, type_) \
-    lexbor_mraw_calloc(mf->mraw, count_ * sizeof(type_))
+#define LXB_FONT_ALLOC(count_, type_)                                          \
+    lexbor_mraw_calloc(mf->mraw, (count_) * sizeof(type_))
 
 
 lxb_inline void *
