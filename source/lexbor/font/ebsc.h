@@ -7,6 +7,7 @@
 #ifndef LEXBOR_FONT_EBSC_H
 #define LEXBOR_FONT_EBSC_H
 
+#include "lexbor/font/font_common.h"
 #include "lexbor/font/font.h"
 
 #ifdef __cplusplus
@@ -17,35 +18,19 @@ extern "C" {
 typedef struct lxb_font_s lxb_font_t;
 
 typedef struct {
-    int8_t ascender;
-    int8_t descender;
-    uint8_t width_max;
-    int8_t caret_slope_numerator;
-    int8_t caret_slope_denominator;
-    int8_t caret_offset;
-    int8_t min_origin_sb;
-    int8_t min_advance_sb;
-    int8_t max_before_bl;
-    int8_t min_after_bl;
-    int8_t pad1;
-    int8_t pad2;
-}
-s_bit_line_metrics;
-
-typedef struct {
-    s_bit_line_metrics hori;
-    s_bit_line_metrics vert;
+    s_bit_line_metrics_t hori;
+    s_bit_line_metrics_t vert;
     uint8_t ppem_x;
     uint8_t ppem_y;
     uint8_t substitute_ppem_x;
     uint8_t substitute_ppem_y;
 }
-bitmap_scale_t;
+ebsc_bitmap_scale_t;
 
 typedef struct {
     /* 2 uint16_t minor and major versions ignored. */
     uint32_t num_sizes;
-    bitmap_scale_t *bitmap_scales;
+    ebsc_bitmap_scale_t *bitmap_scales;
 }
 lxb_font_table_ebsc_t;
 

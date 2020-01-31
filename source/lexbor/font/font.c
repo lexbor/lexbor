@@ -58,7 +58,6 @@ static lxb_status_t
 lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
 {
     uint8_t *data;
-    void *res;
     uint32_t tag;
     uint32_t offset;
     uint32_t length;
@@ -100,8 +99,9 @@ lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
             LXB_FONT_TABLE_CACHE(PREP);
             LXB_FONT_TABLE_CACHE(GASP);
 
-            /* Tables Related to PostScript Outlines. */
+            /* Tables Related to CFF Outlines. */
             LXB_FONT_TABLE_CACHE(CFF);
+            LXB_FONT_TABLE_CACHE(CFF2);
             LXB_FONT_TABLE_CACHE(VORG);
 
             /* Tables Related to SVG. */
@@ -113,6 +113,7 @@ lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
             LXB_FONT_TABLE_CACHE(EBSC);
             LXB_FONT_TABLE_CACHE(CBDT);
             LXB_FONT_TABLE_CACHE(CBLC);
+            LXB_FONT_TABLE_CACHE(SBIX);
 
             /* Advanced Typographic Tables. */
             LXB_FONT_TABLE_CACHE(BASE);
@@ -122,17 +123,31 @@ lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
             LXB_FONT_TABLE_CACHE(JSTF);
             LXB_FONT_TABLE_CACHE(MATH);
 
+            /* OpenType Font Variations Tables. */
+            LXB_FONT_TABLE_CACHE(AVAR);
+            LXB_FONT_TABLE_CACHE(CVAR);
+            LXB_FONT_TABLE_CACHE(FVAR);
+            LXB_FONT_TABLE_CACHE(GVAR);
+            LXB_FONT_TABLE_CACHE(HVAR);
+            LXB_FONT_TABLE_CACHE(MVAR);
+            LXB_FONT_TABLE_CACHE(STAT);
+            LXB_FONT_TABLE_CACHE(VVAR);
+
+            /* Color Fonts Tables. */
+            LXB_FONT_TABLE_CACHE(COLR);
+            LXB_FONT_TABLE_CACHE(CPAL);
+
             /* Other OpenType Tables. */
             LXB_FONT_TABLE_CACHE(DSIG);
             LXB_FONT_TABLE_CACHE(HDMX);
             LXB_FONT_TABLE_CACHE(KERN);
             LXB_FONT_TABLE_CACHE(LTSH);
+            LXB_FONT_TABLE_CACHE(MERG);
+            LXB_FONT_TABLE_CACHE(META);
             LXB_FONT_TABLE_CACHE(PCLT);
             LXB_FONT_TABLE_CACHE(VDMX);
             LXB_FONT_TABLE_CACHE(VHEA);
             LXB_FONT_TABLE_CACHE(VMTX);
-            LXB_FONT_TABLE_CACHE(COLR);
-            LXB_FONT_TABLE_CACHE(CPAL);
         }
 
 
@@ -155,11 +170,6 @@ lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
         }
     }
 
-    /* Check that the SVG font table is loaded. */
-    /* if (mf->cache.tables_offset[LXB_FONT_TKEY_SVG] == 0) { */
-    /*   return LXB_STATUS_ERROR_INCOMPLETE_OBJECT; */
-    /* } */
-
     /* Check that the Bitmap glyphs font tables are loaded. */
     /* for (int32_t i = LXB_FONT_TKEY_EBSC; i <= LXB_FONT_TKEY_EBSC; i++) { */
     /*     if (mf->cache.tables_offset[i] == 0) { */
@@ -175,7 +185,7 @@ lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
     }
 
 
-    /* Required tables. */
+    /* Required Tables. */
     LXB_FONT_TABLE_LOAD(cmap);
     LXB_FONT_TABLE_LOAD(head);
     LXB_FONT_TABLE_LOAD(hhea);
@@ -187,7 +197,7 @@ lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
     /* post table must be parsed after maxp table. */
     LXB_FONT_TABLE_LOAD(post);
 
-    /* TrueType tables. */
+    /* TrueType Tables. */
     LXB_FONT_TABLE_LOAD(cvt);
     LXB_FONT_TABLE_LOAD(fpgm);
     /* loca table must be parsed after head and maxp tables. */
@@ -197,11 +207,36 @@ lxb_font_load_table(lxb_font_t *mf, uint8_t *font_data, size_t size)
     LXB_FONT_TABLE_LOAD(prep);
     LXB_FONT_TABLE_LOAD(gasp);
 
-    /* /\* SVG table *\/ */
-    /* LXB_FONT_TABLE_LOAD(svg); */
+    /* CFF Outlines Tables. */
 
-    /* /\* Bitmap glyphs table *\/ */
-    /* LXB_FONT_TABLE_LOAD(ebsc); */
+    /* SVG Table. */
+    if (mf->cache.tables_offset[LXB_FONT_TKEY_SVG] != 0) {
+        LXB_FONT_TABLE_LOAD(svg);
+    }
+
+    /* Bitmap glyphs Tables. */
+    if (mf->cache.tables_offset[LXB_FONT_TKEY_EBSC] != 0) {
+        LXB_FONT_TABLE_LOAD(ebsc);
+    }
+    if (mf->cache.tables_offset[LXB_FONT_TKEY_SBIX] != 0) {
+        LXB_FONT_TABLE_LOAD(sbix);
+    }
+
+    /* Advanced Typographic Tables. */
+
+    /* OpenType Font Variation Tables. */
+    if (mf->cache.tables_offset[LXB_FONT_TKEY_FVAR] != 0) {
+        LXB_FONT_TABLE_LOAD(fvar);
+    }
+    /* mvar table must be parsed after fvar table. */
+    if (mf->cache.tables_offset[LXB_FONT_TKEY_MVAR] != 0) {
+        LXB_FONT_TABLE_LOAD(mvar);
+    }
+
+    /* Color Fonts Related Tables. */
+
+    /* Other OpenType Tables */
+
 
 #undef LXB_FONT_TABLE_LOAD
 

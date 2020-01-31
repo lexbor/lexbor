@@ -10,10 +10,10 @@
 
 
 static lxb_status_t
-lxb_font_cmap_format_0(lxb_font_t *mf, subtable_t *subtable,
+lxb_font_cmap_format_0(lxb_font_t *mf, cmap_subtable_t *subtable,
                        uint8_t *font_data, size_t size, size_t offset)
 {
-    subtable_format_0_t *header;
+    cmap_subtable_format_0_t *header;
     uint8_t *data;
 
     subtable->header = NULL;
@@ -22,7 +22,7 @@ lxb_font_cmap_format_0(lxb_font_t *mf, subtable_t *subtable,
         return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
     }
 
-    header = LXB_FONT_ALLOC(1, subtable_format_0_t);
+    header = LXB_FONT_ALLOC(1, cmap_subtable_format_0_t);
     if (header == NULL){
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
@@ -39,10 +39,10 @@ lxb_font_cmap_format_0(lxb_font_t *mf, subtable_t *subtable,
 }
 
 static lxb_status_t
-lxb_font_cmap_format_2(lxb_font_t *mf, subtable_t *subtable,
+lxb_font_cmap_format_2(lxb_font_t *mf, cmap_subtable_t *subtable,
                        uint8_t *font_data, size_t size, size_t offset)
 {
-    subtable_format_2_t *header;
+    cmap_subtable_format_2_t *header;
     uint8_t *data;
     uint16_t keys_data;
     uint32_t sub_headers_count;
@@ -54,7 +54,7 @@ lxb_font_cmap_format_2(lxb_font_t *mf, subtable_t *subtable,
         return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
     }
 
-    header = LXB_FONT_ALLOC(1, subtable_format_2_t);
+    header = LXB_FONT_ALLOC(1, cmap_subtable_format_2_t);
     if (header == NULL){
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
@@ -79,10 +79,10 @@ lxb_font_cmap_format_2(lxb_font_t *mf, subtable_t *subtable,
 }
 
 static lxb_status_t
-lxb_font_cmap_format_4(lxb_font_t *mf, subtable_t *subtable,
+lxb_font_cmap_format_4(lxb_font_t *mf, cmap_subtable_t *subtable,
                        uint8_t *font_data, size_t size, size_t offset)
 {
-    subtable_format_4_t *header;
+    cmap_subtable_format_4_t *header;
     uint8_t *data;
     uint32_t pos;
     uint16_t reserved;
@@ -95,7 +95,7 @@ lxb_font_cmap_format_4(lxb_font_t *mf, subtable_t *subtable,
         return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
     }
 
-    header = LXB_FONT_ALLOC(1, subtable_format_4_t);
+    header = LXB_FONT_ALLOC(1, cmap_subtable_format_4_t);
     if (header == NULL){
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
@@ -173,10 +173,10 @@ lxb_font_cmap_format_4(lxb_font_t *mf, subtable_t *subtable,
 }
 
 static lxb_status_t
-lxb_font_cmap_format_6(lxb_font_t *mf, subtable_t *subtable,
+lxb_font_cmap_format_6(lxb_font_t *mf, cmap_subtable_t *subtable,
                        uint8_t *font_data, size_t size, size_t offset)
 {
-    subtable_format_6_t *header;
+    cmap_subtable_format_6_t *header;
     uint8_t *data;
     uint32_t pos;
     uint16_t i;
@@ -188,7 +188,7 @@ lxb_font_cmap_format_6(lxb_font_t *mf, subtable_t *subtable,
         return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
     }
 
-    header = LXB_FONT_ALLOC(1, subtable_format_6_t);
+    header = LXB_FONT_ALLOC(1, cmap_subtable_format_6_t);
     if (header == NULL){
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
@@ -220,10 +220,10 @@ lxb_font_cmap_format_6(lxb_font_t *mf, subtable_t *subtable,
 }
 
 static lxb_status_t
-lxb_font_cmap_format_8(lxb_font_t *mf, subtable_t *subtable,
+lxb_font_cmap_format_8(lxb_font_t *mf, cmap_subtable_t *subtable,
                        uint8_t *font_data, size_t size, size_t offset)
 {
-    subtable_format_8_t *header;
+    cmap_subtable_format_8_t *header;
     uint8_t *data;
     uint32_t pos;
     uint32_t i;
@@ -235,7 +235,7 @@ lxb_font_cmap_format_8(lxb_font_t *mf, subtable_t *subtable,
         return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
     }
 
-    header = LXB_FONT_ALLOC(1, subtable_format_8_t);
+    header = LXB_FONT_ALLOC(1, cmap_subtable_format_8_t);
     if (header == NULL){
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
@@ -255,7 +255,7 @@ lxb_font_cmap_format_8(lxb_font_t *mf, subtable_t *subtable,
         return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
     }
 
-    header->groups = LXB_FONT_ALLOC(header->num_groups, sequential_map_group_t);
+    header->groups = LXB_FONT_ALLOC(header->num_groups, cmap_sequential_map_group_t);
     if (header->groups == NULL){
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
@@ -272,10 +272,10 @@ lxb_font_cmap_format_8(lxb_font_t *mf, subtable_t *subtable,
 }
 
 static lxb_status_t
-lxb_font_cmap_format_10(lxb_font_t *mf, subtable_t *subtable,
+lxb_font_cmap_format_10(lxb_font_t *mf, cmap_subtable_t *subtable,
                         uint8_t *font_data, size_t size, size_t offset)
 {
-    subtable_format_10_t *header;
+    cmap_subtable_format_10_t *header;
     uint8_t *data;
     uint32_t pos;
     uint32_t i;
@@ -287,7 +287,7 @@ lxb_font_cmap_format_10(lxb_font_t *mf, subtable_t *subtable,
         return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
     }
 
-    header = LXB_FONT_ALLOC(1, subtable_format_10_t);
+    header = LXB_FONT_ALLOC(1, cmap_subtable_format_10_t);
     if (header == NULL){
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
@@ -321,10 +321,10 @@ lxb_font_cmap_format_10(lxb_font_t *mf, subtable_t *subtable,
 }
 
 static lxb_status_t
-lxb_font_cmap_format_12(lxb_font_t *mf, subtable_t *subtable,
+lxb_font_cmap_format_12(lxb_font_t *mf, cmap_subtable_t *subtable,
                         uint8_t *font_data, size_t size, size_t offset)
 {
-    subtable_format_12_t *header;
+    cmap_subtable_format_12_t *header;
     uint8_t *data;
     uint32_t pos;
     uint32_t i;
@@ -336,7 +336,7 @@ lxb_font_cmap_format_12(lxb_font_t *mf, subtable_t *subtable,
         return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
     }
 
-    header = LXB_FONT_ALLOC(1, subtable_format_12_t);
+    header = LXB_FONT_ALLOC(1, cmap_subtable_format_12_t);
     if (header == NULL){
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
@@ -354,7 +354,7 @@ lxb_font_cmap_format_12(lxb_font_t *mf, subtable_t *subtable,
         return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
     }
 
-    header->groups = LXB_FONT_ALLOC(header->num_groups, sequential_map_group_t);
+    header->groups = LXB_FONT_ALLOC(header->num_groups, cmap_sequential_map_group_t);
     if (header->groups == NULL){
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
@@ -371,10 +371,10 @@ lxb_font_cmap_format_12(lxb_font_t *mf, subtable_t *subtable,
 }
 
 static lxb_status_t
-lxb_font_cmap_format_13(lxb_font_t *mf, subtable_t *subtable,
+lxb_font_cmap_format_13(lxb_font_t *mf, cmap_subtable_t *subtable,
                         uint8_t *font_data, size_t size, size_t offset)
 {
-    subtable_format_13_t *header;
+    cmap_subtable_format_13_t *header;
     uint8_t *data;
     uint32_t pos;
     uint32_t i;
@@ -386,7 +386,7 @@ lxb_font_cmap_format_13(lxb_font_t *mf, subtable_t *subtable,
         return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
     }
 
-    header = LXB_FONT_ALLOC(1, subtable_format_13_t);
+    header = LXB_FONT_ALLOC(1, cmap_subtable_format_13_t);
     if (header == NULL){
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
@@ -404,7 +404,7 @@ lxb_font_cmap_format_13(lxb_font_t *mf, subtable_t *subtable,
         return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
     }
 
-    header->groups = LXB_FONT_ALLOC(header->num_groups, constant_map_group_t);
+    header->groups = LXB_FONT_ALLOC(header->num_groups, cmap_constant_map_group_t);
     if (header->groups == NULL){
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
@@ -421,10 +421,10 @@ lxb_font_cmap_format_13(lxb_font_t *mf, subtable_t *subtable,
 }
 
 static lxb_status_t
-lxb_font_cmap_format_14(lxb_font_t *mf, subtable_t *subtable,
+lxb_font_cmap_format_14(lxb_font_t *mf, cmap_subtable_t *subtable,
                         uint8_t *font_data, size_t size, size_t offset)
 {
-    subtable_format_14_t *header;
+    cmap_subtable_format_14_t *header;
     uint8_t *data;
     uint8_t *data_uvs;
     uint32_t pos;
@@ -438,7 +438,7 @@ lxb_font_cmap_format_14(lxb_font_t *mf, subtable_t *subtable,
         return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
     }
 
-    header = LXB_FONT_ALLOC(1, subtable_format_14_t);
+    header = LXB_FONT_ALLOC(1, cmap_subtable_format_14_t);
     if (header == NULL){
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
@@ -454,7 +454,7 @@ lxb_font_cmap_format_14(lxb_font_t *mf, subtable_t *subtable,
     }
 
     header->var_selector = LXB_FONT_ALLOC(header->num_var_selector_records,
-                                          variation_selector_t);
+                                          cmap_variation_selector_t);
     if (header->var_selector == NULL){
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
@@ -470,7 +470,7 @@ lxb_font_cmap_format_14(lxb_font_t *mf, subtable_t *subtable,
                                 of 2 bytes, the length of the format value */
         header->var_selector[i].default_uvs.num_unicode_value_ranges = lxb_font_read_u32(&data_uvs);
         header->var_selector[i].default_uvs.ranges = LXB_FONT_ALLOC(header->var_selector[i].default_uvs.num_unicode_value_ranges,
-                                                                    variation_selector_t);
+                                                                    cmap_variation_selector_t);
         if (header->var_selector[i].default_uvs.ranges == NULL){
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         }
@@ -487,7 +487,7 @@ lxb_font_cmap_format_14(lxb_font_t *mf, subtable_t *subtable,
                                 of 2 bytes, the length of the format value */
         header->var_selector[i].non_default_uvs.num_uvs_mappings = lxb_font_read_u32(&data_uvs);
         header->var_selector[i].non_default_uvs.uvs_mappings = LXB_FONT_ALLOC(header->var_selector[i].non_default_uvs.num_uvs_mappings,
-                                                                              uvs_mapping_t);
+                                                                              cmap_uvs_mapping_t);
         if (header->var_selector[i].non_default_uvs.uvs_mappings == NULL){
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         }
@@ -541,12 +541,12 @@ lxb_font_table_cmap(lxb_font_t *mf, uint8_t *font_data, size_t size)
     }
 
     table->encoding_records = LXB_FONT_ALLOC(table->num_tables,
-                                             encoding_record_t);
+                                             cmap_encoding_record_t);
     if (table->encoding_records == NULL) {
         goto failed;
     }
 
-    table->subtables = LXB_FONT_ALLOC(table->num_tables, subtable_t);
+    table->subtables = LXB_FONT_ALLOC(table->num_tables, cmap_subtable_t);
     if (table->subtables == NULL) {
         goto failed;
     }

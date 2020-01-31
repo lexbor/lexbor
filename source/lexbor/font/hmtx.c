@@ -39,7 +39,7 @@ lxb_font_table_hmtx(lxb_font_t *mf, uint8_t* font_data, size_t size)
         return lxb_font_failed(mf, LXB_STATUS_ERROR_INCOMPLETE_OBJECT);
     }
 
-    table->h_metrics = LXB_FONT_ALLOC(num_metrics, long_hor_metric_t);
+    table->h_metrics = LXB_FONT_ALLOC(num_metrics, hmtx_long_hor_metric_t);
     if (table->h_metrics == NULL) {
         return lxb_font_failed(mf, LXB_STATUS_ERROR_MEMORY_ALLOCATION);
     }

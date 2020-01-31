@@ -68,7 +68,7 @@ lxb_font_table_name(lxb_font_t *mf, uint8_t* font_data, size_t size)
         table->lang_tag_count = lxb_font_read_u16(&data);
 
         table->lang_tag_record = LXB_FONT_ALLOC(table->lang_tag_count,
-                                                lang_tag_record_t);
+                                                name_lang_tag_record_t);
         if (table->lang_tag_record == NULL) {
             return lxb_font_failed(mf, LXB_STATUS_ERROR_MEMORY_ALLOCATION);
         }

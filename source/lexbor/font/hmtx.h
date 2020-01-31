@@ -28,10 +28,10 @@ typedef struct {
     uint16_t advance_width;
     int16_t lsb;
 }
-long_hor_metric_t;
+hmtx_long_hor_metric_t;
 
 typedef struct {
-    long_hor_metric_t *h_metrics;
+    hmtx_long_hor_metric_t *h_metrics;
     int16_t *left_side_bearings;
 }
 lxb_font_table_hmtx_t;

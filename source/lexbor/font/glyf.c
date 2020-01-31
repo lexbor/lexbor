@@ -15,7 +15,7 @@ lxb_font_simple_glyph_load(lxb_font_t *mf, uint8_t *data,
 {
 
 
-#define SG(field_) glyph->glyph.simple_glyph.field_
+#define SG(field_) glyph->simple_glyph.field_
 
 #define SG_ALLOC(field_, count_, type_)                                        \
     do {                                                                       \
@@ -65,13 +65,16 @@ lxb_font_simple_glyph_load(lxb_font_t *mf, uint8_t *data,
      * Calculate the number of elements of the 'flags' array
      * and the size for coordinates  */
     flags_data = data;
-    SG(flags_count) = 0;
+    flags_count = 0;
     data_count = 0;
     xcoord_count = 0;
     ycoord_count = 0;
+    printf(" * pcount : %d %p\n", points_count, glyph);
+    fflush(stdout);
     for (i = 0; i < points_count; i++) {
         flag = lxb_font_read_u8(&flags_data);
-        SG(flags_count)++;
+        flags_count++;
+        printf(" * fcount : %d\n", flags_count);
         data_count++;
         xcoord_size = (flag & LXB_FONT_X_SHORT_VECTOR) ? 1 : 2;
         ycoord_size = (flag & LXB_FONT_Y_SHORT_VECTOR) ? 1 : 2;
@@ -81,25 +84,35 @@ lxb_font_simple_glyph_load(lxb_font_t *mf, uint8_t *data,
             uint8_t repeats;
 
             repeats = lxb_font_read_u8(&flags_data);
+            printf(" * repeats : %d\n", repeats);
+            fflush(stdout);
             data_count++;
             for (; repeats > 0; repeats--) {
-                SG(flags_count)++;
+                flags_count++;
+                //printf(" * fcount : %d\n", flags_count);
                 xcoord_count += xcoord_size;
                 ycoord_count += ycoord_size;
             }
         }
     }
 
+    printf(" * final fcount : %d\n", flags_count);
+    fflush(stdout);
+
+    SG(flags_count) = flags_count;
     pos += data_count + xcoord_count + ycoord_count;
     if (size < pos) {
         return LXB_STATUS_ERROR_INCOMPLETE_OBJECT;
     }
 
+    printf(" * final fcount : %d\n", SG(flags_count));
+    fflush(stdout);
     /* Fill the 'flags' and (x|y) coordinates arrays */
     SG_ALLOC(flags, SG(flags_count), uint8_t);
     SG_ALLOC(x_coordinates, SG(flags_count), uint16_t);
     SG_ALLOC(y_coordinates, SG(flags_count), uint16_t);
 
+#if 0
     flags_count = 0;
     for (i = 0; i < points_count; i++) {
         SG(flags)[flags_count] = lxb_font_read_u8(&data);
@@ -144,11 +157,13 @@ lxb_font_simple_glyph_load(lxb_font_t *mf, uint8_t *data,
         flags_count++;
 
         if (flag & LXB_FONT_REPEAT_FLAG) {
-            uint16_t j;
+            //uint16_t j;
             uint8_t repeats;
 
             repeats = lxb_font_read_u8(&data);
-            for (j = 0; j < repeats; j++) {
+            printf(" * repeats : %d\n", repeats);
+            fflush(stdout);
+            for (; repeats > 0; repeats--) {
                 SG(flags)[flags_count] = flag;
 
                 /* X coordinate. */
@@ -162,6 +177,8 @@ lxb_font_simple_glyph_load(lxb_font_t *mf, uint8_t *data,
                 }
                 else {
                     if (flag & LXB_FONT_X_IS_SAME_OR_POSITIVE_X_SHORT_VECTOR) {
+                        printf("fcount : %d / %d\n", flags_count, SG(flags_count));
+                        fflush(stdout);
                         SG(x_coordinates)[flags_count] = SG(x_coordinates)[flags_count - 1];
                     }
                     else {
@@ -191,6 +208,27 @@ lxb_font_simple_glyph_load(lxb_font_t *mf, uint8_t *data,
             }
         }
     }
+#else
+    /* flags_count = 0; */
+    /* for (i = 0; i < points_count; i++) { */
+    /*     flag = lxb_font_read_u8(&data); */
+
+    /*     flags_count++; */
+
+    /*     if (flag & LXB_FONT_REPEAT_FLAG) { */
+    /*         //uint16_t j; */
+    /*         uint8_t repeats; */
+
+    /*         repeats = lxb_font_read_u8(&data); */
+    /*         printf(" * repeats : %d\n", repeats); */
+    /*         fflush(stdout); */
+    /*         for (; repeats > 0; repeats--) { */
+    /*             flags_count++; */
+    /*         } */
+    /*     } */
+    /* } */
+    /* printf(" * final fcount 2 : %d\n", flags_count); */
+#endif
 
     return LXB_STATUS_OK;
 
@@ -208,7 +246,7 @@ lxb_font_composite_glyph_load(lxb_font_t *mf, uint8_t *data,
 {
 
 
-#define CG(field_) glyph->glyph.composite_glyph.field_
+#define CG(field_) glyph->composite_glyph.field_
 
 #define CG_ALLOC(field_, count_, type_)                                        \
     do {                                                                       \
@@ -316,7 +354,7 @@ lxb_font_table_glyf(lxb_font_t *mf, uint8_t* font_data, size_t size)
         glyph->y_max = lxb_font_read_16(&data);
 
         /* FIXME: mraw problem with simple glyphes ? */
-#if 0
+#if 1
         /* Parse simple glyph. */
         if (glyph->number_of_contours >= 0) {
             lxb_status_t status;

@@ -30,7 +30,7 @@ typedef struct {
     uint16_t length;
     uint16_t offset;
 }
-lang_tag_record_t;
+name_lang_tag_record_t;
 
 typedef struct {
     uint16_t format;
@@ -38,7 +38,7 @@ typedef struct {
     uint16_t string_offset;
     name_record_t *name_record;
     uint16_t lang_tag_count;
-    lang_tag_record_t *lang_tag_record;
+    name_lang_tag_record_t *lang_tag_record;
     char *str_data; /* FIXME: todo... */
 }
 lxb_font_table_name_t;

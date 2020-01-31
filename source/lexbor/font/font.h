@@ -28,10 +28,18 @@ extern "C" {
 #include "lexbor/font/loca.h"
 #include "lexbor/font/glyf.h"
 #include "lexbor/font/prep.h"
+/* CFF outlines */
 /* SVG */
 #include "lexbor/font/svg.h"
 /* Bitmap glyphs */
 #include "lexbor/font/ebsc.h"
+#include "lexbor/font/sbix.h"
+/* Advanced typographic */
+/* OpenType font variations */
+#include "lexbor/font/fvar.h"
+#include "lexbor/font/mvar.h"
+/* Color fonts */
+/* Other OpentType */
 
 #define LXB_FONT_MAKE_TAG_ID(c1_, c2_, c3_, c4_)                               \
     ((((uint32_t) (c4_)) << 24) |                                              \
@@ -77,7 +85,7 @@ extern "C" {
  * [X] ebsc
  * [ ] cbdt
  * [ ] cblc
- * [ ] sbix
+ * [X] sbix
  *
  * Advanced typographic
  * [ ] base
@@ -90,10 +98,10 @@ extern "C" {
  * OpenType font variations
  * [ ] avar
  * [ ] cvar
- * [ ] fvar
+ * [X] fvar
  * [ ] gvar
  * [ ] hvar
- * [ ] mvar
+ * [X] mvar
  * [ ] stat
  * [ ] vvar
  *
@@ -102,7 +110,7 @@ extern "C" {
  * [ ] cpal
  * [ ] cbdt (see Bitmap glyphs)
  * [ ] cblc (see Bitmap glyphs)
- * [ ] sbix (see Bitmap glyphs)
+ * [X] sbix (see Bitmap glyphs)
  * [X] svg  (see SVG)
  *
  * Other OpentType
@@ -112,7 +120,7 @@ extern "C" {
  * [ ] ltsh
  * [ ] merg
  * [ ] meta
- * [ ] stat
+ * [ ] stat (see OpenType font variations)
  * [ ] pclt
  * [ ] vdmx
  * [ ] vhea
@@ -298,18 +306,31 @@ typedef struct lxb_font_s {
     lxb_font_table_post_t *table_post;
 
     /* TrueType tables. */
-    lxb_font_table_cvt_t *table_cvt;
+    lxb_font_table_cvt_t  *table_cvt;
     lxb_font_table_fpgm_t *table_fpgm;
     lxb_font_table_gasp_t *table_gasp;
     lxb_font_table_glyf_t *table_glyf;
     lxb_font_table_loca_t *table_loca;
     lxb_font_table_prep_t *table_prep;
 
-    /* SVG */
-    lxb_font_table_svg_t *table_svg;
+    /* CFF outlines tables. */
 
-    /* Bitmap glyphs */
+    /* SVG table. */
+    lxb_font_table_svg_t  *table_svg;
+
+    /* Bitmap glyphs tables. */
     lxb_font_table_ebsc_t *table_ebsc;
+    lxb_font_table_sbix_t *table_sbix;
+
+    /* Advanced typographic tables. */
+
+    /* OpenType font variations. */
+    lxb_font_table_fvar_t *table_fvar;
+    lxb_font_table_mvar_t *table_mvar;
+
+    /* Color fonts tables. */
+
+    /* Other OpentType tables. */
 }
 lxb_font_t;
 

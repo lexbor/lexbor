@@ -61,7 +61,7 @@ typedef struct {
     int16_t *x_coordinates;
     int16_t *y_coordinates;
 }
-simple_glyph_t;
+glyf_simple_glyph_t;
 
 typedef struct {
     uint16_t flags;
@@ -69,7 +69,7 @@ typedef struct {
     uint16_t argument1;
     uint16_t argument2;
 }
-composite_glyph_t;
+glyf_composite_glyph_t;
 
 typedef struct {
     /* Header. */
@@ -78,10 +78,8 @@ typedef struct {
     int16_t y_min;
     int16_t x_max;
     int16_t y_max;
-    union {
-        simple_glyph_t simple_glyph;
-        composite_glyph_t composite_glyph;
-    } glyph;
+    glyf_simple_glyph_t simple_glyph;
+    glyf_composite_glyph_t composite_glyph;
 }
 glyph_t;
 
