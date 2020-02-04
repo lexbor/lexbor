@@ -2,8 +2,7 @@ language: c
 compiler:
   - clang
   - gcc
-sudo: false
-install: false
+install: skip
 
 env:
   global:
