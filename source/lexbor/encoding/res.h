@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Alexander Borisov
+ * Copyright (C) 2019-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -23,8 +23,8 @@ extern "C" {
 #include "lexbor/core/shs.h"
 
 
-extern const lxb_encoding_data_t lxb_encoding_res_map[LXB_ENCODING_LAST_ENTRY];
-extern const lexbor_shs_entry_t lxb_encoding_res_shs_entities[];
+LXB_EXTERN const lxb_encoding_data_t lxb_encoding_res_map[LXB_ENCODING_LAST_ENTRY];
+LXB_EXTERN const lexbor_shs_entry_t lxb_encoding_res_shs_entities[];
 
 
 #ifdef __cplusplus
