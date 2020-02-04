@@ -23,13 +23,13 @@ typedef struct lexbor_hash_search lexbor_hash_search_t;
 typedef struct lexbor_hash_insert lexbor_hash_insert_t;
 
 #ifndef LEXBOR_HASH_EXTERN
-extern const lexbor_hash_insert_t *lexbor_hash_insert_raw;
-extern const lexbor_hash_insert_t *lexbor_hash_insert_lower;
-extern const lexbor_hash_insert_t *lexbor_hash_insert_upper;
+LXB_EXTERN const lexbor_hash_insert_t *lexbor_hash_insert_raw;
+LXB_EXTERN const lexbor_hash_insert_t *lexbor_hash_insert_lower;
+LXB_EXTERN const lexbor_hash_insert_t *lexbor_hash_insert_upper;
 
-extern const lexbor_hash_search_t *lexbor_hash_search_raw;
-extern const lexbor_hash_search_t *lexbor_hash_search_lower;
-extern const lexbor_hash_search_t *lexbor_hash_search_upper;
+LXB_EXTERN const lexbor_hash_search_t *lexbor_hash_search_raw;
+LXB_EXTERN const lexbor_hash_search_t *lexbor_hash_search_lower;
+LXB_EXTERN const lexbor_hash_search_t *lexbor_hash_search_upper;
 #endif
 
 /*
