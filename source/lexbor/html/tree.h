@@ -15,7 +15,7 @@ extern "C" {
 #include "lexbor/dom/interfaces/attr.h"
 
 #include "lexbor/html/base.h"
-#include "lexbor/html/html.h"
+#include "lexbor/html/node.h"
 #include "lexbor/html/tokenizer.h"
 #include "lexbor/html/interfaces/document.h"
 #include "lexbor/html/tag.h"

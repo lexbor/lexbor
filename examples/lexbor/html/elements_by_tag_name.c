@@ -6,7 +6,7 @@
 
 #include "base.h"
 
-#include <lexbor/dom/collection.h>
+#include <lexbor/dom/dom.h>
 
 
 int

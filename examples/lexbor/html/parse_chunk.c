@@ -1,10 +1,8 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
-
-#include <string.h>
 
 #include "base.h"
 

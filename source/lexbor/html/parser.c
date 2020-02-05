@@ -5,7 +5,7 @@
  */
 
 #include "lexbor/html/parser.h"
-#include "lexbor/html/html.h"
+#include "lexbor/html/node.h"
 #include "lexbor/html/tree/open_elements.h"
 #include "lexbor/html/interfaces/element.h"
 #include "lexbor/html/interfaces/html_element.h"

@@ -1,14 +1,10 @@
 /*
- * Copyright (C) 2019 Alexander Borisov
+ * Copyright (C) 2019-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
-#include <string.h>
-#include <stdio.h>
-
 #include <lexbor/encoding/encoding.h>
-#include <lexbor/encoding/encode.h>
 
 
 #define FAILED(with_usage, ...)                                                \

@@ -1,15 +1,12 @@
 /*
- * Copyright (C) 2019 Alexander Borisov
+ * Copyright (C) 2019-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  *
  * Convert html tag tree into s-expression string in stdout
  */
 
-#include <string.h>
-
 #include <lexbor/core/fs.h>
-#include <lexbor/html/interfaces/template_element.h>
 
 #include "base.h"
 
