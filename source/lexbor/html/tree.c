@@ -759,7 +759,7 @@ lxb_html_tree_insert_character(lxb_html_tree_t *tree, lxb_html_token_t *token,
 
 lxb_status_t
 lxb_html_tree_insert_character_for_data(lxb_html_tree_t *tree,
-                                        const lexbor_str_t *str,
+                                        lexbor_str_t *str,
                                         lxb_dom_node_t **ret_node)
 {
     const lxb_char_t *data;
@@ -777,7 +777,7 @@ lxb_html_tree_insert_character_for_data(lxb_html_tree_t *tree,
     }
 
     if (lxb_html_tree_node_is(pos, LXB_TAG__DOCUMENT)) {
-        return LXB_STATUS_OK;
+        goto destroy_str;
     }
 
     if (ipos == LXB_HTML_TREE_INSERTION_POSITION_BEFORE) {
@@ -819,7 +819,7 @@ lxb_html_tree_insert_character_for_data(lxb_html_tree_t *tree,
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         }
 
-        return LXB_STATUS_OK;
+        goto destroy_str;
     }
 
     lxb_dom_node_t *text = lxb_html_tree_create_node(tree, LXB_TAG__TEXT,
@@ -835,6 +835,12 @@ lxb_html_tree_insert_character_for_data(lxb_html_tree_t *tree,
     }
 
     lxb_html_tree_insert_node(pos, text, ipos);
+
+    return LXB_STATUS_OK;
+
+destroy_str:
+
+    lexbor_str_destroy(str, tree->document->dom_document.text, false);
 
     return LXB_STATUS_OK;
 }

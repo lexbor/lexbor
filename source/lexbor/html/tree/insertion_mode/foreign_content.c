@@ -152,11 +152,6 @@ lxb_html_tree_insertion_mode_foreign_content_text(lxb_html_tree_t *tree,
         return true;
     }
 
-    tree->status = lxb_html_tree_insert_character_for_data(tree, &str, NULL);
-    if (tree->status != LXB_STATUS_OK) {
-        return lxb_html_tree_process_abort(tree);
-    }
-
     if (tree->frameset_ok) {
         const lxb_char_t *pos = str.data;
         const lxb_char_t *end = str.data + str.length;
@@ -193,6 +188,11 @@ lxb_html_tree_insertion_mode_foreign_content_text(lxb_html_tree_t *tree,
 
             pos++;
         }
+    }
+
+    tree->status = lxb_html_tree_insert_character_for_data(tree, &str, NULL);
+    if (tree->status != LXB_STATUS_OK) {
+        return lxb_html_tree_process_abort(tree);
     }
 
     return true;
