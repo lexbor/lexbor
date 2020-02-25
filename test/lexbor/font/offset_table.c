@@ -24,7 +24,7 @@ TEST_BEGIN(init)
     printf(" * 1 : %u\n", status);
     test_eq(status, LXB_STATUS_OK);
 
-    status = lxb_font_load_from_file(mf, "c:\\windows\\fonts\\arial.ttf",
+    status = lxb_font_load_from_file(mf, "../../files/lexbor/font/arial.ttf",
                                      &data, &size);
     printf(" * 2 : %u\n", status);
 
