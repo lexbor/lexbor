@@ -116,11 +116,6 @@ lxb_html_tree_insertion_mode_in_body_text_append(lxb_html_tree_t *tree,
         return tree->status;
     }
 
-    tree->status = lxb_html_tree_insert_character_for_data(tree, str, NULL);
-    if (tree->status != LXB_STATUS_OK) {
-        return tree->status;
-    }
-
     if (tree->frameset_ok) {
         const lxb_char_t *pos = str->data;
         const lxb_char_t *end = str->data + str->length;
@@ -135,6 +130,11 @@ lxb_html_tree_insertion_mode_in_body_text_append(lxb_html_tree_t *tree,
 
             pos++;
         }
+    }
+
+    tree->status = lxb_html_tree_insert_character_for_data(tree, str, NULL);
+    if (tree->status != LXB_STATUS_OK) {
+        return tree->status;
     }
 
     return LXB_STATUS_OK;

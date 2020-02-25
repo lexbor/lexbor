@@ -8,7 +8,7 @@
 
 #include "lexbor/html/interfaces/document.h"
 #include "lexbor/html/interfaces/title_element.h"
-#include "lexbor/html/html.h"
+#include "lexbor/html/node.h"
 #include "lexbor/html/parser.h"
 
 #include "lexbor/tag/tag.h"

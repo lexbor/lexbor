@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -7,61 +7,103 @@
 #ifndef LEXBOR_HTML_H
 #define LEXBOR_HTML_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "lexbor/html/base.h"
-#include "lexbor/tag/const.h"
+#include "lexbor/html/tree/error.h"
+#include "lexbor/html/tree/insertion_mode.h"
+#include "lexbor/html/tree/template_insertion.h"
+#include "lexbor/html/tree/active_formatting.h"
+#include "lexbor/html/tree/open_elements.h"
+#include "lexbor/html/node.h"
+#include "lexbor/html/tag.h"
+#include "lexbor/html/parser.h"
+#include "lexbor/html/tokenizer/error.h"
+#include "lexbor/html/tokenizer/state_rawtext.h"
+#include "lexbor/html/tokenizer/state_script.h"
+#include "lexbor/html/tokenizer/state_comment.h"
+#include "lexbor/html/tokenizer/state_doctype.h"
+#include "lexbor/html/tokenizer/state.h"
+#include "lexbor/html/tokenizer/state_rcdata.h"
+#include "lexbor/html/encoding.h"
+#include "lexbor/html/in.h"
+#include "lexbor/html/tree.h"
+#include "lexbor/html/tokenizer.h"
+#include "lexbor/html/interface.h"
+#include "lexbor/html/token_attr.h"
+#include "lexbor/html/parser_char.h"
+#include "lexbor/html/token.h"
+#include "lexbor/html/serialize.h"
+#include "lexbor/html/interfaces/video_element.h"
+#include "lexbor/html/interfaces/data_list_element.h"
+#include "lexbor/html/interfaces/picture_element.h"
+#include "lexbor/html/interfaces/field_set_element.h"
+#include "lexbor/html/interfaces/quote_element.h"
+#include "lexbor/html/interfaces/li_element.h"
+#include "lexbor/html/interfaces/progress_element.h"
+#include "lexbor/html/interfaces/iframe_element.h"
+#include "lexbor/html/interfaces/style_element.h"
+#include "lexbor/html/interfaces/select_element.h"
+#include "lexbor/html/interfaces/details_element.h"
+#include "lexbor/html/interfaces/div_element.h"
+#include "lexbor/html/interfaces/d_list_element.h"
+#include "lexbor/html/interfaces/html_element.h"
+#include "lexbor/html/interfaces/map_element.h"
+#include "lexbor/html/interfaces/br_element.h"
+#include "lexbor/html/interfaces/text_area_element.h"
+#include "lexbor/html/interfaces/legend_element.h"
+#include "lexbor/html/interfaces/slot_element.h"
+#include "lexbor/html/interfaces/body_element.h"
+#include "lexbor/html/interfaces/param_element.h"
+#include "lexbor/html/interfaces/track_element.h"
+#include "lexbor/html/interfaces/frame_element.h"
+#include "lexbor/html/interfaces/media_element.h"
+#include "lexbor/html/interfaces/span_element.h"
+#include "lexbor/html/interfaces/meta_element.h"
+#include "lexbor/html/interfaces/hr_element.h"
+#include "lexbor/html/interfaces/marquee_element.h"
+#include "lexbor/html/interfaces/data_element.h"
+#include "lexbor/html/interfaces/window.h"
+#include "lexbor/html/interfaces/heading_element.h"
+#include "lexbor/html/interfaces/template_element.h"
+#include "lexbor/html/interfaces/source_element.h"
+#include "lexbor/html/interfaces/canvas_element.h"
+#include "lexbor/html/interfaces/embed_element.h"
+#include "lexbor/html/interfaces/title_element.h"
+#include "lexbor/html/interfaces/o_list_element.h"
+#include "lexbor/html/interfaces/output_element.h"
+#include "lexbor/html/interfaces/frame_set_element.h"
+#include "lexbor/html/interfaces/directory_element.h"
+#include "lexbor/html/interfaces/mod_element.h"
+#include "lexbor/html/interfaces/unknown_element.h"
+#include "lexbor/html/interfaces/menu_element.h"
+#include "lexbor/html/interfaces/button_element.h"
+#include "lexbor/html/interfaces/time_element.h"
+#include "lexbor/html/interfaces/element.h"
+#include "lexbor/html/interfaces/base_element.h"
+#include "lexbor/html/interfaces/meter_element.h"
+#include "lexbor/html/interfaces/table_section_element.h"
+#include "lexbor/html/interfaces/head_element.h"
+#include "lexbor/html/interfaces/input_element.h"
+#include "lexbor/html/interfaces/label_element.h"
+#include "lexbor/html/interfaces/u_list_element.h"
+#include "lexbor/html/interfaces/paragraph_element.h"
 #include "lexbor/html/interfaces/document.h"
-
-/*
- * Inline functions
- */
-lxb_inline bool
-lxb_html_node_is_void(lxb_dom_node_t *node)
-{
-    if (node->ns != LXB_NS_HTML) {
-        return false;
-    }
-
-    switch (node->local_name) {
-        case LXB_TAG_AREA:
-        case LXB_TAG_BASE:
-        case LXB_TAG_BASEFONT:
-        case LXB_TAG_BGSOUND:
-        case LXB_TAG_BR:
-        case LXB_TAG_COL:
-        case LXB_TAG_EMBED:
-        case LXB_TAG_FRAME:
-        case LXB_TAG_HR:
-        case LXB_TAG_IMG:
-        case LXB_TAG_INPUT:
-        case LXB_TAG_KEYGEN:
-        case LXB_TAG_LINK:
-        case LXB_TAG_META:
-        case LXB_TAG_PARAM:
-        case LXB_TAG_SOURCE:
-        case LXB_TAG_TRACK:
-        case LXB_TAG_WBR:
-            return true;
-
-        default:
-            return false;
-    }
-
-    return false;
-}
-
-/*
- * No inline functions for ABI.
- */
-LXB_API bool
-lxb_html_node_is_void_noi(lxb_dom_node_t *node);
-
-
-#ifdef __cplusplus
-} /* extern "C" */
-#endif
+#include "lexbor/html/interfaces/audio_element.h"
+#include "lexbor/html/interfaces/image_element.h"
+#include "lexbor/html/interfaces/link_element.h"
+#include "lexbor/html/interfaces/opt_group_element.h"
+#include "lexbor/html/interfaces/table_col_element.h"
+#include "lexbor/html/interfaces/object_element.h"
+#include "lexbor/html/interfaces/dialog_element.h"
+#include "lexbor/html/interfaces/option_element.h"
+#include "lexbor/html/interfaces/pre_element.h"
+#include "lexbor/html/interfaces/form_element.h"
+#include "lexbor/html/interfaces/table_caption_element.h"
+#include "lexbor/html/interfaces/anchor_element.h"
+#include "lexbor/html/interfaces/script_element.h"
+#include "lexbor/html/interfaces/font_element.h"
+#include "lexbor/html/interfaces/table_cell_element.h"
+#include "lexbor/html/interfaces/table_element.h"
+#include "lexbor/html/interfaces/table_row_element.h"
+#include "lexbor/html/interfaces/area_element.h"
 
 #endif /* LEXBOR_HTML_H */

@@ -34,11 +34,7 @@
 
 #ifndef LEXBOR_STATIC
     #ifdef _WIN32
-        #ifdef LEXBOR_BUILDING
-            #define LXB_API __declspec(dllexport)
-        #else
-            #define LXB_API __declspec(dllimport)
-        #endif
+        #define LXB_API __declspec(dllexport)
     #elif (defined(__SUNPRO_C)  || defined(__SUNPRO_CC))
         #define LXB_API __global
     #else
@@ -50,6 +46,16 @@
     #endif
 #else
     #define LXB_API
+#endif
+
+#ifndef LEXBOR_STATIC
+    #ifdef _WIN32
+        #define LXB_EXTERN extern __declspec(dllimport)
+    #else
+        #define LXB_EXTERN extern
+    #endif
+#else
+    #define LXB_EXTERN extern
 #endif
 
 #endif /* LEXBOR_DEF_H */

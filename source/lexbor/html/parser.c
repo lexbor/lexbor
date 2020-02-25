@@ -5,7 +5,7 @@
  */
 
 #include "lexbor/html/parser.h"
-#include "lexbor/html/html.h"
+#include "lexbor/html/node.h"
 #include "lexbor/html/tree/open_elements.h"
 #include "lexbor/html/interfaces/element.h"
 #include "lexbor/html/interfaces/html_element.h"
@@ -371,7 +371,7 @@ lxb_html_parse_fragment_chunk_destroy(lxb_html_parser_t *parser)
     }
 }
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_html_parse_chunk_prepare(lxb_html_parser_t *parser,
                              lxb_html_document_t *document)
 {

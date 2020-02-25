@@ -6,8 +6,6 @@
 
 #include "base.h"
 
-#include <lexbor/html/interfaces/element.h>
-
 
 int
 main(int argc, const char *argv[])

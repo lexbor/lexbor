@@ -96,7 +96,7 @@ class SingleByte:
     def make_extern_name(self, name):
         var_name = self.make_var_name(name) + '[{}]'.format(self.buffer_size)
 
-        return 'extern const {} {}'.format(self.flat_index_typename, var_name)
+        return 'LXB_EXTERN const {} {}'.format(self.flat_index_typename, var_name)
 
     def make_flat_index(self, name, values):
         res = LXB.Res(self.flat_index_typename, 
