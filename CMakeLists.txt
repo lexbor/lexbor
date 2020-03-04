@@ -35,8 +35,6 @@ cmake_minimum_required(VERSION 2.8)
 
 set(PROJECT_NAME "lexbor")
 
-project(${PROJECT_NAME})
-
 message(STATUS "Project name: ${PROJECT_NAME}")
 
 ################
@@ -110,6 +108,13 @@ GET_LEXBOR_VERSION(LEXBOR_VERSION_MAJOR LEXBOR_VERSION_MINOR
                    LEXBOR_VERSION_PATCH LEXBOR_VERSION_STRING)
 
 message(STATUS "Lexbor version: ${LEXBOR_VERSION_STRING}")
+
+if (CMAKE_VERSION VERSION_LESS 3.0)
+    PROJECT(${PROJECT_NAME} C)
+else()
+    cmake_policy(SET CMP0048 NEW)
+    PROJECT(${PROJECT_NAME} VERSION "${LEXBOR_VERSION_STRING}" LANGUAGES C)
+endif()
 
 ################
 ## Includes
