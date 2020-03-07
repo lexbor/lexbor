@@ -223,8 +223,13 @@ IF(LEXBOR_BUILD_SEPARATELY)
         INCLUDE_MODULE_CONFIG(${PROJECT_NAME} ${module} "${LEXBOR_SOURCE_LEXBOR}/${module}")
         GET_MODULE_DEPENDENCIES(${PROJECT_NAME} ${module} module_deps)
 
-        SET_MODULE_LIB_DEPENDENCIES(${libname} "${module_deps}" "")
-        SET_MODULE_LIB_DEPENDENCIES("${libname}_static" "${module_deps}" "_static")
+        IF(LEXBOR_BUILD_SHARED)
+            SET_MODULE_LIB_DEPENDENCIES(${libname} "${module_deps}" "")
+        ENDIF()
+
+        IF(LEXBOR_BUILD_STATIC)
+            SET_MODULE_LIB_DEPENDENCIES("${libname}_static" "${module_deps}" "_static")
+        ENDIF()
 
         MODULE_PRINT(${module} ${version_string} "${module_deps}")
     ENDFOREACH()
