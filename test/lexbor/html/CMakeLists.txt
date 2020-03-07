@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(test_lexbor_html)
-
 ################
 ## Search and Includes
 #########################

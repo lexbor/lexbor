@@ -97,11 +97,6 @@ ENDIF()
 include("${CMAKE_CURRENT_SOURCE_DIR}/config.cmake")
 
 ################
-## Features
-#########################
-include("${CMAKE_CURRENT_SOURCE_DIR}/feature.cmake")
-
-################
 ## Project Version
 #########################
 GET_LEXBOR_VERSION(LEXBOR_VERSION_MAJOR LEXBOR_VERSION_MINOR
@@ -109,12 +104,17 @@ GET_LEXBOR_VERSION(LEXBOR_VERSION_MAJOR LEXBOR_VERSION_MINOR
 
 message(STATUS "Lexbor version: ${LEXBOR_VERSION_STRING}")
 
-if (CMAKE_VERSION VERSION_LESS 3.0)
-    PROJECT(${PROJECT_NAME} C)
-else()
+IF(CMAKE_VERSION VERSION_LESS "3.0")
+    PROJECT("${PROJECT_NAME}")
+ELSE()
     cmake_policy(SET CMP0048 NEW)
-    PROJECT(${PROJECT_NAME} VERSION "${LEXBOR_VERSION_STRING}" LANGUAGES C)
-endif()
+    PROJECT("${PROJECT_NAME}" VERSION "${LEXBOR_VERSION_STRING}")
+ENDIF()
+
+################
+## Features
+#########################
+include("${CMAKE_CURRENT_SOURCE_DIR}/feature.cmake")
 
 ################
 ## Includes

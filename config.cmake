@@ -281,14 +281,14 @@ MACRO(GET_LEXBOR_VERSION major minor patch vstr)
     file(STRINGS ${LEXBOR_VERSION_FILEPATH} version_part
          REGEX "^LEXBOR_VERSION[ \t]*=[ \t]*[0-9.]+$")
 
-    string(REGEX REPLACE "LEXBOR_VERSION=([0-9]+).*" "\\1" A ${version_part})
-    string(REGEX REPLACE "LEXBOR_VERSION[ \t]*=[ \t]*[0-9]+.([0-9]+).*" "\\1" B ${version_part})
-    string(REGEX REPLACE "LEXBOR_VERSION[ \t]*=[ \t]*[0-9]+.[0-9]+.([0-9]+).*" "\\1" C ${version_part})
+    string(REGEX REPLACE "LEXBOR_VERSION=([0-9]+).*" "\\1" AV ${version_part})
+    string(REGEX REPLACE "LEXBOR_VERSION[ \t]*=[ \t]*[0-9]+.([0-9]+).*" "\\1" BV ${version_part})
+    string(REGEX REPLACE "LEXBOR_VERSION[ \t]*=[ \t]*[0-9]+.[0-9]+.([0-9]+).*" "\\1" CV ${version_part})
 
-    set(${major} ${A})
-    set(${minor} ${B})
-    set(${patch} ${C})
-    set(${vstr} "${A}.${B}.${C}")
+    set(${major} ${AV})
+    set(${minor} ${BV})
+    set(${patch} ${CV})
+    set(${vstr} "${AV}.${BV}.${CV}")
 ENDMACRO()
 
 MACRO(SET_MODULE_LIB_DEPENDENCIES libname deps postfix)
