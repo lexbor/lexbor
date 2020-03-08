@@ -35,8 +35,6 @@ cmake_minimum_required(VERSION 2.8)
 
 set(PROJECT_NAME "lexbor")
 
-project(${PROJECT_NAME})
-
 message(STATUS "Project name: ${PROJECT_NAME}")
 
 ################
@@ -99,17 +97,24 @@ ENDIF()
 include("${CMAKE_CURRENT_SOURCE_DIR}/config.cmake")
 
 ################
-## Features
-#########################
-include("${CMAKE_CURRENT_SOURCE_DIR}/feature.cmake")
-
-################
 ## Project Version
 #########################
 GET_LEXBOR_VERSION(LEXBOR_VERSION_MAJOR LEXBOR_VERSION_MINOR
                    LEXBOR_VERSION_PATCH LEXBOR_VERSION_STRING)
 
 message(STATUS "Lexbor version: ${LEXBOR_VERSION_STRING}")
+
+IF(CMAKE_VERSION VERSION_LESS "3.0")
+    PROJECT("${PROJECT_NAME}")
+ELSE()
+    cmake_policy(SET CMP0048 NEW)
+    PROJECT("${PROJECT_NAME}" VERSION "${LEXBOR_VERSION_STRING}")
+ENDIF()
+
+################
+## Features
+#########################
+include("${CMAKE_CURRENT_SOURCE_DIR}/feature.cmake")
 
 ################
 ## Includes
@@ -218,8 +223,13 @@ IF(LEXBOR_BUILD_SEPARATELY)
         INCLUDE_MODULE_CONFIG(${PROJECT_NAME} ${module} "${LEXBOR_SOURCE_LEXBOR}/${module}")
         GET_MODULE_DEPENDENCIES(${PROJECT_NAME} ${module} module_deps)
 
-        SET_MODULE_LIB_DEPENDENCIES(${libname} "${module_deps}" "")
-        SET_MODULE_LIB_DEPENDENCIES("${libname}_static" "${module_deps}" "_static")
+        IF(LEXBOR_BUILD_SHARED)
+            SET_MODULE_LIB_DEPENDENCIES(${libname} "${module_deps}" "")
+        ENDIF()
+
+        IF(LEXBOR_BUILD_STATIC)
+            SET_MODULE_LIB_DEPENDENCIES("${libname}_static" "${module_deps}" "_static")
+        ENDIF()
 
         MODULE_PRINT(${module} ${version_string} "${module_deps}")
     ENDFOREACH()

@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(lexbor_unit)
+IF(CMAKE_VERSION VERSION_LESS "3.0")
+    PROJECT("lexbor_unit")
+ELSE()
+    cmake_policy(SET CMP0048 NEW)
+    PROJECT("lexbor_unit" VERSION "${LEXBOR_VERSION_STRING}")
+ENDIF()
 
 ################
 ## Unit

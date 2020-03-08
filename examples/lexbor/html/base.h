@@ -11,10 +11,7 @@
 extern "C" {
 #endif
 
-#include <lexbor/core/base.h>
-#include <lexbor/core/types.h>
-#include <lexbor/html/parser.h>
-#include <lexbor/html/serialize.h>
+#include "lexbor/html/html.h"
 
 
 #define FAILED(...)                                                            \

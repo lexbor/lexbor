@@ -161,7 +161,7 @@ class HashKey:
         result.append("};")
 
         return [result, '#define {}_SIZE {}'.format(self.name.upper(), self.table_size),
-                'extern ' + extern_name + ';', self.table_size]
+                'LXB_EXTERN ' + extern_name + ';', self.table_size]
 
     def test(self, begin, end):
         result = []

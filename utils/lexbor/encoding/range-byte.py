@@ -72,7 +72,7 @@ class RangeByte:
     def make_extern_name(self, name, buffer_size):
         var_name = self.make_range_name(name) + '[{}]'.format(buffer_size)
 
-        return 'extern const {} {}'.format(self.range_index_typename, var_name)
+        return 'LXB_EXTERN const {} {}'.format(self.range_index_typename, var_name)
 
     def make_range_size(self, name, size):
         return '#define {}{}_SIZE {}'.format(self.range_name_prefix.upper(), name.upper(), size)

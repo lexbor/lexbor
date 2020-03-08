@@ -110,7 +110,7 @@ class MultiByte:
     def make_extern_name(self, name, buffer_size):
         var_name = self.make_var_name(name) + '[{}]'.format(buffer_size)
 
-        return 'extern const {} {}'.format(self.flat_index_typename, var_name)
+        return 'LXB_EXTERN const {} {}'.format(self.flat_index_typename, var_name)
 
     def buffer_size(self, values):
         return values['max_size'] + 1

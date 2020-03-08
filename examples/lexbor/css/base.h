@@ -11,10 +11,6 @@
 extern "C" {
 #endif
 
-#include <lexbor/core/base.h>
-#include <lexbor/core/types.h>
-
-
 #define FAILED(...)                                                            \
     do {                                                                       \
         fprintf(stderr, __VA_ARGS__);                                          \

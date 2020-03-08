@@ -393,9 +393,9 @@ lxb_dom_document_create_interface_noi(lxb_dom_document_t *document,
 }
 
 lxb_dom_interface_t *
-lxb_dom_document_destroy_interface_noi(lxb_dom_interface_t *interface)
+lxb_dom_document_destroy_interface_noi(lxb_dom_interface_t *intrfc)
 {
-    return lxb_dom_document_destroy_interface(interface);
+    return lxb_dom_document_destroy_interface(intrfc);
 }
 
 void *

@@ -15,7 +15,7 @@ extern "C" {
 #include "lexbor/dom/interfaces/attr.h"
 
 #include "lexbor/html/base.h"
-#include "lexbor/html/html.h"
+#include "lexbor/html/node.h"
 #include "lexbor/html/tokenizer.h"
 #include "lexbor/html/interfaces/document.h"
 #include "lexbor/html/tag.h"
@@ -147,7 +147,7 @@ lxb_html_tree_insert_character(lxb_html_tree_t *tree, lxb_html_token_t *token,
 
 LXB_API lxb_status_t
 lxb_html_tree_insert_character_for_data(lxb_html_tree_t *tree,
-                                        const lexbor_str_t *str,
+                                        lexbor_str_t *str,
                                         lxb_dom_node_t **ret_node);
 
 LXB_API lxb_dom_comment_t *

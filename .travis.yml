@@ -2,8 +2,7 @@ language: c
 compiler:
   - clang
   - gcc
-sudo: false
-install: false
+install: skip
 
 env:
   global:
@@ -30,9 +29,6 @@ before_script:
       cmake .. -DCMAKE_BUILD_TYPE=Release -DLEXBOR_BUILD_TESTS=ON
     )
 
-before_install:
-  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
-
 script:
   - make -C build -j${PROCS}
   - make test -C build -j${PROCS}
@@ -50,5 +46,5 @@ addons:
       description: "Lexbor is an open source HTML Renderer library"
     notification_email: lex.borisov@gmail.com
     build_command_prepend: "cmake . -DLEXBOR_BUILD_TESTS=ON"
-    build_command: "make -j4"
+    build_command: "make -j"
     branch_pattern: coverity_scan

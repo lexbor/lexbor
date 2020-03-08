@@ -4,8 +4,6 @@
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
-#include <string.h>
-
 #include "base.h"
 
 
