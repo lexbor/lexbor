@@ -17,7 +17,7 @@
 #include "lexbor/core/shs.h"
 
 
-LXB_API const lxb_encoding_data_t lxb_encoding_res_map[LXB_ENCODING_LAST_ENTRY] =
+LXB_API const lxb_encoding_data_t lxb_encoding_res_map[LXB_ENCODING_LAST_ENTRY] = 
 {
     {LXB_ENCODING_DEFAULT, lxb_encoding_encode_default, lxb_encoding_decode_default,
      lxb_encoding_encode_default_single, lxb_encoding_decode_default_single, (lxb_char_t *) "DEFAULT"},
@@ -107,7 +107,7 @@ LXB_API const lxb_encoding_data_t lxb_encoding_res_map[LXB_ENCODING_LAST_ENTRY] 
      lxb_encoding_encode_x_user_defined_single, lxb_encoding_decode_x_user_defined_single, (lxb_char_t *) "x-user-defined"}
 };
 
-LXB_API const lexbor_shs_entry_t lxb_encoding_res_shs_entities[] = 
+LXB_API const lexbor_shs_entry_t lxb_encoding_res_shs_entities[220] = 
 {
     {NULL, NULL, 202, 0}, {"koi8", (void *) &lxb_encoding_res_map[22], 4, 4}, 
     {"iso8859-2", (void *) &lxb_encoding_res_map[14], 9, 0}, {"iso-8859-2", (void *) &lxb_encoding_res_map[14], 10, 15}, 

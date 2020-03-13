@@ -62,6 +62,8 @@ class Encoding:
 
         if not self.silent:
             print(''.join(buf))
+        
+        self.shs = shs
 
         return buf
 
@@ -164,6 +166,7 @@ class Encoding:
 
         lxb_temp = LXB.Temp(temp_file_h, save_to_h)
         lxb_temp.pattern_append("%%MAX%%", self.make_name_upper(self.last_entry_name))
+        lxb_temp.pattern_append("%%SHS_MAX%%", "{}".format(self.shs.idx + 1))
         lxb_temp.build()
         lxb_temp.save()
 
