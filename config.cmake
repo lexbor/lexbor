@@ -304,19 +304,13 @@ MACRO(SET_MODULE_LIB_DEPENDENCIES libname deps postfix)
     ENDIF()
 ENDMACRO()
 
-MACRO(ADD_MODULE_LIBRARY type libname version_string major sources)
-    IF(NOT ${type} STREQUAL "")
-        add_library(${libname} ${type} ${sources})
-    ENDIF()
+MACRO(ADD_MODULE_LIBRARY type libname version_string major)
+    set(dflags "")
 
-    set(postfix "")
-    set(dflags "-DLEXBOR_BUILDING")
-
-    IF(NOT ${type} STREQUAL "")
-        IF(${type} STREQUAL "STATIC")
-            set(dflags "-DLEXBOR_STATIC")
-            set(postfix "-static")
-        ENDIF()
+    IF(${type} STREQUAL "STATIC")
+        set(dflags "-DLEXBOR_STATIC")
+    ELSE()
+        set(dflags "-DLEXBOR_SHARED")
     ENDIF()
 
     target_link_libraries(${libname} ${CMAKE_THREAD_LIBS_INIT})
@@ -328,6 +322,8 @@ MACRO(ADD_MODULE_LIBRARY type libname version_string major sources)
             RUNTIME DESTINATION "${LEXBOR_INSTALL_DLL_EXE_DIR}"
             ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
             LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+
+    unset(dflags)
 ENDMACRO()
 
 MACRO(INSTALL_MODULE_HEADERS header_path pname module)

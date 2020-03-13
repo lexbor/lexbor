@@ -184,13 +184,13 @@ ENDIF()
 
 ## Create dynamic/static library
 IF(LEXBOR_BUILD_SHARED)
-    ADD_MODULE_LIBRARY("" ${LEXBOR_LIB_NAME} ${LEXBOR_VERSION_STRING}
-                       ${LEXBOR_VERSION_MAJOR} "${LEXBOR_SOURCES}")
+    ADD_MODULE_LIBRARY(SHARED ${LEXBOR_LIB_NAME} ${LEXBOR_VERSION_STRING}
+                       ${LEXBOR_VERSION_MAJOR})
 ENDIF()
 
 IF(LEXBOR_BUILD_STATIC)
-    ADD_MODULE_LIBRARY("" ${LEXBOR_LIB_NAME_STATIC} ${LEXBOR_VERSION_STRING}
-                       ${LEXBOR_VERSION_MAJOR} "${LEXBOR_SOURCES}")
+    ADD_MODULE_LIBRARY(STATIC ${LEXBOR_LIB_NAME_STATIC} ${LEXBOR_VERSION_STRING}
+                       ${LEXBOR_VERSION_MAJOR})
 ENDIF()
 
 ################
@@ -207,13 +207,13 @@ IF(LEXBOR_BUILD_SEPARATELY)
         GET_MODULE_RESURSES(headers sources "${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${module})
 
         IF(LEXBOR_BUILD_SHARED)
-            ADD_MODULE_LIBRARY(SHARED ${libname} ${version_string}
-                               ${major} "${sources}")
+            add_library(${libname} SHARED ${sources})
+            ADD_MODULE_LIBRARY(SHARED ${libname} ${version_string} ${major})
         ENDIF()
 
         IF(LEXBOR_BUILD_STATIC)
-            ADD_MODULE_LIBRARY(STATIC "${libname}_static" ${version_string}
-                               ${major} "${sources}")
+            add_library("${libname}_static" STATIC ${sources})
+            ADD_MODULE_LIBRARY(STATIC "${libname}_static" ${version_string} ${major})
         ENDIF()
 
         IF(LEXBOR_INSTALL_HEADERS)
