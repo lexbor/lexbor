@@ -2,6 +2,21 @@
 
 ## [Unreleased]
 
+## [1.0.0] - 2020-03-13
+### Added
+- Core: added hash table implementation.
+- Created public header file for all modules.
+
+### Fixed
+- HTML: memory leak of repeated parsing of document.
+- NULL pointer use in lxb_dom_attr_compare().
+- Symbols visibility for Windows.
+
+### Changed
+- DOM, HTML, Tag, NS: breaking API changes.
+- DOM: node tag_id to local_name.
+- DOM: attribute name now is uintptr_t. Reference to global unique naming.
+
 ## [0.4.0] - 2019-11-18
 ### Added
 - Encoding module.

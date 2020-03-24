@@ -317,7 +317,7 @@ class SHS:
         if self.prefix != '':
             prefix = self.prefix + ' '
 
-        result.append("{}const lexbor_shs_entry_t {}[] = \n{{\n    ".format(prefix, data_name))
+        result.append("{}const lexbor_shs_entry_t {}[{}] = \n{{\n    ".format(prefix, data_name, self.idx + 1))
 
         for key in range(0, self.idx):
             if key not in lst:

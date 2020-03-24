@@ -45,7 +45,7 @@ Binaries are available for:
 * [CentOS](https://lexbor.com/download/#centos) 6, 7, 8
 * [Debian](https://lexbor.com/download/#debian) 8, 9, 10
 * [Fedora](https://lexbor.com/download/#fedora) 28, 29, 30, 31
-* [RHEL](https://lexbor.com/download/#rhel) 6, 7
+* [RHEL](https://lexbor.com/download/#rhel) 7, 8
 * [Ubuntu](https://lexbor.com/download/#ubuntu) 14.04, 16.04, 18.04, 18.10, 19.04, 19.10
 
 Currently for `x86_64` architecture.
