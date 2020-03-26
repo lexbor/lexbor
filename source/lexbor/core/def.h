@@ -34,7 +34,7 @@
 
 #ifndef LEXBOR_STATIC
     #ifdef _WIN32
-        #ifdef LEXBOR_SHARED
+        #ifdef LEXBOR_BUILDING
             #define LXB_API __declspec(dllexport)
         #else
             #define LXB_API __declspec(dllimport)
@@ -53,11 +53,7 @@
 #endif
 
 #ifndef LEXBOR_STATIC
-    #ifdef _WIN32
-        #define LXB_EXTERN extern __declspec(dllimport)
-    #else
-        #define LXB_EXTERN extern
-    #endif
+    #define LXB_EXTERN extern
 #else
     #define LXB_EXTERN
 #endif

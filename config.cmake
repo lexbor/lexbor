@@ -166,8 +166,13 @@ MACRO(INCLUDE_MODULE_CONFIG pname module module_dir)
         set(DEPENDENCIES "")
 
         IF(EXISTS "${conf_path}")
-            set(CURRENT_LIB_NAME "${PROJECT_NAME}-${module}")
-            set(CURRENT_LIB_NAME_STATIC "${PROJECT_NAME}-${module}-static")
+            IF(LEXBOR_BUILD_SHARED)
+                set(CURRENT_LIB_NAME "${PROJECT_NAME}-${module}")
+            ENDIF()
+
+            IF(LEXBOR_BUILD_STATIC)
+                set(CURRENT_LIB_NAME_STATIC "${PROJECT_NAME}-${module}-static")
+            ENDIF()
 
             include("${conf_path}")
         ENDIF()
@@ -306,12 +311,6 @@ ENDMACRO()
 
 MACRO(ADD_MODULE_LIBRARY type libname version_string major)
     set(dflags "")
-
-    IF(${type} STREQUAL "STATIC")
-        set(dflags "-DLEXBOR_STATIC")
-    ELSE()
-        set(dflags "-DLEXBOR_SHARED")
-    ENDIF()
 
     target_link_libraries(${libname} ${CMAKE_THREAD_LIBS_INIT})
     set_target_properties(${libname} PROPERTIES OUTPUT_NAME ${libname})

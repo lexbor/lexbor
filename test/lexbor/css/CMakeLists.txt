@@ -18,5 +18,7 @@ set(syntax_tokenizer_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/css/syntax/token
 ################
 ## Create tests
 #########################
-EXECUTABLE_LIST("lexbor_css_" "${TEST_LEXBOR_CSS_SOURCES}" ${TEST_UNIT_LIB_NAME} ${LEXBOR_LIB_NAME})
-APPEND_TESTS("lexbor_css_" "${TEST_LEXBOR_CSS_SOURCES}")
+IF(LEXBOR_BUILD_SHARED)
+    EXECUTABLE_LIST("lexbor_css_" "${TEST_LEXBOR_CSS_SOURCES}" ${TEST_UNIT_LIB_NAME} ${LEXBOR_LIB_NAME})
+    APPEND_TESTS("lexbor_css_" "${TEST_LEXBOR_CSS_SOURCES}")
+ENDIF()
