@@ -20,7 +20,6 @@
 #include "lexbor/dom/interfaces/attr_const.h"
 #include "lexbor/dom/interfaces/node.h"
 #include "lexbor/dom/interfaces/document_type.h"
-#include "lexbor/dom/interfaces/attr_res.h"
 #include "lexbor/dom/interfaces/element.h"
 #include "lexbor/dom/interfaces/document_fragment.h"
 #include "lexbor/dom/interfaces/document.h"

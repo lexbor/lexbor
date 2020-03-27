@@ -10,7 +10,6 @@
 #include "lexbor/css/base.h"
 #include "lexbor/css/syntax/tokenizer/error.h"
 #include "lexbor/css/syntax/tokenizer.h"
-#include "lexbor/css/syntax/token_res.h"
 #include "lexbor/css/syntax/res.h"
 #include "lexbor/css/syntax/state_res.h"
 #include "lexbor/css/syntax/token.h"
