@@ -160,10 +160,12 @@ ENDFOREACH()
 ## First, need to add target for shared and static library
 IF(LEXBOR_BUILD_SHARED)
     add_library(${LEXBOR_LIB_NAME} SHARED ${LEXBOR_SOURCES})
+    set_property(TARGET ${LEXBOR_LIB_NAME} APPEND PROPERTY COMPILE_FLAGS "-DLEXBOR_BUILDING")
 ENDIF()
 
 IF(LEXBOR_BUILD_STATIC)
     add_library(${LEXBOR_LIB_NAME_STATIC} STATIC ${LEXBOR_SOURCES})
+    set_property(TARGET ${LEXBOR_LIB_NAME_STATIC} APPEND PROPERTY COMPILE_FLAGS "-DLEXBOR_STATIC")
 ENDIF()
 
 ## Load configurations from all modules. Print modules name and version.
@@ -208,11 +210,13 @@ IF(LEXBOR_BUILD_SEPARATELY)
 
         IF(LEXBOR_BUILD_SHARED)
             add_library(${libname} SHARED ${sources})
+            set_property(TARGET "${libname}" APPEND PROPERTY COMPILE_FLAGS "-DLEXBOR_BUILDING")
             ADD_MODULE_LIBRARY(SHARED ${libname} ${version_string} ${major})
         ENDIF()
 
         IF(LEXBOR_BUILD_STATIC)
             add_library("${libname}_static" STATIC ${sources})
+            set_property(TARGET "${libname}_static" APPEND PROPERTY COMPILE_FLAGS "-DLEXBOR_STATIC")
             ADD_MODULE_LIBRARY(STATIC "${libname}_static" ${version_string} ${major})
         ENDIF()
 

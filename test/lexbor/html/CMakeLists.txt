@@ -23,10 +23,12 @@ set(tree_builder_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/html/html5_test")
 ################
 ## Create tests
 #########################
-EXECUTABLE_LIST("lexbor_html_" "${TEST_LEXBOR_HTML_SOURCES}" ${TEST_UNIT_LIB_NAME} ${LEXBOR_LIB_NAME})
-APPEND_TESTS("lexbor_html_" "${TEST_LEXBOR_HTML_SOURCES}")
+IF(LEXBOR_BUILD_SHARED)
+    EXECUTABLE_LIST("lexbor_html_" "${TEST_LEXBOR_HTML_SOURCES}" ${TEST_UNIT_LIB_NAME} ${LEXBOR_LIB_NAME})
+    APPEND_TESTS("lexbor_html_" "${TEST_LEXBOR_HTML_SOURCES}")
 
-if(LEXBOR_BUILD_TESTS_CPP)
-    EXECUTABLE_LIST("lexbor_html_" "${TEST_LEXBOR_HTML_SOURCES_CPP}" ${TEST_UNIT_LIB_NAME} ${LEXBOR_LIB_NAME})
-    APPEND_TESTS("lexbor_html_" "${TEST_LEXBOR_HTML_SOURCES_CPP}")
-endif()
+    IF(LEXBOR_BUILD_TESTS_CPP)
+        EXECUTABLE_LIST("lexbor_html_" "${TEST_LEXBOR_HTML_SOURCES_CPP}" ${TEST_UNIT_LIB_NAME} ${LEXBOR_LIB_NAME})
+        APPEND_TESTS("lexbor_html_" "${TEST_LEXBOR_HTML_SOURCES_CPP}")
+    ENDIF()
+ENDIF()

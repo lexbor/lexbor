@@ -4,10 +4,7 @@
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
-#define LEXBOR_HASH_EXTERN
 #include "lexbor/core/hash.h"
-#undef LEXBOR_HASH_EXTERN
-
 #include "lexbor/core/str.h"
 
 #define LEXBOR_STR_RES_MAP_LOWERCASE

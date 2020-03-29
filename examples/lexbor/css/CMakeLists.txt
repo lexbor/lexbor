@@ -13,8 +13,10 @@ set(syntax_tokenizer_parse_file_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/css/l
 ################
 ## Create executable
 #########################
-EXECUTABLE_LIST("" "${EXAMPLES_LEXBOR_CSS_SOURCES}" ${LEXBOR_LIB_NAME})
+IF(LEXBOR_BUILD_SHARED)
+    EXECUTABLE_LIST("" "${EXAMPLES_LEXBOR_CSS_SOURCES}" ${LEXBOR_LIB_NAME})
 
-IF(LEXBOR_BUILD_TESTS)
-    APPEND_TESTS("examples_lexbor_css_" "${EXAMPLES_LEXBOR_CSS_SOURCES}")
+    IF(LEXBOR_BUILD_TESTS)
+        APPEND_TESTS("examples_lexbor_css_" "${EXAMPLES_LEXBOR_CSS_SOURCES}")
+    ENDIF()
 ENDIF()
