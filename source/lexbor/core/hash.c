@@ -31,7 +31,7 @@ const lexbor_hash_insert_t lexbor_hash_insert_upper_var = {
     .cmp = lexbor_str_data_nupcmp_right
 };
 
-LXB_API const lexbor_hash_insert_t
+const lexbor_hash_insert_t
 *lexbor_hash_insert_raw = &lexbor_hash_insert_var;
 
 LXB_API const lexbor_hash_insert_t
@@ -107,13 +107,13 @@ _lexbor_hash_entry_create(lexbor_hash_t *hash, const lexbor_hash_copy_f copy_fun
     return entry;
 }
 
-lexbor_hash_t *
+LXB_API lexbor_hash_t *
 lexbor_hash_create(void)
 {
     return lexbor_calloc(1, sizeof(lexbor_hash_t));
 }
 
-lxb_status_t
+LXB_API lxb_status_t
 lexbor_hash_init(lexbor_hash_t *hash, size_t table_size, size_t struct_size)
 {
     lxb_status_t status;
@@ -161,7 +161,7 @@ lexbor_hash_clean(lexbor_hash_t *hash)
     lexbor_hash_table_clean(hash);
 }
 
-lexbor_hash_t *
+LXB_API lexbor_hash_t *
 lexbor_hash_destroy(lexbor_hash_t *hash, bool destroy_obj)
 {
     if (hash == NULL) {
