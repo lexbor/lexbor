@@ -23,8 +23,8 @@ extern "C" {
 #include "lexbor/core/shs.h"
 
 
-LXB_API const lxb_encoding_data_t lxb_encoding_res_map[LXB_ENCODING_LAST_ENTRY];
-LXB_API const lexbor_shs_entry_t lxb_encoding_res_shs_entities[220];
+LXB_API LXB_EXTERN const lxb_encoding_data_t lxb_encoding_res_map[LXB_ENCODING_LAST_ENTRY];
+LXB_API LXB_EXTERN const lexbor_shs_entry_t lxb_encoding_res_shs_entities[220];
 
 
 #ifdef __cplusplus
