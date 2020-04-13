@@ -19,7 +19,7 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size){
 
 	const lxb_char_t *end = (lxb_char_t *)(data + size);
 
-	status = encoding->decode(&decode, (char**)&data, end);
+	encoding->decode(&decode, (char**)&data, end);
 
 	return 0;
 }
