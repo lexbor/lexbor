@@ -4,36 +4,36 @@
 <a href="http://www.facebook.com/sharer.php?u=https%3A%2F%2Fgithub.com%2Flexbor%2Flexbor" target="_blank"><img alt="" height=20 src="http://lexbor.com/img/facebool_share_button.png"></a>
 <a href="https://twitter.com/intent/tweet?text=Development%20of%20an%20open%20source%20HTML%20Renderer%20library...&url=https%3A%2F%2Fgithub.com%2Flexbor%2Flexbor&hashtags=lexbor" target="_blank"><img alt="" height=20 src="http://lexbor.com/img/twitter_share_button.png"></a>
 
-The `lexbor` is being developed using the `C` language, without dependencies.
+The `lexbor` project is being developed using the `C` language, without dependencies.
 
 ## Features
 * [Modules](https://github.com/lexbor/lexbor/tree/master/source/lexbor).
-* [Single or separately](https://github.com/lexbor/lexbor#single-or-separately) libraries for each modules.
+* [Single or separate](https://github.com/lexbor/lexbor#single-or-separately) libraries for each module.
 * No outside dependencies.
 * Easy to port to any platform.
 * C99 support.
 * Speed.
 
 ### HTML Module
-* Fully conformance with the [HTML5 specification](https://html.spec.whatwg.org/multipage/).
+* Full conformance with the [HTML5 specification](https://html.spec.whatwg.org/multipage/).
 * Manipulation of [elements](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/element_create.c) and [attributes](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/element_attributes.c): add, change, delete and other.
-* Support fragment parsing (for [innerHTML](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/element_innerHTML.c)).
-* Support parsing [by chunks](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/document_parse_chunk.c).
+* Supports fragment parsing (for [innerHTML](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/element_innerHTML.c)).
+* Supports parsing [by chunks](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/document_parse_chunk.c).
 * Passes all tree construction tests.
 * [Tested](https://github.com/lexbor/warc_test) by 200+ million HTML pages with [ASAN](https://clang.llvm.org/docs/AddressSanitizer.html).
 * Two way for parsing HTML: [by Document](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/document_parse.c), [by Parser](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/parse.c).
-* Support [determine encoding](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/encoding.c) by byte stream.
+* Supports [determining encoding](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/encoding.c) by byte stream.
 * Fast.
 
 ### CSS Module
-* Fully conformance with the [CSS Syntax](https://drafts.csswg.org/css-syntax-3/) module.
-* Support parsing [by chunks](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/css/syntax/tokenizer_chunks.c).
+* Full conformance with the [CSS Syntax](https://drafts.csswg.org/css-syntax-3/) module.
+* Supports parsing [by chunks](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/css/syntax/tokenizer_chunks.c).
 * Please, see [roadmap](https://lexbor.com/roadmap/#css) of CSS Modules support.
 
 ### Encoding Module
-* Fully conformance with the [Encoding specification](https://encoding.spec.whatwg.org/).
-* Support `40 encodings` for encode/decode.
-* Support [single](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/encoding/single/from_to.c) and [buffering](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/encoding/buffer/from_to.c) encode/decode.
+* Full conformance with the [Encoding specification](https://encoding.spec.whatwg.org/).
+* Supports`40 encodings` for encode/decode.
+* Supports [single](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/encoding/single/from_to.c) and [buffering](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/encoding/buffer/from_to.c) encode/decode.
 * Fast.
 
 ## Build and Installation
@@ -53,7 +53,7 @@ If you need any other architecture, please, write to [support@lexbor.com](mailto
 
 ### Source code
 
-For build and install Lexbor library from source code, use [CMake](https://cmake.org/) (open-source, cross-platform build system).
+For building and installing Lexbor library from source code, use [CMake](https://cmake.org/) (open-source, cross-platform build system).
 
 ```bash
 cmake . -DLEXBOR_BUILD_TESTS=ON -DLEXBOR_BUILD_EXAMPLES=ON -DLEXBOR_BUILD_SEPARATELY=ON
@@ -66,10 +66,10 @@ Please, see more information in [documentation](https://lexbor.com/docs/lexbor/#
 ## Single or separately
 
 ### Single
-* liblexbor — this is a single library includes all modules.
+* liblexbor — this is a single library that includes all modules.
 
 ### Separately
-* liblexbor-{module name} — this is libraries each by modules.
+* liblexbor-{module name} — libraries for each module.
 
 You only need an HTML parser? Use `liblexbor-html`.
 
