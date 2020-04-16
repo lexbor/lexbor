@@ -24,7 +24,7 @@ extern "C" {
 #define LXB_ENCODING_RANGE_INDEX_GB18030_SIZE 207
 
 
-LXB_EXTERN const lxb_encoding_range_index_t lxb_encoding_range_index_gb18030[207];
+LXB_API LXB_EXTERN const lxb_encoding_range_index_t lxb_encoding_range_index_gb18030[207];
 
 
 #ifdef __cplusplus

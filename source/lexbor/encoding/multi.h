@@ -31,19 +31,19 @@ extern "C" {
 #define LXB_ENCODING_MULTI_HASH_JIS0212_SIZE 6923
 
 
-LXB_EXTERN const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782];
-LXB_EXTERN const lxb_encoding_multi_index_t lxb_encoding_multi_index_euc_kr[23750];
-LXB_EXTERN const lxb_encoding_multi_index_t lxb_encoding_multi_index_gb18030[23940];
-LXB_EXTERN const lxb_encoding_multi_index_t lxb_encoding_multi_index_iso_2022_jp_katakana[63];
-LXB_EXTERN const lxb_encoding_multi_index_t lxb_encoding_multi_index_jis0208[11104];
-LXB_EXTERN const lxb_encoding_multi_index_t lxb_encoding_multi_index_jis0212[7211];
+LXB_API LXB_EXTERN const lxb_encoding_multi_index_t lxb_encoding_multi_index_big5[19782];
+LXB_API LXB_EXTERN const lxb_encoding_multi_index_t lxb_encoding_multi_index_euc_kr[23750];
+LXB_API LXB_EXTERN const lxb_encoding_multi_index_t lxb_encoding_multi_index_gb18030[23940];
+LXB_API LXB_EXTERN const lxb_encoding_multi_index_t lxb_encoding_multi_index_iso_2022_jp_katakana[63];
+LXB_API LXB_EXTERN const lxb_encoding_multi_index_t lxb_encoding_multi_index_jis0208[11104];
+LXB_API LXB_EXTERN const lxb_encoding_multi_index_t lxb_encoding_multi_index_jis0212[7211];
 
-LXB_EXTERN const lexbor_shs_hash_t lxb_encoding_multi_hash_big5[23033];
-LXB_EXTERN const lexbor_shs_hash_t lxb_encoding_multi_hash_euc_kr[30109];
-LXB_EXTERN const lexbor_shs_hash_t lxb_encoding_multi_hash_gb18030[23941];
-LXB_EXTERN const lexbor_shs_hash_t lxb_encoding_multi_hash_iso_2022_jp_katakana[72];
-LXB_EXTERN const lexbor_shs_hash_t lxb_encoding_multi_hash_jis0208[11349];
-LXB_EXTERN const lexbor_shs_hash_t lxb_encoding_multi_hash_jis0212[8552];
+LXB_API LXB_EXTERN const lexbor_shs_hash_t lxb_encoding_multi_hash_big5[23033];
+LXB_API LXB_EXTERN const lexbor_shs_hash_t lxb_encoding_multi_hash_euc_kr[30109];
+LXB_API LXB_EXTERN const lexbor_shs_hash_t lxb_encoding_multi_hash_gb18030[23941];
+LXB_API LXB_EXTERN const lexbor_shs_hash_t lxb_encoding_multi_hash_iso_2022_jp_katakana[72];
+LXB_API LXB_EXTERN const lexbor_shs_hash_t lxb_encoding_multi_hash_jis0208[11349];
+LXB_API LXB_EXTERN const lexbor_shs_hash_t lxb_encoding_multi_hash_jis0212[8552];
 
 
 #ifdef __cplusplus
