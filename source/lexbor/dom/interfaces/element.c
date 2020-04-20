@@ -724,7 +724,7 @@ static lexbor_action_t
 lxb_dom_elements_by_tag_name_cb_all(lxb_dom_node_t *node, void *ctx)
 {
     if (node->type != LXB_DOM_NODE_TYPE_ELEMENT) {
-        return LEXBOR_ACTION_NEXT;
+        return LEXBOR_ACTION_OK;
     }
 
     lxb_dom_element_cb_ctx_t *cb_ctx = ctx;
@@ -734,14 +734,14 @@ lxb_dom_elements_by_tag_name_cb_all(lxb_dom_node_t *node, void *ctx)
         return LEXBOR_ACTION_STOP;
     }
 
-    return LEXBOR_ACTION_NEXT;
+    return LEXBOR_ACTION_OK;
 }
 
 static lexbor_action_t
 lxb_dom_elements_by_tag_name_cb(lxb_dom_node_t *node, void *ctx)
 {
     if (node->type != LXB_DOM_NODE_TYPE_ELEMENT) {
-        return LEXBOR_ACTION_NEXT;
+        return LEXBOR_ACTION_OK;
     }
 
     lxb_dom_element_cb_ctx_t *cb_ctx = ctx;
@@ -755,7 +755,7 @@ lxb_dom_elements_by_tag_name_cb(lxb_dom_node_t *node, void *ctx)
         }
     }
 
-    return LEXBOR_ACTION_NEXT;
+    return LEXBOR_ACTION_OK;
 }
 
 lxb_status_t
@@ -783,7 +783,7 @@ static lexbor_action_t
 lxb_dom_elements_by_class_name_cb(lxb_dom_node_t *node, void *ctx)
 {
     if (node->type != LXB_DOM_NODE_TYPE_ELEMENT) {
-        return LEXBOR_ACTION_NEXT;
+        return LEXBOR_ACTION_OK;
     }
 
     lxb_dom_element_cb_ctx_t *cb_ctx = ctx;
@@ -792,7 +792,7 @@ lxb_dom_elements_by_class_name_cb(lxb_dom_node_t *node, void *ctx)
     if (el->attr_class == NULL
         || el->attr_class->value->length < cb_ctx->value_length)
     {
-        return LEXBOR_ACTION_NEXT;
+        return LEXBOR_ACTION_OK;
     }
 
     const lxb_char_t *data = el->attr_class->value->data;
@@ -825,7 +825,7 @@ lxb_dom_elements_by_class_name_cb(lxb_dom_node_t *node, void *ctx)
                         return LEXBOR_ACTION_STOP;
                     }
 
-                    return LEXBOR_ACTION_NEXT;
+                    return LEXBOR_ACTION_OK;
                 }
             }
 
@@ -851,7 +851,7 @@ lxb_dom_elements_by_class_name_cb(lxb_dom_node_t *node, void *ctx)
         }
     }
 
-    return LEXBOR_ACTION_NEXT;
+    return LEXBOR_ACTION_OK;
 }
 
 lxb_status_t
@@ -1006,7 +1006,7 @@ static lexbor_action_t
 lxb_dom_elements_by_attr_cb(lxb_dom_node_t *node, void *ctx)
 {
     if (node->type != LXB_DOM_NODE_TYPE_ELEMENT) {
-        return LEXBOR_ACTION_NEXT;
+        return LEXBOR_ACTION_OK;
     }
 
     lxb_dom_attr_t *attr;
@@ -1015,7 +1015,7 @@ lxb_dom_elements_by_attr_cb(lxb_dom_node_t *node, void *ctx)
 
     attr = lxb_dom_element_attr_by_id(el, cb_ctx->name_id);
     if (attr == NULL) {
-        return LEXBOR_ACTION_NEXT;
+        return LEXBOR_ACTION_OK;
     }
 
     if ((cb_ctx->value_length == 0 && attr->value->length == 0)
@@ -1028,7 +1028,7 @@ lxb_dom_elements_by_attr_cb(lxb_dom_node_t *node, void *ctx)
         }
     }
 
-    return LEXBOR_ACTION_NEXT;
+    return LEXBOR_ACTION_OK;
 }
 
 static bool

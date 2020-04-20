@@ -257,7 +257,7 @@ lxb_dom_node_simple_walk(lxb_dom_node_t *root,
             return;
         }
 
-        if (node->first_child != NULL) {
+        if (node->first_child != NULL && action != LEXBOR_ACTION_NEXT) {
             node = node->first_child;
         }
         else {
@@ -367,14 +367,14 @@ lxb_dom_node_text_content_size(lxb_dom_node_t *node, void *ctx)
         *((size_t *) ctx) += lxb_dom_interface_text(node)->char_data.data.length;
     }
 
-    return LEXBOR_ACTION_NEXT;
+    return LEXBOR_ACTION_OK;
 }
 
 static lexbor_action_t
 lxb_dom_node_text_content_concatenate(lxb_dom_node_t *node, void *ctx)
 {
     if (node->type != LXB_DOM_NODE_TYPE_TEXT) {
-        return LEXBOR_ACTION_NEXT;
+        return LEXBOR_ACTION_OK;
     }
 
     lxb_char_t **text = (lxb_char_t **) ctx;
@@ -384,7 +384,7 @@ lxb_dom_node_text_content_concatenate(lxb_dom_node_t *node, void *ctx)
 
     *text = *text + ch_data->data.length;
 
-    return LEXBOR_ACTION_NEXT;
+    return LEXBOR_ACTION_OK;
 }
 
 lxb_status_t

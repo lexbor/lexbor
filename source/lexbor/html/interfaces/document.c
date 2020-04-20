@@ -356,7 +356,7 @@ lxb_html_document_title_walker(lxb_dom_node_t *node, void *ctx)
         return LEXBOR_ACTION_STOP;
     }
 
-    return LEXBOR_ACTION_NEXT;
+    return LEXBOR_ACTION_OK;
 }
 
 /*
