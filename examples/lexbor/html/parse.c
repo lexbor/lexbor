@@ -43,7 +43,7 @@ main(int argc, const char *argv[])
     lxb_html_parser_destroy(parser);
 
     /* Serialization */
-    printf("Fisrt Document:\n");
+    printf("First Document:\n");
 
     status = lxb_html_serialize_pretty_tree_cb(lxb_dom_interface_node(doc_one),
                                                LXB_HTML_SERIALIZE_OPT_UNDEF,
