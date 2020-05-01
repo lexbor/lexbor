@@ -82,10 +82,11 @@ lxb_dom_attr_set_name(lxb_dom_attr_t *attr, const lxb_char_t *name,
 }
 
 lxb_status_t
-lxb_dom_attr_set_name_ns(lxb_dom_attr_t *attr, const lxb_char_t *local_name,
-                         size_t local_name_len, const lxb_char_t *ns_link,
-                         size_t ns_len,const lxb_char_t *prefix,
-                         size_t prefix_len, bool to_lowercase)
+lxb_dom_attr_set_name_ns(lxb_dom_attr_t *attr,
+                         const lxb_char_t *local_name, size_t local_name_len,
+                         const lxb_char_t *ns_link, size_t ns_len,
+                         const lxb_char_t *prefix, size_t prefix_len,
+                         bool to_lowercase)
 {
     size_t qualified_name_len = local_name_len;
     lxb_char_t *qualified_name = (lxb_char_t *) local_name;
