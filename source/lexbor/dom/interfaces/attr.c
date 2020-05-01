@@ -88,8 +88,6 @@ lxb_dom_attr_set_name_ns(lxb_dom_attr_t *attr,
                          const lxb_char_t *prefix, size_t prefix_len,
                          bool to_lowercase)
 {
-    size_t qualified_name_len = local_name_len;
-    lxb_char_t *qualified_name = (lxb_char_t *) local_name;
     const lxb_ns_data_t *ns_data;
     lxb_dom_attr_data_t *data;
     lxb_dom_document_t *doc = lxb_dom_interface_node(attr)->owner_document;
@@ -109,8 +107,9 @@ lxb_dom_attr_set_name_ns(lxb_dom_attr_t *attr,
 
     /* TODO: append check https://www.w3.org/TR/xml/#NT-Name */
 
+    /* qualified name */
     if (prefix != NULL && prefix_len != 0) {
-        qualified_name = lexbor_malloc(prefix_len + local_name_len + 2);
+        lxb_char_t *qualified_name = lexbor_malloc(prefix_len + local_name_len + 2);
         if (qualified_name == NULL) {
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         }
@@ -118,17 +117,17 @@ lxb_dom_attr_set_name_ns(lxb_dom_attr_t *attr,
         memcpy(qualified_name, prefix, prefix_len);
         memcpy(&qualified_name[prefix_len + 1], local_name, local_name_len);
 
-        qualified_name_len = prefix_len + local_name_len + 1;
+        size_t qualified_name_len = prefix_len + local_name_len + 1;
 
         qualified_name[prefix_len] = ':';
         qualified_name[qualified_name_len] = '\0';
-    }
-
-    /* qualified name */
-    data = lxb_dom_attr_qualified_name_append(doc->attrs, qualified_name, qualified_name_len);
-
-    if (qualified_name != local_name)
+        
+        data = lxb_dom_attr_qualified_name_append(doc->attrs, qualified_name, qualified_name_len);
+        
         lexbor_free(qualified_name);
+    } else {
+        data = lxb_dom_attr_qualified_name_append(doc->attrs, local_name, local_name_len);
+    }
 
     if (data == NULL) {
         return LXB_STATUS_ERROR;
