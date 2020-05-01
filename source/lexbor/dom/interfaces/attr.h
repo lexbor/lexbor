@@ -59,6 +59,12 @@ lxb_dom_attr_set_name(lxb_dom_attr_t *attr, const lxb_char_t *local_name,
                       size_t local_name_len, bool to_lowercase);
 
 LXB_API lxb_status_t
+lxb_dom_attr_set_name_ns(lxb_dom_attr_t *attr, const lxb_char_t *local_name,
+                         size_t local_name_len, const lxb_char_t *ns_link,
+                         size_t ns_len,const lxb_char_t *prefix,
+                         size_t prefix_len, bool to_lowercase);
+
+LXB_API lxb_status_t
 lxb_dom_attr_set_value(lxb_dom_attr_t *attr,
                        const lxb_char_t *value, size_t value_len);
 
@@ -111,6 +117,32 @@ lxb_dom_attr_local_name(lxb_dom_attr_t *attr, size_t *len)
 }
 
 lxb_inline const lxb_char_t *
+lxb_dom_attr_prefix(lxb_dom_attr_t *attr, size_t *len)
+{
+    const lxb_dom_attr_data_t *data;
+
+    if (attr->node.prefix == LXB_NS__UNDEF) {
+        goto empty;
+    }
+
+    data = lxb_dom_attr_data_by_id(attr->node.owner_document->attrs,
+                                    attr->node.prefix);
+    if (data == NULL) {
+        goto empty;
+    }
+
+    return lexbor_hash_entry_str(&data->entry);
+
+empty:
+
+    if (len != NULL) {
+        *len = 0;
+    }
+
+    return NULL;
+}
+
+lxb_inline const lxb_char_t *
 lxb_dom_attr_value(lxb_dom_attr_t *attr, size_t *len)
 {
     if (attr->value == NULL) {
@@ -133,6 +165,9 @@ lxb_dom_attr_value(lxb_dom_attr_t *attr, size_t *len)
  */
 const lxb_char_t *
 lxb_dom_attr_local_name_noi(lxb_dom_attr_t *attr, size_t *len);
+
+const lxb_char_t *
+lxb_dom_attr_prefix_noi(lxb_dom_attr_t *attr, size_t *len);
 
 const lxb_char_t *
 lxb_dom_attr_value_noi(lxb_dom_attr_t *attr, size_t *len);
