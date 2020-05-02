@@ -125,7 +125,8 @@ lxb_dom_attr_set_name_ns(lxb_dom_attr_t *attr,
         data = lxb_dom_attr_qualified_name_append(doc->attrs, qualified_name, qualified_name_len);
         
         lexbor_free(qualified_name);
-    } else {
+    }
+    else {
         data = lxb_dom_attr_qualified_name_append(doc->attrs, local_name, local_name_len);
     }
 
@@ -146,7 +147,8 @@ lxb_dom_attr_set_name_ns(lxb_dom_attr_t *attr,
     /* prefix */
     if (prefix != NULL && prefix_len != 0) {
         attr->node.prefix = (lxb_ns_prefix_id_t) lxb_ns_prefix_append(doc->ns, prefix, prefix_len);
-    } else {
+    }
+    else {
         attr->node.prefix = 0;
     }
 
