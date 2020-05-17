@@ -804,11 +804,10 @@ lxb_dom_elements_by_class_name_cb(lxb_dom_node_t *node, void *ctx)
 
     lxb_dom_document_t *doc = el->node.owner_document;
 
-    for (; (end - data) >= cb_ctx->value_length; data++)
-    {
+    for (; data < end; data++) {
         if (lexbor_utils_whitespace(*data, ==, ||)) {
-            if (pos != data && (data - pos) == cb_ctx->value_length)
-            {
+
+            if (pos != data && (data - pos) == cb_ctx->value_length) {
                 if (doc->compat_mode == LXB_DOM_DOCUMENT_CMODE_QUIRKS) {
                     is_it = lexbor_str_data_ncasecmp(pos, cb_ctx->value,
                                                      cb_ctx->value_length);
@@ -827,6 +826,10 @@ lxb_dom_elements_by_class_name_cb(lxb_dom_node_t *node, void *ctx)
 
                     return LEXBOR_ACTION_OK;
                 }
+            }
+
+            if ((end - data) < cb_ctx->value_length) {
+                return LEXBOR_ACTION_OK;
             }
 
             pos = data + 1;
