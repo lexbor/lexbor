@@ -6,12 +6,11 @@ cmake_minimum_required(VERSION 2.8)
 include_directories(".")
 
 ################
-## Includes
+## Sources
 #########################
-include(unit/CMakeLists.txt)
+file(GLOB_RECURSE FUZZ_LEXBOR_ENCODING_SOURCES "*.c")
 
 ################
-## Subs
+## Create
 #########################
-FIND_AND_APPEND_SUB_DIRS("lexbor" OFF)
-FIND_AND_APPEND_SUB_DIRS("fuzzers/lexbor" OFF)
+EXECUTABLE_LIST("fuzz_lexbor_encoding_" "${FUZZ_LEXBOR_ENCODING_SOURCES}" ${TEST_UNIT_LIB_NAME} ${LEXBOR_LIB_NAME})

@@ -8,6 +8,7 @@ include_directories(".")
 ################
 ## Sources
 #########################
+file(GLOB TEST_LEXBOR_ENCODING_FUZZ_SOURCES "fuzz_*.c")
 file(GLOB_RECURSE TEST_LEXBOR_ENCODING_BUFFER_SOURCES "buffer/*.c")
 file(GLOB_RECURSE TEST_LEXBOR_ENCODING_SINGLE_SOURCES "single/*.c")
 
@@ -31,6 +32,9 @@ set(single_gb18030_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/encoding/gb18030_m
 ################
 ## Create tests
 #########################
+EXECUTABLE_LIST("lexbor_encoding_" "${TEST_LEXBOR_ENCODING_FUZZ_SOURCES}" ${TEST_UNIT_LIB_NAME} ${LEXBOR_LIB_NAME})
+APPEND_TESTS("lexbor_encoding_" "${TEST_LEXBOR_ENCODING_FUZZ_SOURCES}")
+
 EXECUTABLE_LIST("lexbor_encoding_" "${TEST_LEXBOR_ENCODING_BUFFER_SOURCES}" ${TEST_UNIT_LIB_NAME} ${LEXBOR_LIB_NAME})
 APPEND_TESTS("lexbor_encoding_" "${TEST_LEXBOR_ENCODING_BUFFER_SOURCES}")
 
