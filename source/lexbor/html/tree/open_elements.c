@@ -12,6 +12,7 @@ LXB_API void
 lxb_html_tree_open_elements_remove_by_node(lxb_html_tree_t *tree,
                                            lxb_dom_node_t *node)
 {
+    size_t delta;
     void **list = tree->open_elements->list;
     size_t len = tree->open_elements->length;
 
@@ -19,8 +20,9 @@ lxb_html_tree_open_elements_remove_by_node(lxb_html_tree_t *tree,
         len--;
 
         if (list[len] == node) {
-            memmove(&list[len], &list[len + 1],
-                    sizeof(void *) * (tree->open_elements->length - len));
+            delta = tree->open_elements->length - len - 1;
+
+            memmove(list + len, list + len + 1, sizeof(void *) * delta);
 
             tree->open_elements->length--;
 

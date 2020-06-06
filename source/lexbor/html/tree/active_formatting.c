@@ -43,6 +43,7 @@ void
 lxb_html_tree_active_formatting_remove_by_node(lxb_html_tree_t *tree,
                                                lxb_dom_node_t *node)
 {
+    size_t delta;
     void **list = tree->active_formatting->list;
     size_t idx = tree->active_formatting->length;
 
@@ -50,8 +51,9 @@ lxb_html_tree_active_formatting_remove_by_node(lxb_html_tree_t *tree,
         idx--;
 
         if (list[idx] == node) {
-            memmove(&list[idx], &list[idx + 1],
-                    sizeof(void *) * (tree->active_formatting->length - idx));
+            delta = tree->active_formatting->length - idx - 1;
+
+            memmove(list + idx, list + idx + 1, sizeof(void *) * delta);
 
             tree->active_formatting->length--;
 
