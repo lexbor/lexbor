@@ -5,6 +5,7 @@
 int
 main(int argc, const char *argv[])
 {
+    bool loop;
     size_t size;
     lxb_status_t status;
     lxb_html_document_t *document;
@@ -19,6 +20,8 @@ main(int argc, const char *argv[])
     if (status != LXB_STATUS_OK) {
         return EXIT_FAILURE;
     }
+
+    loop = true;
 
     do {
         size = fread(inbuf, 1, sizeof(inbuf), stdin);
