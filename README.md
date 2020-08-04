@@ -80,6 +80,8 @@ The `liblexbor-html` library already contains all the pointers to the required d
 
 ## External Bindings and Wrappers
 
+* [Elixir](https://git.pleroma.social/pleroma/elixir-libraries/fast_html) binding for the HTML module (since 2.0 version)
+
 You can create a binding or wrapper for the `lexbor` and place the link here!
 
 ## Documentation
