@@ -78,7 +78,6 @@ lxb_html_token_make_text_drop_null(lxb_html_token_t *token, lexbor_str_t *str,
                                    lexbor_mraw_t *mraw);
 
 LXB_API lxb_status_t
-lxb_html_token_process_data(lxb_html_token_process_t *process,
 lxb_html_token_make_text_replace_null(lxb_html_token_t *token,
                                       lexbor_str_t *str, lexbor_mraw_t *mraw);
 

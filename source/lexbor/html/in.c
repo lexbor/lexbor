@@ -1,1 +1,0 @@
-            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
