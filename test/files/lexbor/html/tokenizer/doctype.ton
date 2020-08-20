@@ -70,7 +70,7 @@
                 "tag": "!DOCTYPE",
                 "attr": [
                     {"name": "html", "value": null},
-                    {"name": "PUBLIC", "value": "test public"}
+                    {"name": "public", "value": "test public"}
                 ],
             }
         ]
@@ -84,7 +84,7 @@
                 "tag": "!DOCTYPE",
                 "attr": [
                     {"name": "html", "value": null},
-                    {"name": "PUBLIC", "value": "test public"}
+                    {"name": "public", "value": "test public"}
                 ],
             }
         ]
@@ -98,7 +98,7 @@
                 "tag": "!DOCTYPE",
                 "attr": [
                     {"name": "html", "value": null},
-                    {"name": "PUBLIC", "value": "test public"},
+                    {"name": "public", "value": "test public"},
                     {"name": null, "value": "system identifier"}
                 ],
             }
@@ -113,7 +113,7 @@
                 "tag": "!DOCTYPE",
                 "attr": [
                     {"name": "html", "value": null},
-                    {"name": "SYSTEM", "value": "test system"}
+                    {"name": "system", "value": "test system"}
                 ],
             }
         ]
@@ -127,7 +127,7 @@
                 "tag": "!DOCTYPE",
                 "attr": [
                     {"name": "html", "value": null},
-                    {"name": "SYSTEM", "value": "test system"}
+                    {"name": "system", "value": "test system"}
                 ],
             }
         ]
@@ -167,7 +167,7 @@
                 "tag": "!DOCTYPE",
                 "attr": [
                     {"name": "html", "value": null},
-                    {"name": "PUBLIC", "value": "test publi"}
+                    {"name": "public", "value": "test publi"}
                 ],
             }
         ]
@@ -181,7 +181,7 @@
                 "tag": "!DOCTYPE",
                 "attr": [
                     {"name": "html", "value": null},
-                    {"name": "PUBLIC", "value": "test publi"}
+                    {"name": "public", "value": "test publi"}
                 ],
             }
         ]
@@ -195,7 +195,7 @@
                 "tag": "!DOCTYPE",
                 "attr": [
                     {"name": "html", "value": null},
-                    {"name": "PUBLIC", "value": "test public"},
+                    {"name": "public", "value": "test public"},
                     {"name": null, "value": "test syst"}
                 ],
             }
@@ -210,7 +210,7 @@
                 "tag": "!DOCTYPE",
                 "attr": [
                     {"name": "html", "value": null},
-                    {"name": "PUBLIC", "value": "test public"},
+                    {"name": "public", "value": "test public"},
                     {"name": null, "value": "test syst"}
                 ],
                 "errors": [
@@ -229,7 +229,7 @@
                 "tag": "!DOCTYPE",
                 "attr": [
                     {"name": "html", "value": null},
-                    {"name": "PUBLIC", "value": null}
+                    {"name": "public", "value": null}
                 ],
                 "errors": [
                     LXB_HTML_TOKENIZER_ERROR_EOINDO
@@ -246,7 +246,7 @@
                 "tag": "!DOCTYPE",
                 "attr": [
                     {"name": "html", "value": null},
-                    {"name": "PUBLIC", "value": ""}
+                    {"name": "public", "value": ""}
                 ],
                 "errors": [
                     LXB_HTML_TOKENIZER_ERROR_EOINDO

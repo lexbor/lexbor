@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -533,11 +533,11 @@ lxb_dom_attr_t *
 lxb_dom_element_attr_is_exist(lxb_dom_element_t *element,
                               const lxb_char_t *qualified_name, size_t length)
 {
-    lxb_dom_attr_data_t *data;
+    const lxb_dom_attr_data_t *data;
     lxb_dom_attr_t *attr = element->first_attr;
 
-    data = lexbor_hash_search(element->node.owner_document->attrs,
-                          lexbor_hash_search_lower, qualified_name, length);
+    data = lxb_dom_attr_data_by_local_name(element->node.owner_document->attrs,
+                                           qualified_name, length);
     if (data == NULL) {
         return NULL;
     }

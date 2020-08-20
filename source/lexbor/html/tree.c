@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -201,15 +201,6 @@ lxb_html_tree_token_callback(lxb_html_tokenizer_t *tkz,
                              lxb_html_token_t *token, void *ctx)
 {
     lxb_status_t status;
-
-    if (token->tag_id == LXB_TAG__UNDEF) {
-        token->tag_id = lxb_html_token_tag_id_from_data(tkz->tags, token,
-                                                        tkz->mraw);
-        if (token->tag_id == LXB_TAG__UNDEF) {
-            tkz->status = LXB_STATUS_ERROR;
-            return NULL;
-        }
-    }
 
     status = lxb_html_tree_insertion_mode(ctx, token);
     if (status != LXB_STATUS_OK) {
@@ -461,34 +452,6 @@ lxb_html_tree_create_element_for_token(lxb_html_tree_t *tree,
     return lxb_html_interface_element(node);
 }
 
-lxb_inline const lxb_dom_attr_data_t *
-lxb_html_tree_attr_make_name(lexbor_hash_t *attrs, lxb_html_token_attr_t *attr,
-                             lxb_html_parser_char_t *pc, lexbor_str_t *name)
-{
-    lxb_status_t status;
-    const lxb_dom_attr_data_t *data;
-
-    if (lexbor_in_segment(attr->in_name, attr->name_end)) {
-        data = lxb_dom_attr_local_name_append(attrs, attr->name_begin,
-                                           (attr->name_end - attr->name_begin));
-        if (data != NULL) {
-            return data;
-        }
-    }
-
-    pc->state = lxb_html_parser_char_data_lcase;
-
-    name->length = 0;
-
-    status = lxb_html_parser_char_process(pc, name, attr->in_name,
-                                          attr->name_begin, attr->name_end);
-    if (status != LXB_STATUS_OK) {
-        return NULL;
-    }
-
-    return lxb_dom_attr_local_name_append(attrs, name->data, name->length);
-}
-
 lxb_status_t
 lxb_html_tree_append_attributes(lxb_html_tree_t *tree,
                                 lxb_dom_element_t *element,
@@ -496,41 +459,18 @@ lxb_html_tree_append_attributes(lxb_html_tree_t *tree,
 {
     lxb_status_t status;
     lxb_dom_attr_t *attr;
-    lexbor_str_t local_name, value;
-    const lxb_dom_attr_data_t *data;
-    lxb_html_parser_char_t pc = {0};
+    lexbor_str_t local_name;
     lxb_html_token_attr_t *token_attr = token->attr_first;
     lexbor_mraw_t *mraw = element->node.owner_document->text;
-    lexbor_hash_t *attrs = element->node.owner_document->attrs;
-
-    pc.mraw = mraw;
-    pc.replace_null = true;
-    pc.is_attribute = true;
 
     local_name.data = NULL;
 
     while (token_attr != NULL) {
-        value.data = NULL;
-
-        data = lxb_html_tree_attr_make_name(attrs, token_attr, &pc, &local_name);
-        if (data == NULL) {
-            return LXB_STATUS_ERROR;
-        }
-
-        attr = lxb_dom_element_attr_by_local_name_data(element, data);
+        attr = lxb_dom_element_attr_by_local_name_data(element,
+                                                       token_attr->name);
         if (attr != NULL) {
             token_attr = token_attr->next;
             continue;
-        }
-
-        if (token_attr->value_begin != NULL) {
-            pc.state = lxb_html_parser_char_ref_data;
-
-            status = lxb_html_parser_char_process(&pc, &value, token_attr->in_value,
-                                    token_attr->value_begin, token_attr->value_end);
-            if (status != LXB_STATUS_OK) {
-                return status;
-            }
         }
 
         attr = lxb_dom_attr_interface_create(element->node.owner_document);
@@ -538,15 +478,15 @@ lxb_html_tree_append_attributes(lxb_html_tree_t *tree,
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         }
 
-        if (value.data != NULL) {
-            status = lxb_dom_attr_set_value_wo_copy(attr, value.data,
-                                                    value.length);
+        if (token_attr->value_begin != NULL) {
+            status = lxb_dom_attr_set_value_wo_copy(attr, token_attr->value,
+                                                    token_attr->value_size);
             if (status != LXB_HTML_STATUS_OK) {
                 return status;
             }
         }
 
-        attr->node.local_name = data->attr_id;
+        attr->node.local_name = token_attr->name->attr_id;
         attr->node.ns = ns;
 
         /* Fix for adjust MathML/SVG attributes */
@@ -739,15 +679,21 @@ lxb_status_t
 lxb_html_tree_insert_character(lxb_html_tree_t *tree, lxb_html_token_t *token,
                                lxb_dom_node_t **ret_node)
 {
+    size_t size;
     lxb_status_t status;
     lexbor_str_t str = {0};
-    lxb_html_parser_char_t pc = {0};
 
-    status = lxb_html_token_parse_data(token, &pc, &str,
-                                       tree->document->dom_document.text);
-    if (status != LXB_STATUS_OK) {
-        return status;
+    size = token->text_end - token->text_start;
+
+    lexbor_str_init(&str, tree->document->dom_document.text, size + 1);
+    if (str.data == NULL) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
+
+    memcpy(str.data, token->text_start, size);
+
+    str.data[size] = 0x00;
+    str.length = size;
 
     status = lxb_html_tree_insert_character_for_data(tree, &str, ret_node);
     if (status != LXB_STATUS_OK) {
@@ -849,12 +795,9 @@ lxb_dom_comment_t *
 lxb_html_tree_insert_comment(lxb_html_tree_t *tree,
                              lxb_html_token_t *token, lxb_dom_node_t *pos)
 {
-    lxb_status_t status;
     lxb_dom_node_t *node;
     lxb_dom_comment_t *comment;
     lxb_html_tree_insertion_position_t ipos;
-
-    lxb_html_parser_char_t pc = {0};
 
     if (pos == NULL) {
         pos = lxb_html_tree_appropriate_place_inserting_node(tree, NULL, &ipos);
@@ -872,10 +815,10 @@ lxb_html_tree_insert_comment(lxb_html_tree_t *tree,
         return NULL;
     }
 
-    status = lxb_html_token_parse_data(token, &pc, &comment->char_data.data,
-                                       tree->document->dom_document.text);
-    if (status != LXB_STATUS_OK) {
-        return lxb_dom_comment_interface_destroy(comment);
+    tree->status = lxb_html_token_make_text(token, &comment->char_data.data,
+                                            tree->document->dom_document.text);
+    if (tree->status != LXB_STATUS_OK) {
+        return NULL;
     }
 
     lxb_html_tree_insert_node(pos, node, ipos);
@@ -888,7 +831,6 @@ lxb_html_tree_create_document_type_from_token(lxb_html_tree_t *tree,
                                               lxb_html_token_t *token)
 {
     lxb_status_t status;
-    lexbor_str_t id_name = {0};
     lxb_dom_node_t *doctype_node;
     lxb_dom_document_type_t *doc_type;
 
@@ -901,9 +843,7 @@ lxb_html_tree_create_document_type_from_token(lxb_html_tree_t *tree,
     doc_type = lxb_dom_interface_document_type(doctype_node);
 
     /* Parse */
-    status = lxb_html_token_doctype_parse(token, tree->document->dom_document.mraw,
-                                          &doc_type->name, &doc_type->public_id,
-                                          &doc_type->system_id, &id_name);
+    status = lxb_html_token_doctype_parse(token, doc_type);
     if (status != LXB_STATUS_OK) {
         return lxb_dom_document_type_interface_destroy(doc_type);
     }

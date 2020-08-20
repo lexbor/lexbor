@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -104,12 +104,6 @@ lxb_html_parse_fragment_chunk_end(lxb_html_parser_t *parser);
 /*
  * Inline functions
  */
-lxb_inline void
-lxb_html_parser_set_without_copy(lxb_html_parser_t *parser)
-{
-    lxb_html_tokenizer_opt_set(parser->tkz, LXB_HTML_TOKENIZER_OPT_WO_COPY);
-}
-
 lxb_inline lxb_html_tokenizer_t *
 lxb_html_parser_tokenizer(lxb_html_parser_t *parser)
 {
@@ -137,9 +131,6 @@ lxb_html_parser_state(lxb_html_parser_t *parser)
 /*
  * No inline functions for ABI.
  */
-LXB_API void
-lxb_html_parser_set_without_copy_noi(lxb_html_parser_t *parser);
-
 LXB_API lxb_html_tokenizer_t *
 lxb_html_parser_tokenizer_noi(lxb_html_parser_t *parser);
 

@@ -23,6 +23,8 @@ extern "C" {
                                 LEXBOR_STRINGIZE(LXB_HTML_VERSION_PATCH)
 
 
+typedef struct lxb_html_tokenizer lxb_html_tokenizer_t;
+typedef unsigned int lxb_html_tokenizer_opt_t;
 typedef struct lxb_html_tree lxb_html_tree_t;
 
 /*

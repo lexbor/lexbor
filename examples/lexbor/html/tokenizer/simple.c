@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Alexander Borisov
+ * Copyright (C) 2019-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -92,8 +92,6 @@ main(int argc, const char *argv[])
         FAILED("Failed to create tokenizer object");
     }
 
-    /* Without copying input buffer and END_OF_FILE token */
-    lxb_html_tokenizer_opt_set(tkz, LXB_HTML_TOKENIZER_OPT_WO_COPY);
     /* Set callback for token */
     lxb_html_tokenizer_callback_token_done_set(tkz, token_callback, NULL);
 

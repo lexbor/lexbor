@@ -32,8 +32,7 @@ test_callback_token_done(lxb_html_tokenizer_t *tkz,
                          lxb_html_token_t *token, void *ctx)
 {
     TEST_OBJ_ARG;
-    lexbor_str_t str;
-    lxb_status_t status;
+    size_t length;
     tkz_test_ctx_t *entry;
 
     entry = ctx;
@@ -46,15 +45,13 @@ test_callback_token_done(lxb_html_tokenizer_t *tkz,
 
     tkz_test_cmp_t *test_cmp = lexbor_array_get(&entry->tokens, entry->done);
 
-    lexbor_str_clean(&str);
-    status = lxb_html_token_make_data(token, &str, &entry->mraw);
-    test_eq(status, LXB_STATUS_OK);
+    length = token->text_end - token->text_start;
 
-    if (str.length != test_cmp->data.length ||
-        lexbor_str_data_cmp(str.data, test_cmp->data.data) == false)
+    if (length != test_cmp->data.length ||
+        lexbor_str_data_ncmp(token->text_start, test_cmp->data.data, length) == false)
     {
         TEST_PRINTLN("Data in tokens are not equal:");
-        TEST_PRINTLN("Have: %.*s", (int) str.length, (const char *) str.data);
+        TEST_PRINTLN("Have: %.*s", (int) length, (const char *) token->text_start);
         TEST_PRINTLN("Need: %.*s", (int) test_cmp->data.length,
                      (const char *) test_cmp->data.data);
 
@@ -70,7 +67,6 @@ test_callback_token_done(lxb_html_tokenizer_t *tkz,
     }
 
     entry->done++;
-    lexbor_str_destroy(&str, &entry->mraw, false);
 
     return token;
 }

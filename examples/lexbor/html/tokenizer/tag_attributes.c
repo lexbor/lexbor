@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Alexander Borisov
+ * Copyright (C) 2019-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -20,32 +20,17 @@
 static lxb_html_token_t *
 token_callback(lxb_html_tokenizer_t *tkz, lxb_html_token_t *token, void *ctx)
 {
-    lxb_status_t status;
-    lexbor_mraw_t *mraw;
-    const lxb_char_t *tag;
-    lexbor_str_t name = {0};
-    lexbor_str_t value = {0};
-    lxb_html_parser_char_t pc = {0};
+    const lxb_char_t *tag, *name;
+    lxb_html_token_attr_t *attr;
 
-    lxb_html_token_attr_t *attr = token->attr_first;
-    lexbor_hash_t *tags = lxb_html_tokenizer_tags(tkz);
+    attr = token->attr_first;
 
     /* Skip all #text or without attributes tokens */
-    if (token->tag_id == LXB_HTML_TOKEN_TYPE_TEXT || attr == NULL) {
+    if (token->tag_id == LXB_TAG__TEXT || attr == NULL) {
         return token;
     }
 
-    mraw = lxb_html_tokenizer_mraw(tkz);
-
-    if (token->tag_id == LXB_TAG__UNDEF) {
-        token->tag_id = lxb_html_token_tag_id_from_data(tags, token, mraw);
-        if (token->tag_id == LXB_TAG__UNDEF) {
-            lxb_html_tokenizer_status_set(tkz, LXB_STATUS_ERROR);
-            return NULL;
-        }
-    }
-
-    tag = lxb_tag_name_by_id(tags, token->tag_id, NULL);
+    tag = lxb_tag_name_by_id(lxb_html_tokenizer_tags(tkz), token->tag_id, NULL);
     if (tag == NULL) {
         FAILED("Failed to get token name");
     }
@@ -53,18 +38,19 @@ token_callback(lxb_html_tokenizer_t *tkz, lxb_html_token_t *token, void *ctx)
     printf("\"%s\" attributes:\n", tag);
 
     while (attr != NULL) {
-        name.length = 0;
-        value.length = 0;
+        name = lxb_html_token_attr_name(attr, NULL);
 
-        status = lxb_html_token_attr_parse(attr, &pc, &name, &value, mraw);
-        if (status != LXB_STATUS_OK) {
-            FAILED("Failed to parse token attributes");
+        if (name != NULL) {
+            printf("    Name: %s; ", name);
+        }
+        else {
+            /* This can only happen for the DOCTYPE token. */
+
+            printf("    Name: <NOT SET>; \n");
         }
 
-        printf("    Name: %s; ", name.data);
-
-        if (value.data != NULL) {
-            printf("Value: %s\n", value.data);
+        if (attr->value != NULL) {
+            printf("Value: %.*s\n", (int) attr->value_size, attr->value);
         }
         else {
             printf("Value: <NOT SET>\n");
@@ -72,9 +58,6 @@ token_callback(lxb_html_tokenizer_t *tkz, lxb_html_token_t *token, void *ctx)
 
         attr = attr->next;
     }
-
-    lexbor_str_destroy(&name, mraw, false);
-    lexbor_str_destroy(&value, mraw, false);
 
     return token;
 }
@@ -99,13 +82,6 @@ main(int argc, const char *argv[])
         FAILED("Failed to create tokenizer object");
     }
 
-    status = lxb_html_tokenizer_tags_make(tkz, 64);
-    if (status != LXB_STATUS_OK) {
-        FAILED("Failed to create tokenizer tags");
-    }
-
-    /* Without copying input buffer */
-    lxb_html_tokenizer_opt_set(tkz, LXB_HTML_TOKENIZER_OPT_WO_COPY);
     /* Set callback for token */
     lxb_html_tokenizer_callback_token_done_set(tkz, token_callback, NULL);
 
@@ -124,7 +100,6 @@ main(int argc, const char *argv[])
         FAILED("Failed to ending of parsing the html data");
     }
 
-    lxb_html_tokenizer_tags_destroy(tkz);
     lxb_html_tokenizer_destroy(tkz);
 
     return 0;

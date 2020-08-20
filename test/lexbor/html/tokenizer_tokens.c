@@ -1,11 +1,10 @@
 /*
- * Copyright (C) 2018-2019 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include <lexbor/core/fs.h>
-#include <lexbor/html/parser_char.h>
 
 #include "tokenizer_helper.h"
 
@@ -256,9 +255,9 @@ static lxb_status_t
 check_token_text(tokenizer_helper_t *helper, unit_kv_value_t *entry,
                  lxb_html_token_t *token)
 {
-    lxb_status_t status;
-    lexbor_str_t *str, *str_parser = NULL, data = {0};
-    unit_kv_value_t *value, *text_parser;
+    size_t length;
+    lexbor_str_t *str;
+    unit_kv_value_t *value;
 
     value = unit_kv_hash_value_nolen_c(entry, "text");
     if (value == NULL) {
@@ -272,76 +271,17 @@ check_token_text(tokenizer_helper_t *helper, unit_kv_value_t *entry,
         return LXB_STATUS_ERROR;
     }
 
-    text_parser = unit_kv_hash_value_nolen_c(entry, "text-parser");
-    if (text_parser != NULL) {
-        if (unit_kv_is_string(text_parser) == false) {
-            TEST_PRINTLN("Parameter 'text-parser' must be STRING");
-            print_error(helper, value);
-
-            return LXB_STATUS_ERROR;
-        }
-
-        str_parser = unit_kv_string(text_parser);
-    }
-
     str = unit_kv_string(value);
 
-    if (str_parser != NULL) {
-        if (str_parser->length == 8 &&
-            lexbor_str_data_casecmp((const lxb_char_t *) "char_ref",
-                                    str_parser->data) == true)
-        {
-            lxb_html_parser_char_t pc = {0};
+    length = token->text_end - token->text_start;
 
-            pc.state = lxb_html_parser_char_ref_data;
-            pc.mraw = helper->map->mraw;
-            pc.replace_null = true;
-
-            status = lxb_html_parser_char_process(&pc, &data, token->in_begin,
-                                                  token->begin, token->end);
-            if (status != LXB_STATUS_OK) {
-                TEST_PRINTLN("Failed to make token text with char_ref parser");
-                return LXB_STATUS_ERROR;
-            }
-        }
-        else if (str_parser->length == 13 &&
-                 lexbor_str_data_casecmp((const lxb_char_t *) "char_ref_attr",
-                                         str_parser->data) == true)
-        {
-            lxb_html_parser_char_t pc = {0};
-
-            pc.state = lxb_html_parser_char_ref_data;
-            pc.mraw = helper->map->mraw;
-            pc.replace_null = true;
-            pc.is_attribute = true;
-
-            status = lxb_html_parser_char_process(&pc, &data, token->in_begin,
-                                                  token->begin, token->end);
-            if (status != LXB_STATUS_OK) {
-                TEST_PRINTLN("Failed to make token text with "
-                             "char_ref_attr parser");
-                return LXB_STATUS_ERROR;
-            }
-        }
-        else {
-            TEST_PRINTLN("Unknown text parser: %s", str_parser->data);
-            return LXB_STATUS_ERROR;
-        }
-    }
-    else {
-        status = lxb_html_token_make_data(token, &data, helper->map->mraw);
-        if (status != LXB_STATUS_OK) {
-            TEST_PRINTLN("Failed to make token text");
-            return LXB_STATUS_ERROR;
-        }
-    }
-
-    if (data.length != str->length && data.length != 0 &&
-        lexbor_str_data_casecmp(data.data, str->data) == false)
+    if (length != str->length ||
+        lexbor_str_data_ncasecmp(token->text_start, str->data, length) == false)
     {
         TEST_PRINTLN("Token text not match. \n"
-                     "Have:\n%s\nNeed:\n%s",
-                     (const char *)data.data, (const char *) str->data);
+                     "Have:\n%.*s\nNeed:\n%s",
+                     (int) length, (const char *) token->text_start,
+                     (const char *) str->data);
 
         print_error(helper, value);
 
@@ -416,11 +356,10 @@ static lxb_status_t
 check_token_attr(tokenizer_helper_t *helper, unit_kv_value_t *entry,
                  lxb_html_token_t *token)
 {
-    lexbor_str_t attr_name = {0}, attr_value = {0};
+    lexbor_str_t attr_name, attr_value;
     unit_kv_value_t *value;
     unit_kv_array_t *attr_entries;
     lxb_html_token_attr_t *attr;
-    lxb_html_parser_char_t pc = {0};
 
     lxb_status_t status = LXB_STATUS_OK;
 
@@ -451,51 +390,37 @@ check_token_attr(tokenizer_helper_t *helper, unit_kv_value_t *entry,
 
             print_error(helper, value);
 
-            status = LXB_STATUS_ERROR;
-            goto done;
+            return LXB_STATUS_ERROR;
         }
 
         if (unit_kv_is_hash(attr_entries->list[i]) == false) {
             TEST_PRINTLN("Entries in 'attr' parameter must be HASH");
             print_error(helper, attr_entries->list[i]);
 
-            status = LXB_STATUS_ERROR;
-            goto done;
+            return LXB_STATUS_ERROR;
         }
 
-        status = lxb_html_token_attr_parse(attr, &pc, &attr_name, &attr_value,
-                                           helper->map->mraw);
-        if (status != LXB_STATUS_OK) {
-            TEST_PRINTLN("Failed to parse token attribute");
-            print_error(helper, attr_entries->list[i]);
+        attr_name.data = (lxb_char_t *) lxb_html_token_attr_name(attr, &attr_name.length);
 
-            goto done;
-        }
+        attr_value.data = attr->value;
+        attr_value.length = attr->value_size;
 
         status = check_token_attr_param(helper, attr_entries->list[i],
                                         &attr_name, attr, "name", i);
         if (status != LXB_STATUS_OK) {
-            goto done;
+            return status;
         }
 
         status = check_token_attr_param(helper, attr_entries->list[i],
                                         &attr_value, attr, "value", i);
         if (status != LXB_STATUS_OK) {
-            goto done;
+            return status;
         }
-
-        lexbor_str_clean(&attr_name);
-        lexbor_str_clean(&attr_value);
 
         attr = attr->next;
     }
 
-done:
-
-    lexbor_str_destroy(&attr_name, helper->map->mraw, false);
-    lexbor_str_destroy(&attr_value, helper->map->mraw, false);
-
-    return status;
+    return LXB_STATUS_OK;
 }
 
 static lxb_status_t
@@ -558,12 +483,13 @@ check_token_attr_param(tokenizer_helper_t *helper, unit_kv_value_t *entry,
             }
         }
 
-        if (val_str->length != str->length &&
-            lexbor_str_data_casecmp(val_str->data, str->data) == false)
+        if (val_str->length != str->length ||
+            lexbor_str_data_ncasecmp(val_str->data, str->data, str->length) == false)
         {
             TEST_PRINTLN("Parameter '%s' in attribute not match. \n"
-                         "Have: %s; Need: %s", param,
-                         (const char *) str->data, (const char *)val_str->data);
+                         "Have: %.*s; Need: %s", param,
+                         (int) str->length, (const char *) str->data,
+                         (const char *) val_str->data);
 
             print_error(helper, name);
 

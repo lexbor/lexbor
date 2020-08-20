@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Alexander Borisov
+ * Copyright (C) 2019-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -23,24 +23,31 @@ typedef enum {
     LXB_DOM_ATTR_CHARSER     = 0x0002,
     LXB_DOM_ATTR_CHECKED     = 0x0003,
     LXB_DOM_ATTR_CLASS       = 0x0004,
-    LXB_DOM_ATTR_CONTENT     = 0x0005,
-    LXB_DOM_ATTR_DIR         = 0x0006,
-    LXB_DOM_ATTR_DISABLED    = 0x0007,
-    LXB_DOM_ATTR_FOR         = 0x0008,
-    LXB_DOM_ATTR_HEIGHT      = 0x0009,
-    LXB_DOM_ATTR_HREF        = 0x000a,
-    LXB_DOM_ATTR_HTTP_EQUIV  = 0x000b,
-    LXB_DOM_ATTR_ID          = 0x000c,
-    LXB_DOM_ATTR_IS          = 0x000d,
-    LXB_DOM_ATTR_MAXLENGTH   = 0x000e,
-    LXB_DOM_ATTR_POOL        = 0x000f,
-    LXB_DOM_ATTR_SCHEME      = 0x0010,
-    LXB_DOM_ATTR_SLOT        = 0x0011,
-    LXB_DOM_ATTR_SRC         = 0x0012,
-    LXB_DOM_ATTR_STYLE       = 0x0013,
-    LXB_DOM_ATTR_TITLE       = 0x0014,
-    LXB_DOM_ATTR_WIDTH       = 0x0015,
-    LXB_DOM_ATTR__LAST_ENTRY = 0x0016
+    LXB_DOM_ATTR_COLOR       = 0x0005,
+    LXB_DOM_ATTR_CONTENT     = 0x0006,
+    LXB_DOM_ATTR_DIR         = 0x0007,
+    LXB_DOM_ATTR_DISABLED    = 0x0008,
+    LXB_DOM_ATTR_FACE        = 0x0009,
+    LXB_DOM_ATTR_FOR         = 0x000a,
+    LXB_DOM_ATTR_HEIGHT      = 0x000b,
+    LXB_DOM_ATTR_HREF        = 0x000c,
+    LXB_DOM_ATTR_HTML        = 0x000d,
+    LXB_DOM_ATTR_HTTP_EQUIV  = 0x000e,
+    LXB_DOM_ATTR_ID          = 0x000f,
+    LXB_DOM_ATTR_IS          = 0x0010,
+    LXB_DOM_ATTR_MAXLENGTH   = 0x0011,
+    LXB_DOM_ATTR_POOL        = 0x0012,
+    LXB_DOM_ATTR_PUBLIC      = 0x0013,
+    LXB_DOM_ATTR_SCHEME      = 0x0014,
+    LXB_DOM_ATTR_SIZE        = 0x0015,
+    LXB_DOM_ATTR_SLOT        = 0x0016,
+    LXB_DOM_ATTR_SRC         = 0x0017,
+    LXB_DOM_ATTR_STYLE       = 0x0018,
+    LXB_DOM_ATTR_SYSTEM      = 0x0019,
+    LXB_DOM_ATTR_TITLE       = 0x001a,
+    LXB_DOM_ATTR_TYPE        = 0x001b,
+    LXB_DOM_ATTR_WIDTH       = 0x001c,
+    LXB_DOM_ATTR__LAST_ENTRY = 0x001d
 }
 lxb_dom_attr_id_enum_t;
 

@@ -252,7 +252,7 @@
         "data": "\u0000",
         "tokens": [ 
             {
-                "text": "�",
+                "text": "\u0000",
                 "text-parser": "char_ref"
             }
         ]
@@ -261,7 +261,7 @@
         "data": "a\u0000b",
         "tokens": [ 
             {
-                "text": "a�b",
+                "text": "a\u0000b",
                 "text-parser": "char_ref"
             }
         ]
@@ -270,7 +270,7 @@
         "data": "\u0000b",
         "tokens": [ 
             {
-                "text": "�b",
+                "text": "\u0000b",
                 "text-parser": "char_ref"
             }
         ]
@@ -279,25 +279,25 @@
         "data": "a\u0000",
         "tokens": [ 
             {
-                "text": "a�",
+                "text": "a\u0000",
                 "text-parser": "char_ref"
             }
         ]
     },
     {
-        "data": "a\u0000&DownArrowBar;",
+        "data": "a&DownArrowBar;",
         "tokens": [ 
             {
-                "text": "a�⤓",
+                "text": "a⤓",
                 "text-parser": "char_ref"
             }
         ]
     },
     {
-        "data": "&acirc\u0000&DownArrowBar;",
+        "data": "&acirc&DownArrowBar;",
         "tokens": [ 
             {
-                "text": "â�⤓",
+                "text": "â⤓",
                 "text-parser": "char_ref"
             }
         ]
@@ -319,107 +319,6 @@
                 "tag": "!--",
                 "text": "<script --</script>\n\n\n\n&between",
                 "text-parser": "char_ref"
-            }
-        ]
-    },
-
-    /* in attributes */
-    {
-        "data": "&DownArrowBar;",
-        "tokens": [
-            {
-                "text": "⤓",
-                "text-parser": "char_ref_attr"
-            }
-        ]
-    },
-    {
-        "data": "&acirc=",
-        "tokens": [
-            {
-                "text": "&acirc=",
-                "text-parser": "char_ref_attr"
-            }
-        ]
-    },
-    {
-        "data": "&acircr",
-        "tokens": [
-            {
-                "text": "&acircr",
-                "text-parser": "char_ref_attr"
-            }
-        ]
-    },
-    {
-        "data": "&acirc",
-        "tokens": [
-            {
-                "text": "â",
-                "text-parser": "char_ref_attr"
-            }
-        ]
-    },
-    {
-        "data": "/ololo/?arg=1&redirect=123",
-        "tokens": [
-            {
-                "text": "/ololo/?arg=1&redirect=123",
-                "text-parser": "char_ref_attr"
-            }
-        ]
-    },
-    {
-        "data": "/ololo/?arg=1&acirc",
-        "tokens": [
-            {
-                "text": "/ololo/?arg=1â",
-                "text-parser": "char_ref_attr"
-            }
-        ]
-    },
-    {
-        "data": "&acir",
-        "tokens": [
-            {
-                "text": "&acir",
-                "text-parser": "char_ref_attr"
-            }
-        ]
-    },
-    {
-        "data": "&aci",
-        "tokens": [
-            {
-                "text": "&aci",
-                "text-parser": "char_ref_attr"
-            }
-        ]
-    },
-    {
-        "data": "&ac",
-        "tokens": [
-            {
-                "text": "&ac",
-                "text-parser": "char_ref_attr"
-            }
-        ]
-    },
-    {
-        "data": "&a",
-        "tokens": [
-            {
-                "text": "&a",
-                "text-parser": "char_ref_attr"
-            }
-        ]
-    },    
-    {
-        "data": "&",
-        "tokens": [
-            {
-                "text": "&",
-                "text-parser": "char_ref_attr"
             }
         ]
     },

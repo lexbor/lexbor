@@ -1,15 +1,22 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/html/tokenizer/state_script.h"
 #include "lexbor/html/tokenizer/state.h"
-#include "lexbor/html/in.h"
 
 #define LEXBOR_STR_RES_ALPHA_CHARACTER
+#define LEXBOR_STR_RES_ANSI_REPLACEMENT_CHARACTER
 #include "lexbor/core/str_res.h"
+
+#include "lexbor/core/str_res.h"
+
+
+const lxb_tag_data_t *
+lxb_tag_append_lower(lexbor_hash_t *hash,
+                     const lxb_char_t *name, size_t length);
 
 
 static const lxb_char_t *
@@ -131,9 +138,6 @@ lxb_html_tokenizer_state_script_data_before(lxb_html_tokenizer_t *tkz,
         lxb_html_tokenizer_state_token_set_begin(tkz, data);
     }
 
-    tkz->token->tag_id = LXB_TAG__TEXT;
-    tkz->token->type = LXB_HTML_TOKEN_TYPE_DATA;
-
     tkz->state = lxb_html_tokenizer_state_script_data;
 
     return data;
@@ -147,10 +151,13 @@ lxb_html_tokenizer_state_script_data(lxb_html_tokenizer_t *tkz,
                                      const lxb_char_t *data,
                                      const lxb_char_t *end)
 {
+    lxb_html_tokenizer_state_begin_set(tkz, data);
+
     while (data != end) {
         switch (*data) {
             /* U+003C LESS-THAN SIGN (<) */
             case 0x3C:
+                lxb_html_tokenizer_state_append_data_m(tkz, data + 1);
                 lxb_html_tokenizer_state_token_set_end(tkz, data);
 
                 tkz->state =
@@ -158,22 +165,51 @@ lxb_html_tokenizer_state_script_data(lxb_html_tokenizer_t *tkz,
 
                 return (data + 1);
 
+            /* U+000D CARRIAGE RETURN (CR) */
+            case 0x0D:
+                if (++data >= end) {
+                    lxb_html_tokenizer_state_append_data_m(tkz, data - 1);
+
+                    tkz->state = lxb_html_tokenizer_state_cr;
+                    tkz->state_return = lxb_html_tokenizer_state_script_data;
+
+                    return data;
+                }
+
+                lxb_html_tokenizer_state_append_data_m(tkz, data);
+                tkz->pos[-1] = 0x0A;
+
+                lxb_html_tokenizer_state_begin_set(tkz, data + 1);
+
+                if (*data != 0x0A) {
+                    lxb_html_tokenizer_state_begin_set(tkz, data);
+                    data--;
+                }
+
+                break;
+
             /*
              * U+0000 NULL
              * EOF
              */
             case 0x00:
+                lxb_html_tokenizer_state_append_data_m(tkz, data);
+
                 if (tkz->is_eof) {
                     if (tkz->token->begin != NULL) {
                         lxb_html_tokenizer_state_token_set_end_oef(tkz);
                     }
 
+                    tkz->token->tag_id = LXB_TAG__TEXT;
+
+                    lxb_html_tokenizer_state_set_text(tkz);
                     lxb_html_tokenizer_state_token_done_m(tkz, end);
 
                     return end;
                 }
 
-                tkz->token->type |= LXB_HTML_TOKEN_TYPE_NULL;
+                lxb_html_tokenizer_state_begin_set(tkz, data + 1);
+                lxb_html_tokenizer_state_append_replace_m(tkz);
 
                 lxb_html_tokenizer_error_add(tkz->parse_errors, data,
                                              LXB_HTML_TOKENIZER_ERROR_UNNUCH);
@@ -185,6 +221,8 @@ lxb_html_tokenizer_state_script_data(lxb_html_tokenizer_t *tkz,
 
         data++;
     }
+
+    lxb_html_tokenizer_state_append_data_m(tkz, data);
 
     return data;
 }
@@ -228,15 +266,16 @@ lxb_html_tokenizer_state_script_data_end_tag_open(lxb_html_tokenizer_t *tkz,
                                                   const lxb_char_t *end)
 {
     if (lexbor_str_res_alpha_character[*data] != LEXBOR_STR_RES_SLIP) {
-        tkz->markup = data;
-        tkz->tmp_incoming_node = tkz->incoming_node;
+        tkz->entity_start = (tkz->pos - 1) - tkz->start;
+        tkz->temp = data;
 
         tkz->state = lxb_html_tokenizer_state_script_data_end_tag_name;
-
-        return (data + 1);
+    }
+    else {
+        tkz->state = lxb_html_tokenizer_state_script_data;
     }
 
-    tkz->state = lxb_html_tokenizer_state_script_data;
+    lxb_html_tokenizer_state_append_m(tkz, "/", 1);
 
     return data;
 }
@@ -249,8 +288,7 @@ lxb_html_tokenizer_state_script_data_end_tag_name(lxb_html_tokenizer_t *tkz,
                                                   const lxb_char_t *data,
                                                   const lxb_char_t *end)
 {
-    const lxb_char_t *begin;
-    lxb_tag_id_t tag_id;
+    lxb_html_tokenizer_state_begin_set(tkz, data);
 
     while (data != end) {
         switch (*data) {
@@ -266,10 +304,11 @@ lxb_html_tokenizer_state_script_data_end_tag_name(lxb_html_tokenizer_t *tkz,
             case 0x0C:
             case 0x0D:
             case 0x20:
-                tag_id = lxb_html_in_tag_id(tkz->tmp_incoming_node,
-                                   tkz->tags, tkz->markup, data, tkz->mraw);
+                lxb_html_tokenizer_state_append_data_m(tkz, data);
+                lxb_html_tokenizer_state_set_tag_m(tkz, &tkz->start[tkz->entity_start] + 2,
+                                                   tkz->pos);
 
-                if (tkz->tmp_tag_id != tag_id) {
+                if (tkz->tmp_tag_id != tkz->token->tag_id) {
                     goto anything_else;
                 }
 
@@ -279,10 +318,11 @@ lxb_html_tokenizer_state_script_data_end_tag_name(lxb_html_tokenizer_t *tkz,
 
             /* U+002F SOLIDUS (/) */
             case 0x2F:
-                tag_id = lxb_html_in_tag_id(tkz->tmp_incoming_node,
-                                   tkz->tags, tkz->markup, data, tkz->mraw);
+                lxb_html_tokenizer_state_append_data_m(tkz, data);
+                lxb_html_tokenizer_state_set_tag_m(tkz, &tkz->start[tkz->entity_start] + 2,
+                                                   tkz->pos);
 
-                if (tkz->tmp_tag_id != tag_id) {
+                if (tkz->tmp_tag_id != tkz->token->tag_id) {
                     goto anything_else;
                 }
 
@@ -292,25 +332,27 @@ lxb_html_tokenizer_state_script_data_end_tag_name(lxb_html_tokenizer_t *tkz,
 
             /* U+003E GREATER-THAN SIGN (>) */
             case 0x3E:
-                tag_id = lxb_html_in_tag_id(tkz->tmp_incoming_node,
-                                   tkz->tags, tkz->markup, data, tkz->mraw);
+                lxb_html_tokenizer_state_append_data_m(tkz, data);
+                lxb_html_tokenizer_state_set_tag_m(tkz, &tkz->start[tkz->entity_start] + 2,
+                                                   tkz->pos);
 
-                if (tkz->tmp_tag_id != tag_id) {
+                if (tkz->tmp_tag_id != tkz->token->tag_id) {
                     goto anything_else;
                 }
 
                 tkz->state = lxb_html_tokenizer_state_data_before;
 
-                /* Save begin position for close token */
-                begin = tkz->markup;
-
                 /* Emit text token */
+                tkz->token->tag_id = LXB_TAG__TEXT;
+                tkz->pos = &tkz->start[tkz->entity_start];
+
+                lxb_html_tokenizer_state_set_text(tkz);
                 lxb_html_tokenizer_state_token_done_m(tkz, end);
 
                 /* Init close token */
-                tkz->token->begin = begin;
+                tkz->token->tag_id = tkz->tmp_tag_id;
+                tkz->token->begin = tkz->temp;
                 tkz->token->end = data;
-                tkz->token->in_begin = tkz->tmp_incoming_node;
                 tkz->token->type |= LXB_HTML_TOKEN_TYPE_CLOSE;
 
                 /* Emit close token */
@@ -331,6 +373,8 @@ lxb_html_tokenizer_state_script_data_end_tag_name(lxb_html_tokenizer_t *tkz,
         data++;
     }
 
+    lxb_html_tokenizer_state_append_data_m(tkz, data);
+
     return data;
 
 anything_else:
@@ -341,16 +385,17 @@ anything_else:
 
 done:
 
-    /* Save begin position for close token */
-    begin = tkz->markup;
-
     /* Emit text token */
+    tkz->token->tag_id = LXB_TAG__TEXT;
+    tkz->pos = &tkz->start[tkz->entity_start];
+
+    lxb_html_tokenizer_state_set_text(tkz);
     lxb_html_tokenizer_state_token_done_m(tkz, end);
 
     /* Init close token */
-    tkz->token->begin = begin;
+    tkz->token->tag_id = tkz->tmp_tag_id;
+    tkz->token->begin = tkz->temp;
     tkz->token->end = data;
-    tkz->token->in_begin = tkz->tmp_incoming_node;
     tkz->token->type |= LXB_HTML_TOKEN_TYPE_CLOSE;
 
     return (data + 1);
@@ -371,6 +416,8 @@ lxb_html_tokenizer_state_script_data_escape_start(lxb_html_tokenizer_t *tkz,
         return (data + 1);
     }
 
+    lxb_html_tokenizer_state_append_m(tkz, "!", 1);
+
     tkz->state = lxb_html_tokenizer_state_script_data;
 
     return data;
@@ -387,10 +434,14 @@ lxb_html_tokenizer_state_script_data_escape_start_dash(
 {
     /* U+002D HYPHEN-MINUS (-) */
     if (*data == 0x2D) {
+        lxb_html_tokenizer_state_append_m(tkz, "!--", 3);
+
         tkz->state = lxb_html_tokenizer_state_script_data_escaped_dash_dash;
 
         return (data + 1);
     }
+
+    lxb_html_tokenizer_state_append_m(tkz, "!-", 2);
 
     tkz->state = lxb_html_tokenizer_state_script_data;
 
@@ -405,16 +456,21 @@ lxb_html_tokenizer_state_script_data_escaped(lxb_html_tokenizer_t *tkz,
                                              const lxb_char_t *data,
                                              const lxb_char_t *end)
 {
+    lxb_html_tokenizer_state_begin_set(tkz, data);
+
     while (data != end) {
         switch (*data) {
             /* U+002D HYPHEN-MINUS (-) */
             case 0x2D:
+                lxb_html_tokenizer_state_append_data_m(tkz, data + 1);
+
                 tkz->state = lxb_html_tokenizer_state_script_data_escaped_dash;
 
                 return (data + 1);
 
             /* U+003C LESS-THAN SIGN (<) */
             case 0x3C:
+                lxb_html_tokenizer_state_append_data_m(tkz, data + 1);
                 lxb_html_tokenizer_state_token_set_end(tkz, data);
 
                 tkz->state =
@@ -422,23 +478,51 @@ lxb_html_tokenizer_state_script_data_escaped(lxb_html_tokenizer_t *tkz,
 
                 return (data + 1);
 
+            /* U+000D CARRIAGE RETURN (CR) */
+            case 0x0D:
+                if (++data >= end) {
+                    lxb_html_tokenizer_state_append_data_m(tkz, data - 1);
+
+                    tkz->state = lxb_html_tokenizer_state_cr;
+                    tkz->state_return = lxb_html_tokenizer_state_script_data_escaped;
+
+                    return data;
+                }
+
+                lxb_html_tokenizer_state_append_data_m(tkz, data);
+                tkz->pos[-1] = 0x0A;
+
+                lxb_html_tokenizer_state_begin_set(tkz, data + 1);
+
+                if (*data != 0x0A) {
+                    lxb_html_tokenizer_state_begin_set(tkz, data);
+                    data--;
+                }
+
+                break;
+
             /*
              * U+0000 NULL
              * EOF
              */
             case 0x00:
+                lxb_html_tokenizer_state_append_data_m(tkz, data);
+
                 if (tkz->is_eof) {
-                    lxb_html_tokenizer_error_add(tkz->parse_errors,
-                                       tkz->incoming_node->end,
+                    lxb_html_tokenizer_error_add(tkz->parse_errors, tkz->last,
                                        LXB_HTML_TOKENIZER_ERROR_EOINSCHTCOLITE);
 
+                    tkz->token->tag_id = LXB_TAG__TEXT;
+
+                    lxb_html_tokenizer_state_set_text(tkz);
                     lxb_html_tokenizer_state_token_set_end_oef(tkz);
                     lxb_html_tokenizer_state_token_done_m(tkz, end);
 
                     return end;
                 }
 
-                tkz->token->type |= LXB_HTML_TOKEN_TYPE_NULL;
+                lxb_html_tokenizer_state_begin_set(tkz, data + 1);
+                lxb_html_tokenizer_state_append_replace_m(tkz);
 
                 lxb_html_tokenizer_error_add(tkz->parse_errors, data,
                                              LXB_HTML_TOKENIZER_ERROR_UNNUCH);
@@ -450,6 +534,8 @@ lxb_html_tokenizer_state_script_data_escaped(lxb_html_tokenizer_t *tkz,
 
         data++;
     }
+
+    lxb_html_tokenizer_state_append_data_m(tkz, data);
 
     return data;
 }
@@ -465,12 +551,15 @@ lxb_html_tokenizer_state_script_data_escaped_dash(lxb_html_tokenizer_t *tkz,
     switch (*data) {
         /* U+002D HYPHEN-MINUS (-) */
         case 0x2D:
+            lxb_html_tokenizer_state_append_m(tkz, data, 1);
+
             tkz->state = lxb_html_tokenizer_state_script_data_escaped_dash_dash;
 
             return (data + 1);
 
         /* U+003C LESS-THAN SIGN (<) */
         case 0x3C:
+            lxb_html_tokenizer_state_append_m(tkz, data, 1);
             lxb_html_tokenizer_state_token_set_end(tkz, data);
 
             tkz->state =
@@ -484,20 +573,23 @@ lxb_html_tokenizer_state_script_data_escaped_dash(lxb_html_tokenizer_t *tkz,
          */
         case 0x00:
             if (tkz->is_eof) {
-                lxb_html_tokenizer_error_add(tkz->parse_errors,
-                                       tkz->incoming_node->end,
+                lxb_html_tokenizer_error_add(tkz->parse_errors, tkz->last,
                                        LXB_HTML_TOKENIZER_ERROR_EOINSCHTCOLITE);
 
+                tkz->token->tag_id = LXB_TAG__TEXT;
+
+                lxb_html_tokenizer_state_set_text(tkz);
                 lxb_html_tokenizer_state_token_set_end_oef(tkz);
                 lxb_html_tokenizer_state_token_done_m(tkz, end);
 
                 return end;
             }
 
+            lxb_html_tokenizer_state_append_replace_m(tkz);
+
             lxb_html_tokenizer_error_add(tkz->parse_errors, data,
                                          LXB_HTML_TOKENIZER_ERROR_UNNUCH);
 
-            tkz->token->type |= LXB_HTML_TOKEN_TYPE_NULL;
             tkz->state = lxb_html_tokenizer_state_script_data_escaped;
 
             return (data + 1);
@@ -505,28 +597,27 @@ lxb_html_tokenizer_state_script_data_escaped_dash(lxb_html_tokenizer_t *tkz,
         default:
             tkz->state = lxb_html_tokenizer_state_script_data_escaped;
 
-            return (data + 1);
+            return data;
     }
-
-    return data;
 }
 
 /*
  * 12.2.5.22 Script data escaped dash dash state
  */
 static const lxb_char_t *
-lxb_html_tokenizer_state_script_data_escaped_dash_dash(
-                                                      lxb_html_tokenizer_t *tkz,
-                                                      const lxb_char_t *data,
-                                                      const lxb_char_t *end)
+lxb_html_tokenizer_state_script_data_escaped_dash_dash(lxb_html_tokenizer_t *tkz,
+                                                       const lxb_char_t *data,
+                                                       const lxb_char_t *end)
 {
     switch (*data) {
         /* U+002D HYPHEN-MINUS (-) */
         case 0x2D:
+            lxb_html_tokenizer_state_append_m(tkz, "-", 1);
             return (data + 1);
 
         /* U+003C LESS-THAN SIGN (<) */
         case 0x3C:
+            lxb_html_tokenizer_state_append_m(tkz, "<", 1);
             lxb_html_tokenizer_state_token_set_end(tkz, data);
 
             tkz->state =
@@ -537,40 +628,12 @@ lxb_html_tokenizer_state_script_data_escaped_dash_dash(
         /* U+003E GREATER-THAN SIGN (>) */
         case 0x3E:
             tkz->state = lxb_html_tokenizer_state_script_data;
-
-            return (data + 1);
-
-        /*
-         * U+0000 NULL
-         * EOF
-         */
-        case 0x00:
-            if (tkz->is_eof) {
-                lxb_html_tokenizer_error_add(tkz->parse_errors,
-                                       tkz->incoming_node->end,
-                                       LXB_HTML_TOKENIZER_ERROR_EOINSCHTCOLITE);
-
-                lxb_html_tokenizer_state_token_set_end_oef(tkz);
-                lxb_html_tokenizer_state_token_done_m(tkz, end);
-
-                return end;
-            }
-
-            lxb_html_tokenizer_error_add(tkz->parse_errors, data,
-                                         LXB_HTML_TOKENIZER_ERROR_UNNUCH);
-
-            tkz->token->type |= LXB_HTML_TOKEN_TYPE_NULL;
-            tkz->state = lxb_html_tokenizer_state_script_data_escaped;
-
-            return (data + 1);
+            return data;
 
         default:
             tkz->state = lxb_html_tokenizer_state_script_data_escaped;
-
-            return (data + 1);
+            return data;
     }
-
-    return data;
 }
 
 /*
@@ -588,10 +651,10 @@ lxb_html_tokenizer_state_script_data_escaped_less_than_sign(
 
         return (data + 1);
     }
+
     /* ASCII alpha */
-    else if (lexbor_str_res_alpha_character[*data] != LEXBOR_STR_RES_SLIP) {
-        tkz->markup = data;
-        tkz->tmp_incoming_node = tkz->incoming_node;
+    if (lexbor_str_res_alpha_character[*data] != LEXBOR_STR_RES_SLIP) {
+        tkz->entity_start = tkz->pos - tkz->start;
 
         tkz->state = lxb_html_tokenizer_state_script_data_double_escape_start;
 
@@ -607,21 +670,21 @@ lxb_html_tokenizer_state_script_data_escaped_less_than_sign(
  * 12.2.5.24 Script data escaped end tag open state
  */
 static const lxb_char_t *
-lxb_html_tokenizer_state_script_data_escaped_end_tag_open(
-                                                      lxb_html_tokenizer_t *tkz,
-                                                      const lxb_char_t *data,
-                                                      const lxb_char_t *end)
+lxb_html_tokenizer_state_script_data_escaped_end_tag_open(lxb_html_tokenizer_t *tkz,
+                                                          const lxb_char_t *data,
+                                                          const lxb_char_t *end)
 {
     if (lexbor_str_res_alpha_character[*data] != LEXBOR_STR_RES_SLIP) {
-        tkz->markup = data;
-        tkz->tmp_incoming_node = tkz->incoming_node;
+        tkz->temp = data;
+        tkz->entity_start = (tkz->pos - 1) - tkz->start;
 
         tkz->state = lxb_html_tokenizer_state_script_data_escaped_end_tag_name;
-
-        return data;
+    }
+    else {
+        tkz->state = lxb_html_tokenizer_state_script_data_escaped;
     }
 
-    tkz->state = lxb_html_tokenizer_state_script_data_escaped;
+    lxb_html_tokenizer_state_append_m(tkz, "/", 1);
 
     return data;
 }
@@ -635,8 +698,7 @@ lxb_html_tokenizer_state_script_data_escaped_end_tag_name(
                                                       const lxb_char_t *data,
                                                       const lxb_char_t *end)
 {
-    const lxb_char_t *begin;
-    lxb_tag_id_t tag_id;
+    lxb_html_tokenizer_state_begin_set(tkz, data);
 
     while (data != end) {
         switch (*data) {
@@ -652,10 +714,11 @@ lxb_html_tokenizer_state_script_data_escaped_end_tag_name(
             case 0x0C:
             case 0x0D:
             case 0x20:
-                tag_id = lxb_html_in_tag_id(tkz->tmp_incoming_node,
-                                       tkz->tags, tkz->markup, data, tkz->mraw);
+                lxb_html_tokenizer_state_append_data_m(tkz, data);
+                lxb_html_tokenizer_state_set_tag_m(tkz, &tkz->start[tkz->entity_start] + 2,
+                                                   tkz->pos);
 
-                if (tkz->tmp_tag_id != tag_id) {
+                if (tkz->tmp_tag_id != tkz->token->tag_id) {
                     goto anything_else;
                 }
 
@@ -665,10 +728,11 @@ lxb_html_tokenizer_state_script_data_escaped_end_tag_name(
 
             /* U+002F SOLIDUS (/) */
             case 0x2F:
-                tag_id = lxb_html_in_tag_id(tkz->tmp_incoming_node,
-                                       tkz->tags, tkz->markup, data, tkz->mraw);
+                lxb_html_tokenizer_state_append_data_m(tkz, data);
+                lxb_html_tokenizer_state_set_tag_m(tkz, &tkz->start[tkz->entity_start] + 2,
+                                                   tkz->pos);
 
-                if (tkz->tmp_tag_id != tag_id) {
+                if (tkz->tmp_tag_id != tkz->token->tag_id) {
                     goto anything_else;
                 }
 
@@ -678,25 +742,27 @@ lxb_html_tokenizer_state_script_data_escaped_end_tag_name(
 
             /* U+003E GREATER-THAN SIGN (>) */
             case 0x3E:
-                tag_id = lxb_html_in_tag_id(tkz->tmp_incoming_node,
-                                       tkz->tags, tkz->markup, data, tkz->mraw);
+                lxb_html_tokenizer_state_append_data_m(tkz, data);
+                lxb_html_tokenizer_state_set_tag_m(tkz, &tkz->start[tkz->entity_start] + 2,
+                                                   tkz->pos);
 
-                if (tkz->tmp_tag_id != tag_id) {
+                if (tkz->tmp_tag_id != tkz->token->tag_id) {
                     goto anything_else;
                 }
 
                 tkz->state = lxb_html_tokenizer_state_data_before;
 
-                /* Save begin position for close token */
-                begin = tkz->markup;
-
                 /* Emit text token */
+                tkz->token->tag_id = LXB_TAG__TEXT;
+                tkz->pos = &tkz->start[tkz->entity_start];
+
+                lxb_html_tokenizer_state_set_text(tkz);
                 lxb_html_tokenizer_state_token_done_m(tkz, end);
 
                 /* Init close token */
-                tkz->token->begin = begin;
+                tkz->token->tag_id = tkz->tmp_tag_id;
+                tkz->token->begin = tkz->temp;
                 tkz->token->end = data;
-                tkz->token->in_begin = tkz->tmp_incoming_node;
                 tkz->token->type |= LXB_HTML_TOKEN_TYPE_CLOSE;
 
                 /* Emit close token */
@@ -708,6 +774,7 @@ lxb_html_tokenizer_state_script_data_escaped_end_tag_name(
                 if (lexbor_str_res_alpha_character[*data]
                     == LEXBOR_STR_RES_SLIP)
                 {
+                    lxb_html_tokenizer_state_append_data_m(tkz, data);
                     goto anything_else;
                 }
 
@@ -716,6 +783,8 @@ lxb_html_tokenizer_state_script_data_escaped_end_tag_name(
 
         data++;
     }
+
+    lxb_html_tokenizer_state_append_data_m(tkz, data);
 
     return data;
 
@@ -727,16 +796,17 @@ anything_else:
 
 done:
 
-    /* Save begin position for close token */
-    begin = tkz->markup;
-
     /* Emit text token */
+    tkz->token->tag_id = LXB_TAG__TEXT;
+    tkz->pos = &tkz->start[tkz->entity_start];
+
+    lxb_html_tokenizer_state_set_text(tkz);
     lxb_html_tokenizer_state_token_done_m(tkz, end);
 
     /* Init close token */
-    tkz->token->begin = begin;
+    tkz->token->tag_id = tkz->tmp_tag_id;
+    tkz->token->begin = tkz->temp;
     tkz->token->end = data;
-    tkz->token->in_begin = tkz->tmp_incoming_node;
     tkz->token->type |= LXB_HTML_TOKEN_TYPE_CLOSE;
 
     return (data + 1);
@@ -746,12 +816,11 @@ done:
  * 12.2.5.26 Script data double escape start state
  */
 static const lxb_char_t *
-lxb_html_tokenizer_state_script_data_double_escape_start(
-                                                      lxb_html_tokenizer_t *tkz,
-                                                      const lxb_char_t *data,
-                                                      const lxb_char_t *end)
+lxb_html_tokenizer_state_script_data_double_escape_start(lxb_html_tokenizer_t *tkz,
+                                                         const lxb_char_t *data,
+                                                         const lxb_char_t *end)
 {
-    bool is_cmp;
+    lxb_html_tokenizer_state_begin_set(tkz, data);
 
     while (data != end) {
         switch (*data) {
@@ -771,24 +840,28 @@ lxb_html_tokenizer_state_script_data_double_escape_start(
             case 0x20:
             case 0x2F:
             case 0x3E:
-                is_cmp = lxb_html_in_ncasecmp(tkz->tmp_incoming_node,
-                                              tkz->markup, data,
-                                              (const lxb_char_t *) "script", 6);
-                if (is_cmp) {
+                lxb_html_tokenizer_state_append_data_m(tkz, data);
+
+                if ((tkz->pos - &tkz->start[tkz->entity_start]) == 6
+                    && lexbor_str_data_ncasecmp(&tkz->start[tkz->entity_start],
+                                                (const lxb_char_t *) "script", 6))
+                {
                     tkz->state =
                         lxb_html_tokenizer_state_script_data_double_escaped;
 
-                    return (data + 1);
+                    return data;
                 }
 
                 tkz->state = lxb_html_tokenizer_state_script_data_escaped;
 
-                return (data + 1);
+                return data;
 
             default:
                 if (lexbor_str_res_alpha_character[*data]
                     == LEXBOR_STR_RES_SLIP)
                 {
+                    lxb_html_tokenizer_state_append_data_m(tkz, data);
+
                     tkz->state = lxb_html_tokenizer_state_script_data_escaped;
 
                     return data;
@@ -799,6 +872,8 @@ lxb_html_tokenizer_state_script_data_double_escape_start(
 
         data++;
     }
+
+    lxb_html_tokenizer_state_append_data_m(tkz, data);
 
     return data;
 }
@@ -811,10 +886,14 @@ lxb_html_tokenizer_state_script_data_double_escaped(lxb_html_tokenizer_t *tkz,
                                                     const lxb_char_t *data,
                                                     const lxb_char_t *end)
 {
+    lxb_html_tokenizer_state_begin_set(tkz, data);
+
     while (data != end) {
         switch (*data) {
             /* U+002D HYPHEN-MINUS (-) */
             case 0x2D:
+                lxb_html_tokenizer_state_append_data_m(tkz, data + 1);
+
                 tkz->state =
                     lxb_html_tokenizer_state_script_data_double_escaped_dash;
 
@@ -822,28 +901,58 @@ lxb_html_tokenizer_state_script_data_double_escaped(lxb_html_tokenizer_t *tkz,
 
             /* U+003C LESS-THAN SIGN (<) */
             case 0x3C:
+                lxb_html_tokenizer_state_append_data_m(tkz, data + 1);
+
                 tkz->state =
              lxb_html_tokenizer_state_script_data_double_escaped_less_than_sign;
 
                 return (data + 1);
+
+            /* U+000D CARRIAGE RETURN (CR) */
+            case 0x0D:
+                if (++data >= end) {
+                    lxb_html_tokenizer_state_append_data_m(tkz, data - 1);
+
+                    tkz->state = lxb_html_tokenizer_state_cr;
+                    tkz->state_return = lxb_html_tokenizer_state_script_data_double_escaped;
+
+                    return data;
+                }
+
+                lxb_html_tokenizer_state_append_data_m(tkz, data);
+                tkz->pos[-1] = 0x0A;
+
+                lxb_html_tokenizer_state_begin_set(tkz, data + 1);
+
+                if (*data != 0x0A) {
+                    lxb_html_tokenizer_state_begin_set(tkz, data);
+                    data--;
+                }
+
+                break;
 
             /*
              * U+0000 NULL
              * EOF
              */
             case 0x00:
+                lxb_html_tokenizer_state_append_data_m(tkz, data);
+
                 if (tkz->is_eof) {
-                    lxb_html_tokenizer_error_add(tkz->parse_errors,
-                                       tkz->incoming_node->end,
+                    lxb_html_tokenizer_error_add(tkz->parse_errors, tkz->last,
                                        LXB_HTML_TOKENIZER_ERROR_EOINSCHTCOLITE);
 
+                    tkz->token->tag_id = LXB_TAG__TEXT;
+
+                    lxb_html_tokenizer_state_set_text(tkz);
                     lxb_html_tokenizer_state_token_set_end_oef(tkz);
                     lxb_html_tokenizer_state_token_done_m(tkz, end);
 
                     return end;
                 }
 
-                tkz->token->type |= LXB_HTML_TOKEN_TYPE_NULL;
+                lxb_html_tokenizer_state_begin_set(tkz, data + 1);
+                lxb_html_tokenizer_state_append_replace_m(tkz);
 
                 lxb_html_tokenizer_error_add(tkz->parse_errors, data,
                                              LXB_HTML_TOKENIZER_ERROR_UNNUCH);
@@ -856,6 +965,8 @@ lxb_html_tokenizer_state_script_data_double_escaped(lxb_html_tokenizer_t *tkz,
         data++;
     }
 
+    lxb_html_tokenizer_state_append_data_m(tkz, data);
+
     return data;
 }
 
@@ -863,14 +974,15 @@ lxb_html_tokenizer_state_script_data_double_escaped(lxb_html_tokenizer_t *tkz,
  * 12.2.5.28 Script data double escaped dash state
  */
 static const lxb_char_t *
-lxb_html_tokenizer_state_script_data_double_escaped_dash(
-                                                      lxb_html_tokenizer_t *tkz,
-                                                      const lxb_char_t *data,
-                                                      const lxb_char_t *end)
+lxb_html_tokenizer_state_script_data_double_escaped_dash(lxb_html_tokenizer_t *tkz,
+                                                         const lxb_char_t *data,
+                                                         const lxb_char_t *end)
 {
     switch (*data) {
         /* U+002D HYPHEN-MINUS (-) */
         case 0x2D:
+            lxb_html_tokenizer_state_append_m(tkz, data, 1);
+
             tkz->state =
                 lxb_html_tokenizer_state_script_data_double_escaped_dash_dash;
 
@@ -878,6 +990,8 @@ lxb_html_tokenizer_state_script_data_double_escaped_dash(
 
         /* U+003C LESS-THAN SIGN (<) */
         case 0x3C:
+            lxb_html_tokenizer_state_append_m(tkz, data, 1);
+
             tkz->state =
              lxb_html_tokenizer_state_script_data_double_escaped_less_than_sign;
 
@@ -889,20 +1003,23 @@ lxb_html_tokenizer_state_script_data_double_escaped_dash(
          */
         case 0x00:
             if (tkz->is_eof) {
-                lxb_html_tokenizer_error_add(tkz->parse_errors,
-                                       tkz->incoming_node->end,
+                lxb_html_tokenizer_error_add(tkz->parse_errors, tkz->last,
                                        LXB_HTML_TOKENIZER_ERROR_EOINSCHTCOLITE);
 
+                tkz->token->tag_id = LXB_TAG__TEXT;
+
+                lxb_html_tokenizer_state_set_text(tkz);
                 lxb_html_tokenizer_state_token_set_end_oef(tkz);
                 lxb_html_tokenizer_state_token_done_m(tkz, end);
 
                 return end;
             }
 
+            lxb_html_tokenizer_state_append_replace_m(tkz);
+
             lxb_html_tokenizer_error_add(tkz->parse_errors, data,
                                          LXB_HTML_TOKENIZER_ERROR_UNNUCH);
 
-            tkz->token->type |= LXB_HTML_TOKEN_TYPE_NULL;
             tkz->state = lxb_html_tokenizer_state_script_data_double_escaped;
 
             return (data + 1);
@@ -910,10 +1027,8 @@ lxb_html_tokenizer_state_script_data_double_escaped_dash(
         default:
             tkz->state = lxb_html_tokenizer_state_script_data_double_escaped;
 
-            return (data + 1);
+            return data;
     }
-
-    return data;
 }
 
 /*
@@ -928,10 +1043,13 @@ lxb_html_tokenizer_state_script_data_double_escaped_dash_dash(
     switch (*data) {
         /* U+002D HYPHEN-MINUS (-) */
         case 0x2D:
+            lxb_html_tokenizer_state_append_m(tkz, data, 1);
             return (data + 1);
 
         /* U+003C LESS-THAN SIGN (<) */
         case 0x3C:
+            lxb_html_tokenizer_state_append_m(tkz, data, 1);
+
             tkz->state =
              lxb_html_tokenizer_state_script_data_double_escaped_less_than_sign;
 
@@ -939,6 +1057,8 @@ lxb_html_tokenizer_state_script_data_double_escaped_dash_dash(
 
         /* U+003E GREATER-THAN SIGN (>) */
         case 0x3E:
+            lxb_html_tokenizer_state_append_m(tkz, data, 1);
+
             tkz->state = lxb_html_tokenizer_state_script_data;
 
             return (data + 1);
@@ -949,20 +1069,23 @@ lxb_html_tokenizer_state_script_data_double_escaped_dash_dash(
          */
         case 0x00:
             if (tkz->is_eof) {
-                lxb_html_tokenizer_error_add(tkz->parse_errors,
-                                       tkz->incoming_node->end,
+                lxb_html_tokenizer_error_add(tkz->parse_errors, tkz->last,
                                        LXB_HTML_TOKENIZER_ERROR_EOINSCHTCOLITE);
 
+                tkz->token->tag_id = LXB_TAG__TEXT;
+
+                lxb_html_tokenizer_state_set_text(tkz);
                 lxb_html_tokenizer_state_token_set_end_oef(tkz);
                 lxb_html_tokenizer_state_token_done_m(tkz, end);
 
                 return end;
             }
 
+            lxb_html_tokenizer_state_append_replace_m(tkz);
+
             lxb_html_tokenizer_error_add(tkz->parse_errors, data,
                                          LXB_HTML_TOKENIZER_ERROR_UNNUCH);
 
-            tkz->token->type |= LXB_HTML_TOKEN_TYPE_NULL;
             tkz->state = lxb_html_tokenizer_state_script_data_double_escaped;
 
             return (data + 1);
@@ -970,7 +1093,7 @@ lxb_html_tokenizer_state_script_data_double_escaped_dash_dash(
         default:
             tkz->state = lxb_html_tokenizer_state_script_data_double_escaped;
 
-            return (data + 1);
+            return data;
     }
 
     return data;
@@ -1008,15 +1131,15 @@ lxb_html_tokenizer_state_script_data_double_escaped_end_tag_open(
                                                       const lxb_char_t *end)
 {
     if (lexbor_str_res_alpha_character[*data] != LEXBOR_STR_RES_SLIP) {
-        tkz->markup = data;
-        tkz->tmp_incoming_node = tkz->incoming_node;
+        tkz->entity_start = (tkz->pos + 1) - tkz->start;
 
         tkz->state = lxb_html_tokenizer_state_script_data_double_escape_end;
-
-        return data;
+    }
+    else {
+        tkz->state = lxb_html_tokenizer_state_script_data_double_escaped;
     }
 
-    tkz->state = lxb_html_tokenizer_state_script_data_double_escaped;
+    lxb_html_tokenizer_state_append_m(tkz, "/", 1);
 
     return data;
 }
@@ -1030,7 +1153,7 @@ lxb_html_tokenizer_state_script_data_double_escape_end(
                                                       const lxb_char_t *data,
                                                       const lxb_char_t *end)
 {
-    bool is_cmp;
+    lxb_html_tokenizer_state_begin_set(tkz, data);
 
     while (data != end) {
         switch (*data) {
@@ -1050,28 +1173,27 @@ lxb_html_tokenizer_state_script_data_double_escape_end(
             case 0x20:
             case 0x2F:
             case 0x3E:
-                is_cmp = lxb_html_in_ncasecmp(tkz->tmp_incoming_node,
-                                              tkz->markup, data,
-                                              (const lxb_char_t *) "script", 6);
-                if (is_cmp) {
-                    tkz->state =
-                        lxb_html_tokenizer_state_script_data_escaped;
+                lxb_html_tokenizer_state_append_data_m(tkz, data);
 
-                    return (data + 1);
+                if ((tkz->pos - &tkz->start[tkz->entity_start]) == 6
+                    && lexbor_str_data_ncasecmp(&tkz->start[tkz->entity_start],
+                                                (const lxb_char_t *) "script", 6))
+                {
+                    tkz->state = lxb_html_tokenizer_state_script_data_escaped;
+                    return data;
                 }
 
-                tkz->state =
-                    lxb_html_tokenizer_state_script_data_double_escaped;
+                tkz->state = lxb_html_tokenizer_state_script_data_double_escaped;
 
-                return (data + 1);
+                return data;
 
             default:
                 if (lexbor_str_res_alpha_character[*data]
                     == LEXBOR_STR_RES_SLIP)
                 {
-                    tkz->state =
-                        lxb_html_tokenizer_state_script_data_double_escaped;
+                    lxb_html_tokenizer_state_append_data_m(tkz, data);
 
+                    tkz->state = lxb_html_tokenizer_state_script_data_double_escaped;
                     return data;
                 }
 
@@ -1080,6 +1202,8 @@ lxb_html_tokenizer_state_script_data_double_escape_end(
 
         data++;
     }
+
+    lxb_html_tokenizer_state_append_data_m(tkz, data);
 
     return data;
 }

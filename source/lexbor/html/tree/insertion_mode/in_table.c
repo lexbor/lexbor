@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -263,34 +263,16 @@ lxb_inline bool
 lxb_html_tree_insertion_mode_in_table_input(lxb_html_tree_t *tree,
                                             lxb_html_token_t *token)
 {
-    lexbor_str_t str = {0};
-    lexbor_mraw_t *text;
     lxb_html_element_t *element;
     lxb_html_token_attr_t *attr = token->attr_first;
 
-    text = tree->document->dom_document.text;
-
     while (attr != NULL) {
-        str.length = 0;
-
-        tree->status = lxb_html_token_attr_make_name(attr, &str, text);
-        if (tree->status != LXB_STATUS_OK) {
-            return lxb_html_tree_process_abort(tree);
-        }
 
         /* Name == "type" and value == "hidden" */
-        if (str.length == 4
-            && lexbor_str_data_cmp(str.data, (const lxb_char_t *) "type"))
-        {
-            str.length = 0;
-
-            tree->status = lxb_html_token_attr_make_value(attr, &str, text);
-            if (tree->status != LXB_STATUS_OK) {
-                return lxb_html_tree_process_abort(tree);
-            }
-
-            if (str.length == 6
-                && lexbor_str_data_casecmp(str.data, (const lxb_char_t *) "hidden"))
+        if (attr->name != NULL && attr->name->attr_id == LXB_DOM_ATTR_TYPE) {
+            if (attr->value_size == 6
+                && lexbor_str_data_ncasecmp(attr->value,
+                                            (const lxb_char_t *) "hidden", 6))
             {
                 goto have_hidden;
             }
@@ -299,13 +281,9 @@ lxb_html_tree_insertion_mode_in_table_input(lxb_html_tree_t *tree,
         attr = attr->next;
     }
 
-    lexbor_str_destroy(&str, text, false);
-
     return lxb_html_tree_insertion_mode_in_table_anything_else(tree, token);
 
 have_hidden:
-
-    lexbor_str_destroy(&str, text, false);
 
     lxb_html_tree_parse_error(tree, token, LXB_HTML_RULES_ERROR_UNTO);
 

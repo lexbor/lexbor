@@ -1,11 +1,14 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/html/tokenizer/state_comment.h"
 #include "lexbor/html/tokenizer/state.h"
+
+#define LEXBOR_STR_RES_ANSI_REPLACEMENT_CHARACTER
+#include "lexbor/core/str_res.h"
 
 
 static const lxb_char_t *
@@ -75,7 +78,6 @@ lxb_html_tokenizer_state_comment_before_start(lxb_html_tokenizer_t *tkz,
     }
 
     tkz->token->tag_id = LXB_TAG__EM_COMMENT;
-    tkz->token->type = LXB_HTML_TOKEN_TYPE_DATA;
 
     return lxb_html_tokenizer_state_comment_start(tkz, data, end);
 }
@@ -100,6 +102,7 @@ lxb_html_tokenizer_state_comment_start(lxb_html_tokenizer_t *tkz,
         lxb_html_tokenizer_error_add(tkz->parse_errors, data,
                                      LXB_HTML_TOKENIZER_ERROR_ABCLOFEMCO);
 
+        lxb_html_tokenizer_state_set_text(tkz);
         lxb_html_tokenizer_state_token_done_wo_check_m(tkz, end);
 
         data++;
@@ -132,6 +135,7 @@ lxb_html_tokenizer_state_comment_start_dash(lxb_html_tokenizer_t *tkz,
         lxb_html_tokenizer_error_add(tkz->parse_errors, data,
                                      LXB_HTML_TOKENIZER_ERROR_ABCLOFEMCO);
 
+        lxb_html_tokenizer_state_set_text(tkz);
         lxb_html_tokenizer_state_token_done_wo_check_m(tkz, end);
 
         return (data + 1);
@@ -139,15 +143,19 @@ lxb_html_tokenizer_state_comment_start_dash(lxb_html_tokenizer_t *tkz,
     /* EOF */
     else if (*data == 0x00) {
         if (tkz->is_eof) {
-            lxb_html_tokenizer_error_add(tkz->parse_errors,
-                                         tkz->incoming_node->end,
+            lxb_html_tokenizer_state_append_m(tkz, "-", 1);
+
+            lxb_html_tokenizer_error_add(tkz->parse_errors, tkz->last,
                                          LXB_HTML_TOKENIZER_ERROR_EOINCO);
 
+            lxb_html_tokenizer_state_set_text(tkz);
             lxb_html_tokenizer_state_token_done_wo_check_m(tkz, end);
 
             return end;
         }
     }
+
+    lxb_html_tokenizer_state_append_m(tkz, "-", 1);
 
     tkz->state = lxb_html_tokenizer_state_comment;
 
@@ -162,45 +170,88 @@ lxb_html_tokenizer_state_comment(lxb_html_tokenizer_t *tkz,
                                  const lxb_char_t *data,
                                  const lxb_char_t *end)
 {
+    lxb_html_tokenizer_state_begin_set(tkz, data);
+
     while (data != end) {
-        /* U+003C LESS-THAN SIGN (<) */
-        if (*data == 0x3C) {
-            tkz->state = lxb_html_tokenizer_state_comment_less_than_sign;
+        switch (*data) {
+            /* U+003C LESS-THAN SIGN (<) */
+            case 0x3C:
+                data++;
 
-            return (data + 1);
-        }
-        /* U+002D HYPHEN-MINUS (-) */
-        else if (*data == 0x2D) {
-            tkz->state = lxb_html_tokenizer_state_comment_end_dash;
+                lxb_html_tokenizer_state_append_data_m(tkz, data);
 
-            return (data + 1);
-        }
-        /*
-         * EOF
-         * U+0000 NULL
-         */
-        else if (*data == 0x00) {
-            if (tkz->is_eof) {
-                if (tkz->token->begin != NULL) {
-                    lxb_html_tokenizer_state_token_set_end_oef(tkz);
+                tkz->state = lxb_html_tokenizer_state_comment_less_than_sign;
+
+                return data;
+
+            /* U+002D HYPHEN-MINUS (-) */
+            case 0x2D:
+                lxb_html_tokenizer_state_token_set_end(tkz, data - 1);
+                lxb_html_tokenizer_state_append_data_m(tkz, data);
+
+                tkz->state = lxb_html_tokenizer_state_comment_end_dash;
+
+                return (data + 1);
+
+            /* U+000D CARRIAGE RETURN (CR) */
+            case 0x0D:
+                if (++data >= end) {
+                    lxb_html_tokenizer_state_append_data_m(tkz, data - 1);
+
+                    tkz->state = lxb_html_tokenizer_state_cr;
+                    tkz->state_return = lxb_html_tokenizer_state_comment;
+
+                    return data;
                 }
 
-                lxb_html_tokenizer_error_add(tkz->parse_errors, tkz->token->end,
-                                             LXB_HTML_TOKENIZER_ERROR_EOINCO);
+                lxb_html_tokenizer_state_append_data_m(tkz, data);
+                tkz->pos[-1] = 0x0A;
 
-                lxb_html_tokenizer_state_token_done_m(tkz, end);
+                lxb_html_tokenizer_state_begin_set(tkz, data + 1);
 
-                return end;
-            }
+                if (*data != 0x0A) {
+                    lxb_html_tokenizer_state_begin_set(tkz, data);
+                    data--;
+                }
 
-            tkz->token->type |= LXB_HTML_TOKEN_TYPE_NULL;
+                break;
 
-            lxb_html_tokenizer_error_add(tkz->parse_errors, data,
-                                         LXB_HTML_TOKENIZER_ERROR_UNNUCH);
+            /*
+             * EOF
+             * U+0000 NULL
+             */
+            case 0x00:
+                lxb_html_tokenizer_state_append_data_m(tkz, data);
+
+                if (tkz->is_eof) {
+                    if (tkz->token->begin != NULL) {
+                        lxb_html_tokenizer_state_token_set_end_oef(tkz);
+                    }
+
+                    lxb_html_tokenizer_error_add(tkz->parse_errors, tkz->token->end,
+                                                 LXB_HTML_TOKENIZER_ERROR_EOINCO);
+
+                    lxb_html_tokenizer_state_set_text(tkz);
+                    lxb_html_tokenizer_state_token_done_m(tkz, end);
+
+                    return end;
+                }
+
+                lxb_html_tokenizer_state_begin_set(tkz, data + 1);
+                lxb_html_tokenizer_state_append_replace_m(tkz);
+
+                lxb_html_tokenizer_error_add(tkz->parse_errors, data,
+                                             LXB_HTML_TOKENIZER_ERROR_UNNUCH);
+                break;
+
+            default:
+                break;
         }
 
         data++;
     }
+
+    lxb_html_tokenizer_state_append_data_m(tkz, data);
 
     return data;
 }
@@ -215,12 +266,16 @@ lxb_html_tokenizer_state_comment_less_than_sign(lxb_html_tokenizer_t *tkz,
 {
     /* U+0021 EXCLAMATION MARK (!) */
     if (*data == 0x21) {
+        lxb_html_tokenizer_state_append_m(tkz, data, 1);
+
         tkz->state = lxb_html_tokenizer_state_comment_less_than_sign_bang;
 
         return (data + 1);
     }
     /* U+003C LESS-THAN SIGN (<) */
     else if (*data == 0x3C) {
+        lxb_html_tokenizer_state_append_m(tkz, data, 1);
+
         return (data + 1);
     }
 
@@ -320,17 +375,17 @@ lxb_html_tokenizer_state_comment_end_dash(lxb_html_tokenizer_t *tkz,
     /* EOF */
     else if (*data == 0x00) {
         if (tkz->is_eof) {
-            lxb_html_tokenizer_error_add(tkz->parse_errors,
-                                         tkz->incoming_node->end,
+            lxb_html_tokenizer_error_add(tkz->parse_errors, tkz->last,
                                          LXB_HTML_TOKENIZER_ERROR_EOINCO);
 
-            lxb_html_tokenizer_state_token_set_end_down(tkz,
-                                                    tkz->incoming_node->end, 1);
+            lxb_html_tokenizer_state_set_text(tkz);
             lxb_html_tokenizer_state_token_done_wo_check_m(tkz, end);
 
             return end;
         }
     }
+
+    lxb_html_tokenizer_state_append_m(tkz, "-", 1);
 
     tkz->state = lxb_html_tokenizer_state_comment;
 
@@ -347,12 +402,12 @@ lxb_html_tokenizer_state_comment_end(lxb_html_tokenizer_t *tkz,
 {
     /* U+003E GREATER-THAN SIGN (>) */
     if (*data == 0x3E) {
-        /* Skep two '-' characters in comment tag end "-->"
+        /* Skip two '-' characters in comment tag end "-->"
          * For <!----> or <!-----> ...
          */
         tkz->state = lxb_html_tokenizer_state_data_before;
 
-        lxb_html_tokenizer_state_token_set_end_down(tkz, data, 2);
+        lxb_html_tokenizer_state_set_text(tkz);
         lxb_html_tokenizer_state_token_done_wo_check_m(tkz, end);
 
         return (data + 1);
@@ -365,22 +420,24 @@ lxb_html_tokenizer_state_comment_end(lxb_html_tokenizer_t *tkz,
     }
     /* U+002D HYPHEN-MINUS (-) */
     else if (*data == 0x2D) {
+        lxb_html_tokenizer_state_append_m(tkz, data, 1);
+
         return (data + 1);
     }
     /* EOF */
     else if (*data == 0x00) {
         if (tkz->is_eof) {
-            lxb_html_tokenizer_error_add(tkz->parse_errors,
-                                         tkz->incoming_node->end,
+            lxb_html_tokenizer_error_add(tkz->parse_errors, tkz->last,
                                          LXB_HTML_TOKENIZER_ERROR_EOINCO);
 
-            lxb_html_tokenizer_state_token_set_end_down(tkz,
-                                                    tkz->incoming_node->end, 2);
+            lxb_html_tokenizer_state_set_text(tkz);
             lxb_html_tokenizer_state_token_done_wo_check_m(tkz, end);
 
             return end;
         }
     }
+
+    lxb_html_tokenizer_state_append_m(tkz, "--", 2);
 
     tkz->state = lxb_html_tokenizer_state_comment;
 
@@ -408,7 +465,7 @@ lxb_html_tokenizer_state_comment_end_bang(lxb_html_tokenizer_t *tkz,
         lxb_html_tokenizer_error_add(tkz->parse_errors, data,
                                      LXB_HTML_TOKENIZER_ERROR_INCLCO);
 
-        lxb_html_tokenizer_state_token_set_end_down(tkz, data, 3);
+        lxb_html_tokenizer_state_set_text(tkz);
         lxb_html_tokenizer_state_token_done_wo_check_m(tkz, end);
 
         return (data + 1);
@@ -416,12 +473,10 @@ lxb_html_tokenizer_state_comment_end_bang(lxb_html_tokenizer_t *tkz,
     /* EOF */
     else if (*data == 0x00) {
         if (tkz->is_eof) {
-            lxb_html_tokenizer_error_add(tkz->parse_errors,
-                                         tkz->incoming_node->end,
+            lxb_html_tokenizer_error_add(tkz->parse_errors, tkz->last,
                                          LXB_HTML_TOKENIZER_ERROR_EOINCO);
 
-            lxb_html_tokenizer_state_token_set_end_down(tkz,
-                                                    tkz->incoming_node->end, 3);
+            lxb_html_tokenizer_state_set_text(tkz);
             lxb_html_tokenizer_state_token_done_wo_check_m(tkz, end);
 
             return end;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -15,14 +15,16 @@ extern "C" {
 
 #include "lexbor/dom/interfaces/document.h"
 #include "lexbor/dom/interfaces/node.h"
+#include "lexbor/dom/interfaces/attr.h"
+#include "lexbor/dom/interfaces/document_type.h"
 
 
 struct lxb_dom_document_type {
-    lxb_dom_node_t node;
+    lxb_dom_node_t    node;
 
-    lexbor_str_t   name;
-    lexbor_str_t   public_id;
-    lexbor_str_t   system_id;
+    lxb_dom_attr_id_t name;
+    lexbor_str_t      public_id;
+    lexbor_str_t      system_id;
 };
 
 
@@ -39,11 +41,25 @@ lxb_dom_document_type_interface_destroy(lxb_dom_document_type_t *document_type);
 lxb_inline const lxb_char_t *
 lxb_dom_document_type_name(lxb_dom_document_type_t *doc_type, size_t *len)
 {
-    if (len != NULL) {
-        *len = doc_type->name.length;
+    const lxb_dom_attr_data_t *data;
+
+    static const lxb_char_t lxb_empty[] = "";
+
+    data = lxb_dom_attr_data_by_id(doc_type->node.owner_document->attrs,
+                                   doc_type->name);
+    if (data == NULL || doc_type->name == LXB_DOM_ATTR__UNDEF) {
+        if (len != NULL) {
+            *len = 0;
+        }
+
+        return lxb_empty;
     }
 
-    return doc_type->name.data;
+    if (len != NULL) {
+        *len = data->entry.length;
+    }
+
+    return lexbor_hash_entry_str(&data->entry);
 }
 
 lxb_inline const lxb_char_t *

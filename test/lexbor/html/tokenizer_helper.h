@@ -222,11 +222,6 @@ tokenizer_helper_types_init(lexbor_bst_map_t *bst_map,
     THTE_ADD(LXB_HTML_TOKEN_TYPE_OPEN);
     THTE_ADD(LXB_HTML_TOKEN_TYPE_CLOSE);
     THTE_ADD(LXB_HTML_TOKEN_TYPE_CLOSE_SELF);
-    THTE_ADD(LXB_HTML_TOKEN_TYPE_TEXT);
-    THTE_ADD(LXB_HTML_TOKEN_TYPE_DATA);
-    THTE_ADD(LXB_HTML_TOKEN_TYPE_RCDATA);
-    THTE_ADD(LXB_HTML_TOKEN_TYPE_CDATA);
-    THTE_ADD(LXB_HTML_TOKEN_TYPE_NULL);
     THTE_ADD(LXB_HTML_TOKEN_TYPE_FORCE_QUIRKS);
     THTE_ADD(LXB_HTML_TOKEN_TYPE_DONE);
 
@@ -241,6 +236,8 @@ lxb_html_token_t *
 tokenizer_helper_tkz_callback_token_done(lxb_html_tokenizer_t *tkz,
                                          lxb_html_token_t *token, void *ctx)
 {
+    size_t length;
+    lxb_char_t *data;
     lxb_status_t status;
     tokenizer_helper_t *helper = ctx;
 
@@ -252,6 +249,20 @@ tokenizer_helper_tkz_callback_token_done(lxb_html_tokenizer_t *tkz,
     if (status != LXB_STATUS_OK) {
         tkz->status = status;
         return NULL;
+    }
+
+    if (token->text_start != NULL) {
+        length = token->text_end - token->text_start;
+
+        data = lexbor_mraw_alloc(tkz->mraw, length);
+        if (data == NULL) {
+            return NULL;
+        }
+
+        memcpy(data, token->text_start, length);
+
+        token->text_start = data;
+        token->text_end = data + length;
     }
 
     return lexbor_dobject_alloc(tkz->dobj_token);
@@ -282,7 +293,11 @@ tokenizer_helper_tkz_init(tokenizer_helper_t *helper)
         return lxb_html_tokenizer_destroy(tkz);
     }
 
-    lxb_html_tokenizer_opt_set(tkz, LXB_HTML_TOKENIZER_OPT_WO_IN_DESTROY);
+    status = lxb_html_tokenizer_attrs_make(tkz, 128);
+    if (status != LXB_STATUS_OK) {
+        lexbor_array_destroy(&helper->tokens,false);
+        return lxb_html_tokenizer_destroy(tkz);
+    }
 
     lxb_html_tokenizer_callback_token_done_set(tkz,
                                        tokenizer_helper_tkz_callback_token_done,
@@ -381,6 +396,7 @@ tokenizer_helper_tkz_destroy(lxb_html_tokenizer_t *tkz)
     }
 
     lxb_html_tokenizer_tags_destroy(tkz);
+    lxb_html_tokenizer_attrs_destroy(tkz);
     lxb_html_tokenizer_destroy(tkz);
 }
 

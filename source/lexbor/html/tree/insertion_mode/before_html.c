@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -90,7 +90,7 @@ lxb_html_tree_insertion_mode_before_html_open(lxb_html_tree_t *tree,
                 return lxb_html_tree_process_abort(tree);
             }
 
-            if (token->begin == token->end) {
+            if (token->text_start == token->text_end) {
                 return true;
             }
             /* fall through */

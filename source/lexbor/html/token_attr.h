@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -15,8 +15,9 @@ extern "C" {
 #include "lexbor/core/str.h"
 #include "lexbor/core/dobject.h"
 
+#include "lexbor/dom/interfaces/attr.h"
+
 #include "lexbor/html/base.h"
-#include "lexbor/html/parser_char.h"
 
 
 typedef struct lxb_html_token_attr lxb_html_token_attr_t;
@@ -34,6 +35,10 @@ struct lxb_html_token_attr {
 
     const lxb_char_t           *value_begin;
     const lxb_char_t           *value_end;
+
+    const lxb_dom_attr_data_t  *name;
+    lxb_char_t                 *value;
+    size_t                     value_size;
 
     lexbor_in_node_t           *in_name;
     lexbor_in_node_t           *in_value;
@@ -55,19 +60,9 @@ LXB_API lxb_html_token_attr_t *
 lxb_html_token_attr_destroy(lxb_html_token_attr_t *attr,
                             lexbor_dobject_t *dobj);
 
+LXB_API const lxb_char_t *
+lxb_html_token_attr_name(lxb_html_token_attr_t *attr, size_t *length);
 
-LXB_API lxb_status_t
-lxb_html_token_attr_make_name(lxb_html_token_attr_t *attr, lexbor_str_t *str,
-                              lexbor_mraw_t *mraw);
-
-LXB_API lxb_status_t
-lxb_html_token_attr_make_value(lxb_html_token_attr_t *attr, lexbor_str_t *str,
-                               lexbor_mraw_t *mraw);
-
-LXB_API lxb_status_t
-lxb_html_token_attr_parse(lxb_html_token_attr_t *attr,
-                          lxb_html_parser_char_t *pc, lexbor_str_t *name,
-                          lexbor_str_t *value, lexbor_mraw_t *mraw);
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -15,5 +15,93 @@
                 "attr": [{"name": "�supername", "value": "SuPerValue"}]
             }
         ]
-    }
+    },
+    {
+        "data": "<div n='&DownArrowBar;'>",
+        "tokens": [
+            {
+                "attr": [{"name": "n", "value": "⤓"}]
+            }
+        ]
+    },
+    {
+        "data": "<div n='&acirc='>",
+        "tokens": [
+            {
+                "attr": [{"name": "n", "value": "&acirc="}]
+            }
+        ]
+    },
+    {
+        "data": "<div n='&acircr'>",
+        "tokens": [
+            {
+                "attr": [{"name": "n", "value": "&acircr"}]
+            }
+        ]
+    },
+    {
+        "data": "<div n='&acirc'>",
+        "tokens": [
+            {
+                "attr": [{"name": "n", "value": "â"}]
+            }
+        ]
+    },
+    {
+        "data": "<div n='/ololo/?arg=1&redirect=123'>",
+        "tokens": [
+            {
+                "attr": [{"name": "n", "value": "/ololo/?arg=1&redirect=123"}]
+            }
+        ]
+    },
+    {
+        "data": "<div n='/ololo/?arg=1&acirc'>",
+        "tokens": [
+            {
+                "attr": [{"name": "n", "value": "/ololo/?arg=1â"}]
+            }
+        ]
+    },
+    {
+        "data": "<div n='&acir'>",
+        "tokens": [
+            {
+                "attr": [{"name": "n", "value": "&acir"}]
+            }
+        ]
+    },
+    {
+        "data": "<div n='&aci'>",
+        "tokens": [
+            {
+                "attr": [{"name": "n", "value": "&aci"}]
+            }
+        ]
+    },
+    {
+        "data": "<div n='&ac'>",
+        "tokens": [
+            {
+                "attr": [{"name": "n", "value": "&ac"}]
+            }
+        ]
+    },
+    {
+        "data": "<div n='&a'>",
+        "tokens": [
+            {
+                "attr": [{"name": "n", "value": "&a"}]
+            }
+        ]
+    },    
+    {
+        "data": "<div n='&'>",
+        "tokens": [
+            {
+                "attr": [{"name": "n", "value": "&"}]
+            }
+        ]
+    },
 ]

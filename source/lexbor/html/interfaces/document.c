@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -271,10 +271,6 @@ lxb_html_document_parser_prepare(lxb_html_document_t *document)
     }
     else if (lxb_html_parser_state(doc->parser) != LXB_HTML_PARSER_STATE_BEGIN) {
         lxb_html_parser_clean(doc->parser);
-    }
-
-    if ((document->opt & LXB_HTML_DOCUMENT_PARSE_WO_COPY)) {
-        lxb_html_parser_set_without_copy(doc->parser);
     }
 
     return LXB_STATUS_OK;

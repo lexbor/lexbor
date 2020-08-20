@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -22,10 +22,6 @@ extern "C" {
 #include "lexbor/ns/ns.h"
 
 
-typedef struct lxb_html_tokenizer lxb_html_tokenizer_t;
-typedef unsigned int lxb_html_tokenizer_opt_t;
-
-
 /* State */
 typedef const lxb_char_t *
 (*lxb_html_tokenizer_state_f)(lxb_html_tokenizer_t *tkz,
@@ -36,23 +32,6 @@ typedef lxb_html_token_t *
                               lxb_html_token_t *token, void *ctx);
 
 
-enum lxb_html_tokenizer_opt {
-    LXB_HTML_TOKENIZER_OPT_UNDEF         = 0x00,
-
-    /*
-     * Without copying input buffer.
-     * The user himself monitors the safety of buffers until the end of parsing.
-     */
-    LXB_HTML_TOKENIZER_OPT_WO_COPY       = 0x01,
-
-    /*
-     * During parsing, incoming buffers will not be destroyed.
-     * By default, when the incoming buffer is no longer needed,
-     * it is destroyed.
-     */
-    LXB_HTML_TOKENIZER_OPT_WO_IN_DESTROY = 0x02
-};
-
 struct lxb_html_tokenizer {
     lxb_html_tokenizer_state_f       state;
     lxb_html_tokenizer_state_f       state_return;
@@ -61,6 +40,8 @@ struct lxb_html_tokenizer {
     void                             *callback_token_ctx;
 
     lexbor_hash_t                    *tags;
+    lexbor_hash_t                    *attrs;
+    lexbor_mraw_t                    *attrs_mraw;
 
     /* For a temp strings and other templary data */
     lexbor_mraw_t                    *mraw;
@@ -71,11 +52,6 @@ struct lxb_html_tokenizer {
     /* Memory for token and attr */
     lexbor_dobject_t                 *dobj_token;
     lexbor_dobject_t                 *dobj_token_attr;
-
-    /* Incoming Buffer and current process buffer */
-    lexbor_in_t                      *incoming;
-    lexbor_in_node_t                 *incoming_first;
-    lexbor_in_node_t                 *incoming_node;
 
     /* Parse error */
     lexbor_array_obj_t               *parse_errors;
@@ -90,19 +66,28 @@ struct lxb_html_tokenizer {
 
     /* Temp */
     const lxb_char_t                 *markup;
-    lexbor_in_node_t                 *tmp_incoming_node;
+    const lxb_char_t                 *temp;
     lxb_tag_id_t                     tmp_tag_id;
+
+    lxb_char_t                       *start;
+    lxb_char_t                       *pos;
+    const lxb_char_t                 *end;
+    const lxb_char_t                 *begin;
+    const lxb_char_t                 *last;
 
     /* Entities */
     const lexbor_sbst_entry_static_t *entity;
-    const lxb_char_t                 *entity_pos;
-    const lxb_char_t                 *entity_value;
+    const lexbor_sbst_entry_static_t *entity_match;
+    uintptr_t                        entity_start;
+    uintptr_t                        entity_end;
+    uint32_t                         entity_length;
+    uint32_t                         entity_number;
+    bool                             is_attribute;
 
     /* Process */
     lxb_html_tokenizer_opt_t         opt;
     lxb_status_t                     status;
     bool                             is_eof;
-    bool                             reuse;
 
     lxb_html_tokenizer_t             *base;
     size_t                           ref_count;
@@ -143,6 +128,12 @@ LXB_API void
 lxb_html_tokenizer_tags_destroy(lxb_html_tokenizer_t *tkz);
 
 LXB_API lxb_status_t
+lxb_html_tokenizer_attrs_make(lxb_html_tokenizer_t *tkz, size_t table_size);
+
+LXB_API void
+lxb_html_tokenizer_attrs_destroy(lxb_html_tokenizer_t *tkz);
+
+LXB_API lxb_status_t
 lxb_html_tokenizer_begin(lxb_html_tokenizer_t *tkz);
 
 LXB_API lxb_status_t
@@ -175,19 +166,6 @@ lxb_html_tokenizer_status_set(lxb_html_tokenizer_t *tkz, lxb_status_t status)
 }
 
 lxb_inline void
-lxb_html_tokenizer_opt_set(lxb_html_tokenizer_t *tkz,
-                           lxb_html_tokenizer_opt_t opt)
-{
-    tkz->opt = opt;
-}
-
-lxb_inline lxb_html_tokenizer_opt_t
-lxb_html_tokenizer_opt(lxb_html_tokenizer_t *tkz)
-{
-    return tkz->opt;
-}
-
-lxb_inline void
 lxb_html_tokenizer_tags_set(lxb_html_tokenizer_t *tkz, lexbor_hash_t *tags)
 {
     tkz->tags = tags;
@@ -197,6 +175,31 @@ lxb_inline lexbor_hash_t *
 lxb_html_tokenizer_tags(lxb_html_tokenizer_t *tkz)
 {
     return tkz->tags;
+}
+
+lxb_inline void
+lxb_html_tokenizer_attrs_set(lxb_html_tokenizer_t *tkz, lexbor_hash_t *attrs)
+{
+    tkz->attrs = attrs;
+}
+
+lxb_inline lexbor_hash_t *
+lxb_html_tokenizer_attrs(lxb_html_tokenizer_t *tkz)
+{
+    return tkz->attrs;
+}
+
+lxb_inline void
+lxb_html_tokenizer_attrs_mraw_set(lxb_html_tokenizer_t *tkz,
+                                  lexbor_mraw_t *mraw)
+{
+    tkz->attrs_mraw = mraw;
+}
+
+lxb_inline lexbor_mraw_t *
+lxb_html_tokenizer_attrs_mraw(lxb_html_tokenizer_t *tkz)
+{
+    return tkz->attrs_mraw;
 }
 
 lxb_inline void
@@ -246,19 +249,63 @@ lxb_html_tokenizer_mraw(lxb_html_tokenizer_t *tkz)
     return tkz->mraw;
 }
 
+lxb_inline lxb_status_t
+lxb_html_tokenizer_temp_realloc(lxb_html_tokenizer_t *tkz, size_t size)
+{
+    size_t length = tkz->pos - tkz->start;
+    size_t new_size = (tkz->end - tkz->start) + size + 4096;
+
+    tkz->start = lexbor_realloc(tkz->start, new_size);
+    if (tkz->start == NULL) {
+        tkz->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        return tkz->status;
+    }
+
+    tkz->pos = tkz->start + length;
+    tkz->end = tkz->start + new_size;
+
+    return LXB_STATUS_OK;
+}
+
+lxb_inline lxb_status_t
+lxb_html_tokenizer_temp_append_data(lxb_html_tokenizer_t *tkz,
+                                    const lxb_char_t *data)
+{
+    size_t size = data - tkz->begin;
+
+    if ((tkz->pos + size) > tkz->end) {
+        if(lxb_html_tokenizer_temp_realloc(tkz, size)) {
+            return tkz->status;
+        }
+    }
+
+    tkz->pos = (lxb_char_t *) memcpy(tkz->pos, tkz->begin, size) + size;
+
+    return LXB_STATUS_OK;
+}
+
+lxb_inline lxb_status_t
+lxb_html_tokenizer_temp_append(lxb_html_tokenizer_t *tkz,
+                               const lxb_char_t *data, size_t size)
+{
+    if ((tkz->pos + size) > tkz->end) {
+        if(lxb_html_tokenizer_temp_realloc(tkz, size)) {
+            return tkz->status;
+        }
+    }
+
+    tkz->pos = (lxb_char_t *) memcpy(tkz->pos, data, size) + size;
+
+    return LXB_STATUS_OK;
+}
+
+
 /*
  * No inline functions for ABI.
  */
 void
 lxb_html_tokenizer_status_set_noi(lxb_html_tokenizer_t *tkz,
                                   lxb_status_t status);
-
-void
-lxb_html_tokenizer_opt_set_noi(lxb_html_tokenizer_t *tkz,
-                               lxb_html_tokenizer_opt_t opt);
-
-lxb_html_tokenizer_opt_t
-lxb_html_tokenizer_opt_noi(lxb_html_tokenizer_t *tkz);
 
 void
 lxb_html_tokenizer_callback_token_done_set_noi(lxb_html_tokenizer_t *tkz,

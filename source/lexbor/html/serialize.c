@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -461,13 +461,17 @@ static lxb_status_t
 lxb_html_serialize_document_type_cb(lxb_dom_document_type_t *doctype,
                                     lxb_html_serialize_cb_f cb, void *ctx)
 {
+    size_t length;
+    const lxb_char_t *name;
     lxb_status_t status;
 
     lxb_html_serialize_send("<!DOCTYPE", 9, ctx);
     lxb_html_serialize_send(" ", 1, ctx);
 
-    if (doctype->name.data != NULL && doctype->name.length != 0) {
-        lxb_html_serialize_send(doctype->name.data, doctype->name.length, ctx);
+    name = lxb_dom_document_type_name(doctype, &length);
+
+    if (length != 0) {
+        lxb_html_serialize_send(name, length, ctx);
     }
 
     lxb_html_serialize_send(">", 1, ctx);
@@ -479,13 +483,17 @@ static lxb_status_t
 lxb_html_serialize_document_type_full_cb(lxb_dom_document_type_t *doctype,
                                          lxb_html_serialize_cb_f cb, void *ctx)
 {
+    size_t length;
+    const lxb_char_t *name;
     lxb_status_t status;
 
     lxb_html_serialize_send("<!DOCTYPE", 9, ctx);
     lxb_html_serialize_send(" ", 1, ctx);
 
-    if (doctype->name.data != NULL && doctype->name.length != 0) {
-        lxb_html_serialize_send(doctype->name.data, doctype->name.length, ctx);
+    name = lxb_dom_document_type_name(doctype, &length);
+
+    if (length != 0) {
+        lxb_html_serialize_send(name, length, ctx);
     }
 
     if (doctype->public_id.data != NULL && doctype->public_id.length != 0) {

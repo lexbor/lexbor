@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -21,11 +21,7 @@ lxb_html_tree_insertion_mode_in_table_text(lxb_html_tree_t *tree,
     lexbor_array_obj_t *pt_list = tree->pending_table.text_list;
 
     if (token->tag_id == LXB_TAG__TEXT) {
-        lxb_html_parser_char_t pc = {0};
-
-        pc.drop_null = true;
-
-        if (token->type & LXB_HTML_TOKEN_TYPE_NULL) {
+        if (token->null_count != 0) {
             lxb_html_tree_parse_error(tree, token,
                                       LXB_HTML_RULES_ERROR_NUCH);
         }
@@ -39,8 +35,18 @@ lxb_html_tree_insertion_mode_in_table_text(lxb_html_tree_t *tree,
             return lxb_html_tree_process_abort(tree);
         }
 
-        tree->status = lxb_html_token_parse_data(token, &pc, text,
-                                             tree->document->dom_document.text);
+        if (token->null_count != 0) {
+            lxb_html_tree_parse_error(tree, token,
+                                      LXB_HTML_RULES_ERROR_NUCH);
+
+            tree->status = lxb_html_token_make_text_drop_null(token, text,
+                                                              tree->document->dom_document.text);
+        }
+        else {
+            tree->status = lxb_html_token_make_text(token, text,
+                                                    tree->document->dom_document.text);
+        }
+
         if (tree->status != LXB_STATUS_OK) {
             lxb_html_tree_insertion_mode_in_table_text_erase(tree);
 
@@ -56,7 +62,7 @@ lxb_html_tree_insertion_mode_in_table_text(lxb_html_tree_t *tree,
 
         /*
          * The lxb_html_token_data_skip_ws_begin function
-         * can change token->begin and token->in_begin value.
+         * can change token->text_start value.
          */
         size_t i_pos = lexbor_str_whitespace_from_begin(text);
 

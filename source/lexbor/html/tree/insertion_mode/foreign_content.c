@@ -1,15 +1,16 @@
 /*
- * Copyright (C) 2018-2019 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
-#define LEXBOR_TOKENIZER_CHARS_MAP
-#include "lexbor/core/str_res.h"
-
 #include "lexbor/html/tree/insertion_mode.h"
 #include "lexbor/html/tree/open_elements.h"
 #include "lexbor/html/interfaces/element.h"
+
+#define LEXBOR_TOKENIZER_CHARS_MAP
+#define LEXBOR_STR_RES_ANSI_REPLACEMENT_CHARACTER
+#include "lexbor/core/str_res.h"
 
 
 lxb_status_t
@@ -127,20 +128,19 @@ lxb_inline bool
 lxb_html_tree_insertion_mode_foreign_content_text(lxb_html_tree_t *tree,
                                                   lxb_html_token_t *token)
 {
-    if (token->type & LXB_HTML_TOKEN_TYPE_NULL) {
-        lxb_html_tree_parse_error(tree, token,
-                                  LXB_HTML_RULES_ERROR_NUCH);
+    lexbor_str_t str;
+
+    if (token->null_count != 0) {
+        lxb_html_tree_parse_error(tree, token, LXB_HTML_RULES_ERROR_NUCH);
+
+        tree->status = lxb_html_token_make_text_replace_null(token, &str,
+                                                             tree->document->dom_document.text);
+    }
+    else {
+        tree->status = lxb_html_token_make_text(token, &str,
+                                                tree->document->dom_document.text);
     }
 
-    lexbor_str_t str = {0};
-    lxb_html_parser_char_t pc = {0};
-
-    pc.mraw = tree->document->dom_document.text;
-    pc.state = lxb_html_parser_char_data;
-    pc.replace_null = true;
-
-    tree->status = lxb_html_parser_char_process(&pc, &str, token->in_begin,
-                                                token->begin, token->end);
     if (tree->status != LXB_STATUS_OK) {
         return lxb_html_tree_process_abort(tree);
     }
@@ -155,25 +155,26 @@ lxb_html_tree_insertion_mode_foreign_content_text(lxb_html_tree_t *tree,
     if (tree->frameset_ok) {
         const lxb_char_t *pos = str.data;
         const lxb_char_t *end = str.data + str.length;
-        const lxb_char_t *rep = (const lxb_char_t *) "\xEF\xBF\xBD";
 
-        while (pos != end)
-        {
+        static const lxb_char_t *rep = lexbor_str_res_ansi_replacement_character;
+        static const unsigned rep_len = sizeof(lexbor_str_res_ansi_replacement_character) - 1;
+
+        while (pos != end) {
             /* Need skip U+FFFD REPLACEMENT CHARACTER */
             if (*pos == *rep) {
-                if ((end - pos) < 3) {
+                if ((end - pos) < rep_len) {
                     tree->frameset_ok = false;
 
                     break;
                 }
 
-                if (memcmp(pos, rep, sizeof(lxb_char_t) * 3) != 0) {
+                if (memcmp(pos, rep, sizeof(lxb_char_t) * rep_len) != 0) {
                     tree->frameset_ok = false;
 
                     break;
                 }
 
-                pos = pos + 3;
+                pos = pos + rep_len;
 
                 continue;
             }
@@ -236,45 +237,21 @@ lxb_html_tree_insertion_mode_foreign_content_all(lxb_html_tree_t *tree,
                                                  lxb_html_token_t *token)
 {
     lxb_dom_node_t *node;
-    lexbor_mraw_t *text;
 
     if (token->tag_id == LXB_TAG_FONT) {
-        lexbor_str_t str = {0};
         lxb_html_token_attr_t *attr = token->attr_first;
 
-        text = tree->document->dom_document.text;
-
         while (attr != NULL) {
-            str.length = 0;
-
-            tree->status = lxb_html_token_attr_make_name(attr, &str, text);
-            if (tree->status != LXB_STATUS_OK) {
-                lexbor_str_destroy(&str, text, false);
-
-                return lxb_html_tree_process_abort(tree);
-            }
-
-            if (str.length == 5
-                && lexbor_str_data_cmp((const lxb_char_t *) "color", str.data))
+            if (attr->name != NULL
+                && (attr->name->attr_id == LXB_DOM_ATTR_COLOR
+                || attr->name->attr_id == LXB_DOM_ATTR_FACE
+                || attr->name->attr_id == LXB_DOM_ATTR_SIZE))
             {
-                lexbor_str_destroy(&str, text, false);
-
-                goto go_next;
-            }
-
-            if (str.length == 4
-                && (lexbor_str_data_cmp((const lxb_char_t *) "face", str.data)
-                    || lexbor_str_data_cmp((const lxb_char_t *) "size", str.data)))
-            {
-                lexbor_str_destroy(&str, text, false);
-
                 goto go_next;
             }
 
             attr = attr->next;
         }
-
-        lexbor_str_destroy(&str, text, false);
 
         return lxb_html_tree_insertion_mode_foreign_content_anything_else(tree,
                                                                           token);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Alexander Borisov
+ * Copyright (C) 2019-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -19,28 +19,13 @@
 static lxb_html_token_t *
 token_callback(lxb_html_tokenizer_t *tkz, lxb_html_token_t *token, void *ctx)
 {
-    lxb_status_t status;
-    lexbor_str_t str = {0};
-    lxb_html_parser_char_t pc = {0};
-
     /* Skip all not #text tokens */
     if (token->tag_id != LXB_TAG__TEXT) {
         return token;
     }
 
-    pc.state = lxb_html_parser_char_ref_data;
-    pc.mraw = lxb_html_tokenizer_mraw(tkz);
-    pc.replace_null = true;
-
-    status = lxb_html_parser_char_process(&pc, &str, token->in_begin,
-                                          token->begin, token->end);
-    if (status != LXB_STATUS_OK) {
-        FAILED("Failed to make data from token");
-    }
-
-    printf("%s", str.data);
-
-    lexbor_str_destroy(&str, pc.mraw, false);
+    printf("%.*s", (int) (token->text_end - token->text_start),
+           token->text_start);
 
     return token;
 }
@@ -64,8 +49,6 @@ main(int argc, const char *argv[])
         FAILED("Failed to create tokenizer object");
     }
 
-    /* Without copying input buffer */
-    lxb_html_tokenizer_opt_set(tkz, LXB_HTML_TOKENIZER_OPT_WO_COPY);
     /* Set callback for token */
     lxb_html_tokenizer_callback_token_done_set(tkz, token_callback, NULL);
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -185,7 +185,7 @@ lxb_html_tree_insertion_mode_in_head_open(lxb_html_tree_t *tree,
                 return lxb_html_tree_process_abort(tree);
             }
 
-            if (ws_token.begin != ws_token.end) {
+            if (ws_token.text_start != ws_token.text_end) {
                 tree->status = lxb_html_tree_insert_character(tree, &ws_token,
                                                               NULL);
                 if (tree->status != LXB_STATUS_OK) {
@@ -193,7 +193,7 @@ lxb_html_tree_insertion_mode_in_head_open(lxb_html_tree_t *tree,
                 }
             }
 
-            if (token->begin == token->end) {
+            if (token->text_start == token->text_end) {
                 return true;
             }
         }

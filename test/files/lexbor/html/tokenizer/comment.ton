@@ -7,7 +7,6 @@
         "tokens": [
             {
                 "tag": "!--",
-                "type": [LXB_HTML_TOKEN_TYPE_DATA],
                 "attr": []
             }
         ],
@@ -21,7 +20,6 @@
             {
                 "tag": "!--",
                 "text": "---",
-                "type": [LXB_HTML_TOKEN_TYPE_DATA],
                 "attr": []
             }
         ],

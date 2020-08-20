@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -112,11 +112,10 @@ lxb_html_tree_insertion_mode_in_frameset(lxb_html_tree_t *tree,
 
         case LXB_TAG__TEXT: {
             size_t cur_len;
-            lexbor_str_t str = {0};
-            lxb_html_parser_char_t pc = {0};
+            lexbor_str_t str;
 
-            tree->status = lxb_html_token_parse_data(token, &pc, &str,
-                                             tree->document->dom_document.text);
+            tree->status = lxb_html_token_make_text(token, &str,
+                                                    tree->document->dom_document.text);
             if (tree->status != LXB_STATUS_OK) {
                 return lxb_html_tree_process_abort(tree);
             }
