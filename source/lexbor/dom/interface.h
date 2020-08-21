@@ -19,19 +19,19 @@ extern "C" {
 #include "lexbor/dom/exception.h"
 
 
-#define lxb_dom_interface_cdata_section(obj) ((lxb_dom_cdata_section_t *) obj)
-#define lxb_dom_interface_character_data(obj) ((lxb_dom_character_data_t *) obj)
-#define lxb_dom_interface_comment(obj) ((lxb_dom_comment_t *) obj)
-#define lxb_dom_interface_document(obj) ((lxb_dom_document_t *) obj)
-#define lxb_dom_interface_document_fragment(obj) ((lxb_dom_document_fragment_t *) obj)
-#define lxb_dom_interface_document_type(obj) ((lxb_dom_document_type_t *) obj)
-#define lxb_dom_interface_element(obj) ((lxb_dom_element_t *) obj)
-#define lxb_dom_interface_attr(obj) ((lxb_dom_attr_t *) obj)
-#define lxb_dom_interface_event_target(obj) ((lxb_dom_event_target_t *) obj)
-#define lxb_dom_interface_node(obj) ((lxb_dom_node_t *) obj)
-#define lxb_dom_interface_processing_instruction(obj) ((lxb_dom_processing_instruction_t *) obj)
-#define lxb_dom_interface_shadow_root(obj) ((lxb_dom_shadow_root_t *) obj)
-#define lxb_dom_interface_text(obj) ((lxb_dom_text_t *) obj)
+#define lxb_dom_interface_cdata_section(obj) ((lxb_dom_cdata_section_t *) (obj))
+#define lxb_dom_interface_character_data(obj) ((lxb_dom_character_data_t *) (obj))
+#define lxb_dom_interface_comment(obj) ((lxb_dom_comment_t *) (obj))
+#define lxb_dom_interface_document(obj) ((lxb_dom_document_t *) (obj))
+#define lxb_dom_interface_document_fragment(obj) ((lxb_dom_document_fragment_t *) (obj))
+#define lxb_dom_interface_document_type(obj) ((lxb_dom_document_type_t *) (obj))
+#define lxb_dom_interface_element(obj) ((lxb_dom_element_t *) (obj))
+#define lxb_dom_interface_attr(obj) ((lxb_dom_attr_t *) (obj))
+#define lxb_dom_interface_event_target(obj) ((lxb_dom_event_target_t *) (obj))
+#define lxb_dom_interface_node(obj) ((lxb_dom_node_t *) (obj))
+#define lxb_dom_interface_processing_instruction(obj) ((lxb_dom_processing_instruction_t *) (obj))
+#define lxb_dom_interface_shadow_root(obj) ((lxb_dom_shadow_root_t *) (obj))
+#define lxb_dom_interface_text(obj) ((lxb_dom_text_t *) (obj))
 
 
 typedef struct lxb_dom_event_target lxb_dom_event_target_t;
