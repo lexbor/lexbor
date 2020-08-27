@@ -52,14 +52,10 @@
     #define LXB_API
 #endif
 
-#ifndef LEXBOR_STATIC
-    #ifdef _WIN32
-        #define LXB_EXTERN extern __declspec(dllimport)
-    #else
-        #define LXB_EXTERN extern
-    #endif
+#ifdef _WIN32
+    #define LXB_EXTERN extern __declspec(dllimport)
 #else
-    #define LXB_EXTERN
+    #define LXB_EXTERN extern
 #endif
 
 #endif /* LEXBOR_DEF_H */
