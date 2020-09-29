@@ -88,7 +88,7 @@ tree_walker(lxb_dom_node_t *node, lxb_html_serialize_cb_f cb, void *ctx)
 {
     lxb_status_t status;
     lxb_html_template_element_t *temp;
-    lxb_dom_node_t *root = node;
+    lxb_dom_node_t *root = node->parent;
 
     const lxb_char_t *name;
     size_t name_len = 0;
