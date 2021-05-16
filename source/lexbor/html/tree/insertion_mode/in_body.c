@@ -26,7 +26,7 @@ bool
 lxb_html_tree_insertion_mode_in_body_skip_new_line(lxb_html_tree_t *tree,
                                                    lxb_html_token_t *token)
 {
-    tree->mode = lxb_html_tree_insertion_mode_in_body;
+    tree->mode = tree->original_mode;
 
     if (token->tag_id != LXB_TAG__TEXT) {
         return false;
@@ -53,7 +53,7 @@ bool
 lxb_html_tree_insertion_mode_in_body_skip_new_line_textarea(lxb_html_tree_t *tree,
                                                             lxb_html_token_t *token)
 {
-    tree->mode = lxb_html_tree_insertion_mode_text;
+    tree->mode = tree->original_mode;
 
     if (token->tag_id != LXB_TAG__TEXT) {
         return false;
@@ -441,6 +441,7 @@ lxb_html_tree_insertion_mode_in_body_pre_listing(lxb_html_tree_t *tree,
         return lxb_html_tree_process_abort(tree);
     }
 
+    tree->original_mode = tree->mode;
     tree->mode = lxb_html_tree_insertion_mode_in_body_skip_new_line;
     tree->frameset_ok = false;
 
@@ -1323,6 +1324,7 @@ lxb_html_tree_insertion_mode_in_body_textarea(lxb_html_tree_t *tree,
 
     tree->frameset_ok = false;
 
+    tree->original_mode = tree->mode;
     tree->mode = lxb_html_tree_insertion_mode_in_body_skip_new_line_textarea;
 
     return true;

@@ -1,5 +1,5 @@
 [
-    /* Test count: 24 */
+    /* Test count: 27 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -354,6 +354,63 @@
               <body>
                 <p>
                   <table>
+        $DATA
+    },
+    /* Test number: 25 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html><table><tr><td><textarea>
+            </textarea></tr></td></table><div></div>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <textarea>
+                <div>
+        $DATA
+    },
+    /* Test number: 26 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html><table><tr><td><pre>
+            </pre></tr></td></table><div></div>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <pre>
+                <div>
+        $DATA
+    },
+    /* Test number: 27 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE html><table><tr><td><listing>
+            </listing></tr></td></table><div></div>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <listing>
+                <div>
         $DATA
     },
 ]
