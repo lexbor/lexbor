@@ -51,6 +51,24 @@ Binaries are available for:
 Currently for `x86_64` architecture.
 If you need any other architecture, please, write to [support@lexbor.com](mailto:support@lexbor.com).
 
+### macOS
+
+#### Homebrew
+
+To install `lexbor` on macOS from Homebrew:
+
+```sh
+brew install lexbor
+```
+
+#### MacPorts
+
+To install `lexbor` on macOS from MacPorts:
+
+```sh
+sudo port install lexbor
+```
+
 ### Source code
 
 For building and installing Lexbor library from source code, use [CMake](https://cmake.org/) (open-source, cross-platform build system).
