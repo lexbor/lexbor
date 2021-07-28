@@ -7,6 +7,9 @@
 #ifndef LEXBOR_CSS_SYNTAX_STATE_RES_H
 #define LEXBOR_CSS_SYNTAX_STATE_RES_H
 
+#include "lexbor/css/syntax/state.h"
+#include "lexbor/css/syntax/consume.h"
+
 
 static const lxb_css_syntax_tokenizer_state_f
 lxb_css_syntax_state_res_map[256] =
