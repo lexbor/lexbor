@@ -29,6 +29,7 @@
 #include "lexbor/core/utils.h"
 #include "lexbor/core/diyfp.h"
 #include "lexbor/core/dtoa.h"
-#include "lexbor/core/strpod.h"
+#include "lexbor/core/strtod.h"
+#include "lexbor/core/serialize.h"
 
 #endif /* LEXBOR_CORE_H */

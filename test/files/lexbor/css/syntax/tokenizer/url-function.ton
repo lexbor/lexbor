@@ -1,5 +1,5 @@
 [
-    /* Test count: 25 */
+    /* Test count: 28 */
     /* 1 */
     {
         "data": "url(http://lexbor.com/)",
@@ -193,4 +193,30 @@
             {"type": "url", "value": "url(http://lexbor.com/)"}
         ]
     },
+    /* 26 */
+    {
+        "data": "url( \t \t  'http://lexbor.com/')",
+        "tokens": [
+            {"type": "function", "value": "url("},
+            {"type": "whitespace", "value": " \t \t  "},
+            {"type": "string", "value": "\"http://lexbor.com/\""},
+            {"type": "right-parenthesis", "value": ")"}
+        ]
+    },
+    /* 27 */
+    {
+        "data": "url( \t \t  ",
+        "tokens": [
+            {"type": "function", "value": "url("},
+            {"type": "whitespace", "value": " \t \t  "}
+        ]
+    },
+    /* 28 */
+    {
+        "data": "url(\t",
+        "tokens": [
+            {"type": "function", "value": "url("},
+            {"type": "whitespace", "value": "\t"}
+        ]
+    }
 ]

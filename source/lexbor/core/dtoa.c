@@ -371,6 +371,10 @@ lexbor_dtoa(double value, lxb_char_t *begin, size_t len)
     size_t length;
     lxb_char_t *end = begin + len;
 
+    if (len == 0) {
+        return 0;
+    }
+
     /* Not handling NaN and inf. */
 
     minus = 0;

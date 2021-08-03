@@ -286,6 +286,12 @@ lxb_dom_attr_qualified_name_append(lexbor_hash_t *hash, const lxb_char_t *name,
 }
 
 const lxb_dom_attr_data_t *
+lxb_dom_attr_data_undef(void)
+{
+    return &lxb_dom_attr_res_data_default[LXB_DOM_ATTR__UNDEF];
+}
+
+const lxb_dom_attr_data_t *
 lxb_dom_attr_data_by_id(lexbor_hash_t *hash, lxb_dom_attr_id_t attr_id)
 {
     if (attr_id >= LXB_DOM_ATTR__LAST_ENTRY) {

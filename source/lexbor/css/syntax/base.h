@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -13,11 +13,12 @@ extern "C" {
 
 
 #include "lexbor/core/base.h"
+#include "lexbor/css/base.h"
 
 
-#define LXB_CSS_SYNTAX_VERSION_MAJOR 0
-#define LXB_CSS_SYNTAX_VERSION_MINOR 1
-#define LXB_CSS_SYNTAX_VERSION_PATCH 2
+#define LXB_CSS_SYNTAX_VERSION_MAJOR 1
+#define LXB_CSS_SYNTAX_VERSION_MINOR 0
+#define LXB_CSS_SYNTAX_VERSION_PATCH 0
 
 #define LXB_CSS_SYNTAX_VERSION_STRING                                          \
     LEXBOR_STRINGIZE(LXB_CSS_SYNTAX_VERSION_MAJOR) "."                         \

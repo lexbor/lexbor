@@ -1,5 +1,5 @@
 [
-    /* Test count: 32 */
+    /* Test count: 34 */
     /* 1 */
     {
         "data": "godofwar",
@@ -119,112 +119,112 @@
             {"type": "ident", "value": "sIlEnt-hIll"}
         ]
     },
-   /* 16 */
+   /* 17 */
    {
         "data": "Silent1-Hill5",
         "tokens": [
             {"type": "ident", "value": "Silent1-Hill5"}
         ]
     },
-   /* 17 */
+   /* 18 */
    {
         "data": "--silent-Hill",
         "tokens": [
             {"type": "ident", "value": "--silent-Hill"}
         ]
     },
-   /* 18 */
+   /* 19 */
    {
         "data": "-Silent-Hill",
         "tokens": [
             {"type": "ident", "value": "-Silent-Hill"}
         ]
     },
-   /* 19 */
+   /* 20 */
    {
         "data": "-_Silent-Hill",
         "tokens": [
             {"type": "ident", "value": "-_Silent-Hill"}
         ]
     },
-   /* 20 */
+   /* 21 */
    {
         "data": "_Silent-Hill",
         "tokens": [
             {"type": "ident", "value": "_Silent-Hill"}
         ]
     },
-   /* 21 */
+   /* 22 */
    {
         "data": "-----_Silent-Hill",
         "tokens": [
             {"type": "ident", "value": "-----_Silent-Hill"}
         ]
     },
-   /* 22 */
+   /* 23 */
    {
         "data": "-----_Silent-Hill-----",
         "tokens": [
             {"type": "ident", "value": "-----_Silent-Hill-----"}
         ]
     },
-   /* 23 */
+   /* 24 */
    {
         "data": "-----Silent-Hill-----",
         "tokens": [
             {"type": "ident", "value": "-----Silent-Hill-----"}
         ]
     },
-    /* 24 */
+    /* 25 */
     {
         "data": "\\67\fodofwar",
         "tokens": [
             {"type": "ident", "value": "godofwar"}
         ]
     },
-    /* 25 */
+    /* 26 */
     {
         "data": "Город",
         "tokens": [
             {"type": "ident", "value": "Город"}
         ]
     },
-    /* 26 */
+    /* 27 */
     {
         "data": "-Город",
         "tokens": [
             {"type": "ident", "value": "-Город"}
         ]
     },
-    /* 27 */
+    /* 28 */
     {
         "data": "--Г_о_р_о_д",
         "tokens": [
             {"type": "ident", "value": "--Г_о_р_о_д"}
         ]
     },
-    /* 28 */
+    /* 29 */
     {
         "data": "\0",
         "tokens": [
             {"type": "ident", "value": "�"}
         ]
     },
-    /* 29 */
+    /* 31 */
     {
         "data": "Mass\0Effect",
         "tokens": [
             {"type": "ident", "value": "Mass�Effect"}
         ]
     },
-    /* 30 */
+    /* 32 */
     {
         "data": "Mass_Effect\0",
         "tokens": [
             {"type": "ident", "value": "Mass_Effect�"}
         ]
     },
-    /* 31 */
+    /* 33 */
     {
         "data": "Mass\\\fEffect",
         "tokens": [
@@ -234,7 +234,7 @@
             {"type": "ident", "value": "Effect"}
         ]
     },
-    /* 32 */
+    /* 34 */
     {
         "data": "Mass\fEffect",
         "tokens": [
@@ -242,5 +242,5 @@
             {"type": "whitespace", "value": "\n"},
             {"type": "ident", "value": "Effect"}
         ]
-    },
+    }
 ]

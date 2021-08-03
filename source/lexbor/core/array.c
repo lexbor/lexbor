@@ -38,7 +38,9 @@ lexbor_array_init(lexbor_array_t *array, size_t size)
 void
 lexbor_array_clean(lexbor_array_t *array)
 {
-    array->length = 0;
+    if (array != NULL) {
+        array->length = 0;
+    }
 }
 
 lexbor_array_t *

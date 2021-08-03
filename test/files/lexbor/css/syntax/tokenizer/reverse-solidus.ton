@@ -1,0 +1,111 @@
+[
+    /* Test count: 11 */
+    /* 1 */
+    {
+        "data": $DATA{ ,12}
+            \\
+        $DATA,
+        "tokens": [
+            {"type": "delim", "value": "\\"}
+        ]
+    },
+    /* 2 */
+    {
+        "data": $DATA{ ,12}
+            \\\n
+        $DATA,
+        "tokens": [
+            {"type": "delim", "value": "\\"},
+            {"type": "whitespace", "value": "\n"}
+        ]
+    },
+    /* 3 */
+    {
+        "data": $DATA{ ,12}
+            \\\r
+        $DATA,
+        "tokens": [
+            {"type": "delim", "value": "\\"},
+            {"type": "whitespace", "value": "\n"}
+        ]
+    },
+    /* 4 */
+    {
+        "data": $DATA{ ,12}
+            \\\f
+        $DATA,
+        "tokens": [
+            {"type": "delim", "value": "\\"},
+            {"type": "whitespace", "value": "\n"}
+        ]
+    },
+    /* 5 */
+    {
+        "data": $DATA{ ,12}
+            \\47
+        $DATA,
+        "tokens": [
+            {"type": "ident", "value": "G"}
+        ]
+    },
+    /* 6 */
+    {
+        "data": $DATA{ ,12}
+            \\47\\6f\\64\\20\\6f\\66\\20\\57\\61\\72
+        $DATA,
+        "tokens": [
+            {"type": "ident", "value": "God of War"}
+        ]
+    },
+    /* 7 */
+    {
+        "data": $DATA{ ,12}
+            \\47\\6F\\64\\20\\6F\\66\\20\\57\\61\\72
+        $DATA,
+        "tokens": [
+            {"type": "ident", "value": "God of War"}
+        ]
+    },
+    /* 8 */
+    {
+        "data": $DATA{ ,12}
+            \\47#id
+        $DATA,
+        "tokens": [
+            {"type": "ident", "value": "G"},
+            {"type": "hash", "value": "#id"}
+        ]
+    },
+    /* 9 */
+    {
+        "data": $DATA{ ,12}
+            \\  #id
+        $DATA,
+        "tokens": [
+            {"type": "ident", "value": " "},
+            {"type": "whitespace", "value": " "},
+            {"type": "hash", "value": "#id"}
+        ]
+    },
+    /* 10 */
+    {
+        "data": $DATA{ ,12}
+            \\47  #id
+        $DATA,
+        "tokens": [
+            {"type": "ident", "value": "G"},
+            {"type": "whitespace", "value": " "},
+            {"type": "hash", "value": "#id"}
+        ]
+    },
+    /* 11 */
+    {
+        "data": $DATA{ ,12}
+            \\47 #id
+        $DATA,
+        "tokens": [
+            {"type": "ident", "value": "G"},
+            {"type": "hash", "value": "#id"}
+        ]
+    },
+]

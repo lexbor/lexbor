@@ -24,14 +24,17 @@ extern "C" {
 #include "lexbor/core/lexbor.h"
 
 #define LEXBOR_VERSION_MAJOR 1
-#define LEXBOR_VERSION_MINOR 3
-#define LEXBOR_VERSION_PATCH 2
+#define LEXBOR_VERSION_MINOR 4
+#define LEXBOR_VERSION_PATCH 0
 
 #define LEXBOR_VERSION_STRING LEXBOR_STRINGIZE(LEXBOR_VERSION_MAJOR) "."       \
                               LEXBOR_STRINGIZE(LEXBOR_VERSION_MINOR) "."       \
                               LEXBOR_STRINGIZE(LEXBOR_VERSION_PATCH)
 
 #define lexbor_assert(val)
+
+#define lexbor_max(val1, val2) ((val1) > (val2) ? (val1) : (val2))
+#define lexbor_min(val1, val2) ((val1) < (val2) ? (val1) : (val2))
 
 
 /*
@@ -69,6 +72,10 @@ typedef enum {
     LEXBOR_ACTION_NEXT  = 0x02
 }
 lexbor_action_t;
+
+
+typedef lxb_status_t
+(*lexbor_serialize_cb_f)(const lxb_char_t *data, size_t len, void *ctx);
 
 
 #ifdef __cplusplus

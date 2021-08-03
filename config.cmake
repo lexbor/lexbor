@@ -393,8 +393,12 @@ MACRO(APPEND_TESTS name_prefix sources)
         STRING(REGEX REPLACE "^${LEXBOR_DIR_ROOT}" "" build_dir ${build_dir})
         STRING(REGEX REPLACE "^/+" "" build_dir ${build_dir})
 
-        add_test("${name_prefix}${arg_name}" "${CMAKE_BINARY_DIR}/${build_dir}/${barename}"
-                 "${${arg_name}_arg}")
+        IF (NOT "${${arg_name}_arg}" STREQUAL "")
+            add_test("${name_prefix}${arg_name}" "${CMAKE_BINARY_DIR}/${build_dir}/${barename}"
+                     "${${arg_name}_arg}")
+        ELSE()
+            add_test("${name_prefix}${arg_name}" "${CMAKE_BINARY_DIR}/${build_dir}/${barename}")
+        ENDIF()
 
         FOREACH(i RANGE 100)
             IF("${${name_prefix}${arg_name}_arg_${i}}" STREQUAL "")

@@ -41,8 +41,13 @@ lexbor_mem_init(lexbor_mem_t *mem, size_t min_chunk_size)
 void
 lexbor_mem_clean(lexbor_mem_t *mem)
 {
-    lexbor_mem_chunk_t *prev;
-    lexbor_mem_chunk_t *chunk = mem->chunk;
+    lexbor_mem_chunk_t *prev, *chunk;
+
+    if (mem == NULL) {
+        return;
+    }
+
+    chunk = mem->chunk;
 
     while (chunk->prev) {
         prev = chunk->prev;

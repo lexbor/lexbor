@@ -259,16 +259,15 @@ name(TEST_OBJ_ARG)                                                             \
     }                                                                          \
     while (0)
 
-
-#define test_eq_str_n(have, need, size, act)                                   \
+#define test_eq_str_n(have, hlen, need, nlen)                                  \
     do {                                                                       \
-        if (memcmp((need), (have), (size)) act 0) {                            \
+        if (hlen != nlen || memcmp((need), (have), (hlen)) != 0) {             \
             TEST_OBJ_NAME->bad++;                                              \
             TEST_OBJ_NAME->error = true;                                       \
                                                                                \
             fprintf(stdout, "Received:\n%.*s\n"                                \
                     "Expected:\n%.*s\n%s:%d:%s\n",                             \
-                    (int) (size), (have), (int) (size), (need),                \
+                    (int) (hlen), (have), (int) (nlen), (need),                \
                     __FILE__, __LINE__, __func__);                             \
             TEST_STACK_PRINT();                                                \
             return NULL;                                                       \
@@ -276,35 +275,50 @@ name(TEST_OBJ_ARG)                                                             \
     }                                                                          \
     while (0)
 
+#define test_ne_str_n(have, hlen, need, nlen)                                  \
+    do {                                                                       \
+        if (hlen == nlen && memcmp((need), (have), (hlen)) == 0) {             \
+            TEST_OBJ_NAME->bad++;                                              \
+            TEST_OBJ_NAME->error = true;                                       \
+                                                                               \
+            fprintf(stdout, "Received:\n%.*s\n"                                \
+                    "Expected:\n%.*s\n%s:%d:%s\n",                             \
+                    (int) (hlen), (char *) (have),                             \
+                    (int) (nlen), (char *) (need),                             \
+                    __FILE__, __LINE__, __func__);                             \
+            TEST_STACK_PRINT();                                                \
+            return NULL;                                                       \
+        }                                                                      \
+    }                                                                          \
+    while (0)
 
 #define test_eq_str(have, need)                                                \
     do {                                                                       \
-        size_t str_len = strlen(need);                                         \
-        test_eq_str_n(have, need, str_len, !=);                                \
+        size_t hlen = strlen((const char *) (have));                           \
+        size_t nlen = strlen((const char *) (need));                           \
+        test_eq_str_n(have, hlen, need, nlen);                                 \
     }                                                                          \
     while (0)
 
-
-#define test_eq_u_str_n(have, need, size)                                      \
-    test_eq_str_n((const char *) have, (const char *) need, size, !=)
+#define test_eq_u_str_n(have, hlen, need, nlen)                                \
+    test_eq_str_n(have, hlen, need, nlen)
 
 #define test_eq_u_str(have, need)                                              \
-    test_eq_str((const char *) have, (const char *) need)
-
+    test_eq_str(have, need)
 
 #define test_ne_str(have, need)                                                \
     do {                                                                       \
-        size_t str_len = strlen(need);                                         \
-        test_eq_str_n(have, need, str_len, ==);                                \
+        size_t hlen = strlen((const char *) (have));                           \
+        size_t nlen = strlen((const char *) (need));                           \
+        test_ne_str_n(have, hlen, need, nlen);                                 \
     }                                                                          \
     while (0)
 
-
-#define test_ne_u_str_n(have, need, size)                                      \
-    test_eq_str_n((const char *) have, (const char *) need, size, ==)
+#define test_ne_u_str_n(have, hlen, need, nlen)                                \
+    test_eq_str_n(have, hlen, need, nlen)
 
 #define test_ne_u_str(have, need)                                              \
-    test_ne_str((const char *) have, (const char *) need)
+    test_ne_str(have, need)
 
 
 #define test_ne(have, need)                                                    \

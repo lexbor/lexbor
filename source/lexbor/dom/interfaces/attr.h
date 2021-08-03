@@ -78,13 +78,16 @@ LXB_API bool
 lxb_dom_attr_compare(lxb_dom_attr_t *first, lxb_dom_attr_t *second);
 
 LXB_API const lxb_dom_attr_data_t *
+lxb_dom_attr_data_undef(void);
+
+LXB_API const lxb_dom_attr_data_t *
 lxb_dom_attr_data_by_id(lexbor_hash_t *hash, lxb_dom_attr_id_t attr_id);
 
 LXB_API const lxb_dom_attr_data_t *
 lxb_dom_attr_data_by_local_name(lexbor_hash_t *hash,
                                 const lxb_char_t *name, size_t length);
 
-const lxb_dom_attr_data_t *
+LXB_API const lxb_dom_attr_data_t *
 lxb_dom_attr_data_by_qualified_name(lexbor_hash_t *hash,
                                     const lxb_char_t *name, size_t length);
 

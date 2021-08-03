@@ -63,10 +63,12 @@ lexbor_dobject_init(lexbor_dobject_t *dobject,
 void
 lexbor_dobject_clean(lexbor_dobject_t *dobject)
 {
-    dobject->allocated = 0UL;
+    if (dobject != NULL) {
+        dobject->allocated = 0UL;
 
-    lexbor_mem_clean(dobject->mem);
-    lexbor_array_clean(dobject->cache);
+        lexbor_mem_clean(dobject->mem);
+        lexbor_array_clean(dobject->cache);
+    }
 }
 
 lexbor_dobject_t *

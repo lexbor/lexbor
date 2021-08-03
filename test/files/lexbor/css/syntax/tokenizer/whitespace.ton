@@ -1,5 +1,5 @@
 [
-    /* Test count: 5 */
+    /* Test count: 6 */
     /* 1 */
     {
         "data": " ",
@@ -37,9 +37,9 @@
     },
     /* 6 */
     {
-        "data": "\f\f\r	\r\n\n \r",
+        "data": "\f\f\r\t\r\n\n \r",
         "tokens": [
-            {"type": "whitespace", "value": "\n\n\n	\n\n \n"}
+            {"type": "whitespace", "value": "\n\n\n\t\n\n \n"}
         ]
-    },
+    }
 ]

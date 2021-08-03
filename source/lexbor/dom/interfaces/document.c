@@ -382,6 +382,26 @@ lxb_dom_document_create_comment(lxb_dom_document_t *document,
     return comment;
 }
 
+lxb_dom_node_t *
+lxb_dom_document_root(lxb_dom_document_t *document)
+{
+    lxb_dom_node_t *node;
+
+    if (document->type == LXB_DOM_DOCUMENT_DTYPE_HTML) {
+        node = document->node.first_child;
+
+        while (node != NULL) {
+            if (node->local_name == LXB_TAG_HTML) {
+                return node;
+            }
+
+            node = node->next;
+        }
+    }
+
+    return document->node.first_child;
+}
+
 /*
  * No inline functions for ABI.
  */

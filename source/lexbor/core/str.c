@@ -393,7 +393,7 @@ lexbor_str_data_ncasecmp_end(const lxb_char_t *first, const lxb_char_t *sec,
     return true;
 }
 
-LXB_API bool
+bool
 lexbor_str_data_ncasecmp_contain(const lxb_char_t *where, size_t where_size,
                                  const lxb_char_t *what, size_t what_size)
 {

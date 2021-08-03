@@ -1,5 +1,5 @@
 [
-    /* Test count: 10 */
+    /* Test count: 13 */
     /* 1 */
     {
         "data": "/* Comment */",
@@ -70,4 +70,26 @@
             {"type": "comment", "value": "/* \n\n\n\n */"}
         ]
     },
+    /* 11 */
+    {
+        "data": "/* Comment *",
+        "tokens": [
+            {"type": "comment", "value": "/* Comment **/"}
+        ]
+    },
+    /* 12 */
+    {
+        "data": "/* Comment */#id",
+        "tokens": [
+            {"type": "comment", "value": "/* Comment */"},
+            {"type": "hash", "value": "#id"}
+        ]
+    },
+    /* 13 */
+    {
+        "data": "/*",
+        "tokens": [
+            {"type": "comment", "value": "/**/"},
+        ]
+    }
 ]

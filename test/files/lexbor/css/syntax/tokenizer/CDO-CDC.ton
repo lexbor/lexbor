@@ -1,5 +1,5 @@
 [
-    /* Test count: 7 */
+    /* Test count: 23 */
     /* 1 */
     {
         "data": "<!--",
@@ -25,7 +25,8 @@
             {"type": "delim", "value": "<"},
             {"type": "delim", "value": "!"},
             {"type": "whitespace", "value": " "},
-            {"type": "ident", "value": "--"},
+            {"type": "delim", "value": "-"},
+            {"type": "delim", "value": "-"},
         ]
     },
     /* 4 */
@@ -35,17 +36,109 @@
             {"type": "delim", "value": "<"},
             {"type": "whitespace", "value": " "},
             {"type": "delim", "value": "!"},
-            {"type": "ident", "value": "--"}
+            {"type": "delim", "value": "-"},
+            {"type": "delim", "value": "-"}
         ]
     },
     /* 5 */
+    {
+        "data": "<!-\0",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "delim", "value": "!"},
+            {"type": "ident", "value": "-�"}
+        ]
+    },
+    /* 6 */
+    {
+        "data": "<!-\\",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "delim", "value": "!"},
+            {"type": "delim", "value": "-"},
+            {"type": "delim", "value": "\\"}
+        ]
+    },
+    /* 7 */
+    {
+        "data": "<!-\\#id",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "delim", "value": "!"},
+            {"type": "ident", "value": "-#id"}
+        ]
+    },
+    /* 8 */
+    {
+        "data": "<!-\\47\\6f\\64\\20\\6f\\66\\20\\57\\61\\72",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "delim", "value": "!"},
+            {"type": "ident", "value": "-God of War"}
+        ]
+    },
+    /* 9 */
+    {
+        "data": "<!-\\\n",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "delim", "value": "!"},
+            {"type": "delim", "value": "-"},
+            {"type": "delim", "value": "\\"},
+            {"type": "whitespace", "value": "\n"}
+        ]
+    },
+    /* 10 */
+    {
+        "data": "<!-\\\r",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "delim", "value": "!"},
+            {"type": "delim", "value": "-"},
+            {"type": "delim", "value": "\\"},
+            {"type": "whitespace", "value": "\n"}
+        ]
+    },
+    /* 11 */
+    {
+        "data": "<!-\\\r\n",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "delim", "value": "!"},
+            {"type": "delim", "value": "-"},
+            {"type": "delim", "value": "\\"},
+            {"type": "whitespace", "value": "\n"}
+        ]
+    },
+    /* 12 */
+    {
+        "data": "<!-\\\f",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "delim", "value": "!"},
+            {"type": "delim", "value": "-"},
+            {"type": "delim", "value": "\\"},
+            {"type": "whitespace", "value": "\n"}
+        ]
+    },
+    /* 13 */
+    {
+        "data": "<!-#id",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "delim", "value": "!"},
+            {"type": "delim", "value": "-"},
+            {"type": "hash", "value": "#id"}
+        ]
+    },
+    /* 14 */
     {
         "data": "-->",
         "tokens": [
             {"type": "CDC", "value": "-->"}
         ]
     },
-    /* 6 */
+    /* 15 */
     {
         "data": "- ->",
         "tokens": [
@@ -55,13 +148,84 @@
             {"type": "delim", "value": ">"}
         ]
     },
-    /* 7 */
+    /* 16 */
     {
         "data": "-- >",
         "tokens": [
-            {"type": "ident", "value": "--"},
+            {"type": "delim", "value": "-"},
+            {"type": "delim", "value": "-"},
             {"type": "whitespace", "value": " "},
             {"type": "delim", "value": ">"}
         ]
     },
+    /* 17 */
+    {
+        "data": "--- >",
+        "tokens": [
+            {"type": "ident", "value": "---"},
+            {"type": "whitespace", "value": " "},
+            {"type": "delim", "value": ">"}
+        ]
+    },
+    /* 18 */
+    {
+        "data": "<-1F",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "dimension", "value": "-1F"}
+        ]
+    },
+    /* 19 */
+    {
+        "data": "<--1F",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "delim", "value": "-"},
+            {"type": "dimension", "value": "-1F"}
+        ]
+    },
+    /* 20 */
+    {
+        "data": "<!-1F",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "delim", "value": "!"},
+            {"type": "dimension", "value": "-1F"}
+        ]
+    },
+    /* 21 */
+    {
+        "data": "<!+1F",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "delim", "value": "!"},
+            {"type": "dimension", "value": "1F"}
+        ]
+    },
+    /* 22 */
+    {
+        "data": "<-+1F",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "delim", "value": "-"},
+            {"type": "dimension", "value": "1F"}
+        ]
+    },
+    /* 23 */
+    {
+        "data": "<+1F",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "dimension", "value": "1F"}
+        ]
+    },
+    /* 24 */
+    {
+        "data": "<!-.1F",
+        "tokens": [
+            {"type": "delim", "value": "<"},
+            {"type": "delim", "value": "!"},
+            {"type": "dimension", "value": "-0.1F"}
+        ]
+    }
 ]

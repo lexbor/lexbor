@@ -116,37 +116,37 @@ TEST_BEGIN(encode)
     ref = ch4;
     size = enc_data->encode_single(&ctx, &ref, ref + 4, 0x7F);
     test_eq(size, 1);
-    test_eq_u_str_n(ch4, "\x7F", 1);
+    test_eq_u_str_n(ch4, 1, "\x7F", 1);
 
     ref = ch4;
     size = enc_data->encode_single(&ctx, &ref, ref + 4, 0x80);
     test_eq(size, 2);
-    test_eq_u_str_n(ch4, "\xC2\x80", 2);
+    test_eq_u_str_n(ch4, 2, "\xC2\x80", 2);
 
     ref = ch4;
     size = enc_data->encode_single(&ctx, &ref, ref + 4, 0x07FF);
     test_eq(size, 2);
-    test_eq_u_str_n(ch4, "\xDF\xBF", 2);
+    test_eq_u_str_n(ch4, 2, "\xDF\xBF", 2);
 
     ref = ch4;
     size = enc_data->encode_single(&ctx, &ref, ref + 4, 0x0800);
     test_eq(size, 3);
-    test_eq_u_str_n(ch4, "\xE0\xA0\x80", 3);
+    test_eq_u_str_n(ch4, 3, "\xE0\xA0\x80", 3);
 
     ref = ch4;
     size = enc_data->encode_single(&ctx, &ref, ref + 4, 0xFFFF);
     test_eq(size, 3);
-    test_eq_u_str_n(ch4, "\xEF\xBF\xBF", 3);
+    test_eq_u_str_n(ch4, 3, "\xEF\xBF\xBF", 3);
 
     ref = ch4;
     size = enc_data->encode_single(&ctx, &ref, ref + 4, 0x10000);
     test_eq(size, 4);
-    test_eq_u_str_n(ch4, "\xF0\x90\x80\x80", 4);
+    test_eq_u_str_n(ch4, 4, "\xF0\x90\x80\x80", 4);
 
     ref = ch4;
     size = enc_data->encode_single(&ctx, &ref, ref + 4, 0x10FFFF);
     test_eq(size, 4);
-    test_eq_u_str_n(ch4, "\xF4\x8F\xBF\xBF", 4);
+    test_eq_u_str_n(ch4, 4, "\xF4\x8F\xBF\xBF", 4);
 
     ref = ch4;
     size = enc_data->encode_single(&ctx, &ref, ref + 4, 0x110000);
@@ -172,7 +172,7 @@ TEST_BEGIN(encode_buffer_check)
     ref = ch2;
     size = enc_data->encode_single(&ctx, &ref, ref + 2, 0x07FF);
     test_eq(size, 2);
-    test_eq_u_str_n(ch2, "\xDF\xBF", 2);
+    test_eq_u_str_n(ch2, 2, "\xDF\xBF", 2);
 
     /* 3 */
     ref = &ch1;
@@ -186,7 +186,7 @@ TEST_BEGIN(encode_buffer_check)
     ref = ch3;
     size = enc_data->encode_single(&ctx, &ref, ref + 3, 0xFFFF);
     test_eq(size, 3);
-    test_eq_u_str_n(ch3, "\xEF\xBF\xBF", 3);
+    test_eq_u_str_n(ch3, 3, "\xEF\xBF\xBF", 3);
 
     /* 4 */
     ref = &ch1;
@@ -204,7 +204,7 @@ TEST_BEGIN(encode_buffer_check)
     ref = ch4;
     size = enc_data->encode_single(&ctx, &ref, ref + 4, 0x10FFFF);
     test_eq(size, 4);
-    test_eq_u_str_n(ch4, "\xF4\x8F\xBF\xBF", 4);
+    test_eq_u_str_n(ch4, 4, "\xF4\x8F\xBF\xBF", 4);
 }
 TEST_END
 

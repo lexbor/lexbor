@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Alexander Borisov
+ * Copyright (C) 2019-2021 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -21,6 +21,13 @@ typedef struct {
     lexbor_array_t             tokens;
 }
 helper_t;
+
+typedef struct {
+    const lxb_char_t *begin;
+    const lxb_char_t *end;
+    lxb_char_t       ch;
+}
+chunk_ctx_t;
 
 typedef lxb_status_t
 (*parse_data_cb_f)(helper_t *helper, lexbor_str_t *str);
@@ -45,9 +52,9 @@ parse_data_new_tkz_cb(helper_t *helper, lexbor_str_t *str);
 static lxb_status_t
 parse_data_new_tkz_chunk_cb(helper_t *helper, lexbor_str_t *str);
 
-static lxb_css_syntax_token_t *
-token_done_cb(lxb_css_syntax_tokenizer_t *tkz,
-              lxb_css_syntax_token_t *token, void *ctx);
+static lxb_status_t
+chunk_cb(lxb_css_syntax_tokenizer_t *tkz, const lxb_char_t **data,
+         const lxb_char_t **end, void *ctx);
 
 static lxb_status_t
 check_token(helper_t *helper, unit_kv_value_t *entry,
@@ -299,10 +306,36 @@ check_entry(helper_t *helper, unit_kv_value_t *entry, parse_data_cb_f cb)
     return LXB_STATUS_OK;
 }
 
+static void
+check_raw(lxb_css_syntax_token_t *token)
+{
+    volatile lxb_char_t ch;
+    const lxb_char_t *p, *end;
+
+    p = lxb_css_syntax_token_base(token)->begin;
+    end = lxb_css_syntax_token_base(token)->end;
+
+    while (p < end) {
+        ch = *p++;
+        ch++;
+    }
+
+    if (token->type == LXB_CSS_SYNTAX_TOKEN_DIMENSION) {
+        p = lxb_css_syntax_token_dimension_string(token)->base.begin;
+        end = lxb_css_syntax_token_dimension_string(token)->base.end;
+
+        while (p < end) {
+            ch = *p++;
+            ch++;
+        }
+    }
+}
+
 static lxb_status_t
 parse_data_new_tkz_cb(helper_t *helper, lexbor_str_t *str)
 {
     lxb_status_t status;
+    lxb_css_syntax_token_t *token;
 
     if (helper->tkz != NULL) {
         helper->tkz = lxb_css_syntax_tokenizer_destroy(helper->tkz);
@@ -316,26 +349,34 @@ parse_data_new_tkz_cb(helper_t *helper, lexbor_str_t *str)
         return status;
     }
 
-    lxb_css_syntax_tokenizer_token_cb_set(helper->tkz, token_done_cb, helper);
+    lxb_css_syntax_tokenizer_buffer_set(helper->tkz, str->data, str->length);
 
-    status = lxb_css_syntax_tokenizer_begin(helper->tkz);
-    if (status != LXB_STATUS_OK) {
-        return status;
+    do {
+        token = lxb_css_syntax_token_next(helper->tkz);
+        if (token == NULL) {
+            return helper->tkz->status;
+        }
+
+        check_raw(token);
+
+        if (lxb_css_syntax_token_type(token) != LXB_CSS_SYNTAX_TOKEN__EOF) {
+            status = lexbor_array_push(&helper->tokens, token);
+            if (status != LXB_STATUS_OK) {
+                return status;
+            }
+        }
     }
+    while (lxb_css_syntax_token_type(token) != LXB_CSS_SYNTAX_TOKEN__EOF);
 
-    status = lxb_css_syntax_tokenizer_chunk(helper->tkz,
-                                            str->data, str->length);
-    if (status != LXB_STATUS_OK) {
-        return status;
-    }
-
-    return lxb_css_syntax_tokenizer_end(helper->tkz);
+    return LXB_STATUS_OK;
 }
 
 static lxb_status_t
 parse_data_new_tkz_chunk_cb(helper_t *helper, lexbor_str_t *str)
 {
+    chunk_ctx_t ctx;
     lxb_status_t status;
+    lxb_css_syntax_token_t *token;
 
     if (helper->tkz != NULL) {
         helper->tkz = lxb_css_syntax_tokenizer_destroy(helper->tkz);
@@ -349,52 +390,47 @@ parse_data_new_tkz_chunk_cb(helper_t *helper, lexbor_str_t *str)
         return status;
     }
 
-    lxb_css_syntax_tokenizer_token_cb_set(helper->tkz, token_done_cb, helper);
+    ctx.begin = str->data;
+    ctx.end = str->data + str->length;
+    ctx.ch = *str->data;
 
-    status = lxb_css_syntax_tokenizer_begin(helper->tkz);
-    if (status != LXB_STATUS_OK) {
-        return status;
-    }
+    lxb_css_syntax_tokenizer_buffer_set(helper->tkz, &ctx.ch, 1);
 
-    lxb_char_t *chunk = lexbor_malloc(sizeof(lxb_char_t));
+    lxb_css_syntax_tokenizer_chunk_cb_set(helper->tkz, chunk_cb, &ctx);
 
-    for (size_t idx = 0; idx < str->length; idx++) {
-        *chunk = str->data[idx];
+    do {
+        token = lxb_css_syntax_token_next(helper->tkz);
+        if (token == NULL) {
+            return helper->tkz->status;
+        }
 
-        status = lxb_css_syntax_tokenizer_chunk(helper->tkz, chunk, 1);
-        if (status != LXB_STATUS_OK) {
-            lexbor_free(chunk);
-
-            return status;
+        if (lxb_css_syntax_token_type(token) != LXB_CSS_SYNTAX_TOKEN__EOF) {
+            status = lexbor_array_push(&helper->tokens, token);
+            if (status != LXB_STATUS_OK) {
+                return status;
+            }
         }
     }
+    while (lxb_css_syntax_token_type(token) != LXB_CSS_SYNTAX_TOKEN__EOF);
 
-    lexbor_free(chunk);
-
-    return lxb_css_syntax_tokenizer_end(helper->tkz);
+    return LXB_STATUS_OK;
 }
 
-static lxb_css_syntax_token_t *
-token_done_cb(lxb_css_syntax_tokenizer_t *tkz,
-              lxb_css_syntax_token_t *token, void *ctx)
+static lxb_status_t
+chunk_cb(lxb_css_syntax_tokenizer_t *tkz, const lxb_char_t **data,
+         const lxb_char_t **end, void *ctx)
 {
-    if (lxb_css_syntax_token_type(token) == LXB_CSS_SYNTAX_TOKEN__EOF) {
-        return token;
+    chunk_ctx_t *chunk = ctx;
+
+    chunk->begin++;
+    chunk->ch = *chunk->begin;
+
+    if (chunk->begin < chunk->end) {
+        *data = &chunk->ch;
+        *end = *data + 1;
     }
 
-    helper_t *helper = ctx;
-
-    lxb_status_t status = lxb_css_syntax_tokenizer_make_data(tkz, token);
-    if (status != LXB_STATUS_OK) {
-        return NULL;
-    }
-
-    status = lexbor_array_push(&helper->tokens, token);
-    if (status != LXB_STATUS_OK) {
-        return NULL;
-    }
-
-    return lxb_css_syntax_token_create(tkz->dobj_token);
+    return LXB_STATUS_OK;
 }
 
 static lxb_status_t
@@ -425,10 +461,10 @@ check_token(helper_t *helper, unit_kv_value_t *entry,
 
     type = lxb_css_syntax_token_type_id_by_name(str->data, str->length);
 
-    if (type != token->types.base.type) {
+    if (type != token->type) {
         const lxb_char_t *type_name;
 
-        type_name = lxb_css_syntax_token_type_name_by_id(token->types.base.type);
+        type_name = lxb_css_syntax_token_type_name_by_id(token->type);
 
         TEST_PRINTLN("Parameter 'type' not match; Have: %s; Need: %s",
                      (char *) type_name, (char *) str->data);

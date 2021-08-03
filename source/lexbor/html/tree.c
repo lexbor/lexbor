@@ -459,11 +459,7 @@ lxb_html_tree_append_attributes(lxb_html_tree_t *tree,
 {
     lxb_status_t status;
     lxb_dom_attr_t *attr;
-    lexbor_str_t local_name;
     lxb_html_token_attr_t *token_attr = token->attr_first;
-    lexbor_mraw_t *mraw = element->node.owner_document->text;
-
-    local_name.data = NULL;
 
     while (token_attr != NULL) {
         attr = lxb_dom_element_attr_by_local_name_data(element,
@@ -500,10 +496,6 @@ lxb_html_tree_append_attributes(lxb_html_tree_t *tree,
         lxb_dom_element_attr_append(element, attr);
 
         token_attr = token_attr->next;
-    }
-
-    if (local_name.data != NULL) {
-        lexbor_mraw_free(mraw, local_name.data);
     }
 
     return LXB_HTML_STATUS_OK;

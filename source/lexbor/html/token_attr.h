@@ -11,7 +11,6 @@
 extern "C" {
 #endif
 
-#include "lexbor/core/in.h"
 #include "lexbor/core/str.h"
 #include "lexbor/core/dobject.h"
 
@@ -39,9 +38,6 @@ struct lxb_html_token_attr {
     const lxb_dom_attr_data_t  *name;
     lxb_char_t                 *value;
     size_t                     value_size;
-
-    lexbor_in_node_t           *in_name;
-    lexbor_in_node_t           *in_value;
 
     lxb_html_token_attr_t      *next;
     lxb_html_token_attr_t      *prev;

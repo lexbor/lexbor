@@ -124,7 +124,7 @@ TEST_BEGIN(encode)
     status = enc_data->encode(&enctx, &cps, cps + 1);
     test_eq(status, LXB_STATUS_OK);
     test_eq(lxb_encoding_encode_buf_used(&enctx), 1);
-    test_eq_u_str_n(enctx.buffer_out, "\x7F", 1);
+    test_eq_u_str_n(enctx.buffer_out, enctx.buffer_used, "\x7F", 1);
 
     /* 2 */
     cp = 0x80;
@@ -133,7 +133,7 @@ TEST_BEGIN(encode)
     status = enc_data->encode(&enctx, &cps, cps + 1);
     test_eq(status, LXB_STATUS_OK);
     test_eq(lxb_encoding_encode_buf_used(&enctx), 2);
-    test_eq_u_str_n(enctx.buffer_out, "\xC2\x80", 2);
+    test_eq_u_str_n(enctx.buffer_out, enctx.buffer_used, "\xC2\x80", 2);
 
     /* 2 */
     cp = 0x07FF;
@@ -142,7 +142,7 @@ TEST_BEGIN(encode)
     status = enc_data->encode(&enctx, &cps, cps + 1);
     test_eq(status, LXB_STATUS_OK);
     test_eq(lxb_encoding_encode_buf_used(&enctx), 2);
-    test_eq_u_str_n(enctx.buffer_out, "\xDF\xBF", 2);
+    test_eq_u_str_n(enctx.buffer_out, enctx.buffer_used, "\xDF\xBF", 2);
 
     /* 3 */
     cp = 0x0800;
@@ -151,7 +151,7 @@ TEST_BEGIN(encode)
     status = enc_data->encode(&enctx, &cps, cps + 1);
     test_eq(status, LXB_STATUS_OK);
     test_eq(lxb_encoding_encode_buf_used(&enctx), 3);
-    test_eq_u_str_n(enctx.buffer_out, "\xE0\xA0\x80", 3);
+    test_eq_u_str_n(enctx.buffer_out, enctx.buffer_used, "\xE0\xA0\x80", 3);
 
     /* 3 */
     cp = 0xFFFF;
@@ -160,7 +160,7 @@ TEST_BEGIN(encode)
     status = enc_data->encode(&enctx, &cps, cps + 1);
     test_eq(status, LXB_STATUS_OK);
     test_eq(lxb_encoding_encode_buf_used(&enctx), 3);
-    test_eq_u_str_n(enctx.buffer_out, "\xEF\xBF\xBF", 3);
+    test_eq_u_str_n(enctx.buffer_out, enctx.buffer_used, "\xEF\xBF\xBF", 3);
 
     /* 4 */
     cp = 0x10000;
@@ -169,7 +169,7 @@ TEST_BEGIN(encode)
     status = enc_data->encode(&enctx, &cps, cps + 1);
     test_eq(status, LXB_STATUS_OK);
     test_eq(lxb_encoding_encode_buf_used(&enctx), 4);
-    test_eq_u_str_n(enctx.buffer_out, "\xF0\x90\x80\x80", 4);
+    test_eq_u_str_n(enctx.buffer_out, enctx.buffer_used, "\xF0\x90\x80\x80", 4);
 
     /* 4 */
     cp = 0x10FFFF;
@@ -178,7 +178,7 @@ TEST_BEGIN(encode)
     status = enc_data->encode(&enctx, &cps, cps + 1);
     test_eq(status, LXB_STATUS_OK);
     test_eq(lxb_encoding_encode_buf_used(&enctx), 4);
-    test_eq_u_str_n(enctx.buffer_out, "\xF4\x8F\xBF\xBF", 4);
+    test_eq_u_str_n(enctx.buffer_out, enctx.buffer_used, "\xF4\x8F\xBF\xBF", 4);
 
     /* 4 */
     cp = 0x110000;
@@ -216,7 +216,7 @@ TEST_BEGIN(encode_buffer_check)
     status = enc_data->encode(&enctx, &cps, cps + 1);
     test_eq(status, LXB_STATUS_OK);
     test_eq(lxb_encoding_encode_buf_used(&enctx), 2);
-    test_eq_u_str_n(enctx.buffer_out, "\xDF\xBF", 2);
+    test_eq_u_str_n(enctx.buffer_out, enctx.buffer_used, "\xDF\xBF", 2);
 
     /* 3 */
     cp = 0xFFFF;
@@ -235,7 +235,7 @@ TEST_BEGIN(encode_buffer_check)
     status = enc_data->encode(&enctx, &cps, cps + 1);
     test_eq(status, LXB_STATUS_OK);
     test_eq(lxb_encoding_encode_buf_used(&enctx), 3);
-    test_eq_u_str_n(enctx.buffer_out, "\xEF\xBF\xBF", 3);
+    test_eq_u_str_n(enctx.buffer_out, enctx.buffer_used, "\xEF\xBF\xBF", 3);
 
     /* 4 */
     cp = 0x10FFFF;
@@ -259,7 +259,7 @@ TEST_BEGIN(encode_buffer_check)
     status = enc_data->encode(&enctx, &cps, cps + 1);
     test_eq(status, LXB_STATUS_OK);
     test_eq(lxb_encoding_encode_buf_used(&enctx), 4);
-    test_eq_u_str_n(enctx.buffer_out, "\xF4\x8F\xBF\xBF", 4);
+    test_eq_u_str_n(enctx.buffer_out, enctx.buffer_used, "\xF4\x8F\xBF\xBF", 4);
 }
 TEST_END
 

@@ -67,14 +67,20 @@ lexbor_mraw_init(lexbor_mraw_t *mraw, size_t chunk_size)
         return status;
     }
 
+    mraw->ref_count = 0;
+
     return LXB_STATUS_OK;
 }
 
 void
 lexbor_mraw_clean(lexbor_mraw_t *mraw)
 {
-    lexbor_mem_clean(mraw->mem);
-    lexbor_bst_clean(mraw->cache);
+    if (mraw != NULL) {
+        lexbor_mem_clean(mraw->mem);
+        lexbor_bst_clean(mraw->cache);
+
+        mraw->ref_count = 0;
+    }
 }
 
 lexbor_mraw_t *
@@ -195,6 +201,8 @@ lexbor_mraw_alloc(lexbor_mraw_t *mraw, size_t size)
                                         (cur_size + lexbor_mraw_meta_size()));
 #endif
 
+            mraw->ref_count++;
+
             return data;
         }
     }
@@ -208,6 +216,8 @@ lexbor_mraw_alloc(lexbor_mraw_t *mraw, size_t size)
 #if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
     ASAN_UNPOISON_MEMORY_REGION(data, (size + lexbor_mraw_meta_size()));
 #endif
+
+    mraw->ref_count++;
 
     lexbor_mraw_meta_set(data, &size);
     return lexbor_mraw_data_begin(data);
@@ -337,6 +347,8 @@ lexbor_mraw_realloc(lexbor_mraw_t *mraw, void *data, size_t new_size)
 #if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
             ASAN_POISON_MEMORY_REGION(begin, size + lexbor_mraw_meta_size());
 #endif
+            mraw->ref_count--;
+
             lexbor_bst_insert(mraw->cache, lexbor_bst_root_ref(mraw->cache),
                               size, data);
             return NULL;
@@ -388,6 +400,8 @@ lexbor_mraw_free(lexbor_mraw_t *mraw, void *data)
 
     lexbor_bst_insert(mraw->cache, lexbor_bst_root_ref(mraw->cache),
                       size, data);
+
+    mraw->ref_count--;
 
     return NULL;
 }

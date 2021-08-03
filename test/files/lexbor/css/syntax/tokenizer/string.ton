@@ -45,6 +45,7 @@
             "Onimusha\\
         $DATA,
         "tokens": [
+            {"type": "string", "value": "\"Onimusha\\\\\""}
         ]
     },
     /* 6 */
@@ -289,5 +290,14 @@
         "tokens": [
             {"type": "string", "value": "\"�\""}
         ]
-    }
+    },
+    /* 33 */
+    {
+        "data": $DATA{ ,12}
+            "Onim\\\\usha"
+        $DATA,
+        "tokens": [
+            {"type": "string", "value": "\"Onim\\\\usha\""}
+        ]
+    },
 ]

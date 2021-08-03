@@ -45,6 +45,12 @@ LXB_API void *
 lexbor_array_obj_push(lexbor_array_obj_t *array);
 
 LXB_API void *
+lexbor_array_obj_push_wo_cls(lexbor_array_obj_t *array);
+
+LXB_API void *
+lexbor_array_obj_push_n(lexbor_array_obj_t *array, size_t count);
+
+LXB_API void *
 lexbor_array_obj_pop(lexbor_array_obj_t *array);
 
 LXB_API void

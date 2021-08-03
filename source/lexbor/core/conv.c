@@ -144,6 +144,35 @@ done:
     return number;
 }
 
+long
+lexbor_conv_data_to_long(const lxb_char_t **data, size_t length)
+{
+    const lxb_char_t *p = *data;
+    const lxb_char_t *end = p + length;
+    unsigned long n = 0, number = 0;
+
+    for (; p < end; p++) {
+        if (*p < '0' || *p > '9') {
+            goto done;
+        }
+
+        n = (*p - '0') + number * 10;
+
+        if (n > LONG_MAX) {
+            *data = p - 1;
+            return number;
+        }
+
+        number = n;
+    }
+
+done:
+
+    *data = p;
+
+    return number;
+}
+
 unsigned
 lexbor_conv_data_to_uint(const lxb_char_t **data, size_t length)
 {

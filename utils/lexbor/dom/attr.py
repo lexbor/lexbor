@@ -18,7 +18,8 @@ attributes_name = [
     "id", "class", "dir", "width", "height", "pool", "href", "alt", "disabled", "src",
     "style", "title", "checked", "maxlength", "content", "http-equiv", "scheme",
     "charser", "is", "for", "slot", "html", "system", "public", "type", "color",
-    "face", "size"
+    "face", "size", "active", "selected", "focus", "hover", "required", "placeholder",
+    "readonly"
 ]
 
 

@@ -42,10 +42,12 @@ lexbor_bst_init(lexbor_bst_t *bst, size_t size)
 void
 lexbor_bst_clean(lexbor_bst_t *bst)
 {
-    lexbor_dobject_clean(bst->dobject);
+    if (bst != NULL) {
+        lexbor_dobject_clean(bst->dobject);
 
-    bst->root = 0;
-    bst->tree_length = 0;
+        bst->root = 0;
+        bst->tree_length = 0;
+    }
 }
 
 lexbor_bst_t *

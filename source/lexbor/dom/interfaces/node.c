@@ -431,6 +431,51 @@ lxb_dom_node_text_content_set(lxb_dom_node_t *node,
     return LXB_STATUS_OK;
 }
 
+bool
+lxb_dom_node_is_empty(lxb_dom_node_t *root)
+{
+    lxb_char_t chr;
+    lexbor_str_t *str;
+    const lxb_char_t *data, *end;
+    lxb_dom_node_t *node = root->first_child;
+
+    while (node != NULL) {
+        if(node->local_name != LXB_TAG__EM_COMMENT) {
+            if(node->local_name != LXB_TAG__TEXT)
+                return false;
+
+            str = &lxb_dom_interface_text(node)->char_data.data;
+            data = str->data;
+            end = data + str->length;
+
+            while (data < end) {
+                chr = *data++;
+
+                if (lexbor_utils_whitespace(chr, !=, &&)) {
+                    return false;
+                }
+            }
+        }
+
+        if(node->first_child != NULL) {
+            node = node->first_child;
+        }
+        else {
+            while(node != root && node->next == NULL) {
+                node = node->parent;
+            }
+
+            if(node == root) {
+                break;
+            }
+
+            node = node->next;
+        }
+    }
+
+    return true;
+}
+
 lxb_tag_id_t
 lxb_dom_node_tag_id_noi(lxb_dom_node_t *node)
 {

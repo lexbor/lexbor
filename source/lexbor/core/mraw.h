@@ -28,6 +28,7 @@ extern "C" {
 typedef struct {
     lexbor_mem_t *mem;
     lexbor_bst_t *cache;
+    size_t       ref_count;
 }
 lexbor_mraw_t;
 
@@ -84,6 +85,12 @@ lexbor_mraw_dup(lexbor_mraw_t *mraw, const void *src, size_t size)
     }
 
     return data;
+}
+
+lxb_inline size_t
+lexbor_mraw_reference_count(lexbor_mraw_t *mraw)
+{
+    return mraw->ref_count;
 }
 
 

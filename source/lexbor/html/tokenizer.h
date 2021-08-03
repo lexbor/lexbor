@@ -11,7 +11,6 @@
 extern "C" {
 #endif
 
-#include "lexbor/core/in.h"
 #include "lexbor/core/sbst.h"
 #include "lexbor/core/array_obj.h"
 

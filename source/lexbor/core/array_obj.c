@@ -41,7 +41,9 @@ lexbor_array_obj_init(lexbor_array_obj_t *array,
 void
 lexbor_array_obj_clean(lexbor_array_obj_t *array)
 {
-    array->length = 0;
+    if (array != NULL) {
+        array->length = 0;
+    }
 }
 
 lexbor_array_obj_t *
@@ -103,6 +105,40 @@ lexbor_array_obj_push(lexbor_array_obj_t *array)
     array->length++;
 
     memset(entry, 0, sizeof(array->struct_size));
+
+    return entry;
+}
+
+void *
+lexbor_array_obj_push_wo_cls(lexbor_array_obj_t *array)
+{
+    void *entry;
+
+    if (array->length >= array->size) {
+        if ((lexbor_array_obj_expand(array, 128) == NULL)) {
+            return NULL;
+        }
+    }
+
+    entry = array->list + (array->length * array->struct_size);
+    array->length++;
+
+    return entry;
+}
+
+void *
+lexbor_array_obj_push_n(lexbor_array_obj_t *array, size_t count)
+{
+    void *entry;
+
+    if ((array->length + count) > array->size) {
+        if ((lexbor_array_obj_expand(array, count + 128) == NULL)) {
+            return NULL;
+        }
+    }
+
+    entry = array->list + (array->length * array->struct_size);
+    array->length += count;
 
     return entry;
 }

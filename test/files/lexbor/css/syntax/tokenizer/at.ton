@@ -1,5 +1,5 @@
 [
-    /* Test count: 18 */
+    /* Test count: 23 */
     /* 1 */
     {
         "data": "@war",
@@ -125,6 +125,46 @@
         "data": "@war\0",
         "tokens": [
             {"type": "at-keyword", "value": "@war�"}
+        ]
+    },
+    /* 19 */
+    {
+        "data": "@-\\\n",
+        "tokens": [
+            {"type": "delim", "value": "@"},
+            {"type": "delim", "value": "-"},
+            {"type": "delim", "value": "\\"},
+            {"type": "whitespace", "value": "\n"}
+        ]
+    },
+    /* 20 */
+    {
+        "data": "@-\0",
+        "tokens": [
+            {"type": "at-keyword", "value": "@-�"}
+        ]
+    },
+    /* 21 */
+    {
+        "data": "@\0",
+        "tokens": [
+            {"type": "at-keyword", "value": "@�"},
+        ]
+    },
+    /* 22 */
+    {
+        "data": "@-1F",
+        "tokens": [
+            {"type": "delim", "value": "@"},
+            {"type": "dimension", "value": "-1F"}
+        ]
+    },
+    /* 23 */
+    {
+        "data": "@+1F",
+        "tokens": [
+            {"type": "delim", "value": "@"},
+            {"type": "dimension", "value": "1F"}
         ]
     }
 ]

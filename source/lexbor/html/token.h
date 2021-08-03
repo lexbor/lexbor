@@ -12,7 +12,6 @@ extern "C" {
 #endif
 
 #include "lexbor/core/dobject.h"
-#include "lexbor/core/in.h"
 #include "lexbor/core/str.h"
 
 #include "lexbor/html/base.h"
@@ -37,8 +36,6 @@ typedef struct {
 
     const lxb_char_t      *text_start;
     const lxb_char_t      *text_end;
-
-    lexbor_in_node_t      *in_begin;
 
     lxb_html_token_attr_t *attr_first;
     lxb_html_token_attr_t *attr_last;

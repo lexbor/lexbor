@@ -1,13 +1,18 @@
 /*
- * Copyright (C) 2018-2019 Alexander Borisov
+ * Copyright (C) 2018-2020 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/core/shs.h"
 #include "lexbor/core/conv.h"
+#include "lexbor/core/serialize.h"
+#include "lexbor/core/print.h"
 
+#include "lexbor/css/parser.h"
 #include "lexbor/css/syntax/token.h"
+#include "lexbor/css/syntax/state.h"
+#include "lexbor/css/syntax/state_res.h"
 
 #define LXB_CSS_SYNTAX_TOKEN_RES_NAME_SHS_MAP
 #include "lexbor/css/syntax/token_res.h"
@@ -15,6 +20,10 @@
 #define LEXBOR_STR_RES_MAP_HEX
 #define LEXBOR_STR_RES_ANSI_REPLACEMENT_CHARACTER
 #include "lexbor/core/str_res.h"
+
+
+lxb_css_syntax_token_t *
+lxb_css_syntax_tokenizer_token(lxb_css_syntax_tokenizer_t *tkz);
 
 
 typedef struct {
@@ -25,39 +34,149 @@ lxb_css_syntax_token_ctx_t;
 
 
 static lxb_status_t
-lxb_css_syntax_token_make_data_hard(lexbor_in_node_t *in, lexbor_mraw_t *mraw,
-                                    lxb_css_syntax_token_data_t *td,
-                                    lexbor_str_t *str, const lxb_char_t *begin,
-                                    const lxb_char_t *end);
-
-static lxb_status_t
-lxb_css_syntax_token_make_data_simple(lexbor_in_node_t *in, lexbor_mraw_t *mraw,
-                                      lxb_css_syntax_token_data_t *td,
-                                      lexbor_str_t *str, const lxb_char_t *begin,
-                                      const lxb_char_t *end);
-
-static const lxb_char_t *
-lxb_css_syntax_token_make_data_conv(const lxb_char_t *begin, const lxb_char_t *end,
-                                    lexbor_str_t *str, lexbor_mraw_t *mraw,
-                                    lxb_css_syntax_token_data_t *td);
-
-static const lxb_char_t *
-lxb_css_syntax_token_make_data_conv_num(const lxb_char_t *begin, const lxb_char_t *end,
-                                        lexbor_str_t *str, lexbor_mraw_t *mraw,
-                                        lxb_css_syntax_token_data_t *td);
-
-static const lxb_char_t *
-lxb_css_syntax_token_make_data_conv_cr(const lxb_char_t *begin, const lxb_char_t *end,
-                                       lexbor_str_t *str, lexbor_mraw_t *mraw,
-                                       lxb_css_syntax_token_data_t *td);
-
-static lxb_status_t
-lxb_css_syntax_token_codepoint_to_ascii(lxb_codepoint_t cp, lexbor_str_t *str,
-                                        lexbor_mraw_t *mraw);
-
-static lxb_status_t
 lxb_css_syntax_token_str_cb(const lxb_char_t *data, size_t len, void *ctx);
 
+
+lxb_css_syntax_token_t *
+lxb_css_syntax_token(lxb_css_syntax_tokenizer_t *tkz)
+{
+    if (tkz->token < tkz->last) {
+        return tkz->token;
+    }
+
+    return lxb_css_syntax_tokenizer_token(tkz);
+}
+
+lxb_css_syntax_token_t *
+lxb_css_syntax_token_next(lxb_css_syntax_tokenizer_t *tkz)
+{
+    lxb_css_syntax_token_t *last;
+
+    if (tkz->token < tkz->last) {
+        if (tkz->token < tkz->prepared) {
+            last = tkz->prepared - 1;
+        }
+        else {
+            last = tkz->last - 1;
+        }
+
+        if (lxb_css_syntax_token_string_make(tkz, last) != LXB_STATUS_OK) {
+            return NULL;
+        }
+    }
+
+    return lxb_css_syntax_tokenizer_token(tkz);
+}
+
+void
+lxb_css_syntax_token_consume(lxb_css_syntax_tokenizer_t *tkz)
+{
+    if (tkz->token < tkz->last) {
+        lxb_css_syntax_token_string_free(tkz, tkz->token);
+        tkz->token++;
+
+        if (tkz->token >= tkz->tokens_end) {
+            tkz->token = tkz->tokens_begin;
+            tkz->last = tkz->token;
+        }
+    }
+}
+
+void
+lxb_css_syntax_token_consume_n(lxb_css_syntax_tokenizer_t *tkz, unsigned count)
+{
+    while (count != 0) {
+        count--;
+        lxb_css_syntax_token_consume(tkz);
+    }
+}
+
+lxb_status_t
+lxb_css_syntax_token_string_dup(lxb_css_syntax_token_string_t *token,
+                                lexbor_str_t *str, lexbor_mraw_t *mraw)
+{
+    size_t length;
+
+    length = token->length + 1;
+
+    if (length > str->length) {
+        if (str->data == NULL) {
+            str->data = lexbor_mraw_alloc(mraw, length);
+            if (str->data == NULL) {
+                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            }
+
+            str->length = 0;
+        }
+        else {
+            if (lexbor_str_realloc(str, mraw, length) == NULL) {
+                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            }
+        }
+    }
+
+    /* + 1 = '\0' */
+    memcpy(str->data, token->data, length);
+
+    str->length = token->length;
+
+    return LXB_STATUS_OK;
+}
+
+lxb_status_t
+lxb_css_syntax_token_string_make(lxb_css_syntax_tokenizer_t *tkz,
+                                 lxb_css_syntax_token_t *token)
+{
+    lxb_char_t *data;
+    lxb_css_syntax_token_string_t *token_string;
+
+    if (token->type >= LXB_CSS_SYNTAX_TOKEN_IDENT
+        && token->type <= LXB_CSS_SYNTAX_TOKEN_WHITESPACE)
+    {
+        token_string = lxb_css_syntax_token_string(token);
+        goto copy;
+    }
+    else if (token->type == LXB_CSS_SYNTAX_TOKEN_DIMENSION) {
+        token_string = lxb_css_syntax_token_dimension_string(token);
+        goto copy;
+    }
+
+    return LXB_STATUS_OK;
+
+copy:
+
+    data = lexbor_mraw_alloc(tkz->mraw, token_string->length + 1);
+    if (data == NULL) {
+        tkz->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        return tkz->status;
+    }
+
+    /* + 1 = '\0' */
+    memcpy(data, token_string->data, token_string->length + 1);
+
+    token_string->data = data;
+    token->cloned = true;
+
+    return LXB_STATUS_OK;
+}
+
+void
+lxb_css_syntax_token_string_free(lxb_css_syntax_tokenizer_t *tkz,
+                                 lxb_css_syntax_token_t *token)
+{
+    lxb_css_syntax_token_string_t *token_string;
+
+    if (token->cloned) {
+        if (token->type == LXB_CSS_SYNTAX_TOKEN_DIMENSION) {
+            token_string = lxb_css_syntax_token_dimension_string(token);
+        }
+        else {
+            token_string = lxb_css_syntax_token_string(token);
+        }
+
+        lexbor_mraw_free(tkz->mraw, (lxb_char_t *) token_string->data);
+    }
+}
 
 const lxb_char_t *
 lxb_css_syntax_token_type_name_by_id(lxb_css_syntax_token_type_t type)
@@ -115,9 +234,9 @@ lxb_css_syntax_token_type_name_by_id(lxb_css_syntax_token_type_t type)
             return (lxb_char_t *) "comment";
         case LXB_CSS_SYNTAX_TOKEN__EOF:
             return (lxb_char_t *) "end-of-file";
+        default:
+            return (lxb_char_t *) "undefined";
     }
-
-    return (lxb_char_t *) "undefined";
 }
 
 lxb_css_syntax_token_type_t
@@ -134,550 +253,37 @@ lxb_css_syntax_token_type_id_by_name(const lxb_char_t *type_name, size_t len)
     return (lxb_css_syntax_token_type_t) (uintptr_t) entry->value;
 }
 
-lxb_status_t
-lxb_css_syntax_token_make_data(lxb_css_syntax_token_t *token, lexbor_in_node_t *in,
-                               lexbor_mraw_t *mraw, lxb_css_syntax_token_data_t *td)
-{
-    switch (token->types.base.type) {
-        /* All this types inherit from lxb_css_syntax_token_string_t. */
-        case LXB_CSS_SYNTAX_TOKEN_IDENT:
-        case LXB_CSS_SYNTAX_TOKEN_FUNCTION:
-        case LXB_CSS_SYNTAX_TOKEN_AT_KEYWORD:
-        case LXB_CSS_SYNTAX_TOKEN_HASH:
-        case LXB_CSS_SYNTAX_TOKEN_STRING:
-        case LXB_CSS_SYNTAX_TOKEN_BAD_STRING:
-        case LXB_CSS_SYNTAX_TOKEN_URL:
-        case LXB_CSS_SYNTAX_TOKEN_BAD_URL:
-        case LXB_CSS_SYNTAX_TOKEN_COMMENT:
-        case LXB_CSS_SYNTAX_TOKEN_WHITESPACE:
-            if (token->types.base.data_type == LXB_CSS_SYNTAX_TOKEN_DATA_SIMPLE) {
-                return lxb_css_syntax_token_make_data_simple(in, mraw, td,
-                                                     &token->types.string.data,
-                                                     token->types.string.begin,
-                                                     token->types.string.end);
-            }
-
-            td->cb = lxb_css_syntax_token_make_data_conv;
-
-            return lxb_css_syntax_token_make_data_hard(in, mraw, td,
-                                                       &token->types.string.data,
-                                                       token->types.string.begin,
-                                                       token->types.string.end);
-
-        case LXB_CSS_SYNTAX_TOKEN_DIMENSION:
-            if (token->types.base.data_type == LXB_CSS_SYNTAX_TOKEN_DATA_SIMPLE) {
-                return lxb_css_syntax_token_make_data_simple(in, mraw, td,
-                                                   &token->types.dimension.data,
-                                                   token->types.dimension.begin,
-                                                   token->types.dimension.end);
-            }
-
-            td->cb = lxb_css_syntax_token_make_data_conv;
-
-            return lxb_css_syntax_token_make_data_hard(in, mraw, td,
-                                                       &token->types.dimension.data,
-                                                       token->types.dimension.begin,
-                                                       token->types.dimension.end);
-    }
-
-    return LXB_STATUS_OK;
-}
-
-static lxb_status_t
-lxb_css_syntax_token_make_data_hard(lexbor_in_node_t *in, lexbor_mraw_t *mraw,
-                                    lxb_css_syntax_token_data_t *td,
-                                    lexbor_str_t *str, const lxb_char_t *begin,
-                                    const lxb_char_t *end)
-{
-    size_t len = 0;
-    const lxb_char_t *ptr = end;
-
-    td->is_last = false;
-    td->status = LXB_STATUS_OK;
-
-    in = lexbor_in_node_find(in, end);
-
-    do {
-        if (lexbor_in_segment(in, begin)) {
-            len += ptr - begin;
-
-            break;
-        }
-
-        len += ptr - in->begin;
-
-        if (in->prev == NULL) {
-            return LXB_STATUS_ERROR;
-        }
-
-        in = in->prev;
-        ptr = in->end;
-    }
-    while (1);
-
-    if (str->data == NULL) {
-        lexbor_str_init(str, mraw, len);
-        if (str->data == NULL) {
-            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-        }
-    }
-    else if (lexbor_str_size(str) <= len) {
-        ptr = lexbor_str_realloc(str, mraw, (len + 1));
-        if (ptr == NULL) {
-            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-        }
-    }
-
-    while (lexbor_in_segment(in, end) == false) {
-        while (begin < in->end) {
-            begin = td->cb(begin, in->end, str, mraw, td);
-        }
-
-        if (td->status != LXB_STATUS_OK) {
-            return td->status;
-        }
-
-        in = in->next;
-        begin = in->begin;
-    }
-
-    td->node_done = in;
-    td->is_last = true;
-
-    do {
-        begin = td->cb(begin, end, str, mraw, td);
-    }
-    while (begin < end);
-
-    return td->status;
-}
-
-static lxb_status_t
-lxb_css_syntax_token_make_data_simple(lexbor_in_node_t *in, lexbor_mraw_t *mraw,
-                                      lxb_css_syntax_token_data_t *td,
-                                      lexbor_str_t *str, const lxb_char_t *begin,
-                                      const lxb_char_t *end)
-{
-    size_t len = 0;
-    const lxb_char_t *ptr = end;
-
-    in = lexbor_in_node_find(in, end);
-
-    do {
-        if (lexbor_in_segment(in, begin)) {
-            len += ptr - begin;
-
-            break;
-        }
-
-        len += ptr - in->begin;
-
-        if (in->prev == NULL) {
-            return LXB_STATUS_ERROR;
-        }
-
-        in = in->prev;
-        ptr = in->end;
-    }
-    while (1);
-
-    if (str->data == NULL) {
-        lexbor_str_init(str, mraw, len);
-        if (str->data == NULL) {
-            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-        }
-    }
-    else if (lexbor_str_size(str) <= len) {
-        ptr = lexbor_str_realloc(str, mraw, (len + 1));
-        if (ptr == NULL) {
-            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-        }
-    }
-
-    while (lexbor_in_segment(in, end) == false) {
-        memcpy(&str->data[str->length], begin, (in->end - begin));
-        str->length += (in->end - begin);
-
-        in = in->next;
-        begin = in->begin;
-    }
-
-    memcpy(&str->data[str->length], begin, (end - begin));
-    str->length += (end - begin);
-
-    str->data[str->length] = 0x00;
-
-    td->node_done = in;
-
-    return LXB_STATUS_OK;
-}
-
-static const lxb_char_t *
-lxb_css_syntax_token_make_data_conv(const lxb_char_t *begin, const lxb_char_t *end,
-                                    lexbor_str_t *str, lexbor_mraw_t *mraw,
-                                    lxb_css_syntax_token_data_t *td)
-{
-    const lxb_char_t *ptr = begin;
-
-    while (begin < end) {
-        switch (*begin) {
-            /* U+005C REVERSE SOLIDUS (\) */
-            case 0x5C:
-                memcpy(&str->data[str->length], ptr, (begin - ptr));
-                str->length += begin - ptr;
-
-                begin += 1;
-
-                td->num = 0;
-                td->count = 0;
-
-                for (; td->count < 6; td->count++, begin++) {
-                    if (begin == end) {
-                        if (td->is_last == false) {
-                            td->cb = lxb_css_syntax_token_make_data_conv_num;
-
-                            return begin;
-                        }
-
-                        break;
-                    }
-
-                    if (lexbor_str_res_map_hex[*begin] == 0xFF) {
-                        if (td->count == 0) {
-                            if (*begin == 0x0A || *begin == 0x0D
-                                || *begin == 0x0C)
-                            {
-                                goto ws_processing;
-                            }
-
-                            td->num = *begin;
-
-                            begin += 1;
-                        }
-
-                        break;
-                    }
-
-                    td->num <<= 4;
-                    td->num |= lexbor_str_res_map_hex[*begin];
-                }
-
-                td->status = lxb_css_syntax_token_codepoint_to_ascii(td->num,
-                                                                     str, mraw);
-                if (td->status != LXB_STATUS_OK) {
-                    return end;
-                }
-
-ws_processing:
-
-                if (begin == end) {
-                    return end;
-                }
-
-                /*
-                 * U+0009 CHARACTER TABULATION
-                 * U+0020 SPACE
-                 * U+000A LINE FEED (LF)
-                 * U+000C FORM FEED (FF)
-                 * U+000D CARRIAGE RETURN (CR)
-                 */
-                switch (*begin) {
-                    case 0x0D:
-                        begin += 1;
-
-                        if (begin == end) {
-                            td->cb = lxb_css_syntax_token_make_data_conv_cr;
-
-                            return begin;
-                        }
-
-                        if (*begin == 0x0A) {
-                            begin += 1;
-                        }
-
-                        break;
-
-                    case 0x09:
-                    case 0x20:
-                    case 0x0A:
-                    case 0x0C:
-                        begin += 1;
-
-                        break;
-                }
-
-                ptr = begin;
-
-                continue;
-
-            /* U+000C FORM FEED (FF) */
-            case 0x0C:
-                memcpy(&str->data[str->length], ptr, (begin - ptr));
-                str->length += begin - ptr;
-
-                begin += 1;
-
-                str->data[str->length] = 0x0A;
-                str->length++;
-
-                ptr = begin;
-
-                continue;
-
-            /* U+000D CARRIAGE RETURN (CR) */
-            case 0x0D:
-                memcpy(&str->data[str->length], ptr, (begin - ptr));
-                str->length += begin - ptr;
-
-                begin += 1;
-
-                str->data[str->length] = 0x0A;
-                str->length++;
-
-                if (begin == end) {
-                    if (td->is_last == false) {
-                        td->cb = lxb_css_syntax_token_make_data_conv_cr;
-
-                        return begin;
-                    }
-
-                    return begin;
-                }
-
-                /* U+000A LINE FEED (LF) */
-                if (*begin == 0x0A) {
-                    begin += 1;
-                }
-
-                ptr = begin;
-
-                continue;
-
-            /* U+0000 NULL (\0) */
-            case 0x00:
-                memcpy(&str->data[str->length], ptr, (begin - ptr));
-                str->length += begin - ptr;
-
-                ptr = lexbor_str_realloc(str, mraw, lexbor_str_size(str) + 2);
-                if (ptr == NULL) {
-                    td->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-
-                    return end;
-                }
-
-                memcpy(&str->data[str->length],
-                       lexbor_str_res_ansi_replacement_character, 3);
-
-                str->length += 3;
-
-                ptr = begin + 1;
-        }
-
-        begin += 1;
-    }
-
-    if (ptr < begin) {
-        memcpy(&str->data[str->length], ptr, (begin - ptr));
-        str->length += begin - ptr;
-    }
-
-    if (td->is_last) {
-        str->data[str->length] = 0x00;
-    }
-
-    return begin;
-}
-
-static const lxb_char_t *
-lxb_css_syntax_token_make_data_conv_num(const lxb_char_t *begin, const lxb_char_t *end,
-                                        lexbor_str_t *str, lexbor_mraw_t *mraw,
-                                        lxb_css_syntax_token_data_t *td)
-{
-    for (; td->count < 6; td->count++, begin++) {
-        if (begin == end) {
-            if (td->is_last == false) {
-                return begin;
-            }
-
-            break;
-        }
-
-        if (lexbor_str_res_map_hex[*begin] == 0xFF) {
-            if (td->count == 0) {
-                if (*begin == 0x0A || *begin == 0x0D || *begin == 0x0C) {
-                    td->cb = lxb_css_syntax_token_make_data_conv;
-
-                    goto ws_processing;
-                }
-
-                td->num = *begin;
-
-                begin += 1;
-            }
-
-            break;
-        }
-
-        td->num <<= 4;
-        td->num |= lexbor_str_res_map_hex[*begin];
-    }
-
-    td->cb = lxb_css_syntax_token_make_data_conv;
-
-    td->status = lxb_css_syntax_token_codepoint_to_ascii(td->num, str, mraw);
-    if (td->status != LXB_STATUS_OK) {
-        return end;
-    }
-
-    if (td->is_last) {
-        str->data[str->length] = 0x00;
-    }
-
-ws_processing:
-
-    if (begin == end) {
-        return end;
-    }
-
-    /*
-     * U+0009 CHARACTER TABULATION
-     * U+0020 SPACE
-     * U+000A LINE FEED (LF)
-     * U+000C FORM FEED (FF)
-     * U+000D CARRIAGE RETURN (CR)
-     */
-    switch (*begin) {
-        case 0x0D:
-            begin += 1;
-
-            if (begin == end) {
-                td->cb = lxb_css_syntax_token_make_data_conv_cr;
-
-                return begin;
-            }
-
-            if (*begin == 0x0A) {
-                begin += 1;
-            }
-
-            break;
-
-        case 0x09:
-        case 0x20:
-        case 0x0A:
-        case 0x0C:
-            begin += 1;
-
-            break;
-    }
-
-    return begin;
-}
-
-static const lxb_char_t *
-lxb_css_syntax_token_make_data_conv_cr(const lxb_char_t *begin, const lxb_char_t *end,
-                                       lexbor_str_t *str, lexbor_mraw_t *mraw,
-                                       lxb_css_syntax_token_data_t *td)
-{
-    td->cb = lxb_css_syntax_token_make_data_conv;
-
-    /* U+000A LINE FEED (LF) */
-    if (*begin == 0x0A) {
-        return (begin + 1);
-    }
-
-    return begin;
-}
-
-static lxb_status_t
-lxb_css_syntax_token_codepoint_to_ascii(lxb_codepoint_t cp, lexbor_str_t *str,
-                                        lexbor_mraw_t *mraw)
-{
-    /*
-     * Zero, or is for a surrogate, or is greater than
-     * the maximum allowed code point (tkz->num > 0x10FFFF).
-     */
-    if (cp == 0) {
-        lxb_char_t *ptr;
-
-        ptr = lexbor_str_realloc(str, mraw, lexbor_str_size(str) + 1);
-        if (ptr == NULL) {
-            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-        }
-
-        memcpy(&str->data[str->length],
-               lexbor_str_res_ansi_replacement_character, 3);
-
-        str->length += 3;
-
-        return LXB_STATUS_OK;
-    }
-    else if (cp > 0x10FFFF || (cp >= 0xD800 && cp <= 0xDFFF)) {
-        memcpy(&str->data[str->length],
-               lexbor_str_res_ansi_replacement_character, 3);
-
-        str->length += 3;
-
-        return LXB_STATUS_OK;
-    }
-
-    lxb_char_t *data = &str->data[str->length];
-
-    if (cp <= 0x0000007F) {
-        /* 0xxxxxxx */
-        data[0] = (lxb_char_t) cp;
-
-        str->length += 1;
-    }
-    else if (cp <= 0x000007FF) {
-        /* 110xxxxx 10xxxxxx */
-        data[0] = (char)(0xC0 | (cp >> 6  ));
-        data[1] = (char)(0x80 | (cp & 0x3F));
-
-        str->length += 2;
-    }
-    else if (cp <= 0x0000FFFF) {
-        /* 1110xxxx 10xxxxxx 10xxxxxx */
-        data[0] = (char)(0xE0 | ((cp >> 12)));
-        data[1] = (char)(0x80 | ((cp >> 6 ) & 0x3F));
-        data[2] = (char)(0x80 | ( cp & 0x3F));
-
-        str->length += 3;
-    }
-    else if (cp <= 0x001FFFFF) {
-        /* 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx */
-        data[0] = (char)(0xF0 | ( cp >> 18));
-        data[1] = (char)(0x80 | ((cp >> 12) & 0x3F));
-        data[2] = (char)(0x80 | ((cp >> 6 ) & 0x3F));
-        data[3] = (char)(0x80 | ( cp & 0x3F));
-
-        str->length += 4;
-    }
-
-    return LXB_STATUS_OK;
-}
 
 lxb_status_t
-lxb_css_syntax_token_serialize_cb(lxb_css_syntax_token_t *token,
-                                  lxb_css_syntax_token_cb_f cb, void *ctx)
+lxb_css_syntax_token_serialize(const lxb_css_syntax_token_t *token,
+                               lxb_css_syntax_token_cb_f cb, void *ctx)
 {
     size_t len;
     lxb_status_t status;
     lxb_char_t buf[128];
+    const lxb_css_syntax_token_string_t *str;
+    const lxb_css_syntax_token_dimension_t *dim;
 
-    switch (token->types.base.type) {
+    switch (token->type) {
         case LXB_CSS_SYNTAX_TOKEN_DELIM:
-            return cb(&token->types.delim.character, 1, ctx);
+            buf[0] = token->types.delim.character;
+            buf[1] = 0x00;
+
+            return cb(buf, 1, ctx);
 
         case LXB_CSS_SYNTAX_TOKEN_NUMBER:
             len = lexbor_conv_float_to_data(token->types.number.num,
                                             buf, (sizeof(buf) - 1));
+
+            buf[len] = 0x00;
 
             return cb(buf, len, ctx);
 
         case LXB_CSS_SYNTAX_TOKEN_PERCENTAGE:
             len = lexbor_conv_float_to_data(token->types.number.num,
                                             buf, (sizeof(buf) - 1));
+
+            buf[len] = 0x00;
 
             status = cb(buf, len, ctx);
             if (status != LXB_STATUS_OK) {
@@ -725,8 +331,9 @@ lxb_css_syntax_token_serialize_cb(lxb_css_syntax_token_t *token,
                 return status;
             }
 
-            return cb(token->types.string.data.data,
-                      token->types.string.data.length, ctx);
+            str = &token->types.string;
+
+            return cb(str->data, str->length, ctx);
 
         case LXB_CSS_SYNTAX_TOKEN_AT_KEYWORD:
             status = cb((lxb_char_t *) "@", 1, ctx);
@@ -734,16 +341,20 @@ lxb_css_syntax_token_serialize_cb(lxb_css_syntax_token_t *token,
                 return status;
             }
 
-            return cb(token->types.string.data.data,
-                      token->types.string.data.length, ctx);
+            str = &token->types.string;
 
+            return cb(str->data, str->length, ctx);
+
+        case LXB_CSS_SYNTAX_TOKEN_WHITESPACE:
         case LXB_CSS_SYNTAX_TOKEN_IDENT:
-            return cb(token->types.string.data.data,
-                      token->types.string.data.length, ctx);
+            str = &token->types.string;
+
+            return cb(str->data, str->length, ctx);
 
         case LXB_CSS_SYNTAX_TOKEN_FUNCTION:
-            status = cb(token->types.string.data.data,
-                        token->types.string.data.length, ctx);
+            str = &token->types.string;
+
+            status = cb(str->data, str->length, ctx);
             if (status != LXB_STATUS_OK) {
                 return status;
             }
@@ -757,9 +368,8 @@ lxb_css_syntax_token_serialize_cb(lxb_css_syntax_token_t *token,
                 return status;
             }
 
-            const lxb_char_t *begin = token->types.string.data.data;
-            const lxb_char_t *end = token->types.string.data.data
-                                    + token->types.string.data.length;
+            const lxb_char_t *begin = token->types.string.data;
+            const lxb_char_t *end = begin + token->types.string.length;
 
             const lxb_char_t *ptr = begin;
 
@@ -778,6 +388,8 @@ lxb_css_syntax_token_serialize_cb(lxb_css_syntax_token_t *token,
                         if (status != LXB_STATUS_OK) {
                             return status;
                         }
+
+                        ptr = begin;
 
                         break;
                     }
@@ -820,8 +432,9 @@ lxb_css_syntax_token_serialize_cb(lxb_css_syntax_token_t *token,
                 return status;
             }
 
-            status = cb(token->types.string.data.data,
-                        token->types.string.data.length, ctx);
+            str = &token->types.string;
+
+            status = cb(str->data, str->length, ctx);
             if (status != LXB_STATUS_OK) {
                 return status;
             }
@@ -834,36 +447,40 @@ lxb_css_syntax_token_serialize_cb(lxb_css_syntax_token_t *token,
                 return status;
             }
 
-            status = cb(token->types.string.data.data,
-                        token->types.string.data.length, ctx);
+            str = &token->types.string;
+
+            status = cb(str->data, str->length, ctx);
             if (status != LXB_STATUS_OK) {
                 return status;
             }
 
             return cb((lxb_char_t *) "*/", 2, ctx);
 
-        case LXB_CSS_SYNTAX_TOKEN_WHITESPACE:
-            return cb(token->types.whitespace.data.data,
-                      token->types.whitespace.data.length, ctx);
-
         case LXB_CSS_SYNTAX_TOKEN_DIMENSION:
             len = lexbor_conv_float_to_data(token->types.number.num,
                                             buf, (sizeof(buf) - 1));
+
+            buf[len] = 0x00;
 
             status = cb(buf, len, ctx);
             if (status != LXB_STATUS_OK) {
                 return status;
             }
 
-            return cb(token->types.dimension.data.data,
-                      token->types.dimension.data.length, ctx);
-    }
+            dim = &token->types.dimension;
 
-    return LXB_STATUS_OK;
+            return cb(dim->str.data, dim->str.length, ctx);
+
+        case LXB_CSS_SYNTAX_TOKEN__EOF:
+            return cb((lxb_char_t *) "END-OF-FILE", 11, ctx);
+
+        default:
+            return LXB_STATUS_ERROR;
+    }
 }
 
 lxb_status_t
-lxb_css_syntax_token_serialize_str(lxb_css_syntax_token_t *token,
+lxb_css_syntax_token_serialize_str(const lxb_css_syntax_token_t *token,
                                    lexbor_str_t *str, lexbor_mraw_t *mraw)
 {
     lxb_css_syntax_token_ctx_t ctx;
@@ -878,8 +495,8 @@ lxb_css_syntax_token_serialize_str(lxb_css_syntax_token_t *token,
         }
     }
 
-    return lxb_css_syntax_token_serialize_cb(token,
-                                             lxb_css_syntax_token_str_cb, &ctx);
+    return lxb_css_syntax_token_serialize(token, lxb_css_syntax_token_str_cb,
+                                          &ctx);
 }
 
 static lxb_status_t
@@ -894,6 +511,76 @@ lxb_css_syntax_token_str_cb(const lxb_char_t *data, size_t len, void *cb_ctx)
     }
 
     return LXB_STATUS_OK;
+}
+
+
+lxb_char_t *
+lxb_css_syntax_token_serialize_char(const lxb_css_syntax_token_t *token,
+                                    size_t *out_length)
+{
+    size_t length = 0;
+    lxb_status_t status;
+    lexbor_str_t str;
+
+    status = lxb_css_syntax_token_serialize(token, lexbor_serialize_length_cb,
+                                            &length);
+    if (status != LXB_STATUS_OK) {
+        goto failed;
+    }
+
+    /* + 1 == '\0' */
+    str.data = lexbor_malloc(length + 1);
+    if (str.data == NULL) {
+        goto failed;
+    }
+
+    str.length = 0;
+
+    status = lxb_css_syntax_token_serialize(token, lexbor_serialize_copy_cb,
+                                            &str);
+    if (status != LXB_STATUS_OK) {
+        lexbor_free(str.data);
+        goto failed;
+    }
+
+    str.data[str.length] = '\0';
+
+    if (out_length != NULL) {
+        *out_length = str.length;
+    }
+
+    return str.data;
+
+failed:
+
+    if (out_length != NULL) {
+        *out_length = 0;
+    }
+
+    return NULL;
+}
+
+lxb_css_log_message_t *
+lxb_css_syntax_token_error(lxb_css_parser_t *parser,
+                           const lxb_css_syntax_token_t *token,
+                           const char *module_name)
+{
+    lxb_char_t *name;
+    lxb_css_log_message_t *msg;
+
+    static const char unexpected[] = "%s. Unexpected token: %s";
+
+    name = lxb_css_syntax_token_serialize_char(token, NULL);
+    if (name == NULL) {
+        return NULL;
+    }
+
+    msg = lxb_css_log_format(parser->log, LXB_CSS_LOG_SYNTAX_ERROR, unexpected,
+                             module_name, name);
+
+    lexbor_free(name);
+
+    return msg;
 }
 
 /*

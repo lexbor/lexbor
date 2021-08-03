@@ -1,5 +1,5 @@
 [
-    /* Test count: 19 */
+    /* Test count: 24 */
     /* 1 */
     {
         "data": "#wygodski",
@@ -137,4 +137,46 @@
             {"type": "hash", "value": "#wygod�ski"}
         ]
     },
+    /* 20 */
+    {
+        "data": "#",
+        "tokens": [
+            {"type": "delim", "value": "#"}
+        ]
+    },
+    /* 21 */
+    {
+        "data": "##id",
+        "tokens": [
+            {"type": "delim", "value": "#"},
+            {"type": "hash", "value": "#id"}
+        ]
+    },
+    /* 22 */
+    {
+        "data": "#\\\n",
+        "tokens": [
+            {"type": "delim", "value": "#"},
+            {"type": "delim", "value": "\\"},
+            {"type": "whitespace", "value": "\n"}
+        ]
+    },
+    /* 23 */
+    {
+        "data": "#\\\r",
+        "tokens": [
+            {"type": "delim", "value": "#"},
+            {"type": "delim", "value": "\\"},
+            {"type": "whitespace", "value": "\n"}
+        ]
+    },
+    /* 24 */
+    {
+        "data": "#\\\f",
+        "tokens": [
+            {"type": "delim", "value": "#"},
+            {"type": "delim", "value": "\\"},
+            {"type": "whitespace", "value": "\n"}
+        ]
+    }
 ]

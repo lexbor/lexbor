@@ -31,12 +31,10 @@ static lxb_html_token_t *
 test_callback_token_done(lxb_html_tokenizer_t *tkz,
                          lxb_html_token_t *token, void *ctx)
 {
-    TEST_OBJ_ARG;
     size_t length;
     tkz_test_ctx_t *entry;
 
     entry = ctx;
-    TEST_OBJ_NAME = entry->TEST_OBJ_NAME;
 
     if (lexbor_array_length(&entry->tokens) < entry->done) {
         TEST_PRINTLN("Received more tokens than expected.");
