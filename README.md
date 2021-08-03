@@ -112,7 +112,6 @@ Please, see [roadmap](https://lexbor.com/roadmap/) on [lexbor.com](https://lexbo
 
 ## Getting Help
 
-* IRC: [#lexbor on `irc.freenode.net <http://freenode.net>`](http://webchat.freenode.net?channels=%23lexbor)
 * E-mail [support@lexbor.com](mailto:support@lexbor.com)
 
 ## AUTHOR
