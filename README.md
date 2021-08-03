@@ -27,7 +27,7 @@ The `lexbor` project is being developed using the `C` language, without dependen
 
 ### CSS Module
 * Full conformance with the [CSS Syntax](https://drafts.csswg.org/css-syntax-3/) module.
-* Supports parsing [by chunks](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/css/syntax/tokenizer_chunks.c).
+* [Selectors](https://github.com/lexbor/lexbor/tree/master/examples/lexbor/selectors) support.
 * Please, see [roadmap](https://lexbor.com/roadmap/#css) of CSS Modules support.
 
 ### Encoding Module
