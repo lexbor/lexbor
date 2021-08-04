@@ -1403,7 +1403,7 @@ lxb_css_selectors_state_restore_combinator(lxb_css_selectors_t *selectors)
         comb_default = data_func->combinator;
     }
 
-    selectors->combinator = comb_default;
+    selectors->combinator = LXB_CSS_SELECTOR_COMBINATOR_CLOSE;
     selectors->comb_default = comb_default;
 }
 
@@ -1506,7 +1506,7 @@ lxb_css_selectors_state_forgiving_cb(lxb_css_parser_t *parser,
 
     /* Emply list. */
     if (token->type == LXB_CSS_SYNTAX_TOKEN_COMMA && selectors->deep == 0) {
-        lxb_css_selectors_state_restore_combinator(selectors);
+        selectors->combinator = selectors->comb_default;
 
         lxb_css_syntax_token_consume(parser->tkz);
 
@@ -1573,8 +1573,6 @@ lxb_css_selectors_state_forgiving_cb(lxb_css_parser_t *parser,
 
     /* Empty function. */
     if (token->type == LXB_CSS_SYNTAX_TOKEN_R_PARENTHESIS) {
-        selectors->combinator = LXB_CSS_SELECTOR_COMBINATOR_CLOSE;
-
         selectors->deep++;
         goto failed;
     }
@@ -1606,6 +1604,8 @@ lxb_css_selectors_state_forgiving_cb(lxb_css_parser_t *parser,
     if (token->type == LXB_CSS_SYNTAX_TOKEN_COMMA) {
         lxb_css_selectors_state_restore_combinator(selectors);
 
+        selectors->combinator = selectors->comb_default;
+
         lxb_css_syntax_token_consume(parser->tkz);
 
         /* Recovering the parser from the error. */
@@ -1618,8 +1618,6 @@ lxb_css_selectors_state_forgiving_cb(lxb_css_parser_t *parser,
     }
 
     if (token->type == LXB_CSS_SYNTAX_TOKEN_R_PARENTHESIS) {
-        selectors->combinator = LXB_CSS_SELECTOR_COMBINATOR_CLOSE;
-
         lxb_css_syntax_token_consume(parser->tkz);
         goto failed_done;
     }

@@ -344,6 +344,27 @@ static const lxb_test_entry_t selectors_list[] =
      "<span id=\"s4\" span=\"4\">"},
     {"p[p='6'][lang |= 'en'] span[id='s4']#s4[span='4']",
      "<span id=\"s4\" span=\"4\">"},
+
+    {"div > :nth-child(2n+1):not(:has(a))",
+     "<p p=\"6\" lang=\"en-GB\">"},
+
+    {"div > :nth-child(2n+1) :not(:has(a))",
+     "<a a=\"1\">\n"
+     "<a a=\"3\">\n"
+     "<a a=\"5\">\n"
+     "<span id=\"s1\" span=\"1\">\n"
+     "<span id=\"s2\" span=\"2\">\n"
+     "<span id=\"s3\" span=\"3\">\n"
+     "<span id=\"s4\" span=\"4\">\n"
+     "<span id=\"s5\" span=\"5\">"},
+
+    {"div > :has(, a)",
+     "<p p=\"1\">\n"
+     "<p p=\"2\">\n"
+     "<p p=\"3\">\n"
+     "<p p=\"4\">\n"
+     "<p p=\"5\">\n"
+     "<p p=\"7\" lang=\"ru\">"},
 };
 
 

@@ -579,6 +579,16 @@ static const lxb_test_entry_t selectors_list[] =
      ":has(#hash)",
      "Syntax error. Selectors. Unexpected token: {",
      lxb_css_selectors_parse},
+
+    {"div > :nth-child(2n+1):not(:has(a)),p:has(a):not([href]) span, div",
+     "div > :nth-child(odd):not(:has(a)), p:has(a):not([href]) span, div",
+     "",
+     lxb_css_selectors_parse},
+
+    {"div > :nth-child(2n+1) :not(:has(a)),p:has(a) :not([href]) span, div",
+     "div > :nth-child(odd) :not(:has(a)), p:has(a) :not([href]) span, div",
+     "",
+     lxb_css_selectors_parse},
 };
 
 
