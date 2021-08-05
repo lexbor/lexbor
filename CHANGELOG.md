@@ -2,6 +2,22 @@
 
 ## [Unreleased]
 
+## [2.1.0] - 2021-08-05
+### Added
+- CSS: parsing selectors.
+- Selectors for find DOM/HTML nodes.
+- Build: clang fuzzer support.
+
+### Fixed
+- Core: fixed includes in "core.h".
+- DOM: fixed skip child nodes in simple walker.
+- HTML: fixed the incorrect state of the switch for "pre", "listing", "textarea".
+- HTML: fixed heap-buffer-overflow in active/open elements.
+
+### Changed
+- HTML: refactoring module for better performance.
+- CSS: parsing api and token retrieval changed.
+
 ## [1.0.0] - 2020-03-13
 ### Added
 - Core: added hash table implementation.
