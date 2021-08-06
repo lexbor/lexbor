@@ -44,9 +44,9 @@ Binaries are available for:
 
 * [CentOS](https://lexbor.com/download/#centos) 6, 7, 8
 * [Debian](https://lexbor.com/download/#debian) 8, 9, 10
-* [Fedora](https://lexbor.com/download/#fedora) 28, 29, 30, 31
+* [Fedora](https://lexbor.com/download/#fedora) 28, 29, 30, 31, 32, 33, 34
 * [RHEL](https://lexbor.com/download/#rhel) 7, 8
-* [Ubuntu](https://lexbor.com/download/#ubuntu) 14.04, 16.04, 18.04, 18.10, 19.04, 19.10
+* [Ubuntu](https://lexbor.com/download/#ubuntu) 14.04, 16.04, 18.04, 18.10, 19.04, 19.10, 20.04, 20.10, 21.04
 
 Currently for `x86_64` architecture.
 If you need any other architecture, please, write to [support@lexbor.com](mailto:support@lexbor.com).
@@ -123,7 +123,7 @@ Alexander Borisov <borisov@lexbor.com>
 
    Lexbor.
 
-   Copyright 2018-2020 Alexander Borisov
+   Copyright 2018-2021 Alexander Borisov
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
