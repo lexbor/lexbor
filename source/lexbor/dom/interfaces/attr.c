@@ -82,18 +82,24 @@ lxb_dom_attr_set_name(lxb_dom_attr_t *attr, const lxb_char_t *name,
 }
 
 lxb_status_t
-lxb_dom_attr_set_name_ns(lxb_dom_attr_t *attr, const lxb_char_t *link,
-                         size_t link_length, const lxb_char_t *name,
-                         size_t name_length, bool to_lowercase)
+lxb_dom_attr_set_name_ns(lxb_dom_attr_t *attr,
+                         const lxb_char_t *local_name, size_t local_name_len,
+                         const lxb_char_t *ns_link, size_t ns_len,
+                         const lxb_char_t *prefix, size_t prefix_len,
+                         bool to_lowercase)
 {
-    size_t length;
-    lxb_char_t *p;
     const lxb_ns_data_t *ns_data;
     lxb_dom_attr_data_t *data;
     lxb_dom_document_t *doc = lxb_dom_interface_node(attr)->owner_document;
 
-    ns_data = lxb_ns_append(doc->ns, link, link_length);
-    if (attr->node.ns == LXB_NS__UNDEF) {
+    if (ns_link != NULL && ns_len != 0) {
+        ns_data = lxb_ns_append(doc->ns, ns_link, ns_len);
+    }
+    else {
+        ns_data = lxb_ns_data_by_id(doc->ns, LXB_NS__UNDEF);
+    }
+
+    if (ns_data == NULL) {
         return LXB_STATUS_ERROR;
     }
 
@@ -101,35 +107,49 @@ lxb_dom_attr_set_name_ns(lxb_dom_attr_t *attr, const lxb_char_t *link,
 
     /* TODO: append check https://www.w3.org/TR/xml/#NT-Name */
 
-    p = (lxb_char_t *) memchr(name, ':', name_length);
-    if (p == NULL) {
-        return lxb_dom_attr_set_name(attr, name, name_length, to_lowercase);
-    }
-
-    length = p - name;
-
-    /* local name */
-    data = lxb_dom_attr_local_name_append(doc->attrs, &name[(length + 1)],
-                                          (name_length - (length + 1)));
-    if (data == NULL) {
-        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-    }
-
-    attr->node.local_name = (lxb_dom_attr_id_t) data;
-
     /* qualified name */
-    data = lxb_dom_attr_qualified_name_append(doc->attrs, name, name_length);
+    if (prefix != NULL && prefix_len != 0) {
+        lxb_char_t *qualified_name = lexbor_malloc(prefix_len + local_name_len + 2);
+        if (qualified_name == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+
+        memcpy(qualified_name, prefix, prefix_len);
+        memcpy(&qualified_name[prefix_len + 1], local_name, local_name_len);
+
+        size_t qualified_name_len = prefix_len + local_name_len + 1;
+
+        qualified_name[prefix_len] = ':';
+        qualified_name[qualified_name_len] = '\0';
+        
+        data = lxb_dom_attr_qualified_name_append(doc->attrs, qualified_name, qualified_name_len);
+        
+        lexbor_free(qualified_name);
+    }
+    else {
+        data = lxb_dom_attr_qualified_name_append(doc->attrs, local_name, local_name_len);
+    }
+
     if (data == NULL) {
         return LXB_STATUS_ERROR;
     }
 
     attr->qualified_name = (lxb_dom_attr_id_t) data;
 
+    /* local name */
+    data = lxb_dom_attr_local_name_append(doc->attrs, local_name, local_name_len);
+    if (data == NULL) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    attr->node.local_name = (lxb_dom_attr_id_t) data;
+
     /* prefix */
-    attr->node.prefix = (lxb_ns_prefix_id_t) lxb_ns_prefix_append(doc->ns, name,
-                                                                  length);
-    if (attr->node.prefix == 0) {
-        return LXB_STATUS_ERROR;
+    if (prefix != NULL && prefix_len != 0) {
+        attr->node.prefix = (lxb_ns_prefix_id_t) lxb_ns_prefix_append(doc->ns, prefix, prefix_len);
+    }
+    else {
+        attr->node.prefix = 0;
     }
 
     return LXB_STATUS_OK;
@@ -371,6 +391,12 @@ const lxb_char_t *
 lxb_dom_attr_local_name_noi(lxb_dom_attr_t *attr, size_t *len)
 {
     return lxb_dom_attr_local_name(attr, len);
+}
+
+const lxb_char_t *
+lxb_dom_attr_prefix_noi(lxb_dom_attr_t *attr, size_t *len)
+{
+    return lxb_dom_attr_prefix(attr, len);
 }
 
 const lxb_char_t *
