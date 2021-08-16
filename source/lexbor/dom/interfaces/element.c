@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Alexander Borisov
+ * Copyright (C) 2018-2021 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -113,6 +113,24 @@ lxb_dom_element_interface_create(lxb_dom_document_t *document)
 }
 
 lxb_dom_element_t *
+lxb_dom_element_interface_clone(lxb_dom_document_t *document,
+                                const lxb_dom_element_t *element)
+{
+    lxb_dom_element_t *new;
+
+    new = lxb_dom_element_interface_create(document);
+    if (new == NULL) {
+        return NULL;
+    }
+
+    if (lxb_dom_element_interface_copy(new, element) != LXB_STATUS_OK) {
+        return lxb_dom_element_interface_destroy(new);
+    }
+
+    return new;
+}
+
+lxb_dom_element_t *
 lxb_dom_element_interface_destroy(lxb_dom_element_t *element)
 {
     lxb_dom_attr_t *attr_next;
@@ -126,9 +144,39 @@ lxb_dom_element_interface_destroy(lxb_dom_element_t *element)
         attr = attr_next;
     }
 
-    return lexbor_mraw_free(
-        lxb_dom_interface_node(element)->owner_document->mraw,
-        element);
+    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(element));
+
+    return NULL;
+}
+
+lxb_status_t
+lxb_dom_element_interface_copy(lxb_dom_element_t *dst,
+                               const lxb_dom_element_t *src)
+{
+    lxb_status_t status;
+    lxb_dom_document_t *document;
+    lxb_dom_attr_t *attr, *clone;
+
+    status = lxb_dom_node_interface_copy(&dst->node, &src->node, false);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    document = lxb_dom_interface_node(dst)->owner_document;
+    attr = src->first_attr;
+
+    while (attr != NULL) {
+        clone = lxb_dom_attr_interface_clone(document, attr);
+        if (clone == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+
+        (void) lxb_dom_element_attr_append(dst, clone);
+
+        attr = attr->next;
+    }
+
+    return LXB_STATUS_OK;
 }
 
 LXB_API lxb_status_t

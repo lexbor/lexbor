@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2021 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -34,6 +34,40 @@ lxb_dom_interface_create(lxb_dom_document_t *document, lxb_tag_id_t tag_id,
     domel->node.ns = ns;
 
     return domel;
+}
+
+lxb_dom_interface_t *
+lxb_dom_interface_clone(lxb_dom_document_t *document,
+                        const lxb_dom_interface_t *intrfc)
+{
+    const lxb_dom_node_t *node = intrfc;
+
+    if (document == NULL) {
+        document = node->owner_document;
+    }
+
+    switch (node->type) {
+        case LXB_DOM_NODE_TYPE_ELEMENT:
+            return lxb_dom_element_interface_clone(document, intrfc);
+
+        case LXB_DOM_NODE_TYPE_TEXT:
+            return lxb_dom_text_interface_clone(document, intrfc);
+
+        case LXB_DOM_NODE_TYPE_PROCESSING_INSTRUCTION:
+            return lxb_dom_processing_instruction_interface_clone(document,
+                                                                  intrfc);
+        case LXB_DOM_NODE_TYPE_COMMENT:
+            return lxb_dom_comment_interface_clone(document, intrfc);
+
+        case LXB_DOM_NODE_TYPE_DOCUMENT:
+            return lxb_dom_document_interface_clone(document, intrfc);
+
+        case LXB_DOM_NODE_TYPE_DOCUMENT_TYPE:
+            return lxb_dom_document_type_interface_clone(document, intrfc);
+
+        default:
+            return NULL;
+    }
 }
 
 lxb_dom_interface_t *

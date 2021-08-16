@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2021 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -26,8 +26,16 @@ LXB_API lxb_dom_processing_instruction_t *
 lxb_dom_processing_instruction_interface_create(lxb_dom_document_t *document);
 
 LXB_API lxb_dom_processing_instruction_t *
+lxb_dom_processing_instruction_interface_clone(lxb_dom_document_t *document,
+                                               const lxb_dom_processing_instruction_t *processing_instruction);
+
+LXB_API lxb_dom_processing_instruction_t *
 lxb_dom_processing_instruction_interface_destroy(lxb_dom_processing_instruction_t *processing_instruction);
 
+
+LXB_API lxb_status_t
+lxb_dom_processing_instruction_copy(lxb_dom_processing_instruction_t *dst,
+                                    const lxb_dom_processing_instruction_t *src);
 
 /*
  * Inline functions

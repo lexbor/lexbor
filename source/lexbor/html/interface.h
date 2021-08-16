@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Alexander Borisov
+ * Copyright (C) 2018-2021 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -170,6 +170,10 @@ typedef struct lxb_html_window lxb_html_window_t;
 LXB_API lxb_dom_interface_t *
 lxb_html_interface_create(lxb_html_document_t *document, lxb_tag_id_t tag_id,
                           lxb_ns_id_t ns);
+
+LXB_API lxb_dom_interface_t *
+lxb_html_interface_clone(lxb_dom_document_t *document,
+                         const lxb_dom_interface_t *intrfc);
 
 LXB_API lxb_dom_interface_t *
 lxb_html_interface_destroy(lxb_dom_interface_t *intrfc);

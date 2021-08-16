@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2021 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -40,6 +40,65 @@ lxb_dom_attr_interface_create(lxb_dom_document_t *document)
 }
 
 lxb_dom_attr_t *
+lxb_dom_attr_interface_clone(lxb_dom_document_t *document,
+                             const lxb_dom_attr_t *attr)
+{
+    lxb_dom_attr_t *new;
+    const lxb_dom_attr_data_t *data;
+
+    new = lxb_dom_attr_interface_create(document);
+    if (new == NULL) {
+        return NULL;
+    }
+
+
+    if (document == attr->node.owner_document) {
+        new->qualified_name = attr->qualified_name;
+    }
+    else {
+        data = lxb_dom_attr_data_by_id(attr->node.owner_document->attrs,
+                                       attr->qualified_name);
+        if (data == NULL) {
+            goto failed;
+        }
+
+        data = lxb_dom_attr_qualified_name_append(document->attrs,
+                                                  lexbor_hash_entry_str(&data->entry),
+                                                  data->entry.length);
+        if (data == NULL) {
+            goto failed;
+        }
+
+        new->qualified_name = (lxb_dom_attr_id_t) data;
+    }
+
+    if (attr->value == NULL) {
+        return new;
+    }
+
+    new->value = lexbor_mraw_calloc(document->mraw, sizeof(lexbor_str_t));
+    if (new->value == NULL) {
+        goto failed;
+    }
+
+    if (lexbor_str_copy(new->value, attr->value, document->text) == NULL) {
+        goto failed;
+    }
+
+    if (lxb_dom_node_interface_copy(&new->node, &attr->node, true)
+        != LXB_STATUS_OK)
+    {
+        goto failed;
+    }
+
+    return new;
+
+failed:
+
+    return lxb_dom_attr_interface_destroy(new);
+}
+
+lxb_dom_attr_t *
 lxb_dom_attr_interface_destroy(lxb_dom_attr_t *attr)
 {
     lxb_dom_document_t *doc = lxb_dom_interface_node(attr)->owner_document;
@@ -52,7 +111,9 @@ lxb_dom_attr_interface_destroy(lxb_dom_attr_t *attr)
         lexbor_mraw_free(doc->mraw, attr->value);
     }
 
-    return lexbor_mraw_free(doc->mraw, attr);
+    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(attr));
+
+    return NULL;
 }
 
 lxb_status_t
@@ -93,7 +154,7 @@ lxb_dom_attr_set_name_ns(lxb_dom_attr_t *attr, const lxb_char_t *link,
     lxb_dom_document_t *doc = lxb_dom_interface_node(attr)->owner_document;
 
     ns_data = lxb_ns_append(doc->ns, link, link_length);
-    if (attr->node.ns == LXB_NS__UNDEF) {
+    if (ns_data == NULL || ns_data->ns_id == LXB_NS__UNDEF) {
         return LXB_STATUS_ERROR;
     }
 
@@ -256,7 +317,7 @@ lxb_dom_attr_local_name_append(lexbor_hash_t *hash,
     }
 
     data = lexbor_hash_insert(hash, lexbor_hash_insert_lower, name, length);
-    if ((lxb_dom_attr_id_t) data <= LXB_DOM_ATTR__LAST_ENTRY) {
+    if (data == NULL) {
         return NULL;
     }
 
@@ -276,7 +337,7 @@ lxb_dom_attr_qualified_name_append(lexbor_hash_t *hash, const lxb_char_t *name,
     }
 
     data = lexbor_hash_insert(hash, lexbor_hash_insert_raw, name, length);
-    if ((lxb_dom_attr_id_t) data <= LXB_DOM_ATTR__LAST_ENTRY) {
+    if (data == NULL) {
         return NULL;
     }
 

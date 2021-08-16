@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2021 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -28,15 +28,55 @@ lxb_dom_character_data_interface_create(lxb_dom_document_t *document)
 }
 
 lxb_dom_character_data_t *
+lxb_dom_character_data_interface_clone(lxb_dom_document_t *document,
+                                       const lxb_dom_character_data_t *ch_data)
+{
+    lxb_dom_character_data_t *new;
+
+    new = lxb_dom_character_data_interface_create(document);
+    if (new == NULL) {
+        return NULL;
+    }
+
+    if (lxb_dom_character_data_interface_copy(new, ch_data) != LXB_STATUS_OK) {
+        return lxb_dom_character_data_interface_destroy(new);
+    }
+
+    return new;
+}
+
+lxb_dom_character_data_t *
 lxb_dom_character_data_interface_destroy(lxb_dom_character_data_t *character_data)
 {
     lexbor_str_destroy(&character_data->data,
                        lxb_dom_interface_node(character_data)->owner_document->text,
                        false);
 
-    return lexbor_mraw_free(
-        lxb_dom_interface_node(character_data)->owner_document->mraw,
-        character_data);
+    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(character_data));
+
+    return NULL;
+}
+
+lxb_status_t
+lxb_dom_character_data_interface_copy(lxb_dom_character_data_t *dst,
+                                      const lxb_dom_character_data_t *src)
+{
+    lxb_status_t status;
+
+    status = lxb_dom_node_interface_copy(&dst->node, &src->node, false);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    dst->data.length = 0;
+
+    if (lexbor_str_copy(&dst->data, &src->data,
+                        lxb_dom_interface_node(dst)->owner_document->text) == NULL)
+    {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    return LXB_STATUS_OK;
 }
 
 /* TODO: oh, need to... https://dom.spec.whatwg.org/#concept-cd-replace */

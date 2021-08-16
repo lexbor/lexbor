@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2021 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -30,7 +30,7 @@ lxb_dom_document_fragment_interface_create(lxb_dom_document_t *document)
 lxb_dom_document_fragment_t *
 lxb_dom_document_fragment_interface_destroy(lxb_dom_document_fragment_t *document_fragment)
 {
-    return lexbor_mraw_free(
-        lxb_dom_interface_node(document_fragment)->owner_document->mraw,
-        document_fragment);
+    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(document_fragment));
+
+    return NULL;
 }

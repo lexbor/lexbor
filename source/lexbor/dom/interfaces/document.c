@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2019 Alexander Borisov
+ * Copyright (C) 2018-2021 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -25,17 +25,37 @@ lxb_dom_document_interface_create(lxb_dom_document_t *document)
     }
 
     (void) lxb_dom_document_init(doc, document, lxb_dom_interface_create,
-                    lxb_dom_interface_destroy, LXB_DOM_DOCUMENT_DTYPE_UNDEF, 0);
+                                 lxb_dom_interface_clone, lxb_dom_interface_destroy,
+                                 LXB_DOM_DOCUMENT_DTYPE_UNDEF, 0);
 
     return doc;
 }
 
 lxb_dom_document_t *
+lxb_dom_document_interface_clone(lxb_dom_document_t *document,
+                                 const lxb_dom_document_t *doc)
+{
+    lxb_dom_document_t *new;
+
+    new = lxb_dom_document_interface_create(document);
+    if (new == NULL) {
+        return NULL;
+    }
+
+    new->doctype = doc->doctype;
+    new->compat_mode = doc->compat_mode;
+    new->type = doc->type;
+    new->user = doc->user;
+
+    return new;
+}
+
+lxb_dom_document_t *
 lxb_dom_document_interface_destroy(lxb_dom_document_t *document)
 {
-    return lexbor_mraw_free(
-        lxb_dom_interface_node(document)->owner_document->mraw,
-        document);
+    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(document));
+
+    return NULL;
 }
 
 lxb_dom_document_t *
@@ -51,6 +71,7 @@ lxb_dom_document_create(lxb_dom_document_t *owner)
 lxb_status_t
 lxb_dom_document_init(lxb_dom_document_t *document, lxb_dom_document_t *owner,
                       lxb_dom_interface_create_f create_interface,
+                      lxb_dom_interface_clone_f clone_interface,
                       lxb_dom_interface_destroy_f destroy_interface,
                       lxb_dom_document_dtype_t type, unsigned int ns)
 {
@@ -63,6 +84,7 @@ lxb_dom_document_init(lxb_dom_document_t *document, lxb_dom_document_t *owner,
 
     document->type = type;
     document->create_interface = create_interface;
+    document->clone_interface = clone_interface;
     document->destroy_interface = destroy_interface;
 
     node = lxb_dom_interface_node(document);
@@ -401,6 +423,60 @@ lxb_dom_document_root(lxb_dom_document_t *document)
 
     return document->node.first_child;
 }
+
+lxb_dom_node_t *
+lxb_dom_document_import_node(lxb_dom_document_t *doc, lxb_dom_node_t *node,
+                             bool deep)
+{
+    lxb_dom_node_t *new, *curr, *cnode, *root;
+
+    if (node->type == LXB_DOM_NODE_TYPE_COMMENT) {
+
+    }
+
+    new = doc->clone_interface(doc, node);
+    if (new == NULL) {
+        return NULL;
+    }
+
+    if (!deep) {
+        return new;
+    }
+
+    curr = new;
+    root = node;
+    node = node->first_child;
+
+    while (node != NULL) {
+        cnode = doc->clone_interface(doc, node);
+        if (cnode == NULL) {
+            return NULL;
+        }
+
+        lxb_dom_node_insert_child(curr, cnode);
+
+        if (node->first_child != NULL) {
+            node = node->first_child;
+            curr = cnode;
+        }
+        else {
+            while (node->next == NULL && node != root) {
+                node = node->parent;
+                curr = curr->parent;
+            }
+
+            if (node == root) {
+                break;
+            }
+
+            node = node->next;
+            curr = curr->parent;
+        }
+    }
+
+    return new;
+}
+
 
 /*
  * No inline functions for ABI.

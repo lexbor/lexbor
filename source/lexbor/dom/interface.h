@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2021 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -62,12 +62,20 @@ typedef lxb_dom_interface_t *
                               lxb_ns_id_t ns);
 
 typedef lxb_dom_interface_t *
+(*lxb_dom_interface_clone_f)(lxb_dom_document_t *document,
+                             const lxb_dom_interface_t *intrfc);
+
+typedef lxb_dom_interface_t *
 (*lxb_dom_interface_destroy_f)(lxb_dom_interface_t *intrfc);
 
 
 LXB_API lxb_dom_interface_t *
 lxb_dom_interface_create(lxb_dom_document_t *document, lxb_tag_id_t tag_id,
                          lxb_ns_id_t ns);
+
+LXB_API lxb_dom_interface_t *
+lxb_dom_interface_clone(lxb_dom_document_t *document,
+                        const lxb_dom_interface_t *intrfc);
 
 LXB_API lxb_dom_interface_t *
 lxb_dom_interface_destroy(lxb_dom_interface_t *intrfc);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2021 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -10,6 +10,18 @@
 #include "lexbor/dom/interfaces/document_type.h"
 #include "lexbor/dom/interfaces/element.h"
 #include "lexbor/dom/interfaces/processing_instruction.h"
+
+
+LXB_API lxb_dom_attr_data_t *
+lxb_dom_attr_local_name_append(lexbor_hash_t *hash,
+                               const lxb_char_t *name, size_t length);
+
+LXB_API const lxb_tag_data_t *
+lxb_tag_append(lexbor_hash_t *hash, lxb_tag_id_t tag_id,
+               const lxb_char_t *name, size_t length);
+
+LXB_API const lxb_ns_data_t *
+lxb_ns_append(lexbor_hash_t *hash, const lxb_char_t *link, size_t length);
 
 
 static lexbor_action_t
@@ -37,9 +49,139 @@ lxb_dom_node_interface_create(lxb_dom_document_t *document)
 }
 
 lxb_dom_node_t *
+lxb_dom_node_interface_clone(lxb_dom_document_t *document,
+                             const lxb_dom_node_t *node, bool is_attr)
+{
+    lxb_dom_node_t *new;
+
+    new = lxb_dom_node_interface_create(document);
+    if (new == NULL) {
+        return NULL;
+    }
+
+    if (lxb_dom_node_interface_copy(new, node, is_attr) != LXB_STATUS_OK) {
+        return lxb_dom_document_destroy_interface(new);
+    }
+
+    return new;
+}
+
+lxb_dom_node_t *
 lxb_dom_node_interface_destroy(lxb_dom_node_t *node)
 {
     return lexbor_mraw_free(node->owner_document->mraw, node);
+}
+
+lxb_status_t
+lxb_dom_node_interface_copy(lxb_dom_node_t *dst,
+                            const lxb_dom_node_t *src, bool is_attr)
+{
+    lxb_dom_document_t *from, *to;
+    const lxb_ns_data_t *ns;
+    const lxb_tag_data_t *tag;
+    const lxb_ns_prefix_data_t *prefix;
+    const lexbor_hash_entry_t *entry;
+    const lxb_dom_attr_data_t *data;
+
+    dst->type = src->type;
+    dst->user = src->user;
+
+    if (dst->owner_document == src->owner_document) {
+        dst->local_name = src->local_name;
+        dst->ns = src->ns;
+        dst->prefix = src->prefix;
+
+        return LXB_STATUS_OK;
+    }
+
+    from = src->owner_document;
+    to = dst->owner_document;
+
+    if (is_attr) {
+        if (src->local_name < LXB_DOM_ATTR__LAST_ENTRY) {
+            dst->local_name = src->local_name;
+        }
+        else {
+            data = lxb_dom_attr_data_by_id(from->attrs, src->local_name);
+            if (data == NULL) {
+                return LXB_STATUS_ERROR_NOT_EXISTS;
+            }
+
+            entry = &data->entry;
+
+            data = lxb_dom_attr_local_name_append(to->attrs,
+                                                  lexbor_hash_entry_str(entry),
+                                                  entry->length);
+            if (data == NULL) {
+                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            }
+
+            dst->local_name = (lxb_dom_attr_id_t) data;
+        }
+    }
+    else {
+        if (src->local_name < LXB_TAG__LAST_ENTRY) {
+            dst->local_name = src->local_name;
+        }
+        else {
+            tag = lxb_tag_data_by_id(from->tags, src->local_name);
+            if (tag == NULL) {
+                return LXB_STATUS_ERROR_NOT_EXISTS;
+            }
+
+            entry = &tag->entry;
+
+            tag = lxb_tag_append(to->tags, LXB_TAG__UNDEF,
+                                 lexbor_hash_entry_str(entry), entry->length);
+            if (tag == NULL) {
+                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            }
+
+            dst->local_name = (lxb_dom_attr_id_t) tag;
+        }
+    }
+
+    if (src->ns < LXB_NS__LAST_ENTRY) {
+        dst->ns = src->ns;
+    }
+    else {
+        ns = lxb_ns_data_by_id(from->ns, src->ns);
+        if (ns == NULL) {
+            return LXB_STATUS_ERROR_NOT_EXISTS;
+        }
+
+        entry = &ns->entry;
+
+        ns = lxb_ns_append(to->ns, lexbor_hash_entry_str(entry),
+                           entry->length);
+        if (ns == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+
+        dst->ns = (lxb_ns_id_t) ns;
+    }
+
+    if (src->prefix < LXB_NS__LAST_ENTRY) {
+        dst->prefix = src->prefix;
+    }
+    else {
+        prefix = lxb_ns_prefix_data_by_id(from->prefix, src->prefix);
+        if (prefix == NULL) {
+            return LXB_STATUS_ERROR_NOT_EXISTS;
+        }
+
+        entry = &prefix->entry;
+
+        prefix = lxb_ns_prefix_append(to->prefix, lexbor_hash_entry_str(entry),
+                                      entry->length);
+        if (prefix == NULL) {
+            return LXB_STATUS_ERROR;
+        }
+
+        dst->prefix = (lxb_ns_prefix_id_t) prefix;
+    }
+
+    return LXB_STATUS_OK;
 }
 
 lxb_dom_node_t *
@@ -84,6 +226,12 @@ lxb_dom_node_destroy_deep(lxb_dom_node_t *root)
     }
 
     return NULL;
+}
+
+lxb_dom_node_t *
+lxb_dom_node_clone(lxb_dom_node_t *node, bool deep)
+{
+    return lxb_dom_document_import_node(node->owner_document, node, deep);
 }
 
 const lxb_char_t *

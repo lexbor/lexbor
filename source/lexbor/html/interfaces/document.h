@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2021 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -106,6 +106,9 @@ lxb_html_document_title_set(lxb_html_document_t *document,
 LXB_API const lxb_char_t *
 lxb_html_document_title_raw(lxb_html_document_t *document, size_t *len);
 
+LXB_API lxb_dom_node_t *
+lxb_html_document_import_node(lxb_html_document_t *doc, lxb_dom_node_t *node,
+                              bool deep);
 
 /*
  * Inline functions

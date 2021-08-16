@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Alexander Borisov
+ * Copyright (C) 2018-2021 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -30,6 +30,10 @@ struct lxb_dom_document_type {
 
 LXB_API lxb_dom_document_type_t *
 lxb_dom_document_type_interface_create(lxb_dom_document_t *document);
+
+LXB_API lxb_dom_document_type_t *
+lxb_dom_document_type_interface_clone(lxb_dom_document_t *document,
+                                      const lxb_dom_document_type_t *dtype);
 
 LXB_API lxb_dom_document_type_t *
 lxb_dom_document_type_interface_destroy(lxb_dom_document_type_t *document_type);

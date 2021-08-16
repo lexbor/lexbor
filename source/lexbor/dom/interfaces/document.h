@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2021 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -42,6 +42,7 @@ struct lxb_dom_document {
     lxb_dom_element_t           *element;
 
     lxb_dom_interface_create_f  create_interface;
+    lxb_dom_interface_clone_f   clone_interface;
     lxb_dom_interface_destroy_f destroy_interface;
 
     lexbor_mraw_t               *mraw;
@@ -64,6 +65,10 @@ LXB_API lxb_dom_document_t *
 lxb_dom_document_interface_create(lxb_dom_document_t *document);
 
 LXB_API lxb_dom_document_t *
+lxb_dom_document_interface_clone(lxb_dom_document_t *document,
+                                 const lxb_dom_document_t *doc);
+
+LXB_API lxb_dom_document_t *
 lxb_dom_document_interface_destroy(lxb_dom_document_t *document);
 
 LXB_API lxb_dom_document_t *
@@ -72,6 +77,7 @@ lxb_dom_document_create(lxb_dom_document_t *owner);
 LXB_API lxb_status_t
 lxb_dom_document_init(lxb_dom_document_t *document, lxb_dom_document_t *owner,
                       lxb_dom_interface_create_f create_interface,
+                      lxb_dom_interface_clone_f clone_interface,
                       lxb_dom_interface_destroy_f destroy_interface,
                       lxb_dom_document_dtype_t type, unsigned int ns);
 
@@ -120,6 +126,9 @@ lxb_dom_document_create_comment(lxb_dom_document_t *document,
 LXB_API lxb_dom_node_t *
 lxb_dom_document_root(lxb_dom_document_t *document);
 
+LXB_API lxb_dom_node_t *
+lxb_dom_document_import_node(lxb_dom_document_t *doc, lxb_dom_node_t *node,
+                             bool deep);
 
 /*
  * Inline functions
