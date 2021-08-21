@@ -10,7 +10,7 @@
 #include <unit/test.h>
 
 
-const lxb_char_t html[] = "<div x=abc><span>darkness</span></div>";
+const lxb_char_t html[] = "<div x=abc><span>darkness</span><xx>xXx</xx></div>";
 
 const size_t html_length = sizeof(html) - 1;
 
@@ -283,6 +283,63 @@ TEST_BEGIN(import_from)
 }
 TEST_END
 
+
+TEST_BEGIN(full_clone)
+{
+    lxb_status_t status;
+    lexbor_str_t str_one, str_two;
+    lxb_dom_node_t *node_one, *node_two, *clone;
+    lxb_html_document_t *document_one, *document_two;
+
+    /* Parse. */
+
+    document_one = lxb_html_document_create();
+    test_ne(document_one, NULL);
+
+    status = lxb_html_document_parse(document_one, html, html_length);
+    test_eq(status, LXB_STATUS_OK);
+
+    document_two = lxb_html_document_create();
+    test_ne(document_two, NULL);
+
+    status = lxb_html_document_parse(document_two, html, html_length);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Root. */
+
+    node_one = lxb_dom_document_root(lxb_dom_interface_document(document_one));
+    node_two = lxb_dom_document_root(lxb_dom_interface_document(document_two));
+
+    /* Check. */
+
+    test_ne(node_one, node_two);
+
+    /* Clone. */
+
+    clone = lxb_dom_document_import_node(lxb_dom_interface_document(document_one),
+                                         node_two, 1);
+    test_ne(clone, NULL);
+
+    test_eq(clone->owner_document, &document_one->dom_document);
+
+    lexbor_str_clean_all(&str_one);
+    lexbor_str_clean_all(&str_two);
+
+    status = lxb_html_serialize_pretty_tree_str(node_one, 0, 0, &str_one);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_html_serialize_pretty_tree_str(clone, 0, 0, &str_two);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_eq_str_n(str_one.data, str_one.length, str_two.data, str_two.length);
+
+    /* Destroy. */
+
+    lxb_html_document_destroy(document_one);
+    lxb_html_document_destroy(document_two);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -292,6 +349,7 @@ main(int argc, const char * argv[])
     TEST_ADD(deep_clone);
     TEST_ADD(text_clone);
     TEST_ADD(import_from);
+    TEST_ADD(full_clone);
 
     TEST_RUN("lexbor/html/clone");
     TEST_RELEASE();
