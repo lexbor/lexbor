@@ -466,7 +466,6 @@ lxb_dom_document_import_node(lxb_dom_document_t *doc, lxb_dom_node_t *node,
             }
 
             node = node->next;
-            curr = curr->parent;
         }
     }
 
