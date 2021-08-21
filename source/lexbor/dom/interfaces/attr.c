@@ -51,7 +51,6 @@ lxb_dom_attr_interface_clone(lxb_dom_document_t *document,
         return NULL;
     }
 
-
     if (document == attr->node.owner_document) {
         new->qualified_name = attr->qualified_name;
     }
@@ -62,14 +61,25 @@ lxb_dom_attr_interface_clone(lxb_dom_document_t *document,
             goto failed;
         }
 
-        data = lxb_dom_attr_qualified_name_append(document->attrs,
-                                                  lexbor_hash_entry_str(&data->entry),
-                                                  data->entry.length);
-        if (data == NULL) {
-            goto failed;
+        if (data->attr_id < LXB_DOM_ATTR__LAST_ENTRY) {
+            new->qualified_name = attr->qualified_name;
         }
+        else {
+            data = lxb_dom_attr_qualified_name_append(document->attrs,
+                                                      lexbor_hash_entry_str(&data->entry),
+                                                      data->entry.length);
+            if (data == NULL) {
+                goto failed;
+            }
 
-        new->qualified_name = (lxb_dom_attr_id_t) data;
+            new->qualified_name = (lxb_dom_attr_id_t) data;
+        }
+    }
+
+    if (lxb_dom_node_interface_copy(&new->node, &attr->node, true)
+        != LXB_STATUS_OK)
+    {
+        goto failed;
     }
 
     if (attr->value == NULL) {
@@ -82,12 +92,6 @@ lxb_dom_attr_interface_clone(lxb_dom_document_t *document,
     }
 
     if (lexbor_str_copy(new->value, attr->value, document->text) == NULL) {
-        goto failed;
-    }
-
-    if (lxb_dom_node_interface_copy(&new->node, &attr->node, true)
-        != LXB_STATUS_OK)
-    {
         goto failed;
     }
 
