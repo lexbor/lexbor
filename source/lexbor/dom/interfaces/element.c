@@ -315,7 +315,12 @@ lxb_dom_element_set_attribute(lxb_dom_element_t *element,
     attr = lxb_dom_element_attr_is_exist(element, qualified_name, qn_len);
 
     if (attr != NULL) {
-        goto update;
+        status = lxb_dom_attr_set_value(attr, value, value_len);
+        if (status != LXB_STATUS_OK) {
+            return lxb_dom_attr_interface_destroy(attr);
+        }
+
+        return attr;
     }
 
     attr = lxb_dom_attr_interface_create(element->node.owner_document);
@@ -335,8 +340,6 @@ lxb_dom_element_set_attribute(lxb_dom_element_t *element,
     if (status != LXB_STATUS_OK) {
         return lxb_dom_attr_interface_destroy(attr);
     }
-
-update:
 
     status = lxb_dom_attr_set_value(attr, value, value_len);
     if (status != LXB_STATUS_OK) {
@@ -399,18 +402,24 @@ lxb_dom_element_has_attribute(lxb_dom_element_t *element,
 lxb_status_t
 lxb_dom_element_attr_append(lxb_dom_element_t *element, lxb_dom_attr_t *attr)
 {
+    lxb_dom_attr_t *exist;
+
     if (attr->node.local_name == LXB_DOM_ATTR_ID) {
-        if (element->attr_id != NULL) {
-            lxb_dom_element_attr_remove(element, element->attr_id);
-            lxb_dom_attr_interface_destroy(element->attr_id);
+        exist = element->attr_id;
+
+        if (exist != NULL) {
+            lxb_dom_element_attr_remove(element, exist);
+            lxb_dom_attr_interface_destroy(exist);
         }
 
         element->attr_id = attr;
     }
     else if (attr->node.local_name == LXB_DOM_ATTR_CLASS) {
-        if (element->attr_class != NULL) {
-            lxb_dom_element_attr_remove(element, element->attr_class);
-            lxb_dom_attr_interface_destroy(element->attr_class);
+        exist = element->attr_class;
+
+        if (exist != NULL) {
+            lxb_dom_element_attr_remove(element, exist);
+            lxb_dom_attr_interface_destroy(exist);
         }
 
         element->attr_class = attr;

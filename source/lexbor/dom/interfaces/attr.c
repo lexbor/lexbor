@@ -132,7 +132,7 @@ lxb_dom_attr_set_name(lxb_dom_attr_t *attr, const lxb_char_t *name,
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
 
-    attr->node.local_name = (lxb_dom_attr_id_t) data;
+    attr->node.local_name = data->attr_id;
 
     if (to_lowercase == false) {
         data = lxb_dom_attr_qualified_name_append(doc->attrs, name, length);
