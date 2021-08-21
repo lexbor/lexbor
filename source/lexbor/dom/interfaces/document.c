@@ -430,10 +430,6 @@ lxb_dom_document_import_node(lxb_dom_document_t *doc, lxb_dom_node_t *node,
 {
     lxb_dom_node_t *new, *curr, *cnode, *root;
 
-    if (node->type == LXB_DOM_NODE_TYPE_COMMENT) {
-
-    }
-
     new = doc->clone_interface(doc, node);
     if (new == NULL) {
         return NULL;
