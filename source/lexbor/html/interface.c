@@ -92,7 +92,7 @@ lxb_html_interface_clone(lxb_dom_document_t *document,
             return lxb_dom_document_type_interface_clone(document, intrfc);
 
         default:
-            return NULL;
+            return lxb_dom_node_interface_clone(document, node, false);
     }
 }
 
