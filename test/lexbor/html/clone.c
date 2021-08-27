@@ -68,7 +68,7 @@ TEST_BEGIN(single_clone)
 
     test_eq(lxb_dom_collection_length(collection), 2);
 
-    /* Get cloned attribete. */
+    /* Get cloned attribute. */
 
     attr_cloned = lxb_dom_element_attr_by_name(lxb_dom_interface_element(clone),
                                                (lxb_char_t *) "x", 1);

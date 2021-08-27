@@ -219,7 +219,7 @@ lexbor_strtod_diyfp_strtod(const lxb_char_t *start, size_t length, int exp)
 
     /*
      * Check whether the double's significand changes when the error is added
-     * or substracted.
+     * or subtracted.
      */
 
     magnitude = LEXBOR_DIYFP_SIGNIFICAND_SIZE + value.exp;
