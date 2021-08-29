@@ -30,7 +30,7 @@ lxb_css_stylesheet_create(lexbor_mraw_t *mraw)
 //        mraw =
 //    }
 
-    return lexbor_mraw_calloc(mraw, sizeof(lxb_css_stylesheet_t));
+    return (lxb_css_stylesheet_t *) lexbor_mraw_calloc(mraw, sizeof(lxb_css_stylesheet_t));
 }
 
 
