@@ -211,7 +211,7 @@ lxb_html_tree_token_callback(lxb_html_tokenizer_t *tkz,
     return token;
 }
 
-/* TODO: not complite!!! */
+/* TODO: not complete!!! */
 lxb_status_t
 lxb_html_tree_stop_parsing(lxb_html_tree_t *tree)
 {

@@ -42,7 +42,7 @@ main(int argc, const char *argv[])
         FAILED("Failed to create collection");
     }
 
-    /* Get BODY elemenet (root for search) */
+    /* Get BODY element (root for search) */
     body = lxb_html_document_body_element(document);
     element = lxb_dom_interface_element(body);
 
@@ -54,7 +54,7 @@ main(int argc, const char *argv[])
         FAILED("Failed to find DIV element");
     }
 
-    /* Append new attrtitube */
+    /* Append new attribute */
     element = lxb_dom_collection_element(collection, 0);
 
     attr = lxb_dom_element_set_attribute(element, name, name_size,
@@ -119,7 +119,7 @@ main(int argc, const char *argv[])
     printf("Element after attribute \"%s\" change: ", name);
     serialize_node(lxb_dom_interface_node(element));
 
-    /* Remove new attrtitube by name */
+    /* Remove new attribute by name */
     lxb_dom_element_remove_attribute(element, name, name_size);
 
     /* Print Result */

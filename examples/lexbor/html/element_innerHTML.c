@@ -29,7 +29,7 @@ main(int argc, const char *argv[])
     PRINT("\nTree after parse:");
     serialize(lxb_dom_interface_node(document));
 
-    /* Get BODY elemenet */
+    /* Get BODY element */
     body = lxb_html_document_body_element(document);
 
     PRINT("\nHTML for innerHTML:");

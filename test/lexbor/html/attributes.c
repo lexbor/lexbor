@@ -43,7 +43,7 @@ TEST_BEGIN(attrs)
     collection = lxb_dom_collection_make(&document->dom_document, 16);
     test_ne(collection, NULL);
 
-    /* Get BODY elemenet (root for search) */
+    /* Get BODY element (root for search) */
     body = lxb_html_document_body_element(document);
     element = lxb_dom_interface_element(body);
 
@@ -54,7 +54,7 @@ TEST_BEGIN(attrs)
     test_eq(status, LXB_STATUS_OK);
     test_ne(lxb_dom_collection_length(collection), 0);
 
-    /* Append new attrtitube */
+    /* Append new attribute */
     element = lxb_dom_collection_element(collection, 0);
 
     i = 0;
@@ -83,7 +83,7 @@ TEST_BEGIN(attrs)
 
         test_eq(status, LXB_STATUS_OK);
 
-        /* Remove new attrtitube by name */
+        /* Remove new attribute by name */
         lxb_dom_element_remove_attribute(element, name, size);
     }
 
