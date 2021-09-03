@@ -397,29 +397,31 @@ lxb_html_serialize_text_cb(lxb_dom_text_t *text,
     lxb_dom_document_t *doc = node->owner_document;
     lexbor_str_t *data = &text->char_data.data;
 
-    switch (node->parent->local_name) {
-        case LXB_TAG_STYLE:
-        case LXB_TAG_SCRIPT:
-        case LXB_TAG_XMP:
-        case LXB_TAG_IFRAME:
-        case LXB_TAG_NOEMBED:
-        case LXB_TAG_NOFRAMES:
-        case LXB_TAG_PLAINTEXT:
-            lxb_html_serialize_send(data->data, data->length, ctx);
-
-            return LXB_STATUS_OK;
-
-        case LXB_TAG_NOSCRIPT:
-            if (doc->scripting) {
+    if (node->parent != NULL) {
+        switch (node->parent->local_name) {
+            case LXB_TAG_STYLE:
+            case LXB_TAG_SCRIPT:
+            case LXB_TAG_XMP:
+            case LXB_TAG_IFRAME:
+            case LXB_TAG_NOEMBED:
+            case LXB_TAG_NOFRAMES:
+            case LXB_TAG_PLAINTEXT:
                 lxb_html_serialize_send(data->data, data->length, ctx);
 
                 return LXB_STATUS_OK;
-            }
 
-            break;
+            case LXB_TAG_NOSCRIPT:
+                if (doc->scripting) {
+                    lxb_html_serialize_send(data->data, data->length, ctx);
 
-        default:
-            break;
+                    return LXB_STATUS_OK;
+                }
+
+                break;
+
+            default:
+                break;
+        }
     }
 
     return lxb_html_serialize_send_escaping_string(data->data, data->length,
@@ -1137,34 +1139,37 @@ lxb_html_serialize_pretty_text_cb(lxb_dom_text_t *text,
         return LXB_STATUS_OK;
     }
 
-    switch (node->parent->local_name) {
-        case LXB_TAG_STYLE:
-        case LXB_TAG_SCRIPT:
-        case LXB_TAG_XMP:
-        case LXB_TAG_IFRAME:
-        case LXB_TAG_NOEMBED:
-        case LXB_TAG_NOFRAMES:
-        case LXB_TAG_PLAINTEXT:
-            status = lxb_html_serialize_pretty_send_string(data->data,
-                                                           data->length, indent,
-                                                           with_indent,
-                                                           cb, ctx);
-            goto end;
-
-        case LXB_TAG_NOSCRIPT:
-            if (doc->scripting) {
+    if (node->parent != NULL) {
+        switch (node->parent->local_name) {
+            case LXB_TAG_STYLE:
+            case LXB_TAG_SCRIPT:
+            case LXB_TAG_XMP:
+            case LXB_TAG_IFRAME:
+            case LXB_TAG_NOEMBED:
+            case LXB_TAG_NOFRAMES:
+            case LXB_TAG_PLAINTEXT:
                 status = lxb_html_serialize_pretty_send_string(data->data,
                                                                data->length,
                                                                indent,
                                                                with_indent,
                                                                cb, ctx);
                 goto end;
-            }
 
-            break;
+            case LXB_TAG_NOSCRIPT:
+                if (doc->scripting) {
+                    status = lxb_html_serialize_pretty_send_string(data->data,
+                                                                   data->length,
+                                                                   indent,
+                                                                   with_indent,
+                                                                   cb, ctx);
+                    goto end;
+                }
 
-        default:
-            break;
+                break;
+
+            default:
+                break;
+        }
     }
 
     if (opt & LXB_HTML_SERIALIZE_OPT_RAW) {
