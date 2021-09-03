@@ -347,7 +347,7 @@ lxb_html_document_title_raw(lxb_html_document_t *document, size_t *len)
 static lexbor_action_t
 lxb_html_document_title_walker(lxb_dom_node_t *node, void *ctx)
 {
-    if (node->local_name == LXB_TAG_TITLE) {
+    if (node->local_name == LXB_TAG_TITLE && node->ns == LXB_NS_HTML) {
         *((void **) ctx) = node;
 
         return LEXBOR_ACTION_STOP;
