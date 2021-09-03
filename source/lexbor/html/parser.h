@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Alexander Borisov
+ * Copyright (C) 2018-2021 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -128,6 +128,19 @@ lxb_html_parser_state(lxb_html_parser_t *parser)
     return parser->state;
 }
 
+lxb_inline bool
+lxb_html_parser_scripting(lxb_html_parser_t *parser)
+{
+    return lxb_html_tree_scripting(parser->tree);
+}
+
+lxb_inline void
+lxb_html_parser_scripting_set(lxb_html_parser_t *parser, bool scripting)
+{
+    lxb_html_tree_scripting_set(parser->tree, scripting);
+}
+
+
 /*
  * No inline functions for ABI.
  */
@@ -142,6 +155,12 @@ lxb_html_parser_status_noi(lxb_html_parser_t *parser);
 
 LXB_API lxb_status_t
 lxb_html_parser_state_noi(lxb_html_parser_t *parser);
+
+LXB_API bool
+lxb_html_parser_scripting_noi(lxb_html_parser_t *parser);
+
+LXB_API void
+lxb_html_parser_scripting_set_noi(lxb_html_parser_t *parser, bool scripting);
 
 
 #ifdef __cplusplus

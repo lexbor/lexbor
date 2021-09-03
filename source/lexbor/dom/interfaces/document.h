@@ -177,6 +177,18 @@ lxb_dom_document_element(lxb_dom_document_t *document)
     return document->element;
 }
 
+lxb_inline bool
+lxb_dom_document_scripting(lxb_dom_document_t *document)
+{
+    return document->scripting;
+}
+
+lxb_inline void
+lxb_dom_document_scripting_set(lxb_dom_document_t *document, bool scripting)
+{
+    document->scripting = scripting;
+}
+
 /*
  * No inline functions for ABI.
  */
@@ -205,6 +217,12 @@ lxb_dom_document_destroy_text_noi(lxb_dom_document_t *document,
 lxb_dom_element_t *
 lxb_dom_document_element_noi(lxb_dom_document_t *document);
 
+LXB_API bool
+lxb_dom_document_scripting_noi(lxb_dom_document_t *document);
+
+LXB_API void
+lxb_dom_document_scripting_set_noi(lxb_dom_document_t *document,
+                                   bool scripting);
 
 #ifdef __cplusplus
 } /* extern "C" */

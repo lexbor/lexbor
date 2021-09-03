@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Alexander Borisov
+ * Copyright (C) 2018-2021 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -454,4 +454,16 @@ lxb_status_t
 lxb_html_parser_state_noi(lxb_html_parser_t *parser)
 {
     return lxb_html_parser_state(parser);
+}
+
+bool
+lxb_html_parser_scripting_noi(lxb_html_parser_t *parser)
+{
+    return lxb_html_parser_scripting(parser);
+}
+
+void
+lxb_html_parser_scripting_set_noi(lxb_html_parser_t *parser, bool scripting)
+{
+    lxb_html_parser_scripting_set(parser, scripting);
 }

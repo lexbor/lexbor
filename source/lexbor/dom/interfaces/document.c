@@ -521,3 +521,16 @@ lxb_dom_document_element_noi(lxb_dom_document_t *document)
 {
     return lxb_dom_document_element(document);
 }
+
+bool
+lxb_dom_document_scripting_noi(lxb_dom_document_t *document)
+{
+    return lxb_dom_document_scripting(document);
+}
+
+void
+lxb_dom_document_scripting_set_noi(lxb_dom_document_t *document,
+                                   bool scripting)
+{
+    lxb_dom_document_scripting_set(document, scripting);
+}
