@@ -24,7 +24,7 @@ extern "C" {
 
 
 #define lexbor_diyfp(_s, _e)           (lexbor_diyfp_t)                        \
-                                       { .significand = (_s), .exp = (_e) }
+                                       { .significand = (_s), .exp = (int) (_e) }
 #define lexbor_uint64_hl(h, l)   (((uint64_t) (h) << 32) + (l))
 
 
