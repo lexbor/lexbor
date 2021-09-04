@@ -619,7 +619,7 @@ lxb_utils_warc_parse_block(lxb_utils_warc_t *warc, const lxb_char_t **data,
 {
     lxb_status_t status = LXB_STATUS_OK;
 
-    if ((end - *data) >= (warc->content_length - warc->content_read)) {
+    if ((size_t) (end - *data) >= (warc->content_length - warc->content_read)) {
         end = *data + (warc->content_length - warc->content_read);
 
         if (warc->skip == false && warc->content_cb != NULL) {

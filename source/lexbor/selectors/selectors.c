@@ -944,7 +944,7 @@ lxb_selectors_match_class(const lexbor_str_t *target, const  lexbor_str_t *src,
                 }
             }
 
-            if ((end - data) < src->length) {
+            if ((size_t) (end - data) < src->length) {
                 return false;
             }
 

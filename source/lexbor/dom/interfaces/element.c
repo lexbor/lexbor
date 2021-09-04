@@ -885,7 +885,7 @@ lxb_dom_elements_by_class_name_cb(lxb_dom_node_t *node, void *ctx)
                 }
             }
 
-            if ((end - data) < cb_ctx->value_length) {
+            if ((size_t) (end - data) < cb_ctx->value_length) {
                 return LEXBOR_ACTION_OK;
             }
 

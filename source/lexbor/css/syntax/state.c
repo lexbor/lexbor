@@ -115,7 +115,7 @@ lxb_inline lxb_status_t
 lxb_css_syntax_string_append(lxb_css_syntax_tokenizer_t *tkz,
                              const lxb_char_t *data, size_t length)
 {
-    if ((tkz->end - tkz->pos) <= length) {
+    if ((size_t) (tkz->end - tkz->pos) <= length) {
         if (lxb_css_syntax_string_realloc(tkz, length + 1024) != LXB_STATUS_OK) {
             return tkz->status;
         }
