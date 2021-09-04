@@ -76,6 +76,13 @@ set(LEXBOR_VERSION_FILEPATH "${CMAKE_CURRENT_SOURCE_DIR}/version" CACHE STRING "
 set(LEXBOR_INSTALL_DLL_EXE_DIR "bin")
 
 ################
+## Policy
+#########################
+IF(CMAKE_VERSION VERSION_GREATER "3.1" OR CMAKE_VERSION VERSION_EQUAL "3.1")
+    cmake_policy(SET CMP0054 NEW)
+ENDIF()
+
+################
 ## RPATH
 #########################
 IF(APPLE)
@@ -111,13 +118,6 @@ IF(CMAKE_VERSION VERSION_LESS "3.0")
 ELSE()
     cmake_policy(SET CMP0048 NEW)
     PROJECT("${PROJECT_NAME}" VERSION "${LEXBOR_VERSION_STRING}")
-ENDIF()
-
-################
-## Policy
-#########################
-IF(CMAKE_VERSION VERSION_GREATER "3.1" OR CMAKE_VERSION VERSION_EQUAL "3.1")
-    cmake_policy(SET CMP0054 NEW)
 ENDIF()
 
 ################
