@@ -42,7 +42,7 @@ lexbor_conv_double_to_long(double number)
         return -LONG_MAX;
     }
 
-    return number;
+    return (long) number;
 }
 
 
