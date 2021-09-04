@@ -114,6 +114,13 @@ ELSE()
 ENDIF()
 
 ################
+## Policy
+#########################
+IF(CMAKE_VERSION VERSION_GREATER "3.1" OR CMAKE_VERSION VERSION_EQUAL "3.1")
+    cmake_policy(SET CMP0054 NEW)
+ENDIF()
+
+################
 ## Features
 #########################
 include("${CMAKE_CURRENT_SOURCE_DIR}/feature.cmake")
