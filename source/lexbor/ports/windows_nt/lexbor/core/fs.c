@@ -207,7 +207,7 @@ lexbor_fs_file_easy_read(const lxb_char_t *full_path, size_t *len)
         goto error_close;
     }
 
-    if (ReadFile(fh, data, size.QuadPart, &nread, NULL) != TRUE) {
+    if (ReadFile(fh, data, (DWORD) size.QuadPart, &nread, NULL) != TRUE) {
         goto error_close;
     }
 

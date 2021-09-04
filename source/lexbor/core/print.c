@@ -10,7 +10,7 @@
 
 #define lexbor_sprintf_append(dst, end, src, length)                          \
     do {                                                                      \
-        if ((end) - (dst) < (length)) {                                       \
+        if ((size_t) ((end) - (dst)) < (length)) {                            \
             return (end) - (dst);                                             \
         }                                                                     \
                                                                               \
