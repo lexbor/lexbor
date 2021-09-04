@@ -229,8 +229,13 @@ name(TEST_OBJ_ARG)                                                             \
 #define test_eq_long(have, need) test_eq_type(have, need, "%l", !=)
 #define test_eq_u_long(have, need) test_eq_type(have, need, "%lu", !=)
 
-#define test_eq_size(have, need) test_eq_type(have, need, LEXBOR_FORMAT_Z, !=)
-#define test_ne_size(have, need) test_eq_type(have, need, LEXBOR_FORMAT_Z, ==)
+#define test_eq_size(have, need) test_eq_type(((size_t) have),                \
+                                              ((size_t) need),                \
+                                              LEXBOR_FORMAT_Z, !=)
+
+#define test_ne_size(have, need) test_eq_type(((size_t) have),                \
+                                              ((size_t) need),                \
+                                              LEXBOR_FORMAT_Z, ==)
 
 #define test_eq_double(have, need) test_eq_type(have, need, "%f", !=)
 #define test_eq_float(have, need) test_eq_double((double) have, (double) need)
