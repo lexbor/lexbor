@@ -78,13 +78,13 @@ set(LEXBOR_INSTALL_DLL_EXE_DIR "bin")
 ################
 ## RPATH
 #########################
-include(GNUInstallDirs)
-
 IF(APPLE)
     set(CMAKE_MACOSX_RPATH ON)
 
     set(CMAKE_INSTALL_NAME_DIR ${CMAKE_INSTALL_FULL_LIBDIR})
-ENDIF(APPLE)
+ELSEIF(UNIX)
+    include(GNUInstallDirs)
+ENDIF()
 
 ################
 ## lib param
