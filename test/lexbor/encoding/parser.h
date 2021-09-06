@@ -163,7 +163,7 @@ test_encoding_process_file(const char *filename,
 
     *line = 0;
 
-    FILE *fc = fopen(filename, "r");
+    FILE *fc = fopen(filename, "rb");
     if (fc == NULL) {
         printf("Failed to opening file: %s\n", filename);
         exit(EXIT_FAILURE);
