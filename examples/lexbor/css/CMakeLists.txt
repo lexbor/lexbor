@@ -14,7 +14,7 @@ set(syntax_print_raw_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/css/lexbor.css")
 ################
 ## Create executable
 #########################
-EXECUTABLE_LIST("" "${EXAMPLES_LEXBOR_CSS_SOURCES}" ${LEXBOR_LIB_NAME})
+EXECUTABLE_LIST("" "${EXAMPLES_LEXBOR_CSS_SOURCES}" ${EXAMPLES_DEPS_LIB_NAMES})
 
 IF(LEXBOR_BUILD_TESTS)
     list(REMOVE_ITEM EXAMPLES_LEXBOR_CSS_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/syntax/parse_chunks_stdin.c")

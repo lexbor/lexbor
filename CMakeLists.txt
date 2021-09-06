@@ -169,10 +169,16 @@ ENDFOREACH()
 ## First, need to add target for shared and static library
 IF(LEXBOR_BUILD_SHARED)
     add_library(${LEXBOR_LIB_NAME} SHARED ${LEXBOR_SOURCES})
+    target_compile_definitions(${LEXBOR_LIB_NAME} PRIVATE "LEXBOR_BUILDING")
 ENDIF()
 
 IF(LEXBOR_BUILD_STATIC)
     add_library(${LEXBOR_LIB_NAME_STATIC} STATIC ${LEXBOR_SOURCES})
+    set_target_properties(${LEXBOR_LIB_NAME_STATIC} PROPERTIES OUTPUT_NAME ${LEXBOR_LIB_NAME_STATIC})
+    set_target_properties(${LEXBOR_LIB_NAME_STATIC} PROPERTIES
+        COMPILE_PDB_NAME "${LEXBOR_LIB_NAME_STATIC}"
+        COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
+    target_compile_definitions(${LEXBOR_LIB_NAME_STATIC} PUBLIC "LEXBOR_STATIC")
 ENDIF()
 
 ## Load configurations from all modules. Print modules name and version.
@@ -217,11 +223,17 @@ IF(LEXBOR_BUILD_SEPARATELY)
 
         IF(LEXBOR_BUILD_SHARED)
             add_library(${libname} SHARED ${sources})
+            target_compile_definitions(${libname} PRIVATE "LEXBOR_BUILDING")
             ADD_MODULE_LIBRARY(SHARED ${libname} ${version_string} ${major})
         ENDIF()
 
         IF(LEXBOR_BUILD_STATIC)
             add_library("${libname}_static" STATIC ${sources})
+            set_target_properties("${libname}_static" PROPERTIES OUTPUT_NAME "${libname}_static")
+            set_target_properties("${libname}_static" PROPERTIES
+                COMPILE_PDB_NAME "${libname}_static"
+                COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
+            target_compile_definitions("${libname}_static" PRIVATE "LEXBOR_STATIC")
             ADD_MODULE_LIBRARY(STATIC "${libname}_static" ${version_string} ${major})
         ENDIF()
 

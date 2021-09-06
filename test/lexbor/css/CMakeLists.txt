@@ -19,5 +19,5 @@ set(syntax_style_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/css/lexbor.css")
 ################
 ## Create tests
 #########################
-EXECUTABLE_LIST("lexbor_css_" "${TEST_LEXBOR_CSS_SOURCES}" ${TEST_UNIT_LIB_NAME} ${LEXBOR_LIB_NAME})
+EXECUTABLE_LIST("lexbor_css_" "${TEST_LEXBOR_CSS_SOURCES}" ${TEST_DEPS_LIB_NAMES})
 APPEND_TESTS("lexbor_css_" "${TEST_LEXBOR_CSS_SOURCES}")

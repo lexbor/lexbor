@@ -305,25 +305,14 @@ MACRO(SET_MODULE_LIB_DEPENDENCIES libname deps postfix)
 ENDMACRO()
 
 MACRO(ADD_MODULE_LIBRARY type libname version_string major)
-    set(dflags "")
-
-    IF(${type} STREQUAL "STATIC")
-        set(dflags "-DLEXBOR_STATIC")
-    ELSE()
-        set(dflags "-DLEXBOR_SHARED")
-    ENDIF()
-
     target_link_libraries(${libname} ${CMAKE_THREAD_LIBS_INIT})
     set_target_properties(${libname} PROPERTIES OUTPUT_NAME ${libname})
     set_target_properties(${libname} PROPERTIES VERSION ${version_string} SOVERSION ${major})
-    set_property(TARGET ${libname} APPEND PROPERTY COMPILE_FLAGS "${dflags}")
 
     install(TARGETS ${libname}
             RUNTIME DESTINATION "${LEXBOR_INSTALL_DLL_EXE_DIR}"
             ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
             LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
-
-    unset(dflags)
 ENDMACRO()
 
 MACRO(INSTALL_MODULE_HEADERS header_path pname module)
@@ -371,6 +360,22 @@ MACRO(EXECUTABLE_LIST name_prefix sources)
         set_target_properties("${exe_name}" PROPERTIES
                               RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${build_dir}"
                               OUTPUT_NAME "${barename}")
+
+        IF(WIN32 AND LEXBOR_BUILD_SHARED)
+            add_custom_command(TARGET "${exe_name}"
+                POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${LEXBOR_LIB_NAME}> $<TARGET_FILE_DIR:${exe_name}>
+                COMMENT "Copy dll file to ${CMAKE_CURRENT_BINARY_DIR} directory" VERBATIM
+            )
+
+            IF(TEST_UNIT_LIB_NAME)
+                add_custom_command(TARGET "${exe_name}"
+                    POST_BUILD
+                    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${TEST_UNIT_LIB_NAME}> $<TARGET_FILE_DIR:${exe_name}>
+                    COMMENT "Copy dll file to ${CMAKE_CURRENT_BINARY_DIR} directory" VERBATIM
+                )
+            ENDIF()
+        ENDIF()
 
         add_dependencies("${exe_name}" ${ARGN})
         target_link_libraries("${exe_name}" ${ARGN})

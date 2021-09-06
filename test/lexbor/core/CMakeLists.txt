@@ -13,5 +13,5 @@ file(GLOB_RECURSE TEST_LEXBOR_CORE_SOURCES "*.c")
 ################
 ## Create tests
 #########################
-EXECUTABLE_LIST("lexbor_core_" "${TEST_LEXBOR_CORE_SOURCES}" ${TEST_UNIT_LIB_NAME} ${LEXBOR_LIB_NAME})
+EXECUTABLE_LIST("lexbor_core_" "${TEST_LEXBOR_CORE_SOURCES}" ${TEST_DEPS_LIB_NAMES})
 APPEND_TESTS("lexbor_core_" "${TEST_LEXBOR_CORE_SOURCES}")

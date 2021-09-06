@@ -13,4 +13,4 @@ file(GLOB_RECURSE FUZZ_LEXBOR_ENCODING_SOURCES "*.c")
 ################
 ## Create
 #########################
-EXECUTABLE_LIST("fuzz_lexbor_encoding_" "${FUZZ_LEXBOR_ENCODING_SOURCES}" ${TEST_UNIT_LIB_NAME} ${LEXBOR_LIB_NAME})
+EXECUTABLE_LIST("fuzz_lexbor_encoding_" "${FUZZ_LEXBOR_ENCODING_SOURCES}" ${TEST_LEXBOR_LIB_NAME})
