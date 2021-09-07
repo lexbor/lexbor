@@ -23,8 +23,12 @@ extern "C" {
 #include <math.h>
 
 
+#ifdef __cplusplus
+#define lexbor_diyfp(_s, _e)           { .significand = (_s), .exp = (int) (_e) }
+#else
 #define lexbor_diyfp(_s, _e)           (lexbor_diyfp_t)                        \
                                        { .significand = (_s), .exp = (int) (_e) }
+#endif
 #define lexbor_uint64_hl(h, l)   (((uint64_t) (h) << 32) + (l))
 
 
