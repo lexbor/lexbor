@@ -847,6 +847,7 @@ lxb_dom_elements_by_class_name_cb(lxb_dom_node_t *node, void *ctx)
     lxb_dom_element_t *el = lxb_dom_interface_element(node);
 
     if (el->attr_class == NULL
+        || el->attr_class->value == NULL
         || el->attr_class->value->length < cb_ctx->value_length)
     {
         return LEXBOR_ACTION_OK;
@@ -1078,7 +1079,7 @@ lxb_dom_elements_by_attr_cb(lxb_dom_node_t *node, void *ctx)
         return LEXBOR_ACTION_OK;
     }
 
-    if ((cb_ctx->value_length == 0 && attr->value->length == 0)
+    if ((cb_ctx->value_length == 0 && (attr->value == NULL || attr->value->length == 0))
         || cb_ctx->cmp_func(cb_ctx, attr))
     {
         cb_ctx->status = lxb_dom_collection_append(cb_ctx->col, node);
@@ -1095,63 +1096,63 @@ static bool
 lxb_dom_elements_by_attr_cmp_full(lxb_dom_element_cb_ctx_t *ctx,
                                   lxb_dom_attr_t *attr)
 {
-    if (ctx->value_length == attr->value->length
+    if (attr->value != NULL && ctx->value_length == attr->value->length
         && lexbor_str_data_ncmp(attr->value->data, ctx->value,
                                 ctx->value_length))
     {
         return true;
     }
 
-    return false;
+    return attr->value == NULL && ctx->value_length == 0;
 }
 
 static bool
 lxb_dom_elements_by_attr_cmp_full_case(lxb_dom_element_cb_ctx_t *ctx,
                                        lxb_dom_attr_t *attr)
 {
-    if (ctx->value_length == attr->value->length
+    if (attr->value != NULL && ctx->value_length == attr->value->length
         && lexbor_str_data_ncasecmp(attr->value->data, ctx->value,
                                     ctx->value_length))
     {
         return true;
     }
 
-    return false;
+    return attr->value == NULL && ctx->value_length == 0;
 }
 
 static bool
 lxb_dom_elements_by_attr_cmp_begin(lxb_dom_element_cb_ctx_t *ctx,
                                    lxb_dom_attr_t *attr)
 {
-    if (ctx->value_length <= attr->value->length
+    if (attr->value != NULL && ctx->value_length <= attr->value->length
         && lexbor_str_data_ncmp(attr->value->data, ctx->value,
                                 ctx->value_length))
     {
         return true;
     }
 
-    return false;
+    return attr->value == NULL && ctx->value_length == 0;
 }
 
 static bool
 lxb_dom_elements_by_attr_cmp_begin_case(lxb_dom_element_cb_ctx_t *ctx,
                                         lxb_dom_attr_t *attr)
 {
-    if (ctx->value_length <= attr->value->length
+    if (attr->value != NULL && ctx->value_length <= attr->value->length
         && lexbor_str_data_ncasecmp(attr->value->data,
                                     ctx->value, ctx->value_length))
     {
         return true;
     }
 
-    return false;
+    return attr->value == NULL && ctx->value_length == 0;
 }
 
 static bool
 lxb_dom_elements_by_attr_cmp_end(lxb_dom_element_cb_ctx_t *ctx,
                                  lxb_dom_attr_t *attr)
 {
-    if (ctx->value_length <= attr->value->length) {
+    if (attr->value != NULL && ctx->value_length <= attr->value->length) {
         size_t dif = attr->value->length - ctx->value_length;
 
         if (lexbor_str_data_ncmp_end(&attr->value->data[dif],
@@ -1161,14 +1162,14 @@ lxb_dom_elements_by_attr_cmp_end(lxb_dom_element_cb_ctx_t *ctx,
         }
     }
 
-    return false;
+    return attr->value == NULL && ctx->value_length == 0;
 }
 
 static bool
 lxb_dom_elements_by_attr_cmp_end_case(lxb_dom_element_cb_ctx_t *ctx,
                                       lxb_dom_attr_t *attr)
 {
-    if (ctx->value_length <= attr->value->length) {
+    if (attr->value != NULL && ctx->value_length <= attr->value->length) {
         size_t dif = attr->value->length - ctx->value_length;
 
         if (lexbor_str_data_ncasecmp_end(&attr->value->data[dif],
@@ -1178,35 +1179,35 @@ lxb_dom_elements_by_attr_cmp_end_case(lxb_dom_element_cb_ctx_t *ctx,
         }
     }
 
-    return false;
+    return attr->value == NULL && ctx->value_length == 0;
 }
 
 static bool
 lxb_dom_elements_by_attr_cmp_contain(lxb_dom_element_cb_ctx_t *ctx,
                                      lxb_dom_attr_t *attr)
 {
-    if (ctx->value_length <= attr->value->length
+    if (attr->value != NULL && ctx->value_length <= attr->value->length
         && lexbor_str_data_ncmp_contain(attr->value->data, attr->value->length,
                                         ctx->value, ctx->value_length))
     {
         return true;
     }
 
-    return false;
+    return attr->value == NULL && ctx->value_length == 0;
 }
 
 static bool
 lxb_dom_elements_by_attr_cmp_contain_case(lxb_dom_element_cb_ctx_t *ctx,
                                           lxb_dom_attr_t *attr)
 {
-    if (ctx->value_length <= attr->value->length
+    if (attr->value != NULL && ctx->value_length <= attr->value->length
         && lexbor_str_data_ncasecmp_contain(attr->value->data, attr->value->length,
                                             ctx->value, ctx->value_length))
     {
         return true;
     }
 
-    return false;
+    return attr->value == NULL && ctx->value_length == 0;
 }
 
 const lxb_char_t *

@@ -43,7 +43,8 @@ static const lxb_char_t html[] =
     "    <span test span=11></span>"
     "    <span test='' span=12></span>"
     "</p>"
-    "</div>";
+    "</div>"
+    "<div id class foo></div>";
 
 
 static const lxb_test_entry_t selectors_list[] =
@@ -202,7 +203,8 @@ static const lxb_test_entry_t selectors_list[] =
      "<a a=\"8\">\n"
      "<span span=\"10\">\n"
      "<span test span=\"11\">\n"
-     "<span test=\"\" span=\"12\">"},
+     "<span test=\"\" span=\"12\">\n"
+     "<div id class foo>"},
 
     {"div span",
      "<span id=\"s1\" span=\"1\">\n"
@@ -365,6 +367,40 @@ static const lxb_test_entry_t selectors_list[] =
      "<p p=\"4\">\n"
      "<p p=\"5\">\n"
      "<p p=\"7\" lang=\"ru\">"},
+
+    {".non-existent-class",
+     ""},
+
+    {"[class]",
+     "<div div=\"First\" class=\"Strong Massive\">\n"
+     "<div div=\"Second\" class=\"Massive Stupid\">\n"
+     "<div id class foo>"},
+
+    {"[class = \"\"]",
+     "<div id class foo>"},
+
+    {"#non-existent-id",
+     ""},
+
+    {"[id]",
+     "<span id=\"s1\" span=\"1\">\n"
+     "<span id=\"s2\" span=\"2\">\n"
+     "<span id=\"s3\" span=\"3\">\n"
+     "<span id=\"s4\" span=\"4\">\n"
+     "<span id=\"s5\" span=\"5\">\n"
+     "<div id class foo>"},
+
+    {"[id = \"\"]",
+     "<div id class foo>"},
+
+    {"[non-existent-attr]",
+     ""},
+
+    {"div[foo]",
+     "<div id class foo>"},
+
+    {"[foo = \"a\"]",
+     ""}
 };
 
 
