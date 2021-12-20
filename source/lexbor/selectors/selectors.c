@@ -743,7 +743,7 @@ lxb_selectors_match(lxb_selectors_t *selectors, lxb_selectors_entry_t *entry,
         case LXB_CSS_SELECTOR_TYPE_ID:
             element = lxb_dom_interface_element(node);
 
-            if (element->attr_id == NULL) {
+            if (element->attr_id == NULL || element->attr_id->value == NULL) {
                 return false;
             }
 
@@ -761,7 +761,7 @@ lxb_selectors_match(lxb_selectors_t *selectors, lxb_selectors_entry_t *entry,
         case LXB_CSS_SELECTOR_TYPE_CLASS:
             element = lxb_dom_interface_element(node);
 
-            if (element->attr_class == NULL) {
+            if (element->attr_class == NULL || element->attr_class->value == NULL) {
                 return false;
             }
 
