@@ -300,9 +300,27 @@ lxb_dom_node_name(lxb_dom_node_t *node, size_t *len)
     return NULL;
 }
 
+static void
+set_owner_document(lxb_dom_node_t *target, lxb_dom_node_t *node)
+{
+    lxb_dom_document_t *x = node->owner_document;
+    while (lxb_dom_interface_node(x)->owner_document) {
+        if (x == target->owner_document)
+            break;
+        if (x == lxb_dom_interface_node(x)->owner_document) {
+            assert(x == target->owner_document);
+        }
+        x = lxb_dom_interface_node(x)->owner_document;
+    }
+
+    lxb_dom_interface_node(node)->owner_document = x;
+}
+
 void
 lxb_dom_node_insert_child(lxb_dom_node_t *to, lxb_dom_node_t *node)
 {
+    set_owner_document(to, node);
+
     if (to->last_child != NULL) {
         to->last_child->next = node;
     }
@@ -320,6 +338,8 @@ lxb_dom_node_insert_child(lxb_dom_node_t *to, lxb_dom_node_t *node)
 void
 lxb_dom_node_insert_before(lxb_dom_node_t *to, lxb_dom_node_t *node)
 {
+    set_owner_document(to, node);
+
     if (to->prev != NULL) {
         to->prev->next = node;
     }
@@ -339,6 +359,8 @@ lxb_dom_node_insert_before(lxb_dom_node_t *to, lxb_dom_node_t *node)
 void
 lxb_dom_node_insert_after(lxb_dom_node_t *to, lxb_dom_node_t *node)
 {
+    set_owner_document(to, node);
+
     if (to->next != NULL) {
         to->next->prev = node;
     }
@@ -383,6 +405,8 @@ lxb_dom_node_remove(lxb_dom_node_t *node)
 lxb_status_t
 lxb_dom_node_replace_all(lxb_dom_node_t *parent, lxb_dom_node_t *node)
 {
+    set_owner_document(parent, node);
+
     while (parent->first_child != NULL) {
         lxb_dom_node_destroy_deep(parent->first_child);
     }

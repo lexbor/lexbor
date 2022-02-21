@@ -17,7 +17,8 @@ main(int argc, const char *argv[])
     static const lxb_char_t html[] = "<div><span>blah-blah-blah</div>";
     size_t html_len = sizeof(html) - 1;
 
-    static const lxb_char_t inner[] = "<ul><li>1<li>2<li>3</ul>";
+    /* try to insert text content */
+    static const lxb_char_t inner[] = "<!-- hello world -->";
     size_t inner_len = sizeof(inner) - 1;
 
     /* Parse */
@@ -40,6 +41,12 @@ main(int argc, const char *argv[])
     if (element == NULL) {
         FAILED("Failed to parse innerHTML");
     }
+
+    lxb_dom_node_t *child = lxb_dom_interface_node(element)->first_child;
+    assert(child);
+    // assert(child->type == LXB_DOM_NODE_TYPE_TEXT);
+    /* oops, assertion failed */
+    assert(lxb_dom_interface_node(element)->owner_document == child->owner_document);
 
     /* Print Result */
     PRINT("\nTree after innerHTML set:");
