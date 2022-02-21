@@ -42,7 +42,7 @@ lxb_dom_node_interface_create(lxb_dom_document_t *document)
         return NULL;
     }
 
-    element->owner_document = document;
+    element->owner_document = lxb_dom_document_owner(document);
     element->type = LXB_DOM_NODE_TYPE_UNDEF;
 
     return element;

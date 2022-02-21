@@ -33,7 +33,7 @@ lxb_dom_attr_interface_create(lxb_dom_document_t *document)
 
     lxb_dom_node_t *node = lxb_dom_interface_node(attr);
 
-    node->owner_document = document;
+    node->owner_document = lxb_dom_document_owner(document);
     node->type = LXB_DOM_NODE_TYPE_ATTRIBUTE;
 
     return attr;

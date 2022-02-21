@@ -189,6 +189,18 @@ lxb_dom_document_scripting_set(lxb_dom_document_t *document, bool scripting)
     document->scripting = scripting;
 }
 
+lxb_inline lxb_dom_document_t *
+lxb_dom_document_owner(lxb_dom_document_t *document)
+{
+    return lxb_dom_interface_node(document)->owner_document;
+}
+
+lxb_inline bool
+lxb_dom_document_is_original(lxb_dom_document_t *document)
+{
+    return lxb_dom_interface_node(document)->owner_document == document;
+}
+
 /*
  * No inline functions for ABI.
  */
