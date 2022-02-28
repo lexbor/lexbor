@@ -1872,9 +1872,10 @@ done:
 
     if (tail_size != 0) {
         if ((size + tail_size) + start > tkz->end) {
-            if(lxb_html_tokenizer_temp_realloc(tkz, size)) {
+            if (lxb_html_tokenizer_temp_realloc(tkz, size) != LXB_STATUS_OK) {
                 return end;
             }
+            start = &tkz->start[tkz->entity_start];
         }
 
         memmove(start + tkz->entity_match->value_len,
