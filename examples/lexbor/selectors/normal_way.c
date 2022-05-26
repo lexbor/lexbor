@@ -18,7 +18,7 @@ callback(const lxb_char_t *data, size_t len, void *ctx)
 }
 
 lxb_status_t
-find_callback(lxb_dom_node_t *node, lxb_css_selector_specificity_t *spec,
+find_callback(lxb_dom_node_t *node, lxb_css_selector_specificity_t spec,
               void *ctx)
 {
     unsigned *count = ctx;
@@ -42,6 +42,7 @@ main(int argc, const char *argv[])
     lxb_css_selectors_t *css_selectors;
     lxb_html_document_t *document;
     lxb_css_parser_t *parser;
+    lxb_css_memory_t *memory;
     lxb_css_selector_list_t *list_one;
     lxb_css_selector_list_t *list_two;
 
@@ -65,18 +66,28 @@ main(int argc, const char *argv[])
 
     body = lxb_dom_interface_node(lxb_html_document_body_element(document));
 
-    /* Create CSS parser. */
+    /* Memory for all parsed structures. */
 
-    parser = lxb_css_parser_create();
-    status = lxb_css_parser_init(parser, NULL, NULL);
+    memory = lxb_css_memory_create();
+    status = lxb_css_memory_init(memory, 128);
     if (status != LXB_STATUS_OK) {
         return EXIT_FAILURE;
     }
 
+    /* Create CSS parser. */
+
+    parser = lxb_css_parser_create();
+    status = lxb_css_parser_init(parser, NULL);
+    if (status != LXB_STATUS_OK) {
+        return EXIT_FAILURE;
+    }
+
+    lxb_css_parser_memory_set(parser, memory);
+
     /* Create CSS Selector parser. */
 
     css_selectors = lxb_css_selectors_create();
-    status = lxb_css_selectors_init(css_selectors, 32);
+    status = lxb_css_selectors_init(css_selectors);
     if (status != LXB_STATUS_OK) {
         return EXIT_FAILURE;
     }
@@ -142,18 +153,19 @@ main(int argc, const char *argv[])
         return EXIT_FAILURE;
     }
 
-    /* Destroy Selectors object. */
+    /* Destroy Objects. */
+
     (void) lxb_selectors_destroy(selectors, true);
-
-    /* Destroy resources for CSS Parser. */
     (void) lxb_css_parser_destroy(parser, true);
+    (void) lxb_css_memory_destroy(memory, true);
 
-    /* Destroy CSS Selectors List memory. */
-    (void) lxb_css_selectors_destroy(css_selectors, true, true);
-    /* or use */
-    /* lxb_css_selector_list_destroy_memory(list_one); */
+    /*
+     * or use lxb_css_memory_destroy(parser->memory, true);
+     * or use lxb_css_selector_list_destroy_memory(list_one);
+     * for destroy all allocation memory.
+     */
 
-    /* Destroy HTML Document. */
+    (void) lxb_css_selectors_destroy(css_selectors, true);
     (void) lxb_html_document_destroy(document);
 
     return EXIT_SUCCESS;

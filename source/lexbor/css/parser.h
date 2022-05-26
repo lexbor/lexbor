@@ -1,6 +1,6 @@
 /*
 
- * Copyright (C) 2021 Alexander Borisov
+ * Copyright (C) 2021-2022 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -13,13 +13,14 @@ extern "C" {
 #endif
 
 #include "lexbor/css/log.h"
+#include "lexbor/css/stylesheet.h"
 #include "lexbor/css/syntax/parser.h"
 #include "lexbor/css/selectors/selectors.h"
 
 
 #define lxb_css_parser_token_m(parser, token)                                  \
     do {                                                                       \
-        token = lxb_css_syntax_token((parser)->tkz);                           \
+        token = lxb_css_syntax_parser_token(parser);                           \
         if (token == NULL) {                                                   \
             return lxb_css_parser_fail((parser), (parser)->tkz->status);       \
         }                                                                      \
@@ -37,14 +38,14 @@ extern "C" {
 
 #define lxb_css_parser_token_wo_ws_m(parser, token)                            \
     do {                                                                       \
-        token = lxb_css_syntax_token((parser)->tkz);                           \
+        token = lxb_css_syntax_parser_token(parser);                           \
         if (token == NULL) {                                                   \
             return lxb_css_parser_fail((parser), (parser)->tkz->status);       \
         }                                                                      \
                                                                                \
         if (token->type == LXB_CSS_SYNTAX_TOKEN_WHITESPACE) {                  \
-            lxb_css_syntax_token_consume(parser->tkz);                         \
-            token = lxb_css_syntax_token((parser)->tkz);                       \
+            lxb_css_syntax_parser_consume(parser);                             \
+            token = lxb_css_syntax_parser_token(parser);                       \
             if (token == NULL) {                                               \
                 return lxb_css_parser_fail((parser), (parser)->tkz->status);   \
             }                                                                  \
@@ -54,7 +55,7 @@ extern "C" {
 
 #define lxb_css_parser_token_status_m(parser, token)                           \
     do {                                                                       \
-        if ((token = lxb_css_syntax_token((parser)->tkz)) == NULL) {           \
+        if ((token = lxb_css_syntax_parser_token(parser)) == NULL) {           \
             return parser->tkz->status;                                        \
         }                                                                      \
     }                                                                          \
@@ -72,13 +73,13 @@ extern "C" {
 
 #define lxb_css_parser_token_status_wo_ws_m(parser, token)                     \
     do {                                                                       \
-        if ((token = lxb_css_syntax_token((parser)->tkz)) == NULL) {           \
+        if ((token = lxb_css_syntax_parser_token(parser)) == NULL) {           \
             return parser->tkz->status;                                        \
         }                                                                      \
                                                                                \
         if (token->type == LXB_CSS_SYNTAX_TOKEN_WHITESPACE) {                  \
-            lxb_css_syntax_token_consume(parser->tkz);                         \
-            if ((token = lxb_css_syntax_token((parser)->tkz)) == NULL) {       \
+            lxb_css_syntax_parser_consume(parser);                             \
+            if ((token = lxb_css_syntax_parser_token(parser)) == NULL) {       \
                 return parser->tkz->status;                                    \
             }                                                                  \
         }                                                                      \
@@ -128,41 +129,58 @@ typedef enum {
 lxb_css_parser_stage_t;
 
 struct lxb_css_parser {
-    lxb_css_parser_state_f      state;
-    void                        *context;
+    lxb_css_parser_state_f           block;
+    void                             *context;
 
     /* Modules */
-    lxb_css_syntax_tokenizer_t  *tkz;
-    lxb_css_selectors_t         *selectors;
+    lxb_css_syntax_tokenizer_t       *tkz;
+    lxb_css_selectors_t              *selectors;
+    lxb_css_selectors_t              *old_selectors;
 
     /* Memory for all structures. */
-    lexbor_mraw_t               *mraw;
+    lxb_css_memory_t                 *memory;
+    lxb_css_memory_t                 *old_memory;
 
-    /* Stack */
-    lxb_css_parser_stack_t      *stack_begin;
-    lxb_css_parser_stack_t      *stack_end;
-    lxb_css_parser_stack_t      *stack;
+    /* Syntax parse rules. */
+    lxb_css_syntax_rule_t            *rules_begin;
+    lxb_css_syntax_rule_t            *rules_end;
+    lxb_css_syntax_rule_t            *rules;
+
+    /* States */
+    lxb_css_parser_state_t           *states_begin;
+    lxb_css_parser_state_t           *states_end;
+    lxb_css_parser_state_t           *states;
 
     /* Types */
-    lxb_css_syntax_token_type_t *types_begin;
-    lxb_css_syntax_token_type_t *types_end;
-    lxb_css_syntax_token_type_t *types_pos;
+    lxb_css_syntax_token_type_t      *types_begin;
+    lxb_css_syntax_token_type_t      *types_end;
+    lxb_css_syntax_token_type_t      *types_pos;
 
-    lxb_css_log_t               *log;
+    lxb_css_syntax_tokenizer_chunk_f chunk_cb;
+    void                             *chunk_ctx;
 
-    lxb_css_parser_stage_t      stage;
+    const lxb_char_t                 *pos;
+    uintptr_t                        offset;
 
-    bool                        loop;
-    bool                        top_level;
-    bool                        my_mraw;
-    bool                        my_tkz;
-    lxb_status_t                status;
+    lexbor_str_t                     str;
+    size_t                           str_size;
+
+    lxb_css_log_t                    *log;
+
+    lxb_css_parser_stage_t           stage;
+
+    bool                             loop;
+    bool                             fake_null;
+    bool                             my_tkz;
+    bool                             receive_endings;
+
+    lxb_status_t                     status;
 };
 
-struct lxb_css_parser_stack {
+struct lxb_css_parser_state {
     lxb_css_parser_state_f state;
     void                   *context;
-    bool                   required_stop;
+    bool                   root;
 };
 
 struct lxb_css_parser_error {
@@ -174,22 +192,30 @@ LXB_API lxb_css_parser_t *
 lxb_css_parser_create(void);
 
 LXB_API lxb_status_t
-lxb_css_parser_init(lxb_css_parser_t *parser,
-                    lxb_css_syntax_tokenizer_t *tkz, lexbor_mraw_t *mraw);
+lxb_css_parser_init(lxb_css_parser_t *parser, lxb_css_syntax_tokenizer_t *tkz);
 
 LXB_API void
 lxb_css_parser_clean(lxb_css_parser_t *parser);
 
+LXB_API void
+lxb_css_parser_erase(lxb_css_parser_t *parser);
+
 LXB_API lxb_css_parser_t *
 lxb_css_parser_destroy(lxb_css_parser_t *parser, bool self_destroy);
 
-LXB_API lxb_css_parser_stack_t *
-lxb_css_parser_stack_push(lxb_css_parser_t *parser,
-                          lxb_css_parser_state_f state, void *context, bool stop);
+LXB_API lxb_css_parser_state_t *
+lxb_css_parser_states_push(lxb_css_parser_t *parser,
+                           lxb_css_parser_state_f state,
+                           void *context, bool stop);
+
+LXB_API lxb_css_parser_state_t *
+lxb_css_parser_states_next(lxb_css_parser_t *parser,
+                           lxb_css_parser_state_f next,
+                           lxb_css_parser_state_f back, void *ctx, bool root);
 
 LXB_API lxb_status_t
-lxb_css_parser_run(lxb_css_parser_t *parser,
-                   lxb_css_parser_state_f state, void *context);
+lxb_css_parser_types_push(lxb_css_parser_t *parser,
+                          lxb_css_syntax_token_type_t type);
 
 LXB_API bool
 lxb_css_parser_stop(lxb_css_parser_t *parser);
@@ -199,6 +225,12 @@ lxb_css_parser_fail(lxb_css_parser_t *parser, lxb_status_t status);
 
 LXB_API bool
 lxb_css_parser_unexpected(lxb_css_parser_t *parser);
+
+LXB_API bool
+lxb_css_parser_success(lxb_css_parser_t *parser);
+
+LXB_API bool
+lxb_css_parser_failed(lxb_css_parser_t *parser);
 
 LXB_API lxb_status_t
 lxb_css_parser_unexpected_status(lxb_css_parser_t *parser);
@@ -214,15 +246,8 @@ lxb_css_parser_unexpected_data_status(lxb_css_parser_t *parser,
 LXB_API bool
 lxb_css_parser_memory_fail(lxb_css_parser_t *parser);
 
-LXB_API lxb_css_syntax_token_t *
-lxb_css_parser_find_close(lxb_css_parser_t *parser, lxb_css_syntax_token_t *token,
-                          const lxb_char_t *opt_data, lxb_css_syntax_token_type_t type,
-                          lxb_css_syntax_token_type_t stop);
-
-LXB_API lxb_css_syntax_token_t *
-lxb_css_parser_find_close_deep(lxb_css_parser_t *parser,
-                               lxb_css_syntax_token_t *token,
-                               lxb_css_syntax_token_type_t type, size_t *deep);
+lxb_status_t
+lxb_css_parser_memory_fail_status(lxb_css_parser_t *parser);
 
 /*
  * Inline functions
@@ -231,6 +256,18 @@ lxb_inline lxb_status_t
 lxb_css_parser_status(lxb_css_parser_t *parser)
 {
     return parser->status;
+}
+
+lxb_inline lxb_css_memory_t *
+lxb_css_parser_memory(lxb_css_parser_t *parser)
+{
+    return parser->memory;
+}
+
+lxb_inline void
+lxb_css_parser_memory_set(lxb_css_parser_t *parser, lxb_css_memory_t *memory)
+{
+    parser->memory = memory;
 }
 
 lxb_inline lxb_css_selectors_t *
@@ -246,11 +283,45 @@ lxb_css_parser_selectors_set(lxb_css_parser_t *parser,
     parser->selectors = selectors;
 }
 
+lxb_inline bool
+lxb_css_parser_is_running(lxb_css_parser_t *parser)
+{
+    return parser->stage == LXB_CSS_PARSER_RUN;
+}
 
 lxb_inline bool
 lxb_css_parser_status_is_unexpected_data(lxb_css_parser_t *parser)
 {
     return parser->status == LXB_STATUS_ERROR_UNEXPECTED_DATA;
+}
+
+lxb_inline void
+lxb_css_parser_failed_set(lxb_css_parser_t *parser, bool is)
+{
+    parser->rules->failed = is;
+}
+
+lxb_inline void
+lxb_css_parser_failed_set_by_id(lxb_css_parser_t *parser, int idx, bool is)
+{
+    lxb_css_syntax_rule_t *rules = parser->rules + idx;
+
+    if (rules > parser->rules_begin && rules < parser->rules_end) {
+        rules->failed = is;
+    }
+}
+
+lxb_inline bool
+lxb_css_parser_is_failed(lxb_css_parser_t *parser)
+{
+    return parser->rules->failed;
+}
+
+lxb_inline void
+lxb_css_parser_set_ok(lxb_css_parser_t *parser)
+{
+    parser->rules->failed = false;
+    parser->status = LXB_STATUS_OK;
 }
 
 lxb_inline const lxb_char_t *
@@ -273,13 +344,27 @@ lxb_css_parser_buffer_set(lxb_css_parser_t *parser,
 lxb_inline lxb_css_parser_state_f
 lxb_css_parser_state(lxb_css_parser_t *parser)
 {
-    return parser->state;
+    return parser->rules->state;
 }
 
 lxb_inline void
 lxb_css_parser_state_set(lxb_css_parser_t *parser, lxb_css_parser_state_f state)
 {
-    parser->state = state;
+    parser->rules->state = state;
+}
+
+lxb_inline void
+lxb_css_parser_state_block_set(lxb_css_parser_t *parser,
+                               lxb_css_parser_state_f state)
+{
+    parser->block = state;
+}
+
+lxb_inline void
+lxb_css_parser_state_value_set(lxb_css_parser_t *parser,
+                               lxb_css_parser_state_f state)
+{
+    lxb_css_parser_state_block_set(parser, state);
 }
 
 lxb_inline void *
@@ -294,70 +379,134 @@ lxb_css_parser_context_set(lxb_css_parser_t *parser, void *context)
     parser->context = context;
 }
 
-lxb_inline lxb_css_parser_stack_t *
-lxb_css_parser_stack_pop(lxb_css_parser_t *parser)
+lxb_inline lxb_css_syntax_rule_t *
+lxb_css_parser_current_rule(lxb_css_parser_t *parser)
 {
-    lxb_css_parser_stack_t *entry = --parser->stack;
-
-    parser->state = entry->state;
-    parser->context = entry->context;
-
-    return entry;
+    return parser->rules;
 }
 
-lxb_inline lxb_css_parser_stack_t *
-lxb_css_parser_stack_to_stop(lxb_css_parser_t *parser)
+lxb_inline size_t
+lxb_css_parser_rule_deep(lxb_css_parser_t *parser)
 {
-    lxb_css_parser_stack_t *entry = --parser->stack;
+    return parser->rules->deep;
+}
 
-    while (!entry->required_stop) {
+lxb_inline lxb_css_parser_state_t *
+lxb_css_parser_states_pop(lxb_css_parser_t *parser)
+{
+    return parser->states--;
+}
+
+lxb_inline lxb_css_parser_state_t *
+lxb_css_parser_states_to_root(lxb_css_parser_t *parser)
+{
+    lxb_css_parser_state_t *entry = parser->states;
+
+    while (!entry->root) {
         entry--;
     }
 
-    parser->state = entry->state;
-    parser->context = entry->context;
-
-    parser->stack = entry;
+    parser->states = entry;
 
     return entry;
 }
 
-lxb_inline void
-lxb_css_parser_stack_clean(lxb_css_parser_t *parser)
+lxb_inline bool
+lxb_css_parser_states_set_back(lxb_css_parser_t *parser)
 {
-    parser->stack = parser->stack_begin;
-}
+    const lxb_css_parser_state_t *entry = parser->states;
+    lxb_css_syntax_rule_t *rules = parser->rules;
 
-lxb_inline lxb_css_parser_stack_t *
-lxb_css_parser_stack_current(lxb_css_parser_t *parser)
-{
-    return parser->stack - 1;
-}
+    rules->state = entry->state;
+    rules->context = entry->context;
 
-lxb_inline void
-lxb_css_parser_stack_set(lxb_css_parser_stack_t *stack,
-                         lxb_css_parser_state_f state, void *context)
-{
-    stack->state = state;
-    stack->context = context;
+    return true;
 }
 
 lxb_inline void
-lxb_css_parser_stack_up(lxb_css_parser_t *parser)
+lxb_css_parser_states_change_back(lxb_css_parser_t *parser,
+                                  lxb_css_parser_state_f state)
 {
-    parser->stack++;
+    parser->rules->state_back = state;
 }
 
 lxb_inline void
-lxb_css_parser_stack_down(lxb_css_parser_t *parser)
+lxb_css_parser_states_clean(lxb_css_parser_t *parser)
 {
-    parser->stack--;
+    parser->states = parser->states_begin;
+}
+
+lxb_inline lxb_css_parser_state_t *
+lxb_css_parser_states_current(lxb_css_parser_t *parser)
+{
+    return parser->states;
+}
+
+lxb_inline void
+lxb_css_parser_states_set(lxb_css_parser_state_t *states,
+                          lxb_css_parser_state_f state, void *context)
+{
+    states->state = state;
+    states->context = context;
+}
+
+lxb_inline void
+lxb_css_parser_states_up(lxb_css_parser_t *parser)
+{
+    parser->states++;
+}
+
+lxb_inline void
+lxb_css_parser_states_down(lxb_css_parser_t *parser)
+{
+    parser->states--;
 }
 
 lxb_inline lxb_css_log_t *
 lxb_css_parser_log(lxb_css_parser_t *parser)
 {
     return parser->log;
+}
+
+lxb_inline void
+lxb_css_parser_offset_set(lxb_css_parser_t *parser,
+                          const lxb_css_syntax_token_t *token)
+{
+    if (parser->pos == NULL) {
+        if (token == NULL) {
+            parser->pos = parser->tkz->in_begin;
+            parser->offset = 0;
+        }
+        else {
+            parser->pos = lxb_css_syntax_token_base(token)->begin
+                          + lxb_css_syntax_token_base(token)->length;
+            parser->offset = token->offset + lxb_css_syntax_token_base(token)->length;
+        }
+    }
+}
+
+lxb_inline const lxb_css_syntax_list_rules_offset_t *
+lxb_css_parser_list_rules_offset(lxb_css_parser_t *parser)
+{
+    return &parser->rules->u.list_rules;
+}
+
+lxb_inline const lxb_css_syntax_at_rule_offset_t *
+lxb_css_parser_at_rule_offset(lxb_css_parser_t *parser)
+{
+    return &parser->rules->u.at_rule;
+}
+
+lxb_inline const lxb_css_syntax_qualified_offset_t *
+lxb_css_parser_qualified_rule_offset(lxb_css_parser_t *parser)
+{
+    return &parser->rules->u.qualified;
+}
+
+lxb_inline const lxb_css_syntax_declarations_offset_t *
+lxb_css_parser_declarations_offset(lxb_css_parser_t *parser)
+{
+    return &parser->rules->u.declarations;
 }
 
 

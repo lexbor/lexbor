@@ -85,7 +85,7 @@ lxb_selectors_pseudo_class_read_write(lxb_dom_node_t *node);
 
 static lxb_status_t
 lxb_selectors_first_match(lxb_dom_node_t *node,
-                          lxb_css_selector_specificity_t *spec, void *ctx);
+                          lxb_css_selector_specificity_t spec, void *ctx);
 
 
 lxb_selectors_t *
@@ -589,7 +589,7 @@ lxb_selectors_find_by(lxb_selectors_t *selectors, lxb_selectors_entry_t *entry,
         }
 
         if (selector->next == NULL) {
-            status = cb(node, NULL, ctx);
+            status = cb(node, selector->list->specificity, ctx);
             if (status != LXB_STATUS_OK) {
                 if (status == LXB_STATUS_STOP) {
                     return LXB_STATUS_OK;
@@ -1583,7 +1583,7 @@ lxb_selectors_pseudo_class_read_write(lxb_dom_node_t *node)
 
 static lxb_status_t
 lxb_selectors_first_match(lxb_dom_node_t *node,
-                          lxb_css_selector_specificity_t *spec, void *ctx)
+                          lxb_css_selector_specificity_t spec, void *ctx)
 {
     *((bool *) ctx) = true;
     return LXB_STATUS_STOP;

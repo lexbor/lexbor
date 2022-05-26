@@ -4,167 +4,167 @@
     {
         "data": "@war",
         "tokens": [
-            {"type": "at-keyword", "value": "@war"}
+            {"type": "at-keyword", "value": "@war", "length": 4}
         ]
     },
     /* 2 */
     {
         "data": "@w",
         "tokens": [
-            {"type": "at-keyword", "value": "@w"},
+            {"type": "at-keyword", "value": "@w", "length": 2},
         ]
     },
     /* 3 */
     {
         "data": "@\\77 ar",
         "tokens": [
-            {"type": "at-keyword", "value": "@war"}
+            {"type": "at-keyword", "value": "@war", "length": 7}
         ]
     },
     /* 4 */
     {
         "data": "@w\\61r",
         "tokens": [
-            {"type": "at-keyword", "value": "@war"}
+            {"type": "at-keyword", "value": "@war", "length": 6}
         ]
     },
     /* 5 */
     {
         "data": "@wa\\72",
         "tokens": [
-            {"type": "at-keyword", "value": "@war"}
+            {"type": "at-keyword", "value": "@war", "length": 6}
         ]
     },
     /* 6 */
     {
         "data": "@\\77\\61\\72",
         "tokens": [
-            {"type": "at-keyword", "value": "@war"}
+            {"type": "at-keyword", "value": "@war", "length": 10}
         ]
     },
     /* 7 */
     {
         "data": "@\\77\\61",
         "tokens": [
-            {"type": "at-keyword", "value": "@wa"},
+            {"type": "at-keyword", "value": "@wa", "length": 7}
         ]
     },
     /* 8 */
     {
         "data": "@\\77",
         "tokens": [
-            {"type": "at-keyword", "value": "@w"}
+            {"type": "at-keyword", "value": "@w", "length": 4}
         ]
     },
     /* 9 */
     {
         "data": "@--",
         "tokens": [
-            {"type": "at-keyword", "value": "@--"}
+            {"type": "at-keyword", "value": "@--", "length": 3}
         ]
     },
     /* 10 */
     {
         "data": "@-_",
         "tokens": [
-            {"type": "at-keyword", "value": "@-_"}
+            {"type": "at-keyword", "value": "@-_", "length": 3}
         ]
     },
     /* 11 */
     {
         "data": "@-\\77",
         "tokens": [
-            {"type": "at-keyword", "value": "@-w"}
+            {"type": "at-keyword", "value": "@-w", "length": 5}
         ]
     },
     /* 12 */
     {
         "data": "@#",
         "tokens": [
-            {"type": "delim", "value": "@"},
-            {"type": "delim", "value": "#"},
+            {"type": "delim", "value": "@", "length": 1},
+            {"type": "delim", "value": "#", "length": 1}
         ]
     },
     /* 13 */
     {
         "data": "@�",
         "tokens": [
-            {"type": "at-keyword", "value": "@�"}
+            {"type": "at-keyword", "value": "@�", "length": 4}
         ]
     },
     /* 14 */
     {
         "data": "@\0",
         "tokens": [
-            {"type": "at-keyword", "value": "@�"}
+            {"type": "at-keyword", "value": "@�", "length": 2}
         ]
     },
     /* 15 */
     {
         "data": "@\\\0",
         "tokens": [
-            {"type": "at-keyword", "value": "@�"}
+            {"type": "at-keyword", "value": "@�", "length": 3}
         ]
     },
     /* 16 */
     {
         "data": "@w\\\0ar",
         "tokens": [
-            {"type": "at-keyword", "value": "@w�ar"}
+            {"type": "at-keyword", "value": "@w�ar", "length": 6}
         ]
     },
     /* 17 */
     {
         "data": "@w\0ar",
         "tokens": [
-            {"type": "at-keyword", "value": "@w�ar"}
+            {"type": "at-keyword", "value": "@w�ar", "length": 5}
         ]
     },
     /* 18 */
     {
         "data": "@war\0",
         "tokens": [
-            {"type": "at-keyword", "value": "@war�"}
+            {"type": "at-keyword", "value": "@war�", "length": 5}
         ]
     },
     /* 19 */
     {
         "data": "@-\\\n",
         "tokens": [
-            {"type": "delim", "value": "@"},
-            {"type": "delim", "value": "-"},
-            {"type": "delim", "value": "\\"},
-            {"type": "whitespace", "value": "\n"}
+            {"type": "delim", "value": "@", "length": 1},
+            {"type": "delim", "value": "-", "length": 1},
+            {"type": "delim", "value": "\\", "length": 1},
+            {"type": "whitespace", "value": "\n", "length": 1}
         ]
     },
     /* 20 */
     {
         "data": "@-\0",
         "tokens": [
-            {"type": "at-keyword", "value": "@-�"}
+            {"type": "at-keyword", "value": "@-�", "length": 3}
         ]
     },
     /* 21 */
     {
         "data": "@\0",
         "tokens": [
-            {"type": "at-keyword", "value": "@�"},
+            {"type": "at-keyword", "value": "@�", "length": 2},
         ]
     },
     /* 22 */
     {
         "data": "@-1F",
         "tokens": [
-            {"type": "delim", "value": "@"},
-            {"type": "dimension", "value": "-1F"}
+            {"type": "delim", "value": "@", "length": 1},
+            {"type": "dimension", "value": "-1F", "length": 3}
         ]
     },
     /* 23 */
     {
         "data": "@+1F",
         "tokens": [
-            {"type": "delim", "value": "@"},
-            {"type": "dimension", "value": "1F"}
+            {"type": "delim", "value": "@", "length": 1},
+            {"type": "dimension", "value": "1F", "length": 3}
         ]
     }
 ]

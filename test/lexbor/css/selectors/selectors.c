@@ -155,8 +155,7 @@ static const lxb_test_entry_t selectors_list[] =
 
     {":not()",
      "",
-     "Syntax error. Selectors. Pseudo function can't be empty: not()\n"
-     "Syntax error. Selectors. Unexpected token: )",
+     "Syntax error. Selectors. Pseudo function can't be empty: not()",
      lxb_css_selectors_parse},
 
     {":not(div)",
@@ -181,28 +180,33 @@ static const lxb_test_entry_t selectors_list[] =
 
     {":not(div, .class 1%)",
      "",
-     "Syntax error. Selectors. Unexpected token: 1%",
+     "Syntax error. Selectors. Unexpected token: 1%\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: not()",
      lxb_css_selectors_parse},
 
     {":not(.class 1%, div)",
      "",
-     "Syntax error. Selectors. Unexpected token: 1%",
+     "Syntax error. Selectors. Unexpected token: 1%\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: not()",
      lxb_css_selectors_parse},
 
     {":not(div, .class 1%, #hash)",
      "",
-     "Syntax error. Selectors. Unexpected token: 1%",
+     "Syntax error. Selectors. Unexpected token: 1%\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: not()",
      lxb_css_selectors_parse},
 
     {":not(div, :not(1%), span)",
      "",
-     "Syntax error. Selectors. Unexpected token: 1%",
+     "Syntax error. Selectors. Unexpected token: 1%\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: not()\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: not()",
      lxb_css_selectors_parse},
 
     {":not(div, :not(), span)",
      "",
      "Syntax error. Selectors. Pseudo function can't be empty: not()\n"
-     "Syntax error. Selectors. Unexpected token: )",
+     "Syntax error. Selectors. Pseudo function can't be empty: not()",
      lxb_css_selectors_parse},
 
     {":not(div, :not(:not(:not(:not(:not(:not(:not(:not([x])))))))), span)",
@@ -216,40 +220,40 @@ static const lxb_test_entry_t selectors_list[] =
      lxb_css_selectors_parse},
 
     {":not(div, :not(.class, :not([x], #hash), span)",
-     "",
-     "Syntax error. Selectors. Unexpected token: END-OF-FILE",
+     ":not(div, :not(.class, :not([x], #hash), span))",
+     "Syntax error. Selectors. End Of File in pseudo function",
      lxb_css_selectors_parse},
 
     {":not(div, :not(div",
-     "",
-     "Syntax error. Selectors. Unexpected token: END-OF-FILE",
+     ":not(div, :not(div))",
+     "Syntax error. Selectors. End Of File in pseudo function\n"
+     "Syntax error. Selectors. End Of File in pseudo function",
      lxb_css_selectors_parse},
 
     {":not(div, :not(",
      "",
-     "Syntax error. Selectors. Unexpected token: END-OF-FILE",
-     lxb_css_selectors_parse},
-
-    {":not(div, :not(",
-     "",
-     "Syntax error. Selectors. Unexpected token: END-OF-FILE",
+     "Syntax error. Selectors. Unexpected token: END-OF-FILE\n"
+     "Syntax error. Selectors. End Of File in pseudo function\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: not()\n"
+     "Syntax error. Selectors. End Of File in pseudo function\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: not()",
      lxb_css_selectors_parse},
 
     {":has(div,, .class)",
      ":has(div, .class)",
-     "Syntax error. Selectors. Empty Selector List in pseudo function",
+     "Syntax error. Selectors. Unexpected token: ,",
      lxb_css_selectors_parse},
 
     {":has(,div,, .class,)",
      ":has(div, .class)",
-     "Syntax error. Selectors. Empty Selector List in pseudo function\n"
-     "Syntax error. Selectors. Empty Selector List in pseudo function\n"
-     "Syntax error. Selectors. Unexpected token: )",
+     "Syntax error. Selectors. Unexpected token: ,\n"
+     "Syntax error. Selectors. Unexpected token: ,",
      lxb_css_selectors_parse},
 
     {":has(div, :not(1%), .class)",
      ":has(div, .class)",
-     "Syntax error. Selectors. Unexpected token: 1%",
+     "Syntax error. Selectors. Unexpected token: 1%\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: not()",
      lxb_css_selectors_parse},
 
     {":has(div, .class 1%)",
@@ -274,7 +278,8 @@ static const lxb_test_entry_t selectors_list[] =
 
     {":has(div, :not(1% {la}, (be), [], :fun(x)), .class)",
      ":has(div, .class)",
-     "Syntax error. Selectors. Unexpected token: 1%",
+     "Syntax error. Selectors. Unexpected token: 1%\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: not()",
      lxb_css_selectors_parse},
 
     {":has(div, :has(1% {la}, (be), [], :fun(x)), .class)",
@@ -283,8 +288,7 @@ static const lxb_test_entry_t selectors_list[] =
      "Syntax error. Selectors. Unexpected token: (\n"
      "Syntax error. Selectors. Unexpected token: ]\n"
      "Syntax error. Selectors. Unexpected token: fun(\n"
-     "Syntax error. Selectors. Pseudo function can't be empty: has()\n"
-     "Syntax error. Selectors. Empty Selector List in pseudo function",
+     "Syntax error. Selectors. Pseudo function can't be empty: has()",
      lxb_css_selectors_parse},
 
     {":has(div, :godofwar(",
@@ -294,25 +298,38 @@ static const lxb_test_entry_t selectors_list[] =
      lxb_css_selectors_parse},
 
     {":has(div, :not(div",
-     ":has(div)",
+     ":has(div, :not(div))",
+     "Syntax error. Selectors. End Of File in pseudo function\n"
      "Syntax error. Selectors. End Of File in pseudo function",
      lxb_css_selectors_parse},
 
     {":has(div, :not(",
      ":has(div)",
+     "Syntax error. Selectors. Unexpected token: END-OF-FILE\n"
+     "Syntax error. Selectors. End Of File in pseudo function\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: not()\n"
      "Syntax error. Selectors. End Of File in pseudo function",
      lxb_css_selectors_parse},
 
     {":has(div, :not(:not(",
      ":has(div)",
+     "Syntax error. Selectors. Unexpected token: END-OF-FILE\n"
+     "Syntax error. Selectors. End Of File in pseudo function\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: not()\n"
+     "Syntax error. Selectors. End Of File in pseudo function\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: not()\n"
      "Syntax error. Selectors. End Of File in pseudo function",
      lxb_css_selectors_parse},
 
     {":has(:not(:not(",
      "",
+     "Syntax error. Selectors. Unexpected token: END-OF-FILE\n"
      "Syntax error. Selectors. End Of File in pseudo function\n"
-     "Syntax error. Selectors. Pseudo function can't be empty: has()\n"
-     "Syntax error. Selectors. Unexpected token: END-OF-FILE",
+     "Syntax error. Selectors. Pseudo function can't be empty: not()\n"
+     "Syntax error. Selectors. End Of File in pseudo function\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: not()\n"
+     "Syntax error. Selectors. End Of File in pseudo function\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: has()",
      lxb_css_selectors_parse},
 
     {":has(div, :godofwar()))",
@@ -395,8 +412,7 @@ static const lxb_test_entry_t selectors_list[] =
     {":has(:godofwar)",
      "",
      "Syntax error. Selectors. Unexpected token: godofwar\n"
-     "Syntax error. Selectors. Pseudo function can't be empty: has()\n"
-     "Syntax error. Selectors. Unexpected token: END-OF-FILE",
+     "Syntax error. Selectors. Pseudo function can't be empty: has()",
      lxb_css_selectors_parse},
 
     {"::godofwar",
@@ -407,8 +423,7 @@ static const lxb_test_entry_t selectors_list[] =
     {":has(::godofwar)",
      "",
      "Syntax error. Selectors. Unexpected token: godofwar\n"
-     "Syntax error. Selectors. Pseudo function can't be empty: has()\n"
-     "Syntax error. Selectors. Unexpected token: END-OF-FILE",
+     "Syntax error. Selectors. Pseudo function can't be empty: has()",
      lxb_css_selectors_parse},
 
     {":has(div, ::godofwar)",
@@ -462,31 +477,30 @@ static const lxb_test_entry_t selectors_list[] =
 
     {":nth-child(2n+)",
      "",
-     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()\n"
-     "Syntax error. Selectors. Unexpected token: )",
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()",
      lxb_css_selectors_parse},
 
     {":has(:nth-child(2n+))",
      "",
      "Syntax error. Selectors. Pseudo function can't be empty: nth-child()\n"
-     "Syntax error. Selectors. Unexpected token: )\n"
-     "Syntax error. Selectors. Pseudo function can't be empty: has()\n"
-     "Syntax error. Selectors. Unexpected token: END-OF-FILE",
+     "Syntax error. Selectors. Pseudo function can't be empty: has()",
      lxb_css_selectors_parse},
 
     {":nth-child(2n+",
      "",
-     "Syntax error. Selectors. Unexpected token: END-OF-FILE",
+     "Syntax error. Selectors. End Of File in pseudo function\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()",
      lxb_css_selectors_parse},
 
     {":has(div, :nth-child(2n+))",
      ":has(div)",
-     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()\n"
-     "Syntax error. Selectors. Unexpected token: )",
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()",
      lxb_css_selectors_parse},
 
     {":has(div, :nth-child(2n+",
      ":has(div)",
+     "Syntax error. Selectors. End Of File in pseudo function\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()\n"
      "Syntax error. Selectors. End Of File in pseudo function",
      lxb_css_selectors_parse},
 
@@ -502,13 +516,13 @@ static const lxb_test_entry_t selectors_list[] =
 
     {":nth-child(2n+2 of )",
      "",
-     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()\n"
-     "Syntax error. Selectors. Unexpected token: )",
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()",
      lxb_css_selectors_parse},
 
     {":nth-child(2n+2 of 1%)",
      "",
-     "Syntax error. Selectors. Unexpected token: 1%",
+     "Syntax error. Selectors. Unexpected token: 1%\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()",
      lxb_css_selectors_parse},
 
     {":nth-child(2n+2 of :has(div, 1%))",
@@ -522,62 +536,71 @@ static const lxb_test_entry_t selectors_list[] =
      lxb_css_selectors_parse},
 
     {":nth-child(2n+2 of :nth-child(2n+1",
-     "",
-     "Syntax error. Selectors. Unexpected token: END-OF-FILE",
+     ":nth-child(2n+2 of :nth-child(odd))",
+     "Syntax error. Selectors. End Of File in pseudo function\n"
+     "Syntax error. Selectors. End Of File in pseudo function",
      lxb_css_selectors_parse},
 
     {":nth-child(2n+2 of :nth-child(1%",
      "",
-     "Syntax error. Selectors. Unexpected token: 1%",
+     "Syntax error. Selectors. Unexpected token: 1%\n"
+     "Syntax error. Selectors. End Of File in pseudo function\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()\n"
+     "Syntax error. Selectors. End Of File in pseudo function\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()",
      lxb_css_selectors_parse},
 
     {":nth-child(2n+2 of :has(, :nth-child(1%)))",
      "",
-     "Syntax error. Selectors. Empty Selector List in pseudo function\n"
+     "Syntax error. Selectors. Unexpected token: ,\n"
      "Syntax error. Selectors. Unexpected token: 1%\n"
-     "Syntax error. Selectors. Pseudo function can't be empty: has()\n"
      "Syntax error. Selectors. Pseudo function can't be empty: nth-child()\n"
-     "Syntax error. Selectors. Unexpected token: )",
+     "Syntax error. Selectors. Pseudo function can't be empty: has()\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()",
      lxb_css_selectors_parse},
 
     {":nth-child(2n+2 of :has(, :nth-child(1%),))",
      "",
-     "Syntax error. Selectors. Empty Selector List in pseudo function\n"
+     "Syntax error. Selectors. Unexpected token: ,\n"
      "Syntax error. Selectors. Unexpected token: 1%\n"
-     "Syntax error. Selectors. Unexpected token: )\n"
-     "Syntax error. Selectors. Pseudo function can't be empty: has()\n"
      "Syntax error. Selectors. Pseudo function can't be empty: nth-child()\n"
-     "Syntax error. Selectors. Unexpected token: )",
+     "Syntax error. Selectors. Pseudo function can't be empty: has()\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()",
      lxb_css_selectors_parse},
 
     {":nth-child(1%)",
      "",
-     "Syntax error. Selectors. Unexpected token: 1%",
+     "Syntax error. Selectors. Unexpected token: 1%\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()",
      lxb_css_selectors_parse},
 
     /* Block. */
 
     {":has(:not(div, {}, .class), #hash)",
      ":has(#hash)",
-     "Syntax error. Selectors. Unexpected token: {",
+     "Syntax error. Selectors. Unexpected token: {\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: not()",
      lxb_css_selectors_parse},
 
     {":has(:not(div, {, .class), #hash)",
      "",
      "Syntax error. Selectors. Unexpected token: {\n"
      "Syntax error. Selectors. End Of File in pseudo function\n"
-     "Syntax error. Selectors. Pseudo function can't be empty: has()\n"
-     "Syntax error. Selectors. Unexpected token: END-OF-FILE",
+     "Syntax error. Selectors. Pseudo function can't be empty: not()\n"
+     "Syntax error. Selectors. End Of File in pseudo function\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: has()",
      lxb_css_selectors_parse},
 
     {":has(:not(div, {([([{}])])}, .class), #hash)",
      ":has(#hash)",
-     "Syntax error. Selectors. Unexpected token: {",
+     "Syntax error. Selectors. Unexpected token: {\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: not()",
      lxb_css_selectors_parse},
 
     {":has(:not(div, {([([{, .class}])])}), #hash)",
      ":has(#hash)",
-     "Syntax error. Selectors. Unexpected token: {",
+     "Syntax error. Selectors. Unexpected token: {\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: not()",
      lxb_css_selectors_parse},
 
     {"div > :nth-child(2n+1):not(:has(a)),p:has(a):not([href]) span, div",
@@ -589,6 +612,101 @@ static const lxb_test_entry_t selectors_list[] =
      "div > :nth-child(odd) :not(:has(a)), p:has(a) :not([href]) span, div",
      "",
      lxb_css_selectors_parse},
+
+    {"div > :nth-child(2n+1) span, div",
+     "div > :nth-child(odd) span, div",
+     "",
+     lxb_css_selectors_parse_complex_list},
+
+    {"div > :nth-child(2n+1)",
+     "",
+     "Syntax error. Selectors. Unexpected token: >",
+     lxb_css_selectors_parse_compound_list},
+
+    {":nth-child(2n+1), div",
+     ":nth-child(odd), div",
+     "",
+     lxb_css_selectors_parse_compound_list},
+
+    {":nth-child(2n+1), div",
+     ":nth-child(odd), div",
+     "",
+     lxb_css_selectors_parse_simple_list},
+
+    {"::nth-child(2n+1)",
+     "",
+     "Syntax error. Selectors. Unexpected token: :",
+     lxb_css_selectors_parse_simple_list},
+
+    {"+ :nth-child(2n+1) div, > span",
+     "+ :nth-child(odd) div, > span",
+     "",
+     lxb_css_selectors_parse_relative_list},
+
+    {"div > :nth-child(2n+1) span",
+     "div > :nth-child(odd) span",
+     "",
+     lxb_css_selectors_parse_complex},
+
+    {"div > :nth-child(2n+1) span, div",
+     "",
+     "Syntax error. Selectors. Unexpected token: ,",
+     lxb_css_selectors_parse_complex},
+
+    {"div:nth-child(2n+1)",
+     "div:nth-child(odd)",
+     "",
+     lxb_css_selectors_parse_compound},
+
+    {"div:nth-child(2n+1), ",
+     "",
+     "Syntax error. Selectors. Unexpected token: ,",
+     lxb_css_selectors_parse_compound},
+
+    {"div :nth-child(2n+1)",
+     "",
+     "Syntax error. Selectors. Unexpected token: :",
+     lxb_css_selectors_parse_compound},
+
+    {"div > :nth-child(2n+1)",
+     "",
+     "Syntax error. Selectors. Unexpected token: >",
+     lxb_css_selectors_parse_compound},
+
+    {":nth-child(2n+1)",
+     ":nth-child(odd)",
+     "",
+     lxb_css_selectors_parse_simple},
+
+    {"div:nth-child(2n+1)",
+     "",
+     "Syntax error. Selectors. Unexpected token: :",
+     lxb_css_selectors_parse_simple},
+
+    {":nth-child(2n+1), span",
+     "",
+     "Syntax error. Selectors. Unexpected token: ,",
+     lxb_css_selectors_parse_simple},
+
+    {":nth-child(2n+1) > span",
+     "",
+     "Syntax error. Selectors. Unexpected token: >",
+     lxb_css_selectors_parse_simple},
+
+    {"+ :nth-child(2n+1)",
+     "+ :nth-child(odd)",
+     "",
+     lxb_css_selectors_parse_relative},
+
+    {"+ :nth-child(2n+1) > span",
+     "",
+     "Syntax error. Selectors. Unexpected token: >",
+     lxb_css_selectors_parse_relative},
+
+    {"+ :nth-child(2n+1), span",
+     "",
+     "Syntax error. Selectors. Unexpected token: ,",
+     lxb_css_selectors_parse_relative},
 };
 
 
@@ -597,14 +715,20 @@ TEST_BEGIN(lexbor_selectors_list)
     char *test, *have, *need,*erro, *log;
     lxb_status_t status;
     lxb_css_parser_t *parser;
+    lxb_css_memory_t *memory;
     lxb_css_selector_list_t *list;
 
     size_t entries_length = sizeof(selectors_list) / sizeof(lxb_test_entry_t);
 
-    parser = lxb_css_parser_create();
-    status = lxb_css_parser_init(parser, NULL, NULL);
-
+    memory = lxb_css_memory_create();
+    status = lxb_css_memory_init(memory, 128);
     test_eq(status, LXB_STATUS_OK);
+
+    parser = lxb_css_parser_create();
+    status = lxb_css_parser_init(parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    lxb_css_parser_memory_set(parser, memory);
 
     TEST_PRINT("\n");
 
@@ -634,12 +758,13 @@ TEST_BEGIN(lexbor_selectors_list)
             lexbor_free(log);
         }
 
-        lxb_css_selector_list_destroy_memory(list);
+        lxb_css_parser_erase(parser);
 
         TEST_PRINT("ok\n");
     }
 
-    lxb_css_parser_destroy(parser, true);
+    (void) lxb_css_memory_destroy(memory, true);
+    (void) lxb_css_parser_destroy(parser, true);
 }
 TEST_END
 

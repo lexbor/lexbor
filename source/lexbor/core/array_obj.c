@@ -104,7 +104,7 @@ lexbor_array_obj_push(lexbor_array_obj_t *array)
     entry = array->list + (array->length * array->struct_size);
     array->length++;
 
-    memset(entry, 0, sizeof(array->struct_size));
+    memset(entry, 0, array->struct_size);
 
     return entry;
 }

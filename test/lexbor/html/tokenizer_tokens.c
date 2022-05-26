@@ -572,10 +572,10 @@ check_errors(tokenizer_helper_t *helper, unit_kv_value_t *value)
             return LXB_STATUS_ERROR;
         }
 
-        if (error->id != (lxb_html_tokenizer_error_id_t) bm_entry->value) {
+        if (error->id != (lxb_html_tokenizer_error_id_t) (uintptr_t) bm_entry->value) {
             TEST_PRINTLN("The 'errors' parameter did not match. "
                          "Have: %d; Need: %d", error->id,
-                         (lxb_html_tokenizer_error_id_t) bm_entry->value);
+                         (lxb_html_tokenizer_error_id_t) (uintptr_t) bm_entry->value);
 
             print_error(helper, value);
 

@@ -5,6 +5,7 @@
  */
 
 #include "lexbor/core/serialize.h"
+#include "lexbor/css/css.h"
 #include "lexbor/css/selectors/selectors.h"
 #include "lexbor/css/selectors/selector.h"
 #include "lexbor/css/selectors/pseudo.h"
@@ -16,7 +17,7 @@
 
 typedef void
 (*lxb_css_selector_destroy_f)(lxb_css_selector_t *selector,
-                              lxb_css_selectors_memory_t *mem);
+                              lxb_css_memory_t *mem);
 typedef lxb_status_t
 (*lxb_css_selector_serialize_f)(lxb_css_selector_t *selector,
                                 lexbor_serialize_cb_f cb, void *ctx);
@@ -24,22 +25,22 @@ typedef lxb_status_t
 
 static void
 lxb_css_selector_destroy_undef(lxb_css_selector_t *selector,
-                               lxb_css_selectors_memory_t *mem);
+                               lxb_css_memory_t *mem);
 static void
 lxb_css_selector_destroy_any(lxb_css_selector_t *selector,
-                             lxb_css_selectors_memory_t *mem);
+                             lxb_css_memory_t *mem);
 static void
 lxb_css_selector_destroy_id(lxb_css_selector_t *selector,
-                            lxb_css_selectors_memory_t *mem);
+                            lxb_css_memory_t *mem);
 static void
 lxb_css_selector_destroy_attribute(lxb_css_selector_t *selector,
-                                   lxb_css_selectors_memory_t *mem);
+                                   lxb_css_memory_t *mem);
 static void
 lxb_css_selector_destroy_pseudo_class_function(lxb_css_selector_t *selector,
-                                               lxb_css_selectors_memory_t *mem);
+                                               lxb_css_memory_t *mem);
 static void
 lxb_css_selector_destroy_pseudo_element_function(lxb_css_selector_t *selector,
-                                                 lxb_css_selectors_memory_t *mem);
+                                                 lxb_css_memory_t *mem);
 
 static lxb_status_t
 lxb_css_selector_serialize_undef(lxb_css_selector_t *selector,
@@ -122,7 +123,7 @@ lxb_css_selector_create(lxb_css_selector_list_t *list)
 void
 lxb_css_selector_destroy(lxb_css_selector_t *selector)
 {
-    lxb_css_selectors_memory_t *memory;
+    lxb_css_memory_t *memory;
 
     if (selector != NULL) {
         memory = selector->list->memory;
@@ -144,8 +145,28 @@ lxb_css_selector_destroy_chain(lxb_css_selector_t *selector)
     }
 }
 
+void
+lxb_css_selector_remove(lxb_css_selector_t *selector)
+{
+    if (selector->next != NULL) {
+        selector->next->prev = selector->prev;
+    }
+
+    if (selector->prev != NULL) {
+        selector->prev->next = selector->next;
+    }
+
+    if (selector->list->first == selector) {
+        selector->list->first = selector->next;
+    }
+
+    if (selector->list->last == selector) {
+        selector->list->last = selector->prev;
+    }
+}
+
 lxb_css_selector_list_t *
-lxb_css_selector_list_create(lxb_css_selectors_memory_t *mem)
+lxb_css_selector_list_create(lxb_css_memory_t *mem)
 {
     lxb_css_selector_list_t *list;
 
@@ -210,27 +231,21 @@ lxb_css_selector_list_destroy_chain(lxb_css_selector_list_t *list)
 void
 lxb_css_selector_list_destroy_memory(lxb_css_selector_list_t *list)
 {
-    lxb_css_selectors_memory_t *mem;
-
     if (list != NULL) {
-        mem = list->memory;
-
-        (void) lexbor_dobject_destroy(mem->objs, true);
-        (void) lexbor_mraw_destroy(mem->mraw, true);
-        (void) lexbor_free(mem);
+        (void) lxb_css_memory_destroy(list->memory, true);
     }
 }
 
 static void
 lxb_css_selector_destroy_undef(lxb_css_selector_t *selector,
-                               lxb_css_selectors_memory_t *mem)
+                               lxb_css_memory_t *mem)
 {
     /* Do nothing. */
 }
 
 static void
 lxb_css_selector_destroy_any(lxb_css_selector_t *selector,
-                             lxb_css_selectors_memory_t *mem)
+                             lxb_css_memory_t *mem)
 {
     if (selector->ns.data != NULL) {
         lexbor_mraw_free(mem->mraw, selector->ns.data);
@@ -243,7 +258,7 @@ lxb_css_selector_destroy_any(lxb_css_selector_t *selector,
 
 static void
 lxb_css_selector_destroy_id(lxb_css_selector_t *selector,
-                            lxb_css_selectors_memory_t *mem)
+                            lxb_css_memory_t *mem)
 {
     if (selector->name.data != NULL) {
         (void) lexbor_mraw_free(mem->mraw, selector->name.data);
@@ -252,7 +267,7 @@ lxb_css_selector_destroy_id(lxb_css_selector_t *selector,
 
 static void
 lxb_css_selector_destroy_attribute(lxb_css_selector_t *selector,
-                                   lxb_css_selectors_memory_t *mem)
+                                   lxb_css_memory_t *mem)
 {
     if (selector->ns.data != NULL) {
         lexbor_mraw_free(mem->mraw, selector->ns.data);
@@ -269,7 +284,7 @@ lxb_css_selector_destroy_attribute(lxb_css_selector_t *selector,
 
 static void
 lxb_css_selector_destroy_pseudo_class_function(lxb_css_selector_t *selector,
-                                               lxb_css_selectors_memory_t *mem)
+                                               lxb_css_memory_t *mem)
 {
     lxb_css_selector_anb_of_t *anbof;
     lxb_css_selector_pseudo_t *pseudo;
@@ -319,7 +334,7 @@ lxb_css_selector_destroy_pseudo_class_function(lxb_css_selector_t *selector,
 
 static void
 lxb_css_selector_destroy_pseudo_element_function(lxb_css_selector_t *selector,
-                                                 lxb_css_selectors_memory_t *mem)
+                                                 lxb_css_memory_t *mem)
 {
 
 }

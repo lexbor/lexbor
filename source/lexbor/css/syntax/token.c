@@ -40,8 +40,10 @@ lxb_css_syntax_token_str_cb(const lxb_char_t *data, size_t len, void *ctx);
 lxb_css_syntax_token_t *
 lxb_css_syntax_token(lxb_css_syntax_tokenizer_t *tkz)
 {
-    if (tkz->token < tkz->last) {
-        return tkz->token;
+    if (tkz->current < tkz->token) {
+        if (tkz->prepared == NULL || *tkz->prepared > *tkz->current) {
+            return *tkz->current;
+        }
     }
 
     return lxb_css_syntax_tokenizer_token(tkz);
@@ -50,34 +52,20 @@ lxb_css_syntax_token(lxb_css_syntax_tokenizer_t *tkz)
 lxb_css_syntax_token_t *
 lxb_css_syntax_token_next(lxb_css_syntax_tokenizer_t *tkz)
 {
-    lxb_css_syntax_token_t *last;
-
-    if (tkz->token < tkz->last) {
-        if (tkz->token < tkz->prepared) {
-            last = tkz->prepared - 1;
-        }
-        else {
-            last = tkz->last - 1;
-        }
-
-        if (lxb_css_syntax_token_string_make(tkz, last) != LXB_STATUS_OK) {
-            return NULL;
-        }
-    }
-
     return lxb_css_syntax_tokenizer_token(tkz);
 }
 
 void
 lxb_css_syntax_token_consume(lxb_css_syntax_tokenizer_t *tkz)
 {
-    if (tkz->token < tkz->last) {
-        lxb_css_syntax_token_string_free(tkz, tkz->token);
-        tkz->token++;
+    if (tkz->current < tkz->token) {
+        lxb_css_syntax_token_string_free(tkz, *tkz->current);
 
-        if (tkz->token >= tkz->tokens_end) {
-            tkz->token = tkz->tokens_begin;
-            tkz->last = tkz->token;
+        tkz->current++;
+
+        if (tkz->current >= tkz->token) {
+            tkz->current = tkz->list;
+            tkz->token = tkz->list;
         }
     }
 }
@@ -234,6 +222,8 @@ lxb_css_syntax_token_type_name_by_id(lxb_css_syntax_token_type_t type)
             return (lxb_char_t *) "comment";
         case LXB_CSS_SYNTAX_TOKEN__EOF:
             return (lxb_char_t *) "end-of-file";
+        case LXB_CSS_SYNTAX_TOKEN__TERMINATED:
+            return (lxb_char_t *) "terminated";
         default:
             return (lxb_char_t *) "undefined";
     }
@@ -473,6 +463,9 @@ lxb_css_syntax_token_serialize(const lxb_css_syntax_token_t *token,
 
         case LXB_CSS_SYNTAX_TOKEN__EOF:
             return cb((lxb_char_t *) "END-OF-FILE", 11, ctx);
+
+        case LXB_CSS_SYNTAX_TOKEN__TERMINATED:
+            return cb((lxb_char_t *) "TERMINATED", 10, ctx);
 
         default:
             return LXB_STATUS_ERROR;

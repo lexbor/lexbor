@@ -1,37 +1,57 @@
 /*
- * Copyright (C) 2021 Alexander Borisov
+ * Copyright (C) 2021-2022 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/core/conv.h"
 #include "lexbor/core/serialize.h"
+#include "lexbor/css/css.h"
 #include "lexbor/css/parser.h"
 #include "lexbor/css/syntax/anb.h"
 
 
+static bool
+lxb_css_syntax_anb_state(lxb_css_parser_t *parser,
+                         const lxb_css_syntax_token_t *token, void *ctx);
+
+static lxb_status_t
+lxb_css_syntax_anb_end(lxb_css_parser_t *parser,
+                       const lxb_css_syntax_token_t *token,
+                       void *ctx, bool failed);
+
 static lxb_css_log_message_t *
-lxb_css_syntax_anb_fail(lxb_css_parser_t *parser, lxb_css_syntax_token_t *token);
+lxb_css_syntax_anb_fail(lxb_css_parser_t *parser,
+                        const lxb_css_syntax_token_t *token);
 
 static lxb_status_t
 lxb_css_syntax_anb_state_ident(lxb_css_parser_t *parser,
-                               lxb_css_syntax_token_t *token,
+                               const lxb_css_syntax_token_t *token,
                                lxb_css_syntax_anb_t *anb);
 
 static lxb_status_t
 lxb_css_syntax_anb_state_ident_data(lxb_css_parser_t *parser,
                                     lxb_css_syntax_anb_t *anb,
-                                    lxb_css_syntax_token_t *token,
+                                    const lxb_css_syntax_token_t *token,
                                     const lxb_char_t *data,
                                     const lxb_char_t *end);
+
+
+static const lxb_css_syntax_cb_pipe_t lxb_css_syntax_anb_pipe = {
+    .state = lxb_css_syntax_anb_state,
+    .block = NULL,
+    .failed = lxb_css_state_failed,
+    .end = lxb_css_syntax_anb_end
+};
 
 
 lxb_css_syntax_anb_t
 lxb_css_syntax_anb_parse(lxb_css_parser_t *parser,
                          const lxb_char_t *data, size_t length)
 {
+    lxb_status_t status;
     lxb_css_syntax_anb_t anb;
-    lxb_css_syntax_token_t *token;
+    lxb_css_syntax_rule_t *rule;
 
     memset(&anb, 0, sizeof(lxb_css_syntax_anb_t));
 
@@ -44,36 +64,60 @@ lxb_css_syntax_anb_parse(lxb_css_parser_t *parser,
         lxb_css_parser_clean(parser);
     }
 
-    lxb_css_parser_stack_clean(parser);
     lxb_css_parser_buffer_set(parser, data, length);
 
-    token = lxb_css_syntax_token(parser->tkz);
-    if (token == NULL) {
-        parser->status = parser->tkz->status;
+    rule = lxb_css_syntax_parser_pipe_push(parser, NULL,
+                                           &lxb_css_syntax_anb_pipe, &anb,
+                                           LXB_CSS_SYNTAX_TOKEN_UNDEF);
+    if (rule == NULL) {
         return anb;
     }
 
+    parser->tkz->with_comment = false;
     parser->stage = LXB_CSS_PARSER_RUN;
-    parser->status = lxb_css_syntax_anb_handler(parser, token, &anb);
+
+    status = lxb_css_syntax_parser_run(parser);
+    if (status != LXB_STATUS_OK) {
+        /* Destroy. */
+    }
+
     parser->stage = LXB_CSS_PARSER_END;
-
-    token = lxb_css_syntax_token(parser->tkz);
-    if (token == NULL) {
-        parser->status = parser->tkz->status;
-        return anb;
-    }
-
-    if (parser->status != LXB_STATUS_OK
-        || token->type != LXB_CSS_SYNTAX_TOKEN__EOF)
-    {
-        (void) lxb_css_syntax_anb_fail(parser, parser->tkz->token);
-    }
 
     return anb;
 }
 
+static bool
+lxb_css_syntax_anb_state(lxb_css_parser_t *parser,
+                         const lxb_css_syntax_token_t *token, void *ctx)
+{
+    parser->status = lxb_css_syntax_anb_handler(parser, token, ctx);
+
+    token = lxb_css_syntax_parser_token(parser);
+    if (token == NULL) {
+        return lxb_css_parser_memory_fail(parser);
+    }
+
+    if (parser->status != LXB_STATUS_OK
+        || (parser->status == LXB_STATUS_OK
+            && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED))
+    {
+        (void) lxb_css_syntax_anb_fail(parser, token);
+    }
+
+    return lxb_css_parser_success(parser);
+}
+
+static lxb_status_t
+lxb_css_syntax_anb_end(lxb_css_parser_t *parser,
+                       const lxb_css_syntax_token_t *token,
+                       void *ctx, bool failed)
+{
+    return LXB_STATUS_OK;
+}
+
 static lxb_css_log_message_t *
-lxb_css_syntax_anb_fail(lxb_css_parser_t *parser, lxb_css_syntax_token_t *token)
+lxb_css_syntax_anb_fail(lxb_css_parser_t *parser,
+                        const lxb_css_syntax_token_t *token)
 {
     parser->status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
 
@@ -83,7 +127,8 @@ lxb_css_syntax_anb_fail(lxb_css_parser_t *parser, lxb_css_syntax_token_t *token)
 }
 
 lxb_status_t
-lxb_css_syntax_anb_handler(lxb_css_parser_t *parser, lxb_css_syntax_token_t *token,
+lxb_css_syntax_anb_handler(lxb_css_parser_t *parser,
+                           const lxb_css_syntax_token_t *token,
                            lxb_css_syntax_anb_t *anb)
 {
     const lxb_char_t *data, *end;
@@ -120,7 +165,7 @@ again:
                 return LXB_STATUS_ERROR_UNEXPECTED_DATA;
             }
 
-            lxb_css_syntax_token_consume(parser->tkz);
+            lxb_css_syntax_parser_consume(parser);
             lxb_css_parser_token_status_m(parser, token);
 
             if (token->type != LXB_CSS_SYNTAX_TOKEN_IDENT) {
@@ -134,7 +179,7 @@ again:
             goto ident;
 
         case LXB_CSS_SYNTAX_TOKEN_WHITESPACE:
-            lxb_css_syntax_token_consume(parser->tkz);
+            lxb_css_syntax_parser_consume(parser);
             lxb_css_parser_token_status_m(parser, token);
             goto again;
 
@@ -142,7 +187,7 @@ again:
             return LXB_STATUS_ERROR_UNEXPECTED_DATA;
     }
 
-    lxb_css_syntax_token_consume(parser->tkz);
+    lxb_css_syntax_parser_consume(parser);
 
     return LXB_STATUS_OK;
 
@@ -162,7 +207,7 @@ ident:
 
 static lxb_status_t
 lxb_css_syntax_anb_state_ident(lxb_css_parser_t *parser,
-                               lxb_css_syntax_token_t *token,
+                               const lxb_css_syntax_token_t *token,
                                lxb_css_syntax_anb_t *anb)
 {
     size_t length;
@@ -205,7 +250,7 @@ lxb_css_syntax_anb_state_ident(lxb_css_parser_t *parser,
         anb->a = 2;
         anb->b = 1;
 
-        lxb_css_syntax_token_consume(parser->tkz);
+        lxb_css_syntax_parser_consume(parser);
         return LXB_STATUS_OK;
     }
     else if (length == sizeof(even) - 1
@@ -214,7 +259,7 @@ lxb_css_syntax_anb_state_ident(lxb_css_parser_t *parser,
         anb->a = 2;
         anb->b = 0;
 
-        lxb_css_syntax_token_consume(parser->tkz);
+        lxb_css_syntax_parser_consume(parser);
         return LXB_STATUS_OK;
     }
     else {
@@ -227,7 +272,7 @@ lxb_css_syntax_anb_state_ident(lxb_css_parser_t *parser,
 static lxb_status_t
 lxb_css_syntax_anb_state_ident_data(lxb_css_parser_t *parser,
                                     lxb_css_syntax_anb_t *anb,
-                                    lxb_css_syntax_token_t *token,
+                                    const lxb_css_syntax_token_t *token,
                                     const lxb_char_t *data,
                                     const lxb_char_t *end)
 {
@@ -238,7 +283,7 @@ lxb_css_syntax_anb_state_ident_data(lxb_css_parser_t *parser,
     sign = 0;
 
     if (data >= end) {
-        lxb_css_syntax_token_consume(parser->tkz);
+        lxb_css_syntax_parser_consume(parser);
         lxb_css_parser_token_status_wo_ws_m(parser, token);
 
         switch (token->type) {
@@ -267,7 +312,7 @@ lxb_css_syntax_anb_state_ident_data(lxb_css_parser_t *parser,
                         return LXB_STATUS_OK;
                 }
 
-                lxb_css_syntax_token_consume(parser->tkz);
+                lxb_css_syntax_parser_consume(parser);
                 lxb_css_parser_token_status_wo_ws_m(parser, token);
 
                 break;
@@ -303,7 +348,7 @@ lxb_css_syntax_anb_state_ident_data(lxb_css_parser_t *parser,
 
     sign = 1;
 
-    lxb_css_syntax_token_consume(parser->tkz);
+    lxb_css_syntax_parser_consume(parser);
     lxb_css_parser_token_status_wo_ws_m(parser, token);
 
 number:
@@ -326,7 +371,7 @@ number:
 
 done:
 
-    lxb_css_syntax_token_consume(parser->tkz);
+    lxb_css_syntax_parser_consume(parser);
 
     return LXB_STATUS_OK;
 }

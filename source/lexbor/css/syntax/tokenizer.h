@@ -35,17 +35,22 @@ enum lxb_css_syntax_tokenizer_opt {
 
 struct lxb_css_syntax_tokenizer {
     /* Current process token */
-    lxb_css_syntax_token_t             *token;
-    lxb_css_syntax_token_t             *last;
-    lxb_css_syntax_token_t             *prepared;
+    lxb_css_syntax_token_t             **token;
+    lxb_css_syntax_token_t             **last;
+    lxb_css_syntax_token_t             **current;
+    lxb_css_syntax_token_t             **prepared;
 
-    lxb_css_syntax_token_t             *tokens_begin;
-    lxb_css_syntax_token_t             *tokens_end;
+    lexbor_dobject_t                   *tokens;
+    lxb_css_syntax_token_t             **list;
+    size_t                             list_length;
 
     lexbor_array_obj_t                 *parse_errors;
 
     const lxb_char_t                   *in_begin;
     const lxb_char_t                   *in_end;
+    const lxb_char_t                   *begin;
+
+    uintptr_t                          offset;
 
     lexbor_mraw_t                      *mraw;
 
@@ -79,6 +84,25 @@ lxb_css_syntax_tokenizer_clean(lxb_css_syntax_tokenizer_t *tkz);
 LXB_API lxb_css_syntax_tokenizer_t *
 lxb_css_syntax_tokenizer_destroy(lxb_css_syntax_tokenizer_t *tkz);
 
+LXB_API lxb_status_t
+lxb_css_syntax_tokenizer_next_chunk(lxb_css_syntax_tokenizer_t *tkz,
+                                    const lxb_char_t **data, const lxb_char_t **end);
+
+LXB_API lxb_status_t
+lxb_css_syntax_tokenizer_tokens_expand(lxb_css_syntax_tokenizer_t *tkz);
+
+LXB_API bool
+lxb_css_syntax_tokenizer_lookup_colon(lxb_css_syntax_tokenizer_t *tkz);
+
+LXB_API bool
+lxb_css_syntax_tokenizer_lookup_important(lxb_css_syntax_tokenizer_t *tkz,
+                                          lxb_css_syntax_token_type_t stop,
+                                          const lxb_char_t stop_ch);
+
+LXB_API bool
+lxb_css_syntax_tokenizer_lookup_declaration_ws_end(lxb_css_syntax_tokenizer_t *tkz,
+                                                   lxb_css_syntax_token_type_t stop,
+                                                   const lxb_char_t stop_ch);
 
 /*
  * Inline functions

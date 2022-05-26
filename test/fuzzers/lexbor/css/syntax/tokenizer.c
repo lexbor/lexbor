@@ -93,7 +93,7 @@ check_raw(lxb_css_syntax_token_t *token)
     const lxb_char_t *p, *end;
 
     p = lxb_css_syntax_token_base(token)->begin;
-    end = lxb_css_syntax_token_base(token)->end;
+    end = p + lxb_css_syntax_token_base(token)->length;
 
     while (p < end) {
         ch = *p++;
@@ -102,7 +102,7 @@ check_raw(lxb_css_syntax_token_t *token)
 
     if (token->type == LXB_CSS_SYNTAX_TOKEN_DIMENSION) {
         p = lxb_css_syntax_token_dimension_string(token)->base.begin;
-        end = lxb_css_syntax_token_dimension_string(token)->base.end;
+        end = p + lxb_css_syntax_token_dimension_string(token)->base.length;
 
         while (p < end) {
             ch = *p++;

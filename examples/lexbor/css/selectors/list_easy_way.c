@@ -29,7 +29,7 @@ main(int argc, const char *argv[])
     /* Create parser. */
 
     parser = lxb_css_parser_create();
-    status = lxb_css_parser_init(parser, NULL, NULL);
+    status = lxb_css_parser_init(parser, NULL);
     if (status != LXB_STATUS_OK) {
         return EXIT_FAILURE;
     }
@@ -64,6 +64,11 @@ main(int argc, const char *argv[])
 
     /* Destroy all Selector List memory. */
     lxb_css_selector_list_destroy_memory(list);
+    /*
+     * or lxb_css_memory_destroy(list->memory, true);
+     * or lxb_css_parser_destroy(parser, true, true);
+     * for destroy all allocation memory.
+     */
 
     return EXIT_SUCCESS;
 }

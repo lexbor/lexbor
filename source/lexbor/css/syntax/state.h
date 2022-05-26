@@ -107,10 +107,6 @@ lxb_css_syntax_state_rc_bracket(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_
                                 const lxb_char_t *data, const lxb_char_t *end);
 
 const lxb_char_t *
-lxb_css_syntax_codepoint_to_ascii(lxb_css_syntax_tokenizer_t *tkz,
-                                  lxb_codepoint_t cp);
-
-const lxb_char_t *
 lxb_css_syntax_state_consume_before_numeric(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t *token,
                                             const lxb_char_t *data, const lxb_char_t *end);
 
@@ -120,17 +116,9 @@ lxb_css_syntax_state_ident_like_begin(lxb_css_syntax_tokenizer_t *tkz,
                                       const lxb_char_t *data, const lxb_char_t *end);
 
 const lxb_char_t *
-lxb_css_syntax_state_ident_like(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t *token,
-                                const lxb_char_t *data, const lxb_char_t *end);
-
-const lxb_char_t *
 lxb_css_syntax_state_ident_like_not_url_begin(lxb_css_syntax_tokenizer_t *tkz,
                                               lxb_css_syntax_token_t *token,
                                               const lxb_char_t *data, const lxb_char_t *end);
-
-const lxb_char_t *
-lxb_css_syntax_state_ident_like_not_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t *token,
-                                        const lxb_char_t *data, const lxb_char_t *end);
 
 
 #ifdef __cplusplus

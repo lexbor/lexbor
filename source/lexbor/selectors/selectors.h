@@ -18,7 +18,7 @@ extern "C" {
 
 
 typedef lxb_status_t
-(*lxb_selectors_cb_f)(lxb_dom_node_t *node, lxb_css_selector_specificity_t *spec,
+(*lxb_selectors_cb_f)(lxb_dom_node_t *node, lxb_css_selector_specificity_t spec,
                       void *ctx);
 
 typedef struct lxb_selectors_entry lxb_selectors_entry_t;

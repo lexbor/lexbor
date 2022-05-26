@@ -12,7 +12,7 @@
 TEST_BEGIN(init)
 {
     lexbor_avl_t *avl = lexbor_avl_create();
-    lxb_status_t status = lexbor_avl_init(avl, 1024);
+    lxb_status_t status = lexbor_avl_init(avl, 1024, 0);
 
     test_eq(status, LXB_STATUS_OK);
 
@@ -22,7 +22,7 @@ TEST_END
 
 TEST_BEGIN(init_null)
 {
-    lxb_status_t status = lexbor_avl_init(NULL, 1024);
+    lxb_status_t status = lexbor_avl_init(NULL, 1024, 0);
     test_eq(status, LXB_STATUS_ERROR_OBJECT_IS_NULL);
 }
 TEST_END
@@ -30,7 +30,7 @@ TEST_END
 TEST_BEGIN(init_stack)
 {
     lexbor_avl_t avl;
-    lxb_status_t status = lexbor_avl_init(&avl, 1024);
+    lxb_status_t status = lexbor_avl_init(&avl, 1024, 0);
 
     test_eq(status, LXB_STATUS_OK);
 
@@ -41,7 +41,7 @@ TEST_END
 TEST_BEGIN(init_args)
 {
     lexbor_avl_t avl = {0};
-    lxb_status_t status = lexbor_avl_init(&avl, 0);
+    lxb_status_t status = lexbor_avl_init(&avl, 0, 0);
 
     test_eq(status, LXB_STATUS_ERROR_WRONG_ARGS);
 
@@ -52,7 +52,7 @@ TEST_END
 TEST_BEGIN(node_make)
 {
     lexbor_avl_t avl;
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_node_t *node = lexbor_avl_node_make(&avl, 1,
                                                    &avl);
@@ -72,7 +72,7 @@ TEST_END
 TEST_BEGIN(node_clean)
 {
     lexbor_avl_t avl;
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_node_t *node = lexbor_avl_node_make(&avl, 1,
                                                    &avl);
@@ -101,7 +101,7 @@ TEST_END
 TEST_BEGIN(node_destroy)
 {
     lexbor_avl_t *avl = lexbor_avl_create();
-    lexbor_avl_init(avl, 1024);
+    lexbor_avl_init(avl, 1024, 0);
 
     lexbor_avl_node_t *node = lexbor_avl_node_make(avl, 1,
                                                    &avl);
@@ -168,7 +168,7 @@ TEST_BEGIN(tree_3_0)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 1, (void *) 1);
     lexbor_avl_insert(&avl, &root, 2, (void *) 2);
@@ -185,7 +185,7 @@ TEST_BEGIN(tree_3_1)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 3, (void *) 3);
     lexbor_avl_insert(&avl, &root, 2, (void *) 2);
@@ -202,7 +202,7 @@ TEST_BEGIN(tree_3_2)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 2, (void *) 2);
     lexbor_avl_insert(&avl, &root, 1, (void *) 1);
@@ -219,7 +219,7 @@ TEST_BEGIN(tree_3_3)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 2, (void *) 2);
     lexbor_avl_insert(&avl, &root, 3, (void *) 3);
@@ -236,7 +236,7 @@ TEST_BEGIN(tree_3_4)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 3, (void *) 3);
     lexbor_avl_insert(&avl, &root, 1, (void *) 1);
@@ -253,7 +253,7 @@ TEST_BEGIN(tree_3_5)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 1, (void *) 1);
     lexbor_avl_insert(&avl, &root, 3, (void *) 3);
@@ -270,7 +270,7 @@ TEST_BEGIN(tree_4)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL, *node;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 1, (void *) 1);
     lexbor_avl_insert(&avl, &root, 2, (void *) 2);
@@ -333,7 +333,7 @@ TEST_BEGIN(tree_5)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL, *node;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 1, (void *) 1);
     lexbor_avl_insert(&avl, &root, 2, (void *) 2);
@@ -409,7 +409,7 @@ TEST_BEGIN(delete_1L)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL, *node;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 1, (void *) 1);
     lexbor_avl_insert(&avl, &root, 2, (void *) 2);
@@ -464,7 +464,7 @@ TEST_BEGIN(delete_1R)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL, *node;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 3, (void *) 3);
     lexbor_avl_insert(&avl, &root, 2, (void *) 2);
@@ -519,7 +519,7 @@ TEST_BEGIN(delete_2L)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL, *node;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 2, (void *) 2);
     lexbor_avl_insert(&avl, &root, 1, (void *) 1);
@@ -574,7 +574,7 @@ TEST_BEGIN(delete_2R)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL, *node;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 3, (void *) 3);
     lexbor_avl_insert(&avl, &root, 1, (void *) 1);
@@ -629,7 +629,7 @@ TEST_BEGIN(delete_sub_1L)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL, *node;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 3, (void *) 3);
     lexbor_avl_insert(&avl, &root, 2, (void *) 2);
@@ -725,7 +725,7 @@ TEST_BEGIN(delete_sub_1R)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL, *node;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 5, (void *) 5);
     lexbor_avl_insert(&avl, &root, 3, (void *) 3);
@@ -822,7 +822,7 @@ TEST_BEGIN(delete_10_0)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL, *node;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 1, (void *) 1);
     lexbor_avl_insert(&avl, &root, 2, (void *) 2);
@@ -869,7 +869,7 @@ TEST_BEGIN(delete_10_1)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL, *node;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 1, (void *) 1);
     lexbor_avl_insert(&avl, &root, 2, (void *) 2);
@@ -917,7 +917,7 @@ TEST_BEGIN(delete_10_2)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL, *node;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 1, (void *) 1);
     lexbor_avl_insert(&avl, &root, 2, (void *) 2);
@@ -965,7 +965,7 @@ TEST_BEGIN(delete_10_3)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL, *node;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 1, (void *) 1);
     lexbor_avl_insert(&avl, &root, 2, (void *) 2);
@@ -1012,7 +1012,7 @@ TEST_BEGIN(delete_10_4)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL, *node;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 1, (void *) 1);
     lexbor_avl_insert(&avl, &root, 2, (void *) 2);
@@ -1059,7 +1059,7 @@ TEST_BEGIN(delete_10_5)
     lexbor_avl_t avl;
     lexbor_avl_node_t *root = NULL, *node;
 
-    test_eq(lexbor_avl_init(&avl, 1024), LXB_STATUS_OK);
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
 
     lexbor_avl_insert(&avl, &root, 1, (void *) 1);
     lexbor_avl_insert(&avl, &root, 2, (void *) 2);
@@ -1104,7 +1104,7 @@ TEST_END
 TEST_BEGIN(clean)
 {
     lexbor_avl_t avl;
-    lexbor_avl_init(&avl, 1024);
+    lexbor_avl_init(&avl, 1024, 0);
 
     lexbor_avl_clean(&avl);
 
@@ -1115,12 +1115,12 @@ TEST_END
 TEST_BEGIN(destroy)
 {
     lexbor_avl_t *avl = lexbor_avl_create();
-    lexbor_avl_init(avl, 1024);
+    lexbor_avl_init(avl, 1024, 0);
 
     test_eq(lexbor_avl_destroy(avl, true), NULL);
 
     avl = lexbor_avl_create();
-    lexbor_avl_init(avl, 1021);
+    lexbor_avl_init(avl, 1021, 0);
 
     test_eq(lexbor_avl_destroy(avl, false), avl);
     test_eq(lexbor_avl_destroy(avl, true), NULL);
@@ -1131,7 +1131,7 @@ TEST_END
 TEST_BEGIN(destroy_stack)
 {
     lexbor_avl_t avl;
-    lexbor_avl_init(&avl, 1023);
+    lexbor_avl_init(&avl, 1023, 0);
 
     test_eq(lexbor_avl_destroy(&avl, false), &avl);
 }

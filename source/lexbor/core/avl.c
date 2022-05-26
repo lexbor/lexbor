@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2022 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -42,19 +42,24 @@ lexbor_avl_create(void)
 }
 
 lxb_status_t
-lexbor_avl_init(lexbor_avl_t *avl, size_t chunk_len)
+lexbor_avl_init(lexbor_avl_t *avl, size_t chunk_len, size_t struct_size)
 {
     if (avl == NULL) {
         return LXB_STATUS_ERROR_OBJECT_IS_NULL;
     }
 
-    if (chunk_len == 0) {
+    if (chunk_len == 0
+        || (struct_size != 0 && struct_size < sizeof(lexbor_avl_node_t)))
+    {
         return LXB_STATUS_ERROR_WRONG_ARGS;
     }
 
+    if (struct_size == 0) {
+        struct_size = sizeof(lexbor_avl_node_t);
+    }
+
     avl->nodes = lexbor_dobject_create();
-    return lexbor_dobject_init(avl->nodes,
-                               chunk_len, sizeof(lexbor_avl_node_t));
+    return lexbor_dobject_init(avl->nodes, chunk_len, struct_size);
 }
 
 void

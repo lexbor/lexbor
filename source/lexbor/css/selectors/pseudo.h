@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 Alexander Borisov
+ * Copyright (C) 2020-2022 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -17,20 +17,21 @@ extern "C" {
 
 
 typedef struct {
-    lxb_char_t                    *name;
-    size_t                        length;
-    unsigned                      id;
-    lxb_css_parser_state_f        success;
-    lxb_css_parser_state_f        state;
-    bool                          empty;
-    lxb_css_selector_combinator_t combinator;
+    lxb_char_t                          *name;
+    size_t                              length;
+    unsigned                            id;
+    bool                                empty;
+    lxb_css_selector_combinator_t       combinator;
+    const lxb_css_syntax_cb_function_t  cb;
+    bool                                forgiving;
+    bool                                comma;
 }
 lxb_css_selectors_pseudo_data_func_t;
 
 typedef struct {
-    lxb_char_t                    *name;
-    size_t                        length;
-    unsigned                      id;
+    lxb_char_t *name;
+    size_t     length;
+    unsigned   id;
 }
 lxb_css_selectors_pseudo_data_t;
 
@@ -54,6 +55,9 @@ lxb_css_selector_pseudo_element_function_by_name(const lxb_char_t *name,
 
 LXB_API const lxb_css_selectors_pseudo_data_func_t *
 lxb_css_selector_pseudo_element_function_by_id(unsigned id);
+
+LXB_API const lxb_css_selectors_pseudo_data_func_t *
+lxb_css_selector_pseudo_function_by_id(unsigned id, bool is_class);
 
 LXB_API bool
 lxb_css_selector_pseudo_function_can_empty(unsigned id, bool is_class);

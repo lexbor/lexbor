@@ -5,6 +5,9 @@
  */
 
 #include "lexbor/css/parser.h"
+#include "lexbor/css/state.h"
+#include "lexbor/css/syntax/syntax.h"
+
 
 lxb_css_parser_t *
 lxb_css_parser_create(void)
@@ -13,25 +16,28 @@ lxb_css_parser_create(void)
 }
 
 lxb_status_t
-lxb_css_parser_init(lxb_css_parser_t *parser,
-                    lxb_css_syntax_tokenizer_t *tkz, lexbor_mraw_t *mraw)
+lxb_css_parser_init(lxb_css_parser_t *parser, lxb_css_syntax_tokenizer_t *tkz)
 {
     lxb_status_t status;
-    static const size_t lxb_stack_size = 1024;
+    static const size_t lxb_rules_length = 128;
+    static const size_t lxb_states_length = 1024;
 
     if (parser == NULL) {
         return LXB_STATUS_ERROR_OBJECT_IS_NULL;
     }
 
     /* Stack */
-    parser->stack_begin = lexbor_malloc(sizeof(lxb_css_parser_stack_t)
-                                        * lxb_stack_size);
-    if (parser->stack_begin == NULL) {
+    parser->states_begin = lexbor_malloc(sizeof(lxb_css_parser_state_t)
+                                         * lxb_states_length);
+    if (parser->states_begin == NULL) {
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
 
-    parser->stack = parser->stack_begin;
-    parser->stack_end = parser->stack_begin + lxb_stack_size;
+    parser->states = parser->states_begin;
+    parser->states_end = parser->states_begin + lxb_states_length;
+
+    memset(parser->states, 0x00, sizeof(lxb_css_parser_state_t));
+    parser->states->root = true;
 
     /* Syntax */
     parser->my_tkz = false;
@@ -46,17 +52,24 @@ lxb_css_parser_init(lxb_css_parser_t *parser,
         parser->my_tkz = true;
     }
 
-    /* Memmory for all structures. */
-    parser->my_mraw = false;
+    /* Rules */
+    parser->rules_begin = lexbor_malloc(sizeof(lxb_css_syntax_rule_t)
+                                        * lxb_rules_length);
+    if (parser->rules_begin == NULL) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
 
-    if (mraw == NULL) {
-        mraw = lexbor_mraw_create();
-        status = lexbor_mraw_init(mraw, 4096 * 4);
-        if (status != LXB_STATUS_OK) {
-            return status;
-        }
+    parser->rules_end = parser->rules_begin + lxb_rules_length;
+    parser->rules = parser->rules_begin;
 
-        parser->my_mraw = true;
+    /* Temp */
+    parser->pos = NULL;
+    parser->str.length = 0;
+    parser->str_size = 4096;
+
+    parser->str.data = lexbor_malloc(sizeof(lxb_char_t) * parser->str_size);
+    if (parser->str.data == NULL) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
 
     parser->log = lxb_css_log_create();
@@ -66,11 +79,13 @@ lxb_css_parser_init(lxb_css_parser_t *parser,
     }
 
     parser->tkz = tkz;
-    parser->mraw = mraw;
     parser->types_begin = NULL;
     parser->types_pos = NULL;
     parser->types_end = NULL;
     parser->stage = LXB_CSS_PARSER_CLEAN;
+    parser->receive_endings = false;
+    parser->status = LXB_STATUS_OK;
+    parser->fake_null = false;
 
     return LXB_STATUS_OK;
 }
@@ -81,14 +96,24 @@ lxb_css_parser_clean(lxb_css_parser_t *parser)
     lxb_css_syntax_tokenizer_clean(parser->tkz);
     lxb_css_log_clean(parser->log);
 
-    if (parser->my_mraw) {
-        lexbor_mraw_clean(parser->mraw);
-    }
-
+    parser->rules = parser->rules_begin;
+    parser->states = parser->states_begin;
     parser->types_pos = parser->types_begin;
-    parser->stack = parser->stack_begin;
-    parser->status = LXB_STATUS_OK;
     parser->stage = LXB_CSS_PARSER_CLEAN;
+    parser->status = LXB_STATUS_OK;
+    parser->pos = NULL;
+    parser->str.length = 0;
+    parser->fake_null = false;
+}
+
+void
+lxb_css_parser_erase(lxb_css_parser_t *parser)
+{
+    lxb_css_parser_clean(parser);
+
+    if (parser->memory != NULL) {
+        lxb_css_memory_clean(parser->memory);
+    }
 }
 
 lxb_css_parser_t *
@@ -104,18 +129,20 @@ lxb_css_parser_destroy(lxb_css_parser_t *parser, bool self_destroy)
 
     parser->log = lxb_css_log_destroy(parser->log, true);
 
-    if (parser->my_mraw) {
-        if (lexbor_mraw_reference_count(parser->mraw) == 0) {
-            parser->mraw = lexbor_mraw_destroy(parser->mraw, true);
-        }
+    if (parser->rules_begin != NULL) {
+        parser->rules_begin = lexbor_free(parser->rules_begin);
     }
 
-    if (parser->stack_begin != NULL) {
-        parser->stack_begin = lexbor_free(parser->stack_begin);
+    if (parser->states_begin != NULL) {
+        parser->states_begin = lexbor_free(parser->states_begin);
     }
 
     if (parser->types_begin != NULL) {
         parser->types_begin = lexbor_free(parser->types_begin);
+    }
+
+    if (parser->str.data != NULL) {
+        parser->str.data = lexbor_free(parser->str.data);
     }
 
     if (self_destroy) {
@@ -125,35 +152,36 @@ lxb_css_parser_destroy(lxb_css_parser_t *parser, bool self_destroy)
     return parser;
 }
 
-lxb_css_parser_stack_t *
-lxb_css_parser_stack_push(lxb_css_parser_t *parser,
-                          lxb_css_parser_state_f state, void *ctx, bool stop)
+lxb_css_parser_state_t *
+lxb_css_parser_states_push(lxb_css_parser_t *parser,
+                           lxb_css_parser_state_f state, void *ctx, bool root)
 {
-    if (parser->stack >= parser->stack_end) {
-        lxb_css_parser_stack_t *entry;
+    lxb_css_parser_state_t *states = ++parser->states;
 
-        size_t size = parser->stack_end - parser->stack_begin;
-        size_t new_size = size + 1024;
+    if (states >= parser->states_end) {
+        size_t length = parser->states_end - parser->states_begin;
+        size_t new_length = length + 1024;
 
-        if (SIZE_MAX - size < 1024) {
+        if (SIZE_MAX - length < 1024) {
             goto memory_error;
         }
 
-        entry = lexbor_realloc(parser->stack_begin, new_size);
-        if (entry == NULL) {
+        states = lexbor_realloc(parser->states_begin,
+                                new_length * sizeof(lxb_css_parser_state_t));
+        if (states == NULL) {
             goto memory_error;
         }
 
-        parser->stack_begin = entry;
-        parser->stack_end = entry + new_size;
-        parser->stack = entry + size;
+        parser->states_begin = states;
+        parser->states_end = states + new_length;
+        parser->states = states + length;
     }
 
-    parser->stack->state = state;
-    parser->stack->context = ctx;
-    parser->stack->required_stop = stop;
+    states->state = state;
+    states->context = ctx;
+    states->root = root;
 
-    return parser->stack++;
+    return states;
 
 memory_error:
 
@@ -162,122 +190,24 @@ memory_error:
     return NULL;
 }
 
-lxb_status_t
-lxb_css_parser_run(lxb_css_parser_t *parser,
-                   lxb_css_parser_state_f state, void *context)
+lxb_css_parser_state_t *
+lxb_css_parser_states_next(lxb_css_parser_t *parser,
+                           lxb_css_parser_state_f next,
+                           lxb_css_parser_state_f back, void *ctx, bool root)
 {
-    lxb_css_syntax_token_t *token;
-    lxb_css_syntax_tokenizer_t *tkz;
+    lxb_css_parser_state_t *state;
 
-    tkz = parser->tkz;
-
-    parser->loop = true;
-    parser->state = state;
-    parser->context = context;
-
-    do {
-        token = lxb_css_syntax_token(tkz);
-        if (token == NULL) {
-            parser->status = tkz->status;
-            return parser->status;
-        }
-
-        while (parser->state(parser, token, parser->context) == false) {};
+    state = lxb_css_parser_states_push(parser, back, ctx, root);
+    if (state == NULL) {
+        return NULL;
     }
-    while (parser->loop);
 
-    return parser->status;
-}
+    parser->rules->state = next;
 
-bool
-lxb_css_parser_stop(lxb_css_parser_t *parser)
-{
-    parser->loop = false;
-    return true;
-}
-
-bool
-lxb_css_parser_fail(lxb_css_parser_t *parser, lxb_status_t status)
-{
-    parser->status = status;
-    parser->loop = false;
-    return true;
-}
-
-bool
-lxb_css_parser_unexpected(lxb_css_parser_t *parser)
-{
-    (void) lxb_css_parser_unexpected_status(parser);
-    return true;
+    return state;
 }
 
 lxb_status_t
-lxb_css_parser_unexpected_status(lxb_css_parser_t *parser)
-{
-    parser->status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
-
-    if (parser->selectors->list_last != NULL) {
-        parser->selectors->list_last->invalid = true;
-    }
-
-    if (parser->stack > parser->stack_begin) {
-        (void) lxb_css_parser_stack_to_stop(parser);
-    }
-
-    return LXB_STATUS_ERROR_UNEXPECTED_DATA;
-}
-
-bool
-lxb_css_parser_unexpected_data(lxb_css_parser_t *parser,
-                               const lxb_css_syntax_token_t *token)
-{
-    static const char selectors[] = "Selectors";
-    parser->status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
-
-    if (parser->selectors->list_last != NULL) {
-        parser->selectors->list_last->invalid = true;
-    }
-
-    if (lxb_css_syntax_token_error(parser, token, selectors) == NULL) {
-        return lxb_css_parser_memory_fail(parser);
-    }
-
-    if (parser->stack > parser->stack_begin) {
-        (void) lxb_css_parser_stack_to_stop(parser);
-    }
-
-    return true;
-}
-
-lxb_status_t
-lxb_css_parser_unexpected_data_status(lxb_css_parser_t *parser,
-                                      const lxb_css_syntax_token_t *token)
-{
-    static const char selectors[] = "Selectors";
-    parser->status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
-
-    parser->selectors->list_last->invalid = true;
-
-    if (lxb_css_syntax_token_error(parser, token, selectors) == NULL) {
-        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-    }
-
-    if (parser->stack > parser->stack_begin) {
-        (void) lxb_css_parser_stack_to_stop(parser);
-    }
-
-    return LXB_STATUS_ERROR_UNEXPECTED_DATA;
-}
-
-bool
-lxb_css_parser_memory_fail(lxb_css_parser_t *parser)
-{
-    parser->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-    parser->loop = false;
-    return true;
-}
-
-lxb_inline lxb_status_t
 lxb_css_parser_types_push(lxb_css_parser_t *parser,
                           lxb_css_syntax_token_type_t type)
 {
@@ -309,165 +239,97 @@ lxb_css_parser_types_push(lxb_css_parser_t *parser,
     return LXB_STATUS_OK;
 }
 
-lxb_inline bool
-lxb_css_parser_types_done(lxb_css_syntax_token_t *token,
-                          const lxb_char_t *opt_data, lxb_css_syntax_token_type_t type)
+bool
+lxb_css_parser_stop(lxb_css_parser_t *parser)
 {
-    if (opt_data == NULL) {
-        return true;
-    }
-
-    switch (type) {
-        case LXB_CSS_SYNTAX_TOKEN_DELIM:
-            if (lxb_css_syntax_token_delim_char(token) == *opt_data) {
-                return true;
-            }
-
-            return false;
-
-        default:
-            return true;
-    }
+    parser->loop = false;
+    return true;
 }
 
-lxb_css_syntax_token_t *
-lxb_css_parser_find_close(lxb_css_parser_t *parser, lxb_css_syntax_token_t *token,
-                          const lxb_char_t *opt_data, lxb_css_syntax_token_type_t type,
-                          lxb_css_syntax_token_type_t stop)
+bool
+lxb_css_parser_fail(lxb_css_parser_t *parser, lxb_status_t status)
 {
-    lxb_status_t status;
-    lxb_css_syntax_token_type_t *pos;
-    lxb_css_syntax_tokenizer_t *tkz = parser->tkz;
-
-    parser->types_pos = parser->types_begin;
-    pos = parser->types_pos;
-
-    if (pos == NULL) {
-        size_t length = 128;
-
-        pos = lexbor_malloc(length * sizeof(lxb_css_syntax_token_type_t));
-        if (pos == NULL) {
-            status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-            goto failed;
-        }
-
-        parser->types_begin = pos;
-        parser->types_pos = pos;
-        parser->types_end = pos + length;
-    }
-
-    status = lxb_css_parser_types_push(parser, type);
-    if (status != LXB_STATUS_OK) {
-        goto failed;
-    }
-
-    do {
-        switch (token->type) {
-            case LXB_CSS_SYNTAX_TOKEN_LS_BRACKET:
-                type = LXB_CSS_SYNTAX_TOKEN_RS_BRACKET;
-
-                status = lxb_css_parser_types_push(parser, type);
-                if (status != LXB_STATUS_OK) {
-                    goto failed;
-                }
-
-                break;
-
-            case LXB_CSS_SYNTAX_TOKEN_FUNCTION:
-            case LXB_CSS_SYNTAX_TOKEN_L_PARENTHESIS:
-                type = LXB_CSS_SYNTAX_TOKEN_R_PARENTHESIS;
-
-                status = lxb_css_parser_types_push(parser, type);
-                if (status != LXB_STATUS_OK) {
-                    goto failed;
-                }
-
-                break;
-
-            case LXB_CSS_SYNTAX_TOKEN_LC_BRACKET:
-                type = LXB_CSS_SYNTAX_TOKEN_RC_BRACKET;
-
-                status = lxb_css_parser_types_push(parser, type);
-                if (status != LXB_STATUS_OK) {
-                    goto failed;
-                }
-
-                break;
-
-            case LXB_CSS_SYNTAX_TOKEN__EOF:
-                return token;
-
-            default:
-                if (token->type == type) {
-                    parser->types_pos--;
-
-                    if (parser->types_pos == parser->types_begin) {
-                        if (!lxb_css_parser_types_done(token, opt_data, type)) {
-                            goto again;
-                        }
-
-                        return token;
-                    }
-
-                    type = *(parser->types_pos - 1);
-                }
-                else if (stop != LXB_CSS_SYNTAX_TOKEN_UNDEF
-                    && stop == token->type)
-                {
-                    if (parser->types_pos - 1 == parser->types_begin) {
-                        parser->types_pos--;
-                        return token;
-                    }
-                }
-
-                break;
-        }
-
-    again:
-
-        lxb_css_syntax_token_consume(tkz);
-        token = lxb_css_syntax_token(tkz);
-    }
-    while (token != NULL);
-
-    status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-
-failed:
-
     parser->status = status;
-
-    return NULL;
+    parser->loop = false;
+    return true;
 }
 
-lxb_css_syntax_token_t *
-lxb_css_parser_find_close_deep(lxb_css_parser_t *parser,
-                               lxb_css_syntax_token_t *token,
-                               lxb_css_syntax_token_type_t type, size_t *deep)
+bool
+lxb_css_parser_unexpected(lxb_css_parser_t *parser)
 {
-    size_t n = *deep;
+    (void) lxb_css_parser_unexpected_status(parser);
+    return true;
+}
 
-    while (n != 0) {
-        token = lxb_css_parser_find_close(parser, token, NULL, type,
-                                          LXB_CSS_SYNTAX_TOKEN_UNDEF);
-        if (token == NULL) {
-            break;
-        }
+bool
+lxb_css_parser_success(lxb_css_parser_t *parser)
+{
+    parser->rules->state = lxb_css_state_success;
+    return true;
+}
 
-        if (token->type != LXB_CSS_SYNTAX_TOKEN_R_PARENTHESIS) {
-            break;
-        }
+bool
+lxb_css_parser_failed(lxb_css_parser_t *parser)
+{
+    lxb_css_syntax_rule_t *rule = parser->rules;
 
-        lxb_css_syntax_token_consume(parser->tkz);
+    rule->state = rule->cbx.cb->failed;
+    rule->failed = true;
 
-        token = lxb_css_syntax_token(parser->tkz);
-        if (token == NULL) {
-            break;
-        }
+    return true;
+}
 
-        n--;
+lxb_status_t
+lxb_css_parser_unexpected_status(lxb_css_parser_t *parser)
+{
+    parser->status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+
+    parser->rules->failed = true;
+
+    return LXB_STATUS_ERROR_UNEXPECTED_DATA;
+}
+
+bool
+lxb_css_parser_unexpected_data(lxb_css_parser_t *parser,
+                               const lxb_css_syntax_token_t *token)
+{
+    static const char selectors[] = "Selectors";
+    parser->status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+
+    if (lxb_css_syntax_token_error(parser, token, selectors) == NULL) {
+        return lxb_css_parser_memory_fail(parser);
     }
 
-    *deep = n;
+    return true;
+}
 
-    return token;
+lxb_status_t
+lxb_css_parser_unexpected_data_status(lxb_css_parser_t *parser,
+                                      const lxb_css_syntax_token_t *token)
+{
+    static const char selectors[] = "Selectors";
+    parser->status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+
+    if (lxb_css_syntax_token_error(parser, token, selectors) == NULL) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    return LXB_STATUS_ERROR_UNEXPECTED_DATA;
+}
+
+bool
+lxb_css_parser_memory_fail(lxb_css_parser_t *parser)
+{
+    parser->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    parser->loop = false;
+    return true;
+}
+
+lxb_status_t
+lxb_css_parser_memory_fail_status(lxb_css_parser_t *parser)
+{
+    parser->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    parser->loop = false;
+
+    return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
 }

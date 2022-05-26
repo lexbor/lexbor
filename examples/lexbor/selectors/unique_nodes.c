@@ -27,7 +27,7 @@ callback(const lxb_char_t *data, size_t len, void *ctx)
 }
 
 lxb_status_t
-find_callback(lxb_dom_node_t *node, lxb_css_selector_specificity_t *spec,
+find_callback(lxb_dom_node_t *node, lxb_css_selector_specificity_t spec,
               void *ctx)
 {
     lexbor_avl_node_t *avl_node;
@@ -87,7 +87,7 @@ main(int argc, const char *argv[])
     /* Create CSS parser. */
 
     parser = lxb_css_parser_create();
-    status = lxb_css_parser_init(parser, NULL, NULL);
+    status = lxb_css_parser_init(parser, NULL);
     if (status != LXB_STATUS_OK) {
         return EXIT_FAILURE;
     }
@@ -95,7 +95,7 @@ main(int argc, const char *argv[])
     /* Create CSS Selector parser. */
 
     css_selectors = lxb_css_selectors_create();
-    status = lxb_css_selectors_init(css_selectors, 32);
+    status = lxb_css_selectors_init(css_selectors);
     if (status != LXB_STATUS_OK) {
         return EXIT_FAILURE;
     }
@@ -116,7 +116,7 @@ main(int argc, const char *argv[])
     /* AVL Tree. */
 
     ctx.avl = lexbor_avl_create();
-    status = lexbor_avl_init(ctx.avl, 32);
+    status = lexbor_avl_init(ctx.avl, 32, 0);
     if (status != LXB_STATUS_OK) {
         return EXIT_FAILURE;
     }
@@ -153,21 +153,18 @@ main(int argc, const char *argv[])
         return EXIT_FAILURE;
     }
 
-    /* Destroy AVL Tree with unique nodes. */
+    /* Destroy Objects. */
+
     (void) lexbor_avl_destroy(ctx.avl, true);
-
-    /* Destroy Selectors object. */
     (void) lxb_selectors_destroy(selectors, true);
-
-    /* Destroy resources for CSS Parser. */
     (void) lxb_css_parser_destroy(parser, true);
+    (void) lxb_css_memory_destroy(list->memory, true);
 
-    /* Destroy CSS Selectors List memory. */
-    (void) lxb_css_selectors_destroy(css_selectors, true, true);
-    /* or use */
-    /* lxb_css_selector_list_destroy_memory(list_one); */
+    /*
+     * or use lxb_css_selector_list_destroy_memory(list);
+     */
 
-    /* Destroy HTML Document. */
+    (void) lxb_css_selectors_destroy(css_selectors, true);
     (void) lxb_html_document_destroy(document);
 
     return EXIT_SUCCESS;

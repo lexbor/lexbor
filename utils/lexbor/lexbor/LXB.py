@@ -444,7 +444,7 @@ class SHS:
 
         self.idx += 1
         return self.idx
-    
+
 
 class FormatEnum:
     def __init__(self, enum_name, value_prefix = ""):
@@ -462,14 +462,17 @@ class FormatEnum:
 
         self.buffer.append([key, value])
 
-    def build(self, join_val = "= "):
+    def build(self, join_val = "= ", typedef = None):
         if len(self.buffer) == 0:
             return []
 
         buffer = []
         last_entry = self.buffer.pop()
 
-        buffer.append("typedef enum {")
+        if typedef is None: 
+            buffer.append("typedef enum {")
+        else:
+            buffer.append("enum {")
         
         for entry in self.buffer:
             if entry[0] == None:
@@ -480,8 +483,12 @@ class FormatEnum:
 
         self.make_line(last_entry, buffer, join_val)
 
-        buffer.append("}")
-        buffer.append("{0};".format(self.enum_name))
+        if typedef is None: 
+            buffer.append("}")
+            buffer.append("{0};".format(self.enum_name))
+        else:
+            buffer.append("};")
+            buffer.append("typedef {0} {1};".format(typedef, self.enum_name))
 
         return buffer
 

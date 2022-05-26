@@ -4,13 +4,13 @@
     {
         "data": "/* Comment */123.456ident'string'#hash@media \\67mase",
         "tokens": [
-            {"type": "comment", "value": "/* Comment */"},
-            {"type": "dimension", "value": "123.456ident"},
-            {"type": "string", "value": "\"string\""},
-            {"type": "hash", "value": "#hash"},
-            {"type": "at-keyword", "value": "@media"},
-            {"type": "whitespace", "value": " "},
-            {"type": "ident", "value": "gmase"},
+            {"type": "comment", "value": "/* Comment */", "length": 13},
+            {"type": "dimension", "value": "123.456ident", "length": 12},
+            {"type": "string", "value": "\"string\"", "length": 8},
+            {"type": "hash", "value": "#hash", "length": 5},
+            {"type": "at-keyword", "value": "@media", "length": 6},
+            {"type": "whitespace", "value": " ", "length": 1},
+            {"type": "ident", "value": "gmase", "length": 7}
         ]
     }
 ]

@@ -4,179 +4,179 @@
     {
         "data": "#wygodski",
         "tokens": [
-            {"type": "hash", "value": "#wygodski"}
+            {"type": "hash", "value": "#wygodski", "length": 9}
         ]
     },
     /* 2 */
     {
         "data": "#\\77ygodski",
         "tokens": [
-            {"type": "hash", "value": "#wygodski"}
+            {"type": "hash", "value": "#wygodski", "length": 11}
         ]
     },
     /* 3 */
     {
         "data": "#wyg\\6F dski",
         "tokens": [
-            {"type": "hash", "value": "#wygodski"}
+            {"type": "hash", "value": "#wygodski", "length": 12}
         ]
     },
     /* 4 */
     {
         "data": "#wygodsk\\69",
         "tokens": [
-            {"type": "hash", "value": "#wygodski"}
+            {"type": "hash", "value": "#wygodski", "length": 11}
         ]
     },
     /* 5 */
     {
         "data": "#\\77\\79\\67\\6F\\64\\73\\6B\\69",
         "tokens": [
-            {"type": "hash", "value": "#wygodski"}
+            {"type": "hash", "value": "#wygodski", "length": 25}
         ]
     },
     /* 6 */
     {
         "data": "#-wygodski",
         "tokens": [
-            {"type": "hash", "value": "#-wygodski"}
+            {"type": "hash", "value": "#-wygodski", "length": 10}
         ]
     },
     /* 7 */
     {
         "data": "#1wygodski",
         "tokens": [
-            {"type": "hash", "value": "#1wygodski"}
+            {"type": "hash", "value": "#1wygodski", "length": 10}
         ]
     },
     /* 8 */
     {
         "data": "#-",
         "tokens": [
-            {"type": "hash", "value": "#-"}
+            {"type": "hash", "value": "#-", "length": 2}
         ]
     },
     /* 9 */
     {
         "data": "#1",
         "tokens": [
-            {"type": "hash", "value": "#1"}
+            {"type": "hash", "value": "#1", "length": 2}
         ]
     },
     /* 10 */
     {
         "data": "#_",
         "tokens": [
-            {"type": "hash", "value": "#_"}
+            {"type": "hash", "value": "#_", "length": 2}
         ]
     },
     /* 11 */
     {
         "data": "#Марк_Яковлевич_Выгодский",
         "tokens": [
-            {"type": "hash", "value": "#Марк_Яковлевич_Выгодский"}
+            {"type": "hash", "value": "#Марк_Яковлевич_Выгодский", "length": 47}
         ]
     },
     /* 12 */
     {
         "data": "#\\",
         "tokens": [
-            {"type": "delim", "value": "#"},
-            {"type": "delim", "value": "\\"}
+            {"type": "delim", "value": "#", "length": 1},
+            {"type": "delim", "value": "\\", "length": 1}
         ]
     },
     /* 13 */
     {
         "data": "#\\77",
         "tokens": [
-            {"type": "hash", "value": "#w"}
+            {"type": "hash", "value": "#w", "length": 4}
         ]
     },
     /* 14 */
     {
         "data": "#+",
         "tokens": [
-            {"type": "delim", "value": "#"},
-            {"type": "delim", "value": "+"}
+            {"type": "delim", "value": "#", "length": 1},
+            {"type": "delim", "value": "+", "length": 1}
         ]
     },
     /* 15 */
     {
         "data": "#Марк+Яковлевич",
         "tokens": [
-            {"type": "hash", "value": "#Марк"},
-            {"type": "delim", "value": "+"},
-            {"type": "ident", "value": "Яковлевич"}
+            {"type": "hash", "value": "#Марк", "length": 9},
+            {"type": "delim", "value": "+", "length": 1},
+            {"type": "ident", "value": "Яковлевич", "length": 18}
         ]
     },
     /* 16 */
     {
         "data": "#\\77 \\79 \\67 \\6F \\64 \\73 \\6B \\69",
         "tokens": [
-            {"type": "hash", "value": "#wygodski"}
+            {"type": "hash", "value": "#wygodski", "length": 32}
         ]
     },
     /* 17 */
     {
         "data": "#\\\0",
         "tokens": [
-            {"type": "hash", "value": "#�"}
+            {"type": "hash", "value": "#�", "length": 3}
         ]
     },
     /* 18 */
     {
         "data": "#\0",
         "tokens": [
-            {"type": "hash", "value": "#�"}
+            {"type": "hash", "value": "#�", "length": 2}
         ]
     },
     /* 19 */
     {
         "data": "#wygod\0ski",
         "tokens": [
-            {"type": "hash", "value": "#wygod�ski"}
+            {"type": "hash", "value": "#wygod�ski", "length": 10}
         ]
     },
     /* 20 */
     {
         "data": "#",
         "tokens": [
-            {"type": "delim", "value": "#"}
+            {"type": "delim", "value": "#", "length": 1}
         ]
     },
     /* 21 */
     {
         "data": "##id",
         "tokens": [
-            {"type": "delim", "value": "#"},
-            {"type": "hash", "value": "#id"}
+            {"type": "delim", "value": "#", "length": 1},
+            {"type": "hash", "value": "#id", "length": 3}
         ]
     },
     /* 22 */
     {
         "data": "#\\\n",
         "tokens": [
-            {"type": "delim", "value": "#"},
-            {"type": "delim", "value": "\\"},
-            {"type": "whitespace", "value": "\n"}
+            {"type": "delim", "value": "#", "length": 1},
+            {"type": "delim", "value": "\\", "length": 1},
+            {"type": "whitespace", "value": "\n", "length": 1}
         ]
     },
     /* 23 */
     {
         "data": "#\\\r",
         "tokens": [
-            {"type": "delim", "value": "#"},
-            {"type": "delim", "value": "\\"},
-            {"type": "whitespace", "value": "\n"}
+            {"type": "delim", "value": "#", "length": 1},
+            {"type": "delim", "value": "\\", "length": 1},
+            {"type": "whitespace", "value": "\n", "length": 1}
         ]
     },
     /* 24 */
     {
         "data": "#\\\f",
         "tokens": [
-            {"type": "delim", "value": "#"},
-            {"type": "delim", "value": "\\"},
-            {"type": "whitespace", "value": "\n"}
+            {"type": "delim", "value": "#", "length": 1},
+            {"type": "delim", "value": "\\", "length": 1},
+            {"type": "whitespace", "value": "\n", "length": 1}
         ]
     }
 ]

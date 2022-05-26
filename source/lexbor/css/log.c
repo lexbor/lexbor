@@ -18,7 +18,7 @@ lxb_css_log_type_str_t;
 
 static const lxb_css_log_type_str_t lxb_css_log_types_map[] = {
     {"Info", 4},
-    {"Warining", 8},
+    {"Warning", 7},
     {"Error", 5},
     {"Syntax error", 12}
 };

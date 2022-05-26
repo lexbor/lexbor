@@ -6,7 +6,7 @@
             "Onimusha"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"Onimusha\""}
+            {"type": "string", "value": "\"Onimusha\"", "length": 10}
         ]
     },
     /* 2 */
@@ -15,7 +15,7 @@
             'Onimusha'
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"Onimusha\""}
+            {"type": "string", "value": "\"Onimusha\"", "length": 10}
         ]
     },
     /* 3 */
@@ -24,10 +24,10 @@
             "Onimu\nsha"
         $DATA,
         "tokens": [
-            {"type": "bad-string", "value": "\"Onimu\""},
-            {"type": "whitespace", "value": "\n"},
-            {"type": "ident", "value": "sha"},
-            {"type": "string", "value": "\"\""}
+            {"type": "bad-string", "value": "\"Onimu\"", "length": 6},
+            {"type": "whitespace", "value": "\n", "length": 1},
+            {"type": "ident", "value": "sha", "length": 3},
+            {"type": "string", "value": "\"\"", "length": 1}
         ]
     },
     /* 4 */
@@ -36,7 +36,7 @@
             "Onimusha
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"Onimusha\""}
+            {"type": "string", "value": "\"Onimusha\"", "length": 9}
         ]
     },
     /* 5 */
@@ -45,7 +45,7 @@
             "Onimusha\\
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"Onimusha\\\\\""}
+            {"type": "string", "value": "\"Onimusha\\\\\"", "length": 10}
         ]
     },
     /* 6 */
@@ -54,7 +54,7 @@
             "Onim\\\nusha"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"Onimusha\""}
+            {"type": "string", "value": "\"Onimusha\"", "length": 12}
         ]
     },
     /* 7 */
@@ -63,7 +63,7 @@
             "Onim\\\r\nusha"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"Onimusha\""}
+            {"type": "string", "value": "\"Onimusha\"", "length": 13}
         ]
     },
     /* 8 */
@@ -72,7 +72,7 @@
             "\\67odofwar"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"godofwar\""}
+            {"type": "string", "value": "\"godofwar\"", "length": 12}
         ]
     },
     /* 9 */
@@ -81,7 +81,7 @@
             "\\67 odofwar"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"godofwar\""}
+            {"type": "string", "value": "\"godofwar\"", "length": 13}
         ]
     },
     /* 10 */
@@ -90,7 +90,7 @@
             "\\67  odofwar"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"g odofwar\""}
+            {"type": "string", "value": "\"g odofwar\"", "length": 14}
         ]
     },
     /* 11 */
@@ -99,7 +99,7 @@
             "\\67\\6F\\64\\6F\\66\\77\\61\\72"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"godofwar\""}
+            {"type": "string", "value": "\"godofwar\"", "length": 26}
         ]
     },
     /* 12 */
@@ -108,7 +108,7 @@
             "\\67 \\6F \\64 \\6F \\66 \\77 \\61 \\72"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"godofwar\""}
+            {"type": "string", "value": "\"godofwar\"", "length": 33}
         ]
     },
     /* 13 */
@@ -117,7 +117,7 @@
             "\\67\r\nodofwar"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"godofwar\""}
+            {"type": "string", "value": "\"godofwar\"", "length": 14}
         ]
     },
     /* 14 */
@@ -126,7 +126,7 @@
             "\\67\rodofwar"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"godofwar\""}
+            {"type": "string", "value": "\"godofwar\"", "length": 13}
         ]
     },
     /* 15 */
@@ -135,7 +135,7 @@
             "\\67\nodofwar"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"godofwar\""}
+            {"type": "string", "value": "\"godofwar\"", "length": 13}
         ]
     },
     /* 16 */
@@ -144,7 +144,7 @@
             "\\67\r\n"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"g\""}
+            {"type": "string", "value": "\"g\"", "length": 7}
         ]
     },
     /* 17 */
@@ -153,7 +153,7 @@
             "\\67\r"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"g\""}
+            {"type": "string", "value": "\"g\"", "length": 6}
         ]
     },
     /* 18 */
@@ -162,7 +162,7 @@
             "\\67\n"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"g\""}
+            {"type": "string", "value": "\"g\"", "length": 6}
         ]
     },
     /* 19 */
@@ -171,7 +171,7 @@
             "resident-evil\\"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"resident-evil\\\"\""}
+            {"type": "string", "value": "\"resident-evil\\\"\"", "length": 16}
         ]
     },
     /* 20 */
@@ -180,7 +180,7 @@
             "resident-evil\\\n"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"resident-evil\""}
+            {"type": "string", "value": "\"resident-evil\"", "length": 17}
         ]
     },
     /* 21 */
@@ -189,7 +189,7 @@
             "\\67\\\fodofwar"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"godofwar\""}
+            {"type": "string", "value": "\"godofwar\"", "length": 14}
         ]
     },
     /* 22 */
@@ -198,7 +198,7 @@
             "\\67\fodofwar"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"godofwar\""}
+            {"type": "string", "value": "\"godofwar\"", "length": 13}
         ]
     },
     /* 23 */
@@ -207,7 +207,7 @@
             "ode >>stream xЭY|Ф≈µ?3ун#!ПMА<	яЦЁ@6!		…ЈyЙF @іYРЇ“В/R@QQ.ЄшИѕ[KХА%†®|ўELxHФkѓµZ∞VЛёґжґhЂЕ+Јjн•Рљ€Щ/"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"ode >>stream xЭY|Ф≈µ?3ун#!ПMА<	яЦЁ@6!		…ЈyЙF @іYРЇ“В/R@QQ.ЄшИѕ[KХА%†®|ўELxHФkѓµZ∞VЛёґжґhЂЕ+Јjн•Рљ€Щ/\""}
+            {"type": "string", "value": "\"ode >>stream xЭY|Ф≈µ?3ун#!ПMА<	яЦЁ@6!		…ЈyЙF @іYРЇ“В/R@QQ.ЄшИѕ[KХА%†®|ўELxHФkѓµZ∞VЛёґжґhЂЕ+Јjн•Рљ€Щ/\"", "length": 163}
         ]
     },
     /* 24 */
@@ -216,7 +216,7 @@
             "'Final ' Fantasy'"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"'Final ' Fantasy'\""}
+            {"type": "string", "value": "\"'Final ' Fantasy'\"", "length": 19}
         ]
     },
     /* 25 */
@@ -225,7 +225,7 @@
             '"Final " Fantasy"'
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"\\\"Final \\\" Fantasy\\\"\""}
+            {"type": "string", "value": "\"\\\"Final \\\" Fantasy\\\"\"", "length": 19}
         ]
     },
     /* 26 */
@@ -234,7 +234,7 @@
             "g\\\fodofwar"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"godofwar\""}
+            {"type": "string", "value": "\"godofwar\"", "length": 12}
         ]
     },
     /* 27 */
@@ -243,7 +243,7 @@
             "\\\f\\67\r\nodofwar"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"godofwar\""}
+            {"type": "string", "value": "\"godofwar\"", "length": 16}
         ]
     },
     /* 28 */
@@ -252,7 +252,7 @@
             "\\67\r\nodofwar\\\f"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"godofwar\""}
+            {"type": "string", "value": "\"godofwar\"", "length": 16}
         ]
     },
     /* 29 */
@@ -261,7 +261,7 @@
             "\0Sidewalks\0and\0Skeletons\0"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"�Sidewalks�and�Skeletons�\""}
+            {"type": "string", "value": "\"�Sidewalks�and�Skeletons�\"", "length": 27}
         ]
     },
     /* 30 */
@@ -270,7 +270,7 @@
             "\\\0Sidewalks\\\0and\\\0Skeletons\\\0"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"�Sidewalks�and�Skeletons�\""}
+            {"type": "string", "value": "\"�Sidewalks�and�Skeletons�\"", "length": 31}
         ]
     },
     /* 31 */
@@ -279,7 +279,7 @@
             "\\\0"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"�\""}
+            {"type": "string", "value": "\"�\"", "length": 4}
         ]
     },
     /* 32 */
@@ -288,7 +288,7 @@
             "\0"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"�\""}
+            {"type": "string", "value": "\"�\"", "length": 3}
         ]
     },
     /* 33 */
@@ -297,7 +297,7 @@
             "Onim\\\\usha"
         $DATA,
         "tokens": [
-            {"type": "string", "value": "\"Onim\\\\usha\""}
+            {"type": "string", "value": "\"Onim\\\\usha\"", "length": 12}
         ]
     },
 ]

@@ -193,7 +193,7 @@ lexbor_mraw_alloc(lexbor_mraw_t *mraw, size_t size)
             uint8_t *real_data = ((uint8_t *) data) - lexbor_mraw_meta_size();
 
             /* Set unpoison for current data size */
-            ASAN_UNPOISON_MEMORY_REGION(real_data, size);
+            ASAN_UNPOISON_MEMORY_REGION(real_data, lexbor_mraw_meta_size());
 
             size_t cur_size = lexbor_mraw_data_size(data);
 

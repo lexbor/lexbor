@@ -4,42 +4,42 @@
     {
         "data": " ",
         "tokens": [
-            {"type": "whitespace", "value": " "}
+            {"type": "whitespace", "value": " ", "length": 1}
         ]
     },
     /* 2 */
     {
         "data": "	 	",
         "tokens": [
-            {"type": "whitespace", "value": "	 	"}
+            {"type": "whitespace", "value": "	 	", "length": 3}
         ]
     },
     /* 3 */
     {
         "data": "\r",
         "tokens": [
-            {"type": "whitespace", "value": "\n"}
+            {"type": "whitespace", "value": "\n", "length": 1}
         ]
     },
     /* 4 */
     {
         "data": "\r\n",
         "tokens": [
-            {"type": "whitespace", "value": "\n"}
+            {"type": "whitespace", "value": "\n", "length": 2}
         ]
     },
     /* 5 */
     {
         "data": "\f",
         "tokens": [
-            {"type": "whitespace", "value": "\n"}
+            {"type": "whitespace", "value": "\n", "length": 1}
         ]
     },
     /* 6 */
     {
         "data": "\f\f\r\t\r\n\n \r",
         "tokens": [
-            {"type": "whitespace", "value": "\n\n\n\t\n\n \n"}
+            {"type": "whitespace", "value": "\n\n\n\t\n\n \n", "length": 9}
         ]
     }
 ]

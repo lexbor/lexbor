@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Alexander Borisov
+ * Copyright (C) 2018-2022 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -459,7 +459,10 @@ lxb_html_tree_append_attributes(lxb_html_tree_t *tree,
 {
     lxb_status_t status;
     lxb_dom_attr_t *attr;
+    lxb_html_document_t *doc;
     lxb_html_token_attr_t *token_attr = token->attr_first;
+
+    doc = lxb_html_interface_document(element->node.owner_document);
 
     while (token_attr != NULL) {
         attr = lxb_dom_element_attr_by_local_name_data(element,
@@ -469,7 +472,7 @@ lxb_html_tree_append_attributes(lxb_html_tree_t *tree,
             continue;
         }
 
-        attr = lxb_dom_attr_interface_create(element->node.owner_document);
+        attr = lxb_dom_attr_interface_create(lxb_dom_interface_document(doc));
         if (attr == NULL) {
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         }
@@ -494,6 +497,16 @@ lxb_html_tree_append_attributes(lxb_html_tree_t *tree,
         }
 
         lxb_dom_element_attr_append(element, attr);
+
+        if (doc->css_init && attr->node.local_name == LXB_DOM_ATTR_STYLE
+            && attr->value != NULL)
+        {
+            status = lxb_html_element_style_parse(lxb_html_interface_element(element),
+                                                  attr->value->data, attr->value->length);
+            if (status != LXB_STATUS_OK) {
+                /* FIXME: what to do with an error? */
+            }
+        }
 
         token_attr = token_attr->next;
     }

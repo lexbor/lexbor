@@ -7,7 +7,7 @@ sys.path.append("{}/../../lexbor/".format(ABS_PATH))
 
 import LXB
 
-pseudo_default_state_success = "lxb_css_selectors_state_success"
+lxb_css_selectors_state_function_end = "lxb_css_selectors_state_function_end"
 
 pseudo_classes = [
     # https://drafts.csswg.org/selectors-4/#overview
@@ -25,22 +25,22 @@ pseudo_classes = [
 ]
 
 pseudo_class_functions_dict = {
-    # [callback end function, can empty]
+    # [callback end function, can empty, combinator, forgiving, comma]
     #
     # https://drafts.csswg.org/selectors-4/#overview
-    "not": [pseudo_default_state_success, False, "CLOSE"],
-    "is": ["lxb_css_selectors_state_forgiving", False, "CLOSE"],
-    "where": ["lxb_css_selectors_state_forgiving", False, "CLOSE"],
-    "has": ["lxb_css_selectors_state_forgiving_relative", False, "DESCENDANT"],
-    "dir": [pseudo_default_state_success, False, "CLOSE"],
-    "lang": [pseudo_default_state_success, False, "CLOSE"],
-    "current": [pseudo_default_state_success, False, "CLOSE"],
-    "nth-child": [pseudo_default_state_success, False, "CLOSE"],
-    "nth-last-child": [pseudo_default_state_success, False, "CLOSE"],
-    "nth-of-type": [pseudo_default_state_success, False, "CLOSE"],
-    "nth-last-of-type": [pseudo_default_state_success, False, "CLOSE"],
-    "nth-col": [pseudo_default_state_success, False, "CLOSE"],
-    "nth-last-col": [pseudo_default_state_success, False, "CLOSE"]
+    "not": [lxb_css_selectors_state_function_end, False, "CLOSE", False, True],
+    "is": ["lxb_css_selectors_state_function_forgiving", False, "CLOSE", True, True],
+    "where": ["lxb_css_selectors_state_function_forgiving", False, "CLOSE", True, True],
+    "has": ["lxb_css_selectors_state_function_forgiving_relative", False, "DESCENDANT", True, True],
+    "dir": [lxb_css_selectors_state_function_end, False, "CLOSE", False, False],
+    "lang": [lxb_css_selectors_state_function_end, False, "CLOSE", False, False],
+    "current": [lxb_css_selectors_state_function_end, False, "CLOSE", False, True],
+    "nth-child": [lxb_css_selectors_state_function_end, False, "CLOSE", False, True],
+    "nth-last-child": [lxb_css_selectors_state_function_end, False, "CLOSE", False, True],
+    "nth-of-type": [lxb_css_selectors_state_function_end, False, "CLOSE", False, False],
+    "nth-last-of-type": [lxb_css_selectors_state_function_end, False, "CLOSE", False, False],
+    "nth-col": [lxb_css_selectors_state_function_end, False, "CLOSE", False, False],
+    "nth-last-col": [lxb_css_selectors_state_function_end, False, "CLOSE", False, False]
 }
 
 pseudo_class_functions = list(pseudo_class_functions_dict.keys())
@@ -109,7 +109,7 @@ class Pseudo:
                 state_declaration.append(self.make_state_declaration(state))
                 state_bodies.append(self.make_state_body(state))
 
-                success = pseudo_default_state_success
+                success = lxb_css_selectors_state_function_end
                 can_empty = False
                 combinator = "CLOSE"
 
@@ -117,18 +117,20 @@ class Pseudo:
                     success = names[name][0]
                     can_empty = names[name][1]
                     combinator = names[name][2]
+                    forgiving = str(names[name][3]).lower()
+                    comma = str(names[name][4]).lower()
 
                 if name == "_undef":
-                    res.append("{{(lxb_char_t *) \"#undef\", 6, {},\n     {}, {},"
-                               " {},\n     {}}}".format(enum_name,
-                                        success, state, str(can_empty).lower(),
-                                        self.make_combinator_name(combinator)))
+                    res.append("{{(lxb_char_t *) \"#undef\", 6, {},\n     {}, {},\n     "
+                               "{{.state = {}, .block = NULL,\n      .failed = {}, .end = {}}}, {}, {}}}".format(enum_name, str(can_empty).lower(),
+                                        self.make_combinator_name(combinator),
+                                        state, "lxb_css_state_failed", success, "false", "false"))
                     continue
                 else:
-                    res.append("{{(lxb_char_t *) \"{}\", {}, {},\n     {}, {},"
-                               " {},\n     {}}}".format(name, len(name),
-                                        enum_name, success, state, str(can_empty).lower(),
-                                        self.make_combinator_name(combinator)))
+                    res.append("{{(lxb_char_t *) \"{}\", {}, {},\n     {}, {},\n     "
+                               "{{.state = {}, .block = NULL,\n      .failed = {}, .end = {}}}, {}, {}}}".format(name, len(name),
+                                        enum_name, str(can_empty).lower(), self.make_combinator_name(combinator),
+                                        state, "lxb_css_state_failed", success, forgiving, comma))
             else:
                 if name == "_undef":
                     res.append("{{(lxb_char_t *) \"#undef\", 6, {}}}".format(enum_name))

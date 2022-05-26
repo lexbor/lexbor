@@ -178,7 +178,7 @@ TEST_BEGIN(lexbor_an_plus_b)
     size_t entries_length = sizeof(selectors_list) / sizeof(lxb_test_entry_t);
 
     parser = lxb_css_parser_create();
-    status = lxb_css_parser_init(parser, NULL, NULL);
+    status = lxb_css_parser_init(parser, NULL);
 
     test_eq(status, LXB_STATUS_OK);
 

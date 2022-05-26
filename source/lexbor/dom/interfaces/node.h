@@ -12,6 +12,7 @@ extern "C" {
 #endif
 
 #include "lexbor/dom/interface.h"
+#include "lexbor/dom/collection.h"
 #include "lexbor/dom/interfaces/event_target.h"
 
 
@@ -107,6 +108,36 @@ lxb_dom_node_replace_all(lxb_dom_node_t *parent, lxb_dom_node_t *node);
 LXB_API void
 lxb_dom_node_simple_walk(lxb_dom_node_t *root,
                          lxb_dom_node_simple_walker_f walker_cb, void *ctx);
+
+LXB_API lxb_status_t
+lxb_dom_node_by_tag_name(lxb_dom_node_t *root, lxb_dom_collection_t *collection,
+                         const lxb_char_t *qualified_name, size_t len);
+LXB_API lxb_status_t
+lxb_dom_node_by_class_name(lxb_dom_node_t *root,
+                           lxb_dom_collection_t *collection,
+                           const lxb_char_t *class_name, size_t len);
+LXB_API lxb_status_t
+lxb_dom_node_by_attr(lxb_dom_node_t *root, lxb_dom_collection_t *collection,
+                     const lxb_char_t *qualified_name, size_t qname_len,
+                     const lxb_char_t *value, size_t value_len,
+                     bool case_insensitive);
+LXB_API lxb_status_t
+lxb_dom_node_by_attr_begin(lxb_dom_node_t *root,
+                           lxb_dom_collection_t *collection,
+                           const lxb_char_t *qualified_name, size_t qname_len,
+                           const lxb_char_t *value, size_t value_len,
+                           bool case_insensitive);
+LXB_API lxb_status_t
+lxb_dom_node_by_attr_end(lxb_dom_node_t *root, lxb_dom_collection_t *collection,
+                         const lxb_char_t *qualified_name, size_t qname_len,
+                         const lxb_char_t *value, size_t value_len,
+                         bool case_insensitive);
+LXB_API lxb_status_t
+lxb_dom_node_by_attr_contain(lxb_dom_node_t *root,
+                             lxb_dom_collection_t *collection,
+                             const lxb_char_t *qualified_name, size_t qname_len,
+                             const lxb_char_t *value, size_t value_len,
+                             bool case_insensitive);
 
 /*
  * Memory of returns value will be freed in document destroy moment.

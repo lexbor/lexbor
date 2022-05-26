@@ -4,243 +4,243 @@
     {
         "data": "godofwar",
         "tokens": [
-            {"type": "ident", "value": "godofwar"}
+            {"type": "ident", "value": "godofwar", "length": 8}
         ]
     },
     /* 2 */
     {
         "data": "\\67odofwar",
         "tokens": [
-            {"type": "ident", "value": "godofwar"}
+            {"type": "ident", "value": "godofwar", "length": 10}
         ]
     },
     /* 3 */
     {
         "data": "\\67 odofwar",
         "tokens": [
-            {"type": "ident", "value": "godofwar"}
+            {"type": "ident", "value": "godofwar", "length": 11}
         ]
     },
     /* 4 */
     {
         "data": "\\67  odofwar",
         "tokens": [
-            {"type": "ident", "value": "g"},
-            {"type": "whitespace", "value": " "},
-            {"type": "ident", "value": "odofwar"}
+            {"type": "ident", "value": "g", "length": 4},
+            {"type": "whitespace", "value": " ", "length": 1},
+            {"type": "ident", "value": "odofwar", "length": 7}
         ]
     },
     /* 5 */
     {
         "data": "\\67\\6F\\64\\6F\\66\\77\\61\\72",
         "tokens": [
-            {"type": "ident", "value": "godofwar"}
+            {"type": "ident", "value": "godofwar", "length": 24}
         ]
     },
     /* 6 */
     {
         "data": "\\67\r\nodofwar",
         "tokens": [
-            {"type": "ident", "value": "godofwar"}
+            {"type": "ident", "value": "godofwar", "length": 12}
         ]
     },
     /* 7 */
     {
         "data": "\\67\rodofwar",
         "tokens": [
-            {"type": "ident", "value": "godofwar"}
+            {"type": "ident", "value": "godofwar", "length": 11}
         ]
     },
     /* 8 */
     {
         "data": "\\67\nodofwar",
         "tokens": [
-            {"type": "ident", "value": "godofwar"}
+            {"type": "ident", "value": "godofwar", "length": 11}
         ]
     },
     /* 9 */
     {
         "data": "\\67\r\n",
         "tokens": [
-            {"type": "ident", "value": "g"}
+            {"type": "ident", "value": "g", "length": 5}
         ]
     },
     /* 10 */
     {
         "data": "\\67\r",
         "tokens": [
-            {"type": "ident", "value": "g"}
+            {"type": "ident", "value": "g", "length": 4}
         ]
     },
     /* 11 */
     {
         "data": "\\67\n",
         "tokens": [
-            {"type": "ident", "value": "g"}
+            {"type": "ident", "value": "g", "length": 4}
         ]
     },
     /* 12 */
     {
         "data": "resident-evil\\",
         "tokens": [
-            {"type": "ident", "value": "resident-evil"},
-            {"type": "delim", "value": "\\"}
+            {"type": "ident", "value": "resident-evil", "length": 13},
+            {"type": "delim", "value": "\\", "length": 1}
         ]
     },
    /* 13 */
    {
         "data": "resident-evil\\\n",
         "tokens": [
-            {"type": "ident", "value": "resident-evil"},
-            {"type": "delim", "value": "\\"},
-            {"type": "whitespace", "value": "\n"}
+            {"type": "ident", "value": "resident-evil", "length": 13},
+            {"type": "delim", "value": "\\", "length": 1},
+            {"type": "whitespace", "value": "\n", "length": 1}
         ]
     },
    /* 14 */
    {
         "data": "resident*evil",
         "tokens": [
-            {"type": "ident", "value": "resident"},
-            {"type": "delim", "value": "*"},
-            {"type": "ident", "value": "evil"}
+            {"type": "ident", "value": "resident", "length": 8},
+            {"type": "delim", "value": "*", "length": 1},
+            {"type": "ident", "value": "evil", "length": 4}
         ]
     },
    /* 15 */
    {
         "data": "Silent-Hill",
         "tokens": [
-            {"type": "ident", "value": "Silent-Hill"}
+            {"type": "ident", "value": "Silent-Hill", "length": 11}
         ]
     },
    /* 16 */
    {
         "data": "sIlEnt-hIll",
         "tokens": [
-            {"type": "ident", "value": "sIlEnt-hIll"}
+            {"type": "ident", "value": "sIlEnt-hIll", "length": 11}
         ]
     },
    /* 17 */
    {
         "data": "Silent1-Hill5",
         "tokens": [
-            {"type": "ident", "value": "Silent1-Hill5"}
+            {"type": "ident", "value": "Silent1-Hill5", "length": 13}
         ]
     },
    /* 18 */
    {
         "data": "--silent-Hill",
         "tokens": [
-            {"type": "ident", "value": "--silent-Hill"}
+            {"type": "ident", "value": "--silent-Hill", "length": 13}
         ]
     },
    /* 19 */
    {
         "data": "-Silent-Hill",
         "tokens": [
-            {"type": "ident", "value": "-Silent-Hill"}
+            {"type": "ident", "value": "-Silent-Hill", "length": 12}
         ]
     },
    /* 20 */
    {
         "data": "-_Silent-Hill",
         "tokens": [
-            {"type": "ident", "value": "-_Silent-Hill"}
+            {"type": "ident", "value": "-_Silent-Hill", "length": 13}
         ]
     },
    /* 21 */
    {
         "data": "_Silent-Hill",
         "tokens": [
-            {"type": "ident", "value": "_Silent-Hill"}
+            {"type": "ident", "value": "_Silent-Hill", "length": 12}
         ]
     },
    /* 22 */
    {
         "data": "-----_Silent-Hill",
         "tokens": [
-            {"type": "ident", "value": "-----_Silent-Hill"}
+            {"type": "ident", "value": "-----_Silent-Hill", "length": 17}
         ]
     },
    /* 23 */
    {
         "data": "-----_Silent-Hill-----",
         "tokens": [
-            {"type": "ident", "value": "-----_Silent-Hill-----"}
+            {"type": "ident", "value": "-----_Silent-Hill-----", "length": 22}
         ]
     },
    /* 24 */
    {
         "data": "-----Silent-Hill-----",
         "tokens": [
-            {"type": "ident", "value": "-----Silent-Hill-----"}
+            {"type": "ident", "value": "-----Silent-Hill-----", "length": 21}
         ]
     },
     /* 25 */
     {
         "data": "\\67\fodofwar",
         "tokens": [
-            {"type": "ident", "value": "godofwar"}
+            {"type": "ident", "value": "godofwar", "length": 11}
         ]
     },
     /* 26 */
     {
         "data": "Город",
         "tokens": [
-            {"type": "ident", "value": "Город"}
+            {"type": "ident", "value": "Город", "length": 10}
         ]
     },
     /* 27 */
     {
         "data": "-Город",
         "tokens": [
-            {"type": "ident", "value": "-Город"}
+            {"type": "ident", "value": "-Город", "length": 11}
         ]
     },
     /* 28 */
     {
         "data": "--Г_о_р_о_д",
         "tokens": [
-            {"type": "ident", "value": "--Г_о_р_о_д"}
+            {"type": "ident", "value": "--Г_о_р_о_д", "length": 16}
         ]
     },
     /* 29 */
     {
         "data": "\0",
         "tokens": [
-            {"type": "ident", "value": "�"}
+            {"type": "ident", "value": "�", "length": 1}
         ]
     },
     /* 31 */
     {
         "data": "Mass\0Effect",
         "tokens": [
-            {"type": "ident", "value": "Mass�Effect"}
+            {"type": "ident", "value": "Mass�Effect", "length": 11}
         ]
     },
     /* 32 */
     {
         "data": "Mass_Effect\0",
         "tokens": [
-            {"type": "ident", "value": "Mass_Effect�"}
+            {"type": "ident", "value": "Mass_Effect�", "length": 12}
         ]
     },
     /* 33 */
     {
         "data": "Mass\\\fEffect",
         "tokens": [
-            {"type": "ident", "value": "Mass"},
-            {"type": "delim", "value": "\\"},
-            {"type": "whitespace", "value": "\n"},
-            {"type": "ident", "value": "Effect"}
+            {"type": "ident", "value": "Mass", "length": 4},
+            {"type": "delim", "value": "\\", "length": 1},
+            {"type": "whitespace", "value": "\n", "length": 1},
+            {"type": "ident", "value": "Effect", "length": 6}
         ]
     },
     /* 34 */
     {
         "data": "Mass\fEffect",
         "tokens": [
-            {"type": "ident", "value": "Mass"},
-            {"type": "whitespace", "value": "\n"},
-            {"type": "ident", "value": "Effect"}
+            {"type": "ident", "value": "Mass", "length": 4},
+            {"type": "whitespace", "value": "\n", "length": 1},
+            {"type": "ident", "value": "Effect", "length": 6}
         ]
     }
 ]

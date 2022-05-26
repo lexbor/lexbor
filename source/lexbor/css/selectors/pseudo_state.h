@@ -19,63 +19,63 @@ extern "C" {
 
 LXB_API bool
 lxb_css_selectors_state_pseudo_class_function__undef(lxb_css_parser_t *parser,
-    lxb_css_syntax_token_t *token, void *ctx);
+    const lxb_css_syntax_token_t *token, void *ctx);
 
 LXB_API bool
 lxb_css_selectors_state_pseudo_class_function_current(lxb_css_parser_t *parser,
-    lxb_css_syntax_token_t *token, void *ctx);
+    const lxb_css_syntax_token_t *token, void *ctx);
 
 LXB_API bool
 lxb_css_selectors_state_pseudo_class_function_dir(lxb_css_parser_t *parser,
-    lxb_css_syntax_token_t *token, void *ctx);
+    const lxb_css_syntax_token_t *token, void *ctx);
 
 LXB_API bool
 lxb_css_selectors_state_pseudo_class_function_has(lxb_css_parser_t *parser,
-    lxb_css_syntax_token_t *token, void *ctx);
+    const lxb_css_syntax_token_t *token, void *ctx);
 
 LXB_API bool
 lxb_css_selectors_state_pseudo_class_function_is(lxb_css_parser_t *parser,
-    lxb_css_syntax_token_t *token, void *ctx);
+    const lxb_css_syntax_token_t *token, void *ctx);
 
 LXB_API bool
 lxb_css_selectors_state_pseudo_class_function_lang(lxb_css_parser_t *parser,
-    lxb_css_syntax_token_t *token, void *ctx);
+    const lxb_css_syntax_token_t *token, void *ctx);
 
 LXB_API bool
 lxb_css_selectors_state_pseudo_class_function_not(lxb_css_parser_t *parser,
-    lxb_css_syntax_token_t *token, void *ctx);
+    const lxb_css_syntax_token_t *token, void *ctx);
 
 LXB_API bool
 lxb_css_selectors_state_pseudo_class_function_nth_child(lxb_css_parser_t *parser,
-    lxb_css_syntax_token_t *token, void *ctx);
+    const lxb_css_syntax_token_t *token, void *ctx);
 
 LXB_API bool
 lxb_css_selectors_state_pseudo_class_function_nth_col(lxb_css_parser_t *parser,
-    lxb_css_syntax_token_t *token, void *ctx);
+    const lxb_css_syntax_token_t *token, void *ctx);
 
 LXB_API bool
 lxb_css_selectors_state_pseudo_class_function_nth_last_child(lxb_css_parser_t *parser,
-    lxb_css_syntax_token_t *token, void *ctx);
+    const lxb_css_syntax_token_t *token, void *ctx);
 
 LXB_API bool
 lxb_css_selectors_state_pseudo_class_function_nth_last_col(lxb_css_parser_t *parser,
-    lxb_css_syntax_token_t *token, void *ctx);
+    const lxb_css_syntax_token_t *token, void *ctx);
 
 LXB_API bool
 lxb_css_selectors_state_pseudo_class_function_nth_last_of_type(lxb_css_parser_t *parser,
-    lxb_css_syntax_token_t *token, void *ctx);
+    const lxb_css_syntax_token_t *token, void *ctx);
 
 LXB_API bool
 lxb_css_selectors_state_pseudo_class_function_nth_of_type(lxb_css_parser_t *parser,
-    lxb_css_syntax_token_t *token, void *ctx);
+    const lxb_css_syntax_token_t *token, void *ctx);
 
 LXB_API bool
 lxb_css_selectors_state_pseudo_class_function_where(lxb_css_parser_t *parser,
-    lxb_css_syntax_token_t *token, void *ctx);
+    const lxb_css_syntax_token_t *token, void *ctx);
 
 LXB_API bool
 lxb_css_selectors_state_pseudo_element_function__undef(lxb_css_parser_t *parser,
-    lxb_css_syntax_token_t *token, void *ctx);
+    const lxb_css_syntax_token_t *token, void *ctx);
 
 
 #ifdef __cplusplus

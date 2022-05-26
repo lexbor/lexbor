@@ -4,444 +4,444 @@
     {
         "data": "1",
         "tokens": [
-            {"type": "number", "value": "1"}
+            {"type": "number", "value": "1", "length": 1}
         ]
     },
     /* 2 */
     {
         "data": "10",
         "tokens": [
-            {"type": "number", "value": "10"}
+            {"type": "number", "value": "10", "length": 2}
         ]
     },
     /* 3 */
     {
         "data": "1000000",
         "tokens": [
-            {"type": "number", "value": "1000000"}
+            {"type": "number", "value": "1000000", "length": 7}
         ]
     },
     /* 4 */
     {
         "data": "-1",
         "tokens": [
-            {"type": "number", "value": "-1"}
+            {"type": "number", "value": "-1", "length": 2}
         ]
     },
     /* 5 */
     {
         "data": "-123",
         "tokens": [
-            {"type": "number", "value": "-123"}
+            {"type": "number", "value": "-123", "length": 4}
         ]
     },
     /* 6 */
     {
         "data": "0.1234",
         "tokens": [
-            {"type": "number", "value": "0.1234"}
+            {"type": "number", "value": "0.1234", "length": 6}
         ]
     },
     /* 7 */
     {
         "data": "1.5678",
         "tokens": [
-            {"type": "number", "value": "1.5678"}
+            {"type": "number", "value": "1.5678", "length": 6}
         ]
     },
     /* 8 */
     {
         "data": "1234.5678",
         "tokens": [
-            {"type": "number", "value": "1234.5678"}
+            {"type": "number", "value": "1234.5678", "length": 9}
         ]
     },
     /* 9 */
     {
         "data": "-0.1234",
         "tokens": [
-            {"type": "number", "value": "-0.1234"}
+            {"type": "number", "value": "-0.1234", "length": 7}
         ]
     },
     /* 10 */
     {
         "data": "-1.5678",
         "tokens": [
-            {"type": "number", "value": "-1.5678"}
+            {"type": "number", "value": "-1.5678", "length": 7}
         ]
     },
     /* 11 */
     {
         "data": "-1234.5678",
         "tokens": [
-            {"type": "number", "value": "-1234.5678"}
+            {"type": "number", "value": "-1234.5678", "length": 10}
         ]
     },
     /* 12 */
     {
         "data": "+0.1234",
         "tokens": [
-            {"type": "number", "value": "0.1234"}
+            {"type": "number", "value": "0.1234", "length": 7}
         ]
     },
     /* 13 */
     {
         "data": "+1.5678",
         "tokens": [
-            {"type": "number", "value": "1.5678"}
+            {"type": "number", "value": "1.5678", "length": 7}
         ]
     },
     /* 14 */
     {
         "data": "+1234.5678",
         "tokens": [
-            {"type": "number", "value": "1234.5678"}
+            {"type": "number", "value": "1234.5678", "length": 10}
         ]
     },
     /* 15 */
     {
         "data": ".5678",
         "tokens": [
-            {"type": "number", "value": "0.5678"}
+            {"type": "number", "value": "0.5678", "length": 5}
         ]
     },
     /* 16 */
     {
         "data": "+.5678",
         "tokens": [
-            {"type": "number", "value": "0.5678"}
+            {"type": "number", "value": "0.5678", "length": 6}
         ]
     },
     /* 17 */
     {
         "data": "-.5678",
         "tokens": [
-            {"type": "number", "value": "-0.5678"}
+            {"type": "number", "value": "-0.5678", "length": 6}
         ]
     },
     /* 18 */
     {
         "data": "1.5678e+12",
         "tokens": [
-            {"type": "number", "value": "1567800000000"}
+            {"type": "number", "value": "1567800000000", "length": 10}
         ]
     },
     /* 19 */
     {
         "data": ".5678e+12",
         "tokens": [
-            {"type": "number", "value": "567800000000"}
+            {"type": "number", "value": "567800000000", "length": 9}
         ]
     },
     /* 20 */
     {
         "data": "+.5678e+12",
         "tokens": [
-            {"type": "number", "value": "567800000000"}
+            {"type": "number", "value": "567800000000", "length": 10}
         ]
     },
     /* 21 */
     {
         "data": "-.5678e+12",
         "tokens": [
-            {"type": "number", "value": "-567800000000"}
+            {"type": "number", "value": "-567800000000", "length": 10}
         ]
     },
     /* 22 */
     {
         "data": "1.5678e-12",
         "tokens": [
-            {"type": "number", "value": "1.5678e-12"}
+            {"type": "number", "value": "1.5678e-12", "length": 10}
         ]
     },
     /* 23 */
     {
         "data": "1.5678e12",
         "tokens": [
-            {"type": "number", "value": "1567800000000"}
+            {"type": "number", "value": "1567800000000", "length": 9}
         ]
     },
     /* 24 */
     {
         "data": "0",
         "tokens": [
-            {"type": "number", "value": "0"}
+            {"type": "number", "value": "0", "length": 1}
         ]
     },
     /* 25 */
     {
         "data": "-0",
         "tokens": [
-            {"type": "number", "value": "0"}
+            {"type": "number", "value": "0", "length": 2}
         ]
     },
     /* 26 */
     {
         "data": ".0",
         "tokens": [
-            {"type": "number", "value": "0"}
+            {"type": "number", "value": "0", "length": 2}
         ]
     },
     /* 27 */
     {
         "data": "0.1",
         "tokens": [
-            {"type": "number", "value": "0.1"}
+            {"type": "number", "value": "0.1", "length": 3}
         ]
     },
     /* 28 */
     {
         "data": ".9",
         "tokens": [
-            {"type": "number", "value": "0.9"}
+            {"type": "number", "value": "0.9", "length": 2}
         ]
     },
     /* 29 */
     {
         "data": "-.01",
         "tokens": [
-            {"type": "number", "value": "-0.01"}
+            {"type": "number", "value": "-0.01", "length": 4}
         ]
     },
     /* 30 */
     {
         "data": "0.000001",
         "tokens": [
-            {"type": "number", "value": "0.000001"}
+            {"type": "number", "value": "0.000001", "length": 8}
         ]
     },
     /* 31 */
     {
         "data": "0.00000123456",
         "tokens": [
-            {"type": "number", "value": "0.00000123456"}
+            {"type": "number", "value": "0.00000123456", "length": 13}
         ]
     },
     /* 32 */
     {
         "data": "0.0000001",
         "tokens": [
-            {"type": "number", "value": "1e-7"}
+            {"type": "number", "value": "1e-7", "length": 9}
         ]
     },
     /* 33 */
     {
         "data": "1.1000000",
         "tokens": [
-            {"type": "number", "value": "1.1"}
+            {"type": "number", "value": "1.1", "length": 9}
         ]
     },
     /* 34 */
     {
         "data": "99999999999999999999",
         "tokens": [
-            {"type": "number", "value": "100000000000000000000"}
+            {"type": "number", "value": "100000000000000000000", "length": 20}
         ]
     },
     /* 35 */
     {
         "data": "99999999999999999999.111",
         "tokens": [
-            {"type": "number", "value": "100000000000000000000"}
+            {"type": "number", "value": "100000000000000000000", "length": 24}
         ]
     },
     /* 36 */
     {
         "data": "999999999999999999999",
         "tokens": [
-            {"type": "number", "value": "1e+21"}
+            {"type": "number", "value": "1e+21", "length": 21}
         ]
     },
     /* 37 */
     {
         "data": "9223372036854775808",
         "tokens": [
-            {"type": "number", "value": "9223372036854776000"}
+            {"type": "number", "value": "9223372036854776000", "length": 19}
         ]
     },
     /* 38 */
     {
         "data": "18446744073709551616",
         "tokens": [
-            {"type": "number", "value": "18446744073709552000"}
+            {"type": "number", "value": "18446744073709552000", "length": 20}
         ]
     },
     /* 39 */
     {
         "data": "1.7976931348623157E+308",
         "tokens": [
-            {"type": "number", "value": "1.7976931348623157e+308"}
+            {"type": "number", "value": "1.7976931348623157e+308", "length": 23}
         ]
     },
     /* 40 */
     {
         "data": "-5.7e-1",
         "tokens": [
-            {"type": "number", "value": "-0.57"}
+            {"type": "number", "value": "-0.57", "length": 7}
         ]
     },
     /* 41 */
     {
         "data": "1.1e-01",
         "tokens": [
-            {"type": "number", "value": "0.11"}
+            {"type": "number", "value": "0.11", "length": 7}
         ]
     },
     /* 42 */
     {
         "data": "1.1e#hash",
         "tokens": [
-            {"type": "dimension", "value": "1.1e"},
-            {"type": "hash", "value": "#hash"}
+            {"type": "dimension", "value": "1.1e", "length": 4},
+            {"type": "hash", "value": "#hash", "length": 5}
         ]
     },
     /* 43 */
     {
         "data": "1.1#hash",
         "tokens": [
-            {"type": "number", "value": "1.1"},
-            {"type": "hash", "value": "#hash"}
+            {"type": "number", "value": "1.1", "length": 3},
+            {"type": "hash", "value": "#hash", "length": 5}
         ]
     },
     /* 44 */
     {
         "data": "1.#hash",
         "tokens": [
-            {"type": "number", "value": "1"},
-            {"type": "delim", "value": "."},
-            {"type": "hash", "value": "#hash"}
+            {"type": "number", "value": "1", "length": 1},
+            {"type": "delim", "value": ".", "length": 1},
+            {"type": "hash", "value": "#hash", "length": 5}
         ]
     },
     /* 45 */
     {
         "data": "1.#hash",
         "tokens": [
-            {"type": "number", "value": "1"},
-            {"type": "delim", "value": "."},
-            {"type": "hash", "value": "#hash"}
+            {"type": "number", "value": "1", "length": 1},
+            {"type": "delim", "value": ".", "length": 1},
+            {"type": "hash", "value": "#hash", "length": 5}
         ]
     },
     /* 46 */
     {
         "data": "+.",
         "tokens": [
-            {"type": "delim", "value": "+"},
-            {"type": "delim", "value": "."}
+            {"type": "delim", "value": "+", "length": 1},
+            {"type": "delim", "value": ".", "length": 1}
         ]
     },
     /* 47 */
     {
         "data": "+.#hash",
         "tokens": [
-            {"type": "delim", "value": "+"},
-            {"type": "delim", "value": "."},
-            {"type": "hash", "value": "#hash"}
+            {"type": "delim", "value": "+", "length": 1},
+            {"type": "delim", "value": ".", "length": 1},
+            {"type": "hash", "value": "#hash", "length": 5}
         ]
     },
     /* 48 */
     {
         "data": "+",
         "tokens": [
-            {"type": "delim", "value": "+"}
+            {"type": "delim", "value": "+", "length": 1}
         ]
     },
     /* 49 */
     {
         "data": "-.",
         "tokens": [
-            {"type": "delim", "value": "-"},
-            {"type": "delim", "value": "."}
+            {"type": "delim", "value": "-", "length": 1},
+            {"type": "delim", "value": ".", "length": 1}
         ]
     },
     /* 50 */
     {
         "data": "-.#hash",
         "tokens": [
-            {"type": "delim", "value": "-"},
-            {"type": "delim", "value": "."},
-            {"type": "hash", "value": "#hash"}
+            {"type": "delim", "value": "-", "length": 1},
+            {"type": "delim", "value": ".", "length": 1},
+            {"type": "hash", "value": "#hash", "length": 5}
         ]
     },
     /* 51 */
     {
         "data": "-",
         "tokens": [
-            {"type": "delim", "value": "-"}
+            {"type": "delim", "value": "-", "length": 1}
         ]
     },
     /* 52 */
     {
         "data": "--",
         "tokens": [
-            {"type": "delim", "value": "-"},
-            {"type": "delim", "value": "-"}
+            {"type": "delim", "value": "-", "length": 1},
+            {"type": "delim", "value": "-", "length": 1}
         ]
     },
     /* 53 */
     {
         "data": "-\\",
         "tokens": [
-            {"type": "delim", "value": "-"},
-            {"type": "delim", "value": "\\"}
+            {"type": "delim", "value": "-", "length": 1},
+            {"type": "delim", "value": "\\", "length": 1}
         ]
     },
     /* 54 */
     {
         "data": "--\\",
         "tokens": [
-            {"type": "delim", "value": "-"},
-            {"type": "delim", "value": "-"},
-            {"type": "delim", "value": "\\"}
+            {"type": "delim", "value": "-", "length": 1},
+            {"type": "delim", "value": "-", "length": 1},
+            {"type": "delim", "value": "\\", "length": 1}
         ]
     },
     /* 55 */
     {
         "data": "-\\#id",
         "tokens": [
-            {"type": "ident", "value": "-#id"}
+            {"type": "ident", "value": "-#id", "length": 5}
         ]
     },
     /* 56 */
     {
         "data": "--\\#id",
         "tokens": [
-            {"type": "ident", "value": "--#id"}
+            {"type": "ident", "value": "--#id", "length": 6}
         ]
     },
     /* 57 */
     {
         "data": "-\0",
         "tokens": [
-            {"type": "ident", "value": "-�"}
+            {"type": "ident", "value": "-�", "length": 2}
         ]
     },
     /* 58 */
     {
         "data": "--\0",
         "tokens": [
-            {"type": "ident", "value": "--�"}
+            {"type": "ident", "value": "--�", "length": 3}
         ]
     },
     /* 59 */
     {
         "data": "---",
         "tokens": [
-            {"type": "ident", "value": "---"}
+            {"type": "ident", "value": "---", "length": 3}
         ]
     },
     /* 60 */
     {
         "data": "--\\77",
         "tokens": [
-            {"type": "ident", "value": "--w"}
+            {"type": "ident", "value": "--w", "length": 5}
         ]
     },
     /* 61 */
     {
         "data": "--\\77#id",
         "tokens": [
-            {"type": "ident", "value": "--w"},
-            {"type": "hash", "value": "#id"}
+            {"type": "ident", "value": "--w", "length": 5},
+            {"type": "hash", "value": "#id", "length": 3}
         ]
     },
     /* 62 */
@@ -449,7 +449,7 @@
         /* 256 chars, 128 max */
         "data": "1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
         "tokens": [
-            {"type": "number", "value": "1.1111111111111113e+127"}
+            {"type": "number", "value": "1.1111111111111113e+127", "length": 256}
         ]
     },
     /* 63 */
@@ -457,209 +457,209 @@
         /* 256 chars, 128 max */
         "data": "1.111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
         "tokens": [
-            {"type": "number", "value": "1.1111111111111112"}
+            {"type": "number", "value": "1.1111111111111112", "length": 257}
         ]
     },
     /* 64 */
     {
         "data": "1.1e",
         "tokens": [
-            {"type": "dimension", "value": "1.1e"}
+            {"type": "dimension", "value": "1.1e", "length": 4}
         ]
     },
     /* 65 */
     {
         "data": "1.",
         "tokens": [
-            {"type": "number", "value": "1"},
-            {"type": "delim", "value": "."}
+            {"type": "number", "value": "1", "length": 1},
+            {"type": "delim", "value": ".", "length": 1}
         ]
     },
     /* 66 */
     {
         "data": "1.1e+",
         "tokens": [
-            {"type": "dimension", "value": "1.1e"},
-            {"type": "delim", "value": "+"}
+            {"type": "dimension", "value": "1.1e", "length": 4},
+            {"type": "delim", "value": "+", "length": 1}
         ]
     },
     /* 67 */
     {
         "data": "1.1e-",
         "tokens": [
-            {"type": "dimension", "value": "1.1e-"},
+            {"type": "dimension", "value": "1.1e-", "length": 5}
         ]
     },
     /* 68 */
     {
         "data": "1.1\\77",
         "tokens": [
-            {"type": "dimension", "value": "1.1w"}
+            {"type": "dimension", "value": "1.1w", "length": 6}
         ]
     },
     /* 69 */
     {
         "data": "1.1\\\r",
         "tokens": [
-            {"type": "number", "value": "1.1"},
-            {"type": "delim", "value": "\\"},
-            {"type": "whitespace", "value": "\n"}
+            {"type": "number", "value": "1.1", "length": 3},
+            {"type": "delim", "value": "\\", "length": 1},
+            {"type": "whitespace", "value": "\n", "length": 1}
         ]
     },
     /* 70 */
     {
         "data": "1.1\\\r\n",
         "tokens": [
-            {"type": "number", "value": "1.1"},
-            {"type": "delim", "value": "\\"},
-            {"type": "whitespace", "value": "\n"}
+            {"type": "number", "value": "1.1", "length": 3},
+            {"type": "delim", "value": "\\", "length": 1},
+            {"type": "whitespace", "value": "\n", "length": 2}
         ]
     },
     /* 71 */
     {
         "data": "1.1\\\n",
         "tokens": [
-            {"type": "number", "value": "1.1"},
-            {"type": "delim", "value": "\\"},
-            {"type": "whitespace", "value": "\n"}
+            {"type": "number", "value": "1.1", "length": 3},
+            {"type": "delim", "value": "\\", "length": 1},
+            {"type": "whitespace", "value": "\n", "length": 1}
         ]
     },
     /* 72 */
     {
         "data": "1.1\\\f",
         "tokens": [
-            {"type": "number", "value": "1.1"},
-            {"type": "delim", "value": "\\"},
-            {"type": "whitespace", "value": "\n"}
+            {"type": "number", "value": "1.1", "length": 3},
+            {"type": "delim", "value": "\\", "length": 1},
+            {"type": "whitespace", "value": "\n", "length": 1}
         ]
     },
     /* 73 */
     {
         "data": "1.1w\\\r",
         "tokens": [
-            {"type": "dimension", "value": "1.1w"},
-            {"type": "delim", "value": "\\"},
-            {"type": "whitespace", "value": "\n"}
+            {"type": "dimension", "value": "1.1w", "length": 4},
+            {"type": "delim", "value": "\\", "length": 1},
+            {"type": "whitespace", "value": "\n", "length": 1}
         ]
     },
     /* 74 */
     {
         "data": "1.1w\\\r\n",
         "tokens": [
-            {"type": "dimension", "value": "1.1w"},
-            {"type": "delim", "value": "\\"},
-            {"type": "whitespace", "value": "\n"}
+            {"type": "dimension", "value": "1.1w", "length": 4},
+            {"type": "delim", "value": "\\", "length": 1},
+            {"type": "whitespace", "value": "\n", "length": 2}
         ]
     },
     /* 75 */
     {
         "data": "1.1w\\\n",
         "tokens": [
-            {"type": "dimension", "value": "1.1w"},
-            {"type": "delim", "value": "\\"},
-            {"type": "whitespace", "value": "\n"}
+            {"type": "dimension", "value": "1.1w", "length": 4},
+            {"type": "delim", "value": "\\", "length": 1},
+            {"type": "whitespace", "value": "\n", "length": 1}
         ]
     },
     /* 76 */
     {
         "data": "1.1w\\\f",
         "tokens": [
-            {"type": "dimension", "value": "1.1w"},
-            {"type": "delim", "value": "\\"},
-            {"type": "whitespace", "value": "\n"}
+            {"type": "dimension", "value": "1.1w", "length": 4},
+            {"type": "delim", "value": "\\", "length": 1},
+            {"type": "whitespace", "value": "\n", "length": 1}
         ]
     },
     /* 77 */
     {
         "data": "0-00F",
         "tokens": [
-            {"type": "number", "value": "0"},
-            {"type": "dimension", "value": "0F"}
+            {"type": "number", "value": "0", "length": 1},
+            {"type": "dimension", "value": "0F", "length": 4}
         ]
     },
     /* 78 */
     {
         "data": "0+00F",
         "tokens": [
-            {"type": "number", "value": "0"},
-            {"type": "dimension", "value": "0F"}
+            {"type": "number", "value": "0", "length": 1},
+            {"type": "dimension", "value": "0F", "length": 4}
         ]
     },
     /* 79 */
     {
         "data": "0.1e-F",
         "tokens": [
-            {"type": "dimension", "value": "0.1e-F"}
+            {"type": "dimension", "value": "0.1e-F", "length": 6}
         ]
     },
     /* 80 */
     {
         "data": "0.1+0F",
         "tokens": [
-            {"type": "number", "value": "0.1"},
-            {"type": "dimension", "value": "0F"}
+            {"type": "number", "value": "0.1", "length": 3},
+            {"type": "dimension", "value": "0F", "length": 3}
         ]
     },
     /* 81 */
     {
         "data": "0.1-0F",
         "tokens": [
-            {"type": "number", "value": "0.1"},
-            {"type": "dimension", "value": "0F"}
+            {"type": "number", "value": "0.1", "length": 3},
+            {"type": "dimension", "value": "0F", "length": 3}
         ]
     },
     /* 82 */
     {
         "data": "0.1--0F",
         "tokens": [
-            {"type": "dimension", "value": "0.1--0F"}
+            {"type": "dimension", "value": "0.1--0F", "length": 7}
         ]
     },
     /* 83 */
     {
         "data": "0.1e+.0F",
         "tokens": [
-            {"type": "dimension", "value": "0.1e"},
-            {"type": "dimension", "value": "0F"}
+            {"type": "dimension", "value": "0.1e", "length": 4},
+            {"type": "dimension", "value": "0F", "length": 4}
         ]
     },
     /* 84 */
     {
         "data": "123-\\47",
         "tokens": [
-            {"type": "dimension", "value": "123-G"}
+            {"type": "dimension", "value": "123-G", "length": 7}
         ]
     },
     /* 85 */
     {
         "data": "--1F",
         "tokens": [
-            {"type": "delim", "value": "-"},
-            {"type": "dimension", "value": "-1F"}
+            {"type": "delim", "value": "-", "length": 1},
+            {"type": "dimension", "value": "-1F", "length": 3}
         ]
     },
     /* 86 */
     {
         "data": "1.1e+",
         "tokens": [
-            {"type": "dimension", "value": "1.1e"},
-            {"type": "delim", "value": "+"}
+            {"type": "dimension", "value": "1.1e", "length": 4},
+            {"type": "delim", "value": "+", "length": 1}
         ]
     },
     /* 87 */
     {
         "data": ".1e",
         "tokens": [
-            {"type": "dimension", "value": "0.1e"}
+            {"type": "dimension", "value": "0.1e", "length": 3}
         ]
     },
     /* 88 */
     {
         "data": "-3-2-d\\",
         "tokens": [
-            {"type": "number", "value": "-3"},
-            {"type": "dimension", "value": "-2-d"},
-            {"type": "delim", "value": "\\"}
+            {"type": "number", "value": "-3", "length": 2},
+            {"type": "dimension", "value": "-2-d", "length": 4},
+            {"type": "delim", "value": "\\", "length": 1}
         ]
     }
 ]

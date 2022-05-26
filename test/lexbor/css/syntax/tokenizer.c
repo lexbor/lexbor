@@ -137,7 +137,6 @@ parse(helper_t *helper, const char *dir_path)
     return status;
 }
 
-
 static lexbor_action_t
 file_callback(const lxb_char_t *fullpath, size_t fullpath_len,
               const lxb_char_t *filename, size_t filename_len, void *ctx)
@@ -313,7 +312,7 @@ check_raw(lxb_css_syntax_token_t *token)
     const lxb_char_t *p, *end;
 
     p = lxb_css_syntax_token_base(token)->begin;
-    end = lxb_css_syntax_token_base(token)->end;
+    end = p + lxb_css_syntax_token_base(token)->length;
 
     while (p < end) {
         ch = *p++;
@@ -322,7 +321,7 @@ check_raw(lxb_css_syntax_token_t *token)
 
     if (token->type == LXB_CSS_SYNTAX_TOKEN_DIMENSION) {
         p = lxb_css_syntax_token_dimension_string(token)->base.begin;
-        end = lxb_css_syntax_token_dimension_string(token)->base.end;
+        end = p + lxb_css_syntax_token_dimension_string(token)->base.length;
 
         while (p < end) {
             ch = *p++;
@@ -348,6 +347,8 @@ parse_data_new_tkz_cb(helper_t *helper, lexbor_str_t *str)
 
         return status;
     }
+
+    helper->tkz->with_comment = true;
 
     lxb_css_syntax_tokenizer_buffer_set(helper->tkz, str->data, str->length);
 
@@ -389,6 +390,8 @@ parse_data_new_tkz_chunk_cb(helper_t *helper, lexbor_str_t *str)
 
         return status;
     }
+
+    helper->tkz->with_comment = true;
 
     ctx.begin = str->data;
     ctx.end = str->data + str->length;
@@ -437,6 +440,7 @@ static lxb_status_t
 check_token(helper_t *helper, unit_kv_value_t *entry,
             lxb_css_syntax_token_t *token)
 {
+    size_t length;
     lexbor_str_t *str;
     lxb_status_t status;
     unit_kv_value_t *value;
@@ -507,6 +511,23 @@ check_token(helper_t *helper, unit_kv_value_t *entry,
     }
 
     lexbor_str_clean(&helper->str);
+
+    /* Check length */
+
+    value = unit_kv_hash_value_nolen_c(entry, "length");
+    if (value == NULL) {
+        return LXB_STATUS_OK;
+    }
+
+    length = lxb_css_syntax_token_base(token)->length;
+
+    if (unit_kv_number(value)->value.l != length) {
+        TEST_PRINTLN("Token length not match. \nHave:\n"
+                     LEXBOR_FORMAT_Z"\nNeed:\n%ld",
+                     length, unit_kv_number(value)->value.l);
+
+        return print_error(helper, value);
+    }
 
     return LXB_STATUS_OK;
 }

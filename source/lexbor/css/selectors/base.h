@@ -38,7 +38,6 @@ extern "C" {
 typedef struct lxb_css_selectors lxb_css_selectors_t;
 typedef struct lxb_css_selector lxb_css_selector_t;
 typedef struct lxb_css_selector_list lxb_css_selector_list_t;
-typedef struct lxb_css_selectors_memory lxb_css_selectors_memory_t;
 
 
 #ifdef __cplusplus

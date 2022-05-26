@@ -1,0 +1,182 @@
+[
+    /* Test count: 25 */
+    /* 1 */
+    {
+        "data": "name: value",
+        "results": [
+            {"type": "custom", "name": "name", "value": "value", "important": false}
+        ]
+    },
+    /* 2 */
+    {
+        "data": "width: value",
+        "results": [
+            {"type": "undef", "name": "width", "value": "value", "important": false}
+        ]
+    },
+    /* 3 */
+    {
+        "data": "width: 1px",
+        "results": [
+            {"type": "property", "name": "width", "value": "1px", "important": false}
+        ]
+    },
+    /* 4 */
+    {
+        "data": "width: value !important",
+        "results": [
+            {"type": "undef", "name": "width", "value": "value", "important": true}
+        ]
+    },
+    /* 5 */
+    {
+        "data": "width: 1px !important",
+        "results": [
+            {"type": "property", "name": "width", "value": "1px", "important": true}
+        ]
+    },
+    /* 6 */
+    {
+        "data": "width: 1px    !important   ",
+        "results": [
+            {"type": "property", "name": "width", "value": "1px", "important": true}
+        ]
+    },
+    /* 7 */
+    {
+        "data": "width: 1px    !important   ;",
+        "results": [
+            {"type": "property", "name": "width", "value": "1px", "important": true}
+        ]
+    },
+    /* 8 */
+    {
+        "data": "width: 1px  ;",
+        "results": [
+            {"type": "property", "name": "width", "value": "1px", "important": false}
+        ]
+    },
+    /* 9 */
+    {
+        "data": "width: !important;",
+        "results": [
+            {"type": "undef", "name": "width", "value": "", "important": true}
+        ]
+    },
+    /* 10 */
+    {
+        "data": "myprop: 1px !important",
+        "results": [
+            {"type": "custom", "name": "myprop", "value": "1px", "important": true}
+        ]
+    },
+    /* 11 */
+    {
+        "data": "myprop: 1px    !important   ",
+        "results": [
+            {"type": "custom", "name": "myprop", "value": "1px", "important": true}
+        ]
+    },
+    /* 12 */
+    {
+        "data": "myprop: 1px    !important   ;",
+        "results": [
+            {"type": "custom", "name": "myprop", "value": "1px", "important": true}
+        ]
+    },
+    /* 13 */
+    {
+        "data": "myprop: 1px  ;",
+        "results": [
+            {"type": "custom", "name": "myprop", "value": "1px", "important": false}
+        ]
+    },
+    /* 14 */
+    {
+        "data": "myprop         :    1px  ;",
+        "results": [
+            {"type": "custom", "name": "myprop", "value": "1px", "important": false}
+        ]
+    },
+    /* 15 */
+    {
+        "data": "1px: drop",
+        "results": [
+            {"type": "undef", "name": "", "value": "1px: drop", "important": false}
+        ]
+    },
+    /* 16 */
+    {
+        "data": "name value",
+        "results": [
+            {"type": "undef", "name": "", "value": "name value", "important": false}
+        ]
+    },
+    /* 17 */
+    {
+        "data": "name value; myprop: 1px; 2px: broken",
+        "results": [
+            {"type": "undef", "name": "", "value": "name value", "important": false},
+            {"type": "custom", "name": "myprop", "value": "1px", "important": false},
+            {"type": "undef", "name": "", "value": "2px: broken", "important": false}
+        ]
+    },
+    /* 18 */
+    {
+        "data": "@at-some prelude {block}",
+        "results": [
+            {"at": true, "type": "custom", "name": "at-some", "value": " prelude {block}"}
+        ]
+    },
+    /* 19 */
+    {
+        "data": "@at-some prelude",
+        "results": [
+            {"at": true, "type": "custom", "name": "at-some", "value": " prelude"}
+        ]
+    },
+    /* 20 */
+    {
+        "data": "@at-some prelude;",
+        "results": [
+            {"at": true, "type": "custom", "name": "at-some", "value": " prelude"}
+        ]
+    },
+    /* 21 */
+    {
+        "data": "@at-some prelude {}",
+        "results": [
+            {"at": true, "type": "custom", "name": "at-some", "value": " prelude {}"}
+        ]
+    },
+    /* 22 */
+    {
+        "data": "@at-some",
+        "results": [
+            {"at": true, "type": "custom", "name": "at-some", "value": ""}
+        ]
+    },
+    /* 23 */
+    {
+        "data": "@at-some;",
+        "results": [
+            {"at": true, "type": "custom", "name": "at-some", "value": ""}
+        ]
+    },
+    /* 24 */
+    {
+        "data": "@at-some{xxx}",
+        "results": [
+            {"at": true, "type": "custom", "name": "at-some", "value": "{xxx}"}
+        ]
+    },
+    /* 25 */
+    {
+        "data": "@at-some xxx {yyy} @at-some xxx; myprop: 1px",
+        "results": [
+            {"at": true, "type": "custom", "name": "at-some", "value": " xxx {yyy}"},
+            {"at": true, "type": "custom", "name": "at-some", "value": " xxx"},
+            {"type": "custom", "name": "myprop", "value": "1px", "important": false}
+        ]
+    }
+]

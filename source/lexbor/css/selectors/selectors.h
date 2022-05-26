@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 Alexander Borisov
+ * Copyright (C) 2020-2022 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -13,17 +13,12 @@ extern "C" {
 
 #include "lexbor/core/dobject.h"
 #include "lexbor/css/base.h"
-#include "lexbor/css/node.h"
 #include "lexbor/css/syntax/parser.h"
+#include "lexbor/css/syntax/syntax.h"
 #include "lexbor/css/selectors/base.h"
 #include "lexbor/css/selectors/selector.h"
 #include "lexbor/css/selectors/pseudo_const.h"
 
-
-struct lxb_css_selectors_memory {
-    lexbor_dobject_t *objs;
-    lexbor_mraw_t    *mraw;
-};
 
 struct lxb_css_selectors {
     lxb_css_selector_list_t       *list;
@@ -31,14 +26,13 @@ struct lxb_css_selectors {
 
     lxb_css_selector_t            *parent;
 
-    lxb_css_selectors_memory_t    *memory;
-
     lxb_css_selector_combinator_t combinator;
     lxb_css_selector_combinator_t comb_default;
 
-    size_t                        deep;
+    uintptr_t                     error;
     bool                          status;
-    bool                          bracket;
+    bool                          err_in_function;
+    bool                          failed;
 };
 
 
@@ -46,20 +40,13 @@ LXB_API lxb_css_selectors_t *
 lxb_css_selectors_create(void);
 
 LXB_API lxb_status_t
-lxb_css_selectors_init(lxb_css_selectors_t *selectors, size_t prepare_count);
+lxb_css_selectors_init(lxb_css_selectors_t *selectors);
 
 LXB_API void
 lxb_css_selectors_clean(lxb_css_selectors_t *selectors);
 
-LXB_API void
-lxb_css_selectors_erase(lxb_css_selectors_t *selectors);
-
 LXB_API lxb_css_selectors_t *
-lxb_css_selectors_destroy(lxb_css_selectors_t *selectors,
-                          bool with_memory, bool self_destroy);
-
-LXB_API void
-lxb_css_selectors_parser_destroy_list(lxb_css_parser_t *parser);
+lxb_css_selectors_destroy(lxb_css_selectors_t *selectors, bool self_destroy);
 
 LXB_API lxb_css_selector_list_t *
 lxb_css_selectors_parse(lxb_css_parser_t *parser,
@@ -86,10 +73,6 @@ lxb_css_selectors_parse_complex(lxb_css_parser_t *parser,
                                 const lxb_char_t *data, size_t length);
 
 LXB_API lxb_css_selector_list_t *
-lxb_css_selectors_parse_relative(lxb_css_parser_t *parser,
-                                 const lxb_char_t *data, size_t length);
-
-LXB_API lxb_css_selector_list_t *
 lxb_css_selectors_parse_compound(lxb_css_parser_t *parser,
                                  const lxb_char_t *data, size_t length);
 
@@ -97,6 +80,9 @@ LXB_API lxb_css_selector_list_t *
 lxb_css_selectors_parse_simple(lxb_css_parser_t *parser,
                                const lxb_char_t *data, size_t length);
 
+LXB_API lxb_css_selector_list_t *
+lxb_css_selectors_parse_relative(lxb_css_parser_t *parser,
+                                 const lxb_char_t *data, size_t length);
 
 /*
  * Inline functions

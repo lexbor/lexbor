@@ -99,13 +99,14 @@ typedef enum {
     LXB_CSS_SYNTAX_TOKEN_LC_BRACKET,    /* U+007B LEFT CURLY BRACKET ({) */
     LXB_CSS_SYNTAX_TOKEN_RC_BRACKET,   /* U+007D RIGHT CURLY BRACKET (}) */
     LXB_CSS_SYNTAX_TOKEN__EOF,
+    LXB_CSS_SYNTAX_TOKEN__TERMINATED,
     LXB_CSS_SYNTAX_TOKEN__LAST_ENTRY
 }
 lxb_css_syntax_token_type_t;
 
 typedef struct lxb_css_syntax_token_base {
     const lxb_char_t            *begin;
-    const lxb_char_t            *end;
+    size_t                      length;
 
     uintptr_t                   user_id;
 }
@@ -161,6 +162,7 @@ typedef lxb_css_syntax_token_base_t   lxb_css_syntax_token_r_parenthesis_t;
 typedef lxb_css_syntax_token_base_t   lxb_css_syntax_token_lc_bracket_t;
 typedef lxb_css_syntax_token_base_t   lxb_css_syntax_token_rc_bracket_t;
 typedef lxb_css_syntax_token_string_t lxb_css_syntax_token_comment_t;
+typedef lxb_css_syntax_token_base_t   lxb_css_syntax_token_terminated_t;
 
 struct lxb_css_syntax_token {
     union lxb_css_syntax_token_u {
@@ -182,11 +184,22 @@ struct lxb_css_syntax_token {
         lxb_css_syntax_token_bad_url_t       bad_url;
         lxb_css_syntax_token_at_keyword_t    at_keyword;
         lxb_css_syntax_token_whitespace_t    whitespace;
+        lxb_css_syntax_token_terminated_t    terminated;
     }
     types;
 
     lxb_css_syntax_token_type_t type;
+    uintptr_t                   offset;
     bool                        cloned;
+};
+
+
+static const lxb_css_syntax_token_t lxb_css_syntax_token_terminated =
+{
+    .types.terminated = {.begin = NULL, .length = 0, .user_id = 0},
+    .type = LXB_CSS_SYNTAX_TOKEN__TERMINATED,
+    .offset = 0,
+    .cloned = false
 };
 
 
@@ -269,6 +282,24 @@ lxb_inline lxb_css_syntax_token_type_t
 lxb_css_syntax_token_type(const lxb_css_syntax_token_t *token)
 {
     return token->type;
+}
+
+lxb_inline lxb_css_syntax_token_t *
+lxb_css_syntax_token_wo_ws(lxb_css_syntax_tokenizer_t *tkz)
+{
+    lxb_css_syntax_token_t *token;
+
+    token = lxb_css_syntax_token(tkz);
+    if (token == NULL) {
+        return NULL;
+    }
+
+    if (token->type == LXB_CSS_SYNTAX_TOKEN_WHITESPACE) {
+        lxb_css_syntax_token_consume(tkz);
+        token = lxb_css_syntax_token(tkz);
+    }
+
+    return token;
 }
 
 /*

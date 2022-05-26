@@ -24,7 +24,7 @@ colorize_cb(lxb_css_syntax_token_t *token)
     lxb_css_syntax_token_string_t *str;
 
     base = lxb_css_syntax_token_base(token);
-    length = (int) (base->end - base->begin);
+    length = (int) base->length;
 
     printf("%.*s", length, base->begin);
 
@@ -32,7 +32,7 @@ colorize_cb(lxb_css_syntax_token_t *token)
         str = lxb_css_syntax_token_dimension_string(token);
 
         /* Ident */
-        length = (int) (str->base.end - str->base.begin);
+        length = (int) str->base.length;
 
         printf("%.*s", length, str->base.begin);
     }
@@ -65,6 +65,8 @@ main(int argc, const char *argv[])
         goto failed;
     }
 
+    tkz->with_comment = true;
+
     lxb_css_syntax_tokenizer_buffer_set(tkz, css, css_len);
 
     do {
@@ -84,6 +86,8 @@ main(int argc, const char *argv[])
 
     lxb_css_syntax_tokenizer_destroy(tkz);
     lexbor_free(css);
+
+    printf("\n");
 
     return EXIT_SUCCESS;
 

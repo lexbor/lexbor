@@ -26,7 +26,8 @@ lxb_css_syntax_anb_parse(lxb_css_parser_t *parser,
                          const lxb_char_t *data, size_t length);
 
 LXB_API lxb_status_t
-lxb_css_syntax_anb_handler(lxb_css_parser_t *parser, lxb_css_syntax_token_t *token,
+lxb_css_syntax_anb_handler(lxb_css_parser_t *parser,
+                           const lxb_css_syntax_token_t *token,
                            lxb_css_syntax_anb_t *anb);
 
 LXB_API lxb_status_t

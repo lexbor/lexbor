@@ -31,6 +31,7 @@ struct lexbor_avl_node {
 
 typedef struct {
     lexbor_dobject_t *nodes;
+    size_t           size;
 }
 lexbor_avl_t;
 
@@ -39,7 +40,7 @@ LXB_API lexbor_avl_t *
 lexbor_avl_create(void);
 
 LXB_API lxb_status_t
-lexbor_avl_init(lexbor_avl_t *avl, size_t chunk_len);
+lexbor_avl_init(lexbor_avl_t *avl, size_t chunk_len, size_t struct_size);
 
 LXB_API void
 lexbor_avl_clean(lexbor_avl_t *avl);

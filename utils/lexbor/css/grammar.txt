@@ -1,0 +1,28 @@
+<global> = initial | inherit | unset | revert
+<relative-units> = em | ex | cap | ch | ic | rem | lh | rlh | vw | vh | vi | vb | vmin | vmax
+<absolute-units> = cm | mm | Q | in | pt | pc | px
+<angle-units> = deg | grad | rad | turn
+<time-units> = s | ms
+<frequency-units> = Hz | kHz
+<resolution-units> = dpi | dpcm | dppx
+
+<angle> = [<number min=0 max=360> deg^WS] | [<number min=0 max=400> grad^WS] |
+          [<number min=0 max=2> rad^WS]   | [<number min=0 max=1> turn^WS]
+<time> = <number> <time-units>^WS
+<frequency> = <number> <frequency-units>^WS
+<resolution> = <number> <resolution-units>^WS
+<length> = <number> [<relative-units> | <absolute-units>]^WS | 0
+<length-percentage> = <length> | <percentage>
+
+<position> = [
+    [[left | center | right] || [top | center | bottom]] |
+    [[left | center | right | <length-percentage>]
+    [top | center | bottom | <length-percentage>]?] |
+    [[[left | right] <length-percentage>] &&
+    [[top | bottom] <length-percentage>]]
+ ]
+
+<declarations> = 1
+
+<width> = <global> | auto | <length-percentage min=0 max=128> | min-content | max-content
+<height> = <global> | auto | <length-percentage min=0 max=128> | min-content | max-content

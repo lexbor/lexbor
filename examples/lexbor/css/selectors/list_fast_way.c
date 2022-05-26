@@ -21,6 +21,7 @@ main(int argc, const char *argv[])
     unsigned i;
     lxb_status_t status;
     lxb_css_parser_t *parser;
+    lxb_css_memory_t *memory;
     lxb_css_selectors_t *selectors;
 
     static const lxb_char_t indent[] = "    ";
@@ -39,18 +40,35 @@ main(int argc, const char *argv[])
 
     lxb_css_selector_list_t *lists[sizeof(slctrs) / sizeof(const char *)];
 
-    /* Create parser. */
+    /* Memory for all parsed structures. */
 
-    parser = lxb_css_parser_create();
-    status = lxb_css_parser_init(parser, NULL, NULL);
+    memory = lxb_css_memory_create();
+    status = lxb_css_memory_init(memory, 128);
     if (status != LXB_STATUS_OK) {
         return EXIT_FAILURE;
     }
 
+    /* Create parser. */
+
+    parser = lxb_css_parser_create();
+    status = lxb_css_parser_init(parser, NULL);
+    if (status != LXB_STATUS_OK) {
+        return EXIT_FAILURE;
+    }
+
+    /*
+     * It is important! It is necessary to bind the memory object to the parser,
+     * otherwise each parsing function (like a lxb_css_selectors_parse)
+     * will create its own memory area at each iteration
+     * (at each selectors list).
+     */
+
+    lxb_css_parser_memory_set(parser, memory);
+
     /* Create selectors. */
 
     selectors = lxb_css_selectors_create();
-    status = lxb_css_selectors_init(selectors, 32);
+    status = lxb_css_selectors_init(selectors);
     if (status != LXB_STATUS_OK) {
         return EXIT_FAILURE;
     }
@@ -97,7 +115,7 @@ main(int argc, const char *argv[])
 
     /* Destroy resources for Parser and Selectors. */
 
-    (void) lxb_css_selectors_destroy(selectors, false, true);
+    (void) lxb_css_selectors_destroy(selectors, true);
     (void) lxb_css_parser_destroy(parser, true);
 
     /* Selectors List Serialization. */
@@ -124,7 +142,7 @@ main(int argc, const char *argv[])
      * Destroy all Selector List memory.
      * Use any exist Selector List.
      */
-    lxb_css_selector_list_destroy_memory(lists[1]);
+    lxb_css_memory_destroy(memory, true);
 
 
     return EXIT_SUCCESS;

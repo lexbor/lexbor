@@ -1,0 +1,583 @@
+[
+    /* Test count: 1 */
+    /* 1 */
+    {
+        "data": "#id .class",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "delim", "value": "."},
+                    {"type": "ident", "value": "class"}
+                ],
+                "block": []
+            }
+        ]
+    },
+    /* 2 */
+    {
+        "data": "    #id .class",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "delim", "value": "."},
+                    {"type": "ident", "value": "class"}
+                ],
+                "block": []
+            }
+        ]
+    },
+    /* 3 */
+    {
+        "data": "#id .class    ",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "delim", "value": "."},
+                    {"type": "ident", "value": "class"},
+                    {"type": "whitespace", "value": "    "}
+                ],
+                "block": []
+            }
+        ]
+    },
+    /* 4 */
+    {
+        "data": "#id [{]{ .class",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "left-square-bracket", "value": "["},
+                    {"type": "left-curly-bracket", "value": "{"},
+                    {"type": "right-square-bracket", "value": "]"},
+                    {"type": "left-curly-bracket", "value": "{"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "delim", "value": "."},
+                    {"type": "ident", "value": "class"}
+                ],
+                "block": []
+            }
+        ]
+    },
+    /* 5 */
+    {
+        "data": "#id ({){ .class",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "left-parenthesis", "value": "("},
+                    {"type": "left-curly-bracket", "value": "{"},
+                    {"type": "right-parenthesis", "value": ")"},
+                    {"type": "left-curly-bracket", "value": "{"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "delim", "value": "."},
+                    {"type": "ident", "value": "class"}
+                ],
+                "block": []
+            }
+        ]
+    },
+    /* 6 */
+    {
+        "data": "#id last({) .class",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "function", "value": "last("},
+                    {"type": "left-curly-bracket", "value": "{"},
+                    {"type": "right-parenthesis", "value": ")"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "delim", "value": "."},
+                    {"type": "ident", "value": "class"}
+                ],
+                "block": []
+            }
+        ]
+    },
+    /* 7 */
+    {
+        "data": "#id {}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": []
+            }
+        ]
+    },
+    /* 8 */
+    {
+        "data": "#id{}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"}
+                ],
+                "block": []
+            }
+        ]
+    },
+    /* 9 */
+    {
+        "data": "#id {width: 10px}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"name": "width", "value": "10px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 10 */
+    {
+        "data": "#id {   width: 10px}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"name": "width", "value": "10px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 11 */
+    {
+        "data": "#id {width    : 10px}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"name": "width", "value": "10px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 12 */
+    {
+        "data": "#id {width:10px}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"name": "width", "value": "10px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 13 */
+    {
+        "data": "#id {width:    10px}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"name": "width", "value": "10px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 14 */
+    {
+        "data": "#id {width: 10px    }",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"name": "width", "value": "10px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 15 */
+    {
+        "data": "#id {;width: 10px}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"name": "width", "value": "10px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 16 */
+    {
+        "data": "#id {width: [;] 10px}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"name": "width", "value": "[;] 10px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 17 */
+    {
+        "data": "#id {width: 10px;;;;;}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"name": "width", "value": "10px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 18 */
+    {
+        "data": "#id {width: 10px",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"name": "width", "value": "10px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 19 */
+    {
+        "data": "#id {width: 10px !important}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"name": "width", "value": "10px", "important": true}
+                ]
+            }
+        ]
+    },
+    /* 20 */
+    {
+        "data": "#id {width: 10px !important   }",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"name": "width", "value": "10px", "important": true}
+                ]
+            }
+        ]
+    },
+    /* 21 */
+    {
+        "data": "#id {width: 10px !important   ; height: 20px}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"name": "width", "value": "10px", "important": true},
+                    {"name": "height", "value": "20px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 22 */
+    {
+        "data": "#id {width: 10px!important; height: 20px}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"name": "width", "value": "10px", "important": true},
+                    {"name": "height", "value": "20px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 23 */
+    {
+        "data": "#id {width: 10px !important x; height: 20px}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"name": "width", "value": "10px !important x", "important": false},
+                    {"name": "height", "value": "20px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 24 */
+    {
+        "data": "#id {width: 10px ! important; height: 20px}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"name": "width", "value": "10px ! important", "important": false},
+                    {"name": "height", "value": "20px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 25 */
+    {
+        "data": "#id {@Naruto Orochimaru {Sasuke Uchiha}}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"prelude": "@Naruto Orochimaru ", "block": "Sasuke Uchiha"}
+                ]
+            }
+        ]
+    },
+    /* 26 */
+    {
+        "data": "#id {@Naruto Orochimaru;}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"prelude": "@Naruto Orochimaru", "block": ""}
+                ]
+            }
+        ]
+    },
+    /* 27 */
+    {
+        "data": "#id {@Naruto Orochimaru}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"prelude": "@Naruto Orochimaru", "block": ""}
+                ]
+            }
+        ]
+    },
+    /* 28 */
+    {
+        "data": "#id {@Naruto Orochimaru; width: 10px}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"prelude": "@Naruto Orochimaru", "block": ""},
+                    {"name": "width", "value": "10px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 29 */
+    {
+        "data": "#id {@Naruto Orochimaru;width: 10px}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"prelude": "@Naruto Orochimaru", "block": ""},
+                    {"name": "width", "value": "10px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 30 */
+    {
+        "data": "#id {@Naruto Orochimaru {Sasuke Uchiha} width: 10px}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"prelude": "@Naruto Orochimaru ", "block": "Sasuke Uchiha"},
+                    {"name": "width", "value": "10px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 31 */
+    {
+        "data": "#id {@Naruto Orochimaru {Sasuke Uchiha}width: 10px}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"prelude": "@Naruto Orochimaru ", "block": "Sasuke Uchiha"},
+                    {"name": "width", "value": "10px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 32 */
+    {
+        "data": "#id {broken declaration}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"bad": "broken declaration"}
+                ]
+            }
+        ]
+    },
+    /* 33 */
+    {
+        "data": "#id {broken de:claration}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"bad": "broken de:claration"}
+                ]
+            }
+        ]
+    },
+    /* 34 */
+    {
+        "data": "#id {broken declaration; width: 10px}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"bad": "broken declaration"},
+                    {"name": "width", "value": "10px", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 35 */
+    {
+        "data": "#id {broken declaration;width: 10px}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"bad": "broken declaration"},
+                    {"name": "width", "value": "10px", "important": false}
+                ]
+            }
+        ]
+    }
+]

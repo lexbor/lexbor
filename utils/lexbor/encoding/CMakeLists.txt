@@ -1,6 +1,11 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.12)
 
-project(utils_lexbor_encoding)
+IF(CMAKE_VERSION VERSION_LESS "3.0")
+    PROJECT("utils_lexbor_encoding")
+ELSE()
+    cmake_policy(SET CMP0048 NEW)
+    PROJECT("utils_lexbor_encoding" VERSION "${LEXBOR_VERSION_STRING}")
+ENDIF()
 
 ################
 ## Search and Includes

@@ -1,0 +1,25 @@
+[
+    /* Test count: 1 */
+    /* 1 */
+    {
+        "data": "#id .class {width: 123px; broken declaration; @font 'http://x.x/' {size: 10px} height: 45pt}",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [
+                    {"type": "hash", "value": "#id"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "delim", "value": "."},
+                    {"type": "ident", "value": "class"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"name": "width", "value": "123px", "important": false},
+                    {"bad": "broken declaration"},
+                    {"prelude": "@font \"http://x.x/\" ", "block": "size: 10px"},
+                    {"name": "height", "value": "45pt", "important": false}
+                ]
+            }
+        ]
+    }
+]

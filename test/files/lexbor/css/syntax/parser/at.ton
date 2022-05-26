@@ -1,0 +1,467 @@
+[
+    /* Test count: 24 */
+    /* 1 */
+    {
+        "data": "@Naruto Orochimaru {Sasuke Uchiha}",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Orochimaru"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"type": "ident", "value": "Sasuke"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Uchiha"}
+                ]
+            }
+        ]
+    },
+    /* 2 */
+    {
+        "data": "@Naruto Orochimaru;",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Orochimaru"}
+                ],
+                "block": []
+            }
+        ]
+    },
+    /* 3 */
+    {
+        "data": "@Naruto Orochimaru",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Orochimaru"}
+                ],
+                "block": []
+            }
+        ]
+    },
+    /* 4 */
+    {
+        "data": "@Naruto",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"}
+                ],
+                "block": []
+            }
+        ]
+    },
+    /* 5 */
+    {
+        "data": "@Naruto Orochimaru {}",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Orochimaru"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": []
+            }
+        ]
+    },
+    /* 6 */
+    {
+        "data": "@Naruto;",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"}
+                ],
+                "block": []
+            }
+        ]
+    },
+    /* 7 */
+    {
+        "data": "@Naruto [;]",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "left-square-bracket", "value": "["},
+                    {"type": "semicolon", "value": ";"},
+                    {"type": "right-square-bracket", "value": "]"}
+                ],
+                "block": []
+            }
+        ]
+    },
+    /* 8 */
+    {
+        "data": "@Naruto Orochimaru(;)",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "function", "value": "Orochimaru("},
+                    {"type": "semicolon", "value": ";"},
+                    {"type": "right-parenthesis", "value": ")"}
+                ],
+                "block": []
+            }
+        ]
+    },
+    /* 9 */
+    {
+        "data": "@Naruto (;)",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "left-parenthesis", "value": "("},
+                    {"type": "semicolon", "value": ";"},
+                    {"type": "right-parenthesis", "value": ")"}
+                ],
+                "block": []
+            }
+        ]
+    },
+    /* 10 */
+    {
+        "data": "@Naruto [;] {[}]}",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "left-square-bracket", "value": "["},
+                    {"type": "semicolon", "value": ";"},
+                    {"type": "right-square-bracket", "value": "]"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"type": "left-square-bracket", "value": "["},
+                    {"type": "right-curly-bracket", "value": "}"},
+                    {"type": "right-square-bracket", "value": "]"}
+                ]
+            }
+        ]
+    },
+    /* 11 */
+    {
+        "data": "@Naruto Orochimaru(;) {{]}}",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "function", "value": "Orochimaru("},
+                    {"type": "semicolon", "value": ";"},
+                    {"type": "right-parenthesis", "value": ")"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"type": "left-curly-bracket", "value": "{"},
+                    {"type": "right-square-bracket", "value": "]"},
+                    {"type": "right-curly-bracket", "value": "}"}
+                ]
+            }
+        ]
+    },
+    /* 12 */
+    {
+        "data": "@Naruto (;) {(})}",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "left-parenthesis", "value": "("},
+                    {"type": "semicolon", "value": ";"},
+                    {"type": "right-parenthesis", "value": ")"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"type": "left-parenthesis", "value": "("},
+                    {"type": "right-curly-bracket", "value": "}"},
+                    {"type": "right-parenthesis", "value": ")"}
+                ]
+            }
+        ]
+    },
+    /* 13 */
+    {
+        "data": "@Naruto Orochimaru {{[}]}}",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Orochimaru"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"type": "left-curly-bracket", "value": "{"},
+                    {"type": "left-square-bracket", "value": "["},
+                    {"type": "right-curly-bracket", "value": "}"},
+                    {"type": "right-square-bracket", "value": "]"},
+                    {"type": "right-curly-bracket", "value": "}"}
+                ]
+            }
+        ]
+    },
+    /* 14 */
+    {
+        "data": "@Naruto {Sasuke Uchiha}",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"type": "ident", "value": "Sasuke"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Uchiha"}
+                ]
+            }
+        ]
+    },
+    /* 15 */
+    {
+        "data": "@Naruto{Sasuke Uchiha}",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"}
+                ],
+                "block": [
+                    {"type": "ident", "value": "Sasuke"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Uchiha"}
+                ]
+            }
+        ]
+    },
+    /* 16 */
+    {
+        "data": "@Naruto{}",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"}
+                ],
+                "block": []
+            }
+        ]
+    },
+    /* 17 */
+    {
+        "data": "@Naruto",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"}
+                ],
+                "block": []
+            }
+        ]
+    },
+    /* 18 */
+    {
+        "data": "@Naruto {    Sasuke Uchiha}",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"type": "whitespace", "value": "    "},
+                    {"type": "ident", "value": "Sasuke"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Uchiha"}
+                ]
+            }
+        ]
+    },
+    /* 19 */
+    {
+        "data": "@Naruto {Sasuke Uchiha    }",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"type": "ident", "value": "Sasuke"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Uchiha"},
+                    {"type": "whitespace", "value": "    "}
+                ]
+            }
+        ]
+    },
+    /* 20 */
+    {
+        "data": "@Naruto {    }",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"type": "whitespace", "value": "    "}
+                ]
+            }
+        ]
+    },
+    /* 21 */
+    {
+        "data": "@Naruto Orochimaru {Sasuke Uchiha} @Red Blue {Yellow}",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Orochimaru"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"type": "ident", "value": "Sasuke"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Uchiha"}
+                ]
+            },
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Red"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Blue"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"type": "ident", "value": "Yellow"}
+                ]
+            }
+        ]
+    },
+    /* 22 */
+    {
+        "data": "@Naruto Orochimaru {Sasuke Uchiha}@Red Blue {Yellow}",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Orochimaru"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"type": "ident", "value": "Sasuke"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Uchiha"}
+                ]
+            },
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Red"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Blue"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"type": "ident", "value": "Yellow"}
+                ]
+            }
+        ]
+    },
+    /* 23 */
+    {
+        "data": "@Naruto Orochimaru; @Red Blue {Yellow}",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Orochimaru"}
+                ],
+                "block": []
+            },
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Red"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Blue"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"type": "ident", "value": "Yellow"}
+                ]
+            }
+        ]
+    },
+    /* 24 */
+    {
+        "data": "@Naruto Orochimaru;@Red Blue {Yellow}",
+        "tokens": [
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Naruto"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Orochimaru"}
+                ],
+                "block": []
+            },
+            {
+                "type": "at-rule",
+                "prelude": [
+                    {"type": "at-keyword", "value": "@Red"},
+                    {"type": "whitespace", "value": " "},
+                    {"type": "ident", "value": "Blue"},
+                    {"type": "whitespace", "value": " "}
+                ],
+                "block": [
+                    {"type": "ident", "value": "Yellow"}
+                ]
+            }
+        ]
+    }
+]

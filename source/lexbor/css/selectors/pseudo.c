@@ -1,9 +1,10 @@
 /*
- * Copyright (C) 2020 Alexander Borisov
+ * Copyright (C) 2020-2022 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
+#include "lexbor/css/css.h"
 #include "lexbor/css/selectors/state.h"
 #include "lexbor/css/selectors/pseudo.h"
 #include "lexbor/css/selectors/pseudo_state.h"
@@ -77,6 +78,16 @@ lxb_css_selector_pseudo_element_function_by_name(const lxb_char_t *name,
 const lxb_css_selectors_pseudo_data_func_t *
 lxb_css_selector_pseudo_element_function_by_id(unsigned id)
 {
+    return &lxb_css_selectors_pseudo_data_pseudo_element_function[id];
+}
+
+const lxb_css_selectors_pseudo_data_func_t *
+lxb_css_selector_pseudo_function_by_id(unsigned id, bool is_class)
+{
+    if (is_class) {
+        return &lxb_css_selectors_pseudo_data_pseudo_class_function[id];
+    }
+
     return &lxb_css_selectors_pseudo_data_pseudo_element_function[id];
 }
 

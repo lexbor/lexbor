@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020 Alexander Borisov
+ * Copyright (C) 2020-2022 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -7,31 +7,56 @@
 #ifndef LXB_CSS_STYLESHEET_H
 #define LXB_CSS_STYLESHEET_H
 
-#include "lexbor/css/node.h"
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#include "lexbor/css/rule.h"
 #include "lexbor/core/mraw.h"
+#include "lexbor/css/at_rule.h"
+#include "lexbor/css/syntax/tokenizer.h"
+#include "lexbor/css/selectors/base.h"
 
-
-typedef struct lxb_css_stylesheet lxb_css_stylesheet_t;
 
 struct lxb_css_stylesheet {
-    lxb_css_node_t node;
-
-    lexbor_mraw_t  *mraw;
+    lxb_css_rule_t   *root;
+    lxb_css_memory_t *memory;
 };
+
+LXB_API lxb_css_stylesheet_t *
+lxb_css_stylesheet_destroy(lxb_css_stylesheet_t *sst);
+
+
+LXB_API lxb_status_t
+lxb_css_stylesheet_prepare(lxb_css_parser_t *parser, lxb_css_memory_t *memory,
+                           lxb_css_selectors_t *selectors);
+
+LXB_API lxb_css_stylesheet_t *
+lxb_css_stylesheet_process(lxb_css_parser_t *parser,
+                           const lxb_char_t *data, size_t length);
+
+LXB_API void
+lxb_css_stylesheet_finish(lxb_css_parser_t *parser);
+
+
+LXB_API lxb_css_stylesheet_t *
+lxb_css_stylesheet_parse(lxb_css_parser_t *parser,
+                         const lxb_char_t *data, size_t length);
 
 
 /*
  * Inline functions
  */
 lxb_inline lxb_css_stylesheet_t *
-lxb_css_stylesheet_create(lexbor_mraw_t *mraw)
+lxb_css_stylesheet_create(lxb_css_memory_t *memory)
 {
-//    if (mraw == NULL) {
-//        mraw =
-//    }
-
-    return (lxb_css_stylesheet_t *) lexbor_mraw_calloc(mraw, sizeof(lxb_css_stylesheet_t));
+    return (lxb_css_stylesheet_t *) lexbor_mraw_calloc(memory->mraw,
+                                                 sizeof(lxb_css_stylesheet_t));
 }
 
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif /* LXB_CSS_STYLESHEET_H */

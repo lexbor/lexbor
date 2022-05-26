@@ -99,12 +99,68 @@ struct lxb_css_selector {
     lxb_css_selector_list_t       *list;
 };
 
-typedef struct {
-    unsigned int a;
-    unsigned int b;
-    unsigned int c;
-}
-lxb_css_selector_specificity_t;
+
+/*
+ * S     A        B        C
+ * 1 | 10 bit | 10 bit | 10 bit
+ */
+typedef uint32_t lxb_css_selector_specificity_t;
+
+#define LXB_CSS_SELECTOR_SPECIFICITY_MASK_N(sp, n)                            \
+    ((sp) & ~((((uint32_t) 1 << 9) - 1) << (n)))
+
+#define LXB_CSS_SELECTOR_SPECIFICITY_MASK                                     \
+    ((((uint32_t) 1 << 31) - 1) << (9))
+
+#define lxb_css_selector_sp_i(sp)  ((sp) >> 28)
+
+#define lxb_css_selector_sp_s(sp)                                             \
+    (((sp) >> 27) & ~LXB_CSS_SELECTOR_SPECIFICITY_MASK)
+
+#define lxb_css_selector_sp_a(sp)                                             \
+    (((sp) >> 18) & ~LXB_CSS_SELECTOR_SPECIFICITY_MASK)
+
+#define lxb_css_selector_sp_b(sp)                                             \
+    (((sp) >> 9) & ~LXB_CSS_SELECTOR_SPECIFICITY_MASK)
+
+#define lxb_css_selector_sp_c(sp)                                             \
+    ((sp) & ~LXB_CSS_SELECTOR_SPECIFICITY_MASK)
+
+#define lxb_css_selector_sp_set_i(sp, num)                                    \
+    sp = (LXB_CSS_SELECTOR_SPECIFICITY_MASK_N((sp), 28) | ((num) << 28))
+
+#define lxb_css_selector_sp_set_s(sp, num)                                    \
+    sp = (LXB_CSS_SELECTOR_SPECIFICITY_MASK_N((sp), 27) | ((num) << 27))
+
+#define lxb_css_selector_sp_set_a(sp, num)                                    \
+    sp = (LXB_CSS_SELECTOR_SPECIFICITY_MASK_N((sp), 18) | ((num) << 18))
+
+#define lxb_css_selector_sp_set_b(sp, num)                                    \
+    sp = (LXB_CSS_SELECTOR_SPECIFICITY_MASK_N((sp), 9) | ((num) << 9))
+
+#define lxb_css_selector_sp_set_c(sp, num)                                    \
+    sp = (LXB_CSS_SELECTOR_SPECIFICITY_MASK_N((sp), 0) | (num))
+
+#define lxb_css_selector_sp_add_s(sp, num)                                   \
+    (lxb_css_selector_sp_set_s((sp), lxb_css_selector_sp_s(sp) + num))
+
+#define lxb_css_selector_sp_add_a(sp, num)                                   \
+    (lxb_css_selector_sp_set_a((sp), lxb_css_selector_sp_a(sp) + num))
+
+#define lxb_css_selector_sp_add_b(sp, num)                                   \
+    (lxb_css_selector_sp_set_b((sp), lxb_css_selector_sp_b(sp) + num))
+
+#define lxb_css_selector_sp_add_c(sp, num)                                   \
+    (lxb_css_selector_sp_set_c((sp), lxb_css_selector_sp_c(sp) + num))
+
+#define lxb_css_selector_sp_up_i(num)  (num | (1 << 28))
+#define lxb_css_selector_sp_up_s(num)  (num | (1 << 27))
+
+#define LXB_CSS_SELECTOR_SP_S_MAX  ((1 << 28) - 1)
+#define LXB_CSS_SELECTOR_SP_A_MAX  ((1 << 27) - 1)
+#define LXB_CSS_SELECTOR_SP_B_MAX  ((1 << 18) - 1)
+#define LXB_CSS_SELECTOR_SP_C_MAX  ((1 <<  9) - 1)
+
 
 struct lxb_css_selector_list {
     lxb_css_selector_t             *first;
@@ -115,10 +171,9 @@ struct lxb_css_selector_list {
     lxb_css_selector_list_t        *next;
     lxb_css_selector_list_t        *prev;
 
-    lxb_css_selectors_memory_t     *memory;
+    lxb_css_memory_t               *memory;
 
     lxb_css_selector_specificity_t specificity;
-    bool                           invalid;
 };
 
 
@@ -131,8 +186,11 @@ lxb_css_selector_destroy(lxb_css_selector_t *selector);
 LXB_API void
 lxb_css_selector_destroy_chain(lxb_css_selector_t *selector);
 
+LXB_API void
+lxb_css_selector_remove(lxb_css_selector_t *selector);
+
 LXB_API lxb_css_selector_list_t *
-lxb_css_selector_list_create(lxb_css_selectors_memory_t *mem);
+lxb_css_selector_list_create(lxb_css_memory_t *mem);
 
 LXB_API void
 lxb_css_selector_list_remove(lxb_css_selector_list_t *list);

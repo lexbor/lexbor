@@ -18,7 +18,7 @@ callback(const lxb_char_t *data, size_t len, void *ctx)
 }
 
 lxb_status_t
-find_callback(lxb_dom_node_t *node, lxb_css_selector_specificity_t *spec,
+find_callback(lxb_dom_node_t *node, lxb_css_selector_specificity_t spec,
               void *ctx)
 {
     unsigned *count = ctx;
@@ -63,7 +63,7 @@ main(int argc, const char *argv[])
     /* Create CSS parser. */
 
     parser = lxb_css_parser_create();
-    status = lxb_css_parser_init(parser, NULL, NULL);
+    status = lxb_css_parser_init(parser, NULL);
     if (status != LXB_STATUS_OK) {
         return EXIT_FAILURE;
     }
@@ -108,6 +108,10 @@ main(int argc, const char *argv[])
 
     /* Destroy all object for all CSS Selector List. */
     lxb_css_selector_list_destroy_memory(list);
+    /*
+     * for destroy all allocation memory.
+     * or use lxb_css_memory_destroy(list->memory, true);
+     */
 
     /* Destroy HTML Document. */
     lxb_html_document_destroy(document);

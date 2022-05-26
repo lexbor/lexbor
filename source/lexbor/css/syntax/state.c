@@ -11,6 +11,7 @@
 #include "lexbor/core/strtod.h"
 
 #include "lexbor/css/syntax/state.h"
+#include "lexbor/css/syntax/syntax.h"
 #include "lexbor/css/syntax/tokenizer/error.h"
 
 #define LXB_CSS_SYNTAX_RES_NAME_MAP
@@ -43,13 +44,15 @@
 #define LXB_CSS_SYNTAX_STR_APPEND(_tkz, _status, _begin, _end)                 \
     LXB_CSS_SYNTAX_STR_APPEND_LEN(_tkz, _status, _begin, (_end - _begin))
 
-
-lxb_status_t
-lxb_css_syntax_tokenizer_next_chunk(lxb_css_syntax_tokenizer_t *tkz,
-                                    const lxb_char_t **data, const lxb_char_t **end);
-
-lxb_status_t
-lxb_css_syntax_state_tokens_realloc(lxb_css_syntax_tokenizer_t *tkz);
+#define LXB_CSS_SYNTAX_DELIM_APPEND(_tkz, _begin, _length, _ch)                \
+    do {                                                                       \
+        if (lxb_css_syntax_list_append_delim(_tkz, _begin, _length, _ch)       \
+            == NULL)                                                           \
+        {                                                                      \
+            return NULL;                                                       \
+        }                                                                      \
+    }                                                                          \
+    while (false)
 
 
 static const lxb_char_t *
@@ -76,6 +79,15 @@ lxb_css_syntax_state_consume_ident(lxb_css_syntax_tokenizer_t *tkz,
                                    const lxb_char_t *data, const lxb_char_t *end);
 
 static const lxb_char_t *
+lxb_css_syntax_state_ident_like(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t *token,
+                                const lxb_char_t *data, const lxb_char_t *end);
+
+static const lxb_char_t *
+lxb_css_syntax_state_ident_like_not_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t *token,
+                                        const lxb_char_t *data, const lxb_char_t *end);
+
+
+static const lxb_char_t *
 lxb_css_syntax_state_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t *token,
                          const lxb_char_t *data, const lxb_char_t *end);
 
@@ -85,11 +97,13 @@ lxb_css_syntax_state_bad_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_tok
 
 static const lxb_char_t *
 lxb_css_syntax_state_escaped(lxb_css_syntax_tokenizer_t *tkz,
-                             const lxb_char_t *data, const lxb_char_t **end);
+                             const lxb_char_t *data,
+                             const lxb_char_t **end, size_t *length);
 
 static const lxb_char_t *
 lxb_css_syntax_state_escaped_string(lxb_css_syntax_tokenizer_t *tkz,
-                                    const lxb_char_t *data, const lxb_char_t **end);
+                                    const lxb_char_t *data,
+                                    const lxb_char_t **end, size_t *length);
 
 
 lxb_inline lxb_status_t
@@ -142,7 +156,6 @@ lxb_css_syntax_state_string_term(lxb_css_syntax_tokenizer_t *tkz)
     return LXB_STATUS_OK;
 }
 
-
 lxb_inline const lxb_char_t *
 lxb_css_syntax_state_string_set(lxb_css_syntax_tokenizer_t *tkz,
                                 lxb_css_syntax_token_t *token,
@@ -180,78 +193,59 @@ lxb_css_syntax_state_dimension_set(lxb_css_syntax_tokenizer_t *tkz,
 static lxb_css_syntax_token_t *
 lxb_css_syntax_tokenizer_token_append(lxb_css_syntax_tokenizer_t *tkz)
 {
-    if (tkz->prepared == NULL) {
-        if (tkz->last >= tkz->tokens_end) {
-            tkz->status = lxb_css_syntax_state_tokens_realloc(tkz);
-            if (tkz->status != LXB_STATUS_OK) {
-                return NULL;
-            }
-        }
+    lxb_status_t status;
+    lxb_css_syntax_token_t *token;
 
-        tkz->prepared = tkz->last;
-        tkz->prepared->cloned = false;
-
-        return tkz->last++;
-    }
-
-    lxb_css_syntax_token_t *first;
-    size_t length = tkz->last - tkz->prepared;
-
-    if ((tkz->last + length) >= tkz->tokens_end) {
-        tkz->status = lxb_css_syntax_state_tokens_realloc(tkz);
-        if (tkz->status != LXB_STATUS_OK) {
+    if (tkz->token >= tkz->last) {
+        status = lxb_css_syntax_tokenizer_tokens_expand(tkz);
+        if (status != LXB_STATUS_OK) {
+            tkz->status = status;
             return NULL;
         }
     }
 
-    first = tkz->prepared;
+    token = *tkz->token;
 
-    memmove(&first[1], first, length * sizeof(lxb_css_syntax_token_t));
+    if (token == NULL) {
+        token = lexbor_dobject_alloc(tkz->tokens);
+        if (token == NULL) {
+            tkz->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            return NULL;
+        }
 
-    tkz->last++;
-    first->cloned = false;
-
-    return first;
-}
-
-lxb_status_t
-lxb_css_syntax_state_tokens_realloc(lxb_css_syntax_tokenizer_t *tkz)
-{
-    lxb_css_syntax_token_t *tokens;
-
-    static const unsigned length = 64;
-    size_t new_length = (tkz->tokens_end - tkz->tokens_begin) + length;
-
-    tokens = lexbor_calloc(new_length, sizeof(lxb_css_syntax_token_t));
-    if (tokens == NULL) {
-        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        *tkz->token = token;
     }
 
-    memcpy(tokens, tkz->token, (tkz->last - tkz->token)
-                                * sizeof(lxb_css_syntax_token_t));
-
-    if (tkz->prepared != NULL) {
-        tkz->prepared = tokens + (tkz->prepared - tkz->token);
+    if (tkz->prepared == NULL) {
+        tkz->prepared = tkz->token;
     }
 
-    tkz->token = tokens;
-    tkz->last = tokens + (tkz->last - tkz->tokens_begin);
+    token->cloned = false;
 
-    lexbor_free(tkz->tokens_begin);
+    tkz->token++;
 
-    tkz->tokens_begin = tokens;
-    tkz->tokens_end = tokens + new_length;
-
-    return LXB_STATUS_OK;
+    return token;
 }
 
 /*
  * Delim
  */
+lxb_inline void
+lxb_css_syntax_state_delim_set(lxb_css_syntax_token_t *token,
+                               const lxb_char_t *data, lxb_char_t ch,
+                               size_t length)
+{
+    lxb_css_syntax_token_delim(token)->character = ch;
+    lxb_css_syntax_token_base(token)->begin = data;
+    lxb_css_syntax_token_base(token)->length = length;
+
+    token->type = LXB_CSS_SYNTAX_TOKEN_DELIM;
+}
+
 lxb_inline lxb_css_syntax_token_t *
 lxb_css_syntax_list_append_delim(lxb_css_syntax_tokenizer_t *tkz,
                                  const lxb_char_t *data,
-                                 const lxb_char_t *end, lxb_char_t ch)
+                                 size_t length, lxb_char_t ch)
 {
     lxb_css_syntax_token_t *delim;
 
@@ -260,31 +254,16 @@ lxb_css_syntax_list_append_delim(lxb_css_syntax_tokenizer_t *tkz,
         return NULL;
     }
 
-    delim->type = LXB_CSS_SYNTAX_TOKEN_DELIM;
-
-    lxb_css_syntax_token_base(delim)->begin = data;
-    lxb_css_syntax_token_base(delim)->end = end;
-    lxb_css_syntax_token_delim(delim)->character = ch;
+    lxb_css_syntax_state_delim_set(delim, data, ch, length);
 
     return delim;
-}
-
-lxb_inline void
-lxb_css_syntax_state_delim_set(lxb_css_syntax_token_t *token, const lxb_char_t *begin,
-                           const lxb_char_t *end, lxb_char_t ch)
-{
-    lxb_css_syntax_token_delim(token)->character = ch;
-    lxb_css_syntax_token_base(token)->begin = begin;
-    lxb_css_syntax_token_base(token)->end = end;
-
-    token->type = LXB_CSS_SYNTAX_TOKEN_DELIM;
 }
 
 const lxb_char_t *
 lxb_css_syntax_state_delim(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t *token,
                            const lxb_char_t *data, const lxb_char_t *end)
 {
-    lxb_css_syntax_state_delim_set(token, data, data + 1, *data);
+    lxb_css_syntax_state_delim_set(token, data, *data, 1);
 
     return data + 1;
 }
@@ -297,6 +276,7 @@ lxb_css_syntax_state_comment(lxb_css_syntax_tokenizer_t *tkz,
                              lxb_css_syntax_token_t *token,
                              const lxb_char_t *data, const lxb_char_t *end)
 {
+    size_t length;
     lxb_status_t status;
     const lxb_char_t *begin;
 
@@ -317,13 +297,13 @@ lxb_css_syntax_state_comment(lxb_css_syntax_tokenizer_t *tkz,
         goto delim;
     }
 
-    begin = data + 1;
+    begin = ++data;
+    length = 2;
 
     do {
-        data++;
-
         if (data >= end) {
             if (begin < data) {
+                length += data - begin;
                 LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
             }
 
@@ -344,11 +324,15 @@ lxb_css_syntax_state_comment(lxb_css_syntax_tokenizer_t *tkz,
                 LXB_CSS_SYNTAX_STR_APPEND_LEN(tkz, status,
                                               lexbor_str_res_ansi_replacement_character,
                                               sizeof(lexbor_str_res_ansi_replacement_character) - 1);
-                begin = data + 1;
-                break;
+                data += 1;
+                length += data - begin;
+                begin = data;
+
+                continue;
 
             case 0x0D:
                 data++;
+                length += data - begin;
 
                 LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
 
@@ -364,9 +348,13 @@ lxb_css_syntax_state_comment(lxb_css_syntax_tokenizer_t *tkz,
                 if (*data != 0x0A) {
                     data--;
                 }
+                else {
+                    length += 1;
+                }
 
-                begin = data + 1;
-                break;
+                begin = ++data;
+
+                continue;
 
             case 0x0C:
                 if (begin < data) {
@@ -375,14 +363,19 @@ lxb_css_syntax_state_comment(lxb_css_syntax_tokenizer_t *tkz,
 
                 LXB_CSS_SYNTAX_STR_APPEND_LEN(tkz, status,
                                               (lxb_char_t *) "\n", 1);
-                begin = data + 1;
-                break;
+                data += 1;
+                length += data - begin;
+                begin = data;
+
+                continue;
 
             /* U+002A ASTERISK (*) */
             case 0x2A:
                 data++;
 
                 if (data >= end) {
+                    length += data - begin;
+
                     LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
 
                     LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
@@ -395,6 +388,7 @@ lxb_css_syntax_state_comment(lxb_css_syntax_tokenizer_t *tkz,
                         *tkz->pos = 0x00;
 
                         data++;
+                        length++;
 
                         goto done;
                     }
@@ -404,16 +398,20 @@ lxb_css_syntax_state_comment(lxb_css_syntax_tokenizer_t *tkz,
 
                 /* U+002F Forward slash (/) */
                 if (*data == 0x2F) {
+                    length += data - begin;
+
                     LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, (data - 1));
 
                     data++;
+                    length++;
 
                     goto done;
                 }
 
-                data--;
-                break;
+                continue;
         }
+
+        data++;
     }
     while (true);
 
@@ -421,14 +419,15 @@ done:
 
     token->type = LXB_CSS_SYNTAX_TOKEN_COMMENT;
 
-    lxb_css_syntax_token_base(token)->end = data;
+    lxb_css_syntax_token_base(token)->length = length;
+
     return lxb_css_syntax_state_string_set(tkz, token, data);
 
 delim:
 
     token->type = LXB_CSS_SYNTAX_TOKEN_DELIM;
 
-    lxb_css_syntax_token_base(token)->end = lxb_css_syntax_token_base(token)->begin + 1;
+    lxb_css_syntax_token_base(token)->length = 1;
     lxb_css_syntax_token_delim(token)->character = '/';
 
     return data;
@@ -437,7 +436,7 @@ error:
 
     token->type = LXB_CSS_SYNTAX_TOKEN_COMMENT;
 
-    lxb_css_syntax_token_base(token)->end = data;
+    lxb_css_syntax_token_base(token)->length = length;
 
     lxb_css_syntax_tokenizer_error_add(tkz->parse_errors, NULL,
                                        LXB_CSS_SYNTAX_TOKENIZER_ERROR_EOINCO);
@@ -453,6 +452,7 @@ lxb_css_syntax_state_whitespace(lxb_css_syntax_tokenizer_t *tkz,
                                 lxb_css_syntax_token_t *token,
                                 const lxb_char_t *data, const lxb_char_t *end)
 {
+    size_t length;
     lxb_status_t status;
     const lxb_char_t *begin;
 
@@ -461,11 +461,13 @@ lxb_css_syntax_state_whitespace(lxb_css_syntax_tokenizer_t *tkz,
     lxb_css_syntax_token_base(token)->begin = data;
 
     begin = data;
+    length = 0;
 
     do {
         switch (*data) {
             case 0x0D:
                 data++;
+                length += data - begin;
 
                 LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
 
@@ -481,11 +483,16 @@ lxb_css_syntax_state_whitespace(lxb_css_syntax_tokenizer_t *tkz,
                 if (*data != 0x0A) {
                     data--;
                 }
+                else {
+                    length += 1;
+                }
 
                 begin = data + 1;
                 break;
 
             case 0x0C:
+                length += (data + 1) - begin;
+
                 if (begin < data) {
                     LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
                 }
@@ -502,10 +509,12 @@ lxb_css_syntax_state_whitespace(lxb_css_syntax_tokenizer_t *tkz,
 
             default:
                 if (begin < data) {
+                    length += data - begin;
+
                     LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
                 }
 
-                lxb_css_syntax_token_base(token)->end = data;
+                lxb_css_syntax_token_base(token)->length = length;
 
                 return lxb_css_syntax_state_string_set(tkz, token, data);
         }
@@ -514,6 +523,8 @@ lxb_css_syntax_state_whitespace(lxb_css_syntax_tokenizer_t *tkz,
 
         if (data >= end) {
             if (begin < data) {
+                length += data - begin;
+
                 LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
             }
 
@@ -529,7 +540,7 @@ lxb_css_syntax_state_whitespace(lxb_css_syntax_tokenizer_t *tkz,
 
 done:
 
-    lxb_css_syntax_token_base(token)->end = data;
+    lxb_css_syntax_token_base(token)->length = length;
 
     return lxb_css_syntax_state_string_set(tkz, token, data);
 }
@@ -541,6 +552,7 @@ const lxb_char_t *
 lxb_css_syntax_state_string(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t *token,
                             const lxb_char_t *data, const lxb_char_t *end)
 {
+    size_t length;
     lxb_char_t mark;
     lxb_status_t status;
     const lxb_char_t *begin;
@@ -549,10 +561,13 @@ lxb_css_syntax_state_string(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_toke
 
     mark = *data++;
     begin = data;
+    length = 1;
 
     for (;; data++) {
         if (data >= end) {
             if (begin < data) {
+                length += data - begin;
+
                 LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
             }
 
@@ -566,6 +581,8 @@ lxb_css_syntax_state_string(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_toke
 
         switch (*data) {
             case 0x00:
+                length += (data + 1) - begin;
+
                 if (begin < data) {
                     LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
                 }
@@ -584,6 +601,8 @@ lxb_css_syntax_state_string(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_toke
             case 0x0A:
             case 0x0D:
             case 0x0C:
+                length += data - begin;
+
                 if (begin < data) {
                     LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
                 }
@@ -593,12 +612,14 @@ lxb_css_syntax_state_string(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_toke
 
                 token->type = LXB_CSS_SYNTAX_TOKEN_BAD_STRING;
 
-                lxb_css_syntax_token_base(token)->end = data;
+                lxb_css_syntax_token_base(token)->length = length;
 
                 return lxb_css_syntax_state_string_set(tkz, token, data);
 
             /* U+005C REVERSE SOLIDUS (\) */
             case 0x5C:
+                length += (data + 1) - begin;
+
                 if (begin < data) {
                     LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
                 }
@@ -614,7 +635,8 @@ lxb_css_syntax_state_string(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_toke
                     }
                 }
 
-                data = lxb_css_syntax_state_escaped_string(tkz, data, &end);
+                data = lxb_css_syntax_state_escaped_string(tkz, data, &end,
+                                                           &length);
                 if (data == NULL) {
                     return NULL;
                 }
@@ -627,15 +649,18 @@ lxb_css_syntax_state_string(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_toke
             default:
                 /* '"' or '\'' */
                 if (*data == mark) {
+                    length += (data + 1) - begin;
+
                     if (begin < data) {
                         LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
                     }
 
                     token->type = LXB_CSS_SYNTAX_TOKEN_STRING;
 
-                    lxb_css_syntax_token_base(token)->end = ++data;
+                    lxb_css_syntax_token_base(token)->length = length;
 
-                    return lxb_css_syntax_state_string_set(tkz, token, data);
+                    return lxb_css_syntax_state_string_set(tkz, token,
+                                                           data + 1);
                 }
 
                 break;
@@ -651,7 +676,7 @@ error:
 
     token->type = LXB_CSS_SYNTAX_TOKEN_STRING;
 
-    lxb_css_syntax_token_base(token)->end = data;
+    lxb_css_syntax_token_base(token)->length = length;
 
     return lxb_css_syntax_state_string_set(tkz, token, data);
 }
@@ -664,6 +689,7 @@ lxb_css_syntax_state_hash(lxb_css_syntax_tokenizer_t *tkz,
                           lxb_css_syntax_token_t *token, const lxb_char_t *data,
                           const lxb_char_t *end)
 {
+    size_t length;
     lxb_char_t ch;
     lxb_status_t status;
     const lxb_char_t *begin;
@@ -677,6 +703,8 @@ lxb_css_syntax_state_hash(lxb_css_syntax_tokenizer_t *tkz,
             goto delim;
         }
     }
+
+    length = 1;
 
     if (lxb_css_syntax_res_name_map[*data] == 0x00) {
         if (*data == 0x00) {
@@ -703,7 +731,9 @@ lxb_css_syntax_state_hash(lxb_css_syntax_tokenizer_t *tkz,
             goto push_delim;
         }
 
-        data = lxb_css_syntax_state_escaped(tkz, data, &end);
+        length += 1;
+
+        data = lxb_css_syntax_state_escaped(tkz, data, &end, &length);
         if (data == NULL) {
             return NULL;
         }
@@ -713,11 +743,13 @@ hash:
 
     token->type = LXB_CSS_SYNTAX_TOKEN_HASH;
 
+    lxb_css_syntax_token_base(token)->length = length;
+
     return lxb_css_syntax_state_consume_ident(tkz, token, data, end);
 
 push_delim:
 
-    delim = lxb_css_syntax_list_append_delim(tkz, begin, begin + 1, '\\');
+    delim = lxb_css_syntax_list_append_delim(tkz, begin, 1, '\\');
     if (delim == NULL) {
         return NULL;
     }
@@ -726,7 +758,7 @@ delim:
 
     token->type = LXB_CSS_SYNTAX_TOKEN_DELIM;
 
-    lxb_css_syntax_token_base(token)->end = lxb_css_syntax_token_base(token)->begin + 1;
+    lxb_css_syntax_token_base(token)->length = 1;
     lxb_css_syntax_token_delim(token)->character = '#';
 
     return data;
@@ -742,9 +774,9 @@ lxb_css_syntax_state_lparenthesis(lxb_css_syntax_tokenizer_t *tkz, lxb_css_synta
     token->type = LXB_CSS_SYNTAX_TOKEN_L_PARENTHESIS;
 
     lxb_css_syntax_token_base(token)->begin = data;
-    lxb_css_syntax_token_base(token)->end = ++data;
+    lxb_css_syntax_token_base(token)->length = 1;
 
-    return data;
+    return data + 1;
 }
 
 /*
@@ -757,9 +789,9 @@ lxb_css_syntax_state_rparenthesis(lxb_css_syntax_tokenizer_t *tkz, lxb_css_synta
     token->type = LXB_CSS_SYNTAX_TOKEN_R_PARENTHESIS;
 
     lxb_css_syntax_token_base(token)->begin = data;
-    lxb_css_syntax_token_base(token)->end = ++data;
+    lxb_css_syntax_token_base(token)->length = 1;
 
-    return data;
+    return data + 1;
 }
 
 /*
@@ -779,7 +811,7 @@ lxb_css_syntax_state_plus(lxb_css_syntax_tokenizer_t *tkz,
         if (data >= end) {
             token->type = LXB_CSS_SYNTAX_TOKEN_DELIM;
 
-            lxb_css_syntax_token_base(token)->end = data;
+            lxb_css_syntax_token_base(token)->length = 1;
             lxb_css_syntax_token_delim(token)->character = '+';
 
             return data;
@@ -801,6 +833,8 @@ lxb_css_syntax_state_plus_process(lxb_css_syntax_tokenizer_t *tkz,
     /* U+0030 DIGIT ZERO (0) and U+0039 DIGIT NINE (9) */
     if (*data >= 0x30 && *data <= 0x39) {
         lxb_css_syntax_token_number(token)->have_sign = true;
+        lxb_css_syntax_token_base(token)->length = 1;
+
         return lxb_css_syntax_state_consume_numeric(tkz, token, data, end);
     }
 
@@ -816,6 +850,7 @@ lxb_css_syntax_state_plus_process(lxb_css_syntax_tokenizer_t *tkz,
             }
 
             lxb_css_syntax_token_number(token)->have_sign = true;
+            lxb_css_syntax_token_base(token)->length = 2;
 
             return lxb_css_syntax_state_decimal(tkz, token, tkz->buffer,
                                                 tkz->buffer + sizeof(tkz->buffer),
@@ -825,6 +860,7 @@ lxb_css_syntax_state_plus_process(lxb_css_syntax_tokenizer_t *tkz,
         /* U+0030 DIGIT ZERO (0) and U+0039 DIGIT NINE (9) */
         if (*data >= 0x30 && *data <= 0x39) {
             lxb_css_syntax_token_number(token)->have_sign = true;
+            lxb_css_syntax_token_base(token)->length = 2;
 
             return lxb_css_syntax_state_decimal(tkz, token, tkz->buffer,
                                                 tkz->buffer + sizeof(tkz->buffer),
@@ -833,7 +869,7 @@ lxb_css_syntax_state_plus_process(lxb_css_syntax_tokenizer_t *tkz,
 
     push_delim:
 
-        delim = lxb_css_syntax_list_append_delim(tkz, begin, begin + 1, '.');
+        delim = lxb_css_syntax_list_append_delim(tkz, begin, 1, '.');
         if (delim == NULL) {
             return NULL;
         }
@@ -841,7 +877,7 @@ lxb_css_syntax_state_plus_process(lxb_css_syntax_tokenizer_t *tkz,
 
     token->type = LXB_CSS_SYNTAX_TOKEN_DELIM;
 
-    lxb_css_syntax_token_base(token)->end = lxb_css_syntax_token_base(token)->begin + 1;
+    lxb_css_syntax_token_base(token)->length = 1;
     lxb_css_syntax_token_delim(token)->character = '+';
 
     return data;
@@ -858,9 +894,9 @@ lxb_css_syntax_state_comma(lxb_css_syntax_tokenizer_t *tkz,
     token->type = LXB_CSS_SYNTAX_TOKEN_COMMA;
 
     lxb_css_syntax_token_base(token)->begin = data;
-    lxb_css_syntax_token_base(token)->end = ++data;
+    lxb_css_syntax_token_base(token)->length = 1;
 
-    return data;
+    return data + 1;
 }
 
 /*
@@ -879,7 +915,7 @@ lxb_css_syntax_state_minus(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token
         if (data >= end) {
             token->type = LXB_CSS_SYNTAX_TOKEN_DELIM;
 
-            lxb_css_syntax_token_base(token)->end = data;
+            lxb_css_syntax_token_base(token)->length = 1;
             lxb_css_syntax_token_delim(token)->character = '-';
 
             return data;
@@ -894,6 +930,7 @@ lxb_css_syntax_state_minus_process(lxb_css_syntax_tokenizer_t *tkz,
                                    lxb_css_syntax_token_t *token,
                                    const lxb_char_t *data, const lxb_char_t *end)
 {
+    size_t length;
     lxb_char_t ch;
     lxb_status_t status;
     const lxb_char_t *begin, *second;
@@ -907,6 +944,8 @@ lxb_css_syntax_state_minus_process(lxb_css_syntax_tokenizer_t *tkz,
 
     /* U+0030 DIGIT ZERO (0) and U+0039 DIGIT NINE (9) */
     if (*data >= 0x30 && *data <= 0x39) {
+        lxb_css_syntax_token_base(token)->length = 1;
+
         data = lxb_css_syntax_state_consume_numeric(tkz, token, data, end);
 
         number = lxb_css_syntax_token_number(token);
@@ -930,6 +969,8 @@ lxb_css_syntax_state_minus_process(lxb_css_syntax_tokenizer_t *tkz,
 
         /* U+0030 DIGIT ZERO (0) and U+0039 DIGIT NINE (9) */
         if (*data >= 0x30 && *data <= 0x39) {
+            lxb_css_syntax_token_base(token)->length = 2;
+
             data = lxb_css_syntax_state_decimal(tkz, token, tkz->buffer,
                                                 tkz->buffer + sizeof(tkz->buffer),
                                                 data, end);
@@ -944,7 +985,7 @@ lxb_css_syntax_state_minus_process(lxb_css_syntax_tokenizer_t *tkz,
 
     push_delim:
 
-        delim = lxb_css_syntax_list_append_delim(tkz, begin, begin + 1, '.');
+        delim = lxb_css_syntax_list_append_delim(tkz, begin, 1, '.');
         if (delim == NULL) {
             return NULL;
         }
@@ -963,8 +1004,7 @@ lxb_css_syntax_state_minus_process(lxb_css_syntax_tokenizer_t *tkz,
         if (data == end) {
             LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
             if (data >= end) {
-                delim = lxb_css_syntax_list_append_delim(tkz, second,
-                                                         second + 1, '-');
+                delim = lxb_css_syntax_list_append_delim(tkz, second, 1, '-');
                 if (delim == NULL) {
                     return NULL;
                 }
@@ -974,15 +1014,18 @@ lxb_css_syntax_state_minus_process(lxb_css_syntax_tokenizer_t *tkz,
         }
 
         if (*data == 0x2D) {
+            lxb_css_syntax_token_base(token)->length = 3;
             LXB_CSS_SYNTAX_STR_APPEND_LEN(tkz, status, minuses, 3);
-            return lxb_css_syntax_state_ident_like_not_url(tkz, token, ++data, end);
+
+            return lxb_css_syntax_state_ident_like_not_url(tkz, token,
+                                                           ++data, end);
         }
         else if (*data == 0x3E) {
             token->type = LXB_CSS_SYNTAX_TOKEN_CDC;
 
-            lxb_css_syntax_token_base(token)->end = ++data;
+            lxb_css_syntax_token_base(token)->length = 3;
 
-            return data;
+            return data + 1;
         }
 
         minuses_len++;
@@ -993,10 +1036,13 @@ lxb_css_syntax_state_minus_process(lxb_css_syntax_tokenizer_t *tkz,
     if (lxb_css_syntax_res_name_map[*data] == LXB_CSS_SYNTAX_RES_NAME_START
         || *data == 0x00)
     {
+        lxb_css_syntax_token_base(token)->length = minuses_len;
         LXB_CSS_SYNTAX_STR_APPEND_LEN(tkz, status, minuses, minuses_len);
 
         return lxb_css_syntax_state_ident_like_not_url(tkz, token, data, end);
     }
+
+    length = 0;
 
     /* U+005C REVERSE SOLIDUS (\) */
     if (*data == 0x5C) {
@@ -1011,6 +1057,7 @@ lxb_css_syntax_state_minus_process(lxb_css_syntax_tokenizer_t *tkz,
             ch = *data;
 
             if (ch != 0x0A && ch != 0x0C && ch != 0x0D) {
+                length += 1;
                 goto ident;
             }
 
@@ -1020,29 +1067,30 @@ lxb_css_syntax_state_minus_process(lxb_css_syntax_tokenizer_t *tkz,
         ch = *data;
 
         if (ch != 0x0A && ch != 0x0C && ch != 0x0D) {
+            length += 1;
             goto ident;
         }
 
     delim_rev_solidus:
 
-        delim = lxb_css_syntax_list_append_delim(tkz, begin, begin + 1, '\\');
-        if (delim == NULL) {
-            return NULL;
+        if (minuses_len == 2) {
+            LXB_CSS_SYNTAX_DELIM_APPEND(tkz, second, 1, '-');
         }
+
+        LXB_CSS_SYNTAX_DELIM_APPEND(tkz, begin, 1, '\\');
+
+        goto delim;
     }
 
     if (minuses_len == 2) {
-        delim = lxb_css_syntax_list_append_delim(tkz, second, NULL, '-');
-        if (delim == NULL) {
-            return NULL;
-        }
+        LXB_CSS_SYNTAX_DELIM_APPEND(tkz, second, 0, '-');
     }
 
 delim:
 
     token->type = LXB_CSS_SYNTAX_TOKEN_DELIM;
 
-    lxb_css_syntax_token_base(token)->end = lxb_css_syntax_token_base(token)->begin + 1;
+    lxb_css_syntax_token_base(token)->length = 1;
     lxb_css_syntax_token_delim(token)->character = '-';
 
     return data;
@@ -1051,10 +1099,12 @@ ident:
 
     LXB_CSS_SYNTAX_STR_APPEND_LEN(tkz, status, minuses, minuses_len);
 
-    data = lxb_css_syntax_state_escaped(tkz, data, &end);
+    data = lxb_css_syntax_state_escaped(tkz, data, &end, &length);
     if (data == NULL) {
         return NULL;
     }
+
+    lxb_css_syntax_token_base(token)->length = minuses_len + length;
 
     return lxb_css_syntax_state_ident_like_not_url(tkz, token, data, end);
 }
@@ -1082,6 +1132,8 @@ lxb_css_syntax_state_full_stop(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_t
 
     /* U+0030 DIGIT ZERO (0) and U+0039 DIGIT NINE (9) */
     if (*data >= 0x30 && *data <= 0x39) {
+        lxb_css_syntax_token_base(token)->length = 1;
+
         return lxb_css_syntax_state_decimal(tkz, token, tkz->buffer,
                                             tkz->buffer + sizeof(tkz->buffer),
                                             data, end);
@@ -1091,7 +1143,7 @@ delim:
 
     token->type = LXB_CSS_SYNTAX_TOKEN_DELIM;
 
-    lxb_css_syntax_token_base(token)->end = lxb_css_syntax_token_base(token)->begin + 1;
+    lxb_css_syntax_token_base(token)->length = 1;
     lxb_css_syntax_token_delim(token)->character = '.';
 
     return data;
@@ -1107,9 +1159,9 @@ lxb_css_syntax_state_colon(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token
     token->type = LXB_CSS_SYNTAX_TOKEN_COLON;
 
     lxb_css_syntax_token_base(token)->begin = data;
-    lxb_css_syntax_token_base(token)->end = ++data;
+    lxb_css_syntax_token_base(token)->length = 1;
 
-    return data;
+    return data + 1;
 }
 
 /*
@@ -1122,9 +1174,9 @@ lxb_css_syntax_state_semicolon(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_t
     token->type = LXB_CSS_SYNTAX_TOKEN_SEMICOLON;
 
     lxb_css_syntax_token_base(token)->begin = data;
-    lxb_css_syntax_token_base(token)->end = ++data;
+    lxb_css_syntax_token_base(token)->length = 1;
 
-    return data;
+    return data + 1;
 }
 
 /*
@@ -1134,10 +1186,11 @@ const lxb_char_t *
 lxb_css_syntax_state_less_sign(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t *token,
                                const lxb_char_t *data, const lxb_char_t *end)
 {
+    size_t length;
     lxb_char_t ch;
     lxb_status_t status;
-    const lxb_char_t *mark, *minus, *esc;
-    lxb_css_syntax_token_t *delim, *ident;
+    const lxb_char_t *mark, *minus, *esc, *idnt;
+    lxb_css_syntax_token_t *ident;
 
     lxb_css_syntax_token_base(token)->begin = data++;
 
@@ -1146,14 +1199,14 @@ lxb_css_syntax_state_less_sign(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_t
             data += 3;
 
             token->type = LXB_CSS_SYNTAX_TOKEN_CDO;
-            lxb_css_syntax_token_base(token)->end = data;
+            lxb_css_syntax_token_base(token)->length = 4;
 
             return data;
         }
 
         token->type = LXB_CSS_SYNTAX_TOKEN_DELIM;
 
-        lxb_css_syntax_token_base(token)->end = data;
+        lxb_css_syntax_token_base(token)->length = 1;
         lxb_css_syntax_token_delim(token)->character = '<';
 
         return data;
@@ -1171,7 +1224,7 @@ lxb_css_syntax_state_less_sign(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_t
         goto delim;
     }
 
-    mark = ++data;
+    mark = data++;
 
     if (data == end) {
         LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
@@ -1185,12 +1238,15 @@ lxb_css_syntax_state_less_sign(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_t
         goto delim_mark;
     }
 
-    minus = ++data;
+    minus = data++;
 
     if (data == end) {
         LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
         if (data >= end) {
-            goto delim_minus;
+            LXB_CSS_SYNTAX_DELIM_APPEND(tkz, mark, 1, '!');
+            LXB_CSS_SYNTAX_DELIM_APPEND(tkz, minus, 1, '-');
+
+            goto delim;
         }
     }
 
@@ -1198,18 +1254,22 @@ lxb_css_syntax_state_less_sign(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_t
     if (*data == 0x2D) {
         token->type = LXB_CSS_SYNTAX_TOKEN_CDO;
 
-        lxb_css_syntax_token_base(token)->end = ++data;
+        lxb_css_syntax_token_base(token)->length = 4;
 
-        return data;
+        return data + 1;
     }
 
+    length = 1;
+    idnt = data;
+
     if (lxb_css_syntax_res_name_map[*data] == LXB_CSS_SYNTAX_RES_NAME_START) {
-        goto ident;
+        goto ident_with_minus;
     }
 
     /* U+005C REVERSE SOLIDUS (\) */
     if (*data == 0x5C) {
         esc = data++;
+        length += 1;
 
         if (data == end) {
             LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
@@ -1220,97 +1280,79 @@ lxb_css_syntax_state_less_sign(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_t
             ch = *data;
 
             if (ch != 0x0A && ch != 0x0C && ch != 0x0D) {
-                ident = lxb_css_syntax_tokenizer_token_append(tkz);
-                if (ident == NULL) {
-                    return NULL;
-                }
-
-                lxb_css_syntax_token_base(ident)->begin = minus;
-
                 LXB_CSS_SYNTAX_STR_APPEND_LEN(tkz, status,
                                               (const lxb_char_t *) "-", 1);
 
-                data = lxb_css_syntax_state_escaped(tkz, data, &end);
+                data = lxb_css_syntax_state_escaped(tkz, data, &end, &length);
                 if (data == NULL) {
                     return NULL;
                 }
 
-                data = lxb_css_syntax_state_ident_like_not_url(tkz, ident,
-                                                               data, end);
-                if (data == NULL) {
-                    return NULL;
-                }
-
-                goto delim_mark;
+                goto ident;
             }
 
         delim_esc:
 
-            delim = lxb_css_syntax_list_append_delim(tkz, esc, esc + 1, '\\');
-            if (delim == NULL) {
-                return NULL;
-            }
+            LXB_CSS_SYNTAX_DELIM_APPEND(tkz, mark, 1, '!');
+            LXB_CSS_SYNTAX_DELIM_APPEND(tkz, minus, 1, '-');
+            LXB_CSS_SYNTAX_DELIM_APPEND(tkz, esc, 1, '\\');
 
-            goto delim_minus;
+            goto delim;
         }
 
         ch = *data--;
 
         if (ch == 0x0A || ch == 0x0C || ch == 0x0D) {
-            goto delim_minus;
+            LXB_CSS_SYNTAX_DELIM_APPEND(tkz, mark, 1, '!');
+            LXB_CSS_SYNTAX_DELIM_APPEND(tkz, minus, 1, '-');
+
+            goto delim;
         }
 
-        data = lxb_css_syntax_state_escaped(tkz, data, &end);
+        data = lxb_css_syntax_state_escaped(tkz, data + 1, &end, &length);
         if (data == NULL) {
             return NULL;
         }
     }
     else if (*data != 0x00) {
-        delim = lxb_css_syntax_list_append_delim(tkz, minus - 1, NULL, '-');
-        if (delim == NULL) {
-            return NULL;
-        }
+        LXB_CSS_SYNTAX_DELIM_APPEND(tkz, mark, 1, '!');
+        LXB_CSS_SYNTAX_DELIM_APPEND(tkz, minus, 0, '-');
 
-        goto delim_mark;
+        goto delim;
     }
 
+ident_with_minus:
+
+    LXB_CSS_SYNTAX_STR_APPEND_LEN(tkz, status, (const lxb_char_t *) "-", 1);
+
 ident:
+
+    LXB_CSS_SYNTAX_DELIM_APPEND(tkz, mark, 1, '!');
 
     ident = lxb_css_syntax_tokenizer_token_append(tkz);
     if (ident == NULL) {
         return NULL;
     }
 
-    lxb_css_syntax_token_base(ident)->begin = minus;
-
-    LXB_CSS_SYNTAX_STR_APPEND_LEN(tkz, status, (const lxb_char_t *) "-", 1);
+    lxb_css_syntax_token_base(ident)->begin = idnt;
+    lxb_css_syntax_token_base(ident)->length = length;
 
     data = lxb_css_syntax_state_ident_like_not_url(tkz, ident, data, end);
     if (data == NULL) {
         return NULL;
     }
 
-    goto delim_mark;
-
-delim_minus:
-
-    delim = lxb_css_syntax_list_append_delim(tkz, minus - 1, minus, '-');
-    if (delim == NULL) {
-        return NULL;
-    }
+    goto delim;
 
 delim_mark:
 
-    delim = lxb_css_syntax_list_append_delim(tkz, mark - 1, mark, '!');
-    if (delim == NULL) {
-        return NULL;
-    }
+    LXB_CSS_SYNTAX_DELIM_APPEND(tkz, mark, 1, '!');
 
 delim:
 
     token->type = LXB_CSS_SYNTAX_TOKEN_DELIM;
 
-    lxb_css_syntax_token_base(token)->end = lxb_css_syntax_token_base(token)->begin + 1;
+    lxb_css_syntax_token_base(token)->length = 1;
     lxb_css_syntax_token_delim(token)->character = '<';
 
     return data;
@@ -1323,10 +1365,10 @@ const lxb_char_t *
 lxb_css_syntax_state_at(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t *token,
                         const lxb_char_t *data, const lxb_char_t *end)
 {
+    size_t length;
     lxb_char_t ch;
     lxb_status_t status;
     const lxb_char_t *minus, *esc;
-    lxb_css_syntax_token_t *delim;
 
     unsigned minuses_len = 0;
     static const lxb_char_t minuses[2] = "--";
@@ -1334,6 +1376,7 @@ lxb_css_syntax_state_at(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t 
     token->type = LXB_CSS_SYNTAX_TOKEN_AT_KEYWORD;
 
     lxb_css_syntax_token_base(token)->begin = data++;
+    lxb_css_syntax_token_base(token)->length = 1;
 
     if (data >= end) {
         LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
@@ -1355,12 +1398,7 @@ lxb_css_syntax_state_at(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t 
         if (data == end) {
             LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
             if (data >= end) {
-                delim = lxb_css_syntax_list_append_delim(tkz, minus,
-                                                         minus + 1, '-');
-                if (delim == NULL) {
-                    return NULL;
-                }
-
+                LXB_CSS_SYNTAX_DELIM_APPEND(tkz, minus, 1, '-');
                 goto delim;
             }
         }
@@ -1368,12 +1406,15 @@ lxb_css_syntax_state_at(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t 
         if (lxb_css_syntax_res_name_map[*data] == LXB_CSS_SYNTAX_RES_NAME_START
             || *data == 0x00)
         {
+            lxb_css_syntax_token_base(token)->length += 1;
             LXB_CSS_SYNTAX_STR_APPEND_LEN(tkz, status, minuses, 1);
             return lxb_css_syntax_state_consume_ident(tkz, token, data, end);
         }
         else if (*data == 0x2D) {
+            lxb_css_syntax_token_base(token)->length += 2;
             LXB_CSS_SYNTAX_STR_APPEND_LEN(tkz, status, minuses, 2);
-            return lxb_css_syntax_state_consume_ident(tkz, token, ++data, end);
+            return lxb_css_syntax_state_consume_ident(tkz, token,
+                                                      data + 1, end);
         }
 
         minuses_len++;
@@ -1381,7 +1422,7 @@ lxb_css_syntax_state_at(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t 
 
     /* U+005C REVERSE SOLIDUS (\) */
     if (*data == 0x5C) {
-        esc = ++data;
+        esc = data++;
 
         if (data == end) {
             LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
@@ -1395,10 +1436,14 @@ lxb_css_syntax_state_at(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t 
         if (ch != 0x0A && ch != 0x0C && ch != 0x0D) {
             LXB_CSS_SYNTAX_STR_APPEND_LEN(tkz, status, minuses, minuses_len);
 
-            data = lxb_css_syntax_state_escaped(tkz, data, &end);
+            length = 0;
+
+            data = lxb_css_syntax_state_escaped(tkz, data, &end, &length);
             if (data == NULL) {
                 return NULL;
             }
+
+            lxb_css_syntax_token_base(token)->length += 1 + minuses_len + length;
 
             return lxb_css_syntax_state_consume_ident(tkz, token, data, end);
         }
@@ -1406,34 +1451,32 @@ lxb_css_syntax_state_at(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t 
         goto delim_esc;
     }
     else if (*data != 0x00) {
-        goto delim_minus;
+        if (minuses_len != 0) {
+            LXB_CSS_SYNTAX_DELIM_APPEND(tkz, minus, 0, '-');
+        }
+
+        goto delim;
     }
 
     LXB_CSS_SYNTAX_STR_APPEND_LEN(tkz, status, minuses, minuses_len);
+
+    lxb_css_syntax_token_base(token)->length += minuses_len;
 
     return lxb_css_syntax_state_consume_ident(tkz, token, data, end);
 
 delim_esc:
 
-    delim = lxb_css_syntax_list_append_delim(tkz, esc - 1, esc, '\\');
-    if (delim == NULL) {
-        return NULL;
-    }
-
-delim_minus:
-
     if (minuses_len != 0) {
-        delim = lxb_css_syntax_list_append_delim(tkz, minus, NULL, '-');
-        if (delim == NULL) {
-            return NULL;
-        }
+        LXB_CSS_SYNTAX_DELIM_APPEND(tkz, minus, 1, '-');
     }
+
+    LXB_CSS_SYNTAX_DELIM_APPEND(tkz, esc, 1, '\\');
 
 delim:
 
     token->type = LXB_CSS_SYNTAX_TOKEN_DELIM;
 
-    lxb_css_syntax_token_base(token)->end = lxb_css_syntax_token_base(token)->begin + 1;
+    lxb_css_syntax_token_base(token)->length = 1;
     lxb_css_syntax_token_delim(token)->character = '@';
 
     return data;
@@ -1449,9 +1492,9 @@ lxb_css_syntax_state_ls_bracket(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_
     token->type = LXB_CSS_SYNTAX_TOKEN_LS_BRACKET;
 
     lxb_css_syntax_token_base(token)->begin = data;
-    lxb_css_syntax_token_base(token)->end = ++data;
+    lxb_css_syntax_token_base(token)->length = 1;
 
-    return data;
+    return data + 1;
 }
 
 /*
@@ -1461,6 +1504,7 @@ const lxb_char_t *
 lxb_css_syntax_state_rsolidus(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t *token,
                               const lxb_char_t *data, const lxb_char_t *end)
 {
+    size_t length;
     lxb_char_t ch;
     lxb_status_t status;
 
@@ -1479,10 +1523,14 @@ lxb_css_syntax_state_rsolidus(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_to
         goto delim;
     }
 
-    data = lxb_css_syntax_state_escaped(tkz, data, &end);
+    length = 1;
+
+    data = lxb_css_syntax_state_escaped(tkz, data, &end, &length);
     if (data == NULL) {
         return NULL;
     }
+
+    lxb_css_syntax_token_base(token)->length = length;
 
     return lxb_css_syntax_state_ident_like(tkz, token, data, end);
 
@@ -1490,7 +1538,7 @@ delim:
 
     token->type = LXB_CSS_SYNTAX_TOKEN_DELIM;
 
-    lxb_css_syntax_token_base(token)->end = lxb_css_syntax_token_base(token)->begin + 1;
+    lxb_css_syntax_token_base(token)->length = 1;
     lxb_css_syntax_token_delim(token)->character = '\\';
 
     return data;
@@ -1506,9 +1554,9 @@ lxb_css_syntax_state_rs_bracket(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_
     token->type = LXB_CSS_SYNTAX_TOKEN_RS_BRACKET;
 
     lxb_css_syntax_token_base(token)->begin = data;
-    lxb_css_syntax_token_base(token)->end = ++data;
+    lxb_css_syntax_token_base(token)->length = 1;
 
-    return data;
+    return data + 1;
 }
 
 /*
@@ -1521,9 +1569,9 @@ lxb_css_syntax_state_lc_bracket(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_
     token->type = LXB_CSS_SYNTAX_TOKEN_LC_BRACKET;
 
     lxb_css_syntax_token_base(token)->begin = data;
-    lxb_css_syntax_token_base(token)->end = ++data;
+    lxb_css_syntax_token_base(token)->length = 1;
 
-    return data;
+    return data + 1;
 }
 
 /*
@@ -1536,9 +1584,9 @@ lxb_css_syntax_state_rc_bracket(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_
     token->type = LXB_CSS_SYNTAX_TOKEN_RC_BRACKET;
 
     lxb_css_syntax_token_base(token)->begin = data;
-    lxb_css_syntax_token_base(token)->end = ++data;
+    lxb_css_syntax_token_base(token)->length = 1;
 
-    return data;
+    return data + 1;
 }
 
 /*
@@ -1585,6 +1633,7 @@ lxb_css_syntax_state_consume_before_numeric(lxb_css_syntax_tokenizer_t *tkz,
                                             const lxb_char_t *end)
 {
     lxb_css_syntax_token_base(token)->begin = data;
+    lxb_css_syntax_token_base(token)->length = 0;
     lxb_css_syntax_token_number(token)->have_sign = false;
 
     return lxb_css_syntax_state_consume_numeric(tkz, token, data, end);
@@ -1596,15 +1645,20 @@ lxb_css_syntax_state_consume_numeric(lxb_css_syntax_tokenizer_t *tkz,
                                      const lxb_char_t *data,
                                      const lxb_char_t *end)
 {
+    size_t length;
     lxb_status_t status;
-    lxb_css_syntax_token_t *delim;
+    const lxb_char_t *begin;
 
     lxb_char_t *buf_start = tkz->buffer;
     lxb_char_t *buf_end = buf_start + sizeof(tkz->buffer);
 
+    begin = data;
+    length = 0;
+
     do {
         /* U+0030 DIGIT ZERO (0) and U+0039 DIGIT NINE (9) */
         if (*data < 0x30 || *data > 0x39) {
+            length += data - begin;
             break;
         }
 
@@ -1613,19 +1667,23 @@ lxb_css_syntax_state_consume_numeric(lxb_css_syntax_tokenizer_t *tkz,
         }
 
         if (++data == end) {
+            length += data - begin;
+
             LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
             if (data >= end) {
-                lxb_css_syntax_token_base(token)->end = data;
+                lxb_css_syntax_token_base(token)->length += length;
 
                 lxb_css_syntax_consume_numeric_set_int(tkz, token, tkz->buffer,
                                                        buf_start);
                 return data;
             }
+
+            begin = data;
         }
     }
     while (true);
 
-    lxb_css_syntax_token_base(token)->end = data;
+    lxb_css_syntax_token_base(token)->length += length;
 
     /* U+002E FULL STOP (.) */
     if (*data != 0x2E) {
@@ -1636,7 +1694,7 @@ lxb_css_syntax_state_consume_numeric(lxb_css_syntax_tokenizer_t *tkz,
                                                                data, end);
     }
 
-    data++;
+    begin = data++;
 
     if (data == end) {
         LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
@@ -1646,6 +1704,8 @@ lxb_css_syntax_state_consume_numeric(lxb_css_syntax_tokenizer_t *tkz,
     }
 
     if (*data >= 0x30 && *data <= 0x39) {
+        lxb_css_syntax_token_base(token)->length += 1;
+
         return lxb_css_syntax_state_decimal(tkz, token, buf_start, buf_end,
                                             data, end);
     }
@@ -1654,10 +1714,7 @@ delim:
 
     lxb_css_syntax_consume_numeric_set_int(tkz, token, tkz->buffer, buf_start);
 
-    delim = lxb_css_syntax_list_append_delim(tkz, data - 1, data, '.');
-    if (delim == NULL) {
-        return NULL;
-    }
+    LXB_CSS_SYNTAX_DELIM_APPEND(tkz, begin, 1, '.');
 
     return data;
 }
@@ -1668,15 +1725,18 @@ lxb_css_syntax_state_decimal(lxb_css_syntax_tokenizer_t *tkz,
                              lxb_char_t *buf_start, lxb_char_t *buf_end,
                              const lxb_char_t *data, const lxb_char_t *end)
 {
+    size_t length;
     bool e_is_negative;
     int exponent, e_digit;
     lxb_char_t ch, by;
     lxb_status_t status;
-    const lxb_char_t *last;
-    lxb_css_syntax_token_t *delim, *t_str;
+    const lxb_char_t *last, *begin;
+    lxb_css_syntax_token_t *t_str;
     lxb_css_syntax_token_string_t *str;
 
     exponent = 0;
+    begin = data;
+    length = lxb_css_syntax_token_base(token)->length;
 
     str = lxb_css_syntax_token_dimension_string(token);
     t_str = (lxb_css_syntax_token_t *) (void *) str;
@@ -1691,19 +1751,25 @@ lxb_css_syntax_state_decimal(lxb_css_syntax_tokenizer_t *tkz,
         data++;
 
         if (data >= end) {
+            length += data - begin;
+
             LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
             if (data >= end) {
-                lxb_css_syntax_token_base(token)->end = data;
+                lxb_css_syntax_token_base(token)->length = length;
 
                 lxb_css_syntax_consume_numeric_set_float(tkz, token, tkz->buffer,
                                                          buf_start, 0, exponent, 0);
                 return data;
             }
+
+            begin = data;
         }
     }
     while (*data >= 0x30 && *data <= 0x39);
 
-    lxb_css_syntax_token_base(token)->end = data;
+    length += data - begin;
+
+    lxb_css_syntax_token_base(token)->length = length;
     lxb_css_syntax_token_base(str)->begin = data;
 
     ch = *data;
@@ -1720,9 +1786,9 @@ lxb_css_syntax_state_decimal(lxb_css_syntax_tokenizer_t *tkz,
     e_digit = 0;
     e_is_negative = false;
 
-    lxb_css_syntax_token_base(str)->end = ++data;
+    lxb_css_syntax_token_base(t_str)->length = 1;
 
-    if (data == end) {
+    if (++data == end) {
         LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
         if (data >= end) {
             lxb_css_syntax_consume_numeric_set_float(tkz, token, tkz->buffer,
@@ -1732,7 +1798,11 @@ lxb_css_syntax_state_decimal(lxb_css_syntax_tokenizer_t *tkz,
 
             token->type = LXB_CSS_SYNTAX_TOKEN_DIMENSION;
 
-            return lxb_css_syntax_state_dimension_set(tkz, token, data);
+            data = lxb_css_syntax_state_dimension_set(tkz, token, data);
+
+            lxb_css_syntax_token_base(token)->length +=
+                                      lxb_css_syntax_token_base(t_str)->length;
+            return data;
         }
     }
 
@@ -1759,6 +1829,7 @@ lxb_css_syntax_state_decimal(lxb_css_syntax_tokenizer_t *tkz,
                 goto dimension;
             }
 
+            length += 1;
             break;
 
         default:
@@ -1772,29 +1843,47 @@ lxb_css_syntax_state_decimal(lxb_css_syntax_tokenizer_t *tkz,
 
                 LXB_CSS_SYNTAX_STR_APPEND_LEN(tkz, status, &ch, 1);
 
-                return lxb_css_syntax_state_consume_ident(tkz, t_str,
-                                                          data, end);
+                data = lxb_css_syntax_state_consume_ident(tkz, t_str,
+                                                           data, end);
+                if (begin == NULL) {
+                    return NULL;
+                }
+
+                lxb_css_syntax_token_base(token)->length = length
+                                + lxb_css_syntax_token_base(t_str)->length;
+                return data;
             }
 
             break;
     }
+
+    length += 1;
+    begin = data;
 
     /* U+0030 DIGIT ZERO (0) and U+0039 DIGIT NINE (9) */
     do {
         e_digit = (*data - 0x30) + e_digit * 0x0A;
 
         if (++data == end) {
+            length += data - begin;
+
             LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
             if (data >= end) {
-                lxb_css_syntax_token_base(token)->end = data;
+                lxb_css_syntax_token_base(token)->length = length;
 
                 lxb_css_syntax_consume_numeric_set_float(tkz, token, tkz->buffer, buf_start,
                                                          e_is_negative, exponent, e_digit);
                 return data;
             }
+
+            begin = data;
         }
     }
     while(*data >= 0x30 && *data <= 0x39);
+
+    length += data - begin;
+
+    lxb_css_syntax_token_base(token)->length = length;
 
     lxb_css_syntax_consume_numeric_set_float(tkz, token, tkz->buffer, buf_start,
                                              e_is_negative, exponent, e_digit);
@@ -1815,13 +1904,19 @@ dimension:
     if (by == '-') {
         LXB_CSS_SYNTAX_STR_APPEND_LEN(tkz, status, &by, 1);
 
-        return lxb_css_syntax_state_consume_ident(tkz, t_str, data, end);
+        lxb_css_syntax_token_base(t_str)->length += 1;
+
+        data = lxb_css_syntax_state_consume_ident(tkz, t_str, data, end);
+
+        lxb_css_syntax_token_base(token)->length = length
+                                    + lxb_css_syntax_token_base(t_str)->length;
+        return data;
     }
 
-    delim = lxb_css_syntax_list_append_delim(tkz, last, NULL, '+');
-    if (delim == NULL) {
-        return NULL;
-    }
+    LXB_CSS_SYNTAX_DELIM_APPEND(tkz, last, (data >= end), '+');
+
+    lxb_css_syntax_token_base(token)->length = length
+                                    + lxb_css_syntax_token_base(t_str)->length;
 
     return lxb_css_syntax_state_dimension_set(tkz, token, data);
 }
@@ -1833,10 +1928,11 @@ lxb_css_syntax_state_consume_numeric_name_start(lxb_css_syntax_tokenizer_t *tkz,
                                                 const lxb_char_t *end)
 {
     bool have_minus;
+    size_t length;
     lxb_char_t ch;
     lxb_status_t status;
     const lxb_char_t *esc, *minus;
-    lxb_css_syntax_token_t *delim, *t_str;
+    lxb_css_syntax_token_t *t_str;
     lxb_css_syntax_token_string_t *str;
 
     str = lxb_css_syntax_token_dimension_string(token);
@@ -1849,18 +1945,17 @@ lxb_css_syntax_state_consume_numeric_name_start(lxb_css_syntax_tokenizer_t *tkz,
     if (lxb_css_syntax_res_name_map[ch] == LXB_CSS_SYNTAX_RES_NAME_START
         || ch == 0x00)
     {
-        token->type = LXB_CSS_SYNTAX_TOKEN_DIMENSION;
-
-        return lxb_css_syntax_state_consume_ident(tkz, t_str, data, end);
+        lxb_css_syntax_token_base(t_str)->length = 0;
+        goto dimension;
     }
 
     /* U+0025 PERCENTAGE SIGN (%) */
     if (ch == 0x25) {
         token->type = LXB_CSS_SYNTAX_TOKEN_PERCENTAGE;
 
-        lxb_css_syntax_token_base(token)->end = ++data;
+        lxb_css_syntax_token_base(token)->length += 1;
 
-        return data;
+        return data + 1;
     }
 
     have_minus = false;
@@ -1873,12 +1968,7 @@ lxb_css_syntax_state_consume_numeric_name_start(lxb_css_syntax_tokenizer_t *tkz,
         if (data >= end) {
             LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
             if (data >= end) {
-                delim = lxb_css_syntax_list_append_delim(tkz, data - 1,
-                                                         data, '-');
-                if (delim == NULL) {
-                    return NULL;
-                }
-
+                LXB_CSS_SYNTAX_DELIM_APPEND(tkz, minus, 1, '-');
                 return data;
             }
         }
@@ -1888,12 +1978,11 @@ lxb_css_syntax_state_consume_numeric_name_start(lxb_css_syntax_tokenizer_t *tkz,
         if (lxb_css_syntax_res_name_map[ch] == LXB_CSS_SYNTAX_RES_NAME_START
             || ch == 0x2D || ch == 0x00)
         {
-            token->type = LXB_CSS_SYNTAX_TOKEN_DIMENSION;
+            lxb_css_syntax_token_base(t_str)->length = 1;
 
             LXB_CSS_SYNTAX_STR_APPEND_LEN(tkz, status,
                                           (const lxb_char_t *) "-", 1);
-
-            return lxb_css_syntax_state_consume_ident(tkz, t_str, data, end);
+            goto dimension;
         }
 
         have_minus = true;
@@ -1915,47 +2004,50 @@ lxb_css_syntax_state_consume_numeric_name_start(lxb_css_syntax_tokenizer_t *tkz,
         ch = *data;
 
         if (ch != 0x0A && ch != 0x0C && ch != 0x0D) {
-            token->type = LXB_CSS_SYNTAX_TOKEN_DIMENSION;
+            length = 1;
 
             if (have_minus) {
+                length += 1;
+
                 LXB_CSS_SYNTAX_STR_APPEND_LEN(tkz, status,
                                               (const lxb_char_t *) "-", 1);
             }
 
-            data = lxb_css_syntax_state_escaped(tkz, data, &end);
+            data = lxb_css_syntax_state_escaped(tkz, data, &end, &length);
             if (data == NULL) {
                 return NULL;
             }
 
-            return lxb_css_syntax_state_consume_ident(tkz, t_str, data, end);
+            lxb_css_syntax_token_base(t_str)->length = length;
+
+            goto dimension;
         }
 
     delim_rev_solidus:
 
-        delim = lxb_css_syntax_list_append_delim(tkz, esc, esc + 1, '\\');
-        if (delim == NULL) {
-            return NULL;
+        if (have_minus) {
+            LXB_CSS_SYNTAX_DELIM_APPEND(tkz, minus, 1, '-');
         }
 
-        if (have_minus) {
-            delim = lxb_css_syntax_list_append_delim(tkz, minus,
-                                                     minus + 1, '-');
-            if (delim == NULL) {
-                return NULL;
-            }
-        }
+        LXB_CSS_SYNTAX_DELIM_APPEND(tkz, esc, 1, '\\');
 
         return data;
     }
 
-    lxb_css_syntax_token_base(token)->end = minus;
-
     if (have_minus) {
-        delim = lxb_css_syntax_list_append_delim(tkz, minus, NULL, '-');
-        if (delim == NULL) {
-            return NULL;
-        }
+        LXB_CSS_SYNTAX_DELIM_APPEND(tkz, minus, 0, '-');
     }
+
+    return data;
+
+dimension:
+
+    token->type = LXB_CSS_SYNTAX_TOKEN_DIMENSION;
+
+    data = lxb_css_syntax_state_consume_ident(tkz, t_str, data, end);
+
+    lxb_css_syntax_token_base(token)->length +=
+                                    lxb_css_syntax_token_base(t_str)->length;
 
     return data;
 }
@@ -1965,23 +2057,24 @@ lxb_css_syntax_state_consume_ident(lxb_css_syntax_tokenizer_t *tkz,
                                    lxb_css_syntax_token_t *token,
                                    const lxb_char_t *data, const lxb_char_t *end)
 {
+    size_t length;
     lxb_status_t status;
-    const lxb_char_t *begin, *last;
-    lxb_css_syntax_token_t *delim;
+    const lxb_char_t *begin;
 
     begin = data;
+    length = 0;
 
     for (;; data++) {
         if (data >= end) {
             if (begin < data) {
+                length += data - begin;
+
                 LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
             }
 
-            last = data;
-
             LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
             if (data >= end) {
-                lxb_css_syntax_token_base(token)->end = last;
+                lxb_css_syntax_token_base(token)->length += length;
 
                 return lxb_css_syntax_state_string_set(tkz, token, data);
             }
@@ -1994,13 +2087,12 @@ lxb_css_syntax_state_consume_ident(lxb_css_syntax_tokenizer_t *tkz,
             /* U+005C REVERSE SOLIDUS (\) */
             if (*data == 0x5C) {
                 if (begin < data) {
+                    length += data - begin;
+
                     LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
                 }
 
-                begin = data;
-                last = ++data;
-
-                if (data == end) {
+                if (++data == end) {
                     LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
                     if (data >= end) {
                         goto push_delim_last;
@@ -2011,7 +2103,9 @@ lxb_css_syntax_state_consume_ident(lxb_css_syntax_tokenizer_t *tkz,
                     goto push_delim_last;
                 }
 
-                data = lxb_css_syntax_state_escaped(tkz, data, &end);
+                length += 1;
+
+                data = lxb_css_syntax_state_escaped(tkz, data, &end, &length);
                 if (data == NULL) {
                     return NULL;
                 }
@@ -2019,6 +2113,8 @@ lxb_css_syntax_state_consume_ident(lxb_css_syntax_tokenizer_t *tkz,
                 begin = data--;
             }
             else if (*data == 0x00) {
+                length += (data + 1) - begin;
+
                 if (begin < data) {
                     LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
                 }
@@ -2030,10 +2126,12 @@ lxb_css_syntax_state_consume_ident(lxb_css_syntax_tokenizer_t *tkz,
             }
             else {
                 if (begin < data) {
+                    length += data - begin;
+
                     LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
                 }
 
-                lxb_css_syntax_token_base(token)->end = data;
+                lxb_css_syntax_token_base(token)->length += length;
 
                 return lxb_css_syntax_state_string_set(tkz, token, data);
             }
@@ -2044,12 +2142,9 @@ lxb_css_syntax_state_consume_ident(lxb_css_syntax_tokenizer_t *tkz,
 
 push_delim_last:
 
-    lxb_css_syntax_token_base(token)->end = begin;
+    lxb_css_syntax_token_base(token)->length += length;
 
-    delim = lxb_css_syntax_list_append_delim(tkz, begin, last, '\\');
-    if (delim == NULL) {
-        return NULL;
-    }
+    LXB_CSS_SYNTAX_DELIM_APPEND(tkz, begin, 1, '\\');
 
     return lxb_css_syntax_state_string_set(tkz, token, data);
 }
@@ -2060,15 +2155,17 @@ lxb_css_syntax_state_ident_like_begin(lxb_css_syntax_tokenizer_t *tkz,
                                       const lxb_char_t *data, const lxb_char_t *end)
 {
     lxb_css_syntax_token_base(token)->begin = data;
+    lxb_css_syntax_token_base(token)->length = 0;
 
     return lxb_css_syntax_state_ident_like(tkz, token, data, end);
 }
 
-const lxb_char_t *
+static const lxb_char_t *
 lxb_css_syntax_state_ident_like(lxb_css_syntax_tokenizer_t *tkz,
                                 lxb_css_syntax_token_t *token,
                                 const lxb_char_t *data, const lxb_char_t *end)
 {
+    size_t length;
     lxb_char_t ch;
     lxb_status_t status;
     const lxb_char_t *begin, *ws_begin;
@@ -2077,6 +2174,8 @@ lxb_css_syntax_state_ident_like(lxb_css_syntax_tokenizer_t *tkz,
     static const lxb_char_t url[] = "url";
 
     data = lxb_css_syntax_state_consume_ident(tkz, token, data, end);
+
+    end = tkz->in_end;
 
     if (data >= end) {
         LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
@@ -2087,12 +2186,15 @@ lxb_css_syntax_state_ident_like(lxb_css_syntax_tokenizer_t *tkz,
     }
 
     if (data < end && *data == '(') {
-        lxb_css_syntax_token_base(token)->end = ++data;
+        data++;
+
+        lxb_css_syntax_token_base(token)->length += 1;
 
         str = lxb_css_syntax_token_string(token);
 
         if (str->length == 3 && lexbor_str_data_casecmp(str->data, url)) {
             begin = data;
+            length = 0;
 
             tkz->pos += str->length + 1;
             ws_begin = tkz->pos;
@@ -2100,6 +2202,7 @@ lxb_css_syntax_state_ident_like(lxb_css_syntax_tokenizer_t *tkz,
             do {
                 if (data >= end) {
                     if (begin < data) {
+                        length += data - begin;
                         LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
                     }
 
@@ -2121,6 +2224,9 @@ lxb_css_syntax_state_ident_like(lxb_css_syntax_tokenizer_t *tkz,
                     }
 
                     tkz->pos = tkz->start;
+                    length += data - begin;
+
+                    lxb_css_syntax_token_base(token)->length += length;
 
                     return lxb_css_syntax_state_url(tkz, token, data, end);
                 }
@@ -2145,6 +2251,7 @@ with_ws:
 
     if (ws_begin != tkz->pos || begin < data) {
         if (begin < data) {
+            length += data - begin;
             LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
         }
 
@@ -2165,7 +2272,7 @@ with_ws:
         ws->type = LXB_CSS_SYNTAX_TOKEN_WHITESPACE;
 
         lxb_css_syntax_token_base(ws)->begin = begin;
-        lxb_css_syntax_token_base(ws)->end = data;
+        lxb_css_syntax_token_base(ws)->length = length;
 
         ws_str = lxb_css_syntax_token_string(ws);
 
@@ -2184,11 +2291,12 @@ lxb_css_syntax_state_ident_like_not_url_begin(lxb_css_syntax_tokenizer_t *tkz,
                                               const lxb_char_t *data, const lxb_char_t *end)
 {
     lxb_css_syntax_token_base(token)->begin = data;
+    lxb_css_syntax_token_base(token)->length = 0;
 
     return lxb_css_syntax_state_ident_like_not_url(tkz, token, data, end);
 }
 
-const lxb_char_t *
+static const lxb_char_t *
 lxb_css_syntax_state_ident_like_not_url(lxb_css_syntax_tokenizer_t *tkz,
                                         lxb_css_syntax_token_t *token,
                                         const lxb_char_t *data, const lxb_char_t *end)
@@ -2198,12 +2306,14 @@ lxb_css_syntax_state_ident_like_not_url(lxb_css_syntax_tokenizer_t *tkz,
         return NULL;
     }
 
+    end = tkz->in_end;
+
     if (data < end && *data == '(') {
         token->type = LXB_CSS_SYNTAX_TOKEN_FUNCTION;
 
-        lxb_css_syntax_token_base(token)->end = ++data;
+        lxb_css_syntax_token_base(token)->length += 1;
 
-        return data;
+        return data + 1;
     }
 
     token->type = LXB_CSS_SYNTAX_TOKEN_IDENT;
@@ -2218,6 +2328,7 @@ static const lxb_char_t *
 lxb_css_syntax_state_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t *token,
                          const lxb_char_t *data, const lxb_char_t *end)
 {
+    size_t length;
     lxb_char_t ch;
     lxb_status_t status;
     const lxb_char_t *begin;
@@ -2227,10 +2338,12 @@ lxb_css_syntax_state_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t
     *tkz->pos = 0x00;
 
     begin = data;
+    length = 0;
 
     do {
         if (data >= end) {
             if (begin < data) {
+                length += data - begin;
                 LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
             }
 
@@ -2241,7 +2354,7 @@ lxb_css_syntax_state_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t
 
                 token->type = LXB_CSS_SYNTAX_TOKEN_URL;
 
-                lxb_css_syntax_token_base(token)->end = data;
+                lxb_css_syntax_token_base(token)->length += length;
 
                 return lxb_css_syntax_state_string_set(tkz, token, data);
             }
@@ -2259,20 +2372,25 @@ lxb_css_syntax_state_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t
                 LXB_CSS_SYNTAX_STR_APPEND_LEN(tkz, status,
                                               lexbor_str_res_ansi_replacement_character,
                                               sizeof(lexbor_str_res_ansi_replacement_character) - 1);
-                begin = data + 1;
-                break;
+
+                data += 1;
+                length += data - begin;
+                begin = data;
+
+                continue;
 
             /* U+0029 RIGHT PARENTHESIS ()) */
             case 0x29:
                 if (begin < data) {
+                    length += data - begin;
                     LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
                 }
 
                 token->type = LXB_CSS_SYNTAX_TOKEN_URL;
 
-                lxb_css_syntax_token_base(token)->end = ++data;
+                lxb_css_syntax_token_base(token)->length += length + 1;
 
-                return lxb_css_syntax_state_string_set(tkz, token, data);
+                return lxb_css_syntax_state_string_set(tkz, token, data + 1);
 
             /*
              * U+0022 QUOTATION MARK (")
@@ -2287,17 +2405,21 @@ lxb_css_syntax_state_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t
             case 0x0B:
             case 0x7F:
                 if (begin < data) {
+                    length += data - begin;
                     LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
                 }
 
                 lxb_css_syntax_tokenizer_error_add(tkz->parse_errors, data,
                                          LXB_CSS_SYNTAX_TOKENIZER_ERROR_QOINUR);
 
+                lxb_css_syntax_token_base(token)->length += length + 1;
+
                 return lxb_css_syntax_state_bad_url(tkz, token, data + 1, end);
 
             /* U+005C REVERSE SOLIDUS (\) */
             case 0x5C:
                 if (begin < data) {
+                    length += data - begin;
                     LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
                 }
 
@@ -2311,7 +2433,7 @@ lxb_css_syntax_state_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t
 
                         token->type = LXB_CSS_SYNTAX_TOKEN_BAD_URL;
 
-                        lxb_css_syntax_token_base(token)->end = begin;
+                        lxb_css_syntax_token_base(token)->length += length + 1;
 
                         return lxb_css_syntax_state_string_set(tkz, token, data);
                     }
@@ -2323,17 +2445,18 @@ lxb_css_syntax_state_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t
                     lxb_css_syntax_tokenizer_error_add(tkz->parse_errors, data,
                                        LXB_CSS_SYNTAX_TOKENIZER_ERROR_WRESINUR);
 
-                    lxb_css_syntax_token_base(token)->end = data;
+                    lxb_css_syntax_token_base(token)->length += length + 1;
 
                     return lxb_css_syntax_state_bad_url(tkz, token, data, end);
                 }
 
-                data = lxb_css_syntax_state_escaped(tkz, data, &end);
+                data = lxb_css_syntax_state_escaped(tkz, data, &end, &length);
                 if (data == NULL) {
                     return NULL;
                 }
 
                 begin = data--;
+                length += 1;
 
                 break;
 
@@ -2350,15 +2473,17 @@ lxb_css_syntax_state_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t
             case 0x0D:
             case 0x20:
                 if (begin < data) {
+                    length += data - begin;
                     LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
                 }
 
-                lxb_css_syntax_token_base(token)->end = data;
-
                 begin = ++data;
+                length += 1;
 
                 do {
                     if (data == end) {
+                        length += data - begin;
+
                         LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
                         if (data >= end) {
                             lxb_css_syntax_tokenizer_error_add(tkz->parse_errors, data,
@@ -2366,23 +2491,30 @@ lxb_css_syntax_state_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t
 
                             token->type = LXB_CSS_SYNTAX_TOKEN_BAD_URL;
 
-                            lxb_css_syntax_token_base(token)->end = begin;
+                            lxb_css_syntax_token_base(token)->length += length;
 
                             return lxb_css_syntax_state_string_set(tkz, token, data);
                         }
+
+                        begin = data;
                     }
 
                     ch = *data;
 
                     if (lexbor_utils_whitespace(ch, !=, &&)) {
+                        length += data - begin;
+
                         /* U+0029 RIGHT PARENTHESIS ()) */
                         if (*data == 0x29) {
                             token->type = LXB_CSS_SYNTAX_TOKEN_URL;
 
-                            lxb_css_syntax_token_base(token)->end = ++data;
+                            lxb_css_syntax_token_base(token)->length += length + 1;
 
-                            return lxb_css_syntax_state_string_set(tkz, token, data);
+                            return lxb_css_syntax_state_string_set(tkz, token,
+                                                                   data + 1);
                         }
+
+                        lxb_css_syntax_token_base(token)->length += length;
 
                         return lxb_css_syntax_state_bad_url(tkz, token,
                                                             data, end);
@@ -2403,6 +2535,8 @@ lxb_css_syntax_state_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t
                 {
                     lxb_css_syntax_tokenizer_error_add(tkz->parse_errors, data,
                                          LXB_CSS_SYNTAX_TOKENIZER_ERROR_QOINUR);
+
+                    lxb_css_syntax_token_base(token)->length += length;
 
                     return lxb_css_syntax_state_bad_url(tkz, token,
                                                         data + 1, end);
@@ -2425,7 +2559,9 @@ static const lxb_char_t *
 lxb_css_syntax_state_bad_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t *token,
                                const lxb_char_t *data, const lxb_char_t *end)
 {
+    size_t length;
     lxb_status_t status;
+    const lxb_char_t *begin;
 
     token->type = LXB_CSS_SYNTAX_TOKEN_BAD_URL;
 
@@ -2433,18 +2569,29 @@ lxb_css_syntax_state_bad_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_tok
         return NULL;
     }
 
+    begin = data;
+    length = 0;
+
     do {
         if (data >= end) {
+            length += data - begin;
+
             LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
             if (data >= end) {
-                lxb_css_syntax_token_base(token)->end = data;
+                lxb_css_syntax_token_base(token)->length += length;
                 return data;
             }
+
+            begin = data;
         }
 
         /* U+0029 RIGHT PARENTHESIS ()) */
         if (*data == 0x29) {
-            lxb_css_syntax_token_base(token)->end = ++data;
+            data++;
+            length += data - begin;
+
+            lxb_css_syntax_token_base(token)->length += length;
+
             return data;
         }
         /* U+005C REVERSE SOLIDUS (\) */
@@ -2468,7 +2615,8 @@ lxb_css_syntax_string_append_rep(lxb_css_syntax_tokenizer_t *tkz)
 
 static const lxb_char_t *
 lxb_css_syntax_state_escaped(lxb_css_syntax_tokenizer_t *tkz,
-                             const lxb_char_t *data, const lxb_char_t **end)
+                             const lxb_char_t *data,
+                             const lxb_char_t **end, size_t *length)
 {
     uint32_t cp;
     unsigned count;
@@ -2494,6 +2642,8 @@ lxb_css_syntax_state_escaped(lxb_css_syntax_tokenizer_t *tkz,
 
         if (lexbor_str_res_map_hex[*data] == 0xFF) {
             if (count == 0) {
+                *length += 1;
+
                 if (*data == 0x00) {
                     status = lxb_css_syntax_string_append_rep(tkz);
                     if (status != LXB_STATUS_OK) {
@@ -2514,6 +2664,7 @@ lxb_css_syntax_state_escaped(lxb_css_syntax_tokenizer_t *tkz,
             switch (*data) {
                 case 0x0D:
                     data++;
+                    *length += 1;
 
                     status = lxb_css_syntax_tokenizer_next_chunk(tkz, &data,
                                                                  end);
@@ -2527,6 +2678,7 @@ lxb_css_syntax_state_escaped(lxb_css_syntax_tokenizer_t *tkz,
 
                     if (*data == 0x0A) {
                         data++;
+                        *length += 1;
                     }
 
                     break;
@@ -2536,6 +2688,7 @@ lxb_css_syntax_state_escaped(lxb_css_syntax_tokenizer_t *tkz,
                 case 0x0A:
                 case 0x0C:
                     data++;
+                    *length += 1;
                     break;
             }
 
@@ -2554,18 +2707,22 @@ lxb_css_syntax_state_escaped(lxb_css_syntax_tokenizer_t *tkz,
 
     lxb_css_syntax_codepoint_to_ascii(tkz, cp);
 
+    *length += count;
+
     return data;
 }
 
 static const lxb_char_t *
 lxb_css_syntax_state_escaped_string(lxb_css_syntax_tokenizer_t *tkz,
-                                    const lxb_char_t *data, const lxb_char_t **end)
+                                    const lxb_char_t *data,
+                                    const lxb_char_t **end, size_t *length)
 {
     lxb_status_t status;
 
     /* U+000D CARRIAGE RETURN */
     if (*data == 0x0D) {
         data++;
+        *length += 1;
 
         if (data >= *end) {
             status = lxb_css_syntax_tokenizer_next_chunk(tkz, &data, end);
@@ -2581,6 +2738,7 @@ lxb_css_syntax_state_escaped_string(lxb_css_syntax_tokenizer_t *tkz,
         /* U+000A LINE FEED */
         if (*data == 0x0A) {
             data++;
+            *length += 1;
         }
 
         return data;
@@ -2592,12 +2750,16 @@ lxb_css_syntax_state_escaped_string(lxb_css_syntax_tokenizer_t *tkz,
             return NULL;
         }
 
+        *length += 1;
+
         return data + 1;
     }
 
     if (*data == 0x0A || *data == 0x0C) {
+        *length += 1;
+
         return data + 1;
     }
 
-    return lxb_css_syntax_state_escaped(tkz, data, end);
+    return lxb_css_syntax_state_escaped(tkz, data, end, length);
 }
