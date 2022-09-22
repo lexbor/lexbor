@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2022 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -13,7 +13,7 @@ lxb_dom_collection_create(lxb_dom_document_t *document)
 {
     lxb_dom_collection_t *col;
 
-    col = lexbor_mraw_calloc(document->mraw, sizeof(lxb_dom_collection_t));
+    col = lexbor_calloc(1, sizeof(lxb_dom_collection_t));
     if (col == NULL) {
         return NULL;
     }
@@ -51,11 +51,7 @@ lxb_dom_collection_destroy(lxb_dom_collection_t *col, bool self_destroy)
     }
 
     if (self_destroy) {
-        if (col->document != NULL) {
-            return lexbor_mraw_free(col->document->mraw, col);
-        }
-
-        return NULL;
+        return lexbor_free(col);
     }
 
     return col;

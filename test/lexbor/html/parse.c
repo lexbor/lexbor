@@ -318,6 +318,46 @@ TEST_BEGIN(parser_chunk_three)
 }
 TEST_END
 
+TEST_BEGIN(document_clean_collection)
+{
+    int i = 5;
+    lxb_status_t status;
+    lexbor_str_t str = {0};
+    lxb_html_document_t *document;
+    lxb_dom_element_t *body, *element;
+    lxb_dom_collection_t *collection;
+
+    lxb_char_t data[] = "<a href=/wiki>123</a>";
+    size_t len = sizeof(data) - 1;
+
+    document = lxb_html_document_create();
+    test_ne(document, NULL);
+
+    collection = lxb_dom_collection_make(lxb_dom_interface_document(document),
+                                         128);
+    test_ne(collection, NULL);
+
+    do {
+        status = lxb_html_document_parse(document, data, len);
+        test_eq(status, LXB_STATUS_OK);
+
+        body = lxb_dom_interface_element(document->body);
+        status = lxb_dom_elements_by_attr_begin(body, collection,
+                                                (const lxb_char_t *) "href", 4,
+                                                (const lxb_char_t *) "/wiki", 5,
+                                                true);
+        test_eq(status, LXB_STATUS_OK);
+        test_eq(lxb_dom_collection_length(collection), 1);
+
+        lxb_dom_collection_clean(collection);
+        lxb_html_document_clean(document);
+    }
+    while (i--);
+
+    lxb_html_document_destroy(document);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -332,6 +372,8 @@ main(int argc, const char * argv[])
     TEST_ADD(parser_three);
     TEST_ADD(parser_chunk);
     TEST_ADD(parser_chunk_three);
+
+    TEST_ADD(document_clean_collection);
 
     TEST_RUN("lexbor/html/parse");
     TEST_RELEASE();
