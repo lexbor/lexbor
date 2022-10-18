@@ -89,14 +89,14 @@ lxb_dom_document_type_system_id(lxb_dom_document_type_t *doc_type, size_t *len)
 /*
  * No inline functions for ABI.
  */
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_dom_document_type_name_noi(lxb_dom_document_type_t *doc_type, size_t *len);
 
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_dom_document_type_public_id_noi(lxb_dom_document_type_t *doc_type,
                                     size_t *len);
 
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_dom_document_type_system_id_noi(lxb_dom_document_type_t *doc_type,
                                     size_t *len);
 

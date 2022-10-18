@@ -54,7 +54,7 @@ lxb_dom_processing_instruction_target(lxb_dom_processing_instruction_t *pi,
 /*
  * No inline functions for ABI.
  */
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_dom_processing_instruction_target_noi(lxb_dom_processing_instruction_t *pi,
                                           size_t *len);
 

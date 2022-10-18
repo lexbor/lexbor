@@ -118,18 +118,19 @@ lexbor_mem_align_floor(size_t size)
 /*
  * No inline functions for ABI.
  */
-size_t
+LXB_API size_t
 lexbor_mem_current_length_noi(lexbor_mem_t *mem);
 
-size_t
+LXB_API size_t
 lexbor_mem_current_size_noi(lexbor_mem_t *mem);
 
-size_t
+LXB_API size_t
 lexbor_mem_chunk_length_noi(lexbor_mem_t *mem);
-size_t
+
+LXB_API size_t
 lexbor_mem_align_noi(size_t size);
 
-size_t
+LXB_API size_t
 lexbor_mem_align_floor_noi(size_t size);
 
 

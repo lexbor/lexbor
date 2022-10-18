@@ -83,19 +83,19 @@ lxb_html_encoding_meta_result(lxb_html_encoding_t *em)
 /*
  * No inline functions for ABI.
  */
-lxb_html_encoding_t *
+LXB_API lxb_html_encoding_t *
 lxb_html_encoding_create_noi(void);
 
-void
+LXB_API void
 lxb_html_encoding_clean_noi(lxb_html_encoding_t *em);
 
-lxb_html_encoding_entry_t *
+LXB_API lxb_html_encoding_entry_t *
 lxb_html_encoding_meta_entry_noi(lxb_html_encoding_t *em, size_t idx);
 
-size_t
+LXB_API size_t
 lxb_html_encoding_meta_length_noi(lxb_html_encoding_t *em);
 
-lexbor_array_obj_t *
+LXB_API lexbor_array_obj_t *
 lxb_html_encoding_meta_result_noi(lxb_html_encoding_t *em);
 
 

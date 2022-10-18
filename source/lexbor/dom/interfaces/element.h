@@ -281,34 +281,34 @@ lxb_dom_element_ns_id(lxb_dom_element_t *element)
 /*
  * No inline functions for ABI.
  */
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_dom_element_id_noi(lxb_dom_element_t *element, size_t *len);
 
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_dom_element_class_noi(lxb_dom_element_t *element, size_t *len);
 
-bool
+LXB_API bool
 lxb_dom_element_is_custom_noi(lxb_dom_element_t *element);
 
-bool
+LXB_API bool
 lxb_dom_element_custom_is_defined_noi(lxb_dom_element_t *element);
 
-lxb_dom_attr_t *
+LXB_API lxb_dom_attr_t *
 lxb_dom_element_first_attribute_noi(lxb_dom_element_t *element);
 
-lxb_dom_attr_t *
+LXB_API lxb_dom_attr_t *
 lxb_dom_element_next_attribute_noi(lxb_dom_attr_t *attr);
 
-lxb_dom_attr_t *
+LXB_API lxb_dom_attr_t *
 lxb_dom_element_prev_attribute_noi(lxb_dom_attr_t *attr);
 
-lxb_dom_attr_t *
+LXB_API lxb_dom_attr_t *
 lxb_dom_element_last_attribute_noi(lxb_dom_element_t *element);
 
-lxb_dom_attr_t *
+LXB_API lxb_dom_attr_t *
 lxb_dom_element_id_attribute_noi(lxb_dom_element_t *element);
 
-lxb_dom_attr_t *
+LXB_API lxb_dom_attr_t *
 lxb_dom_element_class_attribute_noi(lxb_dom_element_t *element);
 
 

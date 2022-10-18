@@ -302,37 +302,37 @@ lxb_html_tokenizer_temp_append(lxb_html_tokenizer_t *tkz,
 /*
  * No inline functions for ABI.
  */
-void
+LXB_API void
 lxb_html_tokenizer_status_set_noi(lxb_html_tokenizer_t *tkz,
                                   lxb_status_t status);
 
-void
+LXB_API void
 lxb_html_tokenizer_callback_token_done_set_noi(lxb_html_tokenizer_t *tkz,
                                                lxb_html_tokenizer_token_f call_func,
                                                void *ctx);
 
-void *
+LXB_API void *
 lxb_html_tokenizer_callback_token_done_ctx_noi(lxb_html_tokenizer_t *tkz);
 
-void
+LXB_API void
 lxb_html_tokenizer_state_set_noi(lxb_html_tokenizer_t *tkz,
                                  lxb_html_tokenizer_state_f state);
 
-void
+LXB_API void
 lxb_html_tokenizer_tmp_tag_id_set_noi(lxb_html_tokenizer_t *tkz,
                                       lxb_tag_id_t tag_id);
 
-lxb_html_tree_t *
+LXB_API lxb_html_tree_t *
 lxb_html_tokenizer_tree_noi(lxb_html_tokenizer_t *tkz);
 
-void
+LXB_API void
 lxb_html_tokenizer_tree_set_noi(lxb_html_tokenizer_t *tkz,
                                 lxb_html_tree_t *tree);
 
-lexbor_mraw_t *
+LXB_API lexbor_mraw_t *
 lxb_html_tokenizer_mraw_noi(lxb_html_tokenizer_t *tkz);
 
-lexbor_hash_t *
+LXB_API lexbor_hash_t *
 lxb_html_tokenizer_tags_noi(lxb_html_tokenizer_t *tkz);
 
 
