@@ -110,7 +110,7 @@ lxb_css_syntax_tokenizer_buffer_set(lxb_css_syntax_tokenizer_t *tkz,
 /*
  * No inline functions for ABI.
  */
-lxb_status_t
+LXB_API lxb_status_t
 lxb_css_syntax_tokenizer_status_noi(lxb_css_syntax_tokenizer_t *tkz);
 
 

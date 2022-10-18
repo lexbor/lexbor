@@ -97,13 +97,13 @@ lexbor_mraw_reference_count(lexbor_mraw_t *mraw)
 /*
  * No inline functions for ABI.
  */
-size_t
+LXB_API size_t
 lexbor_mraw_data_size_noi(void *data);
 
-void
+LXB_API void
 lexbor_mraw_data_size_set_noi(void *data, size_t size);
 
-void *
+LXB_API void *
 lexbor_mraw_dup_noi(lexbor_mraw_t *mraw, const void *src, size_t size);
 
 

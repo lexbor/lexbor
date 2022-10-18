@@ -138,10 +138,10 @@ lxb_dom_attr_value(lxb_dom_attr_t *attr, size_t *len)
 /*
  * No inline functions for ABI.
  */
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_dom_attr_local_name_noi(lxb_dom_attr_t *attr, size_t *len);
 
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_dom_attr_value_noi(lxb_dom_attr_t *attr, size_t *len);
 
 

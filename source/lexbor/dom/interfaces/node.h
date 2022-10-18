@@ -166,22 +166,22 @@ lxb_dom_node_last_child(lxb_dom_node_t *node)
 /*
  * No inline functions for ABI.
  */
-lxb_tag_id_t
+LXB_API lxb_tag_id_t
 lxb_dom_node_tag_id_noi(lxb_dom_node_t *node);
 
-lxb_dom_node_t *
+LXB_API lxb_dom_node_t *
 lxb_dom_node_next_noi(lxb_dom_node_t *node);
 
-lxb_dom_node_t *
+LXB_API lxb_dom_node_t *
 lxb_dom_node_prev_noi(lxb_dom_node_t *node);
 
-lxb_dom_node_t *
+LXB_API lxb_dom_node_t *
 lxb_dom_node_parent_noi(lxb_dom_node_t *node);
 
-lxb_dom_node_t *
+LXB_API lxb_dom_node_t *
 lxb_dom_node_first_child_noi(lxb_dom_node_t *node);
 
-lxb_dom_node_t *
+LXB_API lxb_dom_node_t *
 lxb_dom_node_last_child_noi(lxb_dom_node_t *node);
 
 

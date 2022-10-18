@@ -80,17 +80,17 @@ lexbor_plog_length(lexbor_plog_t *plog)
 /*
  * No inline functions for ABI.
  */
-lexbor_plog_t *
+LXB_API lexbor_plog_t *
 lexbor_plog_create_noi(void);
 
-void
+LXB_API void
 lexbor_plog_clean_noi(lexbor_plog_t *plog);
 
-void *
+LXB_API void *
 lexbor_plog_push_noi(lexbor_plog_t *plog, const lxb_char_t *data, void *ctx,
                      unsigned id);
 
-size_t
+LXB_API size_t
 lexbor_plog_length_noi(lexbor_plog_t *plog);
 
 

@@ -86,22 +86,22 @@ lxb_dom_collection_length(lxb_dom_collection_t *col)
 /*
  * No inline functions for ABI.
  */
-lxb_dom_collection_t *
+LXB_API lxb_dom_collection_t *
 lxb_dom_collection_make_noi(lxb_dom_document_t *document, size_t start_list_size);
 
-void
+LXB_API void
 lxb_dom_collection_clean_noi(lxb_dom_collection_t *col);
 
-lxb_status_t
+LXB_API lxb_status_t
 lxb_dom_collection_append_noi(lxb_dom_collection_t *col, void *value);
 
-lxb_dom_element_t *
+LXB_API lxb_dom_element_t *
 lxb_dom_collection_element_noi(lxb_dom_collection_t *col, size_t idx);
 
-lxb_dom_node_t *
+LXB_API lxb_dom_node_t *
 lxb_dom_collection_node_noi(lxb_dom_collection_t *col, size_t idx);
 
-size_t
+LXB_API size_t
 lxb_dom_collection_length_noi(lxb_dom_collection_t *col);
 
 

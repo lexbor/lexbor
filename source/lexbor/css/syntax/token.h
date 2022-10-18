@@ -274,20 +274,20 @@ lxb_css_syntax_token_type(const lxb_css_syntax_token_t *token)
 /*
  * No inline functions for ABI.
  */
-lxb_css_syntax_token_t *
+LXB_API lxb_css_syntax_token_t *
 lxb_css_syntax_token_create_noi(lexbor_dobject_t *dobj);
 
-void
+LXB_API void
 lxb_css_syntax_token_clean_noi(lxb_css_syntax_token_t *token);
 
-lxb_css_syntax_token_t *
+LXB_API lxb_css_syntax_token_t *
 lxb_css_syntax_token_destroy_noi(lxb_css_syntax_token_t *token,
                                  lexbor_dobject_t *dobj);
 
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lxb_css_syntax_token_type_name_noi(lxb_css_syntax_token_t *token);
 
-lxb_css_syntax_token_type_t
+LXB_API lxb_css_syntax_token_type_t
 lxb_css_syntax_token_type_noi(lxb_css_syntax_token_t *token);
 
 

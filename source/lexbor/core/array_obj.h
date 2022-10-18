@@ -108,22 +108,22 @@ lexbor_array_obj_last(lexbor_array_obj_t *array)
 /*
  * No inline functions for ABI.
  */
-void
+LXB_API void
 lexbor_array_obj_erase_noi(lexbor_array_obj_t *array);
 
-void *
+LXB_API void *
 lexbor_array_obj_get_noi(lexbor_array_obj_t *array, size_t idx);
 
-size_t
+LXB_API size_t
 lexbor_array_obj_length_noi(lexbor_array_obj_t *array);
 
-size_t
+LXB_API size_t
 lexbor_array_obj_size_noi(lexbor_array_obj_t *array);
 
-size_t
+LXB_API size_t
 lexbor_array_obj_struct_size_noi(lexbor_array_obj_t *array);
 
-void *
+LXB_API void *
 lexbor_array_obj_last_noi(lexbor_array_obj_t *array);
 
 

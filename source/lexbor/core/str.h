@@ -223,19 +223,19 @@ lexbor_str_length_set(lexbor_str_t *str, lexbor_mraw_t *mraw, size_t length)
 /*
  * No inline functions for ABI.
  */
-lxb_char_t *
+LXB_API lxb_char_t *
 lexbor_str_data_noi(lexbor_str_t *str);
 
-size_t
+LXB_API size_t
 lexbor_str_length_noi(lexbor_str_t *str);
 
-size_t
+LXB_API size_t
 lexbor_str_size_noi(lexbor_str_t *str);
 
-void
+LXB_API void
 lexbor_str_data_set_noi(lexbor_str_t *str, lxb_char_t *data);
 
-lxb_char_t *
+LXB_API lxb_char_t *
 lexbor_str_length_set_noi(lexbor_str_t *str, lexbor_mraw_t *mraw,
                           size_t length);
 

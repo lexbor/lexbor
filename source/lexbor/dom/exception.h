@@ -61,7 +61,7 @@ lxb_dom_exception_code_ref_set(lxb_dom_exception_code_t *var,
 /*
  * No inline functions for ABI.
  */
-void *
+LXB_API void *
 lxb_dom_exception_code_ref_set_noi(lxb_dom_exception_code_t *var,
                                    lxb_dom_exception_code_t code);
 

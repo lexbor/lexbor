@@ -115,10 +115,10 @@ lxb_html_token_create_eof(lexbor_dobject_t *dobj)
 /*
  * No inline functions for ABI.
  */
-void
+LXB_API void
 lxb_html_token_clean_noi(lxb_html_token_t *token);
 
-lxb_html_token_t *
+LXB_API lxb_html_token_t *
 lxb_html_token_create_eof_noi(lexbor_dobject_t *dobj);
 
 

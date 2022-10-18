@@ -143,25 +143,25 @@ lexbor_in_segment(const lexbor_in_node_t *node, const lxb_char_t *data)
 /*
  * No inline functions for ABI.
  */
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lexbor_in_node_begin_noi(const lexbor_in_node_t *node);
 
-const lxb_char_t *
+LXB_API const lxb_char_t *
 lexbor_in_node_end_noi(const lexbor_in_node_t *node);
 
-size_t
+LXB_API size_t
 lexbor_in_node_offset_noi(const lexbor_in_node_t *node);
 
-lexbor_in_node_t *
+LXB_API lexbor_in_node_t *
 lexbor_in_node_next_noi(const lexbor_in_node_t *node);
 
-lexbor_in_node_t *
+LXB_API lexbor_in_node_t *
 lexbor_in_node_prev_noi(const lexbor_in_node_t *node);
 
-lexbor_in_t *
+LXB_API lexbor_in_t *
 lexbor_in_node_in_noi(const lexbor_in_node_t *node);
 
-bool
+LXB_API bool
 lexbor_in_segment_noi(const lexbor_in_node_t *node, const lxb_char_t *data);
 
 

@@ -83,13 +83,13 @@ lexbor_array_size(lexbor_array_t *array)
 /*
  * No inline functions for ABI.
  */
-void *
+LXB_API void *
 lexbor_array_get_noi(lexbor_array_t *array, size_t idx);
 
-size_t
+LXB_API size_t
 lexbor_array_length_noi(lexbor_array_t *array);
 
-size_t
+LXB_API size_t
 lexbor_array_size_noi(lexbor_array_t *array);
 
 
