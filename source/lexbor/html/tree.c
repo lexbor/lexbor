@@ -608,8 +608,8 @@ lxb_html_tree_adjust_foreign_attributes(lxb_html_tree_t *tree,
                                         lxb_dom_attr_t *attr, void *ctx)
 {
     size_t lname_length;
-    lexbor_hash_t *tags, *attrs, *prefix;
-    const lxb_tag_data_t *tag_data;
+    lexbor_hash_t *attrs, *prefix;
+    const lxb_dom_attr_data_t *attr_data;
     const lxb_ns_prefix_data_t *prefix_data;
     const lxb_dom_attr_data_t *data;
     const lxb_html_tree_res_attr_adjust_foreign_t *adjust;
@@ -617,7 +617,6 @@ lxb_html_tree_adjust_foreign_attributes(lxb_html_tree_t *tree,
     size_t len = sizeof(lxb_html_tree_res_attr_adjust_foreign_map)
         / sizeof(lxb_html_tree_res_attr_adjust_foreign_t);
 
-    tags = attr->node.owner_document->tags;
     attrs = attr->node.owner_document->attrs;
     prefix = attr->node.owner_document->prefix;
 
@@ -641,13 +640,13 @@ lxb_html_tree_adjust_foreign_attributes(lxb_html_tree_t *tree,
 
                 lname_length = adjust->name_len - adjust->prefix_len - 1;
 
-                tag_data = lxb_tag_append_lower(tags,
+                attr_data = lxb_dom_attr_local_name_append(attrs,
                          (const lxb_char_t *) adjust->local_name, lname_length);
-                if (tag_data == NULL) {
+                if (attr_data == NULL) {
                     return LXB_STATUS_ERROR;
                 }
 
-                attr->node.local_name = tag_data->tag_id;
+                attr->node.local_name = attr_data->attr_id;
 
                 prefix_data = lxb_ns_prefix_append(prefix,
                        (const lxb_char_t *) adjust->prefix, adjust->prefix_len);
