@@ -102,6 +102,7 @@ The `liblexbor-html` library already contains all the pointers to the required d
 * [Crystal](https://github.com/kostya/lexbor) Fast HTML5 Parser with CSS selectors for Crystal language
 * [Python](https://github.com/rushter/selectolax#available-backends) binding for modest and lexbor engines.
 * [D](https://github.com/trikko/parserino) Fast HTML5 Parser with CSS selectors for D programming language
+* [Ruby](https://github.com/serpapi/nokolexbor) Fast HTML5 Parser with both CSS selectors and XPath support.
 
 You can create a binding or wrapper for the `lexbor` and place the link here!
 
