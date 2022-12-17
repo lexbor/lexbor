@@ -262,7 +262,7 @@ lxb_selectors_sibling(lxb_selectors_t *selectors, lxb_selectors_entry_t *entry,
 {
     node = node->next;
 
-    do {
+    while (node != NULL) {
         if (node->type == LXB_DOM_NODE_TYPE_ELEMENT) {
             if (lxb_selectors_match(selectors, entry, selector, node)) {
                 return node;
@@ -273,7 +273,6 @@ lxb_selectors_sibling(lxb_selectors_t *selectors, lxb_selectors_entry_t *entry,
 
         node = node->next;
     }
-    while (node != NULL);
 
     return NULL;
 }
