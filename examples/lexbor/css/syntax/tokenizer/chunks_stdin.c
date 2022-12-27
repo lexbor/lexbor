@@ -6,7 +6,7 @@
 
 #include <lexbor/css/css.h>
 
-#include "../base.h"
+#include "../../base.h"
 
 
 /* Specially small buffer for demonstration. */

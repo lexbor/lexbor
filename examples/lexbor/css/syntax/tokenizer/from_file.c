@@ -7,7 +7,7 @@
 #include <lexbor/css/css.h>
 #include <lexbor/core/fs.h>
 
-#include "../base.h"
+#include "../../base.h"
 
 
 static void
