@@ -136,15 +136,18 @@ static const lxb_css_syntax_cb_declarations_t lxb_css_stylesheet_declarations = 
 lxb_css_stylesheet_t *
 lxb_css_stylesheet_destroy(lxb_css_stylesheet_t *sst)
 {
+    lxb_css_memory_t *memory;
+
     if (sst == NULL) {
         return NULL;
     }
 
-    if (sst->memory != NULL) {
-        (void) lxb_css_memory_ref_dec_destroy(sst->memory);
-    }
+    memory = sst->memory;
 
-    return lexbor_free(sst);
+    (void) lexbor_mraw_free(memory->mraw, sst);
+    (void) lxb_css_memory_ref_dec_destroy(memory);
+
+    return NULL;
 }
 
 lxb_status_t
@@ -281,14 +284,6 @@ end:
     }
 
     return list;
-}
-
-lxb_status_t
-token_cb_f(const lxb_char_t *data, size_t len, void *ctx)
-{
-    printf("%.*s", (int) len, data);
-
-    return LXB_STATUS_OK;
 }
 
 static bool
