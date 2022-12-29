@@ -133,7 +133,6 @@ lxb_html_element_style_append(lxb_html_element_t *element,
                               lxb_css_selector_specificity_t spec)
 {
     uintptr_t id;
-    lxb_status_t status;
     lexbor_str_t *name;
     lxb_html_style_node_t *node;
 
