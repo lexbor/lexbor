@@ -134,7 +134,7 @@ static const lxb_css_syntax_cb_declarations_t lxb_css_stylesheet_declarations = 
 
 
 lxb_css_stylesheet_t *
-lxb_css_stylesheet_destroy(lxb_css_stylesheet_t *sst)
+lxb_css_stylesheet_destroy(lxb_css_stylesheet_t *sst, bool destroy_memory)
 {
     lxb_css_memory_t *memory;
 
@@ -145,7 +145,10 @@ lxb_css_stylesheet_destroy(lxb_css_stylesheet_t *sst)
     memory = sst->memory;
 
     (void) lexbor_mraw_free(memory->mraw, sst);
-    (void) lxb_css_memory_ref_dec_destroy(memory);
+
+    if (destroy_memory) {
+        (void) lxb_css_memory_destroy(memory, true);
+    }
 
     return NULL;
 }
@@ -210,6 +213,8 @@ lxb_css_stylesheet_process(lxb_css_parser_t *parser,
 
     sst->root = parser->context;
     sst->memory = parser->memory;
+
+    (void) lxb_css_rule_ref_inc(sst->root);
 
     return sst;
 }

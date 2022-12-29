@@ -379,6 +379,23 @@ lxb_html_document_stylesheet_attach(lxb_html_document_t *document,
     return LXB_STATUS_OK;
 }
 
+void
+lxb_html_document_stylesheet_destroy_all(lxb_html_document_t *document,
+                                         bool destroy_memory)
+{
+    size_t length;
+    lxb_css_stylesheet_t *sst;
+    lxb_html_document_css_t *css = &document->css;
+
+    length = lexbor_array_length(css->stylesheets);
+
+    for (size_t i = 0; i < length; i++) {
+        sst = lexbor_array_pop(css->stylesheets);
+
+        (void) lxb_css_stylesheet_destroy(sst, destroy_memory);
+    }
+}
+
 lxb_status_t
 lxb_html_document_style_attach(lxb_html_document_t *document,
                                lxb_css_rule_style_t *style)

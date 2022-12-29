@@ -114,6 +114,10 @@ LXB_API lxb_status_t
 lxb_html_document_stylesheet_attach(lxb_html_document_t *document,
                                     lxb_css_stylesheet_t *sst);
 
+LXB_API void
+lxb_html_document_stylesheet_destroy_all(lxb_html_document_t *document,
+                                         bool destroy_memory);
+
 LXB_API lxb_status_t
 lxb_html_document_style_attach(lxb_html_document_t *document,
                                lxb_css_rule_style_t *style);

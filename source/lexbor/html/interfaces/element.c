@@ -133,6 +133,7 @@ lxb_html_element_style_append(lxb_html_element_t *element,
                               lxb_css_selector_specificity_t spec)
 {
     uintptr_t id;
+    lxb_status_t status;
     lexbor_str_t *name;
     lxb_html_style_node_t *node;
 
@@ -158,6 +159,8 @@ lxb_html_element_style_append(lxb_html_element_t *element,
     node = (void *) lexbor_avl_search(css->styles, element->style, id);
     if (node != NULL) {
         if (spec >= node->sp) {
+            lxb_css_rule_ref_dec(node->entry.value);
+
             node->entry.value = declr;
             node->sp = spec;
         }
@@ -174,7 +177,7 @@ lxb_html_element_style_append(lxb_html_element_t *element,
 
     node->sp = spec;
 
-    return LXB_STATUS_OK;
+    return lxb_css_rule_ref_inc(lxb_css_rule(declr));
 }
 
 lxb_status_t

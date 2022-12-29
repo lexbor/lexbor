@@ -24,7 +24,7 @@ struct lxb_css_stylesheet {
 };
 
 LXB_API lxb_css_stylesheet_t *
-lxb_css_stylesheet_destroy(lxb_css_stylesheet_t *sst);
+lxb_css_stylesheet_destroy(lxb_css_stylesheet_t *sst, bool destroy_memory);
 
 
 LXB_API lxb_status_t

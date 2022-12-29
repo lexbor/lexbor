@@ -48,6 +48,8 @@ struct lxb_css_rule {
 
     const lxb_char_t    *begin;
     const lxb_char_t    *end;
+
+    size_t              ref_count;
 };
 
 struct lxb_css_rule_list {
@@ -218,6 +220,32 @@ lxb_css_rule_list_create(lxb_css_memory_t *memory)
                                                        LXB_CSS_RULE_LIST);
 }
 
+lxb_inline size_t
+lxb_css_rule_ref_count(lxb_css_rule_t *rule)
+{
+    return rule->ref_count;
+}
+
+lxb_inline lxb_status_t
+lxb_css_rule_ref_inc(lxb_css_rule_t *rule)
+{
+    if (SIZE_T_MAX - rule->ref_count == 0) {
+        return LXB_STATUS_ERROR_OVERFLOW;
+    }
+
+    rule->ref_count++;
+
+    return LXB_STATUS_OK;
+}
+
+lxb_inline void
+lxb_css_rule_ref_dec(lxb_css_rule_t *rule)
+{
+    if (rule->ref_count > 0) {
+        rule->ref_count--;
+    }
+}
+
 lxb_inline void
 lxb_css_rule_list_append(lxb_css_rule_list_t *list, lxb_css_rule_t *rule)
 {
@@ -229,6 +257,8 @@ lxb_css_rule_list_append(lxb_css_rule_list_t *list, lxb_css_rule_t *rule)
     }
 
     list->last = rule;
+
+    (void) lxb_css_rule_ref_inc(rule);
 }
 
 lxb_inline lxb_css_rule_at_t *
@@ -275,6 +305,8 @@ lxb_css_rule_declaration_list_append(lxb_css_rule_declaration_list_t *list,
     }
 
     list->last = rule;
+
+    (void) lxb_css_rule_ref_inc(rule);
 
     list->count++;
 }
