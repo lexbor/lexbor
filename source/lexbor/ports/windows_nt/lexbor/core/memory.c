@@ -6,46 +6,48 @@
 
 #include "lexbor/core/base.h"
 
-static lexbor_malloc_f malloc_f = malloc;
-static lexbor_realloc_f realloc_f = realloc;
-static lexbor_calloc_f calloc_f = calloc;
-static lexbor_free_f free_f = free;
+static lexbor_memory_malloc_f lexbor_memory_malloc = malloc;
+static lexbor_memory_realloc_f lexbor_memory_realloc = realloc;
+static lexbor_memory_calloc_f lexbor_memory_calloc = calloc;
+static lexbor_memory_free_f lexbor_memory_free = free;
 
 void *
 lexbor_malloc(size_t size)
 {
-    return malloc_f(size);
+    return lexbor_memory_malloc(size);
 }
 
 void *
 lexbor_realloc(void *dst, size_t size)
 {
-    return realloc_f(dst, size);
+    return lexbor_memory_realloc(dst, size);
 }
 
 void *
 lexbor_calloc(size_t num, size_t size)
 {
-    return calloc_f(num, size);
+    return lexbor_memory_calloc(num, size);
 }
 
 void *
 lexbor_free(void *dst)
 {
-    free_f(dst);
+    lexbor_memory_free(dst);
     return NULL;
 }
 
 lxb_status_t
-lexbor_memory_setup(lexbor_malloc_f _malloc_f, lexbor_realloc_f _realloc_f,
-                    lexbor_calloc_f _calloc_f, lexbor_free_f _free_f)
+lexbor_memory_setup(lexbor_memory_malloc_f new_malloc, lexbor_memory_realloc_f new_realloc,
+                    lexbor_memory_calloc_f new_calloc, lexbor_memory_free_f new_free)
 {
-    if (_malloc_f == NULL || _realloc_f == NULL || _calloc_f == NULL || _free_f == NULL) {
+    if (new_malloc == NULL || new_realloc == NULL || new_calloc == NULL || new_free == NULL) {
         return LXB_STATUS_ERROR_OBJECT_IS_NULL;
     }
-    malloc_f = _malloc_f;
-    realloc_f = _realloc_f;
-    calloc_f = _calloc_f;
-    free_f = _free_f;
+
+    lexbor_memory_malloc = new_malloc;
+    lexbor_memory_realloc = new_realloc;
+    lexbor_memory_calloc = new_calloc;
+    lexbor_memory_free = new_free;
+
     return LXB_STATUS_OK;
 }
