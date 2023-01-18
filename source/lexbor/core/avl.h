@@ -15,9 +15,12 @@ extern "C" {
 #include "lexbor/core/dobject.h"
 
 
+typedef struct lexbor_avl lexbor_avl_t;
 typedef struct lexbor_avl_node lexbor_avl_node_t;
 
-typedef void (*lexbor_avl_node_f)(lexbor_avl_node_t *avl_node, void *ctx);
+typedef lexbor_status_t
+(*lexbor_avl_node_f)(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+                     lexbor_avl_node_t *node, void *ctx);
 
 struct lexbor_avl_node {
     size_t            type;
@@ -29,11 +32,10 @@ struct lexbor_avl_node {
     lexbor_avl_node_t *parent;
 };
 
-typedef struct {
-    lexbor_dobject_t *nodes;
-    size_t           size;
-}
-lexbor_avl_t;
+struct lexbor_avl {
+    lexbor_dobject_t  *nodes;
+    lexbor_avl_node_t *last_right;
+};
 
 
 LXB_API lexbor_avl_t *
@@ -70,6 +72,13 @@ lexbor_avl_search(lexbor_avl_t *avl, lexbor_avl_node_t *scope, size_t type);
 LXB_API void *
 lexbor_avl_remove(lexbor_avl_t *avl, lexbor_avl_node_t **scope, size_t type);
 
+LXB_API void
+lexbor_avl_remove_by_node(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+                          lexbor_avl_node_t *node);
+
+LXB_API lxb_status_t
+lexbor_avl_foreach(lexbor_avl_t *avl, lexbor_avl_node_t **scope,
+                   lexbor_avl_node_f cb, void *ctx);
 
 LXB_API void
 lexbor_avl_foreach_recursion(lexbor_avl_t *avl, lexbor_avl_node_t *scope,

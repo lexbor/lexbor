@@ -9,6 +9,19 @@
 #include <lexbor/core/avl.h>
 
 
+typedef struct {
+    size_t remove;
+    size_t *result;
+    size_t *p;
+}
+avl_test_ctx_t;
+
+
+static lxb_status_t
+avl_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+       lexbor_avl_node_t *node, void *ctx);
+
+
 TEST_BEGIN(init)
 {
     lexbor_avl_t *avl = lexbor_avl_create();
@@ -1137,6 +1150,137 @@ TEST_BEGIN(destroy_stack)
 }
 TEST_END
 
+TEST_BEGIN(foreach_4)
+{
+    size_t i, *p;
+    lexbor_avl_t avl;
+    avl_test_ctx_t test;
+    lexbor_avl_node_t *root = NULL;
+
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
+
+    for (i = 5; i > 1; i--) {
+        lexbor_avl_insert(&avl, &root, i, NULL);
+    }
+
+    test.result = lexbor_malloc(10 * sizeof(size_t));
+    test_ne(test.result, NULL);
+
+    test.remove = 4;
+    test.p = test.result;
+
+    lexbor_avl_foreach(&avl, &root, avl_cb, &test);
+
+    p = test.result;
+
+    for (i = 2; i < 6; i++) {
+        test_ne(p, test.p);
+
+        test_eq(i, *p);
+
+        p++;
+    }
+
+    lexbor_free(test.result);
+    lexbor_avl_destroy(&avl, false);
+}
+TEST_END
+
+TEST_BEGIN(foreach_6)
+{
+    size_t i, *p;
+    lexbor_avl_t avl;
+    avl_test_ctx_t test;
+    lexbor_avl_node_t *root = NULL;
+
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
+
+    for (i = 5; i < 9; i++) {
+        lexbor_avl_insert(&avl, &root, i, NULL);
+    }
+
+    test.result = lexbor_malloc(10 * sizeof(size_t));
+    test_ne(test.result, NULL);
+
+    test.remove = 6;
+    test.p = test.result;
+
+    lexbor_avl_foreach(&avl, &root, avl_cb, &test);
+
+    p = test.result;
+
+    for (i = 5; i < 9; i++) {
+        test_ne(p, test.p);
+
+        test_eq(i, *p);
+
+        p++;
+    }
+
+    lexbor_free(test.result);
+    lexbor_avl_destroy(&avl, false);
+}
+TEST_END
+
+TEST_BEGIN(foreach_10)
+{
+    size_t i, *p;
+    lexbor_avl_t avl;
+    avl_test_ctx_t test;
+    lexbor_avl_node_t *root;
+
+    static const size_t total = 101;
+
+    test.result = lexbor_malloc(total * sizeof(size_t));
+    test_ne(test.result, NULL);
+
+    for (size_t r = 1; r < total; r++) {
+        test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
+
+        root = NULL;
+
+        for (i = 1; i < total; i++) {
+            lexbor_avl_insert(&avl, &root, i, NULL);
+        }
+
+        test.remove = r;
+        test.p = test.result;
+
+        lexbor_avl_foreach(&avl, &root, avl_cb, &test);
+
+        p = test.result;
+
+        for (i = 1; i < total; i++) {
+            test_ne(p, test.p);
+
+            test_eq(i, *p);
+
+            p++;
+        }
+
+        lexbor_avl_destroy(&avl, false);
+    }
+
+    lexbor_free(test.result);
+}
+TEST_END
+
+static lxb_status_t
+avl_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+       lexbor_avl_node_t *node, void *ctx)
+{
+    avl_test_ctx_t *test = ctx;
+
+    *test->p = node->type;
+    test->p++;
+
+    if (node->type == test->remove) {
+        lexbor_avl_remove_by_node(avl, root, node);
+    }
+
+    return LXB_STATUS_OK;
+}
+
 int
 main(int argc, const char * argv[])
 {
@@ -1172,6 +1316,10 @@ main(int argc, const char * argv[])
     TEST_ADD(clean);
     TEST_ADD(destroy);
     TEST_ADD(destroy_stack);
+
+    TEST_ADD(foreach_4);
+    TEST_ADD(foreach_6);
+    TEST_ADD(foreach_10);
 
     TEST_RUN("lexbor/core/avl");
     TEST_RELEASE();

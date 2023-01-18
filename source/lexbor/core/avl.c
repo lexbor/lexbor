@@ -58,6 +58,8 @@ lexbor_avl_init(lexbor_avl_t *avl, size_t chunk_len, size_t struct_size)
         struct_size = sizeof(lexbor_avl_node_t);
     }
 
+    avl->last_right = NULL;
+
     avl->nodes = lexbor_dobject_create();
     return lexbor_dobject_init(avl->nodes, chunk_len, struct_size);
 }
@@ -65,6 +67,8 @@ lexbor_avl_init(lexbor_avl_t *avl, size_t chunk_len, size_t struct_size)
 void
 lexbor_avl_clean(lexbor_avl_t *avl)
 {
+    avl->last_right = NULL;
+
     lexbor_dobject_clean(avl->nodes);
 }
 
@@ -369,16 +373,20 @@ lexbor_avl_rotate_for_delete(lexbor_avl_node_t *delete_node,
     else {
         balance_node = delete_node->parent;
 
-        if (delete_node->parent != NULL) {
-            if (delete_node->parent->left == delete_node) {
-                delete_node->parent->left = delete_node->right;
+        if (balance_node != NULL) {
+            if (balance_node->left == delete_node) {
+                balance_node->left = delete_node->right;
             }
             else {
-                delete_node->parent->right = delete_node->right;
+                balance_node->right = delete_node->right;
             }
         }
         else {
             *scope = delete_node->right;
+        }
+
+        if (delete_node->right != NULL) {
+            delete_node->right->parent = balance_node;
         }
     }
 
@@ -390,15 +398,15 @@ lexbor_avl_rotate_for_delete(lexbor_avl_node_t *delete_node,
 void *
 lexbor_avl_remove(lexbor_avl_t *avl, lexbor_avl_node_t **scope, size_t type)
 {
+    void *value;
     lexbor_avl_node_t *node = *scope;
 
     while (node != NULL) {
         if (type == node->type) {
-            lexbor_avl_rotate_for_delete(node,
-                                        lexbor_avl_find_min(node->left), scope);
+            avl->last_right = lexbor_avl_find_min(node->left);
+            lexbor_avl_rotate_for_delete(node, avl->last_right, scope);
 
-            void *value = node->value;
-
+            value = node->value;
             lexbor_dobject_free(avl->nodes, node);
 
             return value;
@@ -412,6 +420,17 @@ lexbor_avl_remove(lexbor_avl_t *avl, lexbor_avl_node_t **scope, size_t type)
     }
 
     return NULL;
+}
+
+void
+lexbor_avl_remove_by_node(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+                          lexbor_avl_node_t *node)
+{
+    avl->last_right = lexbor_avl_find_min(node->left);
+
+    lexbor_avl_rotate_for_delete(node, avl->last_right, root);
+
+    (void) lexbor_dobject_free(avl->nodes, node);
 }
 
 lexbor_avl_node_t *
@@ -432,6 +451,108 @@ lexbor_avl_search(lexbor_avl_t *avl, lexbor_avl_node_t *node, size_t type)
     return NULL;
 }
 
+lxb_status_t
+lexbor_avl_foreach(lexbor_avl_t *avl, lexbor_avl_node_t **scope,
+                   lexbor_avl_node_f cb, void *ctx)
+{
+    lxb_status_t status;
+    int state = 0;
+    bool from_right = false;
+    lexbor_avl_node_t *node, *parent, *root;
+
+    if (scope == NULL || *scope == NULL) {
+        return LXB_STATUS_ERROR_WRONG_ARGS;
+    }
+
+    node = *scope;
+    root = node;
+
+    while (node->left != NULL) {
+        node = node->left;
+    }
+
+    do {
+        parent = node->parent;
+
+        if (!from_right) {
+            if (node == root) {
+                state = 2;
+            }
+            else {
+                state = parent->left == node;
+            }
+
+            status = cb(avl, scope, node, ctx);
+            if (status != LXB_STATUS_OK) {
+                return status;
+            }
+
+            if (state == 2) {
+                if (*scope != root) {
+                    root = *scope;
+
+                    if (root == NULL) {
+                        return LXB_STATUS_OK;
+                    }
+                    else if (avl->last_right == root) {
+                        node = root;
+                    }
+                    else {
+                        node = root;
+                        continue;
+                    }
+                }
+            }
+            else if (parent->left != node && parent->right != node) {
+                if (state) {
+                    if (parent->left != NULL && parent->left->right != NULL) {
+                        node = parent->left;
+                    }
+                    else {
+                        node = parent;
+                        continue;
+                    }
+                }
+                else {
+                    if (parent->right != NULL) {
+                        node = parent->right;
+
+                        if (node != avl->last_right) {
+                            continue;
+                        }
+                    }
+                    else {
+                        node = parent;
+                    }
+                }
+            }
+        }
+
+        if (node->right != NULL && !from_right) {
+            node = node->right;
+
+            while (node->left != NULL) {
+                node = node->left;
+            }
+
+            continue;
+        }
+
+        if (parent == root->parent) {
+            return LXB_STATUS_OK;
+        }
+        else if (node == parent->left) {
+            from_right = false;
+        }
+        else {
+            from_right = true;
+        }
+
+        node = parent;
+    }
+    while (true);
+}
+
 void
 lexbor_avl_foreach_recursion(lexbor_avl_t *avl, lexbor_avl_node_t *scope,
                              lexbor_avl_node_f callback, void *ctx)
@@ -440,7 +561,7 @@ lexbor_avl_foreach_recursion(lexbor_avl_t *avl, lexbor_avl_node_t *scope,
         return;
     }
 
-    callback(scope, ctx);
+    callback(avl, NULL, scope, ctx);
 
     lexbor_avl_foreach_recursion(avl, scope->left, callback, ctx);
     lexbor_avl_foreach_recursion(avl, scope->right, callback, ctx);
