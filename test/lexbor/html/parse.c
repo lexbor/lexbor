@@ -322,9 +322,8 @@ TEST_BEGIN(document_clean_collection)
 {
     int i = 5;
     lxb_status_t status;
-    lexbor_str_t str = {0};
     lxb_html_document_t *document;
-    lxb_dom_element_t *body, *element;
+    lxb_dom_element_t *body;
     lxb_dom_collection_t *collection;
 
     lxb_char_t data[] = "<a href=/wiki>123</a>";
