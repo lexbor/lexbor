@@ -19,9 +19,15 @@ extern "C" {
 
 
 struct lxb_html_element {
-    lxb_dom_element_t element;
-    lexbor_avl_node_t *style;
+    lxb_dom_element_t               element;
+    lexbor_avl_node_t               *style;
+    lxb_css_rule_declaration_list_t *list;
 };
+
+typedef enum {
+    LXB_HTML_ELEMENT_OPT_UNDEF = 0x00
+}
+lxb_html_element_style_opt_t;
 
 
 LXB_API lxb_html_element_t *
@@ -56,6 +62,12 @@ lxb_html_element_style_list_append(lxb_html_element_t *element,
                                    lxb_css_rule_declaration_list_t *list,
                                    lxb_css_selector_specificity_t spec);
 
+LXB_API lxb_status_t
+lxb_html_element_style_serialize(lxb_html_element_t *element,
+                                 lxb_html_element_style_opt_t opt,
+                                 lexbor_serialize_cb_f cb, void *ctx);
+
+
 /*
  * Inline functions
  */
@@ -69,6 +81,33 @@ lxb_inline lxb_ns_id_t
 lxb_html_element_ns_id(lxb_html_element_t *element)
 {
     return lxb_dom_interface_node(element)->ns;
+}
+
+lxb_inline void
+lxb_html_element_insert_before(lxb_html_element_t *dst, lxb_html_element_t *src)
+{
+    lxb_dom_node_insert_before(lxb_dom_interface_node(dst),
+                               lxb_dom_interface_node(src));
+}
+
+lxb_inline void
+lxb_html_element_insert_after(lxb_html_element_t *dst, lxb_html_element_t *src)
+{
+    lxb_dom_node_insert_after(lxb_dom_interface_node(dst),
+                              lxb_dom_interface_node(src));
+}
+
+lxb_inline void
+lxb_html_element_insert_child(lxb_html_element_t *dst, lxb_html_element_t *src)
+{
+    lxb_dom_node_insert_child(lxb_dom_interface_node(dst),
+                              lxb_dom_interface_node(src));
+}
+
+lxb_inline lxb_html_document_t *
+lxb_html_element_document(lxb_html_element_t *element)
+{
+    return lxb_html_interface_document(lxb_dom_interface_node(element)->owner_document);
 }
 
 

@@ -114,6 +114,9 @@ LXB_API lxb_status_t
 lxb_html_document_stylesheet_attach(lxb_html_document_t *document,
                                     lxb_css_stylesheet_t *sst);
 
+LXB_API lxb_status_t
+lxb_html_document_element_styles_attach(lxb_html_element_t *element);
+
 LXB_API void
 lxb_html_document_stylesheet_destroy_all(lxb_html_document_t *document,
                                          bool destroy_memory);
@@ -121,6 +124,11 @@ lxb_html_document_stylesheet_destroy_all(lxb_html_document_t *document,
 LXB_API lxb_status_t
 lxb_html_document_style_attach(lxb_html_document_t *document,
                                lxb_css_rule_style_t *style);
+
+LXB_API lxb_status_t
+lxb_html_document_style_attach_by_element(lxb_html_document_t *document,
+                                          lxb_html_element_t *element,
+                                          lxb_css_rule_style_t *style);
 
 LXB_API lxb_status_t
 lxb_html_document_css_customs_init(lxb_html_document_t *document);

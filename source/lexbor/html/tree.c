@@ -498,16 +498,6 @@ lxb_html_tree_append_attributes(lxb_html_tree_t *tree,
 
         lxb_dom_element_attr_append(element, attr);
 
-        if (doc->css_init && attr->node.local_name == LXB_DOM_ATTR_STYLE
-            && attr->value != NULL)
-        {
-            status = lxb_html_element_style_parse(lxb_html_interface_element(element),
-                                                  attr->value->data, attr->value->length);
-            if (status != LXB_STATUS_OK) {
-                /* FIXME: what to do with an error? */
-            }
-        }
-
         token_attr = token_attr->next;
     }
 
@@ -1584,7 +1574,7 @@ lxb_html_tree_adoption_agency_algorithm(lxb_html_tree_t *tree,
                 lxb_dom_node_remove(last);
             }
 
-            lxb_dom_node_insert_child(node, last);
+            lxb_dom_node_insert_child_wo_events(node, last);
 
             /* State 14.10 */
             last = node;
@@ -1630,15 +1620,15 @@ lxb_html_tree_adoption_agency_algorithm(lxb_html_tree_t *tree,
             next = node->next;
 
             lxb_dom_node_remove(node);
-            lxb_dom_node_insert_child(lxb_dom_interface_node(element), node);
-
+            lxb_dom_node_insert_child_wo_events(lxb_dom_interface_node(element),
+                                                node);
             node = next;
         }
 
         node = lxb_dom_interface_node(element);
 
         /* State 18 */
-        lxb_dom_node_insert_child(furthest_block, node);
+        lxb_dom_node_insert_child_wo_events(furthest_block, node);
 
         /* State 19 */
         lxb_html_tree_active_formatting_remove(tree, formatting_index);

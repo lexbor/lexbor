@@ -30,7 +30,6 @@ lxb_html_d_list_element_interface_create(lxb_html_document_t *document)
 lxb_html_d_list_element_t *
 lxb_html_d_list_element_interface_destroy(lxb_html_d_list_element_t *d_list_element)
 {
-    return lexbor_mraw_free(
-        lxb_dom_interface_node(d_list_element)->owner_document->mraw,
-        d_list_element);
+    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(d_list_element));
+    return NULL;
 }

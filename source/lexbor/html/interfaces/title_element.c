@@ -31,14 +31,19 @@ lxb_html_title_element_interface_create(lxb_html_document_t *document)
 lxb_html_title_element_t *
 lxb_html_title_element_interface_destroy(lxb_html_title_element_t *title)
 {
+    lexbor_str_t *text;
     lxb_dom_document_t *doc = lxb_dom_interface_node(title)->owner_document;
 
-    if (title->strict_text != NULL) {
-        lexbor_str_destroy(title->strict_text, doc->text, false);
-        lxb_dom_document_destroy_struct(doc, title->strict_text);
-    }
+    text = title->strict_text;
 
-    return lexbor_mraw_free(doc->mraw, title);
+    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(title));
+
+    if (text != NULL) {
+        lexbor_str_destroy(text, doc->text, false);
+        lxb_dom_document_destroy_struct(doc, text);
+    }
+    
+    return NULL;
 }
 
 const lxb_char_t *

@@ -81,6 +81,9 @@ lxb_dom_attr_clone_name_value(lxb_dom_attr_t *attr_from,
 LXB_API bool
 lxb_dom_attr_compare(lxb_dom_attr_t *first, lxb_dom_attr_t *second);
 
+LXB_API void
+lxb_dom_attr_remove(lxb_dom_attr_t *attr);
+
 LXB_API const lxb_dom_attr_data_t *
 lxb_dom_attr_data_undef(void);
 

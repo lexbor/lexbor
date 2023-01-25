@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2022 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -7,6 +7,11 @@
 #include "lexbor/html/style.h"
 #include "lexbor/html/interfaces/element.h"
 #include "lexbor/html/interfaces/document.h"
+
+
+static lxb_status_t
+lxb_html_element_style_serialize_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+                                    lexbor_avl_node_t *node, void *ctx);
 
 
 lxb_html_element_t *
@@ -31,8 +36,8 @@ lxb_html_element_interface_create(lxb_html_document_t *document)
 lxb_html_element_t *
 lxb_html_element_interface_destroy(lxb_html_element_t *element)
 {
-    return lexbor_mraw_free(
-                lxb_dom_interface_node(element)->owner_document->mraw, element);
+    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(element));
+    return NULL;
 }
 
 lxb_html_element_t *
@@ -123,6 +128,8 @@ lxb_html_element_style_parse(lxb_html_element_t *element,
         return css->parser->status;
     }
 
+    element->list = list;
+
     return lxb_html_element_style_list_append(element, list,
                                               lxb_css_selector_sp_up_s(0));
 }
@@ -208,4 +215,39 @@ lxb_html_element_style_list_append(lxb_html_element_t *element,
     }
 
     return LXB_STATUS_OK;
+}
+
+lxb_status_t
+lxb_html_element_style_serialize(lxb_html_element_t *element,
+                                 lxb_html_element_style_opt_t opt,
+                                 lexbor_serialize_cb_f cb, void *ctx)
+{
+    lexbor_serialize_ctx_t context;
+
+    context.cb = cb;
+    context.ctx = ctx;
+    context.opt = opt;
+    context.count = 0;
+
+    return lexbor_avl_foreach(NULL, &element->style,
+                              lxb_html_element_style_serialize_cb, &context);
+}
+
+static lxb_status_t
+lxb_html_element_style_serialize_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+                                    lexbor_avl_node_t *node, void *ctx)
+{
+    lxb_status_t status;
+    lexbor_serialize_ctx_t *context = ctx;
+
+    static const lexbor_str_t splt = lexbor_str("; ");
+
+    if (context->count > 0) {
+        lexbor_serialize_write(context->cb, splt.data, splt.length,
+                               context->ctx, status);
+    }
+
+    context->count = 1;
+
+    return lxb_css_rule_serialize(node->value, context->cb, context->ctx);
 }

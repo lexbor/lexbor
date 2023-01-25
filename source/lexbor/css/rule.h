@@ -17,13 +17,13 @@ extern "C" {
 #include "lexbor/css/selectors/selectors.h"
 
 
-#define lxb_css_rule(rule)                  (lxb_css_rule_t *) (rule)
-#define lxb_css_rule_list(rule)             (lxb_css_rule_list_t *) (rule)
-#define lxb_css_rule_at(rule)               (lxb_css_rule_at_t *) (rule)
-#define lxb_css_rule_style(rule)            (lxb_css_rule_style_t *) (rule)
-#define lxb_css_rule_bad_style(rule)        (lxb_css_rule_bad_style_t *) (rule)
-#define lxb_css_rule_declaration_list(rule) (lxb_css_rule_declaration_list_t *) (rule)
-#define lxb_css_rule_declaration(rule)      (lxb_css_rule_declaration_t *) (rule)
+#define lxb_css_rule(rule)                  ((lxb_css_rule_t *) (rule))
+#define lxb_css_rule_list(rule)             ((lxb_css_rule_list_t *) (rule))
+#define lxb_css_rule_at(rule)               ((lxb_css_rule_at_t *) (rule))
+#define lxb_css_rule_style(rule)            ((lxb_css_rule_style_t *) (rule))
+#define lxb_css_rule_bad_style(rule)        ((lxb_css_rule_bad_style_t *) (rule))
+#define lxb_css_rule_declaration_list(rule) ((lxb_css_rule_declaration_list_t *) (rule))
+#define lxb_css_rule_declaration(rule)      ((lxb_css_rule_declaration_t *) (rule))
 
 
 typedef enum {
@@ -49,6 +49,7 @@ struct lxb_css_rule {
     const lxb_char_t    *begin;
     const lxb_char_t    *end;
 
+    lxb_css_memory_t    *memory;
     size_t              ref_count;
 };
 
@@ -113,8 +114,7 @@ struct lxb_css_rule_declaration {
 
 
 LXB_API void *
-lxb_css_rule_destroy(lxb_css_memory_t *memory, lxb_css_rule_t *node,
-                     bool self_destroy);
+lxb_css_rule_destroy(lxb_css_rule_t *node, bool self_destroy);
 
 LXB_API lxb_status_t
 lxb_css_rule_serialize(const lxb_css_rule_t *rule,
@@ -125,16 +125,14 @@ lxb_css_rule_serialize_chain(const lxb_css_rule_t *rule,
                              lexbor_serialize_cb_f cb, void *ctx);
 
 LXB_API lxb_css_rule_list_t *
-lxb_css_rule_list_destroy(lxb_css_memory_t *memory, lxb_css_rule_list_t *list,
-                          bool self_destroy);
+lxb_css_rule_list_destroy(lxb_css_rule_list_t *list, bool self_destroy);
 
 LXB_API lxb_status_t
 lxb_css_rule_list_serialize(const lxb_css_rule_list_t *list,
                             lexbor_serialize_cb_f cb, void *ctx);
 
 LXB_API lxb_css_rule_at_t *
-lxb_css_rule_at_destroy(lxb_css_memory_t *memory, lxb_css_rule_at_t *at,
-                        bool self_destroy);
+lxb_css_rule_at_destroy(lxb_css_rule_at_t *at, bool self_destroy);
 
 LXB_API lxb_status_t
 lxb_css_rule_at_serialize(const lxb_css_rule_at_t *at, lexbor_serialize_cb_f cb,
@@ -145,24 +143,21 @@ lxb_css_rule_at_serialize_name(const lxb_css_rule_at_t *at, lexbor_serialize_cb_
                                void *ctx);
 
 LXB_API lxb_css_rule_style_t *
-lxb_css_rule_style_destroy(lxb_css_memory_t *memory, lxb_css_rule_style_t *style,
-                           bool self_destroy);
+lxb_css_rule_style_destroy(lxb_css_rule_style_t *style, bool self_destroy);
 
 LXB_API lxb_status_t
 lxb_css_rule_style_serialize(const lxb_css_rule_style_t *style,
                              lexbor_serialize_cb_f cb, void *ctx);
 
 LXB_API lxb_css_rule_bad_style_t *
-lxb_css_rule_bad_style_destroy(lxb_css_memory_t *memory,
-                               lxb_css_rule_bad_style_t *bad, bool self_destroy);
+lxb_css_rule_bad_style_destroy(lxb_css_rule_bad_style_t *bad, bool self_destroy);
 
 LXB_API lxb_status_t
 lxb_css_rule_bad_style_serialize(const lxb_css_rule_bad_style_t *bad,
                                  lexbor_serialize_cb_f cb, void *ctx);
 
 LXB_API lxb_css_rule_declaration_list_t *
-lxb_css_rule_declaration_list_destroy(lxb_css_memory_t *memory,
-                                      lxb_css_rule_declaration_list_t *list,
+lxb_css_rule_declaration_list_destroy(lxb_css_rule_declaration_list_t *list,
                                       bool self_destroy);
 
 LXB_API lxb_status_t
@@ -170,8 +165,7 @@ lxb_css_rule_declaration_list_serialize(const lxb_css_rule_declaration_list_t *l
                                         lexbor_serialize_cb_f cb, void *ctx);
 
 LXB_API lxb_css_rule_declaration_t *
-lxb_css_rule_declaration_destroy(lxb_css_memory_t *memory,
-                                 lxb_css_rule_declaration_t *declr,
+lxb_css_rule_declaration_destroy(lxb_css_rule_declaration_t *declr,
                                  bool self_destroy);
 
 LXB_API lxb_status_t
@@ -208,6 +202,7 @@ lxb_css_rule_create(lxb_css_memory_t *memory, size_t size,
     }
 
     rule->type = type;
+    rule->memory = memory;
 
     return rule;
 }
@@ -243,6 +238,18 @@ lxb_css_rule_ref_dec(lxb_css_rule_t *rule)
 {
     if (rule->ref_count > 0) {
         rule->ref_count--;
+    }
+}
+
+lxb_inline void
+lxb_css_rule_ref_dec_destroy(lxb_css_rule_t *rule)
+{
+    if (rule->ref_count > 0) {
+        rule->ref_count--;
+    }
+
+    if (rule->ref_count == 0) {
+        (void) lxb_css_rule_destroy(rule, true);
     }
 }
 

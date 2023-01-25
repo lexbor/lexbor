@@ -91,13 +91,25 @@ LXB_API const lxb_char_t *
 lxb_dom_node_name(lxb_dom_node_t *node, size_t *len);
 
 LXB_API void
+lxb_dom_node_insert_child_wo_events(lxb_dom_node_t *to, lxb_dom_node_t *node);
+
+LXB_API void
 lxb_dom_node_insert_child(lxb_dom_node_t *to, lxb_dom_node_t *node);
+
+LXB_API void
+lxb_dom_node_insert_before_wo_events(lxb_dom_node_t *to, lxb_dom_node_t *node);
 
 LXB_API void
 lxb_dom_node_insert_before(lxb_dom_node_t *to, lxb_dom_node_t *node);
 
 LXB_API void
+lxb_dom_node_insert_after_wo_events(lxb_dom_node_t *to, lxb_dom_node_t *node);
+
+LXB_API void
 lxb_dom_node_insert_after(lxb_dom_node_t *to, lxb_dom_node_t *node);
+
+LXB_API void
+lxb_dom_node_remove_wo_events(lxb_dom_node_t *node);
 
 LXB_API void
 lxb_dom_node_remove(lxb_dom_node_t *node);

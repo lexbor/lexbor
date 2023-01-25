@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Alexander Borisov
+ * Copyright (C) 2018-2023 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -76,6 +76,15 @@ lexbor_action_t;
 
 typedef lxb_status_t
 (*lexbor_serialize_cb_f)(const lxb_char_t *data, size_t len, void *ctx);
+
+typedef struct {
+    lexbor_serialize_cb_f cb;
+    void                  *ctx;
+
+    intptr_t              opt;
+    size_t                count;
+}
+lexbor_serialize_ctx_t;
 
 
 #ifdef __cplusplus

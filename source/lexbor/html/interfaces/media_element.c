@@ -30,7 +30,6 @@ lxb_html_media_element_interface_create(lxb_html_document_t *document)
 lxb_html_media_element_t *
 lxb_html_media_element_interface_destroy(lxb_html_media_element_t *media_element)
 {
-    return lexbor_mraw_free(
-        lxb_dom_interface_node(media_element)->owner_document->mraw,
-        media_element);
+    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(media_element));
+    return NULL;
 }

@@ -213,8 +213,8 @@ lxb_html_tree_insertion_mode_initial_doctype(lxb_html_tree_t *tree,
     lxb_html_tree_insertion_mode_initial_doctype_ckeck(tree, doc_type,
                                                        token, is_html);
 
-    lxb_dom_node_insert_child(&tree->document->dom_document.node,
-                              lxb_dom_interface_node(doc_type));
+    lxb_dom_node_insert_child_wo_events(&tree->document->dom_document.node,
+                                        lxb_dom_interface_node(doc_type));
 
     lxb_dom_document_attach_doctype(&tree->document->dom_document, doc_type);
 

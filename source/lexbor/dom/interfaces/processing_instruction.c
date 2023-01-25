@@ -50,12 +50,17 @@ lxb_dom_processing_instruction_interface_clone(lxb_dom_document_t *document,
 lxb_dom_processing_instruction_t *
 lxb_dom_processing_instruction_interface_destroy(lxb_dom_processing_instruction_t *processing_instruction)
 {
-    (void) lexbor_str_destroy(&processing_instruction->target,
-                              lxb_dom_interface_node(processing_instruction)->owner_document->text,
-                              false);
+    lexbor_mraw_t *text;
+    lexbor_str_t target;
+
+    text = lxb_dom_interface_node(processing_instruction)->owner_document->text;
+    target = processing_instruction->target;
 
     (void) lxb_dom_character_data_interface_destroy(
                       lxb_dom_interface_character_data(processing_instruction));
+
+    (void) lexbor_str_destroy(&target, text, false);
+
     return NULL;
 }
 

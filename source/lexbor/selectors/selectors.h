@@ -63,6 +63,11 @@ LXB_API lxb_status_t
 lxb_selectors_find(lxb_selectors_t *selectors, lxb_dom_node_t *root,
                    lxb_css_selector_list_t *list, lxb_selectors_cb_f cb, void *ctx);
 
+LXB_API lxb_status_t
+lxb_selectors_find_reverse(lxb_selectors_t *selectors, lxb_dom_node_t *root,
+                           lxb_css_selector_list_t *list,
+                           lxb_selectors_cb_f cb, void *ctx);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

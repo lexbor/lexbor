@@ -30,7 +30,6 @@ lxb_html_picture_element_interface_create(lxb_html_document_t *document)
 lxb_html_picture_element_t *
 lxb_html_picture_element_interface_destroy(lxb_html_picture_element_t *picture_element)
 {
-    return lexbor_mraw_free(
-        lxb_dom_interface_node(picture_element)->owner_document->mraw,
-        picture_element);
+    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(picture_element));
+    return NULL;
 }

@@ -59,6 +59,33 @@ lxb_html_document_parser_prepare(lxb_html_document_t *document);
 static lexbor_action_t
 lxb_html_document_title_walker(lxb_dom_node_t *node, void *ctx);
 
+static lxb_status_t
+lxb_html_document_event_insert(lxb_dom_node_t *node);
+
+static lxb_status_t
+lxb_html_document_event_insert_attribute(lxb_dom_node_t *node);
+
+static lxb_status_t
+lxb_html_document_event_remove(lxb_dom_node_t *node);
+
+static lxb_status_t
+lxb_html_document_style_remove_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+                                  lexbor_avl_node_t *node, void *ctx);
+
+static lxb_status_t
+lxb_html_document_event_remove_attribute(lxb_dom_node_t *node);
+
+static lxb_status_t
+lxb_html_document_style_remove_my_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+                                     lexbor_avl_node_t *node, void *ctx);
+
+static lxb_status_t
+lxb_html_document_event_destroy(lxb_dom_node_t *node);
+
+static lxb_status_t
+lxb_html_document_event_set_value(lxb_dom_node_t *node,
+                                  const lxb_char_t *value, size_t length);
+
 
 lxb_html_document_t *
 lxb_html_document_interface_create(lxb_html_document_t *document)
@@ -200,6 +227,11 @@ lxb_html_document_css_init(lxb_html_document_t *document)
 
     document->css_init = true;
 
+    document->dom_document.ev_insert = lxb_html_document_event_insert;
+    document->dom_document.ev_remove = lxb_html_document_event_remove;
+    document->dom_document.ev_destroy = lxb_html_document_event_destroy;
+    document->dom_document.ev_set_value = lxb_html_document_event_set_value;
+
     return LXB_STATUS_OK;
 
 failed:
@@ -214,7 +246,10 @@ lxb_html_document_css_destroy(lxb_html_document_t *document)
 {
     lxb_html_document_css_t *css = &document->css;
 
-    if (!document->css_init) {
+    if (!document->css_init
+        || lxb_dom_interface_node(document)->owner_document
+           != lxb_dom_interface_document(document))
+    {
         return;
     }
 
@@ -224,6 +259,11 @@ lxb_html_document_css_destroy(lxb_html_document_t *document)
     css->selectors = lxb_selectors_destroy(css->selectors, true);
     css->styles = lexbor_avl_destroy(css->styles, true);
     css->stylesheets = lexbor_array_destroy(css->stylesheets, true);
+
+    document->dom_document.ev_insert = NULL;
+    document->dom_document.ev_remove = NULL;
+    document->dom_document.ev_destroy = NULL;
+    document->dom_document.ev_set_value = NULL;
 
     lxb_html_document_css_customs_destroy(document);
 }
@@ -379,6 +419,47 @@ lxb_html_document_stylesheet_attach(lxb_html_document_t *document,
     return LXB_STATUS_OK;
 }
 
+lxb_status_t
+lxb_html_document_element_styles_attach(lxb_html_element_t *element)
+{
+    lxb_status_t status = LXB_STATUS_OK;
+    lxb_css_rule_t *rule;
+    lexbor_array_t *ssts;
+    lxb_css_rule_list_t *list;
+    lxb_css_stylesheet_t *sst;
+    lxb_html_document_t *document;
+
+    document = lxb_html_element_document(element);
+    ssts = document->css.stylesheets;
+
+    for (size_t i = 0; i < lexbor_array_length(ssts); i++) {
+        sst = lexbor_array_get(ssts, i);
+
+        list = lxb_css_rule_list(sst->root);
+        rule = list->first;
+
+        while (rule != NULL) {
+            switch (rule->type) {
+                case LXB_CSS_RULE_STYLE:
+                    status = lxb_html_document_style_attach_by_element(document,
+                                             element, lxb_css_rule_style(rule));
+                    break;
+
+                default:
+                    break;
+            }
+
+            if (status != LXB_STATUS_OK) {
+                /* FIXME: what to do with an error? */
+            }
+
+            rule = rule->next;
+        }
+    }
+
+    return LXB_STATUS_OK;
+}
+
 void
 lxb_html_document_stylesheet_destroy_all(lxb_html_document_t *document,
                                          bool destroy_memory)
@@ -403,6 +484,17 @@ lxb_html_document_style_attach(lxb_html_document_t *document,
     lxb_html_document_css_t *css = &document->css;
 
     return lxb_selectors_find(css->selectors, lxb_dom_interface_node(document),
+                              style->selector, lxb_html_document_style_cb, style);
+}
+
+lxb_status_t
+lxb_html_document_style_attach_by_element(lxb_html_document_t *document,
+                                          lxb_html_element_t *element,
+                                          lxb_css_rule_style_t *style)
+{
+    lxb_html_document_css_t *css = &document->css;
+
+    return lxb_selectors_find_reverse(css->selectors, lxb_dom_interface_node(element),
                               style->selector, lxb_html_document_style_cb, style);
 }
 
@@ -675,6 +767,182 @@ lxb_html_document_import_node(lxb_html_document_t *doc, lxb_dom_node_t *node,
                               bool deep)
 {
     return lxb_dom_document_import_node(&doc->dom_document, node, deep);
+}
+
+static lxb_status_t
+lxb_html_document_event_insert(lxb_dom_node_t *node)
+{
+    if (node->type == LXB_DOM_NODE_TYPE_ATTRIBUTE) {
+        return lxb_html_document_event_insert_attribute(node);
+    }
+    else if (node->type != LXB_DOM_NODE_TYPE_ELEMENT) {
+        return LXB_STATUS_OK;
+    }
+
+    return lxb_html_document_element_styles_attach(lxb_html_interface_element(node));
+}
+
+static lxb_status_t
+lxb_html_document_event_insert_attribute(lxb_dom_node_t *node)
+{
+    lxb_status_t status;
+    lxb_dom_attr_t *attr;
+    lxb_html_element_t *el;
+
+    if (node->type != LXB_DOM_NODE_TYPE_ATTRIBUTE
+        || node->local_name != LXB_DOM_ATTR_STYLE)
+    {
+        return LXB_STATUS_OK;
+    }
+
+    attr = lxb_dom_interface_attr(node);
+    el = lxb_html_interface_element(attr->owner);
+
+    if (el != NULL && el->list != NULL) {
+        status = lxb_html_document_event_remove_attribute(node);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+    }
+
+    if (attr->value == NULL || attr->value->data == NULL) {
+        return LXB_STATUS_OK;
+    }
+
+    return lxb_html_element_style_parse(el, attr->value->data,
+                                        attr->value->length);
+}
+
+static lxb_status_t
+lxb_html_document_event_remove(lxb_dom_node_t *node)
+{
+    lxb_html_element_t *el;
+    lxb_html_document_t *doc;
+
+    if (node->type == LXB_DOM_NODE_TYPE_ATTRIBUTE) {
+        return lxb_html_document_event_remove_attribute(node);
+    }
+    else if (node->type != LXB_DOM_NODE_TYPE_ELEMENT) {
+        return LXB_STATUS_OK;
+    }
+
+    el = lxb_html_interface_element(node);
+
+    if (el->style == NULL) {
+        return LXB_STATUS_OK;
+    }
+
+    doc = lxb_html_interface_document(node->owner_document);
+
+    return lexbor_avl_foreach(doc->css.styles, &el->style,
+                              lxb_html_document_style_remove_cb, NULL);
+}
+
+static lxb_status_t
+lxb_html_document_style_remove_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+                                  lexbor_avl_node_t *node, void *ctx)
+{
+    bool all = (bool) (uintptr_t) ctx;
+    lxb_html_style_node_t *style = (lxb_html_style_node_t *) node;
+
+    if (!lxb_css_selector_sp_s(style->sp) || all) {
+        lxb_css_rule_ref_dec_destroy(style->entry.value);
+        lexbor_avl_remove_by_node(avl, root, node);
+    }
+
+    return LXB_STATUS_OK;
+}
+
+static lxb_status_t
+lxb_html_document_event_remove_attribute(lxb_dom_node_t *node)
+{
+    lxb_dom_attr_t *attr;
+    lxb_html_element_t *el;
+    lxb_html_document_t *doc;
+
+    if (node->local_name != LXB_DOM_ATTR_STYLE) {
+        return LXB_STATUS_OK;
+    }
+
+    attr = lxb_dom_interface_attr(node);
+    el = lxb_html_interface_element(attr->owner);
+
+    if (el == NULL || el->list == NULL) {
+        return LXB_STATUS_OK;
+    }
+
+    doc = lxb_html_interface_document(node->owner_document);
+
+    el->list = lxb_css_rule_declaration_list_destroy(el->list, true);
+
+    return lexbor_avl_foreach(doc->css.styles, &el->style,
+                              lxb_html_document_style_remove_my_cb, NULL);
+}
+
+static lxb_status_t
+lxb_html_document_style_remove_my_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+                                     lexbor_avl_node_t *node, void *ctx)
+{
+    lxb_html_style_node_t *style = (lxb_html_style_node_t *) node;
+
+    if (lxb_css_selector_sp_s(style->sp)) {
+        lexbor_avl_remove_by_node(avl, root, node);
+    }
+
+    return LXB_STATUS_OK;
+}
+
+static lxb_status_t
+lxb_html_document_event_destroy(lxb_dom_node_t *node)
+{
+    lxb_html_element_t *el;
+    lxb_html_document_t *doc;
+
+    if (node->type == LXB_DOM_NODE_TYPE_ATTRIBUTE) {
+        return lxb_html_document_event_remove_attribute(node);
+    }
+    else if (node->type != LXB_DOM_NODE_TYPE_ELEMENT) {
+        return LXB_STATUS_OK;
+    }
+
+    el = lxb_html_interface_element(node);
+    el->list = lxb_css_rule_declaration_list_destroy(el->list, true);
+
+    if (el->style == NULL) {
+        return LXB_STATUS_OK;
+    }
+
+    doc = lxb_html_interface_document(node->owner_document);
+
+    return lexbor_avl_foreach(doc->css.styles, &el->style,
+                              lxb_html_document_style_remove_cb,
+                              (void *) (uintptr_t) 1);
+}
+
+static lxb_status_t
+lxb_html_document_event_set_value(lxb_dom_node_t *node,
+                                  const lxb_char_t *value, size_t length)
+{
+    lxb_status_t status;
+    lxb_dom_attr_t *attr = lxb_dom_interface_attr(node);
+
+    if (node->type != LXB_DOM_NODE_TYPE_ATTRIBUTE
+        || node->local_name != LXB_DOM_ATTR_STYLE)
+    {
+        return LXB_STATUS_OK;
+    }
+
+    if (attr->owner == NULL) {
+        return LXB_STATUS_OK;
+    }
+
+    status = lxb_html_document_event_remove_attribute(node);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    return lxb_html_element_style_parse(lxb_html_interface_element(node),
+                                        value, length);
 }
 
 /*

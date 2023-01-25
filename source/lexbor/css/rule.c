@@ -12,30 +12,26 @@
 
 
 void *
-lxb_css_rule_destroy(lxb_css_memory_t *memory, lxb_css_rule_t *rule,
-                     bool self_destroy)
+lxb_css_rule_destroy(lxb_css_rule_t *rule, bool self_destroy)
 {
     switch (rule->type) {
         case LXB_CSS_RULE_LIST:
-            return lxb_css_rule_list_destroy(memory, lxb_css_rule_list(rule),
+            return lxb_css_rule_list_destroy(lxb_css_rule_list(rule),
                                              self_destroy);
         case LXB_CSS_RULE_AT_RULE:
-            return lxb_css_rule_at_destroy(memory, lxb_css_rule_at(rule),
+            return lxb_css_rule_at_destroy(lxb_css_rule_at(rule),
                                            self_destroy);
         case LXB_CSS_RULE_STYLE:
-            return lxb_css_rule_style_destroy(memory, lxb_css_rule_style(rule),
+            return lxb_css_rule_style_destroy(lxb_css_rule_style(rule),
                                               self_destroy);
         case LXB_CSS_RULE_BAD_STYLE:
-            return lxb_css_rule_bad_style_destroy(memory,
-                                                  lxb_css_rule_bad_style(rule),
+            return lxb_css_rule_bad_style_destroy(lxb_css_rule_bad_style(rule),
                                                   self_destroy);
         case LXB_CSS_RULE_DECLARATION:
-            return lxb_css_rule_declaration_destroy(memory,
-                                                    lxb_css_rule_declaration(rule),
+            return lxb_css_rule_declaration_destroy(lxb_css_rule_declaration(rule),
                                                     self_destroy);
         case LXB_CSS_RULE_DECLARATION_LIST:
-            return lxb_css_rule_declaration_list_destroy(memory,
-                                                         lxb_css_rule_declaration_list(rule),
+            return lxb_css_rule_declaration_list_destroy(lxb_css_rule_declaration_list(rule),
                                                          self_destroy);
         case LXB_CSS_RULE_STYLESHEET:
         case LXB_CSS_RULE_UNDEF:
@@ -106,16 +102,16 @@ lxb_css_rule_serialize_chain(const lxb_css_rule_t *rule,
 }
 
 lxb_css_rule_list_t *
-lxb_css_rule_list_destroy(lxb_css_memory_t *memory, lxb_css_rule_list_t *list,
-                          bool self_destroy)
+lxb_css_rule_list_destroy(lxb_css_rule_list_t *list, bool self_destroy)
 {
     lxb_css_rule_t *rule, *next;
+    lxb_css_memory_t *memory = lxb_css_rule(list)->memory;
 
     rule = list->first;
 
     while (rule != NULL) {
         next = rule->next;
-        (void) lxb_css_rule_destroy(memory, rule, true);
+        (void) lxb_css_rule_destroy(rule, true);
         rule = next;
     }
 
@@ -166,9 +162,10 @@ lxb_css_rule_list_serialize(const lxb_css_rule_list_t *list,
 }
 
 lxb_css_rule_at_t *
-lxb_css_rule_at_destroy(lxb_css_memory_t *memory, lxb_css_rule_at_t *at,
-                        bool self_destroy)
+lxb_css_rule_at_destroy(lxb_css_rule_at_t *at, bool self_destroy)
 {
+    lxb_css_memory_t *memory = lxb_css_rule(at)->memory;
+
     switch (at->type) {
         case LXB_CSS_AT_RULE__UNDEF:
             (void) lxb_css_at_rule__undef_destroy(memory, at->u.undef, true);
@@ -242,12 +239,13 @@ lxb_css_rule_at_serialize_name(const lxb_css_rule_at_t *at,
 }
 
 lxb_css_rule_style_t *
-lxb_css_rule_style_destroy(lxb_css_memory_t *memory, lxb_css_rule_style_t *style,
-                           bool self_destroy)
+lxb_css_rule_style_destroy(lxb_css_rule_style_t *style, bool self_destroy)
 {
+    lxb_css_memory_t *memory = lxb_css_rule(style)->memory;
+
     lxb_css_selector_list_destroy(style->selector);
-    (void) lxb_css_rule_declaration_list_destroy(memory, style->declarations,
-                                                 true);
+    (void) lxb_css_rule_declaration_list_destroy(style->declarations, true);
+
     style->selector = NULL;
     style->declarations = NULL;
 
@@ -284,13 +282,13 @@ lxb_css_rule_style_serialize(const lxb_css_rule_style_t *style,
 }
 
 lxb_css_rule_bad_style_t *
-lxb_css_rule_bad_style_destroy(lxb_css_memory_t *memory,
-                               lxb_css_rule_bad_style_t *bad, bool self_destroy)
+lxb_css_rule_bad_style_destroy(lxb_css_rule_bad_style_t *bad, bool self_destroy)
 {
-    (void) lexbor_str_destroy(&bad->selectors, memory->mraw, false);
-    bad->declarations = lxb_css_rule_declaration_list_destroy(memory,
-                                                       bad->declarations, true);
+    lxb_css_memory_t *memory = lxb_css_rule(bad)->memory;
 
+    (void) lexbor_str_destroy(&bad->selectors, memory->mraw, false);
+    bad->declarations = lxb_css_rule_declaration_list_destroy(bad->declarations,
+                                                              true);
     if (self_destroy) {
         return lexbor_mraw_free(memory->tree, bad);
     }
@@ -328,11 +326,11 @@ lxb_css_rule_bad_style_serialize(const lxb_css_rule_bad_style_t *bad,
 }
 
 lxb_css_rule_declaration_list_t *
-lxb_css_rule_declaration_list_destroy(lxb_css_memory_t *memory,
-                                      lxb_css_rule_declaration_list_t *list,
+lxb_css_rule_declaration_list_destroy(lxb_css_rule_declaration_list_t *list,
                                       bool self_destroy)
 {
     lxb_css_rule_t *declr, *next;
+    lxb_css_memory_t *memory = lxb_css_rule(list)->memory;
 
     if (list == NULL) {
         return NULL;
@@ -342,7 +340,7 @@ lxb_css_rule_declaration_list_destroy(lxb_css_memory_t *memory,
 
     while (declr != NULL) {
         next = declr->next;
-        (void) lxb_css_rule_destroy(memory, declr, true);
+        (void) lxb_css_rule_destroy(declr, true);
         declr = next;
     }
 
@@ -393,13 +391,13 @@ lxb_css_rule_declaration_list_serialize(const lxb_css_rule_declaration_list_t *l
 }
 
 lxb_css_rule_declaration_t *
-lxb_css_rule_declaration_destroy(lxb_css_memory_t *memory,
-                                 lxb_css_rule_declaration_t *declr,
+lxb_css_rule_declaration_destroy(lxb_css_rule_declaration_t *declr,
                                  bool self_destroy)
 {
+    lxb_css_memory_t *memory = lxb_css_rule(declr)->memory;
+
     declr->u.user = lxb_css_property_destroy(memory, declr->u.user,
                                              declr->type, true);
-
     if (self_destroy) {
         return lexbor_mraw_free(memory->tree, declr);
     }

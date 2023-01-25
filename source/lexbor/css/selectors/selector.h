@@ -101,8 +101,8 @@ struct lxb_css_selector {
 
 
 /*
- * S     A        B        C
- * 1 | 10 bit | 10 bit | 10 bit
+ *   I       S       A       B       C
+ * 1 bit | 1 bit | 9 bit | 9 bit | 9 bit
  */
 typedef uint32_t lxb_css_selector_specificity_t;
 
@@ -115,7 +115,7 @@ typedef uint32_t lxb_css_selector_specificity_t;
 #define lxb_css_selector_sp_i(sp)  ((sp) >> 28)
 
 #define lxb_css_selector_sp_s(sp)                                             \
-    (((sp) >> 27) & ~LXB_CSS_SELECTOR_SPECIFICITY_MASK)
+    (((sp) >> 27) & ~((((uint32_t) 1 << 31) - 1) << (1)))
 
 #define lxb_css_selector_sp_a(sp)                                             \
     (((sp) >> 18) & ~LXB_CSS_SELECTOR_SPECIFICITY_MASK)

@@ -87,6 +87,10 @@ lxb_dom_document_init(lxb_dom_document_t *document, lxb_dom_document_t *owner,
     document->clone_interface = clone_interface;
     document->destroy_interface = destroy_interface;
 
+    document->ev_insert = NULL;
+    document->ev_remove = NULL;
+    document->ev_destroy = NULL;
+
     node = lxb_dom_interface_node(document);
 
     node->type = LXB_DOM_NODE_TYPE_DOCUMENT;

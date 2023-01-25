@@ -30,7 +30,6 @@ lxb_html_source_element_interface_create(lxb_html_document_t *document)
 lxb_html_source_element_t *
 lxb_html_source_element_interface_destroy(lxb_html_source_element_t *source_element)
 {
-    return lexbor_mraw_free(
-        lxb_dom_interface_node(source_element)->owner_document->mraw,
-        source_element);
+    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(source_element));
+    return NULL;
 }

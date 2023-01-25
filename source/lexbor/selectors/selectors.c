@@ -38,6 +38,11 @@ lxb_selectors_find_by(lxb_selectors_t *selectors, lxb_selectors_entry_t *entry,
                       lxb_dom_node_t *root, lxb_dom_node_t *node,
                       lxb_css_selector_t *selector, lxb_selectors_cb_f cb, void *ctx);
 
+static lxb_status_t
+lxb_selectors_find_by_reverse(lxb_selectors_t *selectors, lxb_dom_node_t *node,
+                              lxb_css_selector_t *selector,
+                              lxb_selectors_cb_f cb, void *ctx);
+
 static bool
 lxb_selectors_match(lxb_selectors_t *selectors, lxb_selectors_entry_t *entry,
                     lxb_css_selector_t *selector, lxb_dom_node_t *node);
@@ -206,6 +211,27 @@ lxb_selectors_descendant_next(lxb_selectors_t *selectors, lxb_selectors_entry_t 
 }
 
 lxb_inline lxb_dom_node_t *
+lxb_selectors_descendant_reverse(lxb_selectors_t *selectors,
+                                 lxb_selectors_entry_t *entry,
+                                 lxb_css_selector_t *selector,
+                                 lxb_dom_node_t *node)
+{
+    node = node->parent;
+
+    while (node != NULL) {
+        if (node->type == LXB_DOM_NODE_TYPE_ELEMENT &&
+            lxb_selectors_match(selectors, entry, selector, node))
+        {
+            return node;
+        }
+
+        node = node->parent;
+    }
+
+    return false;
+}
+
+lxb_inline lxb_dom_node_t *
 lxb_selectors_close(lxb_selectors_t *selectors, lxb_selectors_entry_t *entry,
                     lxb_css_selector_t *selector, lxb_dom_node_t *node)
 {
@@ -278,6 +304,29 @@ lxb_selectors_sibling(lxb_selectors_t *selectors, lxb_selectors_entry_t *entry,
 }
 
 lxb_inline lxb_dom_node_t *
+lxb_selectors_sibling_reverse(lxb_selectors_t *selectors,
+                              lxb_selectors_entry_t *entry,
+                              lxb_css_selector_t *selector,
+                              lxb_dom_node_t *node)
+{
+    node = node->prev;
+
+    while (node != NULL) {
+        if (node->type == LXB_DOM_NODE_TYPE_ELEMENT) {
+            if (lxb_selectors_match(selectors, entry, selector, node)) {
+                return node;
+            }
+
+            return NULL;
+        }
+
+        node = node->prev;
+    }
+
+    return NULL;
+}
+
+lxb_inline lxb_dom_node_t *
 lxb_selectors_following(lxb_selectors_t *selectors, lxb_selectors_entry_t *entry,
                         lxb_css_selector_t *selector, lxb_dom_node_t *node)
 {
@@ -291,6 +340,27 @@ lxb_selectors_following(lxb_selectors_t *selectors, lxb_selectors_entry_t *entry
         }
 
         node = node->next;
+    }
+
+    return NULL;
+}
+
+lxb_inline lxb_dom_node_t *
+lxb_selectors_following_reverse(lxb_selectors_t *selectors,
+                                lxb_selectors_entry_t *entry,
+                                lxb_css_selector_t *selector,
+                                lxb_dom_node_t *node)
+{
+    node = node->prev;
+
+    while (node != NULL) {
+        if (node->type == LXB_DOM_NODE_TYPE_ELEMENT &&
+            lxb_selectors_match(selectors, entry, selector, node))
+        {
+            return node;
+        }
+
+        node = node->prev;
     }
 
     return NULL;
@@ -328,6 +398,28 @@ lxb_selectors_find(lxb_selectors_t *selectors, lxb_dom_node_t *root,
                                                list->first, cb, ctx);
         if (child == NULL) {
             return LXB_STATUS_ERROR;
+        }
+
+        list = list->next;
+    }
+
+    lxb_selectors_clean(selectors);
+
+    return LXB_STATUS_OK;
+}
+
+lxb_status_t
+lxb_selectors_find_reverse(lxb_selectors_t *selectors, lxb_dom_node_t *root,
+                           lxb_css_selector_list_t *list,
+                           lxb_selectors_cb_f cb, void *ctx)
+{
+    lxb_status_t status;
+
+    while (list != NULL) {
+        status = lxb_selectors_find_by_reverse(selectors, root,
+                                               list->last, cb, ctx);
+        if (status != LXB_STATUS_OK) {
+            return status;
         }
 
         list = list->next;
@@ -695,6 +787,91 @@ lxb_selectors_find_by(lxb_selectors_t *selectors, lxb_selectors_entry_t *entry,
             default:
                 return LXB_STATUS_ERROR;
         }
+    }
+    while (true);
+
+    return LXB_STATUS_OK;
+}
+
+static lxb_status_t
+lxb_selectors_find_by_reverse(lxb_selectors_t *selectors, lxb_dom_node_t *node,
+                              lxb_css_selector_t *selector,
+                              lxb_selectors_cb_f cb, void *ctx)
+{
+    lxb_status_t status;
+    lxb_dom_node_t *base = node;
+    lxb_selectors_entry_t *entry;
+    lxb_css_selector_combinator_t combinator;
+
+    entry = lexbor_dobject_calloc(selectors->objs);
+    if (entry == NULL) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    entry->selector = selector;
+    combinator = LXB_CSS_SELECTOR_COMBINATOR_CLOSE;
+
+    do {
+        entry->node = node;
+        entry->id = 0;
+
+        selector = entry->selector;
+
+        switch (combinator) {
+            case LXB_CSS_SELECTOR_COMBINATOR_DESCENDANT:
+                node = lxb_selectors_descendant_reverse(selectors, entry,
+                                                        selector, node);
+                break;
+
+            case LXB_CSS_SELECTOR_COMBINATOR_CLOSE:
+                node = lxb_selectors_close(selectors, entry, selector, node);
+                break;
+
+            case LXB_CSS_SELECTOR_COMBINATOR_CHILD:
+                node = node->parent;
+
+                if (node == NULL || node->type != LXB_DOM_NODE_TYPE_ELEMENT
+                    || !lxb_selectors_match(selectors, entry, selector, node))
+                {
+                    return LXB_STATUS_OK;
+                }
+
+                break;
+
+            case LXB_CSS_SELECTOR_COMBINATOR_SIBLING:
+                node = lxb_selectors_sibling_reverse(selectors, entry,
+                                                     selector, node);
+                break;
+
+            case LXB_CSS_SELECTOR_COMBINATOR_FOLLOWING:
+                node = lxb_selectors_following_reverse(selectors, entry,
+                                                       selector, node);
+                break;
+
+            case LXB_CSS_SELECTOR_COMBINATOR_CELL:
+            default:
+                return LXB_STATUS_ERROR;
+        }
+
+        if (node == NULL) {
+            return LXB_STATUS_OK;
+        }
+
+        if (selector->prev == NULL) {
+            status = cb(base, selector->list->specificity, ctx);
+            if (status != LXB_STATUS_OK) {
+                if (status == LXB_STATUS_STOP) {
+                    return LXB_STATUS_OK;
+                }
+
+                return status;
+            }
+
+            return LXB_STATUS_OK;
+        }
+
+        combinator = selector->combinator;
+        entry->selector = selector->prev;
     }
     while (true);
 

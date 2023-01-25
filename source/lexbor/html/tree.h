@@ -309,11 +309,11 @@ lxb_html_tree_insert_node(lxb_dom_node_t *to, lxb_dom_node_t *node,
                           lxb_html_tree_insertion_position_t ipos)
 {
     if (ipos == LXB_HTML_TREE_INSERTION_POSITION_BEFORE) {
-        lxb_dom_node_insert_before(to, node);
+        lxb_dom_node_insert_before_wo_events(to, node);
         return;
     }
 
-    lxb_dom_node_insert_child(to, node);
+    lxb_dom_node_insert_child_wo_events(to, node);
 }
 
 /* TODO: if we not need to save parse errors?! */

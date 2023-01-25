@@ -112,7 +112,7 @@ lxb_css_declaration_list_process(lxb_css_parser_t *parser,
 
 failed:
 
-    return lxb_css_rule_declaration_list_destroy(parser->memory, list, true);
+    return lxb_css_rule_declaration_list_destroy(list, true);
 }
 
 void

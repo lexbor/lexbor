@@ -48,11 +48,17 @@ lxb_dom_character_data_interface_clone(lxb_dom_document_t *document,
 lxb_dom_character_data_t *
 lxb_dom_character_data_interface_destroy(lxb_dom_character_data_t *character_data)
 {
-    lexbor_str_destroy(&character_data->data,
-                       lxb_dom_interface_node(character_data)->owner_document->text,
-                       false);
+    lxb_dom_node_t *node;
+    lxb_dom_document_t *doc;
+    lexbor_str_t data;
 
-    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(character_data));
+    data = character_data->data;
+    node = lxb_dom_interface_node(character_data);
+    doc = node->owner_document;
+
+    (void) lxb_dom_node_interface_destroy(node);
+
+    lexbor_str_destroy(&data, doc->text, false);
 
     return NULL;
 }

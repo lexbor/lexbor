@@ -7,6 +7,7 @@
 #include "lexbor/dom/interfaces/attr.h"
 #include "lexbor/dom/interfaces/attr_res.h"
 #include "lexbor/dom/interfaces/document.h"
+#include "lexbor/dom/interfaces/element.h"
 
 
 LXB_API lxb_dom_attr_data_t *
@@ -105,17 +106,20 @@ failed:
 lxb_dom_attr_t *
 lxb_dom_attr_interface_destroy(lxb_dom_attr_t *attr)
 {
+    lexbor_str_t *value;
     lxb_dom_document_t *doc = lxb_dom_interface_node(attr)->owner_document;
 
-    if (attr->value != NULL) {
-        if (attr->value->data != NULL) {
-            lexbor_mraw_free(doc->text, attr->value->data);
-        }
-
-        lexbor_mraw_free(doc->mraw, attr->value);
-    }
+    value = attr->value;
 
     (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(attr));
+
+    if (value != NULL) {
+        if (value->data != NULL) {
+            lexbor_mraw_free(doc->text, value->data);
+        }
+
+        lexbor_mraw_free(doc->mraw, value);
+    }
 
     return NULL;
 }
@@ -204,7 +208,16 @@ lxb_status_t
 lxb_dom_attr_set_value(lxb_dom_attr_t *attr,
                        const lxb_char_t *value, size_t value_len)
 {
+    lxb_status_t status;
     lxb_dom_document_t *doc = lxb_dom_interface_node(attr)->owner_document;
+
+    if (doc->ev_set_value != NULL) {
+        status = doc->ev_set_value(lxb_dom_interface_node(attr),
+                                   value, value_len);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+    }
 
     if (attr->value == NULL) {
         attr->value = lexbor_mraw_calloc(doc->mraw, sizeof(lexbor_str_t));
@@ -301,6 +314,42 @@ lxb_dom_attr_compare(lxb_dom_attr_t *first, lxb_dom_attr_t *second)
     }
 
     return false;
+}
+
+void
+lxb_dom_attr_remove(lxb_dom_attr_t *attr)
+{
+    lxb_dom_element_t *element = attr->owner;
+    lxb_dom_document_t *doc = lxb_dom_interface_node(attr)->owner_document;
+
+    if (doc->ev_remove != NULL) {
+        doc->ev_remove(lxb_dom_interface_node(attr));
+    }
+
+    if (element->attr_id == attr) {
+        element->attr_id = NULL;
+    }
+    else if (element->attr_class == attr) {
+        element->attr_class = NULL;
+    }
+
+    if (attr->prev != NULL) {
+        attr->prev->next = attr->next;
+    }
+    else {
+        element->first_attr = attr->next;
+    }
+
+    if (attr->next != NULL) {
+        attr->next->prev = attr->prev;
+    }
+    else {
+        element->last_attr = attr->prev;
+    }
+
+    attr->next = NULL;
+    attr->prev = NULL;
+    attr->owner = NULL;
 }
 
 lxb_dom_attr_data_t *

@@ -72,6 +72,8 @@ lxb_dom_element_interface_destroy(lxb_dom_element_t *element)
     lxb_dom_attr_t *attr_next;
     lxb_dom_attr_t *attr = element->first_attr;
 
+    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(element));
+
     while (attr != NULL) {
         attr_next = attr->next;
 
@@ -79,8 +81,6 @@ lxb_dom_element_interface_destroy(lxb_dom_element_t *element)
 
         attr = attr_next;
     }
-
-    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(element));
 
     return NULL;
 }
@@ -339,6 +339,7 @@ lxb_status_t
 lxb_dom_element_attr_append(lxb_dom_element_t *element, lxb_dom_attr_t *attr)
 {
     lxb_dom_attr_t *exist;
+    lxb_dom_document_t *doc = lxb_dom_interface_node(element)->owner_document;
 
     if (attr->node.local_name == LXB_DOM_ATTR_ID) {
         exist = element->attr_id;
@@ -365,13 +366,21 @@ lxb_dom_element_attr_append(lxb_dom_element_t *element, lxb_dom_attr_t *attr)
         element->first_attr = attr;
         element->last_attr = attr;
 
-        return LXB_STATUS_OK;
+        goto done;
     }
 
     attr->prev = element->last_attr;
-    element->last_attr->next = attr;
 
+    element->last_attr->next = attr;
     element->last_attr = attr;
+
+done:
+
+    attr->owner = element;
+
+    if (doc->ev_insert != NULL) {
+        doc->ev_insert(lxb_dom_interface_node(attr));
+    }
 
     return LXB_STATUS_OK;
 }
@@ -379,29 +388,9 @@ lxb_dom_element_attr_append(lxb_dom_element_t *element, lxb_dom_attr_t *attr)
 lxb_status_t
 lxb_dom_element_attr_remove(lxb_dom_element_t *element, lxb_dom_attr_t *attr)
 {
-    if (element->attr_id == attr) {
-        element->attr_id = NULL;
-    }
-    else if (element->attr_class == attr) {
-        element->attr_class = NULL;
-    }
+    (void) element;
 
-    if (attr->prev != NULL) {
-        attr->prev->next = attr->next;
-    }
-    else {
-        element->first_attr = attr->next;
-    }
-
-    if (attr->next != NULL) {
-        attr->next->prev = attr->prev;
-    }
-    else {
-        element->last_attr = attr->prev;
-    }
-
-    attr->next = NULL;
-    attr->prev = NULL;
+    lxb_dom_attr_remove(attr);
 
     return LXB_STATUS_OK;
 }

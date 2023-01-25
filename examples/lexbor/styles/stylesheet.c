@@ -132,7 +132,7 @@ main(int argc, const char *argv[])
 
     printf("\n");
 
-    (void) lxb_css_stylesheet_destroy(sst);
+    (void) lxb_css_stylesheet_destroy(sst, true);
     (void) lxb_css_parser_destroy(parser, true);
     (void) lxb_html_document_destroy(doc);
 

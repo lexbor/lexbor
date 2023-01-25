@@ -210,7 +210,8 @@ lxb_html_parse_fragment_chunk_begin(lxb_html_parser_t *parser,
         goto done;
     }
 
-    lxb_dom_node_insert_child(lxb_dom_interface_node(new_doc), parser->root);
+    lxb_dom_node_insert_child_wo_events(lxb_dom_interface_node(new_doc),
+                                        parser->root);
     lxb_dom_document_attach_element(doc, lxb_dom_interface_element(parser->root));
 
     parser->tree->fragment = lxb_html_interface_create(new_doc, tag_id, ns);

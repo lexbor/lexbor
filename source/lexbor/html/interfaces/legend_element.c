@@ -30,7 +30,6 @@ lxb_html_legend_element_interface_create(lxb_html_document_t *document)
 lxb_html_legend_element_t *
 lxb_html_legend_element_interface_destroy(lxb_html_legend_element_t *legend_element)
 {
-    return lexbor_mraw_free(
-        lxb_dom_interface_node(legend_element)->owner_document->mraw,
-        legend_element);
+    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(legend_element));
+    return NULL;
 }

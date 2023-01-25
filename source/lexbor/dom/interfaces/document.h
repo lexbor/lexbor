@@ -45,6 +45,11 @@ struct lxb_dom_document {
     lxb_dom_interface_clone_f   clone_interface;
     lxb_dom_interface_destroy_f destroy_interface;
 
+    lxb_dom_event_insert_f      ev_insert;
+    lxb_dom_event_remove_f      ev_remove;
+    lxb_dom_event_destroy_f     ev_destroy;
+    lxb_dom_event_set_value_f   ev_set_value;
+
     lexbor_mraw_t               *mraw;
     lexbor_mraw_t               *text;
     lexbor_hash_t               *tags;

@@ -30,7 +30,6 @@ lxb_html_field_set_element_interface_create(lxb_html_document_t *document)
 lxb_html_field_set_element_t *
 lxb_html_field_set_element_interface_destroy(lxb_html_field_set_element_t *field_set_element)
 {
-    return lexbor_mraw_free(
-        lxb_dom_interface_node(field_set_element)->owner_document->mraw,
-        field_set_element);
+    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(field_set_element));
+    return NULL;
 }

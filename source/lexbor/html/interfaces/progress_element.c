@@ -30,7 +30,6 @@ lxb_html_progress_element_interface_create(lxb_html_document_t *document)
 lxb_html_progress_element_t *
 lxb_html_progress_element_interface_destroy(lxb_html_progress_element_t *progress_element)
 {
-    return lexbor_mraw_free(
-        lxb_dom_interface_node(progress_element)->owner_document->mraw,
-        progress_element);
+    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(progress_element));
+    return NULL;
 }

@@ -90,13 +90,17 @@ lxb_dom_document_type_t *
 lxb_dom_document_type_interface_destroy(lxb_dom_document_type_t *document_type)
 {
     lexbor_mraw_t *text;
+    lexbor_str_t public_id;
+    lexbor_str_t system_id;
 
     text = lxb_dom_interface_node(document_type)->owner_document->text;
-
-    (void) lexbor_str_destroy(&document_type->public_id, text, false);
-    (void) lexbor_str_destroy(&document_type->system_id, text, false);
+    public_id = document_type->public_id;
+    system_id = document_type->system_id;
 
     (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(document_type));
+
+    (void) lexbor_str_destroy(&public_id, text, false);
+    (void) lexbor_str_destroy(&system_id, text, false);
 
     return NULL;
 }
