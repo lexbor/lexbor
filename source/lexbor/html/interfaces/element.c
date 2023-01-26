@@ -9,9 +9,26 @@
 #include "lexbor/html/interfaces/document.h"
 
 
+typedef struct {
+    lexbor_str_t  *str;
+    lexbor_mraw_t *mraw;
+}
+lxb_html_element_style_ctx_t;
+
+
+static lxb_status_t
+lxb_html_element_style_weak_append(lxb_html_document_t *doc,
+                                   lxb_html_style_node_t *node,
+                                   lxb_css_rule_declaration_t *declr,
+                                   lxb_css_selector_specificity_t spec);
+
 static lxb_status_t
 lxb_html_element_style_serialize_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
                                     lexbor_avl_node_t *node, void *ctx);
+
+static lxb_status_t
+lxb_html_element_style_serialize_str_cb(const lxb_char_t *data,
+                                        size_t len, void *ctx);
 
 
 lxb_html_element_t *
@@ -140,6 +157,7 @@ lxb_html_element_style_append(lxb_html_element_t *element,
                               lxb_css_selector_specificity_t spec)
 {
     uintptr_t id;
+    lxb_status_t status;
     lexbor_str_t *name;
     lxb_html_style_node_t *node;
 
@@ -164,12 +182,20 @@ lxb_html_element_style_append(lxb_html_element_t *element,
 
     node = (void *) lexbor_avl_search(css->styles, element->style, id);
     if (node != NULL) {
-        if (spec >= node->sp) {
-            lxb_css_rule_ref_dec(node->entry.value);
-
-            node->entry.value = declr;
-            node->sp = spec;
+        if (spec < node->sp) {
+            return lxb_html_element_style_weak_append(doc, node, declr, spec);
         }
+
+        status = lxb_html_element_style_weak_append(doc, node,
+                                                    node->entry.value, node->sp);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+
+        lxb_css_rule_ref_dec(node->entry.value);
+
+        node->entry.value = declr;
+        node->sp = spec;
 
         return LXB_STATUS_OK;
     }
@@ -182,6 +208,61 @@ lxb_html_element_style_append(lxb_html_element_t *element,
     }
 
     node->sp = spec;
+
+    return lxb_css_rule_ref_inc(lxb_css_rule(declr));
+}
+
+static lxb_status_t
+lxb_html_element_style_weak_append(lxb_html_document_t *doc,
+                                   lxb_html_style_node_t *node,
+                                   lxb_css_rule_declaration_t *declr,
+                                   lxb_css_selector_specificity_t spec)
+{
+    lxb_html_style_weak_t *weak, *prev, *new_weak;
+
+    new_weak = lexbor_dobject_alloc(doc->css.weak);
+    if (new_weak == NULL) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    new_weak->value = declr;
+    new_weak->sp = spec;
+
+    if (node->weak == NULL) {
+        node->weak = new_weak;
+        new_weak->next = NULL;
+
+        goto done;
+    }
+
+    weak = node->weak;
+
+    if (weak->sp <= spec) {
+        node->weak = new_weak;
+        new_weak->next = weak;
+
+        goto done;
+    }
+
+    prev = weak;
+    weak = weak->next;
+
+    while (weak != NULL) {
+        if (weak->sp <= spec) {
+            prev->next = new_weak;
+            new_weak->next = weak;
+
+            goto done;
+        }
+
+        prev = weak;
+        weak = weak->next;
+    }
+
+    prev->next = new_weak;
+    new_weak->next = NULL;
+
+done:
 
     return lxb_css_rule_ref_inc(lxb_css_rule(declr));
 }
@@ -217,6 +298,80 @@ lxb_html_element_style_list_append(lxb_html_element_t *element,
     return LXB_STATUS_OK;
 }
 
+lxb_html_style_node_t *
+lxb_html_element_style_remove_all_not(lxb_html_document_t *doc,
+                                      lexbor_avl_node_t **root,
+                                      lxb_html_style_node_t *style, bool bs)
+{
+    lxb_html_style_weak_t *weak, *prev, *next;
+
+    weak = style->weak;
+    prev = NULL;
+
+    while (weak != NULL) {
+        next = weak->next;
+
+        if (lxb_css_selector_sp_s(weak->sp) == bs) {
+            lxb_css_rule_ref_dec_destroy(weak->value);
+            lexbor_dobject_free(doc->css.weak, weak);
+
+            if (prev != NULL) {
+                prev->next = next;
+            }
+            else {
+                style->weak = next;
+            }
+        }
+        else {
+            prev = weak;
+        }
+
+        weak = next;
+    }
+
+    lxb_css_rule_ref_dec_destroy(style->entry.value);
+
+    if (style->weak == NULL) {
+        lexbor_avl_remove_by_node(doc->css.styles, root,
+                                  (lexbor_avl_node_t *) style);
+        return NULL;
+    }
+
+    weak = style->weak;
+
+    style->entry.value = weak->value;
+    style->sp = weak->sp;
+    style->weak = weak->next;
+
+    lexbor_dobject_free(doc->css.weak, weak);
+
+    return style;
+}
+
+lxb_html_style_node_t *
+lxb_html_element_style_remove_all(lxb_html_document_t *doc,
+                                  lexbor_avl_node_t **root,
+                                  lxb_html_style_node_t *style)
+{
+    lxb_html_style_weak_t *weak, *next;
+
+    weak = style->weak;
+
+    while (weak != NULL) {
+        next = weak->next;
+
+        lxb_css_rule_ref_dec_destroy(weak->value);
+        lexbor_dobject_free(doc->css.weak, weak);
+
+        weak = next;
+    }
+
+    lxb_css_rule_ref_dec_destroy(style->entry.value);
+    lexbor_avl_remove_by_node(doc->css.styles, root,
+                              (lexbor_avl_node_t *) style);
+    return NULL;
+}
+
 lxb_status_t
 lxb_html_element_style_serialize(lxb_html_element_t *element,
                                  lxb_html_element_style_opt_t opt,
@@ -250,4 +405,44 @@ lxb_html_element_style_serialize_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
     context->count = 1;
 
     return lxb_css_rule_serialize(node->value, context->cb, context->ctx);
+}
+
+lxb_status_t
+lxb_html_element_style_serialize_str(lxb_html_element_t *element,
+                                     lexbor_str_t *str,
+                                     lxb_html_element_style_opt_t opt)
+{
+    lxb_dom_document_t *doc;
+    lxb_html_element_style_ctx_t context;
+
+    doc = lxb_dom_interface_node(element)->owner_document;
+
+    if (str->data == NULL) {
+        lexbor_str_init(str, doc->text, 1024);
+
+        if (str->data == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+    }
+
+    context.str = str;
+    context.mraw = doc->text;
+
+    return lxb_html_element_style_serialize(element, opt,
+                            lxb_html_element_style_serialize_str_cb, &context);
+}
+
+static lxb_status_t
+lxb_html_element_style_serialize_str_cb(const lxb_char_t *data,
+                                        size_t len, void *ctx)
+{
+    lxb_char_t *ret;
+    lxb_html_element_style_ctx_t *context = ctx;
+
+    ret = lexbor_str_append(context->str, context->mraw, data, len);
+    if (ret == NULL) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    return LXB_STATUS_OK;
 }

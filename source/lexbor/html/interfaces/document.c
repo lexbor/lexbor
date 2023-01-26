@@ -40,6 +40,12 @@ typedef struct {
 }
 lxb_html_document_css_custom_entry_t;
 
+typedef struct {
+    lxb_html_document_t *doc;
+    bool                all;
+}
+lxb_html_document_event_ctx_t;
+
 
 static lxb_html_document_css_custom_entry_t *
 lxb_html_document_css_customs_insert(lxb_html_document_t *document,
@@ -220,6 +226,13 @@ lxb_html_document_css_init(lxb_html_document_t *document)
         goto failed;
     }
 
+    css->weak = lexbor_dobject_create();
+    status = lexbor_dobject_init(css->weak, 2048,
+                                 sizeof(lxb_html_style_weak_t));
+    if (status != LXB_STATUS_OK) {
+        goto failed;
+    }
+
     status = lxb_html_document_css_customs_init(document);
     if (status != LXB_STATUS_OK) {
         goto failed;
@@ -259,6 +272,7 @@ lxb_html_document_css_destroy(lxb_html_document_t *document)
     css->selectors = lxb_selectors_destroy(css->selectors, true);
     css->styles = lexbor_avl_destroy(css->styles, true);
     css->stylesheets = lexbor_array_destroy(css->stylesheets, true);
+    css->weak = lexbor_dobject_destroy(css->weak, true);
 
     document->dom_document.ev_insert = NULL;
     document->dom_document.ev_remove = NULL;
@@ -288,6 +302,7 @@ lxb_html_document_css_clean(lxb_html_document_t *document)
         lxb_selectors_clean(css->selectors);
         lexbor_avl_clean(css->styles);
         lexbor_array_clean(css->stylesheets);
+        lexbor_dobject_clean(css->weak);
     }
 }
 
@@ -818,6 +833,7 @@ lxb_html_document_event_remove(lxb_dom_node_t *node)
 {
     lxb_html_element_t *el;
     lxb_html_document_t *doc;
+    lxb_html_document_event_ctx_t context;
 
     if (node->type == LXB_DOM_NODE_TYPE_ATTRIBUTE) {
         return lxb_html_document_event_remove_attribute(node);
@@ -834,20 +850,25 @@ lxb_html_document_event_remove(lxb_dom_node_t *node)
 
     doc = lxb_html_interface_document(node->owner_document);
 
+    context.doc = doc;
+    context.all = false;
+
     return lexbor_avl_foreach(doc->css.styles, &el->style,
-                              lxb_html_document_style_remove_cb, NULL);
+                              lxb_html_document_style_remove_cb, &context);
 }
 
 static lxb_status_t
 lxb_html_document_style_remove_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
                                   lexbor_avl_node_t *node, void *ctx)
 {
-    bool all = (bool) (uintptr_t) ctx;
+    lxb_html_document_event_ctx_t *context = ctx;
     lxb_html_style_node_t *style = (lxb_html_style_node_t *) node;
 
-    if (!lxb_css_selector_sp_s(style->sp) || all) {
-        lxb_css_rule_ref_dec_destroy(style->entry.value);
-        lexbor_avl_remove_by_node(avl, root, node);
+    if (context->all) {
+        lxb_html_element_style_remove_all(context->doc, root, style);
+    }
+    else if (!lxb_css_selector_sp_s(style->sp)) {
+        lxb_html_element_style_remove_all_not(context->doc, root, style, false);
     }
 
     return LXB_STATUS_OK;
@@ -856,9 +877,11 @@ lxb_html_document_style_remove_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
 static lxb_status_t
 lxb_html_document_event_remove_attribute(lxb_dom_node_t *node)
 {
+    lxb_status_t status;
     lxb_dom_attr_t *attr;
     lxb_html_element_t *el;
     lxb_html_document_t *doc;
+    lxb_html_document_event_ctx_t context;
 
     if (node->local_name != LXB_DOM_ATTR_STYLE) {
         return LXB_STATUS_OK;
@@ -873,20 +896,31 @@ lxb_html_document_event_remove_attribute(lxb_dom_node_t *node)
 
     doc = lxb_html_interface_document(node->owner_document);
 
+    context.doc = doc;
+
+    status = lexbor_avl_foreach(doc->css.styles, &el->style,
+                                lxb_html_document_style_remove_my_cb, &context);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    el->list->first = NULL;
+    el->list->last = NULL;
+
     el->list = lxb_css_rule_declaration_list_destroy(el->list, true);
 
-    return lexbor_avl_foreach(doc->css.styles, &el->style,
-                              lxb_html_document_style_remove_my_cb, NULL);
+    return LXB_STATUS_OK;
 }
 
 static lxb_status_t
 lxb_html_document_style_remove_my_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
                                      lexbor_avl_node_t *node, void *ctx)
 {
+    lxb_html_document_event_ctx_t *context = ctx;
     lxb_html_style_node_t *style = (lxb_html_style_node_t *) node;
 
     if (lxb_css_selector_sp_s(style->sp)) {
-        lexbor_avl_remove_by_node(avl, root, node);
+        lxb_html_element_style_remove_all_not(context->doc, root, style, true);
     }
 
     return LXB_STATUS_OK;
@@ -895,8 +929,10 @@ lxb_html_document_style_remove_my_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root
 static lxb_status_t
 lxb_html_document_event_destroy(lxb_dom_node_t *node)
 {
+    lxb_status_t status;
     lxb_html_element_t *el;
     lxb_html_document_t *doc;
+    lxb_html_document_event_ctx_t context;
 
     if (node->type == LXB_DOM_NODE_TYPE_ATTRIBUTE) {
         return lxb_html_document_event_remove_attribute(node);
@@ -906,17 +942,35 @@ lxb_html_document_event_destroy(lxb_dom_node_t *node)
     }
 
     el = lxb_html_interface_element(node);
-    el->list = lxb_css_rule_declaration_list_destroy(el->list, true);
 
     if (el->style == NULL) {
+        if (el->list != NULL) {
+            goto destroy;
+        }
+
         return LXB_STATUS_OK;
     }
 
     doc = lxb_html_interface_document(node->owner_document);
 
-    return lexbor_avl_foreach(doc->css.styles, &el->style,
-                              lxb_html_document_style_remove_cb,
-                              (void *) (uintptr_t) 1);
+    context.doc = doc;
+    context.all = true;
+
+    status = lexbor_avl_foreach(doc->css.styles, &el->style,
+                                lxb_html_document_style_remove_cb, &context);
+
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+destroy:
+
+    el->list->first = NULL;
+    el->list->last = NULL;
+
+    el->list = lxb_css_rule_declaration_list_destroy(el->list, true);
+
+    return LXB_STATUS_OK;
 }
 
 static lxb_status_t

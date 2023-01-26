@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Alexander Borisov
+ * Copyright (C) 2022-2023 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -15,8 +15,19 @@ extern "C" {
 #include "lexbor/css/selectors/selector.h"
 
 
+typedef struct lxb_html_style_weak lxb_html_style_weak_t;
+
+struct lxb_html_style_weak {
+    void                           *value;
+    lxb_css_selector_specificity_t sp;
+
+    lxb_html_style_weak_t          *next;
+};
+
 typedef struct {
     lexbor_avl_node_t              entry;
+    lxb_html_style_weak_t          *weak;
+
     lxb_css_selector_specificity_t sp;
 }
 lxb_html_style_node_t;

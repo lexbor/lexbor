@@ -14,6 +14,7 @@ extern "C" {
 #include "lexbor/core/avl.h"
 
 #include "lexbor/html/interface.h"
+#include "lexbor/html/style.h"
 #include "lexbor/dom/interfaces/element.h"
 #include "lexbor/css/rule.h"
 
@@ -62,10 +63,25 @@ lxb_html_element_style_list_append(lxb_html_element_t *element,
                                    lxb_css_rule_declaration_list_t *list,
                                    lxb_css_selector_specificity_t spec);
 
+LXB_API lxb_html_style_node_t *
+lxb_html_element_style_remove_all_not(lxb_html_document_t *doc,
+                                      lexbor_avl_node_t **root,
+                                      lxb_html_style_node_t *style, bool bs);
+
+LXB_API  lxb_html_style_node_t *
+lxb_html_element_style_remove_all(lxb_html_document_t *doc,
+                                  lexbor_avl_node_t **root,
+                                  lxb_html_style_node_t *style);
+
 LXB_API lxb_status_t
 lxb_html_element_style_serialize(lxb_html_element_t *element,
                                  lxb_html_element_style_opt_t opt,
                                  lexbor_serialize_cb_f cb, void *ctx);
+
+LXB_API lxb_status_t
+lxb_html_element_style_serialize_str(lxb_html_element_t *element,
+                                     lexbor_str_t *str,
+                                     lxb_html_element_style_opt_t opt);
 
 
 /*

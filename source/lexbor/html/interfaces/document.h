@@ -46,6 +46,7 @@ typedef struct {
 
     lexbor_avl_t        *styles;
     lexbor_array_t      *stylesheets;
+    lexbor_dobject_t    *weak;
 
     lexbor_hash_t       *customs;
     uintptr_t           customs_id;
