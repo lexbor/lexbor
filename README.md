@@ -126,7 +126,7 @@ Alexander Borisov <borisov@lexbor.com>
 
    Lexbor.
 
-   Copyright 2018-2021 Alexander Borisov
+   Copyright 2018-2023 Alexander Borisov
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
