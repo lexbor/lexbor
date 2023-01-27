@@ -353,6 +353,7 @@ TEST_BEGIN(document_clean_collection)
     }
     while (i--);
 
+    lxb_dom_collection_destroy(collection, true);
     lxb_html_document_destroy(document);
 }
 TEST_END
