@@ -13,6 +13,7 @@ extern "C" {
 
 #include "lexbor/core/avl.h"
 #include "lexbor/css/selectors/selector.h"
+#include "lexbor/html/interfaces/document.h"
 
 
 typedef struct lxb_html_style_weak lxb_html_style_weak_t;
@@ -31,6 +32,11 @@ typedef struct {
     lxb_css_selector_specificity_t sp;
 }
 lxb_html_style_node_t;
+
+
+LXB_API uintptr_t
+lxb_html_style_id_by_name(lxb_html_document_t *doc,
+                          const lxb_char_t *name, size_t size);
 
 
 #ifdef __cplusplus

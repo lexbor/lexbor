@@ -15,6 +15,18 @@ typedef struct {
 }
 lxb_html_element_style_ctx_t;
 
+typedef struct {
+    lxb_html_element_t          *element;
+    lxb_html_element_style_cb_f cb;
+    void                        *ctx;
+    bool                        weak;
+}
+lxb_html_element_walk_ctx_t;
+
+
+static lxb_status_t
+lxb_html_element_style_walk_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+                               lexbor_avl_node_t *node, void *ctx);
 
 static lxb_status_t
 lxb_html_element_style_weak_append(lxb_html_document_t *doc,
@@ -94,18 +106,10 @@ lxb_html_element_style_by_name(lxb_html_element_t *element,
     lxb_html_style_node_t *node;
     lxb_dom_document_t *ddoc = lxb_dom_interface_node(element)->owner_document;
     lxb_html_document_t *doc = lxb_html_interface_document(ddoc);
-    const lxb_css_entry_data_t *data;
 
-    data = lxb_css_property_by_name(name, size);
-
-    if (data == NULL) {
-        id = lxb_html_document_css_customs_find_id(doc, name, size);
-        if (id == 0) {
-            return NULL;
-        }
-    }
-    else {
-        id = data->unique;
+    id = lxb_html_style_id_by_name(doc, name, size);
+    if (id == LXB_CSS_PROPERTY__UNDEF) {
+        return NULL;
     }
 
     node = (void *) lexbor_avl_search(doc->css.styles, element->style, id);
@@ -116,17 +120,88 @@ lxb_html_element_style_by_name(lxb_html_element_t *element,
 const lxb_css_rule_declaration_t *
 lxb_html_element_style_by_id(lxb_html_element_t *element, uintptr_t id)
 {
-    lxb_html_style_node_t *node;
+    const lxb_html_style_node_t *node;
 
-    lxb_dom_document_t *ddoc = lxb_dom_interface_node(element)->owner_document;
-    lxb_html_document_t *doc = lxb_html_interface_document(ddoc);
-
-    node = (void *) lexbor_avl_search(doc->css.styles, element->style, id);
+    node = lxb_html_element_style_node_by_id(element, id);
     if (node == NULL) {
         return NULL;
     }
 
     return node->entry.value;
+}
+
+const lxb_html_style_node_t *
+lxb_html_element_style_node_by_id(lxb_html_element_t *element, uintptr_t id)
+{
+    lxb_dom_document_t *ddoc = lxb_dom_interface_node(element)->owner_document;
+    lxb_html_document_t *doc = lxb_html_interface_document(ddoc);
+
+    return (lxb_html_style_node_t *) lexbor_avl_search(doc->css.styles,
+                                                       element->style, id);
+}
+
+const lxb_html_style_node_t *
+lxb_html_element_style_node_by_name(lxb_html_element_t *element,
+                                    const lxb_char_t *name, size_t size)
+{
+    uintptr_t id;
+    lxb_dom_document_t *ddoc = lxb_dom_interface_node(element)->owner_document;
+    lxb_html_document_t *doc = lxb_html_interface_document(ddoc);
+
+    id = lxb_html_style_id_by_name(doc, name, size);
+    if (id == LXB_CSS_PROPERTY__UNDEF) {
+        return NULL;
+    }
+
+    return (lxb_html_style_node_t *) lexbor_avl_search(doc->css.styles,
+                                                       element->style, id);
+}
+
+lxb_status_t
+lxb_html_element_style_walk(lxb_html_element_t *element,
+                            lxb_html_element_style_cb_f cb, void *ctx,
+                            bool with_weak)
+{
+    lxb_html_element_walk_ctx_t walk;
+
+    walk.element = element;
+    walk.cb = cb;
+    walk.ctx = ctx;
+    walk.weak = with_weak;
+
+    return lexbor_avl_foreach(NULL, &element->style,
+                              lxb_html_element_style_walk_cb, &walk);
+}
+
+static lxb_status_t
+lxb_html_element_style_walk_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+                               lexbor_avl_node_t *node, void *ctx)
+{
+    lxb_status_t status;
+    lxb_html_style_weak_t *weak;
+    lxb_html_style_node_t *style;
+    lxb_html_element_walk_ctx_t *walk = ctx;
+
+    style = (lxb_html_style_node_t *) node;
+
+    status = walk->cb(walk->element, node->value, walk->ctx, style->sp, false);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    weak = style->weak;
+
+    while (weak != NULL) {
+        status = walk->cb(walk->element, weak->value, walk->ctx,
+                          weak->sp, true);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+
+        weak = weak->next;
+    }
+
+    return LXB_STATUS_OK;
 }
 
 lxb_status_t
@@ -296,6 +371,36 @@ lxb_html_element_style_list_append(lxb_html_element_t *element,
     }
 
     return LXB_STATUS_OK;
+}
+
+void
+lxb_html_element_style_remove_by_name(lxb_html_element_t *element,
+                                      const lxb_char_t *name, size_t size)
+{
+    uintptr_t id;
+    lxb_dom_document_t *ddoc = lxb_dom_interface_node(element)->owner_document;
+    lxb_html_document_t *doc = lxb_html_interface_document(ddoc);
+
+    id = lxb_html_style_id_by_name(doc, name, size);
+    if (id == LXB_CSS_PROPERTY__UNDEF) {
+        return;
+    }
+
+    lxb_html_element_style_remove_by_id(element, id);
+}
+
+void
+lxb_html_element_style_remove_by_id(lxb_html_element_t *element, uintptr_t id)
+{
+    lxb_html_style_node_t *node;
+    lxb_dom_document_t *ddoc = lxb_dom_interface_node(element)->owner_document;
+    lxb_html_document_t *doc = lxb_html_interface_document(ddoc);
+
+    node = (lxb_html_style_node_t *) lexbor_avl_search(doc->css.styles,
+                                                       element->style, id);
+    if (node != NULL) {
+        lxb_html_element_style_remove_all(doc, &element->style, node);
+    }
 }
 
 lxb_html_style_node_t *

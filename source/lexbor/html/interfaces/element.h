@@ -31,6 +31,13 @@ typedef enum {
 lxb_html_element_style_opt_t;
 
 
+typedef lxb_status_t
+(*lxb_html_element_style_cb_f)(lxb_html_element_t *element,
+                               const lxb_css_rule_declaration_t *declr,
+                               void *ctx, lxb_css_selector_specificity_t spec,
+                               bool is_weak);
+
+
 LXB_API lxb_html_element_t *
 lxb_html_element_interface_create(lxb_html_document_t *document);
 
@@ -49,6 +56,18 @@ lxb_html_element_style_by_name(lxb_html_element_t *element,
 LXB_API const lxb_css_rule_declaration_t *
 lxb_html_element_style_by_id(lxb_html_element_t *element, uintptr_t id);
 
+LXB_API const lxb_html_style_node_t *
+lxb_html_element_style_node_by_id(lxb_html_element_t *element, uintptr_t id);
+
+LXB_API const lxb_html_style_node_t *
+lxb_html_element_style_node_by_name(lxb_html_element_t *element,
+                                    const lxb_char_t *name, size_t size);
+
+LXB_API lxb_status_t
+lxb_html_element_style_walk(lxb_html_element_t *element,
+                            lxb_html_element_style_cb_f cb, void *ctx,
+                            bool with_weak);
+
 LXB_API lxb_status_t
 lxb_html_element_style_parse(lxb_html_element_t *element,
                              const lxb_char_t *style, size_t size);
@@ -62,6 +81,13 @@ LXB_API lxb_status_t
 lxb_html_element_style_list_append(lxb_html_element_t *element,
                                    lxb_css_rule_declaration_list_t *list,
                                    lxb_css_selector_specificity_t spec);
+
+LXB_API void
+lxb_html_element_style_remove_by_id(lxb_html_element_t *element, uintptr_t id);
+
+LXB_API void
+lxb_html_element_style_remove_by_name(lxb_html_element_t *element,
+                                      const lxb_char_t *name, size_t size);
 
 LXB_API lxb_html_style_node_t *
 lxb_html_element_style_remove_all_not(lxb_html_document_t *doc,
