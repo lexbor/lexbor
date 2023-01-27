@@ -8,6 +8,9 @@
 #define LEXBOR_BASE_H
 
 #ifdef __cplusplus
+#define __STDC_LIMIT_MACROS
+#define __STDC_CONSTANT_MACROS
+
 extern "C" {
 #endif
 

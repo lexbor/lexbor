@@ -122,7 +122,7 @@ lxb_css_memory_destroy(lxb_css_memory_t *memory, bool self_destroy)
 lxb_css_memory_t *
 lxb_css_memory_ref_inc(lxb_css_memory_t *memory)
 {
-    if (SIZE_T_MAX - memory->ref_count == 0) {
+    if (SIZE_MAX - memory->ref_count == 0) {
         return NULL;
     }
 

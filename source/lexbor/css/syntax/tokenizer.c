@@ -363,7 +363,7 @@ lxb_css_syntax_tokenizer_tokens_expand(lxb_css_syntax_tokenizer_t *tkz)
         return LXB_STATUS_OK;
     }
 
-    if ((SIZE_T_MAX - tkz->list_length) < length) {
+    if ((SIZE_MAX - tkz->list_length) < length) {
         return LXB_STATUS_ERROR_OVERFLOW;
     }
 

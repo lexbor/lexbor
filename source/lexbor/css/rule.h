@@ -224,7 +224,7 @@ lxb_css_rule_ref_count(lxb_css_rule_t *rule)
 lxb_inline lxb_status_t
 lxb_css_rule_ref_inc(lxb_css_rule_t *rule)
 {
-    if (SIZE_T_MAX - rule->ref_count == 0) {
+    if (SIZE_MAX - rule->ref_count == 0) {
         return LXB_STATUS_ERROR_OVERFLOW;
     }
 
