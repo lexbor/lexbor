@@ -194,15 +194,6 @@ struct lxb_css_syntax_token {
 };
 
 
-static const lxb_css_syntax_token_t lxb_css_syntax_token_terminated =
-{
-    .types.terminated = {.begin = NULL, .length = 0, .user_id = 0},
-    .type = LXB_CSS_SYNTAX_TOKEN__TERMINATED,
-    .offset = 0,
-    .cloned = false
-};
-
-
 LXB_API lxb_css_syntax_token_t *
 lxb_css_syntax_token(lxb_css_syntax_tokenizer_t *tkz);
 
