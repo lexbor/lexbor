@@ -18,7 +18,7 @@ extern "C" {
 typedef struct lexbor_avl lexbor_avl_t;
 typedef struct lexbor_avl_node lexbor_avl_node_t;
 
-typedef lexbor_status_t
+typedef lxb_status_t
 (*lexbor_avl_node_f)(lexbor_avl_t *avl, lexbor_avl_node_t **root,
                      lexbor_avl_node_t *node, void *ctx);
 
