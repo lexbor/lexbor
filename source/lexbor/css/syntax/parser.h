@@ -22,6 +22,9 @@ lxb_css_syntax_parser_run(lxb_css_parser_t *parser);
 LXB_API const lxb_css_syntax_token_t *
 lxb_css_syntax_parser_token(lxb_css_parser_t *parser);
 
+LXB_API const lxb_css_syntax_token_t *
+lxb_css_syntax_parser_token_wo_ws(lxb_css_parser_t *parser);
+
 LXB_API void
 lxb_css_syntax_parser_consume(lxb_css_parser_t *parser);
 

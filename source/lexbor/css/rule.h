@@ -104,6 +104,7 @@ struct lxb_css_rule_declaration {
     union {
         lxb_css_property__undef_t  *undef;
         lxb_css_property__custom_t *custom;
+        lxb_css_property_display_t *display;
         lxb_css_property_width_t   *width;
         lxb_css_property_height_t  *height;
         void                       *user;

@@ -30,6 +30,9 @@ typedef struct {
 lxb_css_value_percentage_t;
 
 
+LXB_API const lxb_css_data_t *
+lxb_css_value_by_id(uintptr_t id);
+
 LXB_API lxb_css_value_type_t
 lxb_css_value_by_name(const lxb_char_t *name, size_t length);
 

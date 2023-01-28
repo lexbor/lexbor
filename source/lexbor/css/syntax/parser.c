@@ -152,6 +152,21 @@ lxb_css_syntax_parser_token(lxb_css_parser_t *parser)
     return rule->phase(parser, token, rule);
 }
 
+const lxb_css_syntax_token_t *
+lxb_css_syntax_parser_token_wo_ws(lxb_css_parser_t *parser)
+{
+    const lxb_css_syntax_token_t *token;
+
+    token = lxb_css_syntax_parser_token(parser);
+
+    if (token != NULL && token->type == LXB_CSS_SYNTAX_TOKEN_WHITESPACE) {
+        lxb_css_syntax_parser_consume(parser);
+        return lxb_css_syntax_parser_token(parser);
+    }
+
+    return token;
+}
+
 void
 lxb_css_syntax_parser_consume(lxb_css_parser_t *parser)
 {

@@ -8,6 +8,16 @@
 #include "lexbor/css/value/res.h"
 
 
+const lxb_css_data_t *
+lxb_css_value_by_id(uintptr_t id)
+{
+    if (id < LXB_CSS_VALUE__LAST_ENTRY) {
+        return &lxb_css_value_data[id];
+    }
+
+    return NULL;
+}
+
 lxb_css_value_type_t
 lxb_css_value_by_name(const lxb_char_t *name, size_t length)
 {

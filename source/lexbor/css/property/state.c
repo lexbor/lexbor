@@ -13,6 +13,28 @@
 #include "lexbor/css/property/res.h"
 
 
+#define lxb_css_property_state_check_token(parser, token)                     \
+    if ((token) == NULL) {                                                    \
+        return lxb_css_parser_memory_fail(parser);                            \
+    }
+
+#define lxb_css_property_state_get_type(parser, token, type)                  \
+    do {                                                                      \
+        lxb_css_syntax_parser_consume(parser);                                \
+                                                                              \
+        token = lxb_css_syntax_parser_token_wo_ws(parser);                    \
+        lxb_css_property_state_check_token(parser, token);                    \
+                                                                              \
+        if (token->type != LXB_CSS_SYNTAX_TOKEN_IDENT) {                      \
+            return lxb_css_parser_success(parser);                            \
+        }                                                                     \
+                                                                              \
+        type = lxb_css_value_by_name(lxb_css_syntax_token_ident(token)->data, \
+                                  lxb_css_syntax_token_ident(token)->length); \
+    }                                                                         \
+    while (false)
+
+
 bool
 lxb_css_property_state__undef(lxb_css_parser_t *parser,
                               const lxb_css_syntax_token_t *token, void *ctx)
@@ -43,6 +65,200 @@ lxb_css_property_state__custom(lxb_css_parser_t *parser,
         lxb_css_syntax_parser_consume(parser);
         token = lxb_css_syntax_parser_token(parser);
     }
+
+    return lxb_css_parser_success(parser);
+}
+
+bool
+lxb_css_property_state_display(lxb_css_parser_t *parser,
+                               const lxb_css_syntax_token_t *token, void *ctx)
+{
+    lxb_css_value_type_t type;
+    lxb_css_property_display_t *display;
+    lxb_css_rule_declaration_t *declar = ctx;
+
+    if (token->type != LXB_CSS_SYNTAX_TOKEN_IDENT) {
+        return lxb_css_parser_failed(parser);
+    }
+
+    display = declar->u.display;
+
+    type = lxb_css_value_by_name(lxb_css_syntax_token_ident(token)->data,
+                                 lxb_css_syntax_token_ident(token)->length);
+
+    switch (type) {
+        /* <display-outside> */
+        case LXB_CSS_DISPLAY_BLOCK:
+        case LXB_CSS_DISPLAY_INLINE:
+        case LXB_CSS_DISPLAY_RUN_IN:
+            display->a = type;
+            goto inside_listitem;
+
+        /* <display-inside> */
+        case LXB_CSS_DISPLAY_FLOW:
+        case LXB_CSS_DISPLAY_FLOW_ROOT:
+            display->a = type;
+            goto outside_listitem;
+
+        case LXB_CSS_DISPLAY_TABLE:
+        case LXB_CSS_DISPLAY_FLEX:
+        case LXB_CSS_DISPLAY_GRID:
+        case LXB_CSS_DISPLAY_RUBY:
+            display->a = type;
+            goto outside;
+
+        /* <display-internal> */
+        case LXB_CSS_DISPLAY_LIST_ITEM:
+            display->a = type;
+            goto listitem_only;
+
+        /* <display-internal> */
+        case LXB_CSS_DISPLAY_TABLE_ROW_GROUP:
+        case LXB_CSS_DISPLAY_TABLE_HEADER_GROUP:
+        case LXB_CSS_DISPLAY_TABLE_FOOTER_GROUP:
+        case LXB_CSS_DISPLAY_TABLE_ROW:
+        case LXB_CSS_DISPLAY_TABLE_CELL:
+        case LXB_CSS_DISPLAY_TABLE_COLUMN_GROUP:
+        case LXB_CSS_DISPLAY_TABLE_COLUMN:
+        case LXB_CSS_DISPLAY_TABLE_CAPTION:
+        case LXB_CSS_DISPLAY_RUBY_BASE:
+        case LXB_CSS_DISPLAY_RUBY_TEXT:
+        case LXB_CSS_DISPLAY_RUBY_BASE_CONTAINER:
+        case LXB_CSS_DISPLAY_RUBY_TEXT_CONTAINER:
+        /* <display-box> */
+        case LXB_CSS_DISPLAY_CONTENTS:
+        case LXB_CSS_DISPLAY_NONE:
+        /* <display-legacy> */
+        case LXB_CSS_DISPLAY_INLINE_BLOCK:
+        case LXB_CSS_DISPLAY_INLINE_TABLE:
+        case LXB_CSS_DISPLAY_INLINE_FLEX:
+        case LXB_CSS_DISPLAY_INLINE_GRID:
+            display->a = type;
+            goto done;
+
+        default:
+            return lxb_css_parser_failed(parser);
+    }
+
+inside_listitem:
+
+    lxb_css_property_state_get_type(parser, token, type);
+
+    switch (type) {
+        /* <display-inside> */
+        case LXB_CSS_DISPLAY_FLOW:
+        case LXB_CSS_DISPLAY_FLOW_ROOT:
+            display->b = type;
+            break;
+
+        case LXB_CSS_DISPLAY_TABLE:
+        case LXB_CSS_DISPLAY_FLEX:
+        case LXB_CSS_DISPLAY_GRID:
+        case LXB_CSS_DISPLAY_RUBY:
+            display->b = type;
+            goto done;
+
+        case LXB_CSS_DISPLAY_LIST_ITEM:
+            display->b = type;
+            goto flow_only;
+
+        default:
+            return lxb_css_parser_failed(parser);
+    }
+
+listitem:
+
+    lxb_css_property_state_get_type(parser, token, type);
+
+    if (type == LXB_CSS_DISPLAY_LIST_ITEM) {
+        display->c = type;
+        goto done;
+    }
+
+    return lxb_css_parser_failed(parser);
+
+outside:
+
+    lxb_css_property_state_get_type(parser, token, type);
+
+    switch (type) {
+        /* <display-outside> */
+        case LXB_CSS_DISPLAY_BLOCK:
+        case LXB_CSS_DISPLAY_INLINE:
+        case LXB_CSS_DISPLAY_RUN_IN:
+            if (display->b == LXB_CSS_PROPERTY__UNDEF) {
+                display->b = type;
+            }
+            else {
+                display->c = type;
+            }
+
+            goto done;
+
+        default:
+            return lxb_css_parser_failed(parser);
+    }
+
+outside_listitem:
+
+    lxb_css_property_state_get_type(parser, token, type);
+
+    switch (type) {
+        /* <display-outside> */
+        case LXB_CSS_DISPLAY_BLOCK:
+        case LXB_CSS_DISPLAY_INLINE:
+        case LXB_CSS_DISPLAY_RUN_IN:
+            display->b = type;
+            goto listitem;
+
+        case LXB_CSS_DISPLAY_LIST_ITEM:
+            display->b = type;
+            goto outside;
+
+        default:
+            return lxb_css_parser_failed(parser);
+    }
+
+listitem_only:
+
+    lxb_css_property_state_get_type(parser, token, type);
+
+    switch (type) {
+        /* <display-outside> */
+        case LXB_CSS_DISPLAY_BLOCK:
+        case LXB_CSS_DISPLAY_INLINE:
+        case LXB_CSS_DISPLAY_RUN_IN:
+            display->b = type;
+            break;
+
+        /* <display-listitem> */
+        case LXB_CSS_DISPLAY_FLOW:
+        case LXB_CSS_DISPLAY_FLOW_ROOT:
+            display->b = type;
+            goto outside;
+
+        default:
+            return lxb_css_parser_failed(parser);
+    }
+
+flow_only:
+
+    lxb_css_property_state_get_type(parser, token, type);
+
+    switch (type) {
+        /* <display-listitem> */
+        case LXB_CSS_DISPLAY_FLOW:
+        case LXB_CSS_DISPLAY_FLOW_ROOT:
+            display->c = type;
+            break;
+
+        default:
+            return lxb_css_parser_failed(parser);
+    }
+
+done:
+
+    lxb_css_syntax_parser_consume(parser);
 
     return lxb_css_parser_success(parser);
 }

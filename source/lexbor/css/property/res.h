@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Alexander Borisov
+ * Copyright (C) 2023 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -24,20 +24,23 @@ static const lxb_css_entry_data_t lxb_css_property_data[LXB_CSS_PROPERTY__LAST_E
      lxb_css_property__undef_create, lxb_css_property__undef_destroy, lxb_css_property__undef_serialize},
     {(lxb_char_t *) "#сustom", 7, LXB_CSS_PROPERTY__CUSTOM, lxb_css_property_state__custom,
      lxb_css_property__custom_create, lxb_css_property__custom_destroy, lxb_css_property__custom_serialize},
+    {(lxb_char_t *) "display", 7, LXB_CSS_PROPERTY_DISPLAY, lxb_css_property_state_display,
+     lxb_css_property_display_create, lxb_css_property_display_destroy, lxb_css_property_display_serialize},
     {(lxb_char_t *) "height", 6, LXB_CSS_PROPERTY_HEIGHT, lxb_css_property_state_height,
      lxb_css_property_height_create, lxb_css_property_height_destroy, lxb_css_property_height_serialize},
     {(lxb_char_t *) "width", 5, LXB_CSS_PROPERTY_WIDTH, lxb_css_property_state_width,
      lxb_css_property_width_create, lxb_css_property_width_destroy, lxb_css_property_width_serialize}
 };
 
-static const lexbor_shs_entry_t lxb_css_property_shs[6] = 
+static const lexbor_shs_entry_t lxb_css_property_shs[7] = 
 {
-    {NULL, NULL, 5, 0}, 
+    {NULL, NULL, 6, 0}, 
     {NULL, NULL, 0, 0}, 
-    {NULL, NULL, 0, 0}, 
+    {"width", (void *) &lxb_css_property_data[LXB_CSS_PROPERTY_WIDTH], 5, 0}, 
     {"height", (void *) &lxb_css_property_data[LXB_CSS_PROPERTY_HEIGHT], 6, 0}, 
     {NULL, NULL, 0, 0}, 
-    {"width", (void *) &lxb_css_property_data[LXB_CSS_PROPERTY_WIDTH], 5, 0}
+    {NULL, NULL, 0, 0}, 
+    {"display", (void *) &lxb_css_property_data[LXB_CSS_PROPERTY_DISPLAY], 7, 0}
 };
 
 

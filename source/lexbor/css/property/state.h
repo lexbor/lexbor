@@ -23,6 +23,10 @@ lxb_css_property_state__custom(lxb_css_parser_t *parser,
                                const lxb_css_syntax_token_t *token, void *ctx);
 
 LXB_API bool
+lxb_css_property_state_display(lxb_css_parser_t *parser,
+                               const lxb_css_syntax_token_t *token, void *ctx);
+
+LXB_API bool
 lxb_css_property_state_width(lxb_css_parser_t *parser,
                              const lxb_css_syntax_token_t *token, void *ctx);
 

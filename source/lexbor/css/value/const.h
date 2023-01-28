@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Alexander Borisov
+ * Copyright (C) 2023 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -16,17 +16,45 @@
 
 
 enum {
-    LXB_CSS_VALUE__UNDEF      = 0x0000,
-    LXB_CSS_VALUE_INITIAL     = 0x0001,
-    LXB_CSS_VALUE_INHERIT     = 0x0002,
-    LXB_CSS_VALUE_UNSET       = 0x0003,
-    LXB_CSS_VALUE_REVERT      = 0x0004,
-    LXB_CSS_VALUE_AUTO        = 0x0005,
-    LXB_CSS_VALUE_MIN_CONTENT = 0x0006,
-    LXB_CSS_VALUE_MAX_CONTENT = 0x0007,
-    LXB_CSS_VALUE__LENGTH     = 0x0008,
-    LXB_CSS_VALUE__PERCENTAGE = 0x0009,
-    LXB_CSS_VALUE__LAST_ENTRY = 0x000a
+    LXB_CSS_VALUE__UNDEF              = 0x0000,
+    LXB_CSS_VALUE_INITIAL             = 0x0001,
+    LXB_CSS_VALUE_INHERIT             = 0x0002,
+    LXB_CSS_VALUE_UNSET               = 0x0003,
+    LXB_CSS_VALUE_REVERT              = 0x0004,
+    LXB_CSS_VALUE_BLOCK               = 0x0005,
+    LXB_CSS_VALUE_INLINE              = 0x0006,
+    LXB_CSS_VALUE_RUN_IN              = 0x0007,
+    LXB_CSS_VALUE_FLOW                = 0x0008,
+    LXB_CSS_VALUE_FLOW_ROOT           = 0x0009,
+    LXB_CSS_VALUE_TABLE               = 0x000a,
+    LXB_CSS_VALUE_FLEX                = 0x000b,
+    LXB_CSS_VALUE_GRID                = 0x000c,
+    LXB_CSS_VALUE_RUBY                = 0x000d,
+    LXB_CSS_VALUE_LIST_ITEM           = 0x000e,
+    LXB_CSS_VALUE_TABLE_ROW_GROUP     = 0x000f,
+    LXB_CSS_VALUE_TABLE_HEADER_GROUP  = 0x0010,
+    LXB_CSS_VALUE_TABLE_FOOTER_GROUP  = 0x0011,
+    LXB_CSS_VALUE_TABLE_ROW           = 0x0012,
+    LXB_CSS_VALUE_TABLE_CELL          = 0x0013,
+    LXB_CSS_VALUE_TABLE_COLUMN_GROUP  = 0x0014,
+    LXB_CSS_VALUE_TABLE_COLUMN        = 0x0015,
+    LXB_CSS_VALUE_TABLE_CAPTION       = 0x0016,
+    LXB_CSS_VALUE_RUBY_BASE           = 0x0017,
+    LXB_CSS_VALUE_RUBY_TEXT           = 0x0018,
+    LXB_CSS_VALUE_RUBY_BASE_CONTAINER = 0x0019,
+    LXB_CSS_VALUE_RUBY_TEXT_CONTAINER = 0x001a,
+    LXB_CSS_VALUE_CONTENTS            = 0x001b,
+    LXB_CSS_VALUE_NONE                = 0x001c,
+    LXB_CSS_VALUE_INLINE_BLOCK        = 0x001d,
+    LXB_CSS_VALUE_INLINE_TABLE        = 0x001e,
+    LXB_CSS_VALUE_INLINE_FLEX         = 0x001f,
+    LXB_CSS_VALUE_INLINE_GRID         = 0x0020,
+    LXB_CSS_VALUE_AUTO                = 0x0021,
+    LXB_CSS_VALUE_MIN_CONTENT         = 0x0022,
+    LXB_CSS_VALUE_MAX_CONTENT         = 0x0023,
+    LXB_CSS_VALUE__LENGTH             = 0x0024,
+    LXB_CSS_VALUE__PERCENTAGE         = 0x0025,
+    LXB_CSS_VALUE__LAST_ENTRY         = 0x0026
 };
 typedef unsigned int lxb_css_value_type_t;
 

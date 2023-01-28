@@ -15,6 +15,25 @@ at_rules = {
 }
 
 styles = {
+    "display": {
+        "values": [
+            # <display-outside>
+            "block", "inline", "run-in",
+            # <display-inside>
+            "flow", "flow-root", "table", "flex", "grid", "ruby",
+            # <display-listitem>
+            "list-item",
+            # <display-internal>
+            "table-row-group", "table-header-group", "table-footer-group",
+            "table-row", "table-cell", "table-column-group", "table-column",
+            "table-caption", "ruby-base", "ruby-text", "ruby-base-container",
+            "ruby-text-container",
+            # <display-box>
+            "contents", "none",
+            # <display-legacy>
+            "inline-block", "inline-table", "inline-flex", "inline-grid"
+        ]
+    },
     "width": {"values": ["auto", "min-content", "max-content", "_length", "_percentage"]},
     "height": {"values": ["auto", "min-content", "max-content", "_length", "_percentage"]}
 }

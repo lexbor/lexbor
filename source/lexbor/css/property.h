@@ -31,6 +31,13 @@ typedef struct {
 lxb_css_property__custom_t;
 
 typedef struct {
+    lxb_css_display_type_t a;
+    lxb_css_display_type_t b;
+    lxb_css_display_type_t c;
+}
+lxb_css_property_display_t;
+
+typedef struct {
     lxb_css_width_type_t type;
 
     union {
@@ -106,6 +113,18 @@ lxb_css_property__custom_serialize_name(const void *style,
 LXB_API lxb_status_t
 lxb_css_property__custom_serialize_value(const void *style,
                                          lexbor_serialize_cb_f cb, void *ctx);
+
+/* Display. */
+
+LXB_API void *
+lxb_css_property_display_create(lxb_css_memory_t *memory);
+
+LXB_API void *
+lxb_css_property_display_destroy(lxb_css_memory_t *memory,
+                                 void *style, bool self_destroy);
+LXB_API lxb_status_t
+lxb_css_property_display_serialize(const void *style,
+                                   lexbor_serialize_cb_f cb, void *ctx);
 
 /* Width. */
 

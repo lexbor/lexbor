@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Alexander Borisov
+ * Copyright (C) 2023 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -24,6 +24,34 @@ static const lxb_css_data_t lxb_css_value_data[LXB_CSS_VALUE__LAST_ENTRY] =
     {(lxb_char_t *) "inherit", 7, LXB_CSS_VALUE_INHERIT},
     {(lxb_char_t *) "unset", 5, LXB_CSS_VALUE_UNSET},
     {(lxb_char_t *) "revert", 6, LXB_CSS_VALUE_REVERT},
+    {(lxb_char_t *) "block", 5, LXB_CSS_VALUE_BLOCK},
+    {(lxb_char_t *) "inline", 6, LXB_CSS_VALUE_INLINE},
+    {(lxb_char_t *) "run-in", 6, LXB_CSS_VALUE_RUN_IN},
+    {(lxb_char_t *) "flow", 4, LXB_CSS_VALUE_FLOW},
+    {(lxb_char_t *) "flow-root", 9, LXB_CSS_VALUE_FLOW_ROOT},
+    {(lxb_char_t *) "table", 5, LXB_CSS_VALUE_TABLE},
+    {(lxb_char_t *) "flex", 4, LXB_CSS_VALUE_FLEX},
+    {(lxb_char_t *) "grid", 4, LXB_CSS_VALUE_GRID},
+    {(lxb_char_t *) "ruby", 4, LXB_CSS_VALUE_RUBY},
+    {(lxb_char_t *) "list-item", 9, LXB_CSS_VALUE_LIST_ITEM},
+    {(lxb_char_t *) "table-row-group", 15, LXB_CSS_VALUE_TABLE_ROW_GROUP},
+    {(lxb_char_t *) "table-header-group", 18, LXB_CSS_VALUE_TABLE_HEADER_GROUP},
+    {(lxb_char_t *) "table-footer-group", 18, LXB_CSS_VALUE_TABLE_FOOTER_GROUP},
+    {(lxb_char_t *) "table-row", 9, LXB_CSS_VALUE_TABLE_ROW},
+    {(lxb_char_t *) "table-cell", 10, LXB_CSS_VALUE_TABLE_CELL},
+    {(lxb_char_t *) "table-column-group", 18, LXB_CSS_VALUE_TABLE_COLUMN_GROUP},
+    {(lxb_char_t *) "table-column", 12, LXB_CSS_VALUE_TABLE_COLUMN},
+    {(lxb_char_t *) "table-caption", 13, LXB_CSS_VALUE_TABLE_CAPTION},
+    {(lxb_char_t *) "ruby-base", 9, LXB_CSS_VALUE_RUBY_BASE},
+    {(lxb_char_t *) "ruby-text", 9, LXB_CSS_VALUE_RUBY_TEXT},
+    {(lxb_char_t *) "ruby-base-container", 19, LXB_CSS_VALUE_RUBY_BASE_CONTAINER},
+    {(lxb_char_t *) "ruby-text-container", 19, LXB_CSS_VALUE_RUBY_TEXT_CONTAINER},
+    {(lxb_char_t *) "contents", 8, LXB_CSS_VALUE_CONTENTS},
+    {(lxb_char_t *) "none", 4, LXB_CSS_VALUE_NONE},
+    {(lxb_char_t *) "inline-block", 12, LXB_CSS_VALUE_INLINE_BLOCK},
+    {(lxb_char_t *) "inline-table", 12, LXB_CSS_VALUE_INLINE_TABLE},
+    {(lxb_char_t *) "inline-flex", 11, LXB_CSS_VALUE_INLINE_FLEX},
+    {(lxb_char_t *) "inline-grid", 11, LXB_CSS_VALUE_INLINE_GRID},
     {(lxb_char_t *) "auto", 4, LXB_CSS_VALUE_AUTO},
     {(lxb_char_t *) "min-content", 11, LXB_CSS_VALUE_MIN_CONTENT},
     {(lxb_char_t *) "max-content", 11, LXB_CSS_VALUE_MAX_CONTENT},
@@ -31,20 +59,46 @@ static const lxb_css_data_t lxb_css_value_data[LXB_CSS_VALUE__LAST_ENTRY] =
     {(lxb_char_t *) "_percentage", 11, LXB_CSS_VALUE__PERCENTAGE}
 };
 
-static const lexbor_shs_entry_t lxb_css_value_shs[12] = 
+static const lexbor_shs_entry_t lxb_css_value_shs[38] = 
 {
-    {NULL, NULL, 11, 0}, 
-    {"inherit", (void *) LXB_CSS_VALUE_INHERIT, 7, 0}, 
-    {"initial", (void *) LXB_CSS_VALUE_INITIAL, 7, 0}, 
+    {NULL, NULL, 37, 0}, 
     {"unset", (void *) LXB_CSS_VALUE_UNSET, 5, 0}, 
-    {"revert", (void *) LXB_CSS_VALUE_REVERT, 6, 1}, 
-    {"max-content", (void *) LXB_CSS_VALUE_MAX_CONTENT, 11, 0}, 
+    {"inline-flex", (void *) LXB_CSS_VALUE_INLINE_FLEX, 11, 0}, 
+    {"inherit", (void *) LXB_CSS_VALUE_INHERIT, 7, 2}, 
+    {"grid", (void *) LXB_CSS_VALUE_GRID, 4, 6}, 
+    {"auto", (void *) LXB_CSS_VALUE_AUTO, 4, 9}, 
+    {"table-row-group", (void *) LXB_CSS_VALUE_TABLE_ROW_GROUP, 15, 0}, 
+    {"table-header-group", (void *) LXB_CSS_VALUE_TABLE_HEADER_GROUP, 18, 12}, 
+    {"flow-root", (void *) LXB_CSS_VALUE_FLOW_ROOT, 9, 0}, 
     {"_percentage", (void *) LXB_CSS_VALUE__PERCENTAGE, 11, 0}, 
-    {"min-content", (void *) LXB_CSS_VALUE_MIN_CONTENT, 11, 5}, 
-    {NULL, NULL, 0, 0}, 
-    {"auto", (void *) LXB_CSS_VALUE_AUTO, 4, 0}, 
-    {NULL, NULL, 0, 0}, 
-    {"_length", (void *) LXB_CSS_VALUE__LENGTH, 7, 6}
+    {"table-cell", (void *) LXB_CSS_VALUE_TABLE_CELL, 10, 14}, 
+    {"initial", (void *) LXB_CSS_VALUE_INITIAL, 7, 0}, 
+    {"table-footer-group", (void *) LXB_CSS_VALUE_TABLE_FOOTER_GROUP, 18, 13}, 
+    {"table-column-group", (void *) LXB_CSS_VALUE_TABLE_COLUMN_GROUP, 18, 0}, 
+    {"ruby-base-container", (void *) LXB_CSS_VALUE_RUBY_BASE_CONTAINER, 19, 16}, 
+    {"table", (void *) LXB_CSS_VALUE_TABLE, 5, 19}, 
+    {"ruby-text-container", (void *) LXB_CSS_VALUE_RUBY_TEXT_CONTAINER, 19, 0}, 
+    {"inline", (void *) LXB_CSS_VALUE_INLINE, 6, 20}, 
+    {"ruby-text", (void *) LXB_CSS_VALUE_RUBY_TEXT, 9, 0}, 
+    {"revert", (void *) LXB_CSS_VALUE_REVERT, 6, 0}, 
+    {"inline-block", (void *) LXB_CSS_VALUE_INLINE_BLOCK, 12, 0}, 
+    {"ruby", (void *) LXB_CSS_VALUE_RUBY, 4, 0}, 
+    {"inline-table", (void *) LXB_CSS_VALUE_INLINE_TABLE, 12, 0}, 
+    {"inline-grid", (void *) LXB_CSS_VALUE_INLINE_GRID, 11, 22}, 
+    {"flow", (void *) LXB_CSS_VALUE_FLOW, 4, 0}, 
+    {"table-row", (void *) LXB_CSS_VALUE_TABLE_ROW, 9, 27}, 
+    {"table-caption", (void *) LXB_CSS_VALUE_TABLE_CAPTION, 13, 0}, 
+    {"table-column", (void *) LXB_CSS_VALUE_TABLE_COLUMN, 12, 0}, 
+    {"list-item", (void *) LXB_CSS_VALUE_LIST_ITEM, 9, 0}, 
+    {"_length", (void *) LXB_CSS_VALUE__LENGTH, 7, 28}, 
+    {"contents", (void *) LXB_CSS_VALUE_CONTENTS, 8, 0}, 
+    {"flex", (void *) LXB_CSS_VALUE_FLEX, 4, 34}, 
+    {"none", (void *) LXB_CSS_VALUE_NONE, 4, 36}, 
+    {"block", (void *) LXB_CSS_VALUE_BLOCK, 5, 0}, 
+    {"ruby-base", (void *) LXB_CSS_VALUE_RUBY_BASE, 9, 0}, 
+    {"run-in", (void *) LXB_CSS_VALUE_RUN_IN, 6, 0}, 
+    {"min-content", (void *) LXB_CSS_VALUE_MIN_CONTENT, 11, 37}, 
+    {"max-content", (void *) LXB_CSS_VALUE_MAX_CONTENT, 11, 0}
 };
 
 
