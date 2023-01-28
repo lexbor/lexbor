@@ -35,7 +35,7 @@
 
 <declarations> = 1
 
-<display> = [ <display-outside> || <display-inside> ] | <display-listitem>
+<display> = <global> | [ <display-outside> || <display-inside> ] | <display-listitem>
             | <display-internal> | <display-box> | <display-legacy>
 <width> = <global> | auto | <length-percentage min=0 max=128> | min-content | max-content
 <height> = <global> | auto | <length-percentage min=0 max=128> | min-content | max-content

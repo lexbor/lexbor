@@ -136,6 +136,14 @@ lxb_css_property_state_display(lxb_css_parser_t *parser,
             display->a = type;
             goto done;
 
+        /* Global. */
+        case LXB_CSS_VALUE_INITIAL:
+        case LXB_CSS_VALUE_INHERIT:
+        case LXB_CSS_VALUE_UNSET:
+        case LXB_CSS_VALUE_REVERT:
+            display->a = type;
+            goto done;
+
         default:
             return lxb_css_parser_failed(parser);
     }
