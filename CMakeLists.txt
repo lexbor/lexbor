@@ -59,6 +59,9 @@ IF(NOT LEXBOR_MAKE_DISTRO_NUM)
     set(LEXBOR_MAKE_DISTRO_NUM "1")
 ENDIF()
 
+enable_language(C)
+enable_language(CXX)
+
 ################
 ## Version and path
 #########################
