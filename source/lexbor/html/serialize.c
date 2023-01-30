@@ -738,7 +738,7 @@ lxb_html_serialize_attribute_cb(lxb_dom_attr_t *attr, bool has_raw,
             lxb_html_serialize_send((const lxb_char_t *) "xmlns", 5, ctx);
         }
         else {
-            lxb_html_serialize_send((const lxb_char_t *) "xmlns:", 5, ctx);
+            lxb_html_serialize_send((const lxb_char_t *) "xmlns:", 6, ctx);
             lxb_html_serialize_send(lexbor_hash_entry_str(&data->entry),
                                     data->entry.length, ctx);
         }
