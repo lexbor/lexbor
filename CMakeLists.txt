@@ -172,11 +172,13 @@ ENDFOREACH()
 ## First, need to add target for shared and static library
 IF(LEXBOR_BUILD_SHARED)
     add_library(${LEXBOR_LIB_NAME} SHARED ${LEXBOR_SOURCES})
+    target_include_directories(${LEXBOR_LIB_NAME} PUBLIC ${LEXBOR_SOURCE})
     target_compile_definitions(${LEXBOR_LIB_NAME} PRIVATE "LEXBOR_BUILDING")
 ENDIF()
 
 IF(LEXBOR_BUILD_STATIC)
     add_library(${LEXBOR_LIB_NAME_STATIC} STATIC ${LEXBOR_SOURCES})
+    target_include_directories(${LEXBOR_LIB_NAME_STATIC} PUBLIC ${LEXBOR_SOURCE})
     set_target_properties(${LEXBOR_LIB_NAME_STATIC} PROPERTIES OUTPUT_NAME ${LEXBOR_LIB_NAME_STATIC})
     set_target_properties(${LEXBOR_LIB_NAME_STATIC} PROPERTIES
         COMPILE_PDB_NAME "${LEXBOR_LIB_NAME_STATIC}"
