@@ -23,6 +23,9 @@ extern "C" {
 #include "lexbor/selectors/selectors.h"
 
 
+typedef lxb_status_t
+(*lxb_html_document_done_cb_f)(lxb_html_document_t *document);
+
 typedef unsigned int lxb_html_document_opt_t;
 
 typedef enum {
@@ -64,6 +67,7 @@ struct lxb_html_document {
     lxb_html_document_css_t         css;
     bool                            css_init;
 
+    lxb_html_document_done_cb_f     done;
     lxb_html_document_ready_state_t ready_state;
 
     lxb_html_document_opt_t         opt;
@@ -116,6 +120,18 @@ lxb_html_document_stylesheet_attach(lxb_html_document_t *document,
                                     lxb_css_stylesheet_t *sst);
 
 LXB_API lxb_status_t
+lxb_html_document_stylesheet_apply(lxb_html_document_t *document,
+                                   lxb_css_stylesheet_t *sst);
+
+LXB_API lxb_status_t
+lxb_html_document_stylesheet_add(lxb_html_document_t *document,
+                                 lxb_css_stylesheet_t *sst);
+
+LXB_API lxb_status_t
+lxb_html_document_stylesheet_remove(lxb_html_document_t *document,
+                                    lxb_css_stylesheet_t *sst);
+
+LXB_API lxb_status_t
 lxb_html_document_element_styles_attach(lxb_html_element_t *element);
 
 LXB_API void
@@ -124,6 +140,10 @@ lxb_html_document_stylesheet_destroy_all(lxb_html_document_t *document,
 
 LXB_API lxb_status_t
 lxb_html_document_style_attach(lxb_html_document_t *document,
+                               lxb_css_rule_style_t *style);
+
+LXB_API lxb_status_t
+lxb_html_document_style_remove(lxb_html_document_t *document,
                                lxb_css_rule_style_t *style);
 
 LXB_API lxb_status_t

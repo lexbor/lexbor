@@ -17,10 +17,14 @@ extern "C" {
 #include "lexbor/css/syntax/tokenizer.h"
 #include "lexbor/css/selectors/base.h"
 
+#include "lexbor/html/interface.h"
+
 
 struct lxb_css_stylesheet {
-    lxb_css_rule_t   *root;
-    lxb_css_memory_t *memory;
+    lxb_css_rule_t           *root;
+    lxb_css_memory_t         *memory;
+
+    lxb_html_style_element_t *element;
 };
 
 LXB_API lxb_css_stylesheet_t *

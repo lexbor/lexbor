@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2023 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -16,7 +16,8 @@ extern "C" {
 
 
 struct lxb_html_style_element {
-    lxb_html_element_t element;
+    lxb_html_element_t   element;
+    lxb_css_stylesheet_t *stylesheet;
 };
 
 
@@ -25,6 +26,12 @@ lxb_html_style_element_interface_create(lxb_html_document_t *document);
 
 LXB_API lxb_html_style_element_t *
 lxb_html_style_element_interface_destroy(lxb_html_style_element_t *style_element);
+
+LXB_API lxb_status_t
+lxb_html_style_element_parse(lxb_html_style_element_t *element);
+
+LXB_API lxb_status_t
+lxb_html_element_style_remove(lxb_html_style_element_t *style);
 
 
 #ifdef __cplusplus

@@ -265,6 +265,7 @@ lxb_css_rule_list_append(lxb_css_rule_list_t *list, lxb_css_rule_t *rule)
     }
 
     list->last = rule;
+    rule->parent = lxb_css_rule(list);
 
     (void) lxb_css_rule_ref_inc(rule);
 }
@@ -313,6 +314,7 @@ lxb_css_rule_declaration_list_append(lxb_css_rule_declaration_list_t *list,
     }
 
     list->last = rule;
+    rule->parent = lxb_css_rule(list);
 
     (void) lxb_css_rule_ref_inc(rule);
 

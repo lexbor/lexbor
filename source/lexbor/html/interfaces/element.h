@@ -94,10 +94,16 @@ lxb_html_element_style_remove_all_not(lxb_html_document_t *doc,
                                       lexbor_avl_node_t **root,
                                       lxb_html_style_node_t *style, bool bs);
 
-LXB_API  lxb_html_style_node_t *
+LXB_API lxb_html_style_node_t *
 lxb_html_element_style_remove_all(lxb_html_document_t *doc,
                                   lexbor_avl_node_t **root,
                                   lxb_html_style_node_t *style);
+
+LXB_API lxb_html_style_node_t *
+lxb_html_element_style_remove_by_list(lxb_html_document_t *doc,
+                                      lexbor_avl_node_t **root,
+                                      lxb_html_style_node_t *style,
+                                      lxb_css_rule_declaration_list_t *list);
 
 LXB_API lxb_status_t
 lxb_html_element_style_serialize(lxb_html_element_t *element,
@@ -144,6 +150,12 @@ lxb_html_element_insert_child(lxb_html_element_t *dst, lxb_html_element_t *src)
 {
     lxb_dom_node_insert_child(lxb_dom_interface_node(dst),
                               lxb_dom_interface_node(src));
+}
+
+lxb_inline void
+lxb_html_element_remove(lxb_html_element_t *element)
+{
+    lxb_dom_node_remove(lxb_dom_interface_node(element));
 }
 
 lxb_inline lxb_html_document_t *

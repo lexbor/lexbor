@@ -242,6 +242,10 @@ lxb_html_tree_chunk(lxb_html_tree_t *tree, const lxb_char_t *html, size_t size)
 lxb_inline lxb_status_t
 lxb_html_tree_end(lxb_html_tree_t *tree)
 {
+    if (tree->document->done != NULL) {
+        tree->document->done(tree->document);
+    }
+
     return lxb_html_tokenizer_end(tree->tkz_ref);
 }
 
