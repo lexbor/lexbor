@@ -259,7 +259,7 @@ lxb_html_encoding_meta(lxb_html_encoding_t *em,
         for (i = 0; i < lexbor_array_obj_length(&em->cache); i++) {
             attr = lexbor_array_obj_get(&em->cache, i);
 
-            if ((attr->end - attr->name) == len
+            if ((size_t) (attr->end - attr->name) == len
                 && lexbor_str_data_ncasecmp(attr->name, name, len))
             {
                 goto find_attr;

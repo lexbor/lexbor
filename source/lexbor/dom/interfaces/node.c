@@ -743,7 +743,7 @@ lxb_dom_node_by_class_name_cb(lxb_dom_node_t *node, void *ctx)
     for (; data < end; data++) {
         if (lexbor_utils_whitespace(*data, ==, ||)) {
 
-            if (pos != data && (data - pos) == cb_ctx->value_length) {
+            if (pos != data && (size_t) (data - pos) == cb_ctx->value_length) {
                 if (doc->compat_mode == LXB_DOM_DOCUMENT_CMODE_QUIRKS) {
                     is_it = lexbor_str_data_ncasecmp(pos, cb_ctx->value,
                                                      cb_ctx->value_length);
@@ -772,7 +772,7 @@ lxb_dom_node_by_class_name_cb(lxb_dom_node_t *node, void *ctx)
         }
     }
 
-    if ((end - pos) == cb_ctx->value_length) {
+    if ((size_t) (end - pos) == cb_ctx->value_length) {
         if (doc->compat_mode == LXB_DOM_DOCUMENT_CMODE_QUIRKS) {
             is_it = lexbor_str_data_ncasecmp(pos, cb_ctx->value,
                                              cb_ctx->value_length);

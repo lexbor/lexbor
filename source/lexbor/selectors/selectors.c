@@ -372,7 +372,7 @@ lxb_selectors_anb_calc(lxb_css_selector_anb_of_t *anb, size_t index)
     double num;
 
     if (anb->anb.a == 0) {
-        if (anb->anb.b >= 0 && anb->anb.b == index) {
+        if (anb->anb.b >= 0 && (size_t) anb->anb.b == index) {
             return true;
         }
     }
@@ -1107,7 +1107,7 @@ lxb_selectors_match_class(const lexbor_str_t *target, const  lexbor_str_t *src,
 
         if (lexbor_utils_whitespace(chr, ==, ||)) {
 
-            if ((data - pos) == src->length) {
+            if ((size_t) (data - pos) == src->length) {
                 if (quirks) {
                     is_it = lexbor_str_data_ncasecmp(pos, src->data, src->length);
                 }
@@ -1128,7 +1128,7 @@ lxb_selectors_match_class(const lexbor_str_t *target, const  lexbor_str_t *src,
         }
     }
 
-    if ((end - pos) == src->length && src->length != 0) {
+    if ((size_t) (end - pos) == src->length && src->length != 0) {
         if (quirks) {
             is_it = lexbor_str_data_ncasecmp(pos, src->data, src->length);
         }
