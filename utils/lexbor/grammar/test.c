@@ -191,9 +191,6 @@ utils_lxb_grammar_test_repeat(utils_lxb_grammar_tree_t *tree,
                               const lexbor_str_t *str, lexbor_str_t *result,
                               const lexbor_str_t *sp, size_t min, size_t max);
 
-static lxb_status_t
-utils_lxb_grammar_test_serialize(utils_lxb_grammar_tree_t *tree);
-
 static const lxb_grammar_node_t *
 utils_lxb_grammar_test_find_declaration(const lxb_grammar_node_t *root,
                                         const lxb_grammar_node_t *el);
@@ -1651,7 +1648,7 @@ utils_lxb_grammar_test_hex(const lxb_grammar_node_t *root,
     utils_lxb_grammar_tree_t *tree;
 
     static const size_t buf_len = 2;
-    lxb_char_t buf[buf_len] = {'\0', '\0'};
+    lxb_char_t buf[buf_len];
 
     tree = utils_lxb_grammar_tree_create(false);
     if (tree == NULL) {
