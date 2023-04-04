@@ -33,9 +33,124 @@
 <display-box>      = contents | none
 <display-legacy>   = inline-block | inline-table | inline-flex | inline-grid
 
+<min-max> = <global> | auto | <length-percentage min=0 max=128> | min-content | max-content
+<padding-value> = <global> | <length-percentage min=0 max=128>
+<margin-value> = <padding-value> | auto
+
+<border-values> = <global> | [<line-width> || <line-style> || <color>/1]
+<line-width> = <length min=0 max=128> | thin | medium | thick
+<line-style> = none | hidden | dotted | dashed | solid | double | groove | ridge | inset | outset
+
+<color> = <absolute-color-base> | currentcolor | <system-color>
+<absolute-color-base> = <hex-color> | <absolute-color-function> | <named-color> | transparent
+<absolute-color-function> = <rgb()> | <rgba()> |
+                            <hsl()> | <hsla()> | <hwb()> |
+                            <lab()> | <lch()> | <oklab()> | <oklch()>
+
+<hex-color> = #[<hex nows>{3}^WS | <hex nows>{6}^WS | <hex nows>{8}^WS]^WS
+<alpha-value> = <number> | <percentage>
+<hue> = <number> | <angle>
+<named-color> = aliceblue | antiquewhite | aqua | aquamarine | azure | beige
+                | bisque | black | blanchedalmond | blue | blueviolet | brown
+                | burlywood | cadetblue | chartreuse | chocolate | coral
+                | cornflowerblue | cornsilk | crimson | cyan | darkblue
+                | darkcyan | darkgoldenrod | darkgray | darkgreen | darkgrey
+                | darkkhaki | darkmagenta | darkolivegreen | darkorange
+                | darkorchid | darkred | darksalmon | darkseagreen
+                | darkslateblue | darkslategray | darkslategrey | darkturquoise
+                | darkviolet | deeppink | deepskyblue | dimgray | dimgrey
+                | dodgerblue | firebrick | floralwhite | forestgreen | fuchsia
+                | gainsboro | ghostwhite | gold | goldenrod | gray | green
+                | greenyellow | grey | honeydew | hotpink | indianred | indigo
+                | ivory | khaki | lavender | lavenderblush | lawngreen
+                | lemonchiffon | lightblue | lightcoral | lightcyan
+                | lightgoldenrodyellow | lightgray | lightgreen | lightgrey
+                | lightpink | lightsalmon | lightseagreen | lightskyblue
+                | lightslategray | lightslategrey | lightsteelblue
+                | lightyellow | lime | limegreen | linen | magenta | maroon
+                | mediumaquamarine | mediumblue | mediumorchid | mediumpurple
+                | mediumseagreen | mediumslateblue | mediumspringgreen
+                | mediumturquoise | mediumvioletred | midnightblue | mintcream
+                | mistyrose | moccasin | navajowhite | navy | oldlace | olive
+                | olivedrab | orange | orangered | orchid | palegoldenrod
+                | palegreen | paleturquoise | palevioletred | papayawhip
+                | peachpuff | peru | pink | plum | powderblue | purple
+                | rebeccapurple | red | rosybrown | royalblue | saddlebrown
+                | salmon | sandybrown | seagreen | seashell | sienna | silver
+                | skyblue | slateblue | slategray | slategrey | snow
+                | springgreen | steelblue | tan | teal | thistle | tomato
+                | turquoise | violet | wheat | white | whitesmoke | yellow
+                | yellowgreen
+
+<system-color> = Canvas | CanvasText | LinkText | VisitedText | ActiveText
+                 | ButtonFace | ButtonText | ButtonBorder | Field | FieldText
+                 | Highlight | HighlightText | SelectedItem | SelectedItemText
+                 | Mark | MarkText | GrayText | AccentColor | AccentColorText
+
+<rgb()> = rgb( [<percentage> | none]{3} [ / [<alpha-value> | none] ]? )
+          | rgb( [<number> | none]{3} [ / [<alpha-value> | none] ]? )
+          | rgb( <percentage>#{3} , <alpha-value>? )
+          | rgb( <number>#{3} , <alpha-value>? )
+
+<rgba()> = rgba( [<percentage> | none]{3} [ / [<alpha-value> | none] ]? )
+           | rgba( [<number> | none]{3} [ / [<alpha-value> | none] ]? )
+           | rgba( <percentage>#{3} , <alpha-value>? )
+           | rgba( <number>#{3} , <alpha-value>? )
+
+<hsl()> = hsl( [<hue> | none] [<percentage> | none] [<percentage> | none] [ / [<alpha-value> | none] ]? )
+          | hsl( <hue>, <percentage>, <percentage>, <alpha-value>? )
+
+<hsla()> = hsla( [<hue> | none] [<percentage> | none] [<percentage> | none] [ / [<alpha-value> | none] ]? )
+           | hsla( <hue>, <percentage>, <percentage>, <alpha-value>? )
+
+<hwb()> = hwb( [<hue> | none] [<percentage> | none] [<percentage> | none] [ / [<alpha-value> | none] ]? )
+
+<lab()> = lab( [<percentage> | <number> | none]
+               [ <percentage> | <number> | none]
+               [ <percentage> | <number> | none]
+               [ / [<alpha-value> | none] ]? )
+
+<lch()> = lch( [<percentage> | <number> | none]
+               [ <percentage> | <number> | none]
+               [ <hue> | none]
+               [ / [<alpha-value> | none] ]? )
+
+<oklab()> = oklab( [ <percentage> | <number> | none]
+                   [ <percentage> | <number> | none]
+                   [ <percentage> | <number> | none]
+                   [ / [<alpha-value> | none] ]? )
+
+<oklch()> = oklch( [ <percentage> | <number> | none]
+                   [ <percentage> | <number> | none]
+                   [ <hue> | none]
+                   [ / [<alpha-value> | none] ]? )
+
 <declarations> = 1
 
-<display> = <global> | [ <display-outside> || <display-inside> ] | <display-listitem>
-            | <display-internal> | <display-box> | <display-legacy>
-<width> = <global> | auto | <length-percentage min=0 max=128> | min-content | max-content
-<height> = <global> | auto | <length-percentage min=0 max=128> | min-content | max-content
+<box-sizing> = <global> | content-box | border-box
+<display> = [[ <display-outside> || <display-inside> ] 
+            | <display-listitem> | <display-internal> | <display-box> | <display-legacy>]^SORT
+<width> = <min-max>
+<height> = <min-max>
+<min-width> = <min-max>
+<min-height> = <min-max>
+<max-width> = <min-max>
+<max-height> = <min-max>
+
+<margin> = <margin-value>{1,4}
+<margin-top> = <margin-value>
+<margin-right> = <margin-value>
+<margin-bottom> = <margin-value>
+<margin-left> = <margin-value>
+
+<padding> = <padding-value>{1,4}
+<padding-top> = <padding-value>
+<padding-right> = <padding-value>
+<padding-bottom> = <padding-value>
+<padding-left> = <padding-value>
+
+<border> = <border-values>
+<border-top> = <border-values>
+<border-right> = <border-values>
+<border-bottom> = <border-values>
+<border-left> = <border-values>

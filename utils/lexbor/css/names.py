@@ -14,6 +14,58 @@ at_rules = {
     "namespace": {}
 }
 
+min_max = ["auto", "min-content", "max-content", "_length", "_percentage", "_number", "_angle"]
+margin_padding = ["auto", "_length", "_percentage"]
+border_values = ["thin", "medium", "thick",
+                 "none", "hidden", "dotted", "dashed", "solid", "double",
+                 "groove", "ridge", "inset", "outset", "_length"]
+
+color_named = ["aliceblue", "antiquewhite", "aqua", "aquamarine", "azure",
+               "beige", "bisque", "black", "blanchedalmond", "blue",
+               "blueviolet", "brown", "burlywood", "cadetblue",
+               "chartreuse", "chocolate", "coral", "cornflowerblue",
+               "cornsilk", "crimson", "cyan", "darkblue", "darkcyan",
+               "darkgoldenrod", "darkgray", "darkgreen", "darkgrey",
+               "darkkhaki", "darkmagenta", "darkolivegreen", "darkorange",
+               "darkorchid", "darkred", "darksalmon", "darkseagreen",
+               "darkslateblue", "darkslategray", "darkslategrey",
+               "darkturquoise", "darkviolet", "deeppink", "deepskyblue",
+               "dimgray", "dimgrey", "dodgerblue", "firebrick", "floralwhite",
+               "forestgreen", "fuchsia", "gainsboro", "ghostwhite", "gold",
+               "goldenrod", "gray", "green", "greenyellow", "grey", "honeydew",
+               "hotpink", "indianred", "indigo", "ivory", "khaki", "lavender",
+               "lavenderblush", "lawngreen", "lemonchiffon", "lightblue",
+               "lightcoral", "lightcyan", "lightgoldenrodyellow", "lightgray",
+               "lightgreen", "lightgrey", "lightpink", "lightsalmon",
+               "lightseagreen", "lightskyblue", "lightslategray",
+               "lightslategrey", "lightsteelblue", "lightyellow", "lime",
+               "limegreen", "linen", "magenta", "maroon", "mediumaquamarine",
+               "mediumblue", "mediumorchid", "mediumpurple", "mediumseagreen",
+               "mediumslateblue", "mediumspringgreen", "mediumturquoise",
+               "mediumvioletred", "midnightblue", "mintcream", "mistyrose",
+               "moccasin", "navajowhite", "navy", "oldlace", "olive",
+               "olivedrab", "orange", "orangered", "orchid", "palegoldenrod",
+               "palegreen", "paleturquoise", "palevioletred", "papayawhip",
+               "peachpuff", "peru", "pink", "plum", "powderblue", "purple",
+               "rebeccapurple", "red", "rosybrown", "royalblue", "saddlebrown",
+               "salmon", "sandybrown", "seagreen", "seashell", "sienna",
+               "silver", "skyblue", "slateblue", "slategray", "slategrey",
+               "snow", "springgreen", "steelblue", "tan", "teal", "thistle",
+               "tomato", "turquoise", "violet", "wheat", "white", "whitesmoke",
+               "yellow", "yellowgreen"]
+
+color_system = ["Canvas", "CanvasText", "LinkText", "VisitedText", "ActiveText",
+                "ButtonFace", "ButtonText", "ButtonBorder", "Field", "FieldText",
+                "Highlight", "HighlightText", "SelectedItem", "SelectedItemText",
+                "Mark", "MarkText", "GrayText", "AccentColor", "AccentColorText"]
+
+color_function = ["rgb", "rgba",
+                  "hsl", "hsla", "hwb",
+                  "lab", "lch", "oklab", "oklch",
+                  "color"]
+
+color_values = ["currentcolor", "transparent", "hex"] + color_named + color_system + color_function
+
 styles = {
     "display": {
         "values": [
@@ -34,8 +86,41 @@ styles = {
             "inline-block", "inline-table", "inline-flex", "inline-grid"
         ]
     },
-    "width": {"values": ["auto", "min-content", "max-content", "_length", "_percentage"]},
-    "height": {"values": ["auto", "min-content", "max-content", "_length", "_percentage"]}
+
+    # https://drafts.csswg.org/css-sizing-3/
+
+    "box-sizing": {"values": ["content-box", "border-box"]},
+
+    "width": {"values": min_max},
+    "height": {"values": min_max},
+    "min-width": {"values": min_max},
+    "min-height": {"values": min_max},
+    "max-width": {"values": min_max},
+    "max-height": {"values": min_max},
+
+    # https://drafts.csswg.org/css-box-3/
+
+    "margin": {"values": margin_padding},
+    "margin-top": {"values": margin_padding},
+    "margin-right": {"values": margin_padding},
+    "margin-bottom": {"values": margin_padding},
+    "margin-left": {"values": margin_padding},
+
+    "padding": {"values": margin_padding},
+    "padding-top": {"values": margin_padding},
+    "padding-right": {"values": margin_padding},
+    "padding-bottom": {"values": margin_padding},
+    "padding-left": {"values": margin_padding},
+
+    # https://drafts.csswg.org/css-backgrounds-3/
+
+    "border": {"values": border_values},
+    "border-top": {"values": border_values},
+    "border-right": {"values": border_values},
+    "border-bottom": {"values": border_values},
+    "border-left": {"values": border_values},
+
+    "color": {"values": color_values, "hide": True}
 }
 
 compiles = [
@@ -112,11 +197,14 @@ class Pseudo:
                                                         self.make_name(prefix)))
 
         for name in arr:
+            origin = name
+            name = self.make_name(name)
             enum_name = self.make_enum_name(prefix, name)
             func_name = "lxb_css_{}_state_{}".format(prefix, name)
 
-            frmt_enum.append(enum_name, "0x{0:04x}".format(idx))
-            idx += 1
+            if origin not in values or "hide" not in values[origin] or values[origin]["hide"] == False:
+                frmt_enum.append(enum_name, "0x{0:04x}".format(idx))
+                idx += 1
 
             create = "lxb_css_{}_{}_create".format(prefix, name)
             destroy = "lxb_css_{}_{}_destroy".format(prefix, name)
@@ -134,14 +222,15 @@ class Pseudo:
                                enum_name, func_name, create, destroy, serialize
                             ))
                 continue
-            else:
+            elif "hide" not in values[origin] or values[origin]["hide"] == False:
                 res.append("{{(lxb_char_t *) \"{}\", {}, {}, {},\n"
-                           "     {}, {}, {}}}".format(name, len(name),
+                           "     {}, {}, {}}}".format(origin, len(name),
                                 enum_name, func_name, create, destroy, serialize
                             ))
 
-            entries.append({"key": name,
-                            "value": "(void *) &{}[{}]".format(data_name, enum_name)})
+            if "hide" not in values[origin] or values[origin]["hide"] == False:
+                entries.append({"key": origin,
+                                "value": "(void *) &{}[{}]".format(data_name, enum_name)})
 
         frmt_enum.append(self.make_enum_name(prefix, "_LAST_ENTRY"),
                                              "0x{0:04x}".format(idx))
@@ -191,10 +280,12 @@ class Pseudo:
             if "values" not in values[name]:
                 continue
 
+            vals = values[name]["values"]
+            origin = name
+            name = self.make_name(name)
+
             prop_enum = LXB.FormatEnum("{}{}_type_t".format(self.prefix.lower(),
                                                              self.make_name(name)))
-
-            vals = values[name]["values"]
 
             for val in vals:
                 base_name = self.make_enum_name("value", val)

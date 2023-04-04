@@ -102,12 +102,28 @@ struct lxb_css_rule_declaration {
     uintptr_t      type;
 
     union {
-        lxb_css_property__undef_t  *undef;
-        lxb_css_property__custom_t *custom;
-        lxb_css_property_display_t *display;
-        lxb_css_property_width_t   *width;
-        lxb_css_property_height_t  *height;
-        void                       *user;
+        lxb_css_property__undef_t         *undef;
+        lxb_css_property__custom_t        *custom;
+        lxb_css_property_display_t        *display;
+        lxb_css_property_width_t          *width;
+        lxb_css_property_height_t         *height;
+        lxb_css_property_box_sizing_t     *box_sizing;
+        lxb_css_property_margin_t         *margin;
+        lxb_css_property_margin_top_t     *margin_top;
+        lxb_css_property_margin_right_t   *margin_right;
+        lxb_css_property_margin_bottom_t  *margin_bottom;
+        lxb_css_property_margin_left_t    *margin_left;
+        lxb_css_property_padding_t        *padding;
+        lxb_css_property_padding_top_t    *padding_top;
+        lxb_css_property_padding_right_t  *padding_right;
+        lxb_css_property_padding_bottom_t *padding_bottom;
+        lxb_css_property_padding_left_t   *padding_left;
+        lxb_css_property_border_t         *border;
+        lxb_css_property_border_top_t     *border_top;
+        lxb_css_property_border_right_t   *border_right;
+        lxb_css_property_border_bottom_t  *border_bottom;
+        lxb_css_property_border_left_t    *border_left;
+        void                              *user;
     } u;
 
     bool            important;
