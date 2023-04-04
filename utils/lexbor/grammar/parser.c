@@ -367,6 +367,7 @@ lxb_grammar_parser_state_declaration(lxb_grammar_parser_t *parser,
                                                    LXB_GRAMMAR_NODE_UNQUOTED);
             goto insert_and_mode;
 
+        case LXB_GRAMMAR_TOKEN_HASH:
         case LXB_GRAMMAR_TOKEN_DELIM:
             parser->node = lxb_grammar_node_create(parser, token,
                                                    LXB_GRAMMAR_NODE_DELIM);
@@ -548,6 +549,8 @@ static lxb_status_t
 lxb_grammar_parser_state_declaration_mod(lxb_grammar_parser_t *parser,
                                          lxb_grammar_token_t *token)
 {
+    double num;
+
     /* -1 == infinity. */
 
     switch (token->type) {
@@ -578,6 +581,9 @@ lxb_grammar_parser_state_declaration_mod(lxb_grammar_parser_t *parser,
             parser->to_mode->is_comma = true;
 
             token = lxb_grammar_parser_next_token(parser);
+            if (token == NULL) {
+                return LXB_STATUS_ERROR;
+            }
 
             switch (token->type) {
                 case LXB_GRAMMAR_TOKEN_COUNT:
@@ -618,6 +624,42 @@ lxb_grammar_parser_state_declaration_mod(lxb_grammar_parser_t *parser,
 
             return LXB_STATUS_OK;
 
+        case LXB_GRAMMAR_TOKEN_EXCLUDE_SORT:
+            if (parser->to_mode->skip_sort) {
+                lxb_grammar_parser_dec_token(parser, 1);
+
+                parser->state = lxb_grammar_parser_state_combinator;
+
+                return LXB_STATUS_OK;
+            }
+
+            parser->to_mode->skip_sort = true;
+
+            return LXB_STATUS_OK;
+
+        case LXB_GRAMMAR_TOKEN_DELIM:
+            if (token->u.str.data[0] == '/') {
+                token = lxb_grammar_parser_next_token(parser);
+                if (token == NULL) {
+                    return LXB_STATUS_ERROR;
+                }
+
+                if (token->type == LXB_GRAMMAR_TOKEN_NUMBER) {
+                    num = token->u.num;
+
+                    if (num < 0) {
+                        num = 0;
+                    }
+
+                    parser->node->limit = (size_t) num;
+                    break;
+                }
+
+                lxb_grammar_parser_dec_token(parser, 1);
+            }
+
+            /* fall through */
+
         default:
             lxb_grammar_parser_dec_token(parser, 1);
 
@@ -640,6 +682,10 @@ lxb_grammar_parser_state_declaration_mod_tw(lxb_grammar_parser_t *parser,
     switch (token->type) {
         case LXB_GRAMMAR_TOKEN_EXCLUDE_WS:
             parser->to_mode->skip_ws = true;
+            break;
+
+        case LXB_GRAMMAR_TOKEN_EXCLUDE_SORT:
+            parser->to_mode->skip_sort = true;
             break;
 
         default:

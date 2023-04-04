@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2020 Alexander Borisov
+ * Copyright (C) 2019-2023 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -32,6 +32,7 @@ typedef enum {
     LXB_GRAMMAR_TOKEN_QUESTION,      /* ? */
     LXB_GRAMMAR_TOKEN_HASH,          /* # */
     LXB_GRAMMAR_TOKEN_EXCLUDE_WS,    /* ^WS */
+    LXB_GRAMMAR_TOKEN_EXCLUDE_SORT,  /* ^SORT */
     LXB_GRAMMAR_TOKEN_COUNT,         /* {10} */
     LXB_GRAMMAR_TOKEN_RANGE,         /* {1,2} */
     LXB_GRAMMAR_TOKEN_BAR,           /* | */

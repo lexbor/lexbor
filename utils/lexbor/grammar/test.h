@@ -17,6 +17,7 @@ extern "C" {
 typedef lxb_status_t
 (*utils_lxb_grammar_test_cb_f)(const lxb_char_t *name, size_t name_len,
                                const lxb_char_t *value, size_t value_len,
+                               const lxb_char_t *ordered, size_t ordered_len,
                                bool last, bool bad, void *ctx);
 
 

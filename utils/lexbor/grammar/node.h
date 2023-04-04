@@ -63,6 +63,8 @@ struct lxb_grammar_node {
     lxb_grammar_period_t     multiplier;
     bool                     is_comma;
     bool                     skip_ws;
+    bool                     skip_sort;
+    size_t                   limit;
 
     lxb_grammar_token_t      *token;
     lxb_grammar_document_t   *document;

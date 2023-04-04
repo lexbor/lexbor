@@ -212,8 +212,10 @@ lxb_grammar_tokenizer_state_data(lxb_grammar_tokenizer_t *tkz,
     lexbor_array_t *tokens;
     lxb_grammar_token_t *g_token;
     lxb_grammar_document_t *document;
-    lxb_grammar_token_type_t type;
+    lxb_grammar_token_type_t type, exclude_tupe;
     const lxb_char_t *start;
+
+    static const lexbor_str_t ex_sort = lexbor_str("sort");
 
     document = tkz->html_parser->tree->document;
     tokens = document->dom_document.user;
@@ -337,16 +339,26 @@ lxb_grammar_tokenizer_state_data(lxb_grammar_tokenizer_t *tkz,
             case 0x5E:
                 data++;
 
-                if (data + 2 > end) {
+                if (data + 2 >= end) {
                     goto failed;
                 }
 
-                if (data[0] != 'W' || data[1] != 'S') {
+                if (data[0] == 'W' && data[1] == 'S') {
+                    data += 2;
+                    exclude_tupe = LXB_GRAMMAR_TOKEN_EXCLUDE_WS;
+                }
+                else if (data + 4 <= end
+                         && lexbor_str_data_ncasecmp(data, ex_sort.data,
+                                                     ex_sort.length))
+                {
+                    data += 4;
+                    exclude_tupe = LXB_GRAMMAR_TOKEN_EXCLUDE_SORT;
+                }
+                else {
                     goto failed;
                 }
 
-                g_token = lxb_grammar_token_create(tkz,
-                                                   LXB_GRAMMAR_TOKEN_EXCLUDE_WS);
+                g_token = lxb_grammar_token_create(tkz, exclude_tupe);
                 if (g_token == NULL) {
                     goto failed;
                 }
@@ -356,7 +368,6 @@ lxb_grammar_tokenizer_state_data(lxb_grammar_tokenizer_t *tkz,
                     goto failed;
                 }
 
-                data += 2;
                 break;
 
             /* U+005B LEFT SQUARE BRACKET ([) */
@@ -447,6 +458,12 @@ lxb_grammar_tokenizer_state_data(lxb_grammar_tokenizer_t *tkz,
             case 0x23:
                 g_token = lxb_grammar_token_create(tkz, LXB_GRAMMAR_TOKEN_HASH);
                 if (g_token == NULL) {
+                    goto failed;
+                }
+
+                status = lxb_grammar_tokenizer_data_copy(tkz, data, data + 1,
+                                                         g_token);
+                if (status != LXB_STATUS_OK) {
                     goto failed;
                 }
 
@@ -623,6 +640,10 @@ create_period:
                         {
                             break;
                         }
+                    }
+
+                    if (data < end && *data == '(') {
+                        data++;
                     }
 
                     g_token = lxb_grammar_token_create(tkz,

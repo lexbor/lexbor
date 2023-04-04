@@ -53,6 +53,7 @@ begin(const lxb_char_t *data, size_t len, void *ctx)
 lxb_status_t
 callback(const lxb_char_t *name, size_t name_len,
          const lxb_char_t *value, size_t value_len,
+         const lxb_char_t *ordered, size_t ordered_len,
          bool last, bool bad, void *ctx)
 {
     int err;
@@ -73,7 +74,7 @@ callback(const lxb_char_t *name, size_t name_len,
                   (int) value_len, (const char *) value,
                   ((bad) ? "custom" : "property"),
                   (int) name_len, (const char *) name,
-                  (int) value_len, (const char *) value,
+                  (int) ordered_len, (const char *) ordered,
                   ((last) ? "\n" : ",\n"));
 
     if (err < 0) {

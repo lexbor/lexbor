@@ -98,6 +98,9 @@ lxb_grammar_token_serialize(lxb_grammar_token_t *token,
         case LXB_GRAMMAR_TOKEN_EXCLUDE_WS:
             return func((lxb_char_t *) "^WS", 3, ctx);
 
+        case LXB_GRAMMAR_TOKEN_EXCLUDE_SORT:
+            return func((lxb_char_t *) "^SORT", 5, ctx);
+
         case LXB_GRAMMAR_TOKEN_COUNT:
             status = func((lxb_char_t *) "{", 1, ctx);
             if (status != LXB_STATUS_OK) {
@@ -219,6 +222,9 @@ lxb_grammar_token_name(lxb_grammar_token_t *token, size_t *len)
 
         case LXB_GRAMMAR_TOKEN_EXCLUDE_WS:
             lxb_grammar_token_name_str("EXCLUDE_WS");
+
+        case LXB_GRAMMAR_TOKEN_EXCLUDE_SORT:
+            lxb_grammar_token_name_str("EXCLUDE_SORT");
 
         case LXB_GRAMMAR_TOKEN_COUNT:
             lxb_grammar_token_name_str("COUNT");
