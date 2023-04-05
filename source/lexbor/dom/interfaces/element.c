@@ -140,6 +140,11 @@ lxb_dom_element_qualified_name_set(lxb_dom_element_t *element,
 
     tag_data = lxb_tag_append(element->node.owner_document->tags,
                               element->node.local_name, key, lname_len);
+
+    if (key != lname) {
+        lexbor_free(key);
+    }
+
     if (tag_data == NULL) {
         return LXB_STATUS_ERROR;
     }
