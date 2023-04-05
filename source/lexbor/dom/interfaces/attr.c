@@ -52,6 +52,8 @@ lxb_dom_attr_interface_clone(lxb_dom_document_t *document,
         return NULL;
     }
 
+    new->node.ns = attr->node.ns;
+
     if (document == attr->node.owner_document) {
         new->qualified_name = attr->qualified_name;
     }

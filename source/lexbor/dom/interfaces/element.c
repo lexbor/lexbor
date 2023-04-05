@@ -264,6 +264,8 @@ lxb_dom_element_set_attribute(lxb_dom_element_t *element,
         return NULL;
     }
 
+    attr->node.ns = element->node.ns;
+
     if (element->node.ns == LXB_NS_HTML
         && element->node.owner_document->type == LXB_DOM_DOCUMENT_DTYPE_HTML)
     {
