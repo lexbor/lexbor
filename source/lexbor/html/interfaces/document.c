@@ -664,6 +664,12 @@ lxb_html_document_style_cb(lxb_dom_node_t *node,
 {
     lxb_css_rule_style_t *style = ctx;
 
+    // FIXME: we don't have support for anything other than HTML.
+
+    if (node->ns != LXB_NS_HTML) {
+        return LXB_STATUS_OK;
+    }
+
     return lxb_html_element_style_list_append(lxb_html_interface_element(node),
                                               style->declarations, spec);
 }
@@ -968,7 +974,13 @@ lxb_html_document_event_insert(lxb_dom_node_t *node)
         return LXB_STATUS_OK;
     }
 
-    if (node->local_name == LXB_TAG_STYLE && node->ns == LXB_NS_HTML) {
+    // FIXME: we don't have support for anything other than HTML.
+
+    if (node->ns != LXB_NS_HTML) {
+        return LXB_STATUS_OK;
+    }
+
+    if (node->local_name == LXB_TAG_STYLE) {
         style = lxb_html_interface_style(node);
 
         status = lxb_html_style_element_parse(style);
@@ -997,6 +1009,12 @@ lxb_html_document_event_insert_attribute(lxb_dom_node_t *node)
     if (node->type != LXB_DOM_NODE_TYPE_ATTRIBUTE
         || node->local_name != LXB_DOM_ATTR_STYLE)
     {
+        return LXB_STATUS_OK;
+    }
+
+    // FIXME: we don't have support for anything other than HTML.
+
+    if (node->ns != LXB_NS_HTML) {
         return LXB_STATUS_OK;
     }
 
@@ -1033,7 +1051,13 @@ lxb_html_document_event_remove(lxb_dom_node_t *node)
         return LXB_STATUS_OK;
     }
 
-    if (node->local_name == LXB_TAG_STYLE && node->ns == LXB_NS_HTML) {
+    // FIXME: we don't have support for anything other than HTML.
+
+    if (node->ns != LXB_NS_HTML) {
+        return LXB_STATUS_OK;
+    }
+
+    if (node->local_name == LXB_TAG_STYLE) {
         status = lxb_html_element_style_remove((lxb_html_style_element_t *) node);
         if (status != LXB_STATUS_OK) {
             return status;
@@ -1080,7 +1104,9 @@ lxb_html_document_event_remove_attribute(lxb_dom_node_t *node)
     lxb_html_document_t *doc;
     lxb_html_document_event_ctx_t context;
 
-    if (node->local_name != LXB_DOM_ATTR_STYLE) {
+    // FIXME: we don't have support for anything other than HTML.
+
+    if (node->local_name != LXB_DOM_ATTR_STYLE || node->ns != LXB_NS_HTML) {
         return LXB_STATUS_OK;
     }
 
@@ -1136,6 +1162,12 @@ lxb_html_document_event_destroy(lxb_dom_node_t *node)
         return LXB_STATUS_OK;
     }
 
+    // FIXME: we don't have support for anything other than HTML.
+
+    if (node->ns != LXB_NS_HTML) {
+        return LXB_STATUS_OK;
+    }
+
     el = lxb_html_interface_element(node);
 
     if (el->style == NULL) {
@@ -1178,6 +1210,12 @@ lxb_html_document_event_set_value(lxb_dom_node_t *node,
     if (node->type != LXB_DOM_NODE_TYPE_ATTRIBUTE
         || node->local_name != LXB_DOM_ATTR_STYLE)
     {
+        return LXB_STATUS_OK;
+    }
+
+    // FIXME: we don't have support for anything other than HTML.
+
+    if (node->ns != LXB_NS_HTML) {
         return LXB_STATUS_OK;
     }
 
