@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2020-2022 Alexander Borisov
+ * Copyright (C) 2020-2023 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -17,15 +17,14 @@ extern "C" {
 #include "lexbor/css/syntax/tokenizer.h"
 #include "lexbor/css/selectors/base.h"
 
-#include "lexbor/html/interface.h"
-
 
 struct lxb_css_stylesheet {
     lxb_css_rule_t           *root;
     lxb_css_memory_t         *memory;
 
-    lxb_html_style_element_t *element;
+    void                     *element; /* lxb_html_style_element_t * */
 };
+
 
 LXB_API lxb_css_stylesheet_t *
 lxb_css_stylesheet_destroy(lxb_css_stylesheet_t *sst, bool destroy_memory);
