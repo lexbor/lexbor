@@ -1,6 +1,30 @@
 # Changelog
-
+   
 ## [Unreleased]
+
+## [2.2.0] - 2023-04-06
+### Added
+- Added clone functions for DOM/HTML nodes.
+- CMake: fixed build for Windows.
+- Support overriding default memory functions. (thanks @zyc9012)
+- Parsing CSS StyleSheet. Styles, declarations, properties.
+- HTML: added events (insert, remove, destroy) for elements.
+- Added styles parsing inside the style tag.
+- Added style recalculating for an element when it changes.
+- Added Grammar for generate test for CSS Property.
+- Added examples for Styles, CSS StyleSheet parsing.
+
+### Fixed
+- HTML: fixed text node serialization without parent.
+- HTML: fixed finding/getting title tag for HTML namespace.
+- HTML: fixed adding attributes for foreign elements.
+- Fixed memory leak in examples and tests.
+- Fixed memory leak for qualified name set.
+
+### Changed
+- Minimal CMake version 2.8.12.
+- Completely changed approach to parsing CSS (selectors, properties, styles).
+- Removed XCode project files.
 
 ## [2.1.0] - 2021-08-05
 ### Added
