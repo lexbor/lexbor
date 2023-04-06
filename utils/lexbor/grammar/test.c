@@ -1644,27 +1644,25 @@ utils_lxb_grammar_test_hex(const lxb_grammar_node_t *root,
                            lexbor_array_t *stack,
                            utils_lxb_grammar_entry_t *test)
 {
+    lxb_char_t buf;
     lxb_status_t status;
     utils_lxb_grammar_tree_t *tree;
-
-    static const size_t buf_len = 2;
-    lxb_char_t buf[buf_len];
 
     tree = utils_lxb_grammar_tree_create(false);
     if (tree == NULL) {
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
 
-    buf[0] = '0';
+    buf = '0';
 
-    status = utils_lxb_grammar_tree_append(tree, buf, 1);
+    status = utils_lxb_grammar_tree_append(tree, &buf, 1);
     if (status != LXB_STATUS_OK) {
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
 
-    buf[0] = 'f';
+    buf = 'f';
 
-    status = utils_lxb_grammar_tree_append(tree, buf, 1);
+    status = utils_lxb_grammar_tree_append(tree, &buf, 1);
     if (status != LXB_STATUS_OK) {
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
