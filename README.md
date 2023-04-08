@@ -19,16 +19,28 @@ The `lexbor` project is being developed using the `C` language, without dependen
 * [Tested](https://github.com/lexbor/warc_test) by 200+ million HTML pages with [ASAN](https://clang.llvm.org/docs/AddressSanitizer.html).
 * Two way for parsing HTML: [by Document](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/document_parse.c), [by Parser](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/parse.c).
 * Supports [determining encoding](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/encoding.c) by byte stream.
+* [Parsing CSS Styles](https://github.com/lexbor/lexbor/tree/master/examples/lexbor/styles) in tag attributes and in the `<style>` tag.
 * Fast.
 
 ### CSS Module
 * Full conformance with the [CSS Syntax](https://drafts.csswg.org/css-syntax-3/) module.
-* [Selectors](https://github.com/lexbor/lexbor/tree/master/examples/lexbor/selectors) support.
-* Please, see [roadmap](https://lexbor.com/roadmap/#css) of CSS Modules support.
+* Supports:
+* * [x] [Selectors](https://github.com/lexbor/lexbor/tree/master/examples/lexbor/selectors).
+* * [x] [StyleSheet Tree](https://github.com/lexbor/lexbor/tree/master/examples/lexbor/css) (aka CSSOM).
+* * [x] and so on.
+* Fast.
+
+Supported CSS Properties for StyleSheet/Declarations:
+```
+border, border-bottom, border-left, border-right, border-top, box-sizing, display, height, margin, margin-bottom, margin-left, margin-right, margin-top, max-height, max-width, min-height, min-width, padding, padding-bottom, padding-left, padding-right, padding-top, width
+```
+
+Properties that are unknown to the parser will be created as custom (`lxb_css_property__custom_t`).
+Support for new properties is added regularly.
 
 ### Encoding Module
 * Full conformance with the [Encoding specification](https://encoding.spec.whatwg.org/).
-* Supports`40 encodings` for encode/decode.
+* Supports `40 encodings` for encode/decode.
 * Supports [single](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/encoding/single/from_to.c) and [buffering](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/encoding/buffer/from_to.c) encode/decode.
 * Fast.
 
@@ -39,10 +51,10 @@ The `lexbor` project is being developed using the `C` language, without dependen
 Binaries are available for:
 
 * [CentOS](https://lexbor.com/download/#centos) 6, 7, 8
-* [Debian](https://lexbor.com/download/#debian) 8, 9, 10
-* [Fedora](https://lexbor.com/download/#fedora) 28, 29, 30, 31, 32, 33, 34
+* [Debian](https://lexbor.com/download/#debian) 8, 9, 10, 11
+* [Fedora](https://lexbor.com/download/#fedora) 28, 29, 30, 31, 32, 33, 34, 36, 37
 * [RHEL](https://lexbor.com/download/#rhel) 7, 8
-* [Ubuntu](https://lexbor.com/download/#ubuntu) 14.04, 16.04, 18.04, 18.10, 19.04, 19.10, 20.04, 20.10, 21.04
+* [Ubuntu](https://lexbor.com/download/#ubuntu) 14.04, 16.04, 18.04, 18.10, 19.04, 19.10, 20.04, 20.10, 21.04, 22.04
 
 Currently for `x86_64` architecture.
 If you need any other architecture, please, write to [support@lexbor.com](mailto:support@lexbor.com).
@@ -70,7 +82,7 @@ sudo port install lexbor
 For building and installing Lexbor library from source code, use [CMake](https://cmake.org/) (open-source, cross-platform build system).
 
 ```bash
-cmake . -DLEXBOR_BUILD_TESTS=ON -DLEXBOR_BUILD_EXAMPLES=ON -DLEXBOR_BUILD_SEPARATELY=ON
+cmake . -DLEXBOR_BUILD_TESTS=ON -DLEXBOR_BUILD_EXAMPLES=ON
 make
 make test
 ```
