@@ -21,7 +21,7 @@ typedef enum {
     LXB_DOM_ATTR__UNDEF      = 0x0000,
     LXB_DOM_ATTR_ACTIVE      = 0x0001,
     LXB_DOM_ATTR_ALT         = 0x0002,
-    LXB_DOM_ATTR_CHARSER     = 0x0003,
+    LXB_DOM_ATTR_CHARSET     = 0x0003,
     LXB_DOM_ATTR_CHECKED     = 0x0004,
     LXB_DOM_ATTR_CLASS       = 0x0005,
     LXB_DOM_ATTR_COLOR       = 0x0006,
