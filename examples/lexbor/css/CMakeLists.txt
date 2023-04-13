@@ -12,6 +12,7 @@ set(syntax_tokenizer_from_file_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/css/le
 set(syntax_tokenizer_print_raw_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/css/lexbor.css")
 set(syntax_structure_parse_file_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/css/lexbor.css")
 set(syntax_simple_colorize_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/css/lexbor.css")
+set(StyleSheet_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/css/lexbor.css")
 
 ################
 ## Create executable
