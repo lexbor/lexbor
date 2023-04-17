@@ -78,6 +78,7 @@ typedef struct {
     lxb_css_style_create_f    create;
     lxb_css_style_destroy_f   destroy;
     lxb_css_style_serialize_f serialize;
+    void                      *initial;
 }
 lxb_css_entry_data_t;
 

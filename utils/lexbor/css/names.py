@@ -10,11 +10,11 @@ import LXB
 # CSS StyleSheet entries
 
 at_rules = {
-    "media": {},
-    "namespace": {}
+    "media": {"initial": "NULL"},
+    "namespace": {"initial": "NULL"}
 }
 
-min_max = ["auto", "min-content", "max-content", "_length", "_percentage", "_number", "_angle"]
+min_max = ["min-content", "max-content", "_length", "_percentage", "_number", "_angle"]
 margin_padding = ["auto", "_length", "_percentage"]
 border_values = ["thin", "medium", "thick",
                  "none", "hidden", "dotted", "dashed", "solid", "double",
@@ -66,6 +66,9 @@ color_function = ["rgb", "rgba",
 
 color_values = ["currentcolor", "transparent", "hex"] + color_named + color_system + color_function
 
+length_percentage_0 = "{.type = LXB_CSS_VALUE__LENGTH, .u.length = 0}"
+border_init = "{.style = LXB_CSS_BORDER_NONE, .width = {.type = LXB_CSS_BORDER_MEDIUM}, .color = {.type = LXB_CSS_COLOR_CURRENTCOLOR}}"
+
 styles = {
     "display": {
         "values": [
@@ -84,43 +87,47 @@ styles = {
             "contents", "none",
             # <display-legacy>
             "inline-block", "inline-table", "inline-flex", "inline-grid"
-        ]
+        ],
+        "initial": "&(lxb_css_property_display_t) {.a = LXB_CSS_DISPLAY_INLINE, .b = LXB_CSS_PROPERTY__UNDEF, .c = LXB_CSS_PROPERTY__UNDEF}"
     },
 
     # https://drafts.csswg.org/css-sizing-3/
 
-    "box-sizing": {"values": ["content-box", "border-box"]},
+    "box-sizing": {
+        "values": ["content-box", "border-box"],
+        "initial": "&(lxb_css_property_box_sizing_t) {.type = LXB_CSS_BOX_SIZING_CONTENT_BOX}"
+    },
 
-    "width": {"values": min_max},
-    "height": {"values": min_max},
-    "min-width": {"values": min_max},
-    "min-height": {"values": min_max},
-    "max-width": {"values": min_max},
-    "max-height": {"values": min_max},
+    "width": {"values": ["auto"] + min_max, "initial": "&(lxb_css_property_width_t) {.type = LXB_CSS_WIDTH_AUTO, .u.length = 0}"},
+    "height": {"values": ["auto"] + min_max, "initial": "&(lxb_css_property_height_t) {.type = LXB_CSS_HEIGHT_AUTO, .u.length = 0}"},
+    "min-width": {"values": ["auto"] + min_max, "initial": "&(lxb_css_property_min_width_t) {.type = LXB_CSS_MIN_WIDTH_AUTO, .u.length = 0}"},
+    "min-height": {"values": ["auto"] + min_max, "initial": "&(lxb_css_property_min_height_t) {.type = LXB_CSS_MIN_HEIGHT_AUTO, .u.length = 0}"},
+    "max-width": {"values": ["none"] + min_max, "initial": "&(lxb_css_property_max_width_t) {.type = LXB_CSS_MAX_WIDTH_NONE, .u.length = 0}"},
+    "max-height": {"values": ["none"] + min_max, "initial": "&(lxb_css_property_max_height_t) {.type = LXB_CSS_MAX_HEIGHT_NONE, .u.length = 0}"},
 
     # https://drafts.csswg.org/css-box-3/
 
-    "margin": {"values": margin_padding},
-    "margin-top": {"values": margin_padding},
-    "margin-right": {"values": margin_padding},
-    "margin-bottom": {"values": margin_padding},
-    "margin-left": {"values": margin_padding},
+    "margin": {"values": margin_padding, "initial": "&(lxb_css_property_margin_t) {.top = %s, .right = %s, .bottom = %s, .left = %s}" % (length_percentage_0, length_percentage_0, length_percentage_0, length_percentage_0)},
+    "margin-top": {"values": margin_padding, "initial": "&(lxb_css_property_margin_top_t) " + length_percentage_0},
+    "margin-right": {"values": margin_padding, "initial": "&(lxb_css_property_margin_right_t) " + length_percentage_0},
+    "margin-bottom": {"values": margin_padding, "initial": "&(lxb_css_property_margin_bottom_t) " + length_percentage_0},
+    "margin-left": {"values": margin_padding, "initial": "&(lxb_css_property_margin_left_t) " + length_percentage_0},
 
-    "padding": {"values": margin_padding},
-    "padding-top": {"values": margin_padding},
-    "padding-right": {"values": margin_padding},
-    "padding-bottom": {"values": margin_padding},
-    "padding-left": {"values": margin_padding},
+    "padding": {"values": margin_padding, "initial": "&(lxb_css_property_padding_t) {.top = %s, .right = %s, .bottom = %s, .left = %s}" % (length_percentage_0, length_percentage_0, length_percentage_0, length_percentage_0)},
+    "padding-top": {"values": margin_padding, "initial": "&(lxb_css_property_padding_top_t) " + length_percentage_0},
+    "padding-right": {"values": margin_padding, "initial": "&(lxb_css_property_padding_right_t) " + length_percentage_0},
+    "padding-bottom": {"values": margin_padding, "initial": "&(lxb_css_property_padding_bottom_t) " + length_percentage_0},
+    "padding-left": {"values": margin_padding, "initial": "&(lxb_css_property_padding_left_t) " + length_percentage_0},
 
     # https://drafts.csswg.org/css-backgrounds-3/
 
-    "border": {"values": border_values},
-    "border-top": {"values": border_values},
-    "border-right": {"values": border_values},
-    "border-bottom": {"values": border_values},
-    "border-left": {"values": border_values},
+    "border": {"values": border_values, "initial": "&(lxb_css_property_border_t) " + border_init},
+    "border-top": {"values": border_values, "initial": "&(lxb_css_property_border_top_t) " + border_init},
+    "border-right": {"values": border_values, "initial": "&(lxb_css_property_border_right_t) " + border_init},
+    "border-bottom": {"values": border_values, "initial": "&(lxb_css_property_border_bottom_t) " + border_init},
+    "border-left": {"values": border_values, "initial": "&(lxb_css_property_border_left_t) " + border_init},
 
-    "color": {"values": color_values, "hide": True}
+    "color": {"values": color_values,  "hide": True, "initial": "&(lxb_css_value_color_t) {.type = LXB_CSS_COLOR_CURRENTCOLOR}"}
 }
 
 compiles = [
@@ -212,20 +219,24 @@ class Pseudo:
 
             if name == "_undef":
                 res.append("{{(lxb_char_t *) \"#undef\", 6, {}, {},\n"
-                           "     {}, {}, {}}}".format(
-                               enum_name, func_name, create, destroy, serialize
+                           "     {}, {}, {}, {}}}".format(
+                               enum_name, func_name, create, destroy, serialize,
+                               "(void *) (uintptr_t) " + enum_name
                             ))
                 continue
             elif name == "_custom":
                 res.append("{{(lxb_char_t *) \"#сustom\", 7, {}, {},\n"
-                           "     {}, {}, {}}}".format(
-                               enum_name, func_name, create, destroy, serialize
+                           "     {}, {}, {}, {}}}".format(
+                               enum_name, func_name, create, destroy, serialize,
+                               "(void *) (uintptr_t) " + enum_name
                             ))
                 continue
             elif "hide" not in values[origin] or values[origin]["hide"] == False:
                 res.append("{{(lxb_char_t *) \"{}\", {}, {}, {},\n"
-                           "     {}, {}, {}}}".format(origin, len(name),
-                                enum_name, func_name, create, destroy, serialize
+                           "     {}, {}, {},\n"
+                           "     {}}}".format(origin, len(name),
+                                enum_name, func_name, create, destroy, serialize,
+                                values[origin]["initial"]
                             ))
 
             if "hide" not in values[origin] or values[origin]["hide"] == False:

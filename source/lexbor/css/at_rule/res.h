@@ -21,13 +21,15 @@
 static const lxb_css_entry_data_t lxb_css_at_rule_data[LXB_CSS_AT_RULE__LAST_ENTRY] = 
 {
     {(lxb_char_t *) "#undef", 6, LXB_CSS_AT_RULE__UNDEF, lxb_css_at_rule_state__undef,
-     lxb_css_at_rule__undef_create, lxb_css_at_rule__undef_destroy, lxb_css_at_rule__undef_serialize},
+     lxb_css_at_rule__undef_create, lxb_css_at_rule__undef_destroy, lxb_css_at_rule__undef_serialize, (void *) (uintptr_t) LXB_CSS_AT_RULE__UNDEF},
     {(lxb_char_t *) "#сustom", 7, LXB_CSS_AT_RULE__CUSTOM, lxb_css_at_rule_state__custom,
-     lxb_css_at_rule__custom_create, lxb_css_at_rule__custom_destroy, lxb_css_at_rule__custom_serialize},
+     lxb_css_at_rule__custom_create, lxb_css_at_rule__custom_destroy, lxb_css_at_rule__custom_serialize, (void *) (uintptr_t) LXB_CSS_AT_RULE__CUSTOM},
     {(lxb_char_t *) "media", 5, LXB_CSS_AT_RULE_MEDIA, lxb_css_at_rule_state_media,
-     lxb_css_at_rule_media_create, lxb_css_at_rule_media_destroy, lxb_css_at_rule_media_serialize},
+     lxb_css_at_rule_media_create, lxb_css_at_rule_media_destroy, lxb_css_at_rule_media_serialize,
+     NULL},
     {(lxb_char_t *) "namespace", 9, LXB_CSS_AT_RULE_NAMESPACE, lxb_css_at_rule_state_namespace,
-     lxb_css_at_rule_namespace_create, lxb_css_at_rule_namespace_destroy, lxb_css_at_rule_namespace_serialize}
+     lxb_css_at_rule_namespace_create, lxb_css_at_rule_namespace_destroy, lxb_css_at_rule_namespace_serialize,
+     NULL}
 };
 
 static const lexbor_shs_entry_t lxb_css_at_rule_shs[6] = 
