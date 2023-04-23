@@ -369,6 +369,48 @@ serializer_callback(const lxb_char_t *data, size_t length, void *ctx)
 }
 
 lxb_status_t
+utils_lxb_grammar_append_global(lxb_grammar_parser_t *parser,
+                                lxb_grammar_node_t *to,
+                                lxb_grammar_node_t *global)
+{
+    lxb_grammar_node_t *grp, *node;
+
+    if (global == NULL) {
+        return LXB_STATUS_OK;
+    }
+
+    if (to->combinator == LXB_GRAMMAR_COMBINATOR_ONE_OF) {
+        lxb_grammar_node_insert_before(to->first_child, global);
+        return LXB_STATUS_OK;
+    }
+
+    grp = lxb_grammar_node_create(parser, NULL, LXB_GRAMMAR_NODE_GROUP);
+    if (grp == NULL) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    grp->combinator = to->combinator;
+    grp->first_child = to->first_child;
+    grp->last_child = to->last_child;
+
+    node = grp->first_child;
+
+    while (node != NULL) {
+        node->parent = grp;
+        node = node->next;
+    }
+
+    to->combinator = LXB_GRAMMAR_COMBINATOR_ONE_OF;
+    to->first_child = NULL;
+    to->last_child = NULL;
+
+    lxb_grammar_node_insert_child(to, global);
+    lxb_grammar_node_insert_child(to, grp);
+
+    return LXB_STATUS_OK;
+}
+
+lxb_status_t
 utils_lxb_grammar_test(const lxb_char_t *grammar, const size_t length,
                        lexbor_serialize_cb_f begin,
                        utils_lxb_grammar_test_cb_f cb,
@@ -382,12 +424,13 @@ utils_lxb_grammar_test(const lxb_char_t *grammar, const size_t length,
     lexbor_mraw_t *mraw;
     lexbor_str_t **str, **str_order, name;
     lexbor_array_t *stack;
+    lxb_grammar_node_t *node, *declr, *global, gelement;
     const lxb_tag_data_t *tag_data;
-    const lxb_grammar_node_t *declr;
-    const lxb_tag_data_t *tag_decl;
+    const lxb_tag_data_t *tag_decl, *tag_global;
     utils_lxb_grammar_tree_t *tree;
 
     static const lexbor_str_t lxb_declr = lexbor_str("declarations");
+    static const lexbor_str_t lxb_global = lexbor_str("global");
 
     stack = lexbor_array_create();
     mraw = lexbor_mraw_create();
@@ -458,13 +501,42 @@ utils_lxb_grammar_test(const lxb_char_t *grammar, const size_t length,
         goto done;
     }
 
-    declr = root->first_child;
+    tag_global = lxb_tag_data_by_name(parser->document->dom_document.tags,
+                                      lxb_global.data, lxb_global.length);
 
-    while (declr != NULL && declr->u.node->local_name != tag_decl->tag_id) {
-        declr = declr->next;
+    node = root->first_child;
+    declr = NULL;
+    global = NULL;
+
+    while (node != NULL) {
+        if (tag_global != NULL
+            && tag_global->tag_id == node->u.node->local_name)
+        {
+            global = node;
+        }
+
+        if (tag_decl != NULL
+            && tag_decl->tag_id == node->u.node->local_name)
+        {
+            declr = node;
+        }
+
+        node = node->next;
     }
 
-    declr = declr->next;
+    declr = (declr == NULL) ? root : declr->next;
+
+    if (global != NULL) {
+        memset(&gelement, 0x0, sizeof(lxb_grammar_node_t));
+
+        gelement.type = LXB_GRAMMAR_NODE_ELEMENT;
+        gelement.document = parser->document;
+        gelement.multiplier.start = 1;
+        gelement.multiplier.stop = 1;
+        gelement.u.node = global->u.node;
+
+        global = &gelement;
+    }
 
     while (declr != NULL) {
         tag_data = lxb_tag_data_by_id(declr->u.node->owner_document->tags,
@@ -474,9 +546,18 @@ utils_lxb_grammar_test(const lxb_char_t *grammar, const size_t length,
             goto done;
         }
 
+        status = utils_lxb_grammar_append_global(parser, declr, global);
+        if (status != LXB_STATUS_OK) {
+            goto done;
+        }
+
         tree = utils_lxb_grammar_test_group(root, declr, mraw, stack, 0);
         if (tree == NULL) {
             goto done;
+        }
+
+        if (global != NULL) {
+            lxb_grammar_node_remove(declr->first_child);
         }
 
         status = begin(lexbor_hash_entry_str(&tag_data->entry),
@@ -621,6 +702,7 @@ utils_lxb_grammar_test_group(const lxb_grammar_node_t *root,
 
             case LXB_GRAMMAR_NODE_DELIM:
             case LXB_GRAMMAR_NODE_UNQUOTED:
+            case LXB_GRAMMAR_NODE_STRING:
                 (void) lexbor_str_init(&test->u.str, mraw, node->u.str.length);
                 if (test->u.str.data == NULL) {
                     return NULL;
@@ -1514,6 +1596,7 @@ utils_lxb_grammar_test_defined(const lxb_grammar_node_t *node,
     const lxb_char_t *name;
 
     static const lexbor_str_t number = lexbor_str("number");
+    static const lexbor_str_t integer = lexbor_str("integer");
     static const lexbor_str_t percentage = lexbor_str("percentage");
     static const lexbor_str_t hex = lexbor_str("hex");
 
@@ -1525,6 +1608,11 @@ utils_lxb_grammar_test_defined(const lxb_grammar_node_t *node,
 
     if (number.length == length
         && lexbor_str_data_ncasecmp(number.data, name, length))
+    {
+        return utils_lxb_grammar_test_number(node, stack, test, false);
+    }
+    else if (integer.length == length
+             && lexbor_str_data_ncasecmp(integer.data, name, length))
     {
         return utils_lxb_grammar_test_number(node, stack, test, false);
     }

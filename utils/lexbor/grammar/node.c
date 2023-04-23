@@ -25,7 +25,7 @@ lxb_grammar_node_create(lxb_grammar_parser_t *parser, lxb_grammar_token_t *token
         return NULL;
     }
 
-    node->index = parser->index++;
+    node->index = ++parser->index;
     node->type = type;
     node->token = token;
     node->document = parser->document;

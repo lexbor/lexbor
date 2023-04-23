@@ -360,7 +360,7 @@ lxb_grammar_parser_state_declaration(lxb_grammar_parser_t *parser,
         case LXB_GRAMMAR_TOKEN_NUMBER:
             parser->node = lxb_grammar_node_create(parser, token,
                                                    LXB_GRAMMAR_NODE_NUMBER);
-            goto insert;
+            goto insert_and_mode;
 
         case LXB_GRAMMAR_TOKEN_UNQUOTED:
             parser->node = lxb_grammar_node_create(parser, token,
@@ -371,7 +371,7 @@ lxb_grammar_parser_state_declaration(lxb_grammar_parser_t *parser,
         case LXB_GRAMMAR_TOKEN_DELIM:
             parser->node = lxb_grammar_node_create(parser, token,
                                                    LXB_GRAMMAR_NODE_DELIM);
-            goto insert;
+            goto insert_and_mode;
 
         case LXB_GRAMMAR_TOKEN_STRING:
             parser->node = lxb_grammar_node_create(parser, token,
@@ -392,18 +392,6 @@ lxb_grammar_parser_state_declaration(lxb_grammar_parser_t *parser,
 
             return LXB_STATUS_ERROR;
     }
-
-    return LXB_STATUS_OK;
-
-insert:
-
-    if (parser->node == NULL) {
-        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-    }
-
-    lxb_grammar_node_insert_child(parser->group, parser->node);
-
-    parser->state = lxb_grammar_parser_state_combinator;
 
     return LXB_STATUS_OK;
 
@@ -479,19 +467,21 @@ lxb_grammar_parser_state_combinator(lxb_grammar_parser_t *parser,
 
             break;
 
-        case LXB_GRAMMAR_TOKEN_LEFT_BRACKET:
-        case LXB_GRAMMAR_TOKEN_RIGHT_BRACKET:
-            lxb_grammar_parser_dec_token(parser, 1);
-
-            parser->state = lxb_grammar_parser_state_declaration;
-
-            return LXB_STATUS_OK;
+//        case LXB_GRAMMAR_TOKEN_LEFT_BRACKET:
+//        case LXB_GRAMMAR_TOKEN_RIGHT_BRACKET:
+//            lxb_grammar_parser_dec_token(parser, 1);
+//
+//            parser->state = lxb_grammar_parser_state_declaration;
+//
+//            return LXB_STATUS_OK;
 
         case LXB_GRAMMAR_TOKEN_END_OF_FILE:
             parser->state = lxb_grammar_parser_state_declaration;
 
             return LXB_STATUS_OK;
 
+        case LXB_GRAMMAR_TOKEN_LEFT_BRACKET:
+        case LXB_GRAMMAR_TOKEN_RIGHT_BRACKET:
         default:
             if (parser->group->combinator != LXB_GRAMMAR_COMBINATOR_NORMAL) {
                 status = lxb_grammar_parser_rebuild_groups(parser,

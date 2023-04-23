@@ -8,6 +8,11 @@
 #include <lexbor/core/fs.h>
 
 
+static lxb_char_t *
+convert_string(const lxb_char_t *value, size_t len, size_t *out,
+               lxb_status_t *status);
+
+
 typedef struct {
     FILE   *f;
 
@@ -57,9 +62,33 @@ callback(const lxb_char_t *name, size_t name_len,
          bool last, bool bad, void *ctx)
 {
     int err;
+    const lxb_char_t *c_value, *c_ordered;
+    size_t c_length;
+    lxb_status_t status;
     my_context_t *my = ctx;
 
     my->count++;
+
+    c_value = convert_string(value, value_len, &c_length, &status);
+
+    if (c_value == NULL) {
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+
+        c_value = value;
+        c_ordered = ordered;
+    }
+    else {
+        value_len = c_length;
+
+        c_ordered = convert_string(ordered, ordered_len, &c_length, &status);
+        if (c_ordered == NULL) {
+            return LXB_STATUS_ERROR;
+        }
+
+        ordered_len = c_length;
+    }
 
     err = fprintf(my->f,
                   "    /* "LEXBOR_FORMAT_Z" */\n"
@@ -71,11 +100,16 @@ callback(const lxb_char_t *name, size_t name_len,
                   "    }%s",
                   my->count,
                   (int) name_len, (const char *) name,
-                  (int) value_len, (const char *) value,
+                  (int) value_len, (const char *) c_value,
                   ((bad) ? "custom" : "property"),
                   (int) name_len, (const char *) name,
-                  (int) ordered_len, (const char *) ordered,
+                  (int) ordered_len, (const char *) c_ordered,
                   ((last) ? "\n" : ",\n"));
+
+    if (c_value != value) {
+        lexbor_free((lxb_char_t *) c_value);
+        lexbor_free((lxb_char_t *) c_ordered);
+    }
 
     if (err < 0) {
         return LXB_STATUS_ERROR;
@@ -100,6 +134,63 @@ end(const lxb_char_t *data, size_t len, void *ctx)
     my->count = 0;
 
     return LXB_STATUS_OK;
+}
+
+static lxb_char_t *
+convert_string(const lxb_char_t *value, size_t len, size_t *out,
+               lxb_status_t *status)
+{
+    size_t i = len, count = 0, begin;
+    lxb_char_t *data, *p;
+
+    while (i != 0) {
+        i--;
+
+        if (value[i] == '"') {
+            count += 1;
+        }
+    }
+
+    if (count == 0) {
+        *status = LXB_STATUS_OK;
+        return NULL;
+    }
+
+    *out = len + count;
+
+    data = lexbor_malloc(*out + 1);
+    if (data == NULL) {
+        *status = LXB_STATUS_ERROR;
+        return NULL;
+    }
+
+    i = 0;
+    p = data;
+    begin = 0;
+
+    while (i < len) {
+        if (value[i] == '"') {
+            memcpy(p, &value[begin], i - begin);
+
+            p += i - begin;
+            *p++ = '\\';
+            *p++ = '"';
+
+            begin = i + 1;
+        }
+
+        i += 1;
+    }
+
+    if (begin < i) {
+        memcpy(p, &value[begin], i - begin);
+
+        p += i - begin;
+    }
+
+    *p = '\0';
+
+    return data;
 }
 
 int

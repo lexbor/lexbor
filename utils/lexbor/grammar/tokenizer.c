@@ -339,7 +339,7 @@ lxb_grammar_tokenizer_state_data(lxb_grammar_tokenizer_t *tkz,
             case 0x5E:
                 data++;
 
-                if (data + 2 >= end) {
+                if (data + 2 > end) {
                     goto failed;
                 }
 
