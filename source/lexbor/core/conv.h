@@ -18,6 +18,9 @@ extern "C" {
 LXB_API size_t
 lexbor_conv_float_to_data(double num, lxb_char_t *buf, size_t len);
 
+LXB_API size_t
+lexbor_conv_long_to_data(long num, lxb_char_t *buf, size_t len);
+
 LXB_API double
 lexbor_conv_data_to_double(const lxb_char_t **start, size_t len);
 

@@ -18,12 +18,19 @@ lexbor_conv_float_to_data(double num, lxb_char_t *buf, size_t len)
     return lexbor_dtoa(num, buf, len);
 }
 
+size_t
+lexbor_conv_long_to_data(long num, lxb_char_t *buf, size_t len)
+{
+    return lexbor_dtoa((double) num, buf, len);
+}
+
 double
 lexbor_conv_data_to_double(const lxb_char_t **start, size_t len)
 {
     int exponent, exp, insignf;
     lxb_char_t c, *pos;
-    bool minus;
+    bool minus, ex_minus;
+    double num;
     const lxb_char_t  *e, *p, *last, *end;
     lxb_char_t data[128];
 
@@ -34,6 +41,17 @@ lexbor_conv_data_to_double(const lxb_char_t **start, size_t len)
 
     pos = data;
     last = data + sizeof(data);
+
+    minus = false;
+
+    switch (**start) {
+        case '-':
+            minus = true;
+        case '+':
+            (*start)++;
+        default:
+            break;
+    }
 
     for (p = *start; p < end; p++) {
         /* Values less than '0' become >= 208. */
@@ -75,12 +93,12 @@ lexbor_conv_data_to_double(const lxb_char_t **start, size_t len)
     e = p + 1;
 
     if (e < end && (*p == 'e' || *p == 'E')) {
-        minus = 0;
+        ex_minus = 0;
 
         if (e + 1 < end) {
             if (*e == '-') {
                 e++;
-                minus = 1;
+                ex_minus = 1;
             }
             else if (*e == '+') {
                 e++;
@@ -104,7 +122,7 @@ lexbor_conv_data_to_double(const lxb_char_t **start, size_t len)
                 exp = exp * 10 + c;
             }
 
-            exponent += minus ? -exp : exp;
+            exponent += ex_minus ? -exp : exp;
         }
     }
 
@@ -112,7 +130,13 @@ lexbor_conv_data_to_double(const lxb_char_t **start, size_t len)
 
     exponent += insignf;
 
-    return lexbor_strtod_internal(data, pos - data, exponent);
+    num = lexbor_strtod_internal(data, pos - data, exponent);
+
+    if (minus) {
+        num = -num;
+    }
+
+    return num;
 }
 
 unsigned long
@@ -147,30 +171,42 @@ done:
 long
 lexbor_conv_data_to_long(const lxb_char_t **data, size_t length)
 {
-    const lxb_char_t *p = *data;
-    const lxb_char_t *end = p + length;
+    bool minus;
+    const lxb_char_t *p;
+    const lxb_char_t *end;
     unsigned long n = 0, number = 0;
+
+    minus = false;
+    p = *data;
+    end = p + length;
+
+    switch (*p) {
+        case '-':
+            minus = true;
+        case '+':
+            p++;
+        default:
+            break;
+    }
 
     for (; p < end; p++) {
         if (*p < '0' || *p > '9') {
-            goto done;
+            break;
         }
 
         n = (*p - '0') + number * 10;
 
         if (n > LONG_MAX) {
-            *data = p - 1;
-            return number;
+            p -= 1;
+            break;
         }
 
         number = n;
     }
 
-done:
-
     *data = p;
 
-    return number;
+    return (minus) ? -number : number;
 }
 
 unsigned
