@@ -18,7 +18,7 @@ extern "C" {
 
 
 #define LXB_CSS_VERSION_MAJOR 1
-#define LXB_CSS_VERSION_MINOR 0
+#define LXB_CSS_VERSION_MINOR 1
 #define LXB_CSS_VERSION_PATCH 0
 
 #define LXB_CSS_VERSION_STRING                                                 \
