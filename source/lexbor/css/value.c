@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Alexander Borisov
+ * Copyright (C) 2022-2023 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -16,6 +16,7 @@
 
 
 static const lexbor_str_t lxb_str_ws = lexbor_str(" ");
+static const lexbor_str_t lxb_str_comma = lexbor_str(", ");
 static const lexbor_str_t lxb_str_alpha = lexbor_str(" / ");
 static const lexbor_str_t lxb_str_rp = lexbor_str(")");
 
@@ -121,6 +122,21 @@ lxb_css_value_number_sr(const lxb_css_value_number_t *number,
     return LXB_STATUS_OK;
 }
 
+lxb_status_t
+lxb_css_value_integer_sr(const lxb_css_value_integer_t *integer,
+                         lexbor_serialize_cb_f cb, void *ctx)
+{
+    size_t length;
+    lxb_char_t buf[128];
+    lxb_status_t status;
+
+    /* FIXME: If length != sizeof(buf)? */
+    length = lexbor_conv_long_to_data(integer->num, buf, sizeof(buf));
+
+    lexbor_serialize_write(cb, buf, length, ctx, status);
+
+    return LXB_STATUS_OK;
+}
 
 lxb_status_t
 lxb_css_value_length_percentage_sr(const lxb_css_value_length_percentage_t *lp,
@@ -140,6 +156,22 @@ lxb_css_value_length_percentage_sr(const lxb_css_value_length_percentage_t *lp,
 
         default:
             return lxb_css_value_serialize(lp->type, cb, ctx);
+    }
+
+    return LXB_STATUS_OK;
+}
+
+lxb_status_t
+lxb_css_value_number_length_sr(const lxb_css_value_number_length_t *nl,
+                               lexbor_serialize_cb_f cb, void *ctx)
+{
+    switch (nl->type) {
+        case LXB_CSS_VALUE__LENGTH:
+        case LXB_CSS_VALUE__NUMBER:
+            return lxb_css_value_length_sr(&nl->u.length, cb, ctx);
+
+        default:
+            return lxb_css_value_serialize(nl->type, cb, ctx);
     }
 
     return LXB_STATUS_OK;
@@ -201,6 +233,72 @@ lxb_css_value_percentage_type_sr(const lxb_css_value_percentage_type_t *pt,
 
         default:
             return lxb_css_value_serialize(pt->type, cb, ctx);
+    }
+
+    return LXB_STATUS_OK;
+}
+
+lxb_status_t
+lxb_css_value_number_type_sr(const lxb_css_value_number_type_t *num,
+                             lexbor_serialize_cb_f cb, void *ctx)
+{
+    switch (num->type) {
+        case LXB_CSS_VALUE__NUMBER:
+            return lxb_css_value_number_sr(&num->number, cb, ctx);
+
+        default:
+            return lxb_css_value_serialize(num->type, cb, ctx);
+    }
+
+    return LXB_STATUS_OK;
+}
+
+lxb_status_t
+lxb_css_value_integer_type_sr(const lxb_css_value_integer_type_t *num,
+                              lexbor_serialize_cb_f cb, void *ctx)
+{
+    switch (num->type) {
+        case LXB_CSS_VALUE__INTEGER:
+            return lxb_css_value_integer_sr(&num->integer, cb, ctx);
+
+        default:
+            return lxb_css_value_serialize(num->type, cb, ctx);
+    }
+
+    return LXB_STATUS_OK;
+}
+
+lxb_status_t
+lxb_css_value_length_percentage_type_sr(const lxb_css_value_length_percentage_type_t *lpt,
+                                        lexbor_serialize_cb_f cb, void *ctx)
+{
+    switch (lpt->type) {
+        case LXB_CSS_VALUE__LENGTH:
+            return lxb_css_value_length_percentage_sr(&lpt->length, cb, ctx);
+
+        default:
+            return lxb_css_value_serialize(lpt->type, cb, ctx);
+    }
+
+    return LXB_STATUS_OK;
+}
+
+lxb_status_t
+lxb_css_value_number_length_percentage_type_sr(const lxb_css_value_number_length_percentage_t *nlp,
+                                               lexbor_serialize_cb_f cb, void *ctx)
+{
+    switch (nlp->type) {
+        case LXB_CSS_VALUE__NUMBER:
+            return lxb_css_value_number_sr(&nlp->u.number, cb, ctx);
+
+        case LXB_CSS_VALUE__LENGTH:
+            return lxb_css_value_length_sr(&nlp->u.length, cb, ctx);
+
+        case LXB_CSS_VALUE__PERCENTAGE:
+            return lxb_css_value_percentage_sr(&nlp->u.percentage, cb, ctx);
+
+        default:
+            return lxb_css_value_serialize(nlp->type, cb, ctx);
     }
 
     return LXB_STATUS_OK;
@@ -294,32 +392,36 @@ lxb_css_value_color_hex_sr(const lxb_css_value_color_hex_t *hex,
 
 static lxb_status_t
 lxb_css_value_color_rgb_sr(const lxb_css_value_color_rgba_t *rgb,
-                           lexbor_serialize_cb_f cb, void *ctx)
+                           lexbor_serialize_cb_f cb, void *ctx,
+                           lxb_css_value_type_t type)
 {
     lxb_status_t status;
+    const lexbor_str_t *sep;
     static const lexbor_str_t str_rgb = lexbor_str("rgb(");
     static const lexbor_str_t str_rgba = lexbor_str("rgba(");
 
-    if (rgb->a.type == LXB_CSS_VALUE__UNDEF) {
+    if (type == LXB_CSS_COLOR_RGB) {
         lexbor_serialize_write(cb, str_rgb.data, str_rgb.length, ctx, status);
     }
     else {
         lexbor_serialize_write(cb, str_rgba.data, str_rgba.length, ctx, status);
     }
 
+    sep = (rgb->old) ? &lxb_str_comma : &lxb_str_ws;
+
     status = lxb_css_value_number_percentage_sr(&rgb->r, cb, ctx);
     if (status != LXB_STATUS_OK) {
         return status;
     }
 
-    lexbor_serialize_write(cb, lxb_str_ws.data, lxb_str_ws.length, ctx, status);
+    lexbor_serialize_write(cb, sep->data, sep->length, ctx, status);
 
     status = lxb_css_value_number_percentage_sr(&rgb->g, cb, ctx);
     if (status != LXB_STATUS_OK) {
         return status;
     }
 
-    lexbor_serialize_write(cb, lxb_str_ws.data, lxb_str_ws.length, ctx, status);
+    lexbor_serialize_write(cb, sep->data, sep->length, ctx, status);
 
     status = lxb_css_value_number_percentage_sr(&rgb->b, cb, ctx);
     if (status != LXB_STATUS_OK) {
@@ -330,8 +432,9 @@ lxb_css_value_color_rgb_sr(const lxb_css_value_color_rgba_t *rgb,
         return cb(lxb_str_rp.data, lxb_str_rp.length, ctx);
     }
 
-    lexbor_serialize_write(cb, lxb_str_alpha.data, lxb_str_alpha.length,
-                           ctx, status);
+    sep = (rgb->old) ? &lxb_str_comma : &lxb_str_alpha;
+
+    lexbor_serialize_write(cb, sep->data, sep->length, ctx, status);
 
     status = lxb_css_value_number_percentage_sr(&rgb->a, cb, ctx);
     if (status != LXB_STATUS_OK) {
@@ -347,6 +450,7 @@ lxb_css_value_color_hsl_sr(const lxb_css_value_color_hsla_t *hsl,
                            lxb_css_value_type_t type)
 {
     lxb_status_t status;
+    const lexbor_str_t *sep;
     static const lexbor_str_t str_hsl = lexbor_str("hsl(");
     static const lexbor_str_t str_hsla = lexbor_str("hsla(");
     static const lexbor_str_t str_hwb = lexbor_str("hwb(");
@@ -372,19 +476,21 @@ lxb_css_value_color_hsl_sr(const lxb_css_value_color_hsla_t *hsl,
         return status;
     }
 
+    sep = (hsl->old) ? &lxb_str_comma : &lxb_str_ws;
+
     status = lxb_css_value_hue_sr(&hsl->h, cb, ctx);
     if (status != LXB_STATUS_OK) {
         return status;
     }
 
-    lexbor_serialize_write(cb, lxb_str_ws.data, lxb_str_ws.length, ctx, status);
+    lexbor_serialize_write(cb, sep->data, sep->length, ctx, status);
 
     status = lxb_css_value_percentage_type_sr(&hsl->s, cb, ctx);
     if (status != LXB_STATUS_OK) {
         return status;
     }
 
-    lexbor_serialize_write(cb, lxb_str_ws.data, lxb_str_ws.length, ctx, status);
+    lexbor_serialize_write(cb, sep->data, sep->length, ctx, status);
 
     status = lxb_css_value_percentage_type_sr(&hsl->l, cb, ctx);
     if (status != LXB_STATUS_OK) {
@@ -395,8 +501,9 @@ lxb_css_value_color_hsl_sr(const lxb_css_value_color_hsla_t *hsl,
         return cb(lxb_str_rp.data, lxb_str_rp.length, ctx);
     }
 
-    lexbor_serialize_write(cb, lxb_str_alpha.data, lxb_str_alpha.length,
-                           ctx, status);
+    sep = (hsl->old) ? &lxb_str_comma : &lxb_str_alpha;
+
+    lexbor_serialize_write(cb, sep->data, sep->length, ctx, status);
 
     status = lxb_css_value_number_percentage_sr(&hsl->a, cb, ctx);
     if (status != LXB_STATUS_OK) {
@@ -512,7 +619,7 @@ lxb_css_value_color_lch_sr(const lxb_css_value_color_lch_t *lch,
     }
 
     if (lch->a.type == LXB_CSS_VALUE__UNDEF) {
-        return LXB_STATUS_OK;
+        return cb(lxb_str_rp.data, lxb_str_rp.length, ctx);
     }
 
     lexbor_serialize_write(cb, lxb_str_alpha.data, lxb_str_alpha.length,
@@ -536,7 +643,8 @@ lxb_css_value_color_serialize(const lxb_css_value_color_t *color,
 
         case LXB_CSS_COLOR_RGB:
         case LXB_CSS_COLOR_RGBA:
-            return lxb_css_value_color_rgb_sr(&color->u.rgb, cb, ctx);
+            return lxb_css_value_color_rgb_sr(&color->u.rgb, cb, ctx,
+                                              color->type);
 
         case LXB_CSS_COLOR_HSL:
         case LXB_CSS_COLOR_HSLA:

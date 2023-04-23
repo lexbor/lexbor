@@ -149,6 +149,17 @@ LXB_API void
 lxb_css_syntax_codepoint_to_ascii(lxb_css_syntax_tokenizer_t *tkz,
                                   lxb_codepoint_t cp);
 
+LXB_API lxb_status_t
+lxb_css_syntax_ident_serialize(const lxb_char_t *data, size_t length,
+                               lexbor_serialize_cb_f cb, void *ctx);
+
+LXB_API lxb_status_t
+lxb_css_syntax_string_serialize(const lxb_char_t *data, size_t length,
+                                lexbor_serialize_cb_f cb, void *ctx);
+
+LXB_API lxb_status_t
+lxb_css_syntax_ident_or_string_serialize(const lxb_char_t *data, size_t length,
+                                         lexbor_serialize_cb_f cb, void *ctx);
 
 #ifdef __cplusplus
 } /* extern "C" */

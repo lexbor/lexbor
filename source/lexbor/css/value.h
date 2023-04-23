@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Alexander Borisov
+ * Copyright (C) 2022-2023 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -21,12 +21,17 @@ typedef struct {
 }
 lxb_css_value_number_t;
 
+typedef struct {
+    long num;
+}
+lxb_css_value_integer_t;
+
 typedef lxb_css_value_number_t lxb_css_value_percentage_t;
 
 typedef struct {
     double              num;
-    lxb_css_unit_t      unit;
     bool                is_float;
+    lxb_css_unit_t      unit;
 }
 lxb_css_value_length_t;
 
@@ -45,6 +50,27 @@ typedef struct {
 
     union {
         lxb_css_value_number_t     number;
+        lxb_css_value_length_t     length;
+        lxb_css_value_percentage_t percentage;
+    } u;
+}
+lxb_css_value_number_length_percentage_t;
+
+typedef struct {
+    lxb_css_value_type_t type;
+
+    union {
+        lxb_css_value_number_t number;
+        lxb_css_value_length_t length;
+    } u;
+}
+lxb_css_value_number_length_t;
+
+typedef struct {
+    lxb_css_value_type_t type;
+
+    union {
+        lxb_css_value_number_t     number;
         lxb_css_value_percentage_t percentage;
     } u;
 }
@@ -52,9 +78,15 @@ lxb_css_value_number_percentage_t;
 
 typedef struct {
     lxb_css_value_type_t   type;
-    lxb_css_value_number_t percentage;
+    lxb_css_value_number_t number;
 }
 lxb_css_value_number_type_t;
+
+typedef struct {
+    lxb_css_value_type_t    type;
+    lxb_css_value_integer_t integer;
+}
+lxb_css_value_integer_type_t;
 
 typedef struct {
     lxb_css_value_type_t       type;
@@ -69,11 +101,23 @@ typedef struct {
 lxb_css_value_length_type_t;
 
 typedef struct {
+    lxb_css_value_type_t              type;
+    lxb_css_value_length_percentage_t length;
+}
+lxb_css_value_length_percentage_type_t;
+
+typedef struct {
     double               num;
-    lxb_css_unit_angel_t unit;
     bool                 is_float;
+    lxb_css_unit_angel_t unit;
 }
 lxb_css_value_angle_t;
+
+typedef struct {
+    lxb_css_value_type_t  type;
+    lxb_css_value_angle_t angle;
+}
+lxb_css_value_angle_type_t;
 
 typedef struct {
     lxb_css_value_type_t type;
@@ -119,6 +163,8 @@ typedef struct {
     lxb_css_value_number_percentage_t g;
     lxb_css_value_number_percentage_t b;
     lxb_css_value_number_percentage_t a;
+
+    bool                              old;
 }
 lxb_css_value_color_rgba_t;
 
@@ -127,6 +173,8 @@ typedef struct {
     lxb_css_value_percentage_type_t   s;
     lxb_css_value_percentage_type_t   l;
     lxb_css_value_number_percentage_t a;
+
+    bool                              old;
 }
 lxb_css_value_color_hsla_t;
 
@@ -184,8 +232,16 @@ lxb_css_value_number_sr(const lxb_css_value_number_t *number,
                         lexbor_serialize_cb_f cb, void *ctx);
 
 LXB_API lxb_status_t
+lxb_css_value_integer_sr(const lxb_css_value_integer_t *integer,
+                         lexbor_serialize_cb_f cb, void *ctx);
+
+LXB_API lxb_status_t
 lxb_css_value_length_percentage_sr(const lxb_css_value_length_percentage_t *lp,
                                    lexbor_serialize_cb_f cb, void *ctx);
+
+LXB_API lxb_status_t
+lxb_css_value_number_length_sr(const lxb_css_value_number_length_t *nl,
+                               lexbor_serialize_cb_f cb, void *ctx);
 
 LXB_API lxb_status_t
 lxb_css_value_number_percentage_sr(const lxb_css_value_number_percentage_t *np,
@@ -198,6 +254,22 @@ lxb_css_value_length_type_sr(const lxb_css_value_length_type_t *lt,
 LXB_API lxb_status_t
 lxb_css_value_percentage_type_sr(const lxb_css_value_percentage_type_t *pt,
                                  lexbor_serialize_cb_f cb, void *ctx);
+
+LXB_API lxb_status_t
+lxb_css_value_number_type_sr(const lxb_css_value_number_type_t *num,
+                             lexbor_serialize_cb_f cb, void *ctx);
+
+LXB_API lxb_status_t
+lxb_css_value_integer_type_sr(const lxb_css_value_integer_type_t *num,
+                              lexbor_serialize_cb_f cb, void *ctx);
+
+LXB_API lxb_status_t
+lxb_css_value_length_percentage_type_sr(const lxb_css_value_length_percentage_type_t *lpt,
+                                        lexbor_serialize_cb_f cb, void *ctx);
+
+LXB_API lxb_status_t
+lxb_css_value_number_length_percentage_type_sr(const lxb_css_value_number_length_percentage_t *nlp,
+                                               lexbor_serialize_cb_f cb, void *ctx);
 
 LXB_API lxb_status_t
 lxb_css_value_angle_sr(const lxb_css_value_angle_t *angle,

@@ -6,21 +6,15 @@
 <frequency-units> = Hz | kHz
 <resolution-units> = dpi | dpcm | dppx
 
-<angle> = [<number min=0 max=360> deg^WS] | [<number min=0 max=400> grad^WS] |
+<angle> = [<number min=0 max=360> deg^WS] | [<number min=-100 max=100> grad^WS] |
           [<number min=0 max=2> rad^WS]   | [<number min=0 max=1> turn^WS]
+<angle-90-deg> = [<number min=-90 max=90> deg^WS] | [<number min=-90 max=90> grad^WS] |
+                 [<number min=-90 max=90> rad^WS]   | [<number min=-90 max=90> turn^WS]
 <time> = <number> <time-units>^WS
 <frequency> = <number> <frequency-units>^WS
 <resolution> = <number> <resolution-units>^WS
 <length> = <number> [<relative-units> | <absolute-units>]^WS | 0
 <length-percentage> = <length> | <percentage>
-
-<position> = [
-    [[left | center | right] || [top | center | bottom]] |
-    [[left | center | right | <length-percentage>]
-    [top | center | bottom | <length-percentage>]?] |
-    [[[left | right] <length-percentage>] &&
-    [[top | bottom] <length-percentage>]]
- ]
 
 <display-outside>  = block | inline | run-in
 <display-inside>   = flow | flow-root | table | flex | grid | ruby
@@ -33,15 +27,15 @@
 <display-box>      = contents | none
 <display-legacy>   = inline-block | inline-table | inline-flex | inline-grid
 
-<min-max> = <global> | auto | <length-percentage min=0 max=128> | min-content | max-content
-<padding-value> = <global> | <length-percentage min=0 max=128>
+<min-max> = <length-percentage min=0 max=128> | min-content | max-content
+<padding-value> = <length-percentage min=0 max=128>
 <margin-value> = <padding-value> | auto
 
-<border-values> = <global> | [<line-width> || <line-style> || <color>/1]
+<border-values> = [<line-width> || <line-style> || <color-handler>/1]
 <line-width> = <length min=0 max=128> | thin | medium | thick
 <line-style> = none | hidden | dotted | dashed | solid | double | groove | ridge | inset | outset
 
-<color> = <absolute-color-base> | currentcolor | <system-color>
+<color-handler> = <absolute-color-base> | currentcolor | <system-color>
 <absolute-color-base> = <hex-color> | <absolute-color-function> | <named-color> | transparent
 <absolute-color-function> = <rgb()> | <rgba()> |
                             <hsl()> | <hsla()> | <hwb()> |
@@ -87,55 +81,68 @@
                  | Highlight | HighlightText | SelectedItem | SelectedItemText
                  | Mark | MarkText | GrayText | AccentColor | AccentColorText
 
-<rgb()> = rgb( [<percentage> | none]{3} [ / [<alpha-value> | none] ]? )
-          | rgb( [<number> | none]{3} [ / [<alpha-value> | none] ]? )
-          | rgb( <percentage>#{3} , <alpha-value>? )
-          | rgb( <number>#{3} , <alpha-value>? )
+<rgb()> = rgb( [<percentage> | none]{3}^WS [ / [<alpha-value> | none] ]? )^WS
+          | rgb( [<number> | none]{3}^WS [ / [<alpha-value> | none] ]? )^WS
+          | rgb( <percentage>#{3}^WS [, <alpha-value>]?^WS )^WS
+          | rgb( <number>#{3}^WS [, <alpha-value>]?^WS )^WS
 
-<rgba()> = rgba( [<percentage> | none]{3} [ / [<alpha-value> | none] ]? )
-           | rgba( [<number> | none]{3} [ / [<alpha-value> | none] ]? )
-           | rgba( <percentage>#{3} , <alpha-value>? )
-           | rgba( <number>#{3} , <alpha-value>? )
+<rgba()> = rgba( [<percentage> | none]{3}^WS [ / [<alpha-value> | none] ]? )^WS
+           | rgba( [<number> | none]{3}^WS [ / [<alpha-value> | none] ]? )^WS
+           | rgba( <percentage>#{3}^WS [, <alpha-value>]?^WS )^WS
+           | rgba( <number>#{3}^WS [, <alpha-value>]?^WS )^WS
 
-<hsl()> = hsl( [<hue> | none] [<percentage> | none] [<percentage> | none] [ / [<alpha-value> | none] ]? )
-          | hsl( <hue>, <percentage>, <percentage>, <alpha-value>? )
+<hsl()> = hsl( [<hue> | none]^WS [<percentage> | none] [<percentage> | none] [ / [<alpha-value> | none] ]? )^WS
+          | hsl( <hue>^WS,^WS <percentage>,^WS <percentage> [, <alpha-value>]?^WS )^WS
 
-<hsla()> = hsla( [<hue> | none] [<percentage> | none] [<percentage> | none] [ / [<alpha-value> | none] ]? )
-           | hsla( <hue>, <percentage>, <percentage>, <alpha-value>? )
+<hsla()> = hsla( [<hue> | none]^WS [<percentage> | none] [<percentage> | none] [ / [<alpha-value> | none] ]? )^WS
+           | hsla( <hue>^WS,^WS <percentage>,^WS <percentage> [, <alpha-value>]?^WS )^WS
 
-<hwb()> = hwb( [<hue> | none] [<percentage> | none] [<percentage> | none] [ / [<alpha-value> | none] ]? )
+<hwb()> = hwb( [<hue> | none]^WS [<percentage> | none] [<percentage> | none] [ / [<alpha-value> | none] ]? )^WS
 
-<lab()> = lab( [<percentage> | <number> | none]
+<lab()> = lab( [<percentage> | <number> | none]^WS
                [ <percentage> | <number> | none]
                [ <percentage> | <number> | none]
-               [ / [<alpha-value> | none] ]? )
+               [ / [<alpha-value> | none] ]? )^WS
 
-<lch()> = lch( [<percentage> | <number> | none]
+<lch()> = lch( [<percentage> | <number> | none]^WS
                [ <percentage> | <number> | none]
                [ <hue> | none]
-               [ / [<alpha-value> | none] ]? )
+               [ / [<alpha-value> | none] ]? )^WS
 
-<oklab()> = oklab( [ <percentage> | <number> | none]
+<oklab()> = oklab( [ <percentage> | <number> | none]^WS
                    [ <percentage> | <number> | none]
                    [ <percentage> | <number> | none]
-                   [ / [<alpha-value> | none] ]? )
+                   [ / [<alpha-value> | none] ]? )^WS
 
-<oklch()> = oklch( [ <percentage> | <number> | none]
+<oklch()> = oklch( [ <percentage> | <number> | none]^WS
                    [ <percentage> | <number> | none]
                    [ <hue> | none]
-                   [ / [<alpha-value> | none] ]? )
+                   [ / [<alpha-value> | none] ]? )^WS
+
+<generic-family> = serif || sans-serif || cursive || fantasy || monospace || system-ui 
+                   || emoji || math || fangsong || ui-serif || ui-sans-serif || ui-monospace || ui-rounded
+<font-weight-absolute> = normal | bold | <number min=1 max=1000>
+<absolute-size> = xx-small | x-small | small | medium | large | x-large | xx-large | xxx-large
+<relative-size> = larger | smaller
+
+<snap-block()> = snap-block( <length>^WS[, [start | end | near]]?^WS )^WS
+<snap-inline()> = snap-inline( <length>^WS[, [left | right | near]]?^WS )^WS
 
 <declarations> = 1
 
-<box-sizing> = <global> | content-box | border-box
+<box-sizing> = content-box | border-box
+
 <display> = [[ <display-outside> || <display-inside> ] 
             | <display-listitem> | <display-internal> | <display-box> | <display-legacy>]^SORT
-<width> = <min-max>
-<height> = <min-max>
-<min-width> = <min-max>
-<min-height> = <min-max>
-<max-width> = <min-max>
-<max-height> = <min-max>
+<order> = <integer>
+<visibility> = visible | hidden | collapse
+
+<width> = auto | <min-max>
+<height> = auto | <min-max>
+<min-width> = auto | <min-max>
+<min-height> = auto | <min-max>
+<max-width> = none | <min-max>
+<max-height> = none | <min-max>
 
 <margin> = <margin-value>{1,4}
 <margin-top> = <margin-value>
@@ -154,3 +161,96 @@
 <border-right> = <border-values>
 <border-bottom> = <border-values>
 <border-left> = <border-values>
+
+<border-top-color> = <color>
+<border-right-color> = <color>
+<border-bottom-color> = <color>
+<border-left-color> = <color>
+
+<background-color> = <color>
+
+<color> = <color-handler>
+
+<position> = static | relative | absolute | sticky | fixed
+<top> = auto | <length-percentage>
+<right> = <top>
+<bottom> = <top>
+<left> = <top>
+<inset-block-start> = <top>
+<inset-inline-start> = <top>
+<inset-block-end> = <top>
+<inset-inline-end> = <top>
+
+<text-transform> = none | [capitalize | uppercase | lowercase] || full-width || full-size-kana
+<text-align> = start | end | left | right | center | justify | match-parent | justify-all
+<text-align-all> = start | end | left | right | center | justify | match-parent
+<text-align-last> = auto | start | end | left | right | center | justify | match-parent
+<text-justify> = auto | none | inter-word | inter-character
+<text-indent> = <length-percentage> && hanging? && each-line?
+<white-space> = normal | pre | nowrap | pre-wrap | break-spaces | pre-line
+<tab-size> = <number> | <length>
+<word-break> = normal | keep-all | break-all | break-word
+<line-break> = auto | loose | normal | strict | anywhere
+<hyphens> = none | manual | auto
+<overflow-wrap> = normal | break-word | anywhere
+<word-wrap> = <overflow-wrap>
+<word-spacing> = normal | <length>
+<letter-spacing> = normal | <length>
+<hanging-punctuation> = none | [ first || [force-end | allow-end] || last ]
+
+<!--
+    <font-family> = [<family-name> | <generic-family>]#
+    
+    <family-name> it's random string token.
+    <generic-family> it's a combinatorial bomb.
+
+    For this reason, we will specify the values for the tests ourselves.
+-->
+
+<font-family> = [serif,^WS sans-serif,^WS '"Verdana HAHA"',^WS cursive,^WS Helvetica]#
+<font-weight> = <font-weight-absolute> | bolder | lighter
+<font-stretch> = normal | <percentage min=0> | ultra-condensed | extra-condensed 
+                 | condensed | semi-condensed | semi-expanded | expanded | extra-expanded 
+                 | ultra-expanded
+<font-style> = normal | italic | oblique <angle-90-deg>?
+<font-size> = <absolute-size> | <relative-size> | <length-percentage min=0> | math
+
+<float-reference> = inline | column | region | page
+<float> = block-start | block-end | inline-start | inline-end | snap-block
+          | <snap-block()> | snap-inline | <snap-inline()> | left | right | top | bottom | none
+<clear> = inline-start | inline-end | block-start | block-end | left | right | top | bottom | none
+<float-defer> = <integer> | last | none
+<float-offset> = <length> | <percentage>
+
+<wrap-flow> = auto | both | start | end | minimum | maximum | clear
+<wrap-through> = wrap | none
+
+<flex-direction> = row | row-reverse | column | column-reverse
+<flex-wrap> = nowrap | wrap | wrap-reverse
+<flex-flow> = <flex-direction> || <flex-wrap>
+<flex> = none | [ <flex-grow> <flex-shrink>? || <flex-basis> ]
+<flex-grow> = <number min=0>
+<flex-shrink> = <number min=0>
+<flex-basis> = content | <width>
+<justify-content> = flex-start | flex-end | center | space-between | space-around
+<align-items> = flex-start | flex-end | center | baseline | stretch
+<align-self> = auto | flex-start | flex-end | center | baseline | stretch
+<align-content> = flex-start | flex-end | center | space-between | space-around | stretch
+
+<z-index> = auto | <integer>
+<direction> = ltr | rtl
+<unicode-bidi> = normal | embed | isolate | bidi-override | isolate-override | plaintext
+<writing-mode> = horizontal-tb | vertical-rl | vertical-lr | sideways-rl | sideways-lr
+<text-orientation> = mixed | upright | sideways
+<text-combine-upright> = none | all | [ digits [2 | 4]? ]
+
+<overflow-x> = visible | hidden | clip | scroll | auto
+<overflow-y> = <overflow-x>
+<overflow-block> = <overflow-x>
+<overflow-inline> = <overflow-x>
+<text-overflow> = clip | ellipsis
+
+<text-decoration-line> = none | [ underline || overline || line-through || blink ]
+<text-decoration-style> = solid | double | dotted | dashed | wavy
+<text-decoration-color> = <color>
+<text-decoration> = <text-decoration-line> || <text-decoration-style> || <text-decoration-color>/1

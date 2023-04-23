@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2022 Alexander Borisov
+ * Copyright (C) 2018-2023 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -9,8 +9,17 @@
 
 #include "lexbor/core/str.h"
 
+#define LEXBOR_STR_RES_MAP_HEX
+#define LEXBOR_STR_RES_MAP_HEX_TO_CHAR_LOWERCASE
+#define LEXBOR_STR_RES_CHAR_TO_TWO_HEX_VALUE_LOWERCASE
 #define LEXBOR_STR_RES_ANSI_REPLACEMENT_CHARACTER
 #include "lexbor/core/str_res.h"
+
+#define LXB_CSS_SYNTAX_RES_NAME_MAP
+#include "lexbor/css/syntax/res.h"
+
+
+static const lexbor_str_t lxb_str_ws = lexbor_str(" ");
 
 
 lxb_status_t
@@ -129,4 +138,141 @@ lxb_css_syntax_codepoint_to_ascii(lxb_css_syntax_tokenizer_t *tkz,
     }
 
     *tkz->pos = '\0';
+}
+
+lxb_status_t
+lxb_css_syntax_ident_serialize(const lxb_char_t *data, size_t length,
+                               lexbor_serialize_cb_f cb, void *ctx)
+{
+    lxb_char_t ch;
+    lxb_status_t status;
+    const char **hex_map;
+    const lxb_char_t *p = data, *end;
+
+    static const lexbor_str_t str_s = lexbor_str("\\");
+
+    p = data;
+    end = data + length;
+    hex_map = lexbor_str_res_char_to_two_hex_value_lowercase;
+
+    while (p < end) {
+        ch = *p;
+
+        if (lxb_css_syntax_res_name_map[ch] == 0x00) {
+            lexbor_serialize_write(cb, data, p - data, ctx, status);
+            lexbor_serialize_write(cb, str_s.data, str_s.length, ctx, status);
+            lexbor_serialize_write(cb, hex_map[ch], 2, ctx, status);
+
+            data = ++p;
+
+            if (p < end && lexbor_str_res_map_hex[*p] != 0xff) {
+                lexbor_serialize_write(cb, lxb_str_ws.data,
+                                       lxb_str_ws.length, ctx, status);
+            }
+
+            continue;
+        }
+
+        p++;
+    }
+
+    if (data < p) {
+        lexbor_serialize_write(cb, data, p - data, ctx, status);
+    }
+
+    return LXB_STATUS_OK;
+}
+
+lxb_status_t
+lxb_css_syntax_string_serialize(const lxb_char_t *data, size_t length,
+                                lexbor_serialize_cb_f cb, void *ctx)
+{
+    lxb_char_t ch;
+    lxb_status_t status;
+    const char **hex_map;
+    const lxb_char_t *p, *end;
+
+    static const lexbor_str_t str_s = lexbor_str("\\");
+    static const lexbor_str_t str_dk = lexbor_str("\"");
+    static const lexbor_str_t str_ds = lexbor_str("\\\\");
+    static const lexbor_str_t str_dks = lexbor_str("\\\"");
+
+    p = data;
+    end = data + length;
+    hex_map = lexbor_str_res_char_to_two_hex_value_lowercase;
+
+    lexbor_serialize_write(cb, str_dk.data, str_dk.length, ctx, status);
+
+    while (p < end) {
+        ch = *p;
+
+        if (lxb_css_syntax_res_name_map[ch] == 0x00) {
+            switch (ch) {
+                case '\\':
+                    lexbor_serialize_write(cb, data, p - data, ctx, status);
+                    lexbor_serialize_write(cb, str_ds.data, str_ds.length,
+                                           ctx, status);
+                    break;
+
+                case '"':
+                    lexbor_serialize_write(cb, data, p - data, ctx, status);
+                    lexbor_serialize_write(cb, str_dks.data, str_dks.length,
+                                           ctx, status);
+                    break;
+
+                case '\n':
+                case '\t':
+                case '\r':
+                    lexbor_serialize_write(cb, data, p - data, ctx, status);
+                    lexbor_serialize_write(cb, str_s.data, str_s.length,
+                                           ctx, status);
+                    lexbor_serialize_write(cb, hex_map[ch], 2, ctx, status);
+
+                    p++;
+
+                    if (p < end && lexbor_str_res_map_hex[*p] != 0xff) {
+                        lexbor_serialize_write(cb, lxb_str_ws.data,
+                                               lxb_str_ws.length, ctx, status);
+                    }
+
+                    data = p;
+                    continue;
+
+                default:
+                    p++;
+                    continue;
+            }
+
+            data = ++p;
+            continue;
+        }
+
+        p++;
+    }
+
+    if (data < p) {
+        lexbor_serialize_write(cb, data, p - data, ctx, status);
+    }
+
+    lexbor_serialize_write(cb, str_dk.data, str_dk.length, ctx, status);
+
+    return LXB_STATUS_OK;
+}
+
+lxb_status_t
+lxb_css_syntax_ident_or_string_serialize(const lxb_char_t *data, size_t length,
+                                         lexbor_serialize_cb_f cb, void *ctx)
+{
+    const lxb_char_t *p, *end;
+
+    p = data;
+    end = data + length;
+
+    while (p < end) {
+        if (lxb_css_syntax_res_name_map[*p++] == 0x00) {
+            return lxb_css_syntax_string_serialize(data, length, cb, ctx);
+        }
+    }
+
+    return cb(data, length, ctx);
 }

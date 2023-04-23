@@ -339,7 +339,7 @@ lxb_css_syntax_anb_state_ident_data(lxb_css_parser_t *parser,
         p = data;
         anb->b = -lexbor_conv_data_to_long(&data, end - data);
 
-        if (data == p || data < end) {
+        if (anb->b > 0 || data == p || data < end) {
             return LXB_STATUS_ERROR_UNEXPECTED_DATA;
         }
 
