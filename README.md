@@ -32,7 +32,24 @@ The `lexbor` project is being developed using the `C` language, without dependen
 
 Supported CSS Properties for StyleSheet/Declarations:
 ```
-border, border-bottom, border-left, border-right, border-top, box-sizing, display, height, margin, margin-bottom, margin-left, margin-right, margin-top, max-height, max-width, min-height, min-width, padding, padding-bottom, padding-left, padding-right, padding-top, width
+align-content, align-items, align-self, alignment-baseline, background-color,
+baseline-shift, baseline-source, border, border-bottom, border-bottom-color,
+border-left, border-left-color, border-right, border-right-color, border-top,
+border-top-color, bottom, box-sizing, clear, color, direction, display,
+dominant-baseline, flex, flex-basis, flex-direction, flex-flow, flex-grow,
+flex-shrink, flex-wrap, float, float-defer, float-offset, float-reference,
+font-family, font-size, font-stretch, font-style, font-weight,
+hanging-punctuation, height, hyphens, inset-block-end, inset-block-start,
+inset-inline-end, inset-inline-start, justify-content, left, letter-spacing,
+line-break, line-height, margin, margin-bottom, margin-left, margin-right,
+margin-top, max-height, max-width, min-height, min-width, opacity, order,
+overflow-block, overflow-inline, overflow-wrap, overflow-x, overflow-y,
+padding, padding-bottom, padding-left, padding-right, padding-top, position,
+right, tab-size, text-align, text-align-all, text-align-last, text-combine-upright,
+text-decoration, text-decoration-color, text-decoration-line, text-decoration-style,
+text-indent, text-justify, text-orientation, text-overflow, text-transform, top,
+unicode-bidi, vertical-align, visibility, white-space, width, word-break,
+word-spacing, word-wrap, wrap-flow, wrap-through, writing-mode, z-index
 ```
 
 Properties that are unknown to the parser will be created as custom (`lxb_css_property__custom_t`).
