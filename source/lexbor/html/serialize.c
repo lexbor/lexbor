@@ -255,7 +255,7 @@ lxb_html_serialize_node_cb(lxb_dom_node_t *node,
             return status;
         }
 
-        if (node->local_name == LXB_TAG_TEMPLATE) {
+        if (lxb_html_tree_node_is(node, LXB_TAG_TEMPLATE)) {
             lxb_html_template_element_t *temp;
 
             temp = lxb_html_interface_template(node);
