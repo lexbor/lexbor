@@ -157,6 +157,22 @@ lxb_html_element_style_node_by_name(lxb_html_element_t *element,
                                                        element->style, id);
 }
 
+const void *
+lxb_html_element_css_property_by_id(lxb_html_element_t *element, uintptr_t id)
+{
+    lxb_css_rule_declaration_t *declr;
+    const lxb_html_style_node_t *node;
+
+    node = lxb_html_element_style_node_by_id(element, id);
+    if (node == NULL) {
+        return lxb_css_property_initial_by_id(id);
+    }
+
+    declr = node->entry.value;
+
+    return declr->u.user;
+}
+
 lxb_status_t
 lxb_html_element_style_walk(lxb_html_element_t *element,
                             lxb_html_element_style_cb_f cb, void *ctx,

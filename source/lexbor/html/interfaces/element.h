@@ -63,6 +63,9 @@ LXB_API const lxb_html_style_node_t *
 lxb_html_element_style_node_by_name(lxb_html_element_t *element,
                                     const lxb_char_t *name, size_t size);
 
+LXB_API const void *
+lxb_html_element_css_property_by_id(lxb_html_element_t *element, uintptr_t id);
+
 LXB_API lxb_status_t
 lxb_html_element_style_walk(lxb_html_element_t *element,
                             lxb_html_element_style_cb_f cb, void *ctx,
