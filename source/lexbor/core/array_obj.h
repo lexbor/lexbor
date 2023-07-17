@@ -67,7 +67,7 @@ lexbor_array_obj_erase(lexbor_array_obj_t *array)
 }
 
 lxb_inline void *
-lexbor_array_obj_get(lexbor_array_obj_t *array, size_t idx)
+lexbor_array_obj_get(const lexbor_array_obj_t *array, size_t idx)
 {
     if (idx >= array->length) {
         return NULL;
