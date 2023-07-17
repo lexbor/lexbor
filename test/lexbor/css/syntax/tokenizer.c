@@ -4,6 +4,8 @@
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
+#include <inttypes.h>
+
 #include <lexbor/core/fs.h>
 #include <lexbor/core/array.h>
 
@@ -521,10 +523,10 @@ check_token(helper_t *helper, unit_kv_value_t *entry,
 
     length = lxb_css_syntax_token_base(token)->length;
 
-    if (unit_kv_number(value)->value.l != length) {
+    if (unit_kv_number(value)->value.i != length) {
         TEST_PRINTLN("Token length not match. \nHave:\n"
-                     LEXBOR_FORMAT_Z"\nNeed:\n%ld",
-                     length, unit_kv_number(value)->value.l);
+                     LEXBOR_FORMAT_Z"\nNeed:\n%"PRId64,
+                     length, unit_kv_number(value)->value.i);
 
         return print_error(helper, value);
     }

@@ -63,8 +63,8 @@ typedef struct {
     bool is_float;
 
     union {
-        double f;
-        long   l;
+        double  f;
+        int64_t i;
     }
     value;
 }
@@ -131,7 +131,7 @@ struct unit_kv {
     unsigned int       num;
 
     bool               num_negative;
-    int                num_digits;
+    int64_t            num_digits;
     int                num_decimals;
     int                num_exponent;
 

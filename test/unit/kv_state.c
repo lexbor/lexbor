@@ -1024,7 +1024,7 @@ unit_kv_state_number_null(unit_kv_t *kv,
     }
 
     kv->token->value.num.is_float = false;
-    kv->token->value.num.value.l = 0L;
+    kv->token->value.num.value.i = 0;
 
     kv->token->type = UNIT_KV_TOKEN_TYPE_NUMBER;
     unit_kv_token_done_m(kv, data, end);
@@ -1186,10 +1186,10 @@ unit_kv_state_number_digit(unit_kv_t *kv,
             kv->token->value.num.is_float = false;
 
             if (kv->num_negative) {
-                kv->token->value.num.value.l = -kv->num_digits;
+                kv->token->value.num.value.i = -kv->num_digits;
             }
             else {
-                kv->token->value.num.value.l = kv->num_digits;
+                kv->token->value.num.value.i = kv->num_digits;
             }
 
             kv->state = unit_kv_state_number_null_dot_digit_e;
@@ -1199,10 +1199,10 @@ unit_kv_state_number_digit(unit_kv_t *kv,
             kv->token->value.num.is_float = false;
 
             if (kv->num_negative) {
-                kv->token->value.num.value.l = -kv->num_digits;
+                kv->token->value.num.value.i = -kv->num_digits;
             }
             else {
-                kv->token->value.num.value.l = kv->num_digits;
+                kv->token->value.num.value.i = kv->num_digits;
             }
 
             kv->token->type = UNIT_KV_TOKEN_TYPE_NUMBER;
