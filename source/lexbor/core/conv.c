@@ -21,7 +21,69 @@ lexbor_conv_float_to_data(double num, lxb_char_t *buf, size_t len)
 size_t
 lexbor_conv_long_to_data(long num, lxb_char_t *buf, size_t len)
 {
-    return lexbor_dtoa((double) num, buf, len);
+    return lexbor_conv_int64_to_data((int64_t) num, buf, len);
+}
+
+size_t
+lexbor_conv_int64_to_data(int64_t num, lxb_char_t *buf, size_t len)
+{
+    int64_t tmp;
+    size_t have_minus, i, length;
+
+    static const lxb_char_t *digits = (const lxb_char_t *) "0123456789";
+
+    if (num != 0) {
+        tmp = num;
+        length = 0;
+        have_minus = 0;
+
+        if (num < 0) {
+            length = 1;
+            num -= num;
+            have_minus = 1;
+        }
+
+        while (tmp != 0) {
+            length += 1;
+            tmp /= 10;
+        }
+
+        /* length += (size_t) floor(log10(labs((long) num))) + 1; */
+    }
+    else {
+        if (len > 0) {
+            buf[0] = '0';
+            return 1;
+        }
+
+        return 0;
+    }
+
+    if (len < length) {
+        i = (length + have_minus) - len;
+
+        while (i != 0) {
+            i -= 1;
+            num /= 10;
+        }
+
+        length = len;
+    }
+
+    if (have_minus) {
+        buf[0] = '-';
+    }
+
+    i = length;
+    buf[length] = '\0';
+
+    while (i != 0) {
+        i -= 1;
+        buf[i] = digits[ num % 10 ];
+        num /= 10;
+    }
+
+    return length;
 }
 
 double
@@ -236,4 +298,45 @@ done:
     *data = p;
 
     return number;
+}
+
+size_t
+lexbor_conv_dec_to_hex(uint32_t number, lxb_char_t *out, size_t length)
+{
+    lxb_char_t c;
+    size_t len;
+    uint32_t tmp;
+
+    static const lxb_char_t map_str[] = "0123456789abcdef";
+
+    if(number != 0) {
+        tmp = number;
+        len = 0;
+
+        while (tmp != 0) {
+            len += 1;
+            tmp /= 16;
+        }
+
+        /* len = (size_t) floor(log10(labs((long) number))) + 1; */
+    }
+    else {
+        if (length > 0) {
+            out[0] = '0';
+            return 1;
+        }
+
+        return 0;
+    }
+
+    length = len - 1;
+
+    while (number != 0) {
+        c = number % 16;
+        number = number / 16;
+
+        out[ length-- ] = map_str[c];
+    }
+
+    return len;
 }
