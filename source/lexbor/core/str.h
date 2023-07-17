@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2023 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -55,6 +55,10 @@ lexbor_str_create(void);
 
 LXB_API lxb_char_t *
 lexbor_str_init(lexbor_str_t *str, lexbor_mraw_t *mraw, size_t size);
+
+LXB_API lxb_char_t *
+lexbor_str_init_append(lexbor_str_t *str, lexbor_mraw_t *mraw,
+                       const lxb_char_t *data, size_t length);
 
 LXB_API void
 lexbor_str_clean(lexbor_str_t *str);

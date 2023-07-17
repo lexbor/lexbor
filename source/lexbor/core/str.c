@@ -35,6 +35,31 @@ lexbor_str_init(lexbor_str_t *str, lexbor_mraw_t *mraw, size_t size)
     return str->data;
 }
 
+lxb_char_t *
+lexbor_str_init_append(lexbor_str_t *str, lexbor_mraw_t *mraw,
+                       const lxb_char_t *data, size_t length)
+{
+    lxb_char_t *p;
+
+    if (str == NULL) {
+        return NULL;
+    }
+
+    p = lexbor_mraw_alloc(mraw, (length + 1));
+    if (p == NULL) {
+        return NULL;
+    }
+
+    memcpy(p, data, length);
+
+    p[length] = '\0';
+
+    str->data = p;
+    str->length = length;
+
+    return p;
+}
+
 void
 lexbor_str_clean(lexbor_str_t *str)
 {
