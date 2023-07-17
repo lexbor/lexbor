@@ -2886,6 +2886,96 @@ failed:
 }
 
 lxb_codepoint_t
+lxb_encoding_decode_valid_utf_8_single(const lxb_char_t **data,
+                                       const lxb_char_t *end)
+{
+    lxb_codepoint_t cp;
+    const lxb_char_t *p = *data;
+
+    if (*p < 0x80){
+        /* 0xxxxxxx */
+
+        if (end - p < 1) {
+            *data = end;
+            return LXB_ENCODING_DECODE_ERROR;
+        }
+
+        cp = (lxb_codepoint_t) *p;
+
+        (*data) += 1;
+    }
+    else if ((*p & 0xe0) == 0xc0) {
+        /* 110xxxxx 10xxxxxx */
+
+        if (end - p < 2) {
+            *data = end;
+            return LXB_ENCODING_DECODE_ERROR;
+        }
+
+        cp  = (p[0] ^ (0xC0 & p[0])) << 6;
+        cp |= (p[1] ^ (0x80 & p[1]));
+
+        (*data) += 2;
+    }
+    else if ((*p & 0xf0) == 0xe0) {
+        /* 1110xxxx 10xxxxxx 10xxxxxx */
+
+        if (end - p < 3) {
+            *data = end;
+            return LXB_ENCODING_DECODE_ERROR;
+        }
+
+        cp  = (p[0] ^ (0xE0 & p[0])) << 12;
+        cp |= (p[1] ^ (0x80 & p[1])) << 6;
+        cp |= (p[2] ^ (0x80 & p[2]));
+
+        (*data) += 3;
+    }
+    else if ((*p & 0xf8) == 0xf0) {
+        /* 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx */
+
+        if (end - p < 4) {
+            *data = end;
+            return LXB_ENCODING_DECODE_ERROR;
+        }
+
+        cp  = (p[0] ^ (0xF0 & p[0])) << 18;
+        cp |= (p[1] ^ (0x80 & p[1])) << 12;
+        cp |= (p[2] ^ (0x80 & p[2])) << 6;
+        cp |= (p[3] ^ (0x80 & p[3]));
+
+        (*data) += 4;
+    }
+    else {
+        (*data)++;
+
+        return LXB_ENCODING_DECODE_ERROR;
+    }
+
+    return cp;
+}
+
+uint8_t
+lxb_encoding_decode_utf_8_length(lxb_char_t data)
+{
+
+    if (data < 0x80){
+        return 1;
+    }
+    else if ((data & 0xe0) == 0xc0) {
+        return 2;
+    }
+    else if ((data & 0xf0) == 0xe0) {
+        return 3;
+    }
+    else if ((data & 0xf8) == 0xf0) {
+        return 4;
+    }
+
+    return 0;
+}
+
+lxb_codepoint_t
 lxb_encoding_decode_gb18030_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
