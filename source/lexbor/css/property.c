@@ -34,6 +34,16 @@ lxb_css_property_by_id(uintptr_t id)
     return &lxb_css_property_data[id];
 }
 
+const void *
+lxb_css_property_initial_by_id(uintptr_t id)
+{
+    if (id >= LXB_CSS_PROPERTY__LAST_ENTRY) {
+        return NULL;
+    }
+
+    return lxb_css_property_data[id].initial;
+}
+
 void *
 lxb_css_property_destroy(lxb_css_memory_t *memory, void *style,
                          lxb_css_property_type_t type, bool self_destroy)

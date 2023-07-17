@@ -406,6 +406,9 @@ lxb_css_property_by_name(const lxb_char_t *name, size_t length);
 LXB_API const lxb_css_entry_data_t *
 lxb_css_property_by_id(uintptr_t id);
 
+LXB_API const void *
+lxb_css_property_initial_by_id(uintptr_t id);
+
 LXB_API void *
 lxb_css_property_destroy(lxb_css_memory_t *memory, void *style,
                          lxb_css_property_type_t type, bool self_destroy);
