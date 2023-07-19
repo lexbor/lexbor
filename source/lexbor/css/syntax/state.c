@@ -2530,7 +2530,7 @@ lxb_css_syntax_state_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t
                  * U+0000 NULL and U+0008 BACKSPACE or
                  * U+000E SHIFT OUT and U+001F INFORMATION SEPARATOR ONE
                  */
-                if ((*data >= 0x00 && *data <= 0x08)
+                if ((*data <= 0x08)
                     || (*data >= 0x0E && *data <= 0x1F))
                 {
                     lxb_css_syntax_tokenizer_error_add(tkz->parse_errors, data,
