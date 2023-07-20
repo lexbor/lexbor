@@ -66,8 +66,9 @@ color_function = ["rgb", "rgba",
 
 color_values = ["currentcolor", "transparent", "hex"] + color_named + color_system + color_function
 
-length_percentage_0 = "{.type = LXB_CSS_VALUE__LENGTH, .u = {.length = 0}}"
-length_percentage_auto = "{.type = LXB_CSS_VALUE_AUTO, .u = {.length = 0}}"
+length_0 = ".u.length = {.num = 0, .is_float = false}"
+length_percentage_0 = "{.type = LXB_CSS_VALUE__LENGTH, %s}" % (length_0)
+length_percentage_auto = "{.type = LXB_CSS_VALUE_AUTO, %s}" % (length_0)
 border_init = "{.style = LXB_CSS_BORDER_NONE, .width = {.type = LXB_CSS_BORDER_MEDIUM}, .color = {.type = LXB_CSS_COLOR_CURRENTCOLOR}}"
 
 styles = {
@@ -104,12 +105,12 @@ styles = {
         "initial": "&(lxb_css_property_box_sizing_t) {.type = LXB_CSS_BOX_SIZING_CONTENT_BOX}"
     },
 
-    "width": {"values": ["auto"] + min_max, "initial": "&(lxb_css_property_width_t) {.type = LXB_CSS_WIDTH_AUTO, .u = {.length = 0}}"},
-    "height": {"values": ["auto"] + min_max, "initial": "&(lxb_css_property_height_t) {.type = LXB_CSS_HEIGHT_AUTO, .u = {.length = 0}}"},
-    "min-width": {"values": ["auto"] + min_max, "initial": "&(lxb_css_property_min_width_t) {.type = LXB_CSS_MIN_WIDTH_AUTO, .u = {.length = 0}}"},
-    "min-height": {"values": ["auto"] + min_max, "initial": "&(lxb_css_property_min_height_t) {.type = LXB_CSS_MIN_HEIGHT_AUTO, .u = {.length = 0}}"},
-    "max-width": {"values": ["none"] + min_max, "initial": "&(lxb_css_property_max_width_t) {.type = LXB_CSS_MAX_WIDTH_NONE, .u = {.length = 0}}"},
-    "max-height": {"values": ["none"] + min_max, "initial": "&(lxb_css_property_max_height_t) {.type = LXB_CSS_MAX_HEIGHT_NONE, .u = {.length = 0}}"},
+    "width": {"values": ["auto"] + min_max, "initial": "&(lxb_css_property_width_t) {.type = LXB_CSS_WIDTH_AUTO, %s}" % (length_0)},
+    "height": {"values": ["auto"] + min_max, "initial": "&(lxb_css_property_height_t) {.type = LXB_CSS_HEIGHT_AUTO, %s}" % (length_0)},
+    "min-width": {"values": ["auto"] + min_max, "initial": "&(lxb_css_property_min_width_t) {.type = LXB_CSS_MIN_WIDTH_AUTO, %s}" % (length_0)},
+    "min-height": {"values": ["auto"] + min_max, "initial": "&(lxb_css_property_min_height_t) {.type = LXB_CSS_MIN_HEIGHT_AUTO, %s}" % (length_0)},
+    "max-width": {"values": ["none"] + min_max, "initial": "&(lxb_css_property_max_width_t) {.type = LXB_CSS_MAX_WIDTH_NONE, %s}" % (length_0)},
+    "max-height": {"values": ["none"] + min_max, "initial": "&(lxb_css_property_max_height_t) {.type = LXB_CSS_MAX_HEIGHT_NONE, %s}" % (length_0)},
 
     # https://drafts.csswg.org/css-box-3/
 
@@ -204,10 +205,10 @@ styles = {
     "flex-direction": {"values": ["row", "row-reverse", "column", "column-reverse"], "initial": "&(lxb_css_property_flex_direction_t) {.type = LXB_CSS_FLEX_DIRECTION_ROW}"},
     "flex-wrap": {"values": ["nowrap", "wrap", "wrap-reverse"], "initial": "&(lxb_css_property_flex_wrap_t) {.type = LXB_CSS_FLEX_WRAP_NOWRAP}"},
     "flex-flow": {"values": [], "initial": "&(lxb_css_property_flex_flow_t) {.type_direction = LXB_CSS_FLEX_DIRECTION_ROW, .wrap = LXB_CSS_FLEX_WRAP_NOWRAP}"},
-    "flex": {"values": ["none"], "initial": "&(lxb_css_property_flex_t) {.type = LXB_CSS_VALUE__UNDEF, .grow = {.type = LXB_CSS_FLEX_GROW__NUMBER, .number = {.num = 0, .is_float = false}}, .shrink = {.type = LXB_CSS_FLEX_SHRINK__NUMBER, .number = {.num = 1, .is_float = false}}, .basis = {.type = LXB_CSS_WIDTH_AUTO, .u = {.length = 0}}}"},
+    "flex": {"values": ["none"], "initial": "&(lxb_css_property_flex_t) {.type = LXB_CSS_VALUE__UNDEF, .grow = {.type = LXB_CSS_FLEX_GROW__NUMBER, .number = {.num = 0, .is_float = false}}, .shrink = {.type = LXB_CSS_FLEX_SHRINK__NUMBER, .number = {.num = 1, .is_float = false}}, .basis = {.type = LXB_CSS_WIDTH_AUTO, %s}}" % (length_0)},
     "flex-grow": {"values": ["_number"], "initial": "&(lxb_css_property_flex_grow_t) {.type = LXB_CSS_FLEX_GROW__NUMBER, .number = {.num = 0, .is_float = false}}"},
     "flex-shrink": {"values": ["_number"], "initial":  "&(lxb_css_property_flex_shrink_t) {.type = LXB_CSS_FLEX_SHRINK__NUMBER, .number = {.num = 1, .is_float = false}}"},
-    "flex-basis": {"values": ["content"], "initial": "&(lxb_css_property_flex_basis_t) {.type = LXB_CSS_WIDTH_AUTO, .u = {.length = 0}}"},
+    "flex-basis": {"values": ["content"], "initial": "&(lxb_css_property_flex_basis_t) {.type = LXB_CSS_WIDTH_AUTO, %s}" % length_0},
     "justify-content": {"values": ["flex-start", "flex-end", "center", "space-between", "space-around"], "initial": "&(lxb_css_property_justify_content_t) {.type = LXB_CSS_JUSTIFY_CONTENT_FLEX_START}"},
     "align-items": {"values": ["flex-start", "flex-end", "center", "baseline", "stretch"], "initial": "&(lxb_css_property_align_items_t) {.type = LXB_CSS_ALIGN_ITEMS_STRETCH}"},
     "align-self": {"values": ["auto", "flex-start", "flex-end", "center", "baseline", "stretch"], "initial": "&(lxb_css_property_align_self_t) {.type = LXB_CSS_ALIGN_SELF_AUTO}"},
