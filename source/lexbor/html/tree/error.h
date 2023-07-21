@@ -97,8 +97,8 @@ lxb_html_tree_error_id_t;
 
 typedef struct {
     lxb_html_tree_error_id_t id;
-    const lxb_char_t *token_begin;
-    const lxb_char_t *token_end;
+    const lxb_char_t         *begin;
+    const lxb_char_t         *end;
 }
 lxb_html_tree_error_t;
 
