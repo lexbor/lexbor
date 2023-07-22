@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 2.8.12...3.27)
 
 IF(CMAKE_VERSION VERSION_LESS "3.0")
     PROJECT("lexbor_grammar")
