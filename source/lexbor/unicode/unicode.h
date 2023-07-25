@@ -56,8 +56,19 @@ enum {
 };
 typedef uint16_t lxb_unicode_quick_type_t;
 
+enum {
+    LXB_UNICODE_IDNA_UNDEF                  = 0x00,
+    LXB_UNICODE_IDNA_DISALLOWED_STD3_VALID  = 0x01,
+    LXB_UNICODE_IDNA_VALID                  = 0x02,
+    LXB_UNICODE_IDNA_MAPPED                 = 0x03,
+    LXB_UNICODE_IDNA_DISALLOWED             = 0x04,
+    LXB_UNICODE_IDNA_DISALLOWED_STD3_MAPPED = 0x05,
+    LXB_UNICODE_IDNA_IGNORED                = 0x06,
+    LXB_UNICODE_IDNA_DEVIATION              = 0x07
+};
+typedef uint8_t lxb_unicode_idna_type_t;
+
 typedef struct lxb_unicode_normalizer lxb_unicode_normalizer_t;
-typedef struct lxb_unicode_table lxb_unicode_table_t;
 typedef struct lxb_unicode_compose_table lxb_unicode_compose_table_t;
 
 typedef struct {
@@ -117,14 +128,9 @@ lxb_unicode_entry_t;
 
 typedef struct {
     const lxb_unicode_entry_t *entry;
-    const lxb_unicode_table_t *table;
+    const lxb_codepoint_t     *idna;
 }
-lxb_unicode_node_t;
-
-struct lxb_unicode_table {
-    uint32_t                 length;
-    const lxb_unicode_node_t *nodes;
-};
+lxb_unicode_data_t;
 
 struct lxb_unicode_normalizer {
     lxb_unicode_de_handler_f   decomposition;
@@ -346,6 +352,9 @@ lxb_unicode_entry(lxb_codepoint_t cp);
 
 LXB_API const lxb_unicode_compose_entry_t *
 lxb_unicode_compose_entry(lxb_codepoint_t first, lxb_codepoint_t second);
+
+LXB_API lxb_unicode_idna_type_t
+lxb_unicode_idna_type(lxb_codepoint_t cp);
 
 
 /*

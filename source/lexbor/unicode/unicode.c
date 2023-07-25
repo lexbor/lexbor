@@ -8,7 +8,48 @@
 #include <inttypes.h>
 
 #include "lexbor/unicode/unicode.h"
-#include "lexbor/unicode/tables.h"
+#include "lexbor/unicode/table_0.h"
+#include "lexbor/unicode/table_1.h"
+#include "lexbor/unicode/table_2.h"
+#include "lexbor/unicode/table_3.h"
+#include "lexbor/unicode/table_4.h"
+#include "lexbor/unicode/table_5.h"
+#include "lexbor/unicode/table_6.h"
+#include "lexbor/unicode/table_7.h"
+#include "lexbor/unicode/table_8.h"
+#include "lexbor/unicode/table_9.h"
+#include "lexbor/unicode/table_10.h"
+#include "lexbor/unicode/table_11.h"
+#include "lexbor/unicode/table_12.h"
+#include "lexbor/unicode/table_13.h"
+#include "lexbor/unicode/table_14.h"
+#include "lexbor/unicode/table_15.h"
+#include "lexbor/unicode/table_16.h"
+#include "lexbor/unicode/table_17.h"
+#include "lexbor/unicode/table_18.h"
+#include "lexbor/unicode/table_19.h"
+#include "lexbor/unicode/table_20.h"
+#include "lexbor/unicode/table_21.h"
+#include "lexbor/unicode/table_22.h"
+#include "lexbor/unicode/table_23.h"
+#include "lexbor/unicode/table_24.h"
+#include "lexbor/unicode/table_25.h"
+#include "lexbor/unicode/table_26.h"
+#include "lexbor/unicode/table_27.h"
+#include "lexbor/unicode/table_28.h"
+#include "lexbor/unicode/table_29.h"
+#include "lexbor/unicode/table_30.h"
+#include "lexbor/unicode/table_31.h"
+#include "lexbor/unicode/table_32.h"
+#include "lexbor/unicode/table_33.h"
+#include "lexbor/unicode/table_34.h"
+#include "lexbor/unicode/table_35.h"
+#include "lexbor/unicode/table_36.h"
+#include "lexbor/unicode/table_37.h"
+#include "lexbor/unicode/table_38.h"
+#include "lexbor/unicode/table_39.h"
+#include "lexbor/unicode/table_compose.h"
+#include "lexbor/unicode/table_idna_types.h"
 #include "lexbor/encoding/encoding.h"
 
 
@@ -27,6 +68,49 @@ static const lxb_codepoint_t lxb_unicode_tl = 0x11C2;
 static const lxb_codepoint_t lxb_unicode_ts = 0x11A7;
 static const lxb_codepoint_t lxb_unicode_vc = lxb_unicode_vl - lxb_unicode_vb + 1;
 static const lxb_codepoint_t lxb_unicode_tc = lxb_unicode_tl - lxb_unicode_ts + 1;
+
+static const lxb_unicode_data_t ** lxb_unicode_tables[] = {
+    lxb_unicode_table_0,
+    lxb_unicode_table_1,
+    lxb_unicode_table_2,
+    lxb_unicode_table_3,
+    lxb_unicode_table_4,
+    lxb_unicode_table_5,
+    lxb_unicode_table_6,
+    lxb_unicode_table_7,
+    lxb_unicode_table_8,
+    lxb_unicode_table_9,
+    lxb_unicode_table_10,
+    lxb_unicode_table_11,
+    lxb_unicode_table_12,
+    lxb_unicode_table_13,
+    lxb_unicode_table_14,
+    lxb_unicode_table_15,
+    lxb_unicode_table_16,
+    lxb_unicode_table_17,
+    lxb_unicode_table_18,
+    lxb_unicode_table_19,
+    lxb_unicode_table_20,
+    lxb_unicode_table_21,
+    lxb_unicode_table_22,
+    lxb_unicode_table_23,
+    lxb_unicode_table_24,
+    lxb_unicode_table_25,
+    lxb_unicode_table_26,
+    lxb_unicode_table_27,
+    lxb_unicode_table_28,
+    lxb_unicode_table_29,
+    lxb_unicode_table_30,
+    lxb_unicode_table_31,
+    lxb_unicode_table_32,
+    lxb_unicode_table_33,
+    lxb_unicode_table_34,
+    lxb_unicode_table_35,
+    lxb_unicode_table_36,
+    lxb_unicode_table_37,
+    lxb_unicode_table_38,
+    lxb_unicode_table_39
+};
 
 
 static void
@@ -665,8 +749,14 @@ lxb_unicode_compatibility_decomposition(lxb_unicode_normalizer_t *uc,
 
         p = *buf;
 
-        p->cp = entry->cp;
-        p->ccc = entry->ccc;
+        if (entry != NULL) {
+            p->cp = entry->cp;
+            p->ccc = entry->ccc;
+        }
+        else {
+            p->cp = cp;
+            p->ccc = 0;
+        }
 
         p += 1;
     }
@@ -735,23 +825,21 @@ lxb_unicode_entry_compose_hangul(lxb_codepoint_t first, lxb_codepoint_t second)
 const lxb_unicode_entry_t *
 lxb_unicode_entry(lxb_codepoint_t cp)
 {
-    size_t idx;
-    const lxb_unicode_node_t *node;
-    const lxb_unicode_table_t *table = &lxb_unicode_map;
+    uint8_t n;
+    const lxb_unicode_data_t *data;
 
-    do {
-        idx = cp % table->length;
-        node = &table->nodes[idx];
-
-        if (node->entry != NULL && node->entry->cp == cp) {
-            return node->entry;
-        }
-
-        table = node->table;
+    if (cp >= 0x2FA1E) {
+        return NULL;
     }
-    while (table != NULL);
 
-    return NULL;
+    n = (uint8_t) (cp / 5000);
+
+    data = lxb_unicode_tables[n][ cp - (n * 5000) ];
+    if (data == NULL) {
+        return NULL;
+    }
+
+    return data->entry;
 }
 
 const lxb_unicode_compose_entry_t *
@@ -775,4 +863,22 @@ lxb_unicode_compose_entry(lxb_codepoint_t first, lxb_codepoint_t second)
     while (table != NULL);
 
     return NULL;
+}
+
+lxb_unicode_idna_type_t
+lxb_unicode_idna_type(lxb_codepoint_t cp)
+{
+    if (cp > LXB_ENCODING_MAX_CODEPOINT) {
+        return LXB_UNICODE_IDNA_UNDEF;
+    }
+
+    if (cp >= 0x323B0) {
+        if (cp < 0xE0100 || cp >= 0xE01EF) {
+            return LXB_UNICODE_IDNA_DISALLOWED;
+        }
+
+        return lxb_unicode_idna_types[cp - (0xE0100 - 0x323B0)];
+    }
+
+    return lxb_unicode_idna_types[cp];
 }

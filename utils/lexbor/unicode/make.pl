@@ -1,26 +1,27 @@
 #!/usr/bin/perl
 
-# usage:
-# make.pl <UnicodeData.txt> <CompositionExclusions.txt> <DerivedNormalizationProps.txt> <save_to_file_path>
+# use:
+# make.pl <UnicodeData.txt> <CompositionExclusions.txt> <DerivedNormalizationProps.txt> <idnaMappingTable.txt> <save_to_file_path>
 
 use utf8;
 use strict;
 
-my $unicode = new Unicode $ARGV[0], $ARGV[1], $ARGV[2];
+my $unicode = new Unicode $ARGV[0], $ARGV[1], $ARGV[2], $ARGV[3];
 
 $unicode->make_quick_check();
+$unicode->composition();
 $unicode->build();
 
-if ($ARGV[3]) {
-    $unicode->save($ARGV[3]);
+if ($ARGV[4]) {
+    $unicode->save($ARGV[4]);
 }
 
 package Unicode;
 
 sub new {
-    my ($class, $filepath, $compose_exc_filepath, $norm_props_filepath) = @_;
+    my ($class, $filepath, $compose_exc_filepath, $norm_props_filepath, $idna_filepath) = @_;
     my ($data, $dec_types, $dec_types_raw, $comp, $decp, $comp_excl);
-    my ($quick, $quick_name, $quick_type);
+    my ($quick, $quick_name, $quick_type, $idna, $idna_map_max);
 
     my $self = {
         decomposition_types     => [],
@@ -30,8 +31,11 @@ sub new {
         composition_excl        => {},
         ccc                     => {},
         quick                   => {},
-        data                    => [],
-        result                  => [],
+        idna                    => {},
+        idna_types              => "",
+        idna_map_max            => 0,
+        data                    => {},
+        result                  => {},
         result_compose          => [],
         _prefix                 => "lxb_unicode"
     };
@@ -120,6 +124,56 @@ sub new {
         die "Failed parse Derived Normalization Props file: $norm_props_filepath";
     }
 
+    $idna = {};
+    $idna_map_max = 0;
+
+    open my $fh, $idna_filepath || die "Failed to open file: $idna_filepath";
+
+    foreach my $line (<$fh>) {
+        if ($line =~ /^\s*#/ || $line =~ /^\s+$/ || $line eq "") {
+            next;
+        }
+
+        $line =~ s/\s*#.*//s;
+
+        my @res;
+        my @items = split /\s*;\s*/, $line;
+
+        push @res, uc $self->lxb_prefix("IDNA", $items[1]);
+
+        if (exists $items[2] && $items[2] ne "") {
+            my @map = split /\s+/, $items[2];
+            push @res, \@map;
+        }
+        else {
+            push @res, [];
+        }
+
+        if (scalar @{$res[-1]} > $idna_map_max) {
+            $idna_map_max = scalar @{$res[-1]};
+        }
+
+        if ($items[0] =~ /^([0-9a-fA-F]+)$/) {
+            $idna->{$1} = \@res;
+        }
+        elsif ($items[0] =~ /^([0-9a-fA-F]+)\.\.([0-9a-fA-F]+)$/) {
+            for my $cp (hex($1)..hex($2)) {
+                $cp = sprintf("%04X", $cp);
+
+                $idna->{$cp} = \@res;
+            }
+        }
+        else {
+            die "Failed to get IDNA Mapping Table entry: $line";
+        }
+    }
+
+    close($fh);
+
+    if (keys %$quick == 0) {
+        die "Failed parse IDNA Mapping Table file: $norm_props_filepath";
+    }
+
     open my $fh, $filepath || die "Failed to open file: $filepath";
 
     # GC = General_Category
@@ -136,7 +190,7 @@ sub new {
 
     $comp = {};
     $decp = {};
-    $data = [];
+    $data = {};
     $dec_types = {};
     $dec_types_raw = {};
 
@@ -178,11 +232,12 @@ sub new {
             $comp->{$id} = [$cp, \@map, exists $comp_excl->{$cp} ? 1 : 0];
         }
 
-        push @$data, [$cp, $name, $GC, $CCC, $BC, $dec, $NTNV,
-                      $BM, $U1N, $ISOC, $SUPPM, $SLOWM, $STITM, $quick->{$cp}];
+        
+        $data->{$cp} = [$cp, $name, $GC, $CCC, $BC, $dec, $NTNV,
+                        $BM, $U1N, $ISOC, $SUPPM, $SLOWM, $STITM, $quick->{$cp}];
 
         if (scalar @map > 0) {
-            $decp->{$cp} = $data->[-1];
+            $decp->{$cp} = $data->{$cp};
         }
     }
 
@@ -190,6 +245,8 @@ sub new {
 
     $self->{data} = $data;
     $self->{quick} = $quick;
+    $self->{idna} = $idna;
+    $self->{idna_map_max} = $idna_map_max;
     $self->{composition} = $comp;
     $self->{composition_excl} = $comp_excl;
     $self->{decomposition} = $decp;
@@ -264,14 +321,10 @@ sub composition {
     $data = [];
 
     foreach my $key (sort {$a <=> $b} keys %$comp) {
-        print "$key:\n";
-
         $cps = $comp->{$key};
 
         $seq = $cps->[1];
         $seq_str = join(", ", @$seq);
-
-        print "    $seq_str -> ", $cps->[0], "\n";
 
         if (exists $dupl->{$seq_str}) {
             die "Found dupl: $seq_str\n";
@@ -353,18 +406,207 @@ sub composition_hash_node {
 
 sub build {
     my $self = shift;
+    my ($data, $cp, $type, $uniq, $map, $len, $idna, $idna_name, $str, $entry);
+    my ($ucode_name, $copy, $name, $pos, $prev, $res, $dec, $idx, $delta);
+    my (@table, @idna_map, @entries, @udata, @idna_types, @types);
 
-    my ($hash, $size) = $self->make_from_array($self->{data}, 1000);
-    $self->make_hash($hash, $size, "map");
+    $data = $self->{data};
+    $idna = $self->{idna};
+    $uniq = {};
+    $res = {};
+    $idx = 1;
+    $copy = {"start" => 0, "str" => ""};
 
-    $unicode->composition();
+    foreach my $id (0x0000..0x10FFFF) {
+        $cp = sprintf("%04X", $id);
+
+        if (exists $idna->{$cp}) {
+            $type = $idna->{$cp}->[0];
+            $map = $idna->{$cp}->[1];
+        }
+        else {
+            die "IDNA code point not exists: $cp\n";
+        }
+
+        if (!exists $uniq->{$type}) {
+            $uniq->{$type} = $idx;
+            $idx += 1;
+        }
+
+        push @idna_types, $uniq->{$type};
+
+        $ucode_name = "NULL";
+        $idna_name = "NULL";
+        $str = undef;
+        $len = scalar @$map;
+
+        if ($len > 0) {
+            $idna_name = $self->lxb_prefix("idna_map", $cp);
+            $str = "0x" . join ", 0x", @$map;
+
+            $str = "static const lxb_codepoint_t $idna_name\[$len\] = {$str};";
+        }
+
+        push @idna_map, $str;
+        $str = undef;
+
+        if (exists $data->{$cp}) {
+            $dec = $data->{$cp}->[5];
+
+            if (scalar @{$dec->{map}} > 0 || $dec->{type} ne "LXB_UNICODE_DECOMPOSITION_TYPE__UNDEF"
+               || $data->{$cp}->[3] > 0)
+            {
+                $ucode_name = $self->lxb_prefix("entry", $cp);
+                ($entry, $str) = $self->make_hash_entry($data->{$cp});
+
+                $str = "$str\n" . "static const lxb_unicode_entry_t $ucode_name = $entry;";
+
+                $ucode_name = "&$ucode_name";
+            }
+        }
+
+        push @entries, $str;
+        $str = undef;
+
+        $name = "NULL";
+
+        if ($ucode_name ne "NULL" || $idna_name ne "NULL") {
+            $name = $self->lxb_prefix("data", $cp);
+            $str = "static const lxb_unicode_data_t $name = {$ucode_name, $idna_name};";
+            $name = "&$name";
+        }
+
+        push @udata, $str;
+        push @table, $name;
+
+        if ($copy->{str} ne $name) {
+            $copy->{start} = $id;
+            $copy->{str} = $name;
+        }
+    }
+
+    $len = 0x10FFFF - $copy->{start};
+
+    if ($len > 500000) {
+        splice @table, $copy->{start};
+        splice @udata, $copy->{start};
+        splice @entries, $copy->{start};
+        splice @idna_map, $copy->{start};
+
+        print "Remove duples: ", $copy->{str}, "\n";
+        print "From ", sprintf("%04X", $copy->{start}), " to $cp; Count: $len\n";
+    }
+
+    my $limit = 5000;
+
+    for (my $id = 0x0000; $id < scalar @table; $id += $limit) {
+        my @ret;
+
+        $pos = int($id / $limit);
+
+        $len = ($id + $limit > scalar @table) ? scalar @table - $id: $limit;
+        $name = $self->lxb_prefix("table", $pos);
+
+        $delta = ($id + $len) - 1;
+
+        $str = "    " . join ",\n    ", @table[$id...$delta];
+        $str = "static const lxb_unicode_data_t *$name\[$len\] = {\n$str\n};";
+
+        if ($pos == 111) {
+            print join("\n", @udata[$id...$delta]), "\n";
+        }
+
+        push @ret, grep {$_ ne undef} @idna_map[$id...$delta];
+        push @ret, grep {$_ ne undef} @entries[$id...$delta];
+        push @ret, grep {$_ ne undef} @udata[$id...$delta];
+        push @ret, $str;
+
+        $self->{result}->{$pos} = \@ret;
+    }
+
+    $prev = 0;
+    $idx = 0;
+
+    for (my $id = scalar @idna_types - 1; $id != 0; $id--) {
+        if ($idna_types[$id] != 0x04) {
+            print "IDNA removed last duplicates (", scalar @idna_types - $id,"). ", 
+                  "Now last entry is ", sprintf("%04X", $id), "\n";
+
+            splice @idna_types, $id;
+            last;
+        }
+    }
+
+    foreach my $id (0x0000..scalar @idna_types - 1) {
+        if ($prev != $idna_types[$id]) {
+            $len = $id - $idx;
+
+            if ($len > 500000) {
+                splice @types, $idx;
+
+                print "IDNA remove duplicates: ", sprintf("0x%02X", $prev), "\n";
+
+                print "From ", sprintf("%04X", $idx), " to ",
+                      sprintf("%04X", $id), "; Count: $len\n";
+            }
+
+            $idx = $id;
+            $prev = $idna_types[$id];
+        }
+
+        push @types, $idna_types[$id];
+    }
+
+    $len = scalar @types;
+    $str = join ", ", @types;
+    $str = "static const lxb_unicode_idna_type_t lxb_unicode_idna_types[$len] = {$str};";
+
+    $self->{idna_types} = $str;
+
+    print "Includes:\n";
+
+    foreach my $id (0...$pos) {
+        print "#include \"lexbor/unicode/table_$id.h\"\n";
+    }
+
+    print "\nFor table:\n";
+
+    foreach my $id (0...$pos) {
+        print "    lxb_unicode_table_$id,\n";
+    }
+
+    print "\ntypedef enum {\n", "    ",
+          join(",\n    ",
+               map {"$_ = " . sprintf("0x%02x", $uniq->{$_})}
+                   sort {$uniq->{$a} <=> $uniq->{$b}}
+                        keys %$uniq), "\n}\n",
+           "lxb_unicode_idna_type_t;\n";
+
+    return $self->{result};
 }
 
 sub save {
     my ($self, $filepath) = @_;
-    my $year = 1900 + (localtime)[5];
-    my $res = $unicode->result;
     my $compose = $unicode->result_compose;
+    my $result = $unicode->result;
+    my $types = $self->{idna_types};
+
+    foreach my $n (sort {$a <=> $b} keys %$result) {
+        my $structs = join "\n", @{$result->{$n}};
+
+        $self->save_to($filepath, $n, $structs);
+    }
+
+    $self->save_to($filepath, "compose", $compose);
+    $self->save_to($filepath, "idna_types", $types);
+}
+
+sub template {
+    my ($self, $name, $data) = @_;
+    my $year = 1900 + (localtime)[5];
+    
+    $name = uc $name;
+
     my $temp = <<EOM;
 /*
  * Copyright (C) $year Alexander Borisov
@@ -372,39 +614,43 @@ sub save {
  * Author: Alexander Borisov <borisov\@lexbor.com>
  */
 
-#ifndef LEXBOR_UNICODE_TABLES_H
-#define LEXBOR_UNICODE_TABLES_H
+#ifndef LEXBOR_UNICODE_TABLES_$name\_H
+#define LEXBOR_UNICODE_TABLES_$name\_H
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/* Composition map. */
 
-$compose
-
-/* Unicode data. */
-
-$res
+$data
 
 
 #ifdef __cplusplus
 } /* extern "C" */
 #endif
 
-#endif /* LEXBOR_UNICODE_TABLES_H */
+#endif /* LEXBOR_UNICODE_TABLES_$name\_H */
 EOM
 
-    open(my $fh, '>', $filepath) || die "Failed to save to file: $filepath";
+    return $temp;
+}
+
+sub save_to {
+    my ($self, $filepath, $name, $data) = @_;
+
+    my $res = $self->template($name, $data);
+    my $path = "$filepath/table_$name.h";
+
+    open(my $fh, '>', $path) || die "Failed to save to file: $path";
     binmode $fh;
 
-    print $fh $temp, "\n";
+    print $fh $res;
 
     close($fh);
 }
 
 sub result {
-    return join "\n", @{$_[0]->{result}};
+    return $_[0]->{result};
 }
 
 sub result_compose {
@@ -450,71 +696,14 @@ sub lxb_prefix {
     return join "_", $self->{_prefix}, @_;
 }
 
-sub make_hash {
-    my ($self, $data, $table_size, $table_name) = @_;
-    my ($ref, $size, $node_name);
-    my (@res, @nodes);
-
-    foreach my $key (0..$table_size - 1) {
-        if (!exists $data->{$key}) {
-            push @nodes, "{.entry = NULL, .table = NULL}";
-            next;
-        }
-
-        $ref = $data->{$key};
-
-        push @nodes, $self->make_hash_node($ref);
-    }
-
-    $node_name = $self->lxb_prefix("nodes", $table_name);
-    $table_name = $self->lxb_prefix($table_name);
-    $size = scalar @nodes;
-
-    $ref = join "\n", "static const lxb_unicode_node_t $node_name\[$size\] = {",
-                      "    " . join(",\n    ", @nodes), "};";
-
-    push @{$self->{result}}, $ref;
-
-    $ref = join "", "static const lxb_unicode_table_t $table_name = ",
-                    "{.length = $table_size, .nodes = $node_name};";
-
-    push @{$self->{result}}, $ref;
-
-    return $table_name;
-}
-
-sub make_hash_node {
-    my ($self, $ref) = @_;
-    my ($origin, $entry_name, $entry_str, $hash, $size, $name, $table);
-
-    $origin = shift @$ref;
-    $entry_str = $self->make_hash_entry($origin);
-
-    if (scalar @$ref > 0) {
-        ($hash, $size) = $self->make_from_array($ref);
-        $name = "&" . $self->make_hash($hash, $size,
-                                        join("_", "map", uc $origin->[0]));
-    }
-    else {
-        $name = "NULL";
-    }
-
-    $entry_name = $self->lxb_prefix("entry", $origin->[0]);
-
-    $ref = join "", "static const lxb_unicode_entry_t $entry_name = $entry_str;";
-
-    push @{$self->{result}}, $ref;
-
-    return "{.entry = &$entry_name, .table = $name}";
-}
-
 sub make_hash_entry {
     my ($self, $entry) = @_;
     my ($cp, $name, $GC, $CCC, $BC, $DTDM, $NTNV,
         $BM, $U1N, $ISOC, $SUPPM, $SLOWM, $STITM) = @$entry;
     my ($dec, $str, $name, $dcount, $types, $prefix, @names);
-    my ($quick);
+    my ($quick, $res);
 
+    $res = [];
     $types = {"map" => "", "cmap" => "c", "kmap" => "k"};
 
     if (scalar @{$DTDM->{map}} != 0) {
@@ -526,7 +715,7 @@ sub make_hash_entry {
             $str = "{" . join(", ", map {"0x$_"} @{$DTDM->{$key}}) . "}";
 
             $str = join "", "static const lxb_codepoint_t $name\[$dcount\] = $str;";
-            push @{$self->{result}}, $str;
+            push @$res, $str;
 
             $dec = join "", "{.type = ", $DTDM->{type}, ",",
                             " .mapping = $name,",
@@ -535,7 +724,7 @@ sub make_hash_entry {
             $name = $self->lxb_prefix("decomposition", $prefix, $cp);
 
             $str = join "", "static const lxb_unicode_decomposition_t $name = $dec;";
-            push @{$self->{result}}, $str;
+            push @$res, $str;
 
             push @names, "&$name";
         }
@@ -543,10 +732,11 @@ sub make_hash_entry {
 
     $quick = $self->make_quick_by_entry($entry);
 
-    return join "", "{.cp = 0x", uc($cp), ", .ccc = ", $CCC, ", .quick = $quick",
+    return (join("", "{.cp = 0x", uc($cp), ", .ccc = ", $CCC, ", .quick = $quick",
                     ", .de = ", exists $names[2] ? $names[2] : "NULL" ,
                     ", .cde = ", exists $names[0] ? $names[0] : "NULL" ,
-                    ", .kde = ", exists $names[1] ? $names[1] : "NULL", "}";
+                    ", .kde = ", exists $names[1] ? $names[1] : "NULL", "}"),
+            join("\n", @$res));
 }
 
 sub make_quick_by_entry {
@@ -572,7 +762,7 @@ sub make_quick_check {
     my ($self) = @_;
     my ($data, $quick);
 
-    %$data = map {$_->[0] => $_} @{$self->{data}};
+    $data = $self->{data};
     $quick = $self->{quick};
 
     foreach my $cp (sort {hex($a) <=> hex($b)} keys %$quick) {
