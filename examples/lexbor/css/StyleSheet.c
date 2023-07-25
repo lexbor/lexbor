@@ -63,5 +63,7 @@ main(int argc, const char *argv[])
 
     printf("\n");
 
+    (void) lxb_css_stylesheet_destroy(sst, true);
+
     return EXIT_SUCCESS;
 }
