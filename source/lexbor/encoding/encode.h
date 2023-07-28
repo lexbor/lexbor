@@ -310,6 +310,9 @@ lxb_encoding_encode_utf_8_single(lxb_encoding_encode_t *ctx, lxb_char_t **data,
                                  const lxb_char_t *end, lxb_codepoint_t cp);
 
 LXB_API int8_t
+lxb_encoding_encode_utf_8_length(lxb_codepoint_t cp);
+
+LXB_API int8_t
 lxb_encoding_encode_gb18030_single(lxb_encoding_encode_t *ctx, lxb_char_t **data,
                                    const lxb_char_t *end, lxb_codepoint_t cp);
 

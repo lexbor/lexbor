@@ -81,6 +81,10 @@ lexbor_action_t;
 typedef lxb_status_t
 (*lexbor_serialize_cb_f)(const lxb_char_t *data, size_t len, void *ctx);
 
+typedef lxb_status_t
+(*lexbor_serialize_cb_cp_f)(const lxb_codepoint_t *cps, size_t len, void *ctx);
+
+
 typedef struct {
     lexbor_serialize_cb_f cb;
     void                  *ctx;
