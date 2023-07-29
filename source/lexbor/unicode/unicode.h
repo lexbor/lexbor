@@ -257,6 +257,61 @@ lxb_unicode_normalize_end(lxb_unicode_normalizer_t *uc, lexbor_serialize_cb_f cb
                           void *ctx);
 
 /*
+ * Unicode normalization forms for code points.
+ *
+ * This function is exactly the same as lxb_unicode_normalize() only it takes
+ * code points instead of characters as input.
+ *
+ * Also, unlike the lxb_unicode_normalize() function, a callback will be called
+ * to return a code points, not characters.
+ *
+ * The function is designed to work with a stream (chunks).
+ *
+ * @param[in] lxb_unicode_normalizer_t *
+ * @param[in] Input code points for normalization. Not NULL.
+ * @param[in] Length of code points. Can be 0.
+ * @param[in] Callback for results of normalization.
+ * @param[in] Context for callback.
+ * @param[in] Set to true if the last chunk or the only one chunk is processed.
+ *
+ * @return LXB_STATUS_OK if successful, otherwise an error status value.
+ */
+LXB_API lxb_status_t
+lxb_unicode_normalize_cp(lxb_unicode_normalizer_t *uc, const lxb_codepoint_t *cps,
+                         size_t length, lexbor_serialize_cb_cp_f cb, void *ctx,
+                         bool is_last);
+
+/*
+ * Unicode normalization end for code points.
+ *
+ * This function is completely similar to lxb_unicode_normalize_end(),
+ * only it takes a function with code points as a callback function.
+ *
+ * Same as calling the lxb_unicode_normalize_cp() function with is_last = true.
+ *
+ * Use this function only if you do not set is_last = true in
+ * the lxb_unicode_normalize_cp() function.
+ *
+ * For example:
+ *     status = lxb_unicode_normalize_cp(uc, cps, length, cb, NULL, false);
+ *     status = lxb_unicode_normalize_cp(uc, cps, length, cb, NULL, false);
+ *     lxb_unicode_normalize_cp_end(uc);
+ *
+ *     The same as:
+ *     status = lxb_unicode_normalize_cp(uc, cps, length, cb, NULL, false);
+ *     status = lxb_unicode_normalize_cp(uc, cps, length, cb, NULL, true);
+ *
+ * @param[in] lxb_unicode_normalizer_t *
+ * @param[in] Callback for results of normalization.
+ * @param[in] Context for callback.
+ *
+ * @return LXB_STATUS_OK if successful, otherwise an error status value.
+ */
+LXB_API lxb_status_t
+lxb_unicode_normalize_cp_end(lxb_unicode_normalizer_t *uc,
+                             lexbor_serialize_cb_cp_f cb, void *ctx);
+
+/*
  * Quick Check.
  *
  * The basic normalization algorithm is not simple and requires time
@@ -304,6 +359,44 @@ LXB_API bool
 lxb_unicode_quick_check_end(lxb_unicode_normalizer_t *uc);
 
 /*
+ * Quick Check for code points.
+ *
+ * Same as lxb_unicode_quick_check() only it takes code points as input.
+ *
+ * @param[in] lxb_unicode_normalizer_t *
+ * @param[in] Input code points for checks. Not NULL.
+ * @param[in] Length of code points. Can be 0.
+ * @param[in] Set to true if the last chunk or the only one chunk is processed.
+ *
+ * @return true if it needs to be normalized, otherwise false.
+ */
+LXB_API bool
+lxb_unicode_quick_check_cp(lxb_unicode_normalizer_t *uc,
+                           const lxb_codepoint_t *cps, size_t length,
+                           bool is_last);
+
+/*
+ * Quick Check End for code points.
+ *
+ * Same as lxb_unicode_quick_check_end().
+ *
+ * For example:
+ *     is = lxb_unicode_quick_check_cp(uc, cps, length, false);
+ *     is = lxb_unicode_quick_check_cp(uc, cps, length, false);
+ *     is = lxb_unicode_quick_check_cp_end(uc);
+ *
+ *     The same as:
+ *     is = lxb_unicode_quick_check_cp(uc, cps, length, false);
+ *     is = lxb_unicode_quick_check_cp(uc, cps, length, true);
+ *
+ * @param[in] lxb_unicode_normalizer_t *
+ *
+ * @return true if it needs to be normalized, otherwise false.
+ */
+LXB_API bool
+lxb_unicode_quick_check_cp_end(lxb_unicode_normalizer_t *uc);
+
+/*
  * Flush.
  *
  * Force flush the buffer to the user's callback if it possible.
@@ -319,6 +412,22 @@ lxb_unicode_quick_check_end(lxb_unicode_normalizer_t *uc);
 LXB_API lxb_status_t
 lxb_unicode_flush(lxb_unicode_normalizer_t *uc, lexbor_serialize_cb_f cb,
                   void *ctx);
+
+/*
+ * Flush for code points.
+ *
+ * Same as lxb_unicode_flush(), but it takes a callback with code points as
+ * input.
+ *
+ * @param[in] lxb_unicode_normalizer_t *.
+ * @param[in] Callback.
+ * @param[in] Callback context.
+ *
+ * @return LXB_STATUS_OK if successful, otherwise an error status value.
+ */
+LXB_API lxb_status_t
+lxb_unicode_flush_cp(lxb_unicode_normalizer_t *uc, lexbor_serialize_cb_cp_f cb,
+                     void *ctx);
 
 /*
  * Change normalization form.

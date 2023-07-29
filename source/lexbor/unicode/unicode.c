@@ -291,6 +291,46 @@ lxb_unicode_flush(lxb_unicode_normalizer_t *uc, lexbor_serialize_cb_f cb,
     return LXB_STATUS_OK;
 }
 
+lxb_status_t
+lxb_unicode_flush_cp(lxb_unicode_normalizer_t *uc, lexbor_serialize_cb_cp_f cb,
+                     void *ctx)
+{
+    lxb_status_t status;
+    lxb_unicode_buffer_t *p, *end;
+    lxb_codepoint_t *tmp;
+    lxb_codepoint_t buffer[4096];
+    const lxb_codepoint_t *buffer_end;
+
+    buffer_end = buffer + (sizeof(buffer) / sizeof(lxb_codepoint_t));
+
+    p = uc->buf;
+    end = uc->ican;
+    tmp = buffer;
+
+    while (p < end) {
+        if (p->cp != LXB_ENCODING_ERROR_CODEPOINT) {
+            *tmp++ = p->cp;
+
+            if (tmp >= buffer_end) {
+                status = cb(buffer, tmp - buffer, ctx);
+                if (status != LXB_STATUS_OK) {
+                    return status;
+                }
+
+                tmp = buffer;
+            }
+        }
+
+        p += 1;
+    }
+
+    if (tmp != buffer) {
+        return cb(buffer, tmp - buffer, ctx);
+    }
+
+    return LXB_STATUS_OK;
+}
+
 lxb_inline void
 lxb_unicode_check_buf(lxb_unicode_normalizer_t *uc, lxb_unicode_buffer_t **p,
                       const lxb_unicode_buffer_t **end, size_t length)
@@ -493,6 +533,95 @@ lxb_unicode_normalize_end(lxb_unicode_normalizer_t *uc,
     return lxb_unicode_normalize(uc, NULL, 0, cb, ctx, true);
 }
 
+lxb_status_t
+lxb_unicode_normalize_cp(lxb_unicode_normalizer_t *uc, const lxb_codepoint_t *cps,
+                         size_t length, lexbor_serialize_cb_cp_f cb, void *ctx,
+                         bool is_last)
+{
+    lxb_status_t status;
+    lxb_codepoint_t cp;
+    const lxb_codepoint_t *end;
+    lxb_unicode_buffer_t *p, *dp, *op, *buf;
+    const lxb_unicode_buffer_t *buf_end;
+
+    end = cps + length;
+
+    buf_end = uc->end;
+    p = uc->p;
+
+    while (cps < end) {
+        cp = *cps++;
+        dp = uc->decomposition(uc, cp, &p, &buf_end);
+
+        while (p < dp) {
+            if (p->ccc == 0) {
+                op = p - 1;
+                buf = uc->buf;
+
+                if (uc->starter == NULL) {
+                    lxb_unicode_reorder(op, buf);
+
+                    uc->starter = p++;
+                    continue;
+                }
+
+                uc->composition(uc->starter, op, p + 1);
+
+                if (p->cp != LXB_ENCODING_ERROR_CODEPOINT) {
+                    uc->starter = p;
+                    uc->ican = p;
+
+                    if (p - buf >= uc->flush_cp) {
+                        status = lxb_unicode_flush_cp(uc, cb, ctx);
+                        if (status != LXB_STATUS_OK) {
+                            return status;
+                        }
+
+                        buf->cp = p->cp;
+                        buf->ccc = p->ccc;
+
+                        dp = buf + (dp - p);
+                        p = buf;
+
+                        uc->starter = p;
+                        uc->ican = p;
+                    }
+                }
+            }
+
+            p += 1;
+        }
+    }
+
+    status = LXB_STATUS_OK;
+
+    if (is_last) {
+        if (uc->starter != NULL && uc->starter != p - 1) {
+            uc->composition(uc->starter, p - 1, p);
+        }
+
+        uc->ican = p;
+
+        status = lxb_unicode_flush_cp(uc, cb, ctx);
+
+        uc->p = uc->buf;
+        uc->ican = uc->buf;
+        uc->starter = NULL;
+    }
+    else {
+        uc->p = p;
+    }
+
+    return status;
+}
+
+lxb_status_t
+lxb_unicode_normalize_cp_end(lxb_unicode_normalizer_t *uc,
+                             lexbor_serialize_cb_cp_f cb, void *ctx)
+{
+    return lxb_unicode_normalize_cp(uc, NULL, 0, cb, ctx, true);
+}
+
 bool
 lxb_unicode_quick_check(lxb_unicode_normalizer_t *uc, const lxb_char_t *data,
                         size_t length, bool is_last)
@@ -567,6 +696,59 @@ bool
 lxb_unicode_quick_check_end(lxb_unicode_normalizer_t *uc)
 {
     return lxb_unicode_quick_check(uc, NULL, 0, true);
+}
+
+bool
+lxb_unicode_quick_check_cp(lxb_unicode_normalizer_t *uc,
+                           const lxb_codepoint_t *cps, size_t length,
+                           bool is_last)
+{
+    lxb_codepoint_t cp;
+    const lxb_codepoint_t *end;
+    const lxb_unicode_entry_t *entry;
+
+    end = cps + length;
+
+    while (cps < end) {
+        cp = *cps++;
+
+        entry = lxb_unicode_entry(cp);
+
+        if (entry != NULL) {
+            if (entry->quick & uc->quick_type) {
+                goto ok_true;
+            }
+
+            if (entry->ccc < uc->quick_ccc) {
+                goto ok_true;
+            }
+
+            uc->quick_ccc = entry->ccc;
+        }
+        else if (uc->quick_type & (LXB_UNICODE_NFD_QUICK_NO|LXB_UNICODE_NFKD_QUICK_NO)
+                 && cp >= lxb_unicode_sb && cp <= lxb_unicode_sl)
+        {
+            goto ok_true;
+        }
+    }
+
+    if (is_last) {
+        uc->quick_ccc = 0;
+    }
+
+    return false;
+
+ok_true:
+
+    uc->quick_ccc = 0;
+
+    return true;
+}
+
+bool
+lxb_unicode_quick_check_cp_end(lxb_unicode_normalizer_t *uc)
+{
+    return lxb_unicode_quick_check_cp(uc, NULL, 0, true);
 }
 
 static void
