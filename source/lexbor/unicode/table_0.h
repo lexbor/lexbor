@@ -12,591 +12,591 @@ extern "C" {
 #endif
 
 
-static const lxb_codepoint_t lxb_unicode_idna_map_0041[1] = {0x0061};
-static const lxb_codepoint_t lxb_unicode_idna_map_0042[1] = {0x0062};
-static const lxb_codepoint_t lxb_unicode_idna_map_0043[1] = {0x0063};
-static const lxb_codepoint_t lxb_unicode_idna_map_0044[1] = {0x0064};
-static const lxb_codepoint_t lxb_unicode_idna_map_0045[1] = {0x0065};
-static const lxb_codepoint_t lxb_unicode_idna_map_0046[1] = {0x0066};
-static const lxb_codepoint_t lxb_unicode_idna_map_0047[1] = {0x0067};
-static const lxb_codepoint_t lxb_unicode_idna_map_0048[1] = {0x0068};
-static const lxb_codepoint_t lxb_unicode_idna_map_0049[1] = {0x0069};
-static const lxb_codepoint_t lxb_unicode_idna_map_004A[1] = {0x006A};
-static const lxb_codepoint_t lxb_unicode_idna_map_004B[1] = {0x006B};
-static const lxb_codepoint_t lxb_unicode_idna_map_004C[1] = {0x006C};
-static const lxb_codepoint_t lxb_unicode_idna_map_004D[1] = {0x006D};
-static const lxb_codepoint_t lxb_unicode_idna_map_004E[1] = {0x006E};
-static const lxb_codepoint_t lxb_unicode_idna_map_004F[1] = {0x006F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0050[1] = {0x0070};
-static const lxb_codepoint_t lxb_unicode_idna_map_0051[1] = {0x0071};
-static const lxb_codepoint_t lxb_unicode_idna_map_0052[1] = {0x0072};
-static const lxb_codepoint_t lxb_unicode_idna_map_0053[1] = {0x0073};
-static const lxb_codepoint_t lxb_unicode_idna_map_0054[1] = {0x0074};
-static const lxb_codepoint_t lxb_unicode_idna_map_0055[1] = {0x0075};
-static const lxb_codepoint_t lxb_unicode_idna_map_0056[1] = {0x0076};
-static const lxb_codepoint_t lxb_unicode_idna_map_0057[1] = {0x0077};
-static const lxb_codepoint_t lxb_unicode_idna_map_0058[1] = {0x0078};
-static const lxb_codepoint_t lxb_unicode_idna_map_0059[1] = {0x0079};
-static const lxb_codepoint_t lxb_unicode_idna_map_005A[1] = {0x007A};
-static const lxb_codepoint_t lxb_unicode_idna_map_00A0[1] = {0x0020};
-static const lxb_codepoint_t lxb_unicode_idna_map_00A8[2] = {0x0020, 0x0308};
-static const lxb_codepoint_t lxb_unicode_idna_map_00AA[1] = {0x0061};
-static const lxb_codepoint_t lxb_unicode_idna_map_00AF[2] = {0x0020, 0x0304};
-static const lxb_codepoint_t lxb_unicode_idna_map_00B2[1] = {0x0032};
-static const lxb_codepoint_t lxb_unicode_idna_map_00B3[1] = {0x0033};
-static const lxb_codepoint_t lxb_unicode_idna_map_00B4[2] = {0x0020, 0x0301};
-static const lxb_codepoint_t lxb_unicode_idna_map_00B5[1] = {0x03BC};
-static const lxb_codepoint_t lxb_unicode_idna_map_00B8[2] = {0x0020, 0x0327};
-static const lxb_codepoint_t lxb_unicode_idna_map_00B9[1] = {0x0031};
-static const lxb_codepoint_t lxb_unicode_idna_map_00BA[1] = {0x006F};
-static const lxb_codepoint_t lxb_unicode_idna_map_00BC[3] = {0x0031, 0x2044, 0x0034};
-static const lxb_codepoint_t lxb_unicode_idna_map_00BD[3] = {0x0031, 0x2044, 0x0032};
-static const lxb_codepoint_t lxb_unicode_idna_map_00BE[3] = {0x0033, 0x2044, 0x0034};
-static const lxb_codepoint_t lxb_unicode_idna_map_00C0[1] = {0x00E0};
-static const lxb_codepoint_t lxb_unicode_idna_map_00C1[1] = {0x00E1};
-static const lxb_codepoint_t lxb_unicode_idna_map_00C2[1] = {0x00E2};
-static const lxb_codepoint_t lxb_unicode_idna_map_00C3[1] = {0x00E3};
-static const lxb_codepoint_t lxb_unicode_idna_map_00C4[1] = {0x00E4};
-static const lxb_codepoint_t lxb_unicode_idna_map_00C5[1] = {0x00E5};
-static const lxb_codepoint_t lxb_unicode_idna_map_00C6[1] = {0x00E6};
-static const lxb_codepoint_t lxb_unicode_idna_map_00C7[1] = {0x00E7};
-static const lxb_codepoint_t lxb_unicode_idna_map_00C8[1] = {0x00E8};
-static const lxb_codepoint_t lxb_unicode_idna_map_00C9[1] = {0x00E9};
-static const lxb_codepoint_t lxb_unicode_idna_map_00CA[1] = {0x00EA};
-static const lxb_codepoint_t lxb_unicode_idna_map_00CB[1] = {0x00EB};
-static const lxb_codepoint_t lxb_unicode_idna_map_00CC[1] = {0x00EC};
-static const lxb_codepoint_t lxb_unicode_idna_map_00CD[1] = {0x00ED};
-static const lxb_codepoint_t lxb_unicode_idna_map_00CE[1] = {0x00EE};
-static const lxb_codepoint_t lxb_unicode_idna_map_00CF[1] = {0x00EF};
-static const lxb_codepoint_t lxb_unicode_idna_map_00D0[1] = {0x00F0};
-static const lxb_codepoint_t lxb_unicode_idna_map_00D1[1] = {0x00F1};
-static const lxb_codepoint_t lxb_unicode_idna_map_00D2[1] = {0x00F2};
-static const lxb_codepoint_t lxb_unicode_idna_map_00D3[1] = {0x00F3};
-static const lxb_codepoint_t lxb_unicode_idna_map_00D4[1] = {0x00F4};
-static const lxb_codepoint_t lxb_unicode_idna_map_00D5[1] = {0x00F5};
-static const lxb_codepoint_t lxb_unicode_idna_map_00D6[1] = {0x00F6};
-static const lxb_codepoint_t lxb_unicode_idna_map_00D8[1] = {0x00F8};
-static const lxb_codepoint_t lxb_unicode_idna_map_00D9[1] = {0x00F9};
-static const lxb_codepoint_t lxb_unicode_idna_map_00DA[1] = {0x00FA};
-static const lxb_codepoint_t lxb_unicode_idna_map_00DB[1] = {0x00FB};
-static const lxb_codepoint_t lxb_unicode_idna_map_00DC[1] = {0x00FC};
-static const lxb_codepoint_t lxb_unicode_idna_map_00DD[1] = {0x00FD};
-static const lxb_codepoint_t lxb_unicode_idna_map_00DE[1] = {0x00FE};
-static const lxb_codepoint_t lxb_unicode_idna_map_00DF[2] = {0x0073, 0x0073};
-static const lxb_codepoint_t lxb_unicode_idna_map_0100[1] = {0x0101};
-static const lxb_codepoint_t lxb_unicode_idna_map_0102[1] = {0x0103};
-static const lxb_codepoint_t lxb_unicode_idna_map_0104[1] = {0x0105};
-static const lxb_codepoint_t lxb_unicode_idna_map_0106[1] = {0x0107};
-static const lxb_codepoint_t lxb_unicode_idna_map_0108[1] = {0x0109};
-static const lxb_codepoint_t lxb_unicode_idna_map_010A[1] = {0x010B};
-static const lxb_codepoint_t lxb_unicode_idna_map_010C[1] = {0x010D};
-static const lxb_codepoint_t lxb_unicode_idna_map_010E[1] = {0x010F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0110[1] = {0x0111};
-static const lxb_codepoint_t lxb_unicode_idna_map_0112[1] = {0x0113};
-static const lxb_codepoint_t lxb_unicode_idna_map_0114[1] = {0x0115};
-static const lxb_codepoint_t lxb_unicode_idna_map_0116[1] = {0x0117};
-static const lxb_codepoint_t lxb_unicode_idna_map_0118[1] = {0x0119};
-static const lxb_codepoint_t lxb_unicode_idna_map_011A[1] = {0x011B};
-static const lxb_codepoint_t lxb_unicode_idna_map_011C[1] = {0x011D};
-static const lxb_codepoint_t lxb_unicode_idna_map_011E[1] = {0x011F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0120[1] = {0x0121};
-static const lxb_codepoint_t lxb_unicode_idna_map_0122[1] = {0x0123};
-static const lxb_codepoint_t lxb_unicode_idna_map_0124[1] = {0x0125};
-static const lxb_codepoint_t lxb_unicode_idna_map_0126[1] = {0x0127};
-static const lxb_codepoint_t lxb_unicode_idna_map_0128[1] = {0x0129};
-static const lxb_codepoint_t lxb_unicode_idna_map_012A[1] = {0x012B};
-static const lxb_codepoint_t lxb_unicode_idna_map_012C[1] = {0x012D};
-static const lxb_codepoint_t lxb_unicode_idna_map_012E[1] = {0x012F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0130[2] = {0x0069, 0x0307};
-static const lxb_codepoint_t lxb_unicode_idna_map_0132[2] = {0x0069, 0x006A};
-static const lxb_codepoint_t lxb_unicode_idna_map_0133[2] = {0x0069, 0x006A};
-static const lxb_codepoint_t lxb_unicode_idna_map_0134[1] = {0x0135};
-static const lxb_codepoint_t lxb_unicode_idna_map_0136[1] = {0x0137};
-static const lxb_codepoint_t lxb_unicode_idna_map_0139[1] = {0x013A};
-static const lxb_codepoint_t lxb_unicode_idna_map_013B[1] = {0x013C};
-static const lxb_codepoint_t lxb_unicode_idna_map_013D[1] = {0x013E};
-static const lxb_codepoint_t lxb_unicode_idna_map_013F[2] = {0x006C, 0x00B7};
-static const lxb_codepoint_t lxb_unicode_idna_map_0140[2] = {0x006C, 0x00B7};
-static const lxb_codepoint_t lxb_unicode_idna_map_0141[1] = {0x0142};
-static const lxb_codepoint_t lxb_unicode_idna_map_0143[1] = {0x0144};
-static const lxb_codepoint_t lxb_unicode_idna_map_0145[1] = {0x0146};
-static const lxb_codepoint_t lxb_unicode_idna_map_0147[1] = {0x0148};
-static const lxb_codepoint_t lxb_unicode_idna_map_0149[2] = {0x02BC, 0x006E};
-static const lxb_codepoint_t lxb_unicode_idna_map_014A[1] = {0x014B};
-static const lxb_codepoint_t lxb_unicode_idna_map_014C[1] = {0x014D};
-static const lxb_codepoint_t lxb_unicode_idna_map_014E[1] = {0x014F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0150[1] = {0x0151};
-static const lxb_codepoint_t lxb_unicode_idna_map_0152[1] = {0x0153};
-static const lxb_codepoint_t lxb_unicode_idna_map_0154[1] = {0x0155};
-static const lxb_codepoint_t lxb_unicode_idna_map_0156[1] = {0x0157};
-static const lxb_codepoint_t lxb_unicode_idna_map_0158[1] = {0x0159};
-static const lxb_codepoint_t lxb_unicode_idna_map_015A[1] = {0x015B};
-static const lxb_codepoint_t lxb_unicode_idna_map_015C[1] = {0x015D};
-static const lxb_codepoint_t lxb_unicode_idna_map_015E[1] = {0x015F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0160[1] = {0x0161};
-static const lxb_codepoint_t lxb_unicode_idna_map_0162[1] = {0x0163};
-static const lxb_codepoint_t lxb_unicode_idna_map_0164[1] = {0x0165};
-static const lxb_codepoint_t lxb_unicode_idna_map_0166[1] = {0x0167};
-static const lxb_codepoint_t lxb_unicode_idna_map_0168[1] = {0x0169};
-static const lxb_codepoint_t lxb_unicode_idna_map_016A[1] = {0x016B};
-static const lxb_codepoint_t lxb_unicode_idna_map_016C[1] = {0x016D};
-static const lxb_codepoint_t lxb_unicode_idna_map_016E[1] = {0x016F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0170[1] = {0x0171};
-static const lxb_codepoint_t lxb_unicode_idna_map_0172[1] = {0x0173};
-static const lxb_codepoint_t lxb_unicode_idna_map_0174[1] = {0x0175};
-static const lxb_codepoint_t lxb_unicode_idna_map_0176[1] = {0x0177};
-static const lxb_codepoint_t lxb_unicode_idna_map_0178[1] = {0x00FF};
-static const lxb_codepoint_t lxb_unicode_idna_map_0179[1] = {0x017A};
-static const lxb_codepoint_t lxb_unicode_idna_map_017B[1] = {0x017C};
-static const lxb_codepoint_t lxb_unicode_idna_map_017D[1] = {0x017E};
-static const lxb_codepoint_t lxb_unicode_idna_map_017F[1] = {0x0073};
-static const lxb_codepoint_t lxb_unicode_idna_map_0181[1] = {0x0253};
-static const lxb_codepoint_t lxb_unicode_idna_map_0182[1] = {0x0183};
-static const lxb_codepoint_t lxb_unicode_idna_map_0184[1] = {0x0185};
-static const lxb_codepoint_t lxb_unicode_idna_map_0186[1] = {0x0254};
-static const lxb_codepoint_t lxb_unicode_idna_map_0187[1] = {0x0188};
-static const lxb_codepoint_t lxb_unicode_idna_map_0189[1] = {0x0256};
-static const lxb_codepoint_t lxb_unicode_idna_map_018A[1] = {0x0257};
-static const lxb_codepoint_t lxb_unicode_idna_map_018B[1] = {0x018C};
-static const lxb_codepoint_t lxb_unicode_idna_map_018E[1] = {0x01DD};
-static const lxb_codepoint_t lxb_unicode_idna_map_018F[1] = {0x0259};
-static const lxb_codepoint_t lxb_unicode_idna_map_0190[1] = {0x025B};
-static const lxb_codepoint_t lxb_unicode_idna_map_0191[1] = {0x0192};
-static const lxb_codepoint_t lxb_unicode_idna_map_0193[1] = {0x0260};
-static const lxb_codepoint_t lxb_unicode_idna_map_0194[1] = {0x0263};
-static const lxb_codepoint_t lxb_unicode_idna_map_0196[1] = {0x0269};
-static const lxb_codepoint_t lxb_unicode_idna_map_0197[1] = {0x0268};
-static const lxb_codepoint_t lxb_unicode_idna_map_0198[1] = {0x0199};
-static const lxb_codepoint_t lxb_unicode_idna_map_019C[1] = {0x026F};
-static const lxb_codepoint_t lxb_unicode_idna_map_019D[1] = {0x0272};
-static const lxb_codepoint_t lxb_unicode_idna_map_019F[1] = {0x0275};
-static const lxb_codepoint_t lxb_unicode_idna_map_01A0[1] = {0x01A1};
-static const lxb_codepoint_t lxb_unicode_idna_map_01A2[1] = {0x01A3};
-static const lxb_codepoint_t lxb_unicode_idna_map_01A4[1] = {0x01A5};
-static const lxb_codepoint_t lxb_unicode_idna_map_01A6[1] = {0x0280};
-static const lxb_codepoint_t lxb_unicode_idna_map_01A7[1] = {0x01A8};
-static const lxb_codepoint_t lxb_unicode_idna_map_01A9[1] = {0x0283};
-static const lxb_codepoint_t lxb_unicode_idna_map_01AC[1] = {0x01AD};
-static const lxb_codepoint_t lxb_unicode_idna_map_01AE[1] = {0x0288};
-static const lxb_codepoint_t lxb_unicode_idna_map_01AF[1] = {0x01B0};
-static const lxb_codepoint_t lxb_unicode_idna_map_01B1[1] = {0x028A};
-static const lxb_codepoint_t lxb_unicode_idna_map_01B2[1] = {0x028B};
-static const lxb_codepoint_t lxb_unicode_idna_map_01B3[1] = {0x01B4};
-static const lxb_codepoint_t lxb_unicode_idna_map_01B5[1] = {0x01B6};
-static const lxb_codepoint_t lxb_unicode_idna_map_01B7[1] = {0x0292};
-static const lxb_codepoint_t lxb_unicode_idna_map_01B8[1] = {0x01B9};
-static const lxb_codepoint_t lxb_unicode_idna_map_01BC[1] = {0x01BD};
-static const lxb_codepoint_t lxb_unicode_idna_map_01C4[2] = {0x0064, 0x017E};
-static const lxb_codepoint_t lxb_unicode_idna_map_01C5[2] = {0x0064, 0x017E};
-static const lxb_codepoint_t lxb_unicode_idna_map_01C6[2] = {0x0064, 0x017E};
-static const lxb_codepoint_t lxb_unicode_idna_map_01C7[2] = {0x006C, 0x006A};
-static const lxb_codepoint_t lxb_unicode_idna_map_01C8[2] = {0x006C, 0x006A};
-static const lxb_codepoint_t lxb_unicode_idna_map_01C9[2] = {0x006C, 0x006A};
-static const lxb_codepoint_t lxb_unicode_idna_map_01CA[2] = {0x006E, 0x006A};
-static const lxb_codepoint_t lxb_unicode_idna_map_01CB[2] = {0x006E, 0x006A};
-static const lxb_codepoint_t lxb_unicode_idna_map_01CC[2] = {0x006E, 0x006A};
-static const lxb_codepoint_t lxb_unicode_idna_map_01CD[1] = {0x01CE};
-static const lxb_codepoint_t lxb_unicode_idna_map_01CF[1] = {0x01D0};
-static const lxb_codepoint_t lxb_unicode_idna_map_01D1[1] = {0x01D2};
-static const lxb_codepoint_t lxb_unicode_idna_map_01D3[1] = {0x01D4};
-static const lxb_codepoint_t lxb_unicode_idna_map_01D5[1] = {0x01D6};
-static const lxb_codepoint_t lxb_unicode_idna_map_01D7[1] = {0x01D8};
-static const lxb_codepoint_t lxb_unicode_idna_map_01D9[1] = {0x01DA};
-static const lxb_codepoint_t lxb_unicode_idna_map_01DB[1] = {0x01DC};
-static const lxb_codepoint_t lxb_unicode_idna_map_01DE[1] = {0x01DF};
-static const lxb_codepoint_t lxb_unicode_idna_map_01E0[1] = {0x01E1};
-static const lxb_codepoint_t lxb_unicode_idna_map_01E2[1] = {0x01E3};
-static const lxb_codepoint_t lxb_unicode_idna_map_01E4[1] = {0x01E5};
-static const lxb_codepoint_t lxb_unicode_idna_map_01E6[1] = {0x01E7};
-static const lxb_codepoint_t lxb_unicode_idna_map_01E8[1] = {0x01E9};
-static const lxb_codepoint_t lxb_unicode_idna_map_01EA[1] = {0x01EB};
-static const lxb_codepoint_t lxb_unicode_idna_map_01EC[1] = {0x01ED};
-static const lxb_codepoint_t lxb_unicode_idna_map_01EE[1] = {0x01EF};
-static const lxb_codepoint_t lxb_unicode_idna_map_01F1[2] = {0x0064, 0x007A};
-static const lxb_codepoint_t lxb_unicode_idna_map_01F2[2] = {0x0064, 0x007A};
-static const lxb_codepoint_t lxb_unicode_idna_map_01F3[2] = {0x0064, 0x007A};
-static const lxb_codepoint_t lxb_unicode_idna_map_01F4[1] = {0x01F5};
-static const lxb_codepoint_t lxb_unicode_idna_map_01F6[1] = {0x0195};
-static const lxb_codepoint_t lxb_unicode_idna_map_01F7[1] = {0x01BF};
-static const lxb_codepoint_t lxb_unicode_idna_map_01F8[1] = {0x01F9};
-static const lxb_codepoint_t lxb_unicode_idna_map_01FA[1] = {0x01FB};
-static const lxb_codepoint_t lxb_unicode_idna_map_01FC[1] = {0x01FD};
-static const lxb_codepoint_t lxb_unicode_idna_map_01FE[1] = {0x01FF};
-static const lxb_codepoint_t lxb_unicode_idna_map_0200[1] = {0x0201};
-static const lxb_codepoint_t lxb_unicode_idna_map_0202[1] = {0x0203};
-static const lxb_codepoint_t lxb_unicode_idna_map_0204[1] = {0x0205};
-static const lxb_codepoint_t lxb_unicode_idna_map_0206[1] = {0x0207};
-static const lxb_codepoint_t lxb_unicode_idna_map_0208[1] = {0x0209};
-static const lxb_codepoint_t lxb_unicode_idna_map_020A[1] = {0x020B};
-static const lxb_codepoint_t lxb_unicode_idna_map_020C[1] = {0x020D};
-static const lxb_codepoint_t lxb_unicode_idna_map_020E[1] = {0x020F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0210[1] = {0x0211};
-static const lxb_codepoint_t lxb_unicode_idna_map_0212[1] = {0x0213};
-static const lxb_codepoint_t lxb_unicode_idna_map_0214[1] = {0x0215};
-static const lxb_codepoint_t lxb_unicode_idna_map_0216[1] = {0x0217};
-static const lxb_codepoint_t lxb_unicode_idna_map_0218[1] = {0x0219};
-static const lxb_codepoint_t lxb_unicode_idna_map_021A[1] = {0x021B};
-static const lxb_codepoint_t lxb_unicode_idna_map_021C[1] = {0x021D};
-static const lxb_codepoint_t lxb_unicode_idna_map_021E[1] = {0x021F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0220[1] = {0x019E};
-static const lxb_codepoint_t lxb_unicode_idna_map_0222[1] = {0x0223};
-static const lxb_codepoint_t lxb_unicode_idna_map_0224[1] = {0x0225};
-static const lxb_codepoint_t lxb_unicode_idna_map_0226[1] = {0x0227};
-static const lxb_codepoint_t lxb_unicode_idna_map_0228[1] = {0x0229};
-static const lxb_codepoint_t lxb_unicode_idna_map_022A[1] = {0x022B};
-static const lxb_codepoint_t lxb_unicode_idna_map_022C[1] = {0x022D};
-static const lxb_codepoint_t lxb_unicode_idna_map_022E[1] = {0x022F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0230[1] = {0x0231};
-static const lxb_codepoint_t lxb_unicode_idna_map_0232[1] = {0x0233};
-static const lxb_codepoint_t lxb_unicode_idna_map_023A[1] = {0x2C65};
-static const lxb_codepoint_t lxb_unicode_idna_map_023B[1] = {0x023C};
-static const lxb_codepoint_t lxb_unicode_idna_map_023D[1] = {0x019A};
-static const lxb_codepoint_t lxb_unicode_idna_map_023E[1] = {0x2C66};
-static const lxb_codepoint_t lxb_unicode_idna_map_0241[1] = {0x0242};
-static const lxb_codepoint_t lxb_unicode_idna_map_0243[1] = {0x0180};
-static const lxb_codepoint_t lxb_unicode_idna_map_0244[1] = {0x0289};
-static const lxb_codepoint_t lxb_unicode_idna_map_0245[1] = {0x028C};
-static const lxb_codepoint_t lxb_unicode_idna_map_0246[1] = {0x0247};
-static const lxb_codepoint_t lxb_unicode_idna_map_0248[1] = {0x0249};
-static const lxb_codepoint_t lxb_unicode_idna_map_024A[1] = {0x024B};
-static const lxb_codepoint_t lxb_unicode_idna_map_024C[1] = {0x024D};
-static const lxb_codepoint_t lxb_unicode_idna_map_024E[1] = {0x024F};
-static const lxb_codepoint_t lxb_unicode_idna_map_02B0[1] = {0x0068};
-static const lxb_codepoint_t lxb_unicode_idna_map_02B1[1] = {0x0266};
-static const lxb_codepoint_t lxb_unicode_idna_map_02B2[1] = {0x006A};
-static const lxb_codepoint_t lxb_unicode_idna_map_02B3[1] = {0x0072};
-static const lxb_codepoint_t lxb_unicode_idna_map_02B4[1] = {0x0279};
-static const lxb_codepoint_t lxb_unicode_idna_map_02B5[1] = {0x027B};
-static const lxb_codepoint_t lxb_unicode_idna_map_02B6[1] = {0x0281};
-static const lxb_codepoint_t lxb_unicode_idna_map_02B7[1] = {0x0077};
-static const lxb_codepoint_t lxb_unicode_idna_map_02B8[1] = {0x0079};
-static const lxb_codepoint_t lxb_unicode_idna_map_02D8[2] = {0x0020, 0x0306};
-static const lxb_codepoint_t lxb_unicode_idna_map_02D9[2] = {0x0020, 0x0307};
-static const lxb_codepoint_t lxb_unicode_idna_map_02DA[2] = {0x0020, 0x030A};
-static const lxb_codepoint_t lxb_unicode_idna_map_02DB[2] = {0x0020, 0x0328};
-static const lxb_codepoint_t lxb_unicode_idna_map_02DC[2] = {0x0020, 0x0303};
-static const lxb_codepoint_t lxb_unicode_idna_map_02DD[2] = {0x0020, 0x030B};
-static const lxb_codepoint_t lxb_unicode_idna_map_02E0[1] = {0x0263};
-static const lxb_codepoint_t lxb_unicode_idna_map_02E1[1] = {0x006C};
-static const lxb_codepoint_t lxb_unicode_idna_map_02E2[1] = {0x0073};
-static const lxb_codepoint_t lxb_unicode_idna_map_02E3[1] = {0x0078};
-static const lxb_codepoint_t lxb_unicode_idna_map_02E4[1] = {0x0295};
-static const lxb_codepoint_t lxb_unicode_idna_map_0340[1] = {0x0300};
-static const lxb_codepoint_t lxb_unicode_idna_map_0341[1] = {0x0301};
-static const lxb_codepoint_t lxb_unicode_idna_map_0343[1] = {0x0313};
-static const lxb_codepoint_t lxb_unicode_idna_map_0344[2] = {0x0308, 0x0301};
-static const lxb_codepoint_t lxb_unicode_idna_map_0345[1] = {0x03B9};
-static const lxb_codepoint_t lxb_unicode_idna_map_0370[1] = {0x0371};
-static const lxb_codepoint_t lxb_unicode_idna_map_0372[1] = {0x0373};
-static const lxb_codepoint_t lxb_unicode_idna_map_0374[1] = {0x02B9};
-static const lxb_codepoint_t lxb_unicode_idna_map_0376[1] = {0x0377};
-static const lxb_codepoint_t lxb_unicode_idna_map_037A[2] = {0x0020, 0x03B9};
-static const lxb_codepoint_t lxb_unicode_idna_map_037E[1] = {0x003B};
-static const lxb_codepoint_t lxb_unicode_idna_map_037F[1] = {0x03F3};
-static const lxb_codepoint_t lxb_unicode_idna_map_0384[2] = {0x0020, 0x0301};
-static const lxb_codepoint_t lxb_unicode_idna_map_0385[3] = {0x0020, 0x0308, 0x0301};
-static const lxb_codepoint_t lxb_unicode_idna_map_0386[1] = {0x03AC};
-static const lxb_codepoint_t lxb_unicode_idna_map_0387[1] = {0x00B7};
-static const lxb_codepoint_t lxb_unicode_idna_map_0388[1] = {0x03AD};
-static const lxb_codepoint_t lxb_unicode_idna_map_0389[1] = {0x03AE};
-static const lxb_codepoint_t lxb_unicode_idna_map_038A[1] = {0x03AF};
-static const lxb_codepoint_t lxb_unicode_idna_map_038C[1] = {0x03CC};
-static const lxb_codepoint_t lxb_unicode_idna_map_038E[1] = {0x03CD};
-static const lxb_codepoint_t lxb_unicode_idna_map_038F[1] = {0x03CE};
-static const lxb_codepoint_t lxb_unicode_idna_map_0391[1] = {0x03B1};
-static const lxb_codepoint_t lxb_unicode_idna_map_0392[1] = {0x03B2};
-static const lxb_codepoint_t lxb_unicode_idna_map_0393[1] = {0x03B3};
-static const lxb_codepoint_t lxb_unicode_idna_map_0394[1] = {0x03B4};
-static const lxb_codepoint_t lxb_unicode_idna_map_0395[1] = {0x03B5};
-static const lxb_codepoint_t lxb_unicode_idna_map_0396[1] = {0x03B6};
-static const lxb_codepoint_t lxb_unicode_idna_map_0397[1] = {0x03B7};
-static const lxb_codepoint_t lxb_unicode_idna_map_0398[1] = {0x03B8};
-static const lxb_codepoint_t lxb_unicode_idna_map_0399[1] = {0x03B9};
-static const lxb_codepoint_t lxb_unicode_idna_map_039A[1] = {0x03BA};
-static const lxb_codepoint_t lxb_unicode_idna_map_039B[1] = {0x03BB};
-static const lxb_codepoint_t lxb_unicode_idna_map_039C[1] = {0x03BC};
-static const lxb_codepoint_t lxb_unicode_idna_map_039D[1] = {0x03BD};
-static const lxb_codepoint_t lxb_unicode_idna_map_039E[1] = {0x03BE};
-static const lxb_codepoint_t lxb_unicode_idna_map_039F[1] = {0x03BF};
-static const lxb_codepoint_t lxb_unicode_idna_map_03A0[1] = {0x03C0};
-static const lxb_codepoint_t lxb_unicode_idna_map_03A1[1] = {0x03C1};
-static const lxb_codepoint_t lxb_unicode_idna_map_03A3[1] = {0x03C3};
-static const lxb_codepoint_t lxb_unicode_idna_map_03A4[1] = {0x03C4};
-static const lxb_codepoint_t lxb_unicode_idna_map_03A5[1] = {0x03C5};
-static const lxb_codepoint_t lxb_unicode_idna_map_03A6[1] = {0x03C6};
-static const lxb_codepoint_t lxb_unicode_idna_map_03A7[1] = {0x03C7};
-static const lxb_codepoint_t lxb_unicode_idna_map_03A8[1] = {0x03C8};
-static const lxb_codepoint_t lxb_unicode_idna_map_03A9[1] = {0x03C9};
-static const lxb_codepoint_t lxb_unicode_idna_map_03AA[1] = {0x03CA};
-static const lxb_codepoint_t lxb_unicode_idna_map_03AB[1] = {0x03CB};
-static const lxb_codepoint_t lxb_unicode_idna_map_03C2[1] = {0x03C3};
-static const lxb_codepoint_t lxb_unicode_idna_map_03CF[1] = {0x03D7};
-static const lxb_codepoint_t lxb_unicode_idna_map_03D0[1] = {0x03B2};
-static const lxb_codepoint_t lxb_unicode_idna_map_03D1[1] = {0x03B8};
-static const lxb_codepoint_t lxb_unicode_idna_map_03D2[1] = {0x03C5};
-static const lxb_codepoint_t lxb_unicode_idna_map_03D3[1] = {0x03CD};
-static const lxb_codepoint_t lxb_unicode_idna_map_03D4[1] = {0x03CB};
-static const lxb_codepoint_t lxb_unicode_idna_map_03D5[1] = {0x03C6};
-static const lxb_codepoint_t lxb_unicode_idna_map_03D6[1] = {0x03C0};
-static const lxb_codepoint_t lxb_unicode_idna_map_03D8[1] = {0x03D9};
-static const lxb_codepoint_t lxb_unicode_idna_map_03DA[1] = {0x03DB};
-static const lxb_codepoint_t lxb_unicode_idna_map_03DC[1] = {0x03DD};
-static const lxb_codepoint_t lxb_unicode_idna_map_03DE[1] = {0x03DF};
-static const lxb_codepoint_t lxb_unicode_idna_map_03E0[1] = {0x03E1};
-static const lxb_codepoint_t lxb_unicode_idna_map_03E2[1] = {0x03E3};
-static const lxb_codepoint_t lxb_unicode_idna_map_03E4[1] = {0x03E5};
-static const lxb_codepoint_t lxb_unicode_idna_map_03E6[1] = {0x03E7};
-static const lxb_codepoint_t lxb_unicode_idna_map_03E8[1] = {0x03E9};
-static const lxb_codepoint_t lxb_unicode_idna_map_03EA[1] = {0x03EB};
-static const lxb_codepoint_t lxb_unicode_idna_map_03EC[1] = {0x03ED};
-static const lxb_codepoint_t lxb_unicode_idna_map_03EE[1] = {0x03EF};
-static const lxb_codepoint_t lxb_unicode_idna_map_03F0[1] = {0x03BA};
-static const lxb_codepoint_t lxb_unicode_idna_map_03F1[1] = {0x03C1};
-static const lxb_codepoint_t lxb_unicode_idna_map_03F2[1] = {0x03C3};
-static const lxb_codepoint_t lxb_unicode_idna_map_03F4[1] = {0x03B8};
-static const lxb_codepoint_t lxb_unicode_idna_map_03F5[1] = {0x03B5};
-static const lxb_codepoint_t lxb_unicode_idna_map_03F7[1] = {0x03F8};
-static const lxb_codepoint_t lxb_unicode_idna_map_03F9[1] = {0x03C3};
-static const lxb_codepoint_t lxb_unicode_idna_map_03FA[1] = {0x03FB};
-static const lxb_codepoint_t lxb_unicode_idna_map_03FD[1] = {0x037B};
-static const lxb_codepoint_t lxb_unicode_idna_map_03FE[1] = {0x037C};
-static const lxb_codepoint_t lxb_unicode_idna_map_03FF[1] = {0x037D};
-static const lxb_codepoint_t lxb_unicode_idna_map_0400[1] = {0x0450};
-static const lxb_codepoint_t lxb_unicode_idna_map_0401[1] = {0x0451};
-static const lxb_codepoint_t lxb_unicode_idna_map_0402[1] = {0x0452};
-static const lxb_codepoint_t lxb_unicode_idna_map_0403[1] = {0x0453};
-static const lxb_codepoint_t lxb_unicode_idna_map_0404[1] = {0x0454};
-static const lxb_codepoint_t lxb_unicode_idna_map_0405[1] = {0x0455};
-static const lxb_codepoint_t lxb_unicode_idna_map_0406[1] = {0x0456};
-static const lxb_codepoint_t lxb_unicode_idna_map_0407[1] = {0x0457};
-static const lxb_codepoint_t lxb_unicode_idna_map_0408[1] = {0x0458};
-static const lxb_codepoint_t lxb_unicode_idna_map_0409[1] = {0x0459};
-static const lxb_codepoint_t lxb_unicode_idna_map_040A[1] = {0x045A};
-static const lxb_codepoint_t lxb_unicode_idna_map_040B[1] = {0x045B};
-static const lxb_codepoint_t lxb_unicode_idna_map_040C[1] = {0x045C};
-static const lxb_codepoint_t lxb_unicode_idna_map_040D[1] = {0x045D};
-static const lxb_codepoint_t lxb_unicode_idna_map_040E[1] = {0x045E};
-static const lxb_codepoint_t lxb_unicode_idna_map_040F[1] = {0x045F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0410[1] = {0x0430};
-static const lxb_codepoint_t lxb_unicode_idna_map_0411[1] = {0x0431};
-static const lxb_codepoint_t lxb_unicode_idna_map_0412[1] = {0x0432};
-static const lxb_codepoint_t lxb_unicode_idna_map_0413[1] = {0x0433};
-static const lxb_codepoint_t lxb_unicode_idna_map_0414[1] = {0x0434};
-static const lxb_codepoint_t lxb_unicode_idna_map_0415[1] = {0x0435};
-static const lxb_codepoint_t lxb_unicode_idna_map_0416[1] = {0x0436};
-static const lxb_codepoint_t lxb_unicode_idna_map_0417[1] = {0x0437};
-static const lxb_codepoint_t lxb_unicode_idna_map_0418[1] = {0x0438};
-static const lxb_codepoint_t lxb_unicode_idna_map_0419[1] = {0x0439};
-static const lxb_codepoint_t lxb_unicode_idna_map_041A[1] = {0x043A};
-static const lxb_codepoint_t lxb_unicode_idna_map_041B[1] = {0x043B};
-static const lxb_codepoint_t lxb_unicode_idna_map_041C[1] = {0x043C};
-static const lxb_codepoint_t lxb_unicode_idna_map_041D[1] = {0x043D};
-static const lxb_codepoint_t lxb_unicode_idna_map_041E[1] = {0x043E};
-static const lxb_codepoint_t lxb_unicode_idna_map_041F[1] = {0x043F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0420[1] = {0x0440};
-static const lxb_codepoint_t lxb_unicode_idna_map_0421[1] = {0x0441};
-static const lxb_codepoint_t lxb_unicode_idna_map_0422[1] = {0x0442};
-static const lxb_codepoint_t lxb_unicode_idna_map_0423[1] = {0x0443};
-static const lxb_codepoint_t lxb_unicode_idna_map_0424[1] = {0x0444};
-static const lxb_codepoint_t lxb_unicode_idna_map_0425[1] = {0x0445};
-static const lxb_codepoint_t lxb_unicode_idna_map_0426[1] = {0x0446};
-static const lxb_codepoint_t lxb_unicode_idna_map_0427[1] = {0x0447};
-static const lxb_codepoint_t lxb_unicode_idna_map_0428[1] = {0x0448};
-static const lxb_codepoint_t lxb_unicode_idna_map_0429[1] = {0x0449};
-static const lxb_codepoint_t lxb_unicode_idna_map_042A[1] = {0x044A};
-static const lxb_codepoint_t lxb_unicode_idna_map_042B[1] = {0x044B};
-static const lxb_codepoint_t lxb_unicode_idna_map_042C[1] = {0x044C};
-static const lxb_codepoint_t lxb_unicode_idna_map_042D[1] = {0x044D};
-static const lxb_codepoint_t lxb_unicode_idna_map_042E[1] = {0x044E};
-static const lxb_codepoint_t lxb_unicode_idna_map_042F[1] = {0x044F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0460[1] = {0x0461};
-static const lxb_codepoint_t lxb_unicode_idna_map_0462[1] = {0x0463};
-static const lxb_codepoint_t lxb_unicode_idna_map_0464[1] = {0x0465};
-static const lxb_codepoint_t lxb_unicode_idna_map_0466[1] = {0x0467};
-static const lxb_codepoint_t lxb_unicode_idna_map_0468[1] = {0x0469};
-static const lxb_codepoint_t lxb_unicode_idna_map_046A[1] = {0x046B};
-static const lxb_codepoint_t lxb_unicode_idna_map_046C[1] = {0x046D};
-static const lxb_codepoint_t lxb_unicode_idna_map_046E[1] = {0x046F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0470[1] = {0x0471};
-static const lxb_codepoint_t lxb_unicode_idna_map_0472[1] = {0x0473};
-static const lxb_codepoint_t lxb_unicode_idna_map_0474[1] = {0x0475};
-static const lxb_codepoint_t lxb_unicode_idna_map_0476[1] = {0x0477};
-static const lxb_codepoint_t lxb_unicode_idna_map_0478[1] = {0x0479};
-static const lxb_codepoint_t lxb_unicode_idna_map_047A[1] = {0x047B};
-static const lxb_codepoint_t lxb_unicode_idna_map_047C[1] = {0x047D};
-static const lxb_codepoint_t lxb_unicode_idna_map_047E[1] = {0x047F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0480[1] = {0x0481};
-static const lxb_codepoint_t lxb_unicode_idna_map_048A[1] = {0x048B};
-static const lxb_codepoint_t lxb_unicode_idna_map_048C[1] = {0x048D};
-static const lxb_codepoint_t lxb_unicode_idna_map_048E[1] = {0x048F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0490[1] = {0x0491};
-static const lxb_codepoint_t lxb_unicode_idna_map_0492[1] = {0x0493};
-static const lxb_codepoint_t lxb_unicode_idna_map_0494[1] = {0x0495};
-static const lxb_codepoint_t lxb_unicode_idna_map_0496[1] = {0x0497};
-static const lxb_codepoint_t lxb_unicode_idna_map_0498[1] = {0x0499};
-static const lxb_codepoint_t lxb_unicode_idna_map_049A[1] = {0x049B};
-static const lxb_codepoint_t lxb_unicode_idna_map_049C[1] = {0x049D};
-static const lxb_codepoint_t lxb_unicode_idna_map_049E[1] = {0x049F};
-static const lxb_codepoint_t lxb_unicode_idna_map_04A0[1] = {0x04A1};
-static const lxb_codepoint_t lxb_unicode_idna_map_04A2[1] = {0x04A3};
-static const lxb_codepoint_t lxb_unicode_idna_map_04A4[1] = {0x04A5};
-static const lxb_codepoint_t lxb_unicode_idna_map_04A6[1] = {0x04A7};
-static const lxb_codepoint_t lxb_unicode_idna_map_04A8[1] = {0x04A9};
-static const lxb_codepoint_t lxb_unicode_idna_map_04AA[1] = {0x04AB};
-static const lxb_codepoint_t lxb_unicode_idna_map_04AC[1] = {0x04AD};
-static const lxb_codepoint_t lxb_unicode_idna_map_04AE[1] = {0x04AF};
-static const lxb_codepoint_t lxb_unicode_idna_map_04B0[1] = {0x04B1};
-static const lxb_codepoint_t lxb_unicode_idna_map_04B2[1] = {0x04B3};
-static const lxb_codepoint_t lxb_unicode_idna_map_04B4[1] = {0x04B5};
-static const lxb_codepoint_t lxb_unicode_idna_map_04B6[1] = {0x04B7};
-static const lxb_codepoint_t lxb_unicode_idna_map_04B8[1] = {0x04B9};
-static const lxb_codepoint_t lxb_unicode_idna_map_04BA[1] = {0x04BB};
-static const lxb_codepoint_t lxb_unicode_idna_map_04BC[1] = {0x04BD};
-static const lxb_codepoint_t lxb_unicode_idna_map_04BE[1] = {0x04BF};
-static const lxb_codepoint_t lxb_unicode_idna_map_04C1[1] = {0x04C2};
-static const lxb_codepoint_t lxb_unicode_idna_map_04C3[1] = {0x04C4};
-static const lxb_codepoint_t lxb_unicode_idna_map_04C5[1] = {0x04C6};
-static const lxb_codepoint_t lxb_unicode_idna_map_04C7[1] = {0x04C8};
-static const lxb_codepoint_t lxb_unicode_idna_map_04C9[1] = {0x04CA};
-static const lxb_codepoint_t lxb_unicode_idna_map_04CB[1] = {0x04CC};
-static const lxb_codepoint_t lxb_unicode_idna_map_04CD[1] = {0x04CE};
-static const lxb_codepoint_t lxb_unicode_idna_map_04D0[1] = {0x04D1};
-static const lxb_codepoint_t lxb_unicode_idna_map_04D2[1] = {0x04D3};
-static const lxb_codepoint_t lxb_unicode_idna_map_04D4[1] = {0x04D5};
-static const lxb_codepoint_t lxb_unicode_idna_map_04D6[1] = {0x04D7};
-static const lxb_codepoint_t lxb_unicode_idna_map_04D8[1] = {0x04D9};
-static const lxb_codepoint_t lxb_unicode_idna_map_04DA[1] = {0x04DB};
-static const lxb_codepoint_t lxb_unicode_idna_map_04DC[1] = {0x04DD};
-static const lxb_codepoint_t lxb_unicode_idna_map_04DE[1] = {0x04DF};
-static const lxb_codepoint_t lxb_unicode_idna_map_04E0[1] = {0x04E1};
-static const lxb_codepoint_t lxb_unicode_idna_map_04E2[1] = {0x04E3};
-static const lxb_codepoint_t lxb_unicode_idna_map_04E4[1] = {0x04E5};
-static const lxb_codepoint_t lxb_unicode_idna_map_04E6[1] = {0x04E7};
-static const lxb_codepoint_t lxb_unicode_idna_map_04E8[1] = {0x04E9};
-static const lxb_codepoint_t lxb_unicode_idna_map_04EA[1] = {0x04EB};
-static const lxb_codepoint_t lxb_unicode_idna_map_04EC[1] = {0x04ED};
-static const lxb_codepoint_t lxb_unicode_idna_map_04EE[1] = {0x04EF};
-static const lxb_codepoint_t lxb_unicode_idna_map_04F0[1] = {0x04F1};
-static const lxb_codepoint_t lxb_unicode_idna_map_04F2[1] = {0x04F3};
-static const lxb_codepoint_t lxb_unicode_idna_map_04F4[1] = {0x04F5};
-static const lxb_codepoint_t lxb_unicode_idna_map_04F6[1] = {0x04F7};
-static const lxb_codepoint_t lxb_unicode_idna_map_04F8[1] = {0x04F9};
-static const lxb_codepoint_t lxb_unicode_idna_map_04FA[1] = {0x04FB};
-static const lxb_codepoint_t lxb_unicode_idna_map_04FC[1] = {0x04FD};
-static const lxb_codepoint_t lxb_unicode_idna_map_04FE[1] = {0x04FF};
-static const lxb_codepoint_t lxb_unicode_idna_map_0500[1] = {0x0501};
-static const lxb_codepoint_t lxb_unicode_idna_map_0502[1] = {0x0503};
-static const lxb_codepoint_t lxb_unicode_idna_map_0504[1] = {0x0505};
-static const lxb_codepoint_t lxb_unicode_idna_map_0506[1] = {0x0507};
-static const lxb_codepoint_t lxb_unicode_idna_map_0508[1] = {0x0509};
-static const lxb_codepoint_t lxb_unicode_idna_map_050A[1] = {0x050B};
-static const lxb_codepoint_t lxb_unicode_idna_map_050C[1] = {0x050D};
-static const lxb_codepoint_t lxb_unicode_idna_map_050E[1] = {0x050F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0510[1] = {0x0511};
-static const lxb_codepoint_t lxb_unicode_idna_map_0512[1] = {0x0513};
-static const lxb_codepoint_t lxb_unicode_idna_map_0514[1] = {0x0515};
-static const lxb_codepoint_t lxb_unicode_idna_map_0516[1] = {0x0517};
-static const lxb_codepoint_t lxb_unicode_idna_map_0518[1] = {0x0519};
-static const lxb_codepoint_t lxb_unicode_idna_map_051A[1] = {0x051B};
-static const lxb_codepoint_t lxb_unicode_idna_map_051C[1] = {0x051D};
-static const lxb_codepoint_t lxb_unicode_idna_map_051E[1] = {0x051F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0520[1] = {0x0521};
-static const lxb_codepoint_t lxb_unicode_idna_map_0522[1] = {0x0523};
-static const lxb_codepoint_t lxb_unicode_idna_map_0524[1] = {0x0525};
-static const lxb_codepoint_t lxb_unicode_idna_map_0526[1] = {0x0527};
-static const lxb_codepoint_t lxb_unicode_idna_map_0528[1] = {0x0529};
-static const lxb_codepoint_t lxb_unicode_idna_map_052A[1] = {0x052B};
-static const lxb_codepoint_t lxb_unicode_idna_map_052C[1] = {0x052D};
-static const lxb_codepoint_t lxb_unicode_idna_map_052E[1] = {0x052F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0531[1] = {0x0561};
-static const lxb_codepoint_t lxb_unicode_idna_map_0532[1] = {0x0562};
-static const lxb_codepoint_t lxb_unicode_idna_map_0533[1] = {0x0563};
-static const lxb_codepoint_t lxb_unicode_idna_map_0534[1] = {0x0564};
-static const lxb_codepoint_t lxb_unicode_idna_map_0535[1] = {0x0565};
-static const lxb_codepoint_t lxb_unicode_idna_map_0536[1] = {0x0566};
-static const lxb_codepoint_t lxb_unicode_idna_map_0537[1] = {0x0567};
-static const lxb_codepoint_t lxb_unicode_idna_map_0538[1] = {0x0568};
-static const lxb_codepoint_t lxb_unicode_idna_map_0539[1] = {0x0569};
-static const lxb_codepoint_t lxb_unicode_idna_map_053A[1] = {0x056A};
-static const lxb_codepoint_t lxb_unicode_idna_map_053B[1] = {0x056B};
-static const lxb_codepoint_t lxb_unicode_idna_map_053C[1] = {0x056C};
-static const lxb_codepoint_t lxb_unicode_idna_map_053D[1] = {0x056D};
-static const lxb_codepoint_t lxb_unicode_idna_map_053E[1] = {0x056E};
-static const lxb_codepoint_t lxb_unicode_idna_map_053F[1] = {0x056F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0540[1] = {0x0570};
-static const lxb_codepoint_t lxb_unicode_idna_map_0541[1] = {0x0571};
-static const lxb_codepoint_t lxb_unicode_idna_map_0542[1] = {0x0572};
-static const lxb_codepoint_t lxb_unicode_idna_map_0543[1] = {0x0573};
-static const lxb_codepoint_t lxb_unicode_idna_map_0544[1] = {0x0574};
-static const lxb_codepoint_t lxb_unicode_idna_map_0545[1] = {0x0575};
-static const lxb_codepoint_t lxb_unicode_idna_map_0546[1] = {0x0576};
-static const lxb_codepoint_t lxb_unicode_idna_map_0547[1] = {0x0577};
-static const lxb_codepoint_t lxb_unicode_idna_map_0548[1] = {0x0578};
-static const lxb_codepoint_t lxb_unicode_idna_map_0549[1] = {0x0579};
-static const lxb_codepoint_t lxb_unicode_idna_map_054A[1] = {0x057A};
-static const lxb_codepoint_t lxb_unicode_idna_map_054B[1] = {0x057B};
-static const lxb_codepoint_t lxb_unicode_idna_map_054C[1] = {0x057C};
-static const lxb_codepoint_t lxb_unicode_idna_map_054D[1] = {0x057D};
-static const lxb_codepoint_t lxb_unicode_idna_map_054E[1] = {0x057E};
-static const lxb_codepoint_t lxb_unicode_idna_map_054F[1] = {0x057F};
-static const lxb_codepoint_t lxb_unicode_idna_map_0550[1] = {0x0580};
-static const lxb_codepoint_t lxb_unicode_idna_map_0551[1] = {0x0581};
-static const lxb_codepoint_t lxb_unicode_idna_map_0552[1] = {0x0582};
-static const lxb_codepoint_t lxb_unicode_idna_map_0553[1] = {0x0583};
-static const lxb_codepoint_t lxb_unicode_idna_map_0554[1] = {0x0584};
-static const lxb_codepoint_t lxb_unicode_idna_map_0555[1] = {0x0585};
-static const lxb_codepoint_t lxb_unicode_idna_map_0556[1] = {0x0586};
-static const lxb_codepoint_t lxb_unicode_idna_map_0587[2] = {0x0565, 0x0582};
-static const lxb_codepoint_t lxb_unicode_idna_map_0675[2] = {0x0627, 0x0674};
-static const lxb_codepoint_t lxb_unicode_idna_map_0676[2] = {0x0648, 0x0674};
-static const lxb_codepoint_t lxb_unicode_idna_map_0677[2] = {0x06C7, 0x0674};
-static const lxb_codepoint_t lxb_unicode_idna_map_0678[2] = {0x064A, 0x0674};
-static const lxb_codepoint_t lxb_unicode_idna_map_0958[2] = {0x0915, 0x093C};
-static const lxb_codepoint_t lxb_unicode_idna_map_0959[2] = {0x0916, 0x093C};
-static const lxb_codepoint_t lxb_unicode_idna_map_095A[2] = {0x0917, 0x093C};
-static const lxb_codepoint_t lxb_unicode_idna_map_095B[2] = {0x091C, 0x093C};
-static const lxb_codepoint_t lxb_unicode_idna_map_095C[2] = {0x0921, 0x093C};
-static const lxb_codepoint_t lxb_unicode_idna_map_095D[2] = {0x0922, 0x093C};
-static const lxb_codepoint_t lxb_unicode_idna_map_095E[2] = {0x092B, 0x093C};
-static const lxb_codepoint_t lxb_unicode_idna_map_095F[2] = {0x092F, 0x093C};
-static const lxb_codepoint_t lxb_unicode_idna_map_09DC[2] = {0x09A1, 0x09BC};
-static const lxb_codepoint_t lxb_unicode_idna_map_09DD[2] = {0x09A2, 0x09BC};
-static const lxb_codepoint_t lxb_unicode_idna_map_09DF[2] = {0x09AF, 0x09BC};
-static const lxb_codepoint_t lxb_unicode_idna_map_0A33[2] = {0x0A32, 0x0A3C};
-static const lxb_codepoint_t lxb_unicode_idna_map_0A36[2] = {0x0A38, 0x0A3C};
-static const lxb_codepoint_t lxb_unicode_idna_map_0A59[2] = {0x0A16, 0x0A3C};
-static const lxb_codepoint_t lxb_unicode_idna_map_0A5A[2] = {0x0A17, 0x0A3C};
-static const lxb_codepoint_t lxb_unicode_idna_map_0A5B[2] = {0x0A1C, 0x0A3C};
-static const lxb_codepoint_t lxb_unicode_idna_map_0A5E[2] = {0x0A2B, 0x0A3C};
-static const lxb_codepoint_t lxb_unicode_idna_map_0B5C[2] = {0x0B21, 0x0B3C};
-static const lxb_codepoint_t lxb_unicode_idna_map_0B5D[2] = {0x0B22, 0x0B3C};
-static const lxb_codepoint_t lxb_unicode_idna_map_0E33[2] = {0x0E4D, 0x0E32};
-static const lxb_codepoint_t lxb_unicode_idna_map_0EB3[2] = {0x0ECD, 0x0EB2};
-static const lxb_codepoint_t lxb_unicode_idna_map_0EDC[2] = {0x0EAB, 0x0E99};
-static const lxb_codepoint_t lxb_unicode_idna_map_0EDD[2] = {0x0EAB, 0x0EA1};
-static const lxb_codepoint_t lxb_unicode_idna_map_0F0C[1] = {0x0F0B};
-static const lxb_codepoint_t lxb_unicode_idna_map_0F43[2] = {0x0F42, 0x0FB7};
-static const lxb_codepoint_t lxb_unicode_idna_map_0F4D[2] = {0x0F4C, 0x0FB7};
-static const lxb_codepoint_t lxb_unicode_idna_map_0F52[2] = {0x0F51, 0x0FB7};
-static const lxb_codepoint_t lxb_unicode_idna_map_0F57[2] = {0x0F56, 0x0FB7};
-static const lxb_codepoint_t lxb_unicode_idna_map_0F5C[2] = {0x0F5B, 0x0FB7};
-static const lxb_codepoint_t lxb_unicode_idna_map_0F69[2] = {0x0F40, 0x0FB5};
-static const lxb_codepoint_t lxb_unicode_idna_map_0F73[2] = {0x0F71, 0x0F72};
-static const lxb_codepoint_t lxb_unicode_idna_map_0F75[2] = {0x0F71, 0x0F74};
-static const lxb_codepoint_t lxb_unicode_idna_map_0F76[2] = {0x0FB2, 0x0F80};
-static const lxb_codepoint_t lxb_unicode_idna_map_0F77[3] = {0x0FB2, 0x0F71, 0x0F80};
-static const lxb_codepoint_t lxb_unicode_idna_map_0F78[2] = {0x0FB3, 0x0F80};
-static const lxb_codepoint_t lxb_unicode_idna_map_0F79[3] = {0x0FB3, 0x0F71, 0x0F80};
-static const lxb_codepoint_t lxb_unicode_idna_map_0F81[2] = {0x0F71, 0x0F80};
-static const lxb_codepoint_t lxb_unicode_idna_map_0F93[2] = {0x0F92, 0x0FB7};
-static const lxb_codepoint_t lxb_unicode_idna_map_0F9D[2] = {0x0F9C, 0x0FB7};
-static const lxb_codepoint_t lxb_unicode_idna_map_0FA2[2] = {0x0FA1, 0x0FB7};
-static const lxb_codepoint_t lxb_unicode_idna_map_0FA7[2] = {0x0FA6, 0x0FB7};
-static const lxb_codepoint_t lxb_unicode_idna_map_0FAC[2] = {0x0FAB, 0x0FB7};
-static const lxb_codepoint_t lxb_unicode_idna_map_0FB9[2] = {0x0F90, 0x0FB5};
-static const lxb_codepoint_t lxb_unicode_idna_map_10C7[1] = {0x2D27};
-static const lxb_codepoint_t lxb_unicode_idna_map_10CD[1] = {0x2D2D};
-static const lxb_codepoint_t lxb_unicode_idna_map_10FC[1] = {0x10DC};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0041 = {.cps = (lxb_codepoint_t[]) {0x0061}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0042 = {.cps = (lxb_codepoint_t[]) {0x0062}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0043 = {.cps = (lxb_codepoint_t[]) {0x0063}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0044 = {.cps = (lxb_codepoint_t[]) {0x0064}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0045 = {.cps = (lxb_codepoint_t[]) {0x0065}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0046 = {.cps = (lxb_codepoint_t[]) {0x0066}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0047 = {.cps = (lxb_codepoint_t[]) {0x0067}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0048 = {.cps = (lxb_codepoint_t[]) {0x0068}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0049 = {.cps = (lxb_codepoint_t[]) {0x0069}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_004A = {.cps = (lxb_codepoint_t[]) {0x006A}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_004B = {.cps = (lxb_codepoint_t[]) {0x006B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_004C = {.cps = (lxb_codepoint_t[]) {0x006C}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_004D = {.cps = (lxb_codepoint_t[]) {0x006D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_004E = {.cps = (lxb_codepoint_t[]) {0x006E}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_004F = {.cps = (lxb_codepoint_t[]) {0x006F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0050 = {.cps = (lxb_codepoint_t[]) {0x0070}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0051 = {.cps = (lxb_codepoint_t[]) {0x0071}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0052 = {.cps = (lxb_codepoint_t[]) {0x0072}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0053 = {.cps = (lxb_codepoint_t[]) {0x0073}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0054 = {.cps = (lxb_codepoint_t[]) {0x0074}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0055 = {.cps = (lxb_codepoint_t[]) {0x0075}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0056 = {.cps = (lxb_codepoint_t[]) {0x0076}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0057 = {.cps = (lxb_codepoint_t[]) {0x0077}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0058 = {.cps = (lxb_codepoint_t[]) {0x0078}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0059 = {.cps = (lxb_codepoint_t[]) {0x0079}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_005A = {.cps = (lxb_codepoint_t[]) {0x007A}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00A0 = {.cps = (lxb_codepoint_t[]) {0x0020}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00A8 = {.cps = (lxb_codepoint_t[]) {0x0020, 0x0308}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00AA = {.cps = (lxb_codepoint_t[]) {0x0061}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00AF = {.cps = (lxb_codepoint_t[]) {0x0020, 0x0304}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00B2 = {.cps = (lxb_codepoint_t[]) {0x0032}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00B3 = {.cps = (lxb_codepoint_t[]) {0x0033}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00B4 = {.cps = (lxb_codepoint_t[]) {0x0020, 0x0301}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00B5 = {.cps = (lxb_codepoint_t[]) {0x03BC}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00B8 = {.cps = (lxb_codepoint_t[]) {0x0020, 0x0327}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00B9 = {.cps = (lxb_codepoint_t[]) {0x0031}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00BA = {.cps = (lxb_codepoint_t[]) {0x006F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00BC = {.cps = (lxb_codepoint_t[]) {0x0031, 0x2044, 0x0034}, .length = 3};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00BD = {.cps = (lxb_codepoint_t[]) {0x0031, 0x2044, 0x0032}, .length = 3};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00BE = {.cps = (lxb_codepoint_t[]) {0x0033, 0x2044, 0x0034}, .length = 3};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00C0 = {.cps = (lxb_codepoint_t[]) {0x00E0}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00C1 = {.cps = (lxb_codepoint_t[]) {0x00E1}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00C2 = {.cps = (lxb_codepoint_t[]) {0x00E2}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00C3 = {.cps = (lxb_codepoint_t[]) {0x00E3}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00C4 = {.cps = (lxb_codepoint_t[]) {0x00E4}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00C5 = {.cps = (lxb_codepoint_t[]) {0x00E5}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00C6 = {.cps = (lxb_codepoint_t[]) {0x00E6}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00C7 = {.cps = (lxb_codepoint_t[]) {0x00E7}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00C8 = {.cps = (lxb_codepoint_t[]) {0x00E8}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00C9 = {.cps = (lxb_codepoint_t[]) {0x00E9}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00CA = {.cps = (lxb_codepoint_t[]) {0x00EA}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00CB = {.cps = (lxb_codepoint_t[]) {0x00EB}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00CC = {.cps = (lxb_codepoint_t[]) {0x00EC}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00CD = {.cps = (lxb_codepoint_t[]) {0x00ED}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00CE = {.cps = (lxb_codepoint_t[]) {0x00EE}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00CF = {.cps = (lxb_codepoint_t[]) {0x00EF}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00D0 = {.cps = (lxb_codepoint_t[]) {0x00F0}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00D1 = {.cps = (lxb_codepoint_t[]) {0x00F1}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00D2 = {.cps = (lxb_codepoint_t[]) {0x00F2}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00D3 = {.cps = (lxb_codepoint_t[]) {0x00F3}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00D4 = {.cps = (lxb_codepoint_t[]) {0x00F4}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00D5 = {.cps = (lxb_codepoint_t[]) {0x00F5}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00D6 = {.cps = (lxb_codepoint_t[]) {0x00F6}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00D8 = {.cps = (lxb_codepoint_t[]) {0x00F8}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00D9 = {.cps = (lxb_codepoint_t[]) {0x00F9}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00DA = {.cps = (lxb_codepoint_t[]) {0x00FA}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00DB = {.cps = (lxb_codepoint_t[]) {0x00FB}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00DC = {.cps = (lxb_codepoint_t[]) {0x00FC}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00DD = {.cps = (lxb_codepoint_t[]) {0x00FD}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00DE = {.cps = (lxb_codepoint_t[]) {0x00FE}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_00DF = {.cps = (lxb_codepoint_t[]) {0x0073, 0x0073}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0100 = {.cps = (lxb_codepoint_t[]) {0x0101}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0102 = {.cps = (lxb_codepoint_t[]) {0x0103}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0104 = {.cps = (lxb_codepoint_t[]) {0x0105}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0106 = {.cps = (lxb_codepoint_t[]) {0x0107}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0108 = {.cps = (lxb_codepoint_t[]) {0x0109}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_010A = {.cps = (lxb_codepoint_t[]) {0x010B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_010C = {.cps = (lxb_codepoint_t[]) {0x010D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_010E = {.cps = (lxb_codepoint_t[]) {0x010F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0110 = {.cps = (lxb_codepoint_t[]) {0x0111}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0112 = {.cps = (lxb_codepoint_t[]) {0x0113}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0114 = {.cps = (lxb_codepoint_t[]) {0x0115}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0116 = {.cps = (lxb_codepoint_t[]) {0x0117}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0118 = {.cps = (lxb_codepoint_t[]) {0x0119}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_011A = {.cps = (lxb_codepoint_t[]) {0x011B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_011C = {.cps = (lxb_codepoint_t[]) {0x011D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_011E = {.cps = (lxb_codepoint_t[]) {0x011F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0120 = {.cps = (lxb_codepoint_t[]) {0x0121}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0122 = {.cps = (lxb_codepoint_t[]) {0x0123}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0124 = {.cps = (lxb_codepoint_t[]) {0x0125}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0126 = {.cps = (lxb_codepoint_t[]) {0x0127}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0128 = {.cps = (lxb_codepoint_t[]) {0x0129}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_012A = {.cps = (lxb_codepoint_t[]) {0x012B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_012C = {.cps = (lxb_codepoint_t[]) {0x012D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_012E = {.cps = (lxb_codepoint_t[]) {0x012F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0130 = {.cps = (lxb_codepoint_t[]) {0x0069, 0x0307}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0132 = {.cps = (lxb_codepoint_t[]) {0x0069, 0x006A}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0133 = {.cps = (lxb_codepoint_t[]) {0x0069, 0x006A}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0134 = {.cps = (lxb_codepoint_t[]) {0x0135}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0136 = {.cps = (lxb_codepoint_t[]) {0x0137}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0139 = {.cps = (lxb_codepoint_t[]) {0x013A}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_013B = {.cps = (lxb_codepoint_t[]) {0x013C}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_013D = {.cps = (lxb_codepoint_t[]) {0x013E}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_013F = {.cps = (lxb_codepoint_t[]) {0x006C, 0x00B7}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0140 = {.cps = (lxb_codepoint_t[]) {0x006C, 0x00B7}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0141 = {.cps = (lxb_codepoint_t[]) {0x0142}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0143 = {.cps = (lxb_codepoint_t[]) {0x0144}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0145 = {.cps = (lxb_codepoint_t[]) {0x0146}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0147 = {.cps = (lxb_codepoint_t[]) {0x0148}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0149 = {.cps = (lxb_codepoint_t[]) {0x02BC, 0x006E}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_014A = {.cps = (lxb_codepoint_t[]) {0x014B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_014C = {.cps = (lxb_codepoint_t[]) {0x014D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_014E = {.cps = (lxb_codepoint_t[]) {0x014F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0150 = {.cps = (lxb_codepoint_t[]) {0x0151}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0152 = {.cps = (lxb_codepoint_t[]) {0x0153}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0154 = {.cps = (lxb_codepoint_t[]) {0x0155}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0156 = {.cps = (lxb_codepoint_t[]) {0x0157}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0158 = {.cps = (lxb_codepoint_t[]) {0x0159}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_015A = {.cps = (lxb_codepoint_t[]) {0x015B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_015C = {.cps = (lxb_codepoint_t[]) {0x015D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_015E = {.cps = (lxb_codepoint_t[]) {0x015F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0160 = {.cps = (lxb_codepoint_t[]) {0x0161}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0162 = {.cps = (lxb_codepoint_t[]) {0x0163}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0164 = {.cps = (lxb_codepoint_t[]) {0x0165}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0166 = {.cps = (lxb_codepoint_t[]) {0x0167}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0168 = {.cps = (lxb_codepoint_t[]) {0x0169}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_016A = {.cps = (lxb_codepoint_t[]) {0x016B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_016C = {.cps = (lxb_codepoint_t[]) {0x016D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_016E = {.cps = (lxb_codepoint_t[]) {0x016F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0170 = {.cps = (lxb_codepoint_t[]) {0x0171}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0172 = {.cps = (lxb_codepoint_t[]) {0x0173}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0174 = {.cps = (lxb_codepoint_t[]) {0x0175}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0176 = {.cps = (lxb_codepoint_t[]) {0x0177}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0178 = {.cps = (lxb_codepoint_t[]) {0x00FF}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0179 = {.cps = (lxb_codepoint_t[]) {0x017A}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_017B = {.cps = (lxb_codepoint_t[]) {0x017C}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_017D = {.cps = (lxb_codepoint_t[]) {0x017E}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_017F = {.cps = (lxb_codepoint_t[]) {0x0073}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0181 = {.cps = (lxb_codepoint_t[]) {0x0253}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0182 = {.cps = (lxb_codepoint_t[]) {0x0183}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0184 = {.cps = (lxb_codepoint_t[]) {0x0185}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0186 = {.cps = (lxb_codepoint_t[]) {0x0254}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0187 = {.cps = (lxb_codepoint_t[]) {0x0188}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0189 = {.cps = (lxb_codepoint_t[]) {0x0256}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_018A = {.cps = (lxb_codepoint_t[]) {0x0257}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_018B = {.cps = (lxb_codepoint_t[]) {0x018C}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_018E = {.cps = (lxb_codepoint_t[]) {0x01DD}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_018F = {.cps = (lxb_codepoint_t[]) {0x0259}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0190 = {.cps = (lxb_codepoint_t[]) {0x025B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0191 = {.cps = (lxb_codepoint_t[]) {0x0192}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0193 = {.cps = (lxb_codepoint_t[]) {0x0260}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0194 = {.cps = (lxb_codepoint_t[]) {0x0263}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0196 = {.cps = (lxb_codepoint_t[]) {0x0269}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0197 = {.cps = (lxb_codepoint_t[]) {0x0268}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0198 = {.cps = (lxb_codepoint_t[]) {0x0199}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_019C = {.cps = (lxb_codepoint_t[]) {0x026F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_019D = {.cps = (lxb_codepoint_t[]) {0x0272}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_019F = {.cps = (lxb_codepoint_t[]) {0x0275}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01A0 = {.cps = (lxb_codepoint_t[]) {0x01A1}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01A2 = {.cps = (lxb_codepoint_t[]) {0x01A3}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01A4 = {.cps = (lxb_codepoint_t[]) {0x01A5}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01A6 = {.cps = (lxb_codepoint_t[]) {0x0280}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01A7 = {.cps = (lxb_codepoint_t[]) {0x01A8}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01A9 = {.cps = (lxb_codepoint_t[]) {0x0283}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01AC = {.cps = (lxb_codepoint_t[]) {0x01AD}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01AE = {.cps = (lxb_codepoint_t[]) {0x0288}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01AF = {.cps = (lxb_codepoint_t[]) {0x01B0}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01B1 = {.cps = (lxb_codepoint_t[]) {0x028A}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01B2 = {.cps = (lxb_codepoint_t[]) {0x028B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01B3 = {.cps = (lxb_codepoint_t[]) {0x01B4}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01B5 = {.cps = (lxb_codepoint_t[]) {0x01B6}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01B7 = {.cps = (lxb_codepoint_t[]) {0x0292}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01B8 = {.cps = (lxb_codepoint_t[]) {0x01B9}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01BC = {.cps = (lxb_codepoint_t[]) {0x01BD}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01C4 = {.cps = (lxb_codepoint_t[]) {0x0064, 0x017E}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01C5 = {.cps = (lxb_codepoint_t[]) {0x0064, 0x017E}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01C6 = {.cps = (lxb_codepoint_t[]) {0x0064, 0x017E}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01C7 = {.cps = (lxb_codepoint_t[]) {0x006C, 0x006A}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01C8 = {.cps = (lxb_codepoint_t[]) {0x006C, 0x006A}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01C9 = {.cps = (lxb_codepoint_t[]) {0x006C, 0x006A}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01CA = {.cps = (lxb_codepoint_t[]) {0x006E, 0x006A}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01CB = {.cps = (lxb_codepoint_t[]) {0x006E, 0x006A}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01CC = {.cps = (lxb_codepoint_t[]) {0x006E, 0x006A}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01CD = {.cps = (lxb_codepoint_t[]) {0x01CE}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01CF = {.cps = (lxb_codepoint_t[]) {0x01D0}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01D1 = {.cps = (lxb_codepoint_t[]) {0x01D2}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01D3 = {.cps = (lxb_codepoint_t[]) {0x01D4}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01D5 = {.cps = (lxb_codepoint_t[]) {0x01D6}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01D7 = {.cps = (lxb_codepoint_t[]) {0x01D8}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01D9 = {.cps = (lxb_codepoint_t[]) {0x01DA}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01DB = {.cps = (lxb_codepoint_t[]) {0x01DC}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01DE = {.cps = (lxb_codepoint_t[]) {0x01DF}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01E0 = {.cps = (lxb_codepoint_t[]) {0x01E1}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01E2 = {.cps = (lxb_codepoint_t[]) {0x01E3}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01E4 = {.cps = (lxb_codepoint_t[]) {0x01E5}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01E6 = {.cps = (lxb_codepoint_t[]) {0x01E7}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01E8 = {.cps = (lxb_codepoint_t[]) {0x01E9}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01EA = {.cps = (lxb_codepoint_t[]) {0x01EB}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01EC = {.cps = (lxb_codepoint_t[]) {0x01ED}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01EE = {.cps = (lxb_codepoint_t[]) {0x01EF}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01F1 = {.cps = (lxb_codepoint_t[]) {0x0064, 0x007A}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01F2 = {.cps = (lxb_codepoint_t[]) {0x0064, 0x007A}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01F3 = {.cps = (lxb_codepoint_t[]) {0x0064, 0x007A}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01F4 = {.cps = (lxb_codepoint_t[]) {0x01F5}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01F6 = {.cps = (lxb_codepoint_t[]) {0x0195}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01F7 = {.cps = (lxb_codepoint_t[]) {0x01BF}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01F8 = {.cps = (lxb_codepoint_t[]) {0x01F9}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01FA = {.cps = (lxb_codepoint_t[]) {0x01FB}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01FC = {.cps = (lxb_codepoint_t[]) {0x01FD}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_01FE = {.cps = (lxb_codepoint_t[]) {0x01FF}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0200 = {.cps = (lxb_codepoint_t[]) {0x0201}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0202 = {.cps = (lxb_codepoint_t[]) {0x0203}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0204 = {.cps = (lxb_codepoint_t[]) {0x0205}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0206 = {.cps = (lxb_codepoint_t[]) {0x0207}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0208 = {.cps = (lxb_codepoint_t[]) {0x0209}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_020A = {.cps = (lxb_codepoint_t[]) {0x020B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_020C = {.cps = (lxb_codepoint_t[]) {0x020D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_020E = {.cps = (lxb_codepoint_t[]) {0x020F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0210 = {.cps = (lxb_codepoint_t[]) {0x0211}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0212 = {.cps = (lxb_codepoint_t[]) {0x0213}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0214 = {.cps = (lxb_codepoint_t[]) {0x0215}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0216 = {.cps = (lxb_codepoint_t[]) {0x0217}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0218 = {.cps = (lxb_codepoint_t[]) {0x0219}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_021A = {.cps = (lxb_codepoint_t[]) {0x021B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_021C = {.cps = (lxb_codepoint_t[]) {0x021D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_021E = {.cps = (lxb_codepoint_t[]) {0x021F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0220 = {.cps = (lxb_codepoint_t[]) {0x019E}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0222 = {.cps = (lxb_codepoint_t[]) {0x0223}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0224 = {.cps = (lxb_codepoint_t[]) {0x0225}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0226 = {.cps = (lxb_codepoint_t[]) {0x0227}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0228 = {.cps = (lxb_codepoint_t[]) {0x0229}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_022A = {.cps = (lxb_codepoint_t[]) {0x022B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_022C = {.cps = (lxb_codepoint_t[]) {0x022D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_022E = {.cps = (lxb_codepoint_t[]) {0x022F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0230 = {.cps = (lxb_codepoint_t[]) {0x0231}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0232 = {.cps = (lxb_codepoint_t[]) {0x0233}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_023A = {.cps = (lxb_codepoint_t[]) {0x2C65}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_023B = {.cps = (lxb_codepoint_t[]) {0x023C}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_023D = {.cps = (lxb_codepoint_t[]) {0x019A}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_023E = {.cps = (lxb_codepoint_t[]) {0x2C66}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0241 = {.cps = (lxb_codepoint_t[]) {0x0242}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0243 = {.cps = (lxb_codepoint_t[]) {0x0180}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0244 = {.cps = (lxb_codepoint_t[]) {0x0289}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0245 = {.cps = (lxb_codepoint_t[]) {0x028C}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0246 = {.cps = (lxb_codepoint_t[]) {0x0247}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0248 = {.cps = (lxb_codepoint_t[]) {0x0249}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_024A = {.cps = (lxb_codepoint_t[]) {0x024B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_024C = {.cps = (lxb_codepoint_t[]) {0x024D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_024E = {.cps = (lxb_codepoint_t[]) {0x024F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02B0 = {.cps = (lxb_codepoint_t[]) {0x0068}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02B1 = {.cps = (lxb_codepoint_t[]) {0x0266}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02B2 = {.cps = (lxb_codepoint_t[]) {0x006A}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02B3 = {.cps = (lxb_codepoint_t[]) {0x0072}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02B4 = {.cps = (lxb_codepoint_t[]) {0x0279}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02B5 = {.cps = (lxb_codepoint_t[]) {0x027B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02B6 = {.cps = (lxb_codepoint_t[]) {0x0281}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02B7 = {.cps = (lxb_codepoint_t[]) {0x0077}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02B8 = {.cps = (lxb_codepoint_t[]) {0x0079}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02D8 = {.cps = (lxb_codepoint_t[]) {0x0020, 0x0306}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02D9 = {.cps = (lxb_codepoint_t[]) {0x0020, 0x0307}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02DA = {.cps = (lxb_codepoint_t[]) {0x0020, 0x030A}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02DB = {.cps = (lxb_codepoint_t[]) {0x0020, 0x0328}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02DC = {.cps = (lxb_codepoint_t[]) {0x0020, 0x0303}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02DD = {.cps = (lxb_codepoint_t[]) {0x0020, 0x030B}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02E0 = {.cps = (lxb_codepoint_t[]) {0x0263}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02E1 = {.cps = (lxb_codepoint_t[]) {0x006C}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02E2 = {.cps = (lxb_codepoint_t[]) {0x0073}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02E3 = {.cps = (lxb_codepoint_t[]) {0x0078}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_02E4 = {.cps = (lxb_codepoint_t[]) {0x0295}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0340 = {.cps = (lxb_codepoint_t[]) {0x0300}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0341 = {.cps = (lxb_codepoint_t[]) {0x0301}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0343 = {.cps = (lxb_codepoint_t[]) {0x0313}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0344 = {.cps = (lxb_codepoint_t[]) {0x0308, 0x0301}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0345 = {.cps = (lxb_codepoint_t[]) {0x03B9}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0370 = {.cps = (lxb_codepoint_t[]) {0x0371}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0372 = {.cps = (lxb_codepoint_t[]) {0x0373}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0374 = {.cps = (lxb_codepoint_t[]) {0x02B9}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0376 = {.cps = (lxb_codepoint_t[]) {0x0377}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_037A = {.cps = (lxb_codepoint_t[]) {0x0020, 0x03B9}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_037E = {.cps = (lxb_codepoint_t[]) {0x003B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_037F = {.cps = (lxb_codepoint_t[]) {0x03F3}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0384 = {.cps = (lxb_codepoint_t[]) {0x0020, 0x0301}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0385 = {.cps = (lxb_codepoint_t[]) {0x0020, 0x0308, 0x0301}, .length = 3};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0386 = {.cps = (lxb_codepoint_t[]) {0x03AC}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0387 = {.cps = (lxb_codepoint_t[]) {0x00B7}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0388 = {.cps = (lxb_codepoint_t[]) {0x03AD}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0389 = {.cps = (lxb_codepoint_t[]) {0x03AE}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_038A = {.cps = (lxb_codepoint_t[]) {0x03AF}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_038C = {.cps = (lxb_codepoint_t[]) {0x03CC}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_038E = {.cps = (lxb_codepoint_t[]) {0x03CD}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_038F = {.cps = (lxb_codepoint_t[]) {0x03CE}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0391 = {.cps = (lxb_codepoint_t[]) {0x03B1}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0392 = {.cps = (lxb_codepoint_t[]) {0x03B2}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0393 = {.cps = (lxb_codepoint_t[]) {0x03B3}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0394 = {.cps = (lxb_codepoint_t[]) {0x03B4}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0395 = {.cps = (lxb_codepoint_t[]) {0x03B5}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0396 = {.cps = (lxb_codepoint_t[]) {0x03B6}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0397 = {.cps = (lxb_codepoint_t[]) {0x03B7}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0398 = {.cps = (lxb_codepoint_t[]) {0x03B8}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0399 = {.cps = (lxb_codepoint_t[]) {0x03B9}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_039A = {.cps = (lxb_codepoint_t[]) {0x03BA}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_039B = {.cps = (lxb_codepoint_t[]) {0x03BB}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_039C = {.cps = (lxb_codepoint_t[]) {0x03BC}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_039D = {.cps = (lxb_codepoint_t[]) {0x03BD}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_039E = {.cps = (lxb_codepoint_t[]) {0x03BE}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_039F = {.cps = (lxb_codepoint_t[]) {0x03BF}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03A0 = {.cps = (lxb_codepoint_t[]) {0x03C0}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03A1 = {.cps = (lxb_codepoint_t[]) {0x03C1}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03A3 = {.cps = (lxb_codepoint_t[]) {0x03C3}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03A4 = {.cps = (lxb_codepoint_t[]) {0x03C4}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03A5 = {.cps = (lxb_codepoint_t[]) {0x03C5}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03A6 = {.cps = (lxb_codepoint_t[]) {0x03C6}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03A7 = {.cps = (lxb_codepoint_t[]) {0x03C7}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03A8 = {.cps = (lxb_codepoint_t[]) {0x03C8}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03A9 = {.cps = (lxb_codepoint_t[]) {0x03C9}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03AA = {.cps = (lxb_codepoint_t[]) {0x03CA}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03AB = {.cps = (lxb_codepoint_t[]) {0x03CB}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03C2 = {.cps = (lxb_codepoint_t[]) {0x03C3}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03CF = {.cps = (lxb_codepoint_t[]) {0x03D7}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03D0 = {.cps = (lxb_codepoint_t[]) {0x03B2}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03D1 = {.cps = (lxb_codepoint_t[]) {0x03B8}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03D2 = {.cps = (lxb_codepoint_t[]) {0x03C5}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03D3 = {.cps = (lxb_codepoint_t[]) {0x03CD}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03D4 = {.cps = (lxb_codepoint_t[]) {0x03CB}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03D5 = {.cps = (lxb_codepoint_t[]) {0x03C6}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03D6 = {.cps = (lxb_codepoint_t[]) {0x03C0}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03D8 = {.cps = (lxb_codepoint_t[]) {0x03D9}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03DA = {.cps = (lxb_codepoint_t[]) {0x03DB}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03DC = {.cps = (lxb_codepoint_t[]) {0x03DD}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03DE = {.cps = (lxb_codepoint_t[]) {0x03DF}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03E0 = {.cps = (lxb_codepoint_t[]) {0x03E1}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03E2 = {.cps = (lxb_codepoint_t[]) {0x03E3}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03E4 = {.cps = (lxb_codepoint_t[]) {0x03E5}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03E6 = {.cps = (lxb_codepoint_t[]) {0x03E7}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03E8 = {.cps = (lxb_codepoint_t[]) {0x03E9}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03EA = {.cps = (lxb_codepoint_t[]) {0x03EB}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03EC = {.cps = (lxb_codepoint_t[]) {0x03ED}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03EE = {.cps = (lxb_codepoint_t[]) {0x03EF}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03F0 = {.cps = (lxb_codepoint_t[]) {0x03BA}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03F1 = {.cps = (lxb_codepoint_t[]) {0x03C1}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03F2 = {.cps = (lxb_codepoint_t[]) {0x03C3}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03F4 = {.cps = (lxb_codepoint_t[]) {0x03B8}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03F5 = {.cps = (lxb_codepoint_t[]) {0x03B5}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03F7 = {.cps = (lxb_codepoint_t[]) {0x03F8}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03F9 = {.cps = (lxb_codepoint_t[]) {0x03C3}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03FA = {.cps = (lxb_codepoint_t[]) {0x03FB}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03FD = {.cps = (lxb_codepoint_t[]) {0x037B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03FE = {.cps = (lxb_codepoint_t[]) {0x037C}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_03FF = {.cps = (lxb_codepoint_t[]) {0x037D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0400 = {.cps = (lxb_codepoint_t[]) {0x0450}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0401 = {.cps = (lxb_codepoint_t[]) {0x0451}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0402 = {.cps = (lxb_codepoint_t[]) {0x0452}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0403 = {.cps = (lxb_codepoint_t[]) {0x0453}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0404 = {.cps = (lxb_codepoint_t[]) {0x0454}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0405 = {.cps = (lxb_codepoint_t[]) {0x0455}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0406 = {.cps = (lxb_codepoint_t[]) {0x0456}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0407 = {.cps = (lxb_codepoint_t[]) {0x0457}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0408 = {.cps = (lxb_codepoint_t[]) {0x0458}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0409 = {.cps = (lxb_codepoint_t[]) {0x0459}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_040A = {.cps = (lxb_codepoint_t[]) {0x045A}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_040B = {.cps = (lxb_codepoint_t[]) {0x045B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_040C = {.cps = (lxb_codepoint_t[]) {0x045C}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_040D = {.cps = (lxb_codepoint_t[]) {0x045D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_040E = {.cps = (lxb_codepoint_t[]) {0x045E}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_040F = {.cps = (lxb_codepoint_t[]) {0x045F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0410 = {.cps = (lxb_codepoint_t[]) {0x0430}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0411 = {.cps = (lxb_codepoint_t[]) {0x0431}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0412 = {.cps = (lxb_codepoint_t[]) {0x0432}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0413 = {.cps = (lxb_codepoint_t[]) {0x0433}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0414 = {.cps = (lxb_codepoint_t[]) {0x0434}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0415 = {.cps = (lxb_codepoint_t[]) {0x0435}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0416 = {.cps = (lxb_codepoint_t[]) {0x0436}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0417 = {.cps = (lxb_codepoint_t[]) {0x0437}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0418 = {.cps = (lxb_codepoint_t[]) {0x0438}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0419 = {.cps = (lxb_codepoint_t[]) {0x0439}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_041A = {.cps = (lxb_codepoint_t[]) {0x043A}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_041B = {.cps = (lxb_codepoint_t[]) {0x043B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_041C = {.cps = (lxb_codepoint_t[]) {0x043C}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_041D = {.cps = (lxb_codepoint_t[]) {0x043D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_041E = {.cps = (lxb_codepoint_t[]) {0x043E}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_041F = {.cps = (lxb_codepoint_t[]) {0x043F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0420 = {.cps = (lxb_codepoint_t[]) {0x0440}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0421 = {.cps = (lxb_codepoint_t[]) {0x0441}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0422 = {.cps = (lxb_codepoint_t[]) {0x0442}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0423 = {.cps = (lxb_codepoint_t[]) {0x0443}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0424 = {.cps = (lxb_codepoint_t[]) {0x0444}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0425 = {.cps = (lxb_codepoint_t[]) {0x0445}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0426 = {.cps = (lxb_codepoint_t[]) {0x0446}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0427 = {.cps = (lxb_codepoint_t[]) {0x0447}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0428 = {.cps = (lxb_codepoint_t[]) {0x0448}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0429 = {.cps = (lxb_codepoint_t[]) {0x0449}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_042A = {.cps = (lxb_codepoint_t[]) {0x044A}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_042B = {.cps = (lxb_codepoint_t[]) {0x044B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_042C = {.cps = (lxb_codepoint_t[]) {0x044C}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_042D = {.cps = (lxb_codepoint_t[]) {0x044D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_042E = {.cps = (lxb_codepoint_t[]) {0x044E}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_042F = {.cps = (lxb_codepoint_t[]) {0x044F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0460 = {.cps = (lxb_codepoint_t[]) {0x0461}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0462 = {.cps = (lxb_codepoint_t[]) {0x0463}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0464 = {.cps = (lxb_codepoint_t[]) {0x0465}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0466 = {.cps = (lxb_codepoint_t[]) {0x0467}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0468 = {.cps = (lxb_codepoint_t[]) {0x0469}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_046A = {.cps = (lxb_codepoint_t[]) {0x046B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_046C = {.cps = (lxb_codepoint_t[]) {0x046D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_046E = {.cps = (lxb_codepoint_t[]) {0x046F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0470 = {.cps = (lxb_codepoint_t[]) {0x0471}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0472 = {.cps = (lxb_codepoint_t[]) {0x0473}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0474 = {.cps = (lxb_codepoint_t[]) {0x0475}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0476 = {.cps = (lxb_codepoint_t[]) {0x0477}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0478 = {.cps = (lxb_codepoint_t[]) {0x0479}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_047A = {.cps = (lxb_codepoint_t[]) {0x047B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_047C = {.cps = (lxb_codepoint_t[]) {0x047D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_047E = {.cps = (lxb_codepoint_t[]) {0x047F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0480 = {.cps = (lxb_codepoint_t[]) {0x0481}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_048A = {.cps = (lxb_codepoint_t[]) {0x048B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_048C = {.cps = (lxb_codepoint_t[]) {0x048D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_048E = {.cps = (lxb_codepoint_t[]) {0x048F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0490 = {.cps = (lxb_codepoint_t[]) {0x0491}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0492 = {.cps = (lxb_codepoint_t[]) {0x0493}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0494 = {.cps = (lxb_codepoint_t[]) {0x0495}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0496 = {.cps = (lxb_codepoint_t[]) {0x0497}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0498 = {.cps = (lxb_codepoint_t[]) {0x0499}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_049A = {.cps = (lxb_codepoint_t[]) {0x049B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_049C = {.cps = (lxb_codepoint_t[]) {0x049D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_049E = {.cps = (lxb_codepoint_t[]) {0x049F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04A0 = {.cps = (lxb_codepoint_t[]) {0x04A1}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04A2 = {.cps = (lxb_codepoint_t[]) {0x04A3}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04A4 = {.cps = (lxb_codepoint_t[]) {0x04A5}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04A6 = {.cps = (lxb_codepoint_t[]) {0x04A7}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04A8 = {.cps = (lxb_codepoint_t[]) {0x04A9}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04AA = {.cps = (lxb_codepoint_t[]) {0x04AB}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04AC = {.cps = (lxb_codepoint_t[]) {0x04AD}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04AE = {.cps = (lxb_codepoint_t[]) {0x04AF}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04B0 = {.cps = (lxb_codepoint_t[]) {0x04B1}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04B2 = {.cps = (lxb_codepoint_t[]) {0x04B3}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04B4 = {.cps = (lxb_codepoint_t[]) {0x04B5}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04B6 = {.cps = (lxb_codepoint_t[]) {0x04B7}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04B8 = {.cps = (lxb_codepoint_t[]) {0x04B9}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04BA = {.cps = (lxb_codepoint_t[]) {0x04BB}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04BC = {.cps = (lxb_codepoint_t[]) {0x04BD}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04BE = {.cps = (lxb_codepoint_t[]) {0x04BF}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04C1 = {.cps = (lxb_codepoint_t[]) {0x04C2}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04C3 = {.cps = (lxb_codepoint_t[]) {0x04C4}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04C5 = {.cps = (lxb_codepoint_t[]) {0x04C6}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04C7 = {.cps = (lxb_codepoint_t[]) {0x04C8}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04C9 = {.cps = (lxb_codepoint_t[]) {0x04CA}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04CB = {.cps = (lxb_codepoint_t[]) {0x04CC}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04CD = {.cps = (lxb_codepoint_t[]) {0x04CE}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04D0 = {.cps = (lxb_codepoint_t[]) {0x04D1}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04D2 = {.cps = (lxb_codepoint_t[]) {0x04D3}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04D4 = {.cps = (lxb_codepoint_t[]) {0x04D5}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04D6 = {.cps = (lxb_codepoint_t[]) {0x04D7}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04D8 = {.cps = (lxb_codepoint_t[]) {0x04D9}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04DA = {.cps = (lxb_codepoint_t[]) {0x04DB}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04DC = {.cps = (lxb_codepoint_t[]) {0x04DD}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04DE = {.cps = (lxb_codepoint_t[]) {0x04DF}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04E0 = {.cps = (lxb_codepoint_t[]) {0x04E1}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04E2 = {.cps = (lxb_codepoint_t[]) {0x04E3}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04E4 = {.cps = (lxb_codepoint_t[]) {0x04E5}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04E6 = {.cps = (lxb_codepoint_t[]) {0x04E7}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04E8 = {.cps = (lxb_codepoint_t[]) {0x04E9}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04EA = {.cps = (lxb_codepoint_t[]) {0x04EB}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04EC = {.cps = (lxb_codepoint_t[]) {0x04ED}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04EE = {.cps = (lxb_codepoint_t[]) {0x04EF}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04F0 = {.cps = (lxb_codepoint_t[]) {0x04F1}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04F2 = {.cps = (lxb_codepoint_t[]) {0x04F3}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04F4 = {.cps = (lxb_codepoint_t[]) {0x04F5}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04F6 = {.cps = (lxb_codepoint_t[]) {0x04F7}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04F8 = {.cps = (lxb_codepoint_t[]) {0x04F9}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04FA = {.cps = (lxb_codepoint_t[]) {0x04FB}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04FC = {.cps = (lxb_codepoint_t[]) {0x04FD}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_04FE = {.cps = (lxb_codepoint_t[]) {0x04FF}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0500 = {.cps = (lxb_codepoint_t[]) {0x0501}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0502 = {.cps = (lxb_codepoint_t[]) {0x0503}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0504 = {.cps = (lxb_codepoint_t[]) {0x0505}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0506 = {.cps = (lxb_codepoint_t[]) {0x0507}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0508 = {.cps = (lxb_codepoint_t[]) {0x0509}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_050A = {.cps = (lxb_codepoint_t[]) {0x050B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_050C = {.cps = (lxb_codepoint_t[]) {0x050D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_050E = {.cps = (lxb_codepoint_t[]) {0x050F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0510 = {.cps = (lxb_codepoint_t[]) {0x0511}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0512 = {.cps = (lxb_codepoint_t[]) {0x0513}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0514 = {.cps = (lxb_codepoint_t[]) {0x0515}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0516 = {.cps = (lxb_codepoint_t[]) {0x0517}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0518 = {.cps = (lxb_codepoint_t[]) {0x0519}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_051A = {.cps = (lxb_codepoint_t[]) {0x051B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_051C = {.cps = (lxb_codepoint_t[]) {0x051D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_051E = {.cps = (lxb_codepoint_t[]) {0x051F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0520 = {.cps = (lxb_codepoint_t[]) {0x0521}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0522 = {.cps = (lxb_codepoint_t[]) {0x0523}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0524 = {.cps = (lxb_codepoint_t[]) {0x0525}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0526 = {.cps = (lxb_codepoint_t[]) {0x0527}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0528 = {.cps = (lxb_codepoint_t[]) {0x0529}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_052A = {.cps = (lxb_codepoint_t[]) {0x052B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_052C = {.cps = (lxb_codepoint_t[]) {0x052D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_052E = {.cps = (lxb_codepoint_t[]) {0x052F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0531 = {.cps = (lxb_codepoint_t[]) {0x0561}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0532 = {.cps = (lxb_codepoint_t[]) {0x0562}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0533 = {.cps = (lxb_codepoint_t[]) {0x0563}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0534 = {.cps = (lxb_codepoint_t[]) {0x0564}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0535 = {.cps = (lxb_codepoint_t[]) {0x0565}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0536 = {.cps = (lxb_codepoint_t[]) {0x0566}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0537 = {.cps = (lxb_codepoint_t[]) {0x0567}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0538 = {.cps = (lxb_codepoint_t[]) {0x0568}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0539 = {.cps = (lxb_codepoint_t[]) {0x0569}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_053A = {.cps = (lxb_codepoint_t[]) {0x056A}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_053B = {.cps = (lxb_codepoint_t[]) {0x056B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_053C = {.cps = (lxb_codepoint_t[]) {0x056C}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_053D = {.cps = (lxb_codepoint_t[]) {0x056D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_053E = {.cps = (lxb_codepoint_t[]) {0x056E}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_053F = {.cps = (lxb_codepoint_t[]) {0x056F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0540 = {.cps = (lxb_codepoint_t[]) {0x0570}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0541 = {.cps = (lxb_codepoint_t[]) {0x0571}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0542 = {.cps = (lxb_codepoint_t[]) {0x0572}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0543 = {.cps = (lxb_codepoint_t[]) {0x0573}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0544 = {.cps = (lxb_codepoint_t[]) {0x0574}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0545 = {.cps = (lxb_codepoint_t[]) {0x0575}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0546 = {.cps = (lxb_codepoint_t[]) {0x0576}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0547 = {.cps = (lxb_codepoint_t[]) {0x0577}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0548 = {.cps = (lxb_codepoint_t[]) {0x0578}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0549 = {.cps = (lxb_codepoint_t[]) {0x0579}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_054A = {.cps = (lxb_codepoint_t[]) {0x057A}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_054B = {.cps = (lxb_codepoint_t[]) {0x057B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_054C = {.cps = (lxb_codepoint_t[]) {0x057C}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_054D = {.cps = (lxb_codepoint_t[]) {0x057D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_054E = {.cps = (lxb_codepoint_t[]) {0x057E}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_054F = {.cps = (lxb_codepoint_t[]) {0x057F}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0550 = {.cps = (lxb_codepoint_t[]) {0x0580}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0551 = {.cps = (lxb_codepoint_t[]) {0x0581}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0552 = {.cps = (lxb_codepoint_t[]) {0x0582}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0553 = {.cps = (lxb_codepoint_t[]) {0x0583}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0554 = {.cps = (lxb_codepoint_t[]) {0x0584}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0555 = {.cps = (lxb_codepoint_t[]) {0x0585}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0556 = {.cps = (lxb_codepoint_t[]) {0x0586}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0587 = {.cps = (lxb_codepoint_t[]) {0x0565, 0x0582}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0675 = {.cps = (lxb_codepoint_t[]) {0x0627, 0x0674}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0676 = {.cps = (lxb_codepoint_t[]) {0x0648, 0x0674}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0677 = {.cps = (lxb_codepoint_t[]) {0x06C7, 0x0674}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0678 = {.cps = (lxb_codepoint_t[]) {0x064A, 0x0674}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0958 = {.cps = (lxb_codepoint_t[]) {0x0915, 0x093C}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0959 = {.cps = (lxb_codepoint_t[]) {0x0916, 0x093C}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_095A = {.cps = (lxb_codepoint_t[]) {0x0917, 0x093C}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_095B = {.cps = (lxb_codepoint_t[]) {0x091C, 0x093C}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_095C = {.cps = (lxb_codepoint_t[]) {0x0921, 0x093C}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_095D = {.cps = (lxb_codepoint_t[]) {0x0922, 0x093C}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_095E = {.cps = (lxb_codepoint_t[]) {0x092B, 0x093C}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_095F = {.cps = (lxb_codepoint_t[]) {0x092F, 0x093C}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_09DC = {.cps = (lxb_codepoint_t[]) {0x09A1, 0x09BC}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_09DD = {.cps = (lxb_codepoint_t[]) {0x09A2, 0x09BC}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_09DF = {.cps = (lxb_codepoint_t[]) {0x09AF, 0x09BC}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0A33 = {.cps = (lxb_codepoint_t[]) {0x0A32, 0x0A3C}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0A36 = {.cps = (lxb_codepoint_t[]) {0x0A38, 0x0A3C}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0A59 = {.cps = (lxb_codepoint_t[]) {0x0A16, 0x0A3C}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0A5A = {.cps = (lxb_codepoint_t[]) {0x0A17, 0x0A3C}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0A5B = {.cps = (lxb_codepoint_t[]) {0x0A1C, 0x0A3C}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0A5E = {.cps = (lxb_codepoint_t[]) {0x0A2B, 0x0A3C}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0B5C = {.cps = (lxb_codepoint_t[]) {0x0B21, 0x0B3C}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0B5D = {.cps = (lxb_codepoint_t[]) {0x0B22, 0x0B3C}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0E33 = {.cps = (lxb_codepoint_t[]) {0x0E4D, 0x0E32}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0EB3 = {.cps = (lxb_codepoint_t[]) {0x0ECD, 0x0EB2}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0EDC = {.cps = (lxb_codepoint_t[]) {0x0EAB, 0x0E99}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0EDD = {.cps = (lxb_codepoint_t[]) {0x0EAB, 0x0EA1}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0F0C = {.cps = (lxb_codepoint_t[]) {0x0F0B}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0F43 = {.cps = (lxb_codepoint_t[]) {0x0F42, 0x0FB7}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0F4D = {.cps = (lxb_codepoint_t[]) {0x0F4C, 0x0FB7}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0F52 = {.cps = (lxb_codepoint_t[]) {0x0F51, 0x0FB7}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0F57 = {.cps = (lxb_codepoint_t[]) {0x0F56, 0x0FB7}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0F5C = {.cps = (lxb_codepoint_t[]) {0x0F5B, 0x0FB7}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0F69 = {.cps = (lxb_codepoint_t[]) {0x0F40, 0x0FB5}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0F73 = {.cps = (lxb_codepoint_t[]) {0x0F71, 0x0F72}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0F75 = {.cps = (lxb_codepoint_t[]) {0x0F71, 0x0F74}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0F76 = {.cps = (lxb_codepoint_t[]) {0x0FB2, 0x0F80}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0F77 = {.cps = (lxb_codepoint_t[]) {0x0FB2, 0x0F71, 0x0F80}, .length = 3};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0F78 = {.cps = (lxb_codepoint_t[]) {0x0FB3, 0x0F80}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0F79 = {.cps = (lxb_codepoint_t[]) {0x0FB3, 0x0F71, 0x0F80}, .length = 3};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0F81 = {.cps = (lxb_codepoint_t[]) {0x0F71, 0x0F80}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0F93 = {.cps = (lxb_codepoint_t[]) {0x0F92, 0x0FB7}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0F9D = {.cps = (lxb_codepoint_t[]) {0x0F9C, 0x0FB7}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0FA2 = {.cps = (lxb_codepoint_t[]) {0x0FA1, 0x0FB7}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0FA7 = {.cps = (lxb_codepoint_t[]) {0x0FA6, 0x0FB7}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0FAC = {.cps = (lxb_codepoint_t[]) {0x0FAB, 0x0FB7}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_0FB9 = {.cps = (lxb_codepoint_t[]) {0x0F90, 0x0FB5}, .length = 2};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_10C7 = {.cps = (lxb_codepoint_t[]) {0x2D27}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_10CD = {.cps = (lxb_codepoint_t[]) {0x2D2D}, .length = 1};
+static const lxb_unicode_idna_map_t lxb_unicode_idna_map_10FC = {.cps = (lxb_codepoint_t[]) {0x10DC}, .length = 1};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_c_00A0[1] = {0x0020};
 static const lxb_unicode_decomposition_t lxb_unicode_decomposition_c_00A0 = {.type = LXB_UNICODE_DECOMPOSITION_TYPE_NOBREAK, .mapping = lxb_unicode_decomposition_cp_c_00A0, .length = 1};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_k_00A0[1] = {0x0020};
@@ -4248,6 +4248,8 @@ static const lxb_unicode_decomposition_t lxb_unicode_decomposition__095F = {.typ
 static const lxb_unicode_entry_t lxb_unicode_entry_095F = {.cp = 0x095F, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_NO|LXB_UNICODE_NFD_QUICK_NO|LXB_UNICODE_NFKC_QUICK_NO|LXB_UNICODE_NFKD_QUICK_NO, .de = &lxb_unicode_decomposition__095F, .cde = &lxb_unicode_decomposition_c_095F, .kde = &lxb_unicode_decomposition_k_095F};
 
 static const lxb_unicode_entry_t lxb_unicode_entry_09BC = {.cp = 0x09BC, .ccc = 7, .quick = LXB_UNICODE_QUICK_UNDEF, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_09BE = {.cp = 0x09BE, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_c_09CB[2] = {0x09C7, 0x09BE};
 static const lxb_unicode_decomposition_t lxb_unicode_decomposition_c_09CB = {.type = LXB_UNICODE_DECOMPOSITION_TYPE__UNDEF, .mapping = lxb_unicode_decomposition_cp_c_09CB, .length = 2};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_k_09CB[2] = {0x09C7, 0x09BE};
@@ -4264,6 +4266,8 @@ static const lxb_unicode_decomposition_t lxb_unicode_decomposition__09CC = {.typ
 static const lxb_unicode_entry_t lxb_unicode_entry_09CC = {.cp = 0x09CC, .ccc = 0, .quick = LXB_UNICODE_NFD_QUICK_NO|LXB_UNICODE_NFKD_QUICK_NO, .de = &lxb_unicode_decomposition__09CC, .cde = &lxb_unicode_decomposition_c_09CC, .kde = &lxb_unicode_decomposition_k_09CC};
 
 static const lxb_unicode_entry_t lxb_unicode_entry_09CD = {.cp = 0x09CD, .ccc = 9, .quick = LXB_UNICODE_QUICK_UNDEF, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_09D7 = {.cp = 0x09D7, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_c_09DC[2] = {0x09A1, 0x09BC};
 static const lxb_unicode_decomposition_t lxb_unicode_decomposition_c_09DC = {.type = LXB_UNICODE_DECOMPOSITION_TYPE__UNDEF, .mapping = lxb_unicode_decomposition_cp_c_09DC, .length = 2};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_k_09DC[2] = {0x09A1, 0x09BC};
@@ -4339,6 +4343,8 @@ static const lxb_unicode_entry_t lxb_unicode_entry_0ABC = {.cp = 0x0ABC, .ccc = 
 static const lxb_unicode_entry_t lxb_unicode_entry_0ACD = {.cp = 0x0ACD, .ccc = 9, .quick = LXB_UNICODE_QUICK_UNDEF, .de = NULL, .cde = NULL, .kde = NULL};
 
 static const lxb_unicode_entry_t lxb_unicode_entry_0B3C = {.cp = 0x0B3C, .ccc = 7, .quick = LXB_UNICODE_QUICK_UNDEF, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_0B3E = {.cp = 0x0B3E, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_c_0B48[2] = {0x0B47, 0x0B56};
 static const lxb_unicode_decomposition_t lxb_unicode_decomposition_c_0B48 = {.type = LXB_UNICODE_DECOMPOSITION_TYPE__UNDEF, .mapping = lxb_unicode_decomposition_cp_c_0B48, .length = 2};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_k_0B48[2] = {0x0B47, 0x0B56};
@@ -4362,6 +4368,10 @@ static const lxb_unicode_decomposition_t lxb_unicode_decomposition__0B4C = {.typ
 static const lxb_unicode_entry_t lxb_unicode_entry_0B4C = {.cp = 0x0B4C, .ccc = 0, .quick = LXB_UNICODE_NFD_QUICK_NO|LXB_UNICODE_NFKD_QUICK_NO, .de = &lxb_unicode_decomposition__0B4C, .cde = &lxb_unicode_decomposition_c_0B4C, .kde = &lxb_unicode_decomposition_k_0B4C};
 
 static const lxb_unicode_entry_t lxb_unicode_entry_0B4D = {.cp = 0x0B4D, .ccc = 9, .quick = LXB_UNICODE_QUICK_UNDEF, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_0B56 = {.cp = 0x0B56, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_0B57 = {.cp = 0x0B57, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_c_0B5C[2] = {0x0B21, 0x0B3C};
 static const lxb_unicode_decomposition_t lxb_unicode_decomposition_c_0B5C = {.type = LXB_UNICODE_DECOMPOSITION_TYPE__UNDEF, .mapping = lxb_unicode_decomposition_cp_c_0B5C, .length = 2};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_k_0B5C[2] = {0x0B21, 0x0B3C};
@@ -4383,6 +4393,8 @@ static const lxb_unicode_decomposition_t lxb_unicode_decomposition_k_0B94 = {.ty
 static const lxb_codepoint_t lxb_unicode_decomposition_cp__0B94[2] = {0x0B92, 0x0BD7};
 static const lxb_unicode_decomposition_t lxb_unicode_decomposition__0B94 = {.type = LXB_UNICODE_DECOMPOSITION_TYPE__UNDEF, .mapping = lxb_unicode_decomposition_cp__0B94, .length = 2};
 static const lxb_unicode_entry_t lxb_unicode_entry_0B94 = {.cp = 0x0B94, .ccc = 0, .quick = LXB_UNICODE_NFD_QUICK_NO|LXB_UNICODE_NFKD_QUICK_NO, .de = &lxb_unicode_decomposition__0B94, .cde = &lxb_unicode_decomposition_c_0B94, .kde = &lxb_unicode_decomposition_k_0B94};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_0BBE = {.cp = 0x0BBE, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_c_0BCA[2] = {0x0BC6, 0x0BBE};
 static const lxb_unicode_decomposition_t lxb_unicode_decomposition_c_0BCA = {.type = LXB_UNICODE_DECOMPOSITION_TYPE__UNDEF, .mapping = lxb_unicode_decomposition_cp_c_0BCA, .length = 2};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_k_0BCA[2] = {0x0BC6, 0x0BBE};
@@ -4407,6 +4419,8 @@ static const lxb_unicode_entry_t lxb_unicode_entry_0BCC = {.cp = 0x0BCC, .ccc = 
 
 static const lxb_unicode_entry_t lxb_unicode_entry_0BCD = {.cp = 0x0BCD, .ccc = 9, .quick = LXB_UNICODE_QUICK_UNDEF, .de = NULL, .cde = NULL, .kde = NULL};
 
+static const lxb_unicode_entry_t lxb_unicode_entry_0BD7 = {.cp = 0x0BD7, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
 static const lxb_unicode_entry_t lxb_unicode_entry_0C3C = {.cp = 0x0C3C, .ccc = 7, .quick = LXB_UNICODE_QUICK_UNDEF, .de = NULL, .cde = NULL, .kde = NULL};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_c_0C48[2] = {0x0C46, 0x0C56};
 static const lxb_unicode_decomposition_t lxb_unicode_decomposition_c_0C48 = {.type = LXB_UNICODE_DECOMPOSITION_TYPE__UNDEF, .mapping = lxb_unicode_decomposition_cp_c_0C48, .length = 2};
@@ -4430,6 +4444,8 @@ static const lxb_unicode_decomposition_t lxb_unicode_decomposition_k_0CC0 = {.ty
 static const lxb_codepoint_t lxb_unicode_decomposition_cp__0CC0[2] = {0x0CBF, 0x0CD5};
 static const lxb_unicode_decomposition_t lxb_unicode_decomposition__0CC0 = {.type = LXB_UNICODE_DECOMPOSITION_TYPE__UNDEF, .mapping = lxb_unicode_decomposition_cp__0CC0, .length = 2};
 static const lxb_unicode_entry_t lxb_unicode_entry_0CC0 = {.cp = 0x0CC0, .ccc = 0, .quick = LXB_UNICODE_NFD_QUICK_NO|LXB_UNICODE_NFKD_QUICK_NO, .de = &lxb_unicode_decomposition__0CC0, .cde = &lxb_unicode_decomposition_c_0CC0, .kde = &lxb_unicode_decomposition_k_0CC0};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_0CC2 = {.cp = 0x0CC2, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_c_0CC7[2] = {0x0CC6, 0x0CD5};
 static const lxb_unicode_decomposition_t lxb_unicode_decomposition_c_0CC7 = {.type = LXB_UNICODE_DECOMPOSITION_TYPE__UNDEF, .mapping = lxb_unicode_decomposition_cp_c_0CC7, .length = 2};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_k_0CC7[2] = {0x0CC6, 0x0CD5};
@@ -4461,9 +4477,15 @@ static const lxb_unicode_entry_t lxb_unicode_entry_0CCB = {.cp = 0x0CCB, .ccc = 
 
 static const lxb_unicode_entry_t lxb_unicode_entry_0CCD = {.cp = 0x0CCD, .ccc = 9, .quick = LXB_UNICODE_QUICK_UNDEF, .de = NULL, .cde = NULL, .kde = NULL};
 
+static const lxb_unicode_entry_t lxb_unicode_entry_0CD5 = {.cp = 0x0CD5, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_0CD6 = {.cp = 0x0CD6, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
 static const lxb_unicode_entry_t lxb_unicode_entry_0D3B = {.cp = 0x0D3B, .ccc = 9, .quick = LXB_UNICODE_QUICK_UNDEF, .de = NULL, .cde = NULL, .kde = NULL};
 
 static const lxb_unicode_entry_t lxb_unicode_entry_0D3C = {.cp = 0x0D3C, .ccc = 9, .quick = LXB_UNICODE_QUICK_UNDEF, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_0D3E = {.cp = 0x0D3E, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_c_0D4A[2] = {0x0D46, 0x0D3E};
 static const lxb_unicode_decomposition_t lxb_unicode_decomposition_c_0D4A = {.type = LXB_UNICODE_DECOMPOSITION_TYPE__UNDEF, .mapping = lxb_unicode_decomposition_cp_c_0D4A, .length = 2};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_k_0D4A[2] = {0x0D46, 0x0D3E};
@@ -4488,7 +4510,11 @@ static const lxb_unicode_entry_t lxb_unicode_entry_0D4C = {.cp = 0x0D4C, .ccc = 
 
 static const lxb_unicode_entry_t lxb_unicode_entry_0D4D = {.cp = 0x0D4D, .ccc = 9, .quick = LXB_UNICODE_QUICK_UNDEF, .de = NULL, .cde = NULL, .kde = NULL};
 
+static const lxb_unicode_entry_t lxb_unicode_entry_0D57 = {.cp = 0x0D57, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
 static const lxb_unicode_entry_t lxb_unicode_entry_0DCA = {.cp = 0x0DCA, .ccc = 9, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_0DCF = {.cp = 0x0DCF, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_c_0DDA[2] = {0x0DD9, 0x0DCA};
 static const lxb_unicode_decomposition_t lxb_unicode_decomposition_c_0DDA = {.type = LXB_UNICODE_DECOMPOSITION_TYPE__UNDEF, .mapping = lxb_unicode_decomposition_cp_c_0DDA, .length = 2};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_k_0DDA[2] = {0x0DD9, 0x0DCA};
@@ -4517,6 +4543,8 @@ static const lxb_unicode_decomposition_t lxb_unicode_decomposition_k_0DDE = {.ty
 static const lxb_codepoint_t lxb_unicode_decomposition_cp__0DDE[2] = {0x0DD9, 0x0DDF};
 static const lxb_unicode_decomposition_t lxb_unicode_decomposition__0DDE = {.type = LXB_UNICODE_DECOMPOSITION_TYPE__UNDEF, .mapping = lxb_unicode_decomposition_cp__0DDE, .length = 2};
 static const lxb_unicode_entry_t lxb_unicode_entry_0DDE = {.cp = 0x0DDE, .ccc = 0, .quick = LXB_UNICODE_NFD_QUICK_NO|LXB_UNICODE_NFKD_QUICK_NO, .de = &lxb_unicode_decomposition__0DDE, .cde = &lxb_unicode_decomposition_c_0DDE, .kde = &lxb_unicode_decomposition_k_0DDE};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_0DDF = {.cp = 0x0DDF, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_c_0E33[2] = {0x0E4D, 0x0E32};
 static const lxb_unicode_decomposition_t lxb_unicode_decomposition_c_0E33 = {.type = LXB_UNICODE_DECOMPOSITION_TYPE_COMPAT, .mapping = lxb_unicode_decomposition_cp_c_0E33, .length = 2};
 static const lxb_codepoint_t lxb_unicode_decomposition_cp_k_0E33[2] = {0x0E4D, 0x0E32};
@@ -4759,6 +4787,8 @@ static const lxb_codepoint_t lxb_unicode_decomposition_cp__1026[2] = {0x1025, 0x
 static const lxb_unicode_decomposition_t lxb_unicode_decomposition__1026 = {.type = LXB_UNICODE_DECOMPOSITION_TYPE__UNDEF, .mapping = lxb_unicode_decomposition_cp__1026, .length = 2};
 static const lxb_unicode_entry_t lxb_unicode_entry_1026 = {.cp = 0x1026, .ccc = 0, .quick = LXB_UNICODE_NFD_QUICK_NO|LXB_UNICODE_NFKD_QUICK_NO, .de = &lxb_unicode_decomposition__1026, .cde = &lxb_unicode_decomposition_c_1026, .kde = &lxb_unicode_decomposition_k_1026};
 
+static const lxb_unicode_entry_t lxb_unicode_entry_102E = {.cp = 0x102E, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
 static const lxb_unicode_entry_t lxb_unicode_entry_1037 = {.cp = 0x1037, .ccc = 7, .quick = LXB_UNICODE_QUICK_UNDEF, .de = NULL, .cde = NULL, .kde = NULL};
 
 static const lxb_unicode_entry_t lxb_unicode_entry_1039 = {.cp = 0x1039, .ccc = 9, .quick = LXB_UNICODE_QUICK_UNDEF, .de = NULL, .cde = NULL, .kde = NULL};
@@ -4774,82 +4804,178 @@ static const lxb_codepoint_t lxb_unicode_decomposition_cp__10FC[1] = {0x10DC};
 static const lxb_unicode_decomposition_t lxb_unicode_decomposition__10FC = {.type = LXB_UNICODE_DECOMPOSITION_TYPE_SUPER, .mapping = lxb_unicode_decomposition_cp__10FC, .length = 1};
 static const lxb_unicode_entry_t lxb_unicode_entry_10FC = {.cp = 0x10FC, .ccc = 0, .quick = LXB_UNICODE_NFKC_QUICK_NO|LXB_UNICODE_NFKD_QUICK_NO, .de = &lxb_unicode_decomposition__10FC, .cde = &lxb_unicode_decomposition_c_10FC, .kde = &lxb_unicode_decomposition_k_10FC};
 
+static const lxb_unicode_entry_t lxb_unicode_entry_1161 = {.cp = 0x1161, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_1162 = {.cp = 0x1162, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_1163 = {.cp = 0x1163, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_1164 = {.cp = 0x1164, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_1165 = {.cp = 0x1165, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_1166 = {.cp = 0x1166, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_1167 = {.cp = 0x1167, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_1168 = {.cp = 0x1168, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_1169 = {.cp = 0x1169, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_116A = {.cp = 0x116A, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_116B = {.cp = 0x116B, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_116C = {.cp = 0x116C, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_116D = {.cp = 0x116D, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_116E = {.cp = 0x116E, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_116F = {.cp = 0x116F, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_1170 = {.cp = 0x1170, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_1171 = {.cp = 0x1171, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_1172 = {.cp = 0x1172, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_1173 = {.cp = 0x1173, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_1174 = {.cp = 0x1174, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_1175 = {.cp = 0x1175, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11A8 = {.cp = 0x11A8, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11A9 = {.cp = 0x11A9, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11AA = {.cp = 0x11AA, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11AB = {.cp = 0x11AB, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11AC = {.cp = 0x11AC, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11AD = {.cp = 0x11AD, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11AE = {.cp = 0x11AE, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11AF = {.cp = 0x11AF, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11B0 = {.cp = 0x11B0, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11B1 = {.cp = 0x11B1, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11B2 = {.cp = 0x11B2, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11B3 = {.cp = 0x11B3, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11B4 = {.cp = 0x11B4, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11B5 = {.cp = 0x11B5, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11B6 = {.cp = 0x11B6, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11B7 = {.cp = 0x11B7, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11B8 = {.cp = 0x11B8, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11B9 = {.cp = 0x11B9, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11BA = {.cp = 0x11BA, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11BB = {.cp = 0x11BB, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11BC = {.cp = 0x11BC, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11BD = {.cp = 0x11BD, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11BE = {.cp = 0x11BE, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11BF = {.cp = 0x11BF, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11C0 = {.cp = 0x11C0, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11C1 = {.cp = 0x11C1, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
+static const lxb_unicode_entry_t lxb_unicode_entry_11C2 = {.cp = 0x11C2, .ccc = 0, .quick = LXB_UNICODE_NFC_QUICK_MAYBE|LXB_UNICODE_NFKC_QUICK_MAYBE, .de = NULL, .cde = NULL, .kde = NULL};
+
 static const lxb_unicode_entry_t lxb_unicode_entry_135D = {.cp = 0x135D, .ccc = 230, .quick = LXB_UNICODE_QUICK_UNDEF, .de = NULL, .cde = NULL, .kde = NULL};
 
 static const lxb_unicode_entry_t lxb_unicode_entry_135E = {.cp = 0x135E, .ccc = 230, .quick = LXB_UNICODE_QUICK_UNDEF, .de = NULL, .cde = NULL, .kde = NULL};
 
 static const lxb_unicode_entry_t lxb_unicode_entry_135F = {.cp = 0x135F, .ccc = 230, .quick = LXB_UNICODE_QUICK_UNDEF, .de = NULL, .cde = NULL, .kde = NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0041 = {NULL, lxb_unicode_idna_map_0041};
-static const lxb_unicode_data_t lxb_unicode_data_0042 = {NULL, lxb_unicode_idna_map_0042};
-static const lxb_unicode_data_t lxb_unicode_data_0043 = {NULL, lxb_unicode_idna_map_0043};
-static const lxb_unicode_data_t lxb_unicode_data_0044 = {NULL, lxb_unicode_idna_map_0044};
-static const lxb_unicode_data_t lxb_unicode_data_0045 = {NULL, lxb_unicode_idna_map_0045};
-static const lxb_unicode_data_t lxb_unicode_data_0046 = {NULL, lxb_unicode_idna_map_0046};
-static const lxb_unicode_data_t lxb_unicode_data_0047 = {NULL, lxb_unicode_idna_map_0047};
-static const lxb_unicode_data_t lxb_unicode_data_0048 = {NULL, lxb_unicode_idna_map_0048};
-static const lxb_unicode_data_t lxb_unicode_data_0049 = {NULL, lxb_unicode_idna_map_0049};
-static const lxb_unicode_data_t lxb_unicode_data_004A = {NULL, lxb_unicode_idna_map_004A};
-static const lxb_unicode_data_t lxb_unicode_data_004B = {NULL, lxb_unicode_idna_map_004B};
-static const lxb_unicode_data_t lxb_unicode_data_004C = {NULL, lxb_unicode_idna_map_004C};
-static const lxb_unicode_data_t lxb_unicode_data_004D = {NULL, lxb_unicode_idna_map_004D};
-static const lxb_unicode_data_t lxb_unicode_data_004E = {NULL, lxb_unicode_idna_map_004E};
-static const lxb_unicode_data_t lxb_unicode_data_004F = {NULL, lxb_unicode_idna_map_004F};
-static const lxb_unicode_data_t lxb_unicode_data_0050 = {NULL, lxb_unicode_idna_map_0050};
-static const lxb_unicode_data_t lxb_unicode_data_0051 = {NULL, lxb_unicode_idna_map_0051};
-static const lxb_unicode_data_t lxb_unicode_data_0052 = {NULL, lxb_unicode_idna_map_0052};
-static const lxb_unicode_data_t lxb_unicode_data_0053 = {NULL, lxb_unicode_idna_map_0053};
-static const lxb_unicode_data_t lxb_unicode_data_0054 = {NULL, lxb_unicode_idna_map_0054};
-static const lxb_unicode_data_t lxb_unicode_data_0055 = {NULL, lxb_unicode_idna_map_0055};
-static const lxb_unicode_data_t lxb_unicode_data_0056 = {NULL, lxb_unicode_idna_map_0056};
-static const lxb_unicode_data_t lxb_unicode_data_0057 = {NULL, lxb_unicode_idna_map_0057};
-static const lxb_unicode_data_t lxb_unicode_data_0058 = {NULL, lxb_unicode_idna_map_0058};
-static const lxb_unicode_data_t lxb_unicode_data_0059 = {NULL, lxb_unicode_idna_map_0059};
-static const lxb_unicode_data_t lxb_unicode_data_005A = {NULL, lxb_unicode_idna_map_005A};
-static const lxb_unicode_data_t lxb_unicode_data_00A0 = {&lxb_unicode_entry_00A0, lxb_unicode_idna_map_00A0};
-static const lxb_unicode_data_t lxb_unicode_data_00A8 = {&lxb_unicode_entry_00A8, lxb_unicode_idna_map_00A8};
-static const lxb_unicode_data_t lxb_unicode_data_00AA = {&lxb_unicode_entry_00AA, lxb_unicode_idna_map_00AA};
-static const lxb_unicode_data_t lxb_unicode_data_00AF = {&lxb_unicode_entry_00AF, lxb_unicode_idna_map_00AF};
-static const lxb_unicode_data_t lxb_unicode_data_00B2 = {&lxb_unicode_entry_00B2, lxb_unicode_idna_map_00B2};
-static const lxb_unicode_data_t lxb_unicode_data_00B3 = {&lxb_unicode_entry_00B3, lxb_unicode_idna_map_00B3};
-static const lxb_unicode_data_t lxb_unicode_data_00B4 = {&lxb_unicode_entry_00B4, lxb_unicode_idna_map_00B4};
-static const lxb_unicode_data_t lxb_unicode_data_00B5 = {&lxb_unicode_entry_00B5, lxb_unicode_idna_map_00B5};
-static const lxb_unicode_data_t lxb_unicode_data_00B8 = {&lxb_unicode_entry_00B8, lxb_unicode_idna_map_00B8};
-static const lxb_unicode_data_t lxb_unicode_data_00B9 = {&lxb_unicode_entry_00B9, lxb_unicode_idna_map_00B9};
-static const lxb_unicode_data_t lxb_unicode_data_00BA = {&lxb_unicode_entry_00BA, lxb_unicode_idna_map_00BA};
-static const lxb_unicode_data_t lxb_unicode_data_00BC = {&lxb_unicode_entry_00BC, lxb_unicode_idna_map_00BC};
-static const lxb_unicode_data_t lxb_unicode_data_00BD = {&lxb_unicode_entry_00BD, lxb_unicode_idna_map_00BD};
-static const lxb_unicode_data_t lxb_unicode_data_00BE = {&lxb_unicode_entry_00BE, lxb_unicode_idna_map_00BE};
-static const lxb_unicode_data_t lxb_unicode_data_00C0 = {&lxb_unicode_entry_00C0, lxb_unicode_idna_map_00C0};
-static const lxb_unicode_data_t lxb_unicode_data_00C1 = {&lxb_unicode_entry_00C1, lxb_unicode_idna_map_00C1};
-static const lxb_unicode_data_t lxb_unicode_data_00C2 = {&lxb_unicode_entry_00C2, lxb_unicode_idna_map_00C2};
-static const lxb_unicode_data_t lxb_unicode_data_00C3 = {&lxb_unicode_entry_00C3, lxb_unicode_idna_map_00C3};
-static const lxb_unicode_data_t lxb_unicode_data_00C4 = {&lxb_unicode_entry_00C4, lxb_unicode_idna_map_00C4};
-static const lxb_unicode_data_t lxb_unicode_data_00C5 = {&lxb_unicode_entry_00C5, lxb_unicode_idna_map_00C5};
-static const lxb_unicode_data_t lxb_unicode_data_00C6 = {NULL, lxb_unicode_idna_map_00C6};
-static const lxb_unicode_data_t lxb_unicode_data_00C7 = {&lxb_unicode_entry_00C7, lxb_unicode_idna_map_00C7};
-static const lxb_unicode_data_t lxb_unicode_data_00C8 = {&lxb_unicode_entry_00C8, lxb_unicode_idna_map_00C8};
-static const lxb_unicode_data_t lxb_unicode_data_00C9 = {&lxb_unicode_entry_00C9, lxb_unicode_idna_map_00C9};
-static const lxb_unicode_data_t lxb_unicode_data_00CA = {&lxb_unicode_entry_00CA, lxb_unicode_idna_map_00CA};
-static const lxb_unicode_data_t lxb_unicode_data_00CB = {&lxb_unicode_entry_00CB, lxb_unicode_idna_map_00CB};
-static const lxb_unicode_data_t lxb_unicode_data_00CC = {&lxb_unicode_entry_00CC, lxb_unicode_idna_map_00CC};
-static const lxb_unicode_data_t lxb_unicode_data_00CD = {&lxb_unicode_entry_00CD, lxb_unicode_idna_map_00CD};
-static const lxb_unicode_data_t lxb_unicode_data_00CE = {&lxb_unicode_entry_00CE, lxb_unicode_idna_map_00CE};
-static const lxb_unicode_data_t lxb_unicode_data_00CF = {&lxb_unicode_entry_00CF, lxb_unicode_idna_map_00CF};
-static const lxb_unicode_data_t lxb_unicode_data_00D0 = {NULL, lxb_unicode_idna_map_00D0};
-static const lxb_unicode_data_t lxb_unicode_data_00D1 = {&lxb_unicode_entry_00D1, lxb_unicode_idna_map_00D1};
-static const lxb_unicode_data_t lxb_unicode_data_00D2 = {&lxb_unicode_entry_00D2, lxb_unicode_idna_map_00D2};
-static const lxb_unicode_data_t lxb_unicode_data_00D3 = {&lxb_unicode_entry_00D3, lxb_unicode_idna_map_00D3};
-static const lxb_unicode_data_t lxb_unicode_data_00D4 = {&lxb_unicode_entry_00D4, lxb_unicode_idna_map_00D4};
-static const lxb_unicode_data_t lxb_unicode_data_00D5 = {&lxb_unicode_entry_00D5, lxb_unicode_idna_map_00D5};
-static const lxb_unicode_data_t lxb_unicode_data_00D6 = {&lxb_unicode_entry_00D6, lxb_unicode_idna_map_00D6};
-static const lxb_unicode_data_t lxb_unicode_data_00D8 = {NULL, lxb_unicode_idna_map_00D8};
-static const lxb_unicode_data_t lxb_unicode_data_00D9 = {&lxb_unicode_entry_00D9, lxb_unicode_idna_map_00D9};
-static const lxb_unicode_data_t lxb_unicode_data_00DA = {&lxb_unicode_entry_00DA, lxb_unicode_idna_map_00DA};
-static const lxb_unicode_data_t lxb_unicode_data_00DB = {&lxb_unicode_entry_00DB, lxb_unicode_idna_map_00DB};
-static const lxb_unicode_data_t lxb_unicode_data_00DC = {&lxb_unicode_entry_00DC, lxb_unicode_idna_map_00DC};
-static const lxb_unicode_data_t lxb_unicode_data_00DD = {&lxb_unicode_entry_00DD, lxb_unicode_idna_map_00DD};
-static const lxb_unicode_data_t lxb_unicode_data_00DE = {NULL, lxb_unicode_idna_map_00DE};
-static const lxb_unicode_data_t lxb_unicode_data_00DF = {NULL, lxb_unicode_idna_map_00DF};
+static const lxb_unicode_data_t lxb_unicode_data_0041 = {NULL, &lxb_unicode_idna_map_0041};
+static const lxb_unicode_data_t lxb_unicode_data_0042 = {NULL, &lxb_unicode_idna_map_0042};
+static const lxb_unicode_data_t lxb_unicode_data_0043 = {NULL, &lxb_unicode_idna_map_0043};
+static const lxb_unicode_data_t lxb_unicode_data_0044 = {NULL, &lxb_unicode_idna_map_0044};
+static const lxb_unicode_data_t lxb_unicode_data_0045 = {NULL, &lxb_unicode_idna_map_0045};
+static const lxb_unicode_data_t lxb_unicode_data_0046 = {NULL, &lxb_unicode_idna_map_0046};
+static const lxb_unicode_data_t lxb_unicode_data_0047 = {NULL, &lxb_unicode_idna_map_0047};
+static const lxb_unicode_data_t lxb_unicode_data_0048 = {NULL, &lxb_unicode_idna_map_0048};
+static const lxb_unicode_data_t lxb_unicode_data_0049 = {NULL, &lxb_unicode_idna_map_0049};
+static const lxb_unicode_data_t lxb_unicode_data_004A = {NULL, &lxb_unicode_idna_map_004A};
+static const lxb_unicode_data_t lxb_unicode_data_004B = {NULL, &lxb_unicode_idna_map_004B};
+static const lxb_unicode_data_t lxb_unicode_data_004C = {NULL, &lxb_unicode_idna_map_004C};
+static const lxb_unicode_data_t lxb_unicode_data_004D = {NULL, &lxb_unicode_idna_map_004D};
+static const lxb_unicode_data_t lxb_unicode_data_004E = {NULL, &lxb_unicode_idna_map_004E};
+static const lxb_unicode_data_t lxb_unicode_data_004F = {NULL, &lxb_unicode_idna_map_004F};
+static const lxb_unicode_data_t lxb_unicode_data_0050 = {NULL, &lxb_unicode_idna_map_0050};
+static const lxb_unicode_data_t lxb_unicode_data_0051 = {NULL, &lxb_unicode_idna_map_0051};
+static const lxb_unicode_data_t lxb_unicode_data_0052 = {NULL, &lxb_unicode_idna_map_0052};
+static const lxb_unicode_data_t lxb_unicode_data_0053 = {NULL, &lxb_unicode_idna_map_0053};
+static const lxb_unicode_data_t lxb_unicode_data_0054 = {NULL, &lxb_unicode_idna_map_0054};
+static const lxb_unicode_data_t lxb_unicode_data_0055 = {NULL, &lxb_unicode_idna_map_0055};
+static const lxb_unicode_data_t lxb_unicode_data_0056 = {NULL, &lxb_unicode_idna_map_0056};
+static const lxb_unicode_data_t lxb_unicode_data_0057 = {NULL, &lxb_unicode_idna_map_0057};
+static const lxb_unicode_data_t lxb_unicode_data_0058 = {NULL, &lxb_unicode_idna_map_0058};
+static const lxb_unicode_data_t lxb_unicode_data_0059 = {NULL, &lxb_unicode_idna_map_0059};
+static const lxb_unicode_data_t lxb_unicode_data_005A = {NULL, &lxb_unicode_idna_map_005A};
+static const lxb_unicode_data_t lxb_unicode_data_00A0 = {&lxb_unicode_entry_00A0, &lxb_unicode_idna_map_00A0};
+static const lxb_unicode_data_t lxb_unicode_data_00A8 = {&lxb_unicode_entry_00A8, &lxb_unicode_idna_map_00A8};
+static const lxb_unicode_data_t lxb_unicode_data_00AA = {&lxb_unicode_entry_00AA, &lxb_unicode_idna_map_00AA};
+static const lxb_unicode_data_t lxb_unicode_data_00AF = {&lxb_unicode_entry_00AF, &lxb_unicode_idna_map_00AF};
+static const lxb_unicode_data_t lxb_unicode_data_00B2 = {&lxb_unicode_entry_00B2, &lxb_unicode_idna_map_00B2};
+static const lxb_unicode_data_t lxb_unicode_data_00B3 = {&lxb_unicode_entry_00B3, &lxb_unicode_idna_map_00B3};
+static const lxb_unicode_data_t lxb_unicode_data_00B4 = {&lxb_unicode_entry_00B4, &lxb_unicode_idna_map_00B4};
+static const lxb_unicode_data_t lxb_unicode_data_00B5 = {&lxb_unicode_entry_00B5, &lxb_unicode_idna_map_00B5};
+static const lxb_unicode_data_t lxb_unicode_data_00B8 = {&lxb_unicode_entry_00B8, &lxb_unicode_idna_map_00B8};
+static const lxb_unicode_data_t lxb_unicode_data_00B9 = {&lxb_unicode_entry_00B9, &lxb_unicode_idna_map_00B9};
+static const lxb_unicode_data_t lxb_unicode_data_00BA = {&lxb_unicode_entry_00BA, &lxb_unicode_idna_map_00BA};
+static const lxb_unicode_data_t lxb_unicode_data_00BC = {&lxb_unicode_entry_00BC, &lxb_unicode_idna_map_00BC};
+static const lxb_unicode_data_t lxb_unicode_data_00BD = {&lxb_unicode_entry_00BD, &lxb_unicode_idna_map_00BD};
+static const lxb_unicode_data_t lxb_unicode_data_00BE = {&lxb_unicode_entry_00BE, &lxb_unicode_idna_map_00BE};
+static const lxb_unicode_data_t lxb_unicode_data_00C0 = {&lxb_unicode_entry_00C0, &lxb_unicode_idna_map_00C0};
+static const lxb_unicode_data_t lxb_unicode_data_00C1 = {&lxb_unicode_entry_00C1, &lxb_unicode_idna_map_00C1};
+static const lxb_unicode_data_t lxb_unicode_data_00C2 = {&lxb_unicode_entry_00C2, &lxb_unicode_idna_map_00C2};
+static const lxb_unicode_data_t lxb_unicode_data_00C3 = {&lxb_unicode_entry_00C3, &lxb_unicode_idna_map_00C3};
+static const lxb_unicode_data_t lxb_unicode_data_00C4 = {&lxb_unicode_entry_00C4, &lxb_unicode_idna_map_00C4};
+static const lxb_unicode_data_t lxb_unicode_data_00C5 = {&lxb_unicode_entry_00C5, &lxb_unicode_idna_map_00C5};
+static const lxb_unicode_data_t lxb_unicode_data_00C6 = {NULL, &lxb_unicode_idna_map_00C6};
+static const lxb_unicode_data_t lxb_unicode_data_00C7 = {&lxb_unicode_entry_00C7, &lxb_unicode_idna_map_00C7};
+static const lxb_unicode_data_t lxb_unicode_data_00C8 = {&lxb_unicode_entry_00C8, &lxb_unicode_idna_map_00C8};
+static const lxb_unicode_data_t lxb_unicode_data_00C9 = {&lxb_unicode_entry_00C9, &lxb_unicode_idna_map_00C9};
+static const lxb_unicode_data_t lxb_unicode_data_00CA = {&lxb_unicode_entry_00CA, &lxb_unicode_idna_map_00CA};
+static const lxb_unicode_data_t lxb_unicode_data_00CB = {&lxb_unicode_entry_00CB, &lxb_unicode_idna_map_00CB};
+static const lxb_unicode_data_t lxb_unicode_data_00CC = {&lxb_unicode_entry_00CC, &lxb_unicode_idna_map_00CC};
+static const lxb_unicode_data_t lxb_unicode_data_00CD = {&lxb_unicode_entry_00CD, &lxb_unicode_idna_map_00CD};
+static const lxb_unicode_data_t lxb_unicode_data_00CE = {&lxb_unicode_entry_00CE, &lxb_unicode_idna_map_00CE};
+static const lxb_unicode_data_t lxb_unicode_data_00CF = {&lxb_unicode_entry_00CF, &lxb_unicode_idna_map_00CF};
+static const lxb_unicode_data_t lxb_unicode_data_00D0 = {NULL, &lxb_unicode_idna_map_00D0};
+static const lxb_unicode_data_t lxb_unicode_data_00D1 = {&lxb_unicode_entry_00D1, &lxb_unicode_idna_map_00D1};
+static const lxb_unicode_data_t lxb_unicode_data_00D2 = {&lxb_unicode_entry_00D2, &lxb_unicode_idna_map_00D2};
+static const lxb_unicode_data_t lxb_unicode_data_00D3 = {&lxb_unicode_entry_00D3, &lxb_unicode_idna_map_00D3};
+static const lxb_unicode_data_t lxb_unicode_data_00D4 = {&lxb_unicode_entry_00D4, &lxb_unicode_idna_map_00D4};
+static const lxb_unicode_data_t lxb_unicode_data_00D5 = {&lxb_unicode_entry_00D5, &lxb_unicode_idna_map_00D5};
+static const lxb_unicode_data_t lxb_unicode_data_00D6 = {&lxb_unicode_entry_00D6, &lxb_unicode_idna_map_00D6};
+static const lxb_unicode_data_t lxb_unicode_data_00D8 = {NULL, &lxb_unicode_idna_map_00D8};
+static const lxb_unicode_data_t lxb_unicode_data_00D9 = {&lxb_unicode_entry_00D9, &lxb_unicode_idna_map_00D9};
+static const lxb_unicode_data_t lxb_unicode_data_00DA = {&lxb_unicode_entry_00DA, &lxb_unicode_idna_map_00DA};
+static const lxb_unicode_data_t lxb_unicode_data_00DB = {&lxb_unicode_entry_00DB, &lxb_unicode_idna_map_00DB};
+static const lxb_unicode_data_t lxb_unicode_data_00DC = {&lxb_unicode_entry_00DC, &lxb_unicode_idna_map_00DC};
+static const lxb_unicode_data_t lxb_unicode_data_00DD = {&lxb_unicode_entry_00DD, &lxb_unicode_idna_map_00DD};
+static const lxb_unicode_data_t lxb_unicode_data_00DE = {NULL, &lxb_unicode_idna_map_00DE};
+static const lxb_unicode_data_t lxb_unicode_data_00DF = {NULL, &lxb_unicode_idna_map_00DF};
 static const lxb_unicode_data_t lxb_unicode_data_00E0 = {&lxb_unicode_entry_00E0, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_00E1 = {&lxb_unicode_entry_00E1, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_00E2 = {&lxb_unicode_entry_00E2, NULL};
@@ -4877,303 +5003,303 @@ static const lxb_unicode_data_t lxb_unicode_data_00FB = {&lxb_unicode_entry_00FB
 static const lxb_unicode_data_t lxb_unicode_data_00FC = {&lxb_unicode_entry_00FC, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_00FD = {&lxb_unicode_entry_00FD, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_00FF = {&lxb_unicode_entry_00FF, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0100 = {&lxb_unicode_entry_0100, lxb_unicode_idna_map_0100};
+static const lxb_unicode_data_t lxb_unicode_data_0100 = {&lxb_unicode_entry_0100, &lxb_unicode_idna_map_0100};
 static const lxb_unicode_data_t lxb_unicode_data_0101 = {&lxb_unicode_entry_0101, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0102 = {&lxb_unicode_entry_0102, lxb_unicode_idna_map_0102};
+static const lxb_unicode_data_t lxb_unicode_data_0102 = {&lxb_unicode_entry_0102, &lxb_unicode_idna_map_0102};
 static const lxb_unicode_data_t lxb_unicode_data_0103 = {&lxb_unicode_entry_0103, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0104 = {&lxb_unicode_entry_0104, lxb_unicode_idna_map_0104};
+static const lxb_unicode_data_t lxb_unicode_data_0104 = {&lxb_unicode_entry_0104, &lxb_unicode_idna_map_0104};
 static const lxb_unicode_data_t lxb_unicode_data_0105 = {&lxb_unicode_entry_0105, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0106 = {&lxb_unicode_entry_0106, lxb_unicode_idna_map_0106};
+static const lxb_unicode_data_t lxb_unicode_data_0106 = {&lxb_unicode_entry_0106, &lxb_unicode_idna_map_0106};
 static const lxb_unicode_data_t lxb_unicode_data_0107 = {&lxb_unicode_entry_0107, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0108 = {&lxb_unicode_entry_0108, lxb_unicode_idna_map_0108};
+static const lxb_unicode_data_t lxb_unicode_data_0108 = {&lxb_unicode_entry_0108, &lxb_unicode_idna_map_0108};
 static const lxb_unicode_data_t lxb_unicode_data_0109 = {&lxb_unicode_entry_0109, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_010A = {&lxb_unicode_entry_010A, lxb_unicode_idna_map_010A};
+static const lxb_unicode_data_t lxb_unicode_data_010A = {&lxb_unicode_entry_010A, &lxb_unicode_idna_map_010A};
 static const lxb_unicode_data_t lxb_unicode_data_010B = {&lxb_unicode_entry_010B, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_010C = {&lxb_unicode_entry_010C, lxb_unicode_idna_map_010C};
+static const lxb_unicode_data_t lxb_unicode_data_010C = {&lxb_unicode_entry_010C, &lxb_unicode_idna_map_010C};
 static const lxb_unicode_data_t lxb_unicode_data_010D = {&lxb_unicode_entry_010D, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_010E = {&lxb_unicode_entry_010E, lxb_unicode_idna_map_010E};
+static const lxb_unicode_data_t lxb_unicode_data_010E = {&lxb_unicode_entry_010E, &lxb_unicode_idna_map_010E};
 static const lxb_unicode_data_t lxb_unicode_data_010F = {&lxb_unicode_entry_010F, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0110 = {NULL, lxb_unicode_idna_map_0110};
-static const lxb_unicode_data_t lxb_unicode_data_0112 = {&lxb_unicode_entry_0112, lxb_unicode_idna_map_0112};
+static const lxb_unicode_data_t lxb_unicode_data_0110 = {NULL, &lxb_unicode_idna_map_0110};
+static const lxb_unicode_data_t lxb_unicode_data_0112 = {&lxb_unicode_entry_0112, &lxb_unicode_idna_map_0112};
 static const lxb_unicode_data_t lxb_unicode_data_0113 = {&lxb_unicode_entry_0113, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0114 = {&lxb_unicode_entry_0114, lxb_unicode_idna_map_0114};
+static const lxb_unicode_data_t lxb_unicode_data_0114 = {&lxb_unicode_entry_0114, &lxb_unicode_idna_map_0114};
 static const lxb_unicode_data_t lxb_unicode_data_0115 = {&lxb_unicode_entry_0115, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0116 = {&lxb_unicode_entry_0116, lxb_unicode_idna_map_0116};
+static const lxb_unicode_data_t lxb_unicode_data_0116 = {&lxb_unicode_entry_0116, &lxb_unicode_idna_map_0116};
 static const lxb_unicode_data_t lxb_unicode_data_0117 = {&lxb_unicode_entry_0117, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0118 = {&lxb_unicode_entry_0118, lxb_unicode_idna_map_0118};
+static const lxb_unicode_data_t lxb_unicode_data_0118 = {&lxb_unicode_entry_0118, &lxb_unicode_idna_map_0118};
 static const lxb_unicode_data_t lxb_unicode_data_0119 = {&lxb_unicode_entry_0119, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_011A = {&lxb_unicode_entry_011A, lxb_unicode_idna_map_011A};
+static const lxb_unicode_data_t lxb_unicode_data_011A = {&lxb_unicode_entry_011A, &lxb_unicode_idna_map_011A};
 static const lxb_unicode_data_t lxb_unicode_data_011B = {&lxb_unicode_entry_011B, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_011C = {&lxb_unicode_entry_011C, lxb_unicode_idna_map_011C};
+static const lxb_unicode_data_t lxb_unicode_data_011C = {&lxb_unicode_entry_011C, &lxb_unicode_idna_map_011C};
 static const lxb_unicode_data_t lxb_unicode_data_011D = {&lxb_unicode_entry_011D, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_011E = {&lxb_unicode_entry_011E, lxb_unicode_idna_map_011E};
+static const lxb_unicode_data_t lxb_unicode_data_011E = {&lxb_unicode_entry_011E, &lxb_unicode_idna_map_011E};
 static const lxb_unicode_data_t lxb_unicode_data_011F = {&lxb_unicode_entry_011F, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0120 = {&lxb_unicode_entry_0120, lxb_unicode_idna_map_0120};
+static const lxb_unicode_data_t lxb_unicode_data_0120 = {&lxb_unicode_entry_0120, &lxb_unicode_idna_map_0120};
 static const lxb_unicode_data_t lxb_unicode_data_0121 = {&lxb_unicode_entry_0121, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0122 = {&lxb_unicode_entry_0122, lxb_unicode_idna_map_0122};
+static const lxb_unicode_data_t lxb_unicode_data_0122 = {&lxb_unicode_entry_0122, &lxb_unicode_idna_map_0122};
 static const lxb_unicode_data_t lxb_unicode_data_0123 = {&lxb_unicode_entry_0123, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0124 = {&lxb_unicode_entry_0124, lxb_unicode_idna_map_0124};
+static const lxb_unicode_data_t lxb_unicode_data_0124 = {&lxb_unicode_entry_0124, &lxb_unicode_idna_map_0124};
 static const lxb_unicode_data_t lxb_unicode_data_0125 = {&lxb_unicode_entry_0125, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0126 = {NULL, lxb_unicode_idna_map_0126};
-static const lxb_unicode_data_t lxb_unicode_data_0128 = {&lxb_unicode_entry_0128, lxb_unicode_idna_map_0128};
+static const lxb_unicode_data_t lxb_unicode_data_0126 = {NULL, &lxb_unicode_idna_map_0126};
+static const lxb_unicode_data_t lxb_unicode_data_0128 = {&lxb_unicode_entry_0128, &lxb_unicode_idna_map_0128};
 static const lxb_unicode_data_t lxb_unicode_data_0129 = {&lxb_unicode_entry_0129, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_012A = {&lxb_unicode_entry_012A, lxb_unicode_idna_map_012A};
+static const lxb_unicode_data_t lxb_unicode_data_012A = {&lxb_unicode_entry_012A, &lxb_unicode_idna_map_012A};
 static const lxb_unicode_data_t lxb_unicode_data_012B = {&lxb_unicode_entry_012B, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_012C = {&lxb_unicode_entry_012C, lxb_unicode_idna_map_012C};
+static const lxb_unicode_data_t lxb_unicode_data_012C = {&lxb_unicode_entry_012C, &lxb_unicode_idna_map_012C};
 static const lxb_unicode_data_t lxb_unicode_data_012D = {&lxb_unicode_entry_012D, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_012E = {&lxb_unicode_entry_012E, lxb_unicode_idna_map_012E};
+static const lxb_unicode_data_t lxb_unicode_data_012E = {&lxb_unicode_entry_012E, &lxb_unicode_idna_map_012E};
 static const lxb_unicode_data_t lxb_unicode_data_012F = {&lxb_unicode_entry_012F, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0130 = {&lxb_unicode_entry_0130, lxb_unicode_idna_map_0130};
-static const lxb_unicode_data_t lxb_unicode_data_0132 = {&lxb_unicode_entry_0132, lxb_unicode_idna_map_0132};
-static const lxb_unicode_data_t lxb_unicode_data_0133 = {&lxb_unicode_entry_0133, lxb_unicode_idna_map_0133};
-static const lxb_unicode_data_t lxb_unicode_data_0134 = {&lxb_unicode_entry_0134, lxb_unicode_idna_map_0134};
+static const lxb_unicode_data_t lxb_unicode_data_0130 = {&lxb_unicode_entry_0130, &lxb_unicode_idna_map_0130};
+static const lxb_unicode_data_t lxb_unicode_data_0132 = {&lxb_unicode_entry_0132, &lxb_unicode_idna_map_0132};
+static const lxb_unicode_data_t lxb_unicode_data_0133 = {&lxb_unicode_entry_0133, &lxb_unicode_idna_map_0133};
+static const lxb_unicode_data_t lxb_unicode_data_0134 = {&lxb_unicode_entry_0134, &lxb_unicode_idna_map_0134};
 static const lxb_unicode_data_t lxb_unicode_data_0135 = {&lxb_unicode_entry_0135, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0136 = {&lxb_unicode_entry_0136, lxb_unicode_idna_map_0136};
+static const lxb_unicode_data_t lxb_unicode_data_0136 = {&lxb_unicode_entry_0136, &lxb_unicode_idna_map_0136};
 static const lxb_unicode_data_t lxb_unicode_data_0137 = {&lxb_unicode_entry_0137, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0139 = {&lxb_unicode_entry_0139, lxb_unicode_idna_map_0139};
+static const lxb_unicode_data_t lxb_unicode_data_0139 = {&lxb_unicode_entry_0139, &lxb_unicode_idna_map_0139};
 static const lxb_unicode_data_t lxb_unicode_data_013A = {&lxb_unicode_entry_013A, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_013B = {&lxb_unicode_entry_013B, lxb_unicode_idna_map_013B};
+static const lxb_unicode_data_t lxb_unicode_data_013B = {&lxb_unicode_entry_013B, &lxb_unicode_idna_map_013B};
 static const lxb_unicode_data_t lxb_unicode_data_013C = {&lxb_unicode_entry_013C, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_013D = {&lxb_unicode_entry_013D, lxb_unicode_idna_map_013D};
+static const lxb_unicode_data_t lxb_unicode_data_013D = {&lxb_unicode_entry_013D, &lxb_unicode_idna_map_013D};
 static const lxb_unicode_data_t lxb_unicode_data_013E = {&lxb_unicode_entry_013E, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_013F = {&lxb_unicode_entry_013F, lxb_unicode_idna_map_013F};
-static const lxb_unicode_data_t lxb_unicode_data_0140 = {&lxb_unicode_entry_0140, lxb_unicode_idna_map_0140};
-static const lxb_unicode_data_t lxb_unicode_data_0141 = {NULL, lxb_unicode_idna_map_0141};
-static const lxb_unicode_data_t lxb_unicode_data_0143 = {&lxb_unicode_entry_0143, lxb_unicode_idna_map_0143};
+static const lxb_unicode_data_t lxb_unicode_data_013F = {&lxb_unicode_entry_013F, &lxb_unicode_idna_map_013F};
+static const lxb_unicode_data_t lxb_unicode_data_0140 = {&lxb_unicode_entry_0140, &lxb_unicode_idna_map_0140};
+static const lxb_unicode_data_t lxb_unicode_data_0141 = {NULL, &lxb_unicode_idna_map_0141};
+static const lxb_unicode_data_t lxb_unicode_data_0143 = {&lxb_unicode_entry_0143, &lxb_unicode_idna_map_0143};
 static const lxb_unicode_data_t lxb_unicode_data_0144 = {&lxb_unicode_entry_0144, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0145 = {&lxb_unicode_entry_0145, lxb_unicode_idna_map_0145};
+static const lxb_unicode_data_t lxb_unicode_data_0145 = {&lxb_unicode_entry_0145, &lxb_unicode_idna_map_0145};
 static const lxb_unicode_data_t lxb_unicode_data_0146 = {&lxb_unicode_entry_0146, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0147 = {&lxb_unicode_entry_0147, lxb_unicode_idna_map_0147};
+static const lxb_unicode_data_t lxb_unicode_data_0147 = {&lxb_unicode_entry_0147, &lxb_unicode_idna_map_0147};
 static const lxb_unicode_data_t lxb_unicode_data_0148 = {&lxb_unicode_entry_0148, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0149 = {&lxb_unicode_entry_0149, lxb_unicode_idna_map_0149};
-static const lxb_unicode_data_t lxb_unicode_data_014A = {NULL, lxb_unicode_idna_map_014A};
-static const lxb_unicode_data_t lxb_unicode_data_014C = {&lxb_unicode_entry_014C, lxb_unicode_idna_map_014C};
+static const lxb_unicode_data_t lxb_unicode_data_0149 = {&lxb_unicode_entry_0149, &lxb_unicode_idna_map_0149};
+static const lxb_unicode_data_t lxb_unicode_data_014A = {NULL, &lxb_unicode_idna_map_014A};
+static const lxb_unicode_data_t lxb_unicode_data_014C = {&lxb_unicode_entry_014C, &lxb_unicode_idna_map_014C};
 static const lxb_unicode_data_t lxb_unicode_data_014D = {&lxb_unicode_entry_014D, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_014E = {&lxb_unicode_entry_014E, lxb_unicode_idna_map_014E};
+static const lxb_unicode_data_t lxb_unicode_data_014E = {&lxb_unicode_entry_014E, &lxb_unicode_idna_map_014E};
 static const lxb_unicode_data_t lxb_unicode_data_014F = {&lxb_unicode_entry_014F, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0150 = {&lxb_unicode_entry_0150, lxb_unicode_idna_map_0150};
+static const lxb_unicode_data_t lxb_unicode_data_0150 = {&lxb_unicode_entry_0150, &lxb_unicode_idna_map_0150};
 static const lxb_unicode_data_t lxb_unicode_data_0151 = {&lxb_unicode_entry_0151, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0152 = {NULL, lxb_unicode_idna_map_0152};
-static const lxb_unicode_data_t lxb_unicode_data_0154 = {&lxb_unicode_entry_0154, lxb_unicode_idna_map_0154};
+static const lxb_unicode_data_t lxb_unicode_data_0152 = {NULL, &lxb_unicode_idna_map_0152};
+static const lxb_unicode_data_t lxb_unicode_data_0154 = {&lxb_unicode_entry_0154, &lxb_unicode_idna_map_0154};
 static const lxb_unicode_data_t lxb_unicode_data_0155 = {&lxb_unicode_entry_0155, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0156 = {&lxb_unicode_entry_0156, lxb_unicode_idna_map_0156};
+static const lxb_unicode_data_t lxb_unicode_data_0156 = {&lxb_unicode_entry_0156, &lxb_unicode_idna_map_0156};
 static const lxb_unicode_data_t lxb_unicode_data_0157 = {&lxb_unicode_entry_0157, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0158 = {&lxb_unicode_entry_0158, lxb_unicode_idna_map_0158};
+static const lxb_unicode_data_t lxb_unicode_data_0158 = {&lxb_unicode_entry_0158, &lxb_unicode_idna_map_0158};
 static const lxb_unicode_data_t lxb_unicode_data_0159 = {&lxb_unicode_entry_0159, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_015A = {&lxb_unicode_entry_015A, lxb_unicode_idna_map_015A};
+static const lxb_unicode_data_t lxb_unicode_data_015A = {&lxb_unicode_entry_015A, &lxb_unicode_idna_map_015A};
 static const lxb_unicode_data_t lxb_unicode_data_015B = {&lxb_unicode_entry_015B, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_015C = {&lxb_unicode_entry_015C, lxb_unicode_idna_map_015C};
+static const lxb_unicode_data_t lxb_unicode_data_015C = {&lxb_unicode_entry_015C, &lxb_unicode_idna_map_015C};
 static const lxb_unicode_data_t lxb_unicode_data_015D = {&lxb_unicode_entry_015D, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_015E = {&lxb_unicode_entry_015E, lxb_unicode_idna_map_015E};
+static const lxb_unicode_data_t lxb_unicode_data_015E = {&lxb_unicode_entry_015E, &lxb_unicode_idna_map_015E};
 static const lxb_unicode_data_t lxb_unicode_data_015F = {&lxb_unicode_entry_015F, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0160 = {&lxb_unicode_entry_0160, lxb_unicode_idna_map_0160};
+static const lxb_unicode_data_t lxb_unicode_data_0160 = {&lxb_unicode_entry_0160, &lxb_unicode_idna_map_0160};
 static const lxb_unicode_data_t lxb_unicode_data_0161 = {&lxb_unicode_entry_0161, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0162 = {&lxb_unicode_entry_0162, lxb_unicode_idna_map_0162};
+static const lxb_unicode_data_t lxb_unicode_data_0162 = {&lxb_unicode_entry_0162, &lxb_unicode_idna_map_0162};
 static const lxb_unicode_data_t lxb_unicode_data_0163 = {&lxb_unicode_entry_0163, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0164 = {&lxb_unicode_entry_0164, lxb_unicode_idna_map_0164};
+static const lxb_unicode_data_t lxb_unicode_data_0164 = {&lxb_unicode_entry_0164, &lxb_unicode_idna_map_0164};
 static const lxb_unicode_data_t lxb_unicode_data_0165 = {&lxb_unicode_entry_0165, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0166 = {NULL, lxb_unicode_idna_map_0166};
-static const lxb_unicode_data_t lxb_unicode_data_0168 = {&lxb_unicode_entry_0168, lxb_unicode_idna_map_0168};
+static const lxb_unicode_data_t lxb_unicode_data_0166 = {NULL, &lxb_unicode_idna_map_0166};
+static const lxb_unicode_data_t lxb_unicode_data_0168 = {&lxb_unicode_entry_0168, &lxb_unicode_idna_map_0168};
 static const lxb_unicode_data_t lxb_unicode_data_0169 = {&lxb_unicode_entry_0169, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_016A = {&lxb_unicode_entry_016A, lxb_unicode_idna_map_016A};
+static const lxb_unicode_data_t lxb_unicode_data_016A = {&lxb_unicode_entry_016A, &lxb_unicode_idna_map_016A};
 static const lxb_unicode_data_t lxb_unicode_data_016B = {&lxb_unicode_entry_016B, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_016C = {&lxb_unicode_entry_016C, lxb_unicode_idna_map_016C};
+static const lxb_unicode_data_t lxb_unicode_data_016C = {&lxb_unicode_entry_016C, &lxb_unicode_idna_map_016C};
 static const lxb_unicode_data_t lxb_unicode_data_016D = {&lxb_unicode_entry_016D, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_016E = {&lxb_unicode_entry_016E, lxb_unicode_idna_map_016E};
+static const lxb_unicode_data_t lxb_unicode_data_016E = {&lxb_unicode_entry_016E, &lxb_unicode_idna_map_016E};
 static const lxb_unicode_data_t lxb_unicode_data_016F = {&lxb_unicode_entry_016F, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0170 = {&lxb_unicode_entry_0170, lxb_unicode_idna_map_0170};
+static const lxb_unicode_data_t lxb_unicode_data_0170 = {&lxb_unicode_entry_0170, &lxb_unicode_idna_map_0170};
 static const lxb_unicode_data_t lxb_unicode_data_0171 = {&lxb_unicode_entry_0171, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0172 = {&lxb_unicode_entry_0172, lxb_unicode_idna_map_0172};
+static const lxb_unicode_data_t lxb_unicode_data_0172 = {&lxb_unicode_entry_0172, &lxb_unicode_idna_map_0172};
 static const lxb_unicode_data_t lxb_unicode_data_0173 = {&lxb_unicode_entry_0173, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0174 = {&lxb_unicode_entry_0174, lxb_unicode_idna_map_0174};
+static const lxb_unicode_data_t lxb_unicode_data_0174 = {&lxb_unicode_entry_0174, &lxb_unicode_idna_map_0174};
 static const lxb_unicode_data_t lxb_unicode_data_0175 = {&lxb_unicode_entry_0175, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0176 = {&lxb_unicode_entry_0176, lxb_unicode_idna_map_0176};
+static const lxb_unicode_data_t lxb_unicode_data_0176 = {&lxb_unicode_entry_0176, &lxb_unicode_idna_map_0176};
 static const lxb_unicode_data_t lxb_unicode_data_0177 = {&lxb_unicode_entry_0177, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0178 = {&lxb_unicode_entry_0178, lxb_unicode_idna_map_0178};
-static const lxb_unicode_data_t lxb_unicode_data_0179 = {&lxb_unicode_entry_0179, lxb_unicode_idna_map_0179};
+static const lxb_unicode_data_t lxb_unicode_data_0178 = {&lxb_unicode_entry_0178, &lxb_unicode_idna_map_0178};
+static const lxb_unicode_data_t lxb_unicode_data_0179 = {&lxb_unicode_entry_0179, &lxb_unicode_idna_map_0179};
 static const lxb_unicode_data_t lxb_unicode_data_017A = {&lxb_unicode_entry_017A, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_017B = {&lxb_unicode_entry_017B, lxb_unicode_idna_map_017B};
+static const lxb_unicode_data_t lxb_unicode_data_017B = {&lxb_unicode_entry_017B, &lxb_unicode_idna_map_017B};
 static const lxb_unicode_data_t lxb_unicode_data_017C = {&lxb_unicode_entry_017C, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_017D = {&lxb_unicode_entry_017D, lxb_unicode_idna_map_017D};
+static const lxb_unicode_data_t lxb_unicode_data_017D = {&lxb_unicode_entry_017D, &lxb_unicode_idna_map_017D};
 static const lxb_unicode_data_t lxb_unicode_data_017E = {&lxb_unicode_entry_017E, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_017F = {&lxb_unicode_entry_017F, lxb_unicode_idna_map_017F};
-static const lxb_unicode_data_t lxb_unicode_data_0181 = {NULL, lxb_unicode_idna_map_0181};
-static const lxb_unicode_data_t lxb_unicode_data_0182 = {NULL, lxb_unicode_idna_map_0182};
-static const lxb_unicode_data_t lxb_unicode_data_0184 = {NULL, lxb_unicode_idna_map_0184};
-static const lxb_unicode_data_t lxb_unicode_data_0186 = {NULL, lxb_unicode_idna_map_0186};
-static const lxb_unicode_data_t lxb_unicode_data_0187 = {NULL, lxb_unicode_idna_map_0187};
-static const lxb_unicode_data_t lxb_unicode_data_0189 = {NULL, lxb_unicode_idna_map_0189};
-static const lxb_unicode_data_t lxb_unicode_data_018A = {NULL, lxb_unicode_idna_map_018A};
-static const lxb_unicode_data_t lxb_unicode_data_018B = {NULL, lxb_unicode_idna_map_018B};
-static const lxb_unicode_data_t lxb_unicode_data_018E = {NULL, lxb_unicode_idna_map_018E};
-static const lxb_unicode_data_t lxb_unicode_data_018F = {NULL, lxb_unicode_idna_map_018F};
-static const lxb_unicode_data_t lxb_unicode_data_0190 = {NULL, lxb_unicode_idna_map_0190};
-static const lxb_unicode_data_t lxb_unicode_data_0191 = {NULL, lxb_unicode_idna_map_0191};
-static const lxb_unicode_data_t lxb_unicode_data_0193 = {NULL, lxb_unicode_idna_map_0193};
-static const lxb_unicode_data_t lxb_unicode_data_0194 = {NULL, lxb_unicode_idna_map_0194};
-static const lxb_unicode_data_t lxb_unicode_data_0196 = {NULL, lxb_unicode_idna_map_0196};
-static const lxb_unicode_data_t lxb_unicode_data_0197 = {NULL, lxb_unicode_idna_map_0197};
-static const lxb_unicode_data_t lxb_unicode_data_0198 = {NULL, lxb_unicode_idna_map_0198};
-static const lxb_unicode_data_t lxb_unicode_data_019C = {NULL, lxb_unicode_idna_map_019C};
-static const lxb_unicode_data_t lxb_unicode_data_019D = {NULL, lxb_unicode_idna_map_019D};
-static const lxb_unicode_data_t lxb_unicode_data_019F = {NULL, lxb_unicode_idna_map_019F};
-static const lxb_unicode_data_t lxb_unicode_data_01A0 = {&lxb_unicode_entry_01A0, lxb_unicode_idna_map_01A0};
+static const lxb_unicode_data_t lxb_unicode_data_017F = {&lxb_unicode_entry_017F, &lxb_unicode_idna_map_017F};
+static const lxb_unicode_data_t lxb_unicode_data_0181 = {NULL, &lxb_unicode_idna_map_0181};
+static const lxb_unicode_data_t lxb_unicode_data_0182 = {NULL, &lxb_unicode_idna_map_0182};
+static const lxb_unicode_data_t lxb_unicode_data_0184 = {NULL, &lxb_unicode_idna_map_0184};
+static const lxb_unicode_data_t lxb_unicode_data_0186 = {NULL, &lxb_unicode_idna_map_0186};
+static const lxb_unicode_data_t lxb_unicode_data_0187 = {NULL, &lxb_unicode_idna_map_0187};
+static const lxb_unicode_data_t lxb_unicode_data_0189 = {NULL, &lxb_unicode_idna_map_0189};
+static const lxb_unicode_data_t lxb_unicode_data_018A = {NULL, &lxb_unicode_idna_map_018A};
+static const lxb_unicode_data_t lxb_unicode_data_018B = {NULL, &lxb_unicode_idna_map_018B};
+static const lxb_unicode_data_t lxb_unicode_data_018E = {NULL, &lxb_unicode_idna_map_018E};
+static const lxb_unicode_data_t lxb_unicode_data_018F = {NULL, &lxb_unicode_idna_map_018F};
+static const lxb_unicode_data_t lxb_unicode_data_0190 = {NULL, &lxb_unicode_idna_map_0190};
+static const lxb_unicode_data_t lxb_unicode_data_0191 = {NULL, &lxb_unicode_idna_map_0191};
+static const lxb_unicode_data_t lxb_unicode_data_0193 = {NULL, &lxb_unicode_idna_map_0193};
+static const lxb_unicode_data_t lxb_unicode_data_0194 = {NULL, &lxb_unicode_idna_map_0194};
+static const lxb_unicode_data_t lxb_unicode_data_0196 = {NULL, &lxb_unicode_idna_map_0196};
+static const lxb_unicode_data_t lxb_unicode_data_0197 = {NULL, &lxb_unicode_idna_map_0197};
+static const lxb_unicode_data_t lxb_unicode_data_0198 = {NULL, &lxb_unicode_idna_map_0198};
+static const lxb_unicode_data_t lxb_unicode_data_019C = {NULL, &lxb_unicode_idna_map_019C};
+static const lxb_unicode_data_t lxb_unicode_data_019D = {NULL, &lxb_unicode_idna_map_019D};
+static const lxb_unicode_data_t lxb_unicode_data_019F = {NULL, &lxb_unicode_idna_map_019F};
+static const lxb_unicode_data_t lxb_unicode_data_01A0 = {&lxb_unicode_entry_01A0, &lxb_unicode_idna_map_01A0};
 static const lxb_unicode_data_t lxb_unicode_data_01A1 = {&lxb_unicode_entry_01A1, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01A2 = {NULL, lxb_unicode_idna_map_01A2};
-static const lxb_unicode_data_t lxb_unicode_data_01A4 = {NULL, lxb_unicode_idna_map_01A4};
-static const lxb_unicode_data_t lxb_unicode_data_01A6 = {NULL, lxb_unicode_idna_map_01A6};
-static const lxb_unicode_data_t lxb_unicode_data_01A7 = {NULL, lxb_unicode_idna_map_01A7};
-static const lxb_unicode_data_t lxb_unicode_data_01A9 = {NULL, lxb_unicode_idna_map_01A9};
-static const lxb_unicode_data_t lxb_unicode_data_01AC = {NULL, lxb_unicode_idna_map_01AC};
-static const lxb_unicode_data_t lxb_unicode_data_01AE = {NULL, lxb_unicode_idna_map_01AE};
-static const lxb_unicode_data_t lxb_unicode_data_01AF = {&lxb_unicode_entry_01AF, lxb_unicode_idna_map_01AF};
+static const lxb_unicode_data_t lxb_unicode_data_01A2 = {NULL, &lxb_unicode_idna_map_01A2};
+static const lxb_unicode_data_t lxb_unicode_data_01A4 = {NULL, &lxb_unicode_idna_map_01A4};
+static const lxb_unicode_data_t lxb_unicode_data_01A6 = {NULL, &lxb_unicode_idna_map_01A6};
+static const lxb_unicode_data_t lxb_unicode_data_01A7 = {NULL, &lxb_unicode_idna_map_01A7};
+static const lxb_unicode_data_t lxb_unicode_data_01A9 = {NULL, &lxb_unicode_idna_map_01A9};
+static const lxb_unicode_data_t lxb_unicode_data_01AC = {NULL, &lxb_unicode_idna_map_01AC};
+static const lxb_unicode_data_t lxb_unicode_data_01AE = {NULL, &lxb_unicode_idna_map_01AE};
+static const lxb_unicode_data_t lxb_unicode_data_01AF = {&lxb_unicode_entry_01AF, &lxb_unicode_idna_map_01AF};
 static const lxb_unicode_data_t lxb_unicode_data_01B0 = {&lxb_unicode_entry_01B0, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01B1 = {NULL, lxb_unicode_idna_map_01B1};
-static const lxb_unicode_data_t lxb_unicode_data_01B2 = {NULL, lxb_unicode_idna_map_01B2};
-static const lxb_unicode_data_t lxb_unicode_data_01B3 = {NULL, lxb_unicode_idna_map_01B3};
-static const lxb_unicode_data_t lxb_unicode_data_01B5 = {NULL, lxb_unicode_idna_map_01B5};
-static const lxb_unicode_data_t lxb_unicode_data_01B7 = {NULL, lxb_unicode_idna_map_01B7};
-static const lxb_unicode_data_t lxb_unicode_data_01B8 = {NULL, lxb_unicode_idna_map_01B8};
-static const lxb_unicode_data_t lxb_unicode_data_01BC = {NULL, lxb_unicode_idna_map_01BC};
-static const lxb_unicode_data_t lxb_unicode_data_01C4 = {&lxb_unicode_entry_01C4, lxb_unicode_idna_map_01C4};
-static const lxb_unicode_data_t lxb_unicode_data_01C5 = {&lxb_unicode_entry_01C5, lxb_unicode_idna_map_01C5};
-static const lxb_unicode_data_t lxb_unicode_data_01C6 = {&lxb_unicode_entry_01C6, lxb_unicode_idna_map_01C6};
-static const lxb_unicode_data_t lxb_unicode_data_01C7 = {&lxb_unicode_entry_01C7, lxb_unicode_idna_map_01C7};
-static const lxb_unicode_data_t lxb_unicode_data_01C8 = {&lxb_unicode_entry_01C8, lxb_unicode_idna_map_01C8};
-static const lxb_unicode_data_t lxb_unicode_data_01C9 = {&lxb_unicode_entry_01C9, lxb_unicode_idna_map_01C9};
-static const lxb_unicode_data_t lxb_unicode_data_01CA = {&lxb_unicode_entry_01CA, lxb_unicode_idna_map_01CA};
-static const lxb_unicode_data_t lxb_unicode_data_01CB = {&lxb_unicode_entry_01CB, lxb_unicode_idna_map_01CB};
-static const lxb_unicode_data_t lxb_unicode_data_01CC = {&lxb_unicode_entry_01CC, lxb_unicode_idna_map_01CC};
-static const lxb_unicode_data_t lxb_unicode_data_01CD = {&lxb_unicode_entry_01CD, lxb_unicode_idna_map_01CD};
+static const lxb_unicode_data_t lxb_unicode_data_01B1 = {NULL, &lxb_unicode_idna_map_01B1};
+static const lxb_unicode_data_t lxb_unicode_data_01B2 = {NULL, &lxb_unicode_idna_map_01B2};
+static const lxb_unicode_data_t lxb_unicode_data_01B3 = {NULL, &lxb_unicode_idna_map_01B3};
+static const lxb_unicode_data_t lxb_unicode_data_01B5 = {NULL, &lxb_unicode_idna_map_01B5};
+static const lxb_unicode_data_t lxb_unicode_data_01B7 = {NULL, &lxb_unicode_idna_map_01B7};
+static const lxb_unicode_data_t lxb_unicode_data_01B8 = {NULL, &lxb_unicode_idna_map_01B8};
+static const lxb_unicode_data_t lxb_unicode_data_01BC = {NULL, &lxb_unicode_idna_map_01BC};
+static const lxb_unicode_data_t lxb_unicode_data_01C4 = {&lxb_unicode_entry_01C4, &lxb_unicode_idna_map_01C4};
+static const lxb_unicode_data_t lxb_unicode_data_01C5 = {&lxb_unicode_entry_01C5, &lxb_unicode_idna_map_01C5};
+static const lxb_unicode_data_t lxb_unicode_data_01C6 = {&lxb_unicode_entry_01C6, &lxb_unicode_idna_map_01C6};
+static const lxb_unicode_data_t lxb_unicode_data_01C7 = {&lxb_unicode_entry_01C7, &lxb_unicode_idna_map_01C7};
+static const lxb_unicode_data_t lxb_unicode_data_01C8 = {&lxb_unicode_entry_01C8, &lxb_unicode_idna_map_01C8};
+static const lxb_unicode_data_t lxb_unicode_data_01C9 = {&lxb_unicode_entry_01C9, &lxb_unicode_idna_map_01C9};
+static const lxb_unicode_data_t lxb_unicode_data_01CA = {&lxb_unicode_entry_01CA, &lxb_unicode_idna_map_01CA};
+static const lxb_unicode_data_t lxb_unicode_data_01CB = {&lxb_unicode_entry_01CB, &lxb_unicode_idna_map_01CB};
+static const lxb_unicode_data_t lxb_unicode_data_01CC = {&lxb_unicode_entry_01CC, &lxb_unicode_idna_map_01CC};
+static const lxb_unicode_data_t lxb_unicode_data_01CD = {&lxb_unicode_entry_01CD, &lxb_unicode_idna_map_01CD};
 static const lxb_unicode_data_t lxb_unicode_data_01CE = {&lxb_unicode_entry_01CE, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01CF = {&lxb_unicode_entry_01CF, lxb_unicode_idna_map_01CF};
+static const lxb_unicode_data_t lxb_unicode_data_01CF = {&lxb_unicode_entry_01CF, &lxb_unicode_idna_map_01CF};
 static const lxb_unicode_data_t lxb_unicode_data_01D0 = {&lxb_unicode_entry_01D0, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01D1 = {&lxb_unicode_entry_01D1, lxb_unicode_idna_map_01D1};
+static const lxb_unicode_data_t lxb_unicode_data_01D1 = {&lxb_unicode_entry_01D1, &lxb_unicode_idna_map_01D1};
 static const lxb_unicode_data_t lxb_unicode_data_01D2 = {&lxb_unicode_entry_01D2, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01D3 = {&lxb_unicode_entry_01D3, lxb_unicode_idna_map_01D3};
+static const lxb_unicode_data_t lxb_unicode_data_01D3 = {&lxb_unicode_entry_01D3, &lxb_unicode_idna_map_01D3};
 static const lxb_unicode_data_t lxb_unicode_data_01D4 = {&lxb_unicode_entry_01D4, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01D5 = {&lxb_unicode_entry_01D5, lxb_unicode_idna_map_01D5};
+static const lxb_unicode_data_t lxb_unicode_data_01D5 = {&lxb_unicode_entry_01D5, &lxb_unicode_idna_map_01D5};
 static const lxb_unicode_data_t lxb_unicode_data_01D6 = {&lxb_unicode_entry_01D6, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01D7 = {&lxb_unicode_entry_01D7, lxb_unicode_idna_map_01D7};
+static const lxb_unicode_data_t lxb_unicode_data_01D7 = {&lxb_unicode_entry_01D7, &lxb_unicode_idna_map_01D7};
 static const lxb_unicode_data_t lxb_unicode_data_01D8 = {&lxb_unicode_entry_01D8, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01D9 = {&lxb_unicode_entry_01D9, lxb_unicode_idna_map_01D9};
+static const lxb_unicode_data_t lxb_unicode_data_01D9 = {&lxb_unicode_entry_01D9, &lxb_unicode_idna_map_01D9};
 static const lxb_unicode_data_t lxb_unicode_data_01DA = {&lxb_unicode_entry_01DA, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01DB = {&lxb_unicode_entry_01DB, lxb_unicode_idna_map_01DB};
+static const lxb_unicode_data_t lxb_unicode_data_01DB = {&lxb_unicode_entry_01DB, &lxb_unicode_idna_map_01DB};
 static const lxb_unicode_data_t lxb_unicode_data_01DC = {&lxb_unicode_entry_01DC, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01DE = {&lxb_unicode_entry_01DE, lxb_unicode_idna_map_01DE};
+static const lxb_unicode_data_t lxb_unicode_data_01DE = {&lxb_unicode_entry_01DE, &lxb_unicode_idna_map_01DE};
 static const lxb_unicode_data_t lxb_unicode_data_01DF = {&lxb_unicode_entry_01DF, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01E0 = {&lxb_unicode_entry_01E0, lxb_unicode_idna_map_01E0};
+static const lxb_unicode_data_t lxb_unicode_data_01E0 = {&lxb_unicode_entry_01E0, &lxb_unicode_idna_map_01E0};
 static const lxb_unicode_data_t lxb_unicode_data_01E1 = {&lxb_unicode_entry_01E1, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01E2 = {&lxb_unicode_entry_01E2, lxb_unicode_idna_map_01E2};
+static const lxb_unicode_data_t lxb_unicode_data_01E2 = {&lxb_unicode_entry_01E2, &lxb_unicode_idna_map_01E2};
 static const lxb_unicode_data_t lxb_unicode_data_01E3 = {&lxb_unicode_entry_01E3, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01E4 = {NULL, lxb_unicode_idna_map_01E4};
-static const lxb_unicode_data_t lxb_unicode_data_01E6 = {&lxb_unicode_entry_01E6, lxb_unicode_idna_map_01E6};
+static const lxb_unicode_data_t lxb_unicode_data_01E4 = {NULL, &lxb_unicode_idna_map_01E4};
+static const lxb_unicode_data_t lxb_unicode_data_01E6 = {&lxb_unicode_entry_01E6, &lxb_unicode_idna_map_01E6};
 static const lxb_unicode_data_t lxb_unicode_data_01E7 = {&lxb_unicode_entry_01E7, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01E8 = {&lxb_unicode_entry_01E8, lxb_unicode_idna_map_01E8};
+static const lxb_unicode_data_t lxb_unicode_data_01E8 = {&lxb_unicode_entry_01E8, &lxb_unicode_idna_map_01E8};
 static const lxb_unicode_data_t lxb_unicode_data_01E9 = {&lxb_unicode_entry_01E9, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01EA = {&lxb_unicode_entry_01EA, lxb_unicode_idna_map_01EA};
+static const lxb_unicode_data_t lxb_unicode_data_01EA = {&lxb_unicode_entry_01EA, &lxb_unicode_idna_map_01EA};
 static const lxb_unicode_data_t lxb_unicode_data_01EB = {&lxb_unicode_entry_01EB, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01EC = {&lxb_unicode_entry_01EC, lxb_unicode_idna_map_01EC};
+static const lxb_unicode_data_t lxb_unicode_data_01EC = {&lxb_unicode_entry_01EC, &lxb_unicode_idna_map_01EC};
 static const lxb_unicode_data_t lxb_unicode_data_01ED = {&lxb_unicode_entry_01ED, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01EE = {&lxb_unicode_entry_01EE, lxb_unicode_idna_map_01EE};
+static const lxb_unicode_data_t lxb_unicode_data_01EE = {&lxb_unicode_entry_01EE, &lxb_unicode_idna_map_01EE};
 static const lxb_unicode_data_t lxb_unicode_data_01EF = {&lxb_unicode_entry_01EF, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_01F0 = {&lxb_unicode_entry_01F0, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01F1 = {&lxb_unicode_entry_01F1, lxb_unicode_idna_map_01F1};
-static const lxb_unicode_data_t lxb_unicode_data_01F2 = {&lxb_unicode_entry_01F2, lxb_unicode_idna_map_01F2};
-static const lxb_unicode_data_t lxb_unicode_data_01F3 = {&lxb_unicode_entry_01F3, lxb_unicode_idna_map_01F3};
-static const lxb_unicode_data_t lxb_unicode_data_01F4 = {&lxb_unicode_entry_01F4, lxb_unicode_idna_map_01F4};
+static const lxb_unicode_data_t lxb_unicode_data_01F1 = {&lxb_unicode_entry_01F1, &lxb_unicode_idna_map_01F1};
+static const lxb_unicode_data_t lxb_unicode_data_01F2 = {&lxb_unicode_entry_01F2, &lxb_unicode_idna_map_01F2};
+static const lxb_unicode_data_t lxb_unicode_data_01F3 = {&lxb_unicode_entry_01F3, &lxb_unicode_idna_map_01F3};
+static const lxb_unicode_data_t lxb_unicode_data_01F4 = {&lxb_unicode_entry_01F4, &lxb_unicode_idna_map_01F4};
 static const lxb_unicode_data_t lxb_unicode_data_01F5 = {&lxb_unicode_entry_01F5, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01F6 = {NULL, lxb_unicode_idna_map_01F6};
-static const lxb_unicode_data_t lxb_unicode_data_01F7 = {NULL, lxb_unicode_idna_map_01F7};
-static const lxb_unicode_data_t lxb_unicode_data_01F8 = {&lxb_unicode_entry_01F8, lxb_unicode_idna_map_01F8};
+static const lxb_unicode_data_t lxb_unicode_data_01F6 = {NULL, &lxb_unicode_idna_map_01F6};
+static const lxb_unicode_data_t lxb_unicode_data_01F7 = {NULL, &lxb_unicode_idna_map_01F7};
+static const lxb_unicode_data_t lxb_unicode_data_01F8 = {&lxb_unicode_entry_01F8, &lxb_unicode_idna_map_01F8};
 static const lxb_unicode_data_t lxb_unicode_data_01F9 = {&lxb_unicode_entry_01F9, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01FA = {&lxb_unicode_entry_01FA, lxb_unicode_idna_map_01FA};
+static const lxb_unicode_data_t lxb_unicode_data_01FA = {&lxb_unicode_entry_01FA, &lxb_unicode_idna_map_01FA};
 static const lxb_unicode_data_t lxb_unicode_data_01FB = {&lxb_unicode_entry_01FB, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01FC = {&lxb_unicode_entry_01FC, lxb_unicode_idna_map_01FC};
+static const lxb_unicode_data_t lxb_unicode_data_01FC = {&lxb_unicode_entry_01FC, &lxb_unicode_idna_map_01FC};
 static const lxb_unicode_data_t lxb_unicode_data_01FD = {&lxb_unicode_entry_01FD, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_01FE = {&lxb_unicode_entry_01FE, lxb_unicode_idna_map_01FE};
+static const lxb_unicode_data_t lxb_unicode_data_01FE = {&lxb_unicode_entry_01FE, &lxb_unicode_idna_map_01FE};
 static const lxb_unicode_data_t lxb_unicode_data_01FF = {&lxb_unicode_entry_01FF, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0200 = {&lxb_unicode_entry_0200, lxb_unicode_idna_map_0200};
+static const lxb_unicode_data_t lxb_unicode_data_0200 = {&lxb_unicode_entry_0200, &lxb_unicode_idna_map_0200};
 static const lxb_unicode_data_t lxb_unicode_data_0201 = {&lxb_unicode_entry_0201, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0202 = {&lxb_unicode_entry_0202, lxb_unicode_idna_map_0202};
+static const lxb_unicode_data_t lxb_unicode_data_0202 = {&lxb_unicode_entry_0202, &lxb_unicode_idna_map_0202};
 static const lxb_unicode_data_t lxb_unicode_data_0203 = {&lxb_unicode_entry_0203, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0204 = {&lxb_unicode_entry_0204, lxb_unicode_idna_map_0204};
+static const lxb_unicode_data_t lxb_unicode_data_0204 = {&lxb_unicode_entry_0204, &lxb_unicode_idna_map_0204};
 static const lxb_unicode_data_t lxb_unicode_data_0205 = {&lxb_unicode_entry_0205, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0206 = {&lxb_unicode_entry_0206, lxb_unicode_idna_map_0206};
+static const lxb_unicode_data_t lxb_unicode_data_0206 = {&lxb_unicode_entry_0206, &lxb_unicode_idna_map_0206};
 static const lxb_unicode_data_t lxb_unicode_data_0207 = {&lxb_unicode_entry_0207, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0208 = {&lxb_unicode_entry_0208, lxb_unicode_idna_map_0208};
+static const lxb_unicode_data_t lxb_unicode_data_0208 = {&lxb_unicode_entry_0208, &lxb_unicode_idna_map_0208};
 static const lxb_unicode_data_t lxb_unicode_data_0209 = {&lxb_unicode_entry_0209, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_020A = {&lxb_unicode_entry_020A, lxb_unicode_idna_map_020A};
+static const lxb_unicode_data_t lxb_unicode_data_020A = {&lxb_unicode_entry_020A, &lxb_unicode_idna_map_020A};
 static const lxb_unicode_data_t lxb_unicode_data_020B = {&lxb_unicode_entry_020B, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_020C = {&lxb_unicode_entry_020C, lxb_unicode_idna_map_020C};
+static const lxb_unicode_data_t lxb_unicode_data_020C = {&lxb_unicode_entry_020C, &lxb_unicode_idna_map_020C};
 static const lxb_unicode_data_t lxb_unicode_data_020D = {&lxb_unicode_entry_020D, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_020E = {&lxb_unicode_entry_020E, lxb_unicode_idna_map_020E};
+static const lxb_unicode_data_t lxb_unicode_data_020E = {&lxb_unicode_entry_020E, &lxb_unicode_idna_map_020E};
 static const lxb_unicode_data_t lxb_unicode_data_020F = {&lxb_unicode_entry_020F, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0210 = {&lxb_unicode_entry_0210, lxb_unicode_idna_map_0210};
+static const lxb_unicode_data_t lxb_unicode_data_0210 = {&lxb_unicode_entry_0210, &lxb_unicode_idna_map_0210};
 static const lxb_unicode_data_t lxb_unicode_data_0211 = {&lxb_unicode_entry_0211, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0212 = {&lxb_unicode_entry_0212, lxb_unicode_idna_map_0212};
+static const lxb_unicode_data_t lxb_unicode_data_0212 = {&lxb_unicode_entry_0212, &lxb_unicode_idna_map_0212};
 static const lxb_unicode_data_t lxb_unicode_data_0213 = {&lxb_unicode_entry_0213, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0214 = {&lxb_unicode_entry_0214, lxb_unicode_idna_map_0214};
+static const lxb_unicode_data_t lxb_unicode_data_0214 = {&lxb_unicode_entry_0214, &lxb_unicode_idna_map_0214};
 static const lxb_unicode_data_t lxb_unicode_data_0215 = {&lxb_unicode_entry_0215, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0216 = {&lxb_unicode_entry_0216, lxb_unicode_idna_map_0216};
+static const lxb_unicode_data_t lxb_unicode_data_0216 = {&lxb_unicode_entry_0216, &lxb_unicode_idna_map_0216};
 static const lxb_unicode_data_t lxb_unicode_data_0217 = {&lxb_unicode_entry_0217, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0218 = {&lxb_unicode_entry_0218, lxb_unicode_idna_map_0218};
+static const lxb_unicode_data_t lxb_unicode_data_0218 = {&lxb_unicode_entry_0218, &lxb_unicode_idna_map_0218};
 static const lxb_unicode_data_t lxb_unicode_data_0219 = {&lxb_unicode_entry_0219, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_021A = {&lxb_unicode_entry_021A, lxb_unicode_idna_map_021A};
+static const lxb_unicode_data_t lxb_unicode_data_021A = {&lxb_unicode_entry_021A, &lxb_unicode_idna_map_021A};
 static const lxb_unicode_data_t lxb_unicode_data_021B = {&lxb_unicode_entry_021B, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_021C = {NULL, lxb_unicode_idna_map_021C};
-static const lxb_unicode_data_t lxb_unicode_data_021E = {&lxb_unicode_entry_021E, lxb_unicode_idna_map_021E};
+static const lxb_unicode_data_t lxb_unicode_data_021C = {NULL, &lxb_unicode_idna_map_021C};
+static const lxb_unicode_data_t lxb_unicode_data_021E = {&lxb_unicode_entry_021E, &lxb_unicode_idna_map_021E};
 static const lxb_unicode_data_t lxb_unicode_data_021F = {&lxb_unicode_entry_021F, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0220 = {NULL, lxb_unicode_idna_map_0220};
-static const lxb_unicode_data_t lxb_unicode_data_0222 = {NULL, lxb_unicode_idna_map_0222};
-static const lxb_unicode_data_t lxb_unicode_data_0224 = {NULL, lxb_unicode_idna_map_0224};
-static const lxb_unicode_data_t lxb_unicode_data_0226 = {&lxb_unicode_entry_0226, lxb_unicode_idna_map_0226};
+static const lxb_unicode_data_t lxb_unicode_data_0220 = {NULL, &lxb_unicode_idna_map_0220};
+static const lxb_unicode_data_t lxb_unicode_data_0222 = {NULL, &lxb_unicode_idna_map_0222};
+static const lxb_unicode_data_t lxb_unicode_data_0224 = {NULL, &lxb_unicode_idna_map_0224};
+static const lxb_unicode_data_t lxb_unicode_data_0226 = {&lxb_unicode_entry_0226, &lxb_unicode_idna_map_0226};
 static const lxb_unicode_data_t lxb_unicode_data_0227 = {&lxb_unicode_entry_0227, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0228 = {&lxb_unicode_entry_0228, lxb_unicode_idna_map_0228};
+static const lxb_unicode_data_t lxb_unicode_data_0228 = {&lxb_unicode_entry_0228, &lxb_unicode_idna_map_0228};
 static const lxb_unicode_data_t lxb_unicode_data_0229 = {&lxb_unicode_entry_0229, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_022A = {&lxb_unicode_entry_022A, lxb_unicode_idna_map_022A};
+static const lxb_unicode_data_t lxb_unicode_data_022A = {&lxb_unicode_entry_022A, &lxb_unicode_idna_map_022A};
 static const lxb_unicode_data_t lxb_unicode_data_022B = {&lxb_unicode_entry_022B, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_022C = {&lxb_unicode_entry_022C, lxb_unicode_idna_map_022C};
+static const lxb_unicode_data_t lxb_unicode_data_022C = {&lxb_unicode_entry_022C, &lxb_unicode_idna_map_022C};
 static const lxb_unicode_data_t lxb_unicode_data_022D = {&lxb_unicode_entry_022D, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_022E = {&lxb_unicode_entry_022E, lxb_unicode_idna_map_022E};
+static const lxb_unicode_data_t lxb_unicode_data_022E = {&lxb_unicode_entry_022E, &lxb_unicode_idna_map_022E};
 static const lxb_unicode_data_t lxb_unicode_data_022F = {&lxb_unicode_entry_022F, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0230 = {&lxb_unicode_entry_0230, lxb_unicode_idna_map_0230};
+static const lxb_unicode_data_t lxb_unicode_data_0230 = {&lxb_unicode_entry_0230, &lxb_unicode_idna_map_0230};
 static const lxb_unicode_data_t lxb_unicode_data_0231 = {&lxb_unicode_entry_0231, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0232 = {&lxb_unicode_entry_0232, lxb_unicode_idna_map_0232};
+static const lxb_unicode_data_t lxb_unicode_data_0232 = {&lxb_unicode_entry_0232, &lxb_unicode_idna_map_0232};
 static const lxb_unicode_data_t lxb_unicode_data_0233 = {&lxb_unicode_entry_0233, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_023A = {NULL, lxb_unicode_idna_map_023A};
-static const lxb_unicode_data_t lxb_unicode_data_023B = {NULL, lxb_unicode_idna_map_023B};
-static const lxb_unicode_data_t lxb_unicode_data_023D = {NULL, lxb_unicode_idna_map_023D};
-static const lxb_unicode_data_t lxb_unicode_data_023E = {NULL, lxb_unicode_idna_map_023E};
-static const lxb_unicode_data_t lxb_unicode_data_0241 = {NULL, lxb_unicode_idna_map_0241};
-static const lxb_unicode_data_t lxb_unicode_data_0243 = {NULL, lxb_unicode_idna_map_0243};
-static const lxb_unicode_data_t lxb_unicode_data_0244 = {NULL, lxb_unicode_idna_map_0244};
-static const lxb_unicode_data_t lxb_unicode_data_0245 = {NULL, lxb_unicode_idna_map_0245};
-static const lxb_unicode_data_t lxb_unicode_data_0246 = {NULL, lxb_unicode_idna_map_0246};
-static const lxb_unicode_data_t lxb_unicode_data_0248 = {NULL, lxb_unicode_idna_map_0248};
-static const lxb_unicode_data_t lxb_unicode_data_024A = {NULL, lxb_unicode_idna_map_024A};
-static const lxb_unicode_data_t lxb_unicode_data_024C = {NULL, lxb_unicode_idna_map_024C};
-static const lxb_unicode_data_t lxb_unicode_data_024E = {NULL, lxb_unicode_idna_map_024E};
-static const lxb_unicode_data_t lxb_unicode_data_02B0 = {&lxb_unicode_entry_02B0, lxb_unicode_idna_map_02B0};
-static const lxb_unicode_data_t lxb_unicode_data_02B1 = {&lxb_unicode_entry_02B1, lxb_unicode_idna_map_02B1};
-static const lxb_unicode_data_t lxb_unicode_data_02B2 = {&lxb_unicode_entry_02B2, lxb_unicode_idna_map_02B2};
-static const lxb_unicode_data_t lxb_unicode_data_02B3 = {&lxb_unicode_entry_02B3, lxb_unicode_idna_map_02B3};
-static const lxb_unicode_data_t lxb_unicode_data_02B4 = {&lxb_unicode_entry_02B4, lxb_unicode_idna_map_02B4};
-static const lxb_unicode_data_t lxb_unicode_data_02B5 = {&lxb_unicode_entry_02B5, lxb_unicode_idna_map_02B5};
-static const lxb_unicode_data_t lxb_unicode_data_02B6 = {&lxb_unicode_entry_02B6, lxb_unicode_idna_map_02B6};
-static const lxb_unicode_data_t lxb_unicode_data_02B7 = {&lxb_unicode_entry_02B7, lxb_unicode_idna_map_02B7};
-static const lxb_unicode_data_t lxb_unicode_data_02B8 = {&lxb_unicode_entry_02B8, lxb_unicode_idna_map_02B8};
-static const lxb_unicode_data_t lxb_unicode_data_02D8 = {&lxb_unicode_entry_02D8, lxb_unicode_idna_map_02D8};
-static const lxb_unicode_data_t lxb_unicode_data_02D9 = {&lxb_unicode_entry_02D9, lxb_unicode_idna_map_02D9};
-static const lxb_unicode_data_t lxb_unicode_data_02DA = {&lxb_unicode_entry_02DA, lxb_unicode_idna_map_02DA};
-static const lxb_unicode_data_t lxb_unicode_data_02DB = {&lxb_unicode_entry_02DB, lxb_unicode_idna_map_02DB};
-static const lxb_unicode_data_t lxb_unicode_data_02DC = {&lxb_unicode_entry_02DC, lxb_unicode_idna_map_02DC};
-static const lxb_unicode_data_t lxb_unicode_data_02DD = {&lxb_unicode_entry_02DD, lxb_unicode_idna_map_02DD};
-static const lxb_unicode_data_t lxb_unicode_data_02E0 = {&lxb_unicode_entry_02E0, lxb_unicode_idna_map_02E0};
-static const lxb_unicode_data_t lxb_unicode_data_02E1 = {&lxb_unicode_entry_02E1, lxb_unicode_idna_map_02E1};
-static const lxb_unicode_data_t lxb_unicode_data_02E2 = {&lxb_unicode_entry_02E2, lxb_unicode_idna_map_02E2};
-static const lxb_unicode_data_t lxb_unicode_data_02E3 = {&lxb_unicode_entry_02E3, lxb_unicode_idna_map_02E3};
-static const lxb_unicode_data_t lxb_unicode_data_02E4 = {&lxb_unicode_entry_02E4, lxb_unicode_idna_map_02E4};
+static const lxb_unicode_data_t lxb_unicode_data_023A = {NULL, &lxb_unicode_idna_map_023A};
+static const lxb_unicode_data_t lxb_unicode_data_023B = {NULL, &lxb_unicode_idna_map_023B};
+static const lxb_unicode_data_t lxb_unicode_data_023D = {NULL, &lxb_unicode_idna_map_023D};
+static const lxb_unicode_data_t lxb_unicode_data_023E = {NULL, &lxb_unicode_idna_map_023E};
+static const lxb_unicode_data_t lxb_unicode_data_0241 = {NULL, &lxb_unicode_idna_map_0241};
+static const lxb_unicode_data_t lxb_unicode_data_0243 = {NULL, &lxb_unicode_idna_map_0243};
+static const lxb_unicode_data_t lxb_unicode_data_0244 = {NULL, &lxb_unicode_idna_map_0244};
+static const lxb_unicode_data_t lxb_unicode_data_0245 = {NULL, &lxb_unicode_idna_map_0245};
+static const lxb_unicode_data_t lxb_unicode_data_0246 = {NULL, &lxb_unicode_idna_map_0246};
+static const lxb_unicode_data_t lxb_unicode_data_0248 = {NULL, &lxb_unicode_idna_map_0248};
+static const lxb_unicode_data_t lxb_unicode_data_024A = {NULL, &lxb_unicode_idna_map_024A};
+static const lxb_unicode_data_t lxb_unicode_data_024C = {NULL, &lxb_unicode_idna_map_024C};
+static const lxb_unicode_data_t lxb_unicode_data_024E = {NULL, &lxb_unicode_idna_map_024E};
+static const lxb_unicode_data_t lxb_unicode_data_02B0 = {&lxb_unicode_entry_02B0, &lxb_unicode_idna_map_02B0};
+static const lxb_unicode_data_t lxb_unicode_data_02B1 = {&lxb_unicode_entry_02B1, &lxb_unicode_idna_map_02B1};
+static const lxb_unicode_data_t lxb_unicode_data_02B2 = {&lxb_unicode_entry_02B2, &lxb_unicode_idna_map_02B2};
+static const lxb_unicode_data_t lxb_unicode_data_02B3 = {&lxb_unicode_entry_02B3, &lxb_unicode_idna_map_02B3};
+static const lxb_unicode_data_t lxb_unicode_data_02B4 = {&lxb_unicode_entry_02B4, &lxb_unicode_idna_map_02B4};
+static const lxb_unicode_data_t lxb_unicode_data_02B5 = {&lxb_unicode_entry_02B5, &lxb_unicode_idna_map_02B5};
+static const lxb_unicode_data_t lxb_unicode_data_02B6 = {&lxb_unicode_entry_02B6, &lxb_unicode_idna_map_02B6};
+static const lxb_unicode_data_t lxb_unicode_data_02B7 = {&lxb_unicode_entry_02B7, &lxb_unicode_idna_map_02B7};
+static const lxb_unicode_data_t lxb_unicode_data_02B8 = {&lxb_unicode_entry_02B8, &lxb_unicode_idna_map_02B8};
+static const lxb_unicode_data_t lxb_unicode_data_02D8 = {&lxb_unicode_entry_02D8, &lxb_unicode_idna_map_02D8};
+static const lxb_unicode_data_t lxb_unicode_data_02D9 = {&lxb_unicode_entry_02D9, &lxb_unicode_idna_map_02D9};
+static const lxb_unicode_data_t lxb_unicode_data_02DA = {&lxb_unicode_entry_02DA, &lxb_unicode_idna_map_02DA};
+static const lxb_unicode_data_t lxb_unicode_data_02DB = {&lxb_unicode_entry_02DB, &lxb_unicode_idna_map_02DB};
+static const lxb_unicode_data_t lxb_unicode_data_02DC = {&lxb_unicode_entry_02DC, &lxb_unicode_idna_map_02DC};
+static const lxb_unicode_data_t lxb_unicode_data_02DD = {&lxb_unicode_entry_02DD, &lxb_unicode_idna_map_02DD};
+static const lxb_unicode_data_t lxb_unicode_data_02E0 = {&lxb_unicode_entry_02E0, &lxb_unicode_idna_map_02E0};
+static const lxb_unicode_data_t lxb_unicode_data_02E1 = {&lxb_unicode_entry_02E1, &lxb_unicode_idna_map_02E1};
+static const lxb_unicode_data_t lxb_unicode_data_02E2 = {&lxb_unicode_entry_02E2, &lxb_unicode_idna_map_02E2};
+static const lxb_unicode_data_t lxb_unicode_data_02E3 = {&lxb_unicode_entry_02E3, &lxb_unicode_idna_map_02E3};
+static const lxb_unicode_data_t lxb_unicode_data_02E4 = {&lxb_unicode_entry_02E4, &lxb_unicode_idna_map_02E4};
 static const lxb_unicode_data_t lxb_unicode_data_0300 = {&lxb_unicode_entry_0300, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0301 = {&lxb_unicode_entry_0301, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0302 = {&lxb_unicode_entry_0302, NULL};
@@ -5238,12 +5364,12 @@ static const lxb_unicode_data_t lxb_unicode_data_033C = {&lxb_unicode_entry_033C
 static const lxb_unicode_data_t lxb_unicode_data_033D = {&lxb_unicode_entry_033D, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_033E = {&lxb_unicode_entry_033E, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_033F = {&lxb_unicode_entry_033F, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0340 = {&lxb_unicode_entry_0340, lxb_unicode_idna_map_0340};
-static const lxb_unicode_data_t lxb_unicode_data_0341 = {&lxb_unicode_entry_0341, lxb_unicode_idna_map_0341};
+static const lxb_unicode_data_t lxb_unicode_data_0340 = {&lxb_unicode_entry_0340, &lxb_unicode_idna_map_0340};
+static const lxb_unicode_data_t lxb_unicode_data_0341 = {&lxb_unicode_entry_0341, &lxb_unicode_idna_map_0341};
 static const lxb_unicode_data_t lxb_unicode_data_0342 = {&lxb_unicode_entry_0342, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0343 = {&lxb_unicode_entry_0343, lxb_unicode_idna_map_0343};
-static const lxb_unicode_data_t lxb_unicode_data_0344 = {&lxb_unicode_entry_0344, lxb_unicode_idna_map_0344};
-static const lxb_unicode_data_t lxb_unicode_data_0345 = {&lxb_unicode_entry_0345, lxb_unicode_idna_map_0345};
+static const lxb_unicode_data_t lxb_unicode_data_0343 = {&lxb_unicode_entry_0343, &lxb_unicode_idna_map_0343};
+static const lxb_unicode_data_t lxb_unicode_data_0344 = {&lxb_unicode_entry_0344, &lxb_unicode_idna_map_0344};
+static const lxb_unicode_data_t lxb_unicode_data_0345 = {&lxb_unicode_entry_0345, &lxb_unicode_idna_map_0345};
 static const lxb_unicode_data_t lxb_unicode_data_0346 = {&lxb_unicode_entry_0346, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0347 = {&lxb_unicode_entry_0347, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0348 = {&lxb_unicode_entry_0348, NULL};
@@ -5285,140 +5411,140 @@ static const lxb_unicode_data_t lxb_unicode_data_036C = {&lxb_unicode_entry_036C
 static const lxb_unicode_data_t lxb_unicode_data_036D = {&lxb_unicode_entry_036D, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_036E = {&lxb_unicode_entry_036E, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_036F = {&lxb_unicode_entry_036F, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0370 = {NULL, lxb_unicode_idna_map_0370};
-static const lxb_unicode_data_t lxb_unicode_data_0372 = {NULL, lxb_unicode_idna_map_0372};
-static const lxb_unicode_data_t lxb_unicode_data_0374 = {&lxb_unicode_entry_0374, lxb_unicode_idna_map_0374};
-static const lxb_unicode_data_t lxb_unicode_data_0376 = {NULL, lxb_unicode_idna_map_0376};
-static const lxb_unicode_data_t lxb_unicode_data_037A = {&lxb_unicode_entry_037A, lxb_unicode_idna_map_037A};
-static const lxb_unicode_data_t lxb_unicode_data_037E = {&lxb_unicode_entry_037E, lxb_unicode_idna_map_037E};
-static const lxb_unicode_data_t lxb_unicode_data_037F = {NULL, lxb_unicode_idna_map_037F};
-static const lxb_unicode_data_t lxb_unicode_data_0384 = {&lxb_unicode_entry_0384, lxb_unicode_idna_map_0384};
-static const lxb_unicode_data_t lxb_unicode_data_0385 = {&lxb_unicode_entry_0385, lxb_unicode_idna_map_0385};
-static const lxb_unicode_data_t lxb_unicode_data_0386 = {&lxb_unicode_entry_0386, lxb_unicode_idna_map_0386};
-static const lxb_unicode_data_t lxb_unicode_data_0387 = {&lxb_unicode_entry_0387, lxb_unicode_idna_map_0387};
-static const lxb_unicode_data_t lxb_unicode_data_0388 = {&lxb_unicode_entry_0388, lxb_unicode_idna_map_0388};
-static const lxb_unicode_data_t lxb_unicode_data_0389 = {&lxb_unicode_entry_0389, lxb_unicode_idna_map_0389};
-static const lxb_unicode_data_t lxb_unicode_data_038A = {&lxb_unicode_entry_038A, lxb_unicode_idna_map_038A};
-static const lxb_unicode_data_t lxb_unicode_data_038C = {&lxb_unicode_entry_038C, lxb_unicode_idna_map_038C};
-static const lxb_unicode_data_t lxb_unicode_data_038E = {&lxb_unicode_entry_038E, lxb_unicode_idna_map_038E};
-static const lxb_unicode_data_t lxb_unicode_data_038F = {&lxb_unicode_entry_038F, lxb_unicode_idna_map_038F};
+static const lxb_unicode_data_t lxb_unicode_data_0370 = {NULL, &lxb_unicode_idna_map_0370};
+static const lxb_unicode_data_t lxb_unicode_data_0372 = {NULL, &lxb_unicode_idna_map_0372};
+static const lxb_unicode_data_t lxb_unicode_data_0374 = {&lxb_unicode_entry_0374, &lxb_unicode_idna_map_0374};
+static const lxb_unicode_data_t lxb_unicode_data_0376 = {NULL, &lxb_unicode_idna_map_0376};
+static const lxb_unicode_data_t lxb_unicode_data_037A = {&lxb_unicode_entry_037A, &lxb_unicode_idna_map_037A};
+static const lxb_unicode_data_t lxb_unicode_data_037E = {&lxb_unicode_entry_037E, &lxb_unicode_idna_map_037E};
+static const lxb_unicode_data_t lxb_unicode_data_037F = {NULL, &lxb_unicode_idna_map_037F};
+static const lxb_unicode_data_t lxb_unicode_data_0384 = {&lxb_unicode_entry_0384, &lxb_unicode_idna_map_0384};
+static const lxb_unicode_data_t lxb_unicode_data_0385 = {&lxb_unicode_entry_0385, &lxb_unicode_idna_map_0385};
+static const lxb_unicode_data_t lxb_unicode_data_0386 = {&lxb_unicode_entry_0386, &lxb_unicode_idna_map_0386};
+static const lxb_unicode_data_t lxb_unicode_data_0387 = {&lxb_unicode_entry_0387, &lxb_unicode_idna_map_0387};
+static const lxb_unicode_data_t lxb_unicode_data_0388 = {&lxb_unicode_entry_0388, &lxb_unicode_idna_map_0388};
+static const lxb_unicode_data_t lxb_unicode_data_0389 = {&lxb_unicode_entry_0389, &lxb_unicode_idna_map_0389};
+static const lxb_unicode_data_t lxb_unicode_data_038A = {&lxb_unicode_entry_038A, &lxb_unicode_idna_map_038A};
+static const lxb_unicode_data_t lxb_unicode_data_038C = {&lxb_unicode_entry_038C, &lxb_unicode_idna_map_038C};
+static const lxb_unicode_data_t lxb_unicode_data_038E = {&lxb_unicode_entry_038E, &lxb_unicode_idna_map_038E};
+static const lxb_unicode_data_t lxb_unicode_data_038F = {&lxb_unicode_entry_038F, &lxb_unicode_idna_map_038F};
 static const lxb_unicode_data_t lxb_unicode_data_0390 = {&lxb_unicode_entry_0390, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0391 = {NULL, lxb_unicode_idna_map_0391};
-static const lxb_unicode_data_t lxb_unicode_data_0392 = {NULL, lxb_unicode_idna_map_0392};
-static const lxb_unicode_data_t lxb_unicode_data_0393 = {NULL, lxb_unicode_idna_map_0393};
-static const lxb_unicode_data_t lxb_unicode_data_0394 = {NULL, lxb_unicode_idna_map_0394};
-static const lxb_unicode_data_t lxb_unicode_data_0395 = {NULL, lxb_unicode_idna_map_0395};
-static const lxb_unicode_data_t lxb_unicode_data_0396 = {NULL, lxb_unicode_idna_map_0396};
-static const lxb_unicode_data_t lxb_unicode_data_0397 = {NULL, lxb_unicode_idna_map_0397};
-static const lxb_unicode_data_t lxb_unicode_data_0398 = {NULL, lxb_unicode_idna_map_0398};
-static const lxb_unicode_data_t lxb_unicode_data_0399 = {NULL, lxb_unicode_idna_map_0399};
-static const lxb_unicode_data_t lxb_unicode_data_039A = {NULL, lxb_unicode_idna_map_039A};
-static const lxb_unicode_data_t lxb_unicode_data_039B = {NULL, lxb_unicode_idna_map_039B};
-static const lxb_unicode_data_t lxb_unicode_data_039C = {NULL, lxb_unicode_idna_map_039C};
-static const lxb_unicode_data_t lxb_unicode_data_039D = {NULL, lxb_unicode_idna_map_039D};
-static const lxb_unicode_data_t lxb_unicode_data_039E = {NULL, lxb_unicode_idna_map_039E};
-static const lxb_unicode_data_t lxb_unicode_data_039F = {NULL, lxb_unicode_idna_map_039F};
-static const lxb_unicode_data_t lxb_unicode_data_03A0 = {NULL, lxb_unicode_idna_map_03A0};
-static const lxb_unicode_data_t lxb_unicode_data_03A1 = {NULL, lxb_unicode_idna_map_03A1};
-static const lxb_unicode_data_t lxb_unicode_data_03A3 = {NULL, lxb_unicode_idna_map_03A3};
-static const lxb_unicode_data_t lxb_unicode_data_03A4 = {NULL, lxb_unicode_idna_map_03A4};
-static const lxb_unicode_data_t lxb_unicode_data_03A5 = {NULL, lxb_unicode_idna_map_03A5};
-static const lxb_unicode_data_t lxb_unicode_data_03A6 = {NULL, lxb_unicode_idna_map_03A6};
-static const lxb_unicode_data_t lxb_unicode_data_03A7 = {NULL, lxb_unicode_idna_map_03A7};
-static const lxb_unicode_data_t lxb_unicode_data_03A8 = {NULL, lxb_unicode_idna_map_03A8};
-static const lxb_unicode_data_t lxb_unicode_data_03A9 = {NULL, lxb_unicode_idna_map_03A9};
-static const lxb_unicode_data_t lxb_unicode_data_03AA = {&lxb_unicode_entry_03AA, lxb_unicode_idna_map_03AA};
-static const lxb_unicode_data_t lxb_unicode_data_03AB = {&lxb_unicode_entry_03AB, lxb_unicode_idna_map_03AB};
+static const lxb_unicode_data_t lxb_unicode_data_0391 = {NULL, &lxb_unicode_idna_map_0391};
+static const lxb_unicode_data_t lxb_unicode_data_0392 = {NULL, &lxb_unicode_idna_map_0392};
+static const lxb_unicode_data_t lxb_unicode_data_0393 = {NULL, &lxb_unicode_idna_map_0393};
+static const lxb_unicode_data_t lxb_unicode_data_0394 = {NULL, &lxb_unicode_idna_map_0394};
+static const lxb_unicode_data_t lxb_unicode_data_0395 = {NULL, &lxb_unicode_idna_map_0395};
+static const lxb_unicode_data_t lxb_unicode_data_0396 = {NULL, &lxb_unicode_idna_map_0396};
+static const lxb_unicode_data_t lxb_unicode_data_0397 = {NULL, &lxb_unicode_idna_map_0397};
+static const lxb_unicode_data_t lxb_unicode_data_0398 = {NULL, &lxb_unicode_idna_map_0398};
+static const lxb_unicode_data_t lxb_unicode_data_0399 = {NULL, &lxb_unicode_idna_map_0399};
+static const lxb_unicode_data_t lxb_unicode_data_039A = {NULL, &lxb_unicode_idna_map_039A};
+static const lxb_unicode_data_t lxb_unicode_data_039B = {NULL, &lxb_unicode_idna_map_039B};
+static const lxb_unicode_data_t lxb_unicode_data_039C = {NULL, &lxb_unicode_idna_map_039C};
+static const lxb_unicode_data_t lxb_unicode_data_039D = {NULL, &lxb_unicode_idna_map_039D};
+static const lxb_unicode_data_t lxb_unicode_data_039E = {NULL, &lxb_unicode_idna_map_039E};
+static const lxb_unicode_data_t lxb_unicode_data_039F = {NULL, &lxb_unicode_idna_map_039F};
+static const lxb_unicode_data_t lxb_unicode_data_03A0 = {NULL, &lxb_unicode_idna_map_03A0};
+static const lxb_unicode_data_t lxb_unicode_data_03A1 = {NULL, &lxb_unicode_idna_map_03A1};
+static const lxb_unicode_data_t lxb_unicode_data_03A3 = {NULL, &lxb_unicode_idna_map_03A3};
+static const lxb_unicode_data_t lxb_unicode_data_03A4 = {NULL, &lxb_unicode_idna_map_03A4};
+static const lxb_unicode_data_t lxb_unicode_data_03A5 = {NULL, &lxb_unicode_idna_map_03A5};
+static const lxb_unicode_data_t lxb_unicode_data_03A6 = {NULL, &lxb_unicode_idna_map_03A6};
+static const lxb_unicode_data_t lxb_unicode_data_03A7 = {NULL, &lxb_unicode_idna_map_03A7};
+static const lxb_unicode_data_t lxb_unicode_data_03A8 = {NULL, &lxb_unicode_idna_map_03A8};
+static const lxb_unicode_data_t lxb_unicode_data_03A9 = {NULL, &lxb_unicode_idna_map_03A9};
+static const lxb_unicode_data_t lxb_unicode_data_03AA = {&lxb_unicode_entry_03AA, &lxb_unicode_idna_map_03AA};
+static const lxb_unicode_data_t lxb_unicode_data_03AB = {&lxb_unicode_entry_03AB, &lxb_unicode_idna_map_03AB};
 static const lxb_unicode_data_t lxb_unicode_data_03AC = {&lxb_unicode_entry_03AC, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_03AD = {&lxb_unicode_entry_03AD, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_03AE = {&lxb_unicode_entry_03AE, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_03AF = {&lxb_unicode_entry_03AF, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_03B0 = {&lxb_unicode_entry_03B0, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_03C2 = {NULL, lxb_unicode_idna_map_03C2};
+static const lxb_unicode_data_t lxb_unicode_data_03C2 = {NULL, &lxb_unicode_idna_map_03C2};
 static const lxb_unicode_data_t lxb_unicode_data_03CA = {&lxb_unicode_entry_03CA, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_03CB = {&lxb_unicode_entry_03CB, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_03CC = {&lxb_unicode_entry_03CC, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_03CD = {&lxb_unicode_entry_03CD, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_03CE = {&lxb_unicode_entry_03CE, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_03CF = {NULL, lxb_unicode_idna_map_03CF};
-static const lxb_unicode_data_t lxb_unicode_data_03D0 = {&lxb_unicode_entry_03D0, lxb_unicode_idna_map_03D0};
-static const lxb_unicode_data_t lxb_unicode_data_03D1 = {&lxb_unicode_entry_03D1, lxb_unicode_idna_map_03D1};
-static const lxb_unicode_data_t lxb_unicode_data_03D2 = {&lxb_unicode_entry_03D2, lxb_unicode_idna_map_03D2};
-static const lxb_unicode_data_t lxb_unicode_data_03D3 = {&lxb_unicode_entry_03D3, lxb_unicode_idna_map_03D3};
-static const lxb_unicode_data_t lxb_unicode_data_03D4 = {&lxb_unicode_entry_03D4, lxb_unicode_idna_map_03D4};
-static const lxb_unicode_data_t lxb_unicode_data_03D5 = {&lxb_unicode_entry_03D5, lxb_unicode_idna_map_03D5};
-static const lxb_unicode_data_t lxb_unicode_data_03D6 = {&lxb_unicode_entry_03D6, lxb_unicode_idna_map_03D6};
-static const lxb_unicode_data_t lxb_unicode_data_03D8 = {NULL, lxb_unicode_idna_map_03D8};
-static const lxb_unicode_data_t lxb_unicode_data_03DA = {NULL, lxb_unicode_idna_map_03DA};
-static const lxb_unicode_data_t lxb_unicode_data_03DC = {NULL, lxb_unicode_idna_map_03DC};
-static const lxb_unicode_data_t lxb_unicode_data_03DE = {NULL, lxb_unicode_idna_map_03DE};
-static const lxb_unicode_data_t lxb_unicode_data_03E0 = {NULL, lxb_unicode_idna_map_03E0};
-static const lxb_unicode_data_t lxb_unicode_data_03E2 = {NULL, lxb_unicode_idna_map_03E2};
-static const lxb_unicode_data_t lxb_unicode_data_03E4 = {NULL, lxb_unicode_idna_map_03E4};
-static const lxb_unicode_data_t lxb_unicode_data_03E6 = {NULL, lxb_unicode_idna_map_03E6};
-static const lxb_unicode_data_t lxb_unicode_data_03E8 = {NULL, lxb_unicode_idna_map_03E8};
-static const lxb_unicode_data_t lxb_unicode_data_03EA = {NULL, lxb_unicode_idna_map_03EA};
-static const lxb_unicode_data_t lxb_unicode_data_03EC = {NULL, lxb_unicode_idna_map_03EC};
-static const lxb_unicode_data_t lxb_unicode_data_03EE = {NULL, lxb_unicode_idna_map_03EE};
-static const lxb_unicode_data_t lxb_unicode_data_03F0 = {&lxb_unicode_entry_03F0, lxb_unicode_idna_map_03F0};
-static const lxb_unicode_data_t lxb_unicode_data_03F1 = {&lxb_unicode_entry_03F1, lxb_unicode_idna_map_03F1};
-static const lxb_unicode_data_t lxb_unicode_data_03F2 = {&lxb_unicode_entry_03F2, lxb_unicode_idna_map_03F2};
-static const lxb_unicode_data_t lxb_unicode_data_03F4 = {&lxb_unicode_entry_03F4, lxb_unicode_idna_map_03F4};
-static const lxb_unicode_data_t lxb_unicode_data_03F5 = {&lxb_unicode_entry_03F5, lxb_unicode_idna_map_03F5};
-static const lxb_unicode_data_t lxb_unicode_data_03F7 = {NULL, lxb_unicode_idna_map_03F7};
-static const lxb_unicode_data_t lxb_unicode_data_03F9 = {&lxb_unicode_entry_03F9, lxb_unicode_idna_map_03F9};
-static const lxb_unicode_data_t lxb_unicode_data_03FA = {NULL, lxb_unicode_idna_map_03FA};
-static const lxb_unicode_data_t lxb_unicode_data_03FD = {NULL, lxb_unicode_idna_map_03FD};
-static const lxb_unicode_data_t lxb_unicode_data_03FE = {NULL, lxb_unicode_idna_map_03FE};
-static const lxb_unicode_data_t lxb_unicode_data_03FF = {NULL, lxb_unicode_idna_map_03FF};
-static const lxb_unicode_data_t lxb_unicode_data_0400 = {&lxb_unicode_entry_0400, lxb_unicode_idna_map_0400};
-static const lxb_unicode_data_t lxb_unicode_data_0401 = {&lxb_unicode_entry_0401, lxb_unicode_idna_map_0401};
-static const lxb_unicode_data_t lxb_unicode_data_0402 = {NULL, lxb_unicode_idna_map_0402};
-static const lxb_unicode_data_t lxb_unicode_data_0403 = {&lxb_unicode_entry_0403, lxb_unicode_idna_map_0403};
-static const lxb_unicode_data_t lxb_unicode_data_0404 = {NULL, lxb_unicode_idna_map_0404};
-static const lxb_unicode_data_t lxb_unicode_data_0405 = {NULL, lxb_unicode_idna_map_0405};
-static const lxb_unicode_data_t lxb_unicode_data_0406 = {NULL, lxb_unicode_idna_map_0406};
-static const lxb_unicode_data_t lxb_unicode_data_0407 = {&lxb_unicode_entry_0407, lxb_unicode_idna_map_0407};
-static const lxb_unicode_data_t lxb_unicode_data_0408 = {NULL, lxb_unicode_idna_map_0408};
-static const lxb_unicode_data_t lxb_unicode_data_0409 = {NULL, lxb_unicode_idna_map_0409};
-static const lxb_unicode_data_t lxb_unicode_data_040A = {NULL, lxb_unicode_idna_map_040A};
-static const lxb_unicode_data_t lxb_unicode_data_040B = {NULL, lxb_unicode_idna_map_040B};
-static const lxb_unicode_data_t lxb_unicode_data_040C = {&lxb_unicode_entry_040C, lxb_unicode_idna_map_040C};
-static const lxb_unicode_data_t lxb_unicode_data_040D = {&lxb_unicode_entry_040D, lxb_unicode_idna_map_040D};
-static const lxb_unicode_data_t lxb_unicode_data_040E = {&lxb_unicode_entry_040E, lxb_unicode_idna_map_040E};
-static const lxb_unicode_data_t lxb_unicode_data_040F = {NULL, lxb_unicode_idna_map_040F};
-static const lxb_unicode_data_t lxb_unicode_data_0410 = {NULL, lxb_unicode_idna_map_0410};
-static const lxb_unicode_data_t lxb_unicode_data_0411 = {NULL, lxb_unicode_idna_map_0411};
-static const lxb_unicode_data_t lxb_unicode_data_0412 = {NULL, lxb_unicode_idna_map_0412};
-static const lxb_unicode_data_t lxb_unicode_data_0413 = {NULL, lxb_unicode_idna_map_0413};
-static const lxb_unicode_data_t lxb_unicode_data_0414 = {NULL, lxb_unicode_idna_map_0414};
-static const lxb_unicode_data_t lxb_unicode_data_0415 = {NULL, lxb_unicode_idna_map_0415};
-static const lxb_unicode_data_t lxb_unicode_data_0416 = {NULL, lxb_unicode_idna_map_0416};
-static const lxb_unicode_data_t lxb_unicode_data_0417 = {NULL, lxb_unicode_idna_map_0417};
-static const lxb_unicode_data_t lxb_unicode_data_0418 = {NULL, lxb_unicode_idna_map_0418};
-static const lxb_unicode_data_t lxb_unicode_data_0419 = {&lxb_unicode_entry_0419, lxb_unicode_idna_map_0419};
-static const lxb_unicode_data_t lxb_unicode_data_041A = {NULL, lxb_unicode_idna_map_041A};
-static const lxb_unicode_data_t lxb_unicode_data_041B = {NULL, lxb_unicode_idna_map_041B};
-static const lxb_unicode_data_t lxb_unicode_data_041C = {NULL, lxb_unicode_idna_map_041C};
-static const lxb_unicode_data_t lxb_unicode_data_041D = {NULL, lxb_unicode_idna_map_041D};
-static const lxb_unicode_data_t lxb_unicode_data_041E = {NULL, lxb_unicode_idna_map_041E};
-static const lxb_unicode_data_t lxb_unicode_data_041F = {NULL, lxb_unicode_idna_map_041F};
-static const lxb_unicode_data_t lxb_unicode_data_0420 = {NULL, lxb_unicode_idna_map_0420};
-static const lxb_unicode_data_t lxb_unicode_data_0421 = {NULL, lxb_unicode_idna_map_0421};
-static const lxb_unicode_data_t lxb_unicode_data_0422 = {NULL, lxb_unicode_idna_map_0422};
-static const lxb_unicode_data_t lxb_unicode_data_0423 = {NULL, lxb_unicode_idna_map_0423};
-static const lxb_unicode_data_t lxb_unicode_data_0424 = {NULL, lxb_unicode_idna_map_0424};
-static const lxb_unicode_data_t lxb_unicode_data_0425 = {NULL, lxb_unicode_idna_map_0425};
-static const lxb_unicode_data_t lxb_unicode_data_0426 = {NULL, lxb_unicode_idna_map_0426};
-static const lxb_unicode_data_t lxb_unicode_data_0427 = {NULL, lxb_unicode_idna_map_0427};
-static const lxb_unicode_data_t lxb_unicode_data_0428 = {NULL, lxb_unicode_idna_map_0428};
-static const lxb_unicode_data_t lxb_unicode_data_0429 = {NULL, lxb_unicode_idna_map_0429};
-static const lxb_unicode_data_t lxb_unicode_data_042A = {NULL, lxb_unicode_idna_map_042A};
-static const lxb_unicode_data_t lxb_unicode_data_042B = {NULL, lxb_unicode_idna_map_042B};
-static const lxb_unicode_data_t lxb_unicode_data_042C = {NULL, lxb_unicode_idna_map_042C};
-static const lxb_unicode_data_t lxb_unicode_data_042D = {NULL, lxb_unicode_idna_map_042D};
-static const lxb_unicode_data_t lxb_unicode_data_042E = {NULL, lxb_unicode_idna_map_042E};
-static const lxb_unicode_data_t lxb_unicode_data_042F = {NULL, lxb_unicode_idna_map_042F};
+static const lxb_unicode_data_t lxb_unicode_data_03CF = {NULL, &lxb_unicode_idna_map_03CF};
+static const lxb_unicode_data_t lxb_unicode_data_03D0 = {&lxb_unicode_entry_03D0, &lxb_unicode_idna_map_03D0};
+static const lxb_unicode_data_t lxb_unicode_data_03D1 = {&lxb_unicode_entry_03D1, &lxb_unicode_idna_map_03D1};
+static const lxb_unicode_data_t lxb_unicode_data_03D2 = {&lxb_unicode_entry_03D2, &lxb_unicode_idna_map_03D2};
+static const lxb_unicode_data_t lxb_unicode_data_03D3 = {&lxb_unicode_entry_03D3, &lxb_unicode_idna_map_03D3};
+static const lxb_unicode_data_t lxb_unicode_data_03D4 = {&lxb_unicode_entry_03D4, &lxb_unicode_idna_map_03D4};
+static const lxb_unicode_data_t lxb_unicode_data_03D5 = {&lxb_unicode_entry_03D5, &lxb_unicode_idna_map_03D5};
+static const lxb_unicode_data_t lxb_unicode_data_03D6 = {&lxb_unicode_entry_03D6, &lxb_unicode_idna_map_03D6};
+static const lxb_unicode_data_t lxb_unicode_data_03D8 = {NULL, &lxb_unicode_idna_map_03D8};
+static const lxb_unicode_data_t lxb_unicode_data_03DA = {NULL, &lxb_unicode_idna_map_03DA};
+static const lxb_unicode_data_t lxb_unicode_data_03DC = {NULL, &lxb_unicode_idna_map_03DC};
+static const lxb_unicode_data_t lxb_unicode_data_03DE = {NULL, &lxb_unicode_idna_map_03DE};
+static const lxb_unicode_data_t lxb_unicode_data_03E0 = {NULL, &lxb_unicode_idna_map_03E0};
+static const lxb_unicode_data_t lxb_unicode_data_03E2 = {NULL, &lxb_unicode_idna_map_03E2};
+static const lxb_unicode_data_t lxb_unicode_data_03E4 = {NULL, &lxb_unicode_idna_map_03E4};
+static const lxb_unicode_data_t lxb_unicode_data_03E6 = {NULL, &lxb_unicode_idna_map_03E6};
+static const lxb_unicode_data_t lxb_unicode_data_03E8 = {NULL, &lxb_unicode_idna_map_03E8};
+static const lxb_unicode_data_t lxb_unicode_data_03EA = {NULL, &lxb_unicode_idna_map_03EA};
+static const lxb_unicode_data_t lxb_unicode_data_03EC = {NULL, &lxb_unicode_idna_map_03EC};
+static const lxb_unicode_data_t lxb_unicode_data_03EE = {NULL, &lxb_unicode_idna_map_03EE};
+static const lxb_unicode_data_t lxb_unicode_data_03F0 = {&lxb_unicode_entry_03F0, &lxb_unicode_idna_map_03F0};
+static const lxb_unicode_data_t lxb_unicode_data_03F1 = {&lxb_unicode_entry_03F1, &lxb_unicode_idna_map_03F1};
+static const lxb_unicode_data_t lxb_unicode_data_03F2 = {&lxb_unicode_entry_03F2, &lxb_unicode_idna_map_03F2};
+static const lxb_unicode_data_t lxb_unicode_data_03F4 = {&lxb_unicode_entry_03F4, &lxb_unicode_idna_map_03F4};
+static const lxb_unicode_data_t lxb_unicode_data_03F5 = {&lxb_unicode_entry_03F5, &lxb_unicode_idna_map_03F5};
+static const lxb_unicode_data_t lxb_unicode_data_03F7 = {NULL, &lxb_unicode_idna_map_03F7};
+static const lxb_unicode_data_t lxb_unicode_data_03F9 = {&lxb_unicode_entry_03F9, &lxb_unicode_idna_map_03F9};
+static const lxb_unicode_data_t lxb_unicode_data_03FA = {NULL, &lxb_unicode_idna_map_03FA};
+static const lxb_unicode_data_t lxb_unicode_data_03FD = {NULL, &lxb_unicode_idna_map_03FD};
+static const lxb_unicode_data_t lxb_unicode_data_03FE = {NULL, &lxb_unicode_idna_map_03FE};
+static const lxb_unicode_data_t lxb_unicode_data_03FF = {NULL, &lxb_unicode_idna_map_03FF};
+static const lxb_unicode_data_t lxb_unicode_data_0400 = {&lxb_unicode_entry_0400, &lxb_unicode_idna_map_0400};
+static const lxb_unicode_data_t lxb_unicode_data_0401 = {&lxb_unicode_entry_0401, &lxb_unicode_idna_map_0401};
+static const lxb_unicode_data_t lxb_unicode_data_0402 = {NULL, &lxb_unicode_idna_map_0402};
+static const lxb_unicode_data_t lxb_unicode_data_0403 = {&lxb_unicode_entry_0403, &lxb_unicode_idna_map_0403};
+static const lxb_unicode_data_t lxb_unicode_data_0404 = {NULL, &lxb_unicode_idna_map_0404};
+static const lxb_unicode_data_t lxb_unicode_data_0405 = {NULL, &lxb_unicode_idna_map_0405};
+static const lxb_unicode_data_t lxb_unicode_data_0406 = {NULL, &lxb_unicode_idna_map_0406};
+static const lxb_unicode_data_t lxb_unicode_data_0407 = {&lxb_unicode_entry_0407, &lxb_unicode_idna_map_0407};
+static const lxb_unicode_data_t lxb_unicode_data_0408 = {NULL, &lxb_unicode_idna_map_0408};
+static const lxb_unicode_data_t lxb_unicode_data_0409 = {NULL, &lxb_unicode_idna_map_0409};
+static const lxb_unicode_data_t lxb_unicode_data_040A = {NULL, &lxb_unicode_idna_map_040A};
+static const lxb_unicode_data_t lxb_unicode_data_040B = {NULL, &lxb_unicode_idna_map_040B};
+static const lxb_unicode_data_t lxb_unicode_data_040C = {&lxb_unicode_entry_040C, &lxb_unicode_idna_map_040C};
+static const lxb_unicode_data_t lxb_unicode_data_040D = {&lxb_unicode_entry_040D, &lxb_unicode_idna_map_040D};
+static const lxb_unicode_data_t lxb_unicode_data_040E = {&lxb_unicode_entry_040E, &lxb_unicode_idna_map_040E};
+static const lxb_unicode_data_t lxb_unicode_data_040F = {NULL, &lxb_unicode_idna_map_040F};
+static const lxb_unicode_data_t lxb_unicode_data_0410 = {NULL, &lxb_unicode_idna_map_0410};
+static const lxb_unicode_data_t lxb_unicode_data_0411 = {NULL, &lxb_unicode_idna_map_0411};
+static const lxb_unicode_data_t lxb_unicode_data_0412 = {NULL, &lxb_unicode_idna_map_0412};
+static const lxb_unicode_data_t lxb_unicode_data_0413 = {NULL, &lxb_unicode_idna_map_0413};
+static const lxb_unicode_data_t lxb_unicode_data_0414 = {NULL, &lxb_unicode_idna_map_0414};
+static const lxb_unicode_data_t lxb_unicode_data_0415 = {NULL, &lxb_unicode_idna_map_0415};
+static const lxb_unicode_data_t lxb_unicode_data_0416 = {NULL, &lxb_unicode_idna_map_0416};
+static const lxb_unicode_data_t lxb_unicode_data_0417 = {NULL, &lxb_unicode_idna_map_0417};
+static const lxb_unicode_data_t lxb_unicode_data_0418 = {NULL, &lxb_unicode_idna_map_0418};
+static const lxb_unicode_data_t lxb_unicode_data_0419 = {&lxb_unicode_entry_0419, &lxb_unicode_idna_map_0419};
+static const lxb_unicode_data_t lxb_unicode_data_041A = {NULL, &lxb_unicode_idna_map_041A};
+static const lxb_unicode_data_t lxb_unicode_data_041B = {NULL, &lxb_unicode_idna_map_041B};
+static const lxb_unicode_data_t lxb_unicode_data_041C = {NULL, &lxb_unicode_idna_map_041C};
+static const lxb_unicode_data_t lxb_unicode_data_041D = {NULL, &lxb_unicode_idna_map_041D};
+static const lxb_unicode_data_t lxb_unicode_data_041E = {NULL, &lxb_unicode_idna_map_041E};
+static const lxb_unicode_data_t lxb_unicode_data_041F = {NULL, &lxb_unicode_idna_map_041F};
+static const lxb_unicode_data_t lxb_unicode_data_0420 = {NULL, &lxb_unicode_idna_map_0420};
+static const lxb_unicode_data_t lxb_unicode_data_0421 = {NULL, &lxb_unicode_idna_map_0421};
+static const lxb_unicode_data_t lxb_unicode_data_0422 = {NULL, &lxb_unicode_idna_map_0422};
+static const lxb_unicode_data_t lxb_unicode_data_0423 = {NULL, &lxb_unicode_idna_map_0423};
+static const lxb_unicode_data_t lxb_unicode_data_0424 = {NULL, &lxb_unicode_idna_map_0424};
+static const lxb_unicode_data_t lxb_unicode_data_0425 = {NULL, &lxb_unicode_idna_map_0425};
+static const lxb_unicode_data_t lxb_unicode_data_0426 = {NULL, &lxb_unicode_idna_map_0426};
+static const lxb_unicode_data_t lxb_unicode_data_0427 = {NULL, &lxb_unicode_idna_map_0427};
+static const lxb_unicode_data_t lxb_unicode_data_0428 = {NULL, &lxb_unicode_idna_map_0428};
+static const lxb_unicode_data_t lxb_unicode_data_0429 = {NULL, &lxb_unicode_idna_map_0429};
+static const lxb_unicode_data_t lxb_unicode_data_042A = {NULL, &lxb_unicode_idna_map_042A};
+static const lxb_unicode_data_t lxb_unicode_data_042B = {NULL, &lxb_unicode_idna_map_042B};
+static const lxb_unicode_data_t lxb_unicode_data_042C = {NULL, &lxb_unicode_idna_map_042C};
+static const lxb_unicode_data_t lxb_unicode_data_042D = {NULL, &lxb_unicode_idna_map_042D};
+static const lxb_unicode_data_t lxb_unicode_data_042E = {NULL, &lxb_unicode_idna_map_042E};
+static const lxb_unicode_data_t lxb_unicode_data_042F = {NULL, &lxb_unicode_idna_map_042F};
 static const lxb_unicode_data_t lxb_unicode_data_0439 = {&lxb_unicode_entry_0439, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0450 = {&lxb_unicode_entry_0450, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0451 = {&lxb_unicode_entry_0451, NULL};
@@ -5427,167 +5553,167 @@ static const lxb_unicode_data_t lxb_unicode_data_0457 = {&lxb_unicode_entry_0457
 static const lxb_unicode_data_t lxb_unicode_data_045C = {&lxb_unicode_entry_045C, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_045D = {&lxb_unicode_entry_045D, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_045E = {&lxb_unicode_entry_045E, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0460 = {NULL, lxb_unicode_idna_map_0460};
-static const lxb_unicode_data_t lxb_unicode_data_0462 = {NULL, lxb_unicode_idna_map_0462};
-static const lxb_unicode_data_t lxb_unicode_data_0464 = {NULL, lxb_unicode_idna_map_0464};
-static const lxb_unicode_data_t lxb_unicode_data_0466 = {NULL, lxb_unicode_idna_map_0466};
-static const lxb_unicode_data_t lxb_unicode_data_0468 = {NULL, lxb_unicode_idna_map_0468};
-static const lxb_unicode_data_t lxb_unicode_data_046A = {NULL, lxb_unicode_idna_map_046A};
-static const lxb_unicode_data_t lxb_unicode_data_046C = {NULL, lxb_unicode_idna_map_046C};
-static const lxb_unicode_data_t lxb_unicode_data_046E = {NULL, lxb_unicode_idna_map_046E};
-static const lxb_unicode_data_t lxb_unicode_data_0470 = {NULL, lxb_unicode_idna_map_0470};
-static const lxb_unicode_data_t lxb_unicode_data_0472 = {NULL, lxb_unicode_idna_map_0472};
-static const lxb_unicode_data_t lxb_unicode_data_0474 = {NULL, lxb_unicode_idna_map_0474};
-static const lxb_unicode_data_t lxb_unicode_data_0476 = {&lxb_unicode_entry_0476, lxb_unicode_idna_map_0476};
+static const lxb_unicode_data_t lxb_unicode_data_0460 = {NULL, &lxb_unicode_idna_map_0460};
+static const lxb_unicode_data_t lxb_unicode_data_0462 = {NULL, &lxb_unicode_idna_map_0462};
+static const lxb_unicode_data_t lxb_unicode_data_0464 = {NULL, &lxb_unicode_idna_map_0464};
+static const lxb_unicode_data_t lxb_unicode_data_0466 = {NULL, &lxb_unicode_idna_map_0466};
+static const lxb_unicode_data_t lxb_unicode_data_0468 = {NULL, &lxb_unicode_idna_map_0468};
+static const lxb_unicode_data_t lxb_unicode_data_046A = {NULL, &lxb_unicode_idna_map_046A};
+static const lxb_unicode_data_t lxb_unicode_data_046C = {NULL, &lxb_unicode_idna_map_046C};
+static const lxb_unicode_data_t lxb_unicode_data_046E = {NULL, &lxb_unicode_idna_map_046E};
+static const lxb_unicode_data_t lxb_unicode_data_0470 = {NULL, &lxb_unicode_idna_map_0470};
+static const lxb_unicode_data_t lxb_unicode_data_0472 = {NULL, &lxb_unicode_idna_map_0472};
+static const lxb_unicode_data_t lxb_unicode_data_0474 = {NULL, &lxb_unicode_idna_map_0474};
+static const lxb_unicode_data_t lxb_unicode_data_0476 = {&lxb_unicode_entry_0476, &lxb_unicode_idna_map_0476};
 static const lxb_unicode_data_t lxb_unicode_data_0477 = {&lxb_unicode_entry_0477, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0478 = {NULL, lxb_unicode_idna_map_0478};
-static const lxb_unicode_data_t lxb_unicode_data_047A = {NULL, lxb_unicode_idna_map_047A};
-static const lxb_unicode_data_t lxb_unicode_data_047C = {NULL, lxb_unicode_idna_map_047C};
-static const lxb_unicode_data_t lxb_unicode_data_047E = {NULL, lxb_unicode_idna_map_047E};
-static const lxb_unicode_data_t lxb_unicode_data_0480 = {NULL, lxb_unicode_idna_map_0480};
+static const lxb_unicode_data_t lxb_unicode_data_0478 = {NULL, &lxb_unicode_idna_map_0478};
+static const lxb_unicode_data_t lxb_unicode_data_047A = {NULL, &lxb_unicode_idna_map_047A};
+static const lxb_unicode_data_t lxb_unicode_data_047C = {NULL, &lxb_unicode_idna_map_047C};
+static const lxb_unicode_data_t lxb_unicode_data_047E = {NULL, &lxb_unicode_idna_map_047E};
+static const lxb_unicode_data_t lxb_unicode_data_0480 = {NULL, &lxb_unicode_idna_map_0480};
 static const lxb_unicode_data_t lxb_unicode_data_0483 = {&lxb_unicode_entry_0483, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0484 = {&lxb_unicode_entry_0484, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0485 = {&lxb_unicode_entry_0485, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0486 = {&lxb_unicode_entry_0486, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0487 = {&lxb_unicode_entry_0487, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_048A = {NULL, lxb_unicode_idna_map_048A};
-static const lxb_unicode_data_t lxb_unicode_data_048C = {NULL, lxb_unicode_idna_map_048C};
-static const lxb_unicode_data_t lxb_unicode_data_048E = {NULL, lxb_unicode_idna_map_048E};
-static const lxb_unicode_data_t lxb_unicode_data_0490 = {NULL, lxb_unicode_idna_map_0490};
-static const lxb_unicode_data_t lxb_unicode_data_0492 = {NULL, lxb_unicode_idna_map_0492};
-static const lxb_unicode_data_t lxb_unicode_data_0494 = {NULL, lxb_unicode_idna_map_0494};
-static const lxb_unicode_data_t lxb_unicode_data_0496 = {NULL, lxb_unicode_idna_map_0496};
-static const lxb_unicode_data_t lxb_unicode_data_0498 = {NULL, lxb_unicode_idna_map_0498};
-static const lxb_unicode_data_t lxb_unicode_data_049A = {NULL, lxb_unicode_idna_map_049A};
-static const lxb_unicode_data_t lxb_unicode_data_049C = {NULL, lxb_unicode_idna_map_049C};
-static const lxb_unicode_data_t lxb_unicode_data_049E = {NULL, lxb_unicode_idna_map_049E};
-static const lxb_unicode_data_t lxb_unicode_data_04A0 = {NULL, lxb_unicode_idna_map_04A0};
-static const lxb_unicode_data_t lxb_unicode_data_04A2 = {NULL, lxb_unicode_idna_map_04A2};
-static const lxb_unicode_data_t lxb_unicode_data_04A4 = {NULL, lxb_unicode_idna_map_04A4};
-static const lxb_unicode_data_t lxb_unicode_data_04A6 = {NULL, lxb_unicode_idna_map_04A6};
-static const lxb_unicode_data_t lxb_unicode_data_04A8 = {NULL, lxb_unicode_idna_map_04A8};
-static const lxb_unicode_data_t lxb_unicode_data_04AA = {NULL, lxb_unicode_idna_map_04AA};
-static const lxb_unicode_data_t lxb_unicode_data_04AC = {NULL, lxb_unicode_idna_map_04AC};
-static const lxb_unicode_data_t lxb_unicode_data_04AE = {NULL, lxb_unicode_idna_map_04AE};
-static const lxb_unicode_data_t lxb_unicode_data_04B0 = {NULL, lxb_unicode_idna_map_04B0};
-static const lxb_unicode_data_t lxb_unicode_data_04B2 = {NULL, lxb_unicode_idna_map_04B2};
-static const lxb_unicode_data_t lxb_unicode_data_04B4 = {NULL, lxb_unicode_idna_map_04B4};
-static const lxb_unicode_data_t lxb_unicode_data_04B6 = {NULL, lxb_unicode_idna_map_04B6};
-static const lxb_unicode_data_t lxb_unicode_data_04B8 = {NULL, lxb_unicode_idna_map_04B8};
-static const lxb_unicode_data_t lxb_unicode_data_04BA = {NULL, lxb_unicode_idna_map_04BA};
-static const lxb_unicode_data_t lxb_unicode_data_04BC = {NULL, lxb_unicode_idna_map_04BC};
-static const lxb_unicode_data_t lxb_unicode_data_04BE = {NULL, lxb_unicode_idna_map_04BE};
-static const lxb_unicode_data_t lxb_unicode_data_04C1 = {&lxb_unicode_entry_04C1, lxb_unicode_idna_map_04C1};
+static const lxb_unicode_data_t lxb_unicode_data_048A = {NULL, &lxb_unicode_idna_map_048A};
+static const lxb_unicode_data_t lxb_unicode_data_048C = {NULL, &lxb_unicode_idna_map_048C};
+static const lxb_unicode_data_t lxb_unicode_data_048E = {NULL, &lxb_unicode_idna_map_048E};
+static const lxb_unicode_data_t lxb_unicode_data_0490 = {NULL, &lxb_unicode_idna_map_0490};
+static const lxb_unicode_data_t lxb_unicode_data_0492 = {NULL, &lxb_unicode_idna_map_0492};
+static const lxb_unicode_data_t lxb_unicode_data_0494 = {NULL, &lxb_unicode_idna_map_0494};
+static const lxb_unicode_data_t lxb_unicode_data_0496 = {NULL, &lxb_unicode_idna_map_0496};
+static const lxb_unicode_data_t lxb_unicode_data_0498 = {NULL, &lxb_unicode_idna_map_0498};
+static const lxb_unicode_data_t lxb_unicode_data_049A = {NULL, &lxb_unicode_idna_map_049A};
+static const lxb_unicode_data_t lxb_unicode_data_049C = {NULL, &lxb_unicode_idna_map_049C};
+static const lxb_unicode_data_t lxb_unicode_data_049E = {NULL, &lxb_unicode_idna_map_049E};
+static const lxb_unicode_data_t lxb_unicode_data_04A0 = {NULL, &lxb_unicode_idna_map_04A0};
+static const lxb_unicode_data_t lxb_unicode_data_04A2 = {NULL, &lxb_unicode_idna_map_04A2};
+static const lxb_unicode_data_t lxb_unicode_data_04A4 = {NULL, &lxb_unicode_idna_map_04A4};
+static const lxb_unicode_data_t lxb_unicode_data_04A6 = {NULL, &lxb_unicode_idna_map_04A6};
+static const lxb_unicode_data_t lxb_unicode_data_04A8 = {NULL, &lxb_unicode_idna_map_04A8};
+static const lxb_unicode_data_t lxb_unicode_data_04AA = {NULL, &lxb_unicode_idna_map_04AA};
+static const lxb_unicode_data_t lxb_unicode_data_04AC = {NULL, &lxb_unicode_idna_map_04AC};
+static const lxb_unicode_data_t lxb_unicode_data_04AE = {NULL, &lxb_unicode_idna_map_04AE};
+static const lxb_unicode_data_t lxb_unicode_data_04B0 = {NULL, &lxb_unicode_idna_map_04B0};
+static const lxb_unicode_data_t lxb_unicode_data_04B2 = {NULL, &lxb_unicode_idna_map_04B2};
+static const lxb_unicode_data_t lxb_unicode_data_04B4 = {NULL, &lxb_unicode_idna_map_04B4};
+static const lxb_unicode_data_t lxb_unicode_data_04B6 = {NULL, &lxb_unicode_idna_map_04B6};
+static const lxb_unicode_data_t lxb_unicode_data_04B8 = {NULL, &lxb_unicode_idna_map_04B8};
+static const lxb_unicode_data_t lxb_unicode_data_04BA = {NULL, &lxb_unicode_idna_map_04BA};
+static const lxb_unicode_data_t lxb_unicode_data_04BC = {NULL, &lxb_unicode_idna_map_04BC};
+static const lxb_unicode_data_t lxb_unicode_data_04BE = {NULL, &lxb_unicode_idna_map_04BE};
+static const lxb_unicode_data_t lxb_unicode_data_04C1 = {&lxb_unicode_entry_04C1, &lxb_unicode_idna_map_04C1};
 static const lxb_unicode_data_t lxb_unicode_data_04C2 = {&lxb_unicode_entry_04C2, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_04C3 = {NULL, lxb_unicode_idna_map_04C3};
-static const lxb_unicode_data_t lxb_unicode_data_04C5 = {NULL, lxb_unicode_idna_map_04C5};
-static const lxb_unicode_data_t lxb_unicode_data_04C7 = {NULL, lxb_unicode_idna_map_04C7};
-static const lxb_unicode_data_t lxb_unicode_data_04C9 = {NULL, lxb_unicode_idna_map_04C9};
-static const lxb_unicode_data_t lxb_unicode_data_04CB = {NULL, lxb_unicode_idna_map_04CB};
-static const lxb_unicode_data_t lxb_unicode_data_04CD = {NULL, lxb_unicode_idna_map_04CD};
-static const lxb_unicode_data_t lxb_unicode_data_04D0 = {&lxb_unicode_entry_04D0, lxb_unicode_idna_map_04D0};
+static const lxb_unicode_data_t lxb_unicode_data_04C3 = {NULL, &lxb_unicode_idna_map_04C3};
+static const lxb_unicode_data_t lxb_unicode_data_04C5 = {NULL, &lxb_unicode_idna_map_04C5};
+static const lxb_unicode_data_t lxb_unicode_data_04C7 = {NULL, &lxb_unicode_idna_map_04C7};
+static const lxb_unicode_data_t lxb_unicode_data_04C9 = {NULL, &lxb_unicode_idna_map_04C9};
+static const lxb_unicode_data_t lxb_unicode_data_04CB = {NULL, &lxb_unicode_idna_map_04CB};
+static const lxb_unicode_data_t lxb_unicode_data_04CD = {NULL, &lxb_unicode_idna_map_04CD};
+static const lxb_unicode_data_t lxb_unicode_data_04D0 = {&lxb_unicode_entry_04D0, &lxb_unicode_idna_map_04D0};
 static const lxb_unicode_data_t lxb_unicode_data_04D1 = {&lxb_unicode_entry_04D1, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_04D2 = {&lxb_unicode_entry_04D2, lxb_unicode_idna_map_04D2};
+static const lxb_unicode_data_t lxb_unicode_data_04D2 = {&lxb_unicode_entry_04D2, &lxb_unicode_idna_map_04D2};
 static const lxb_unicode_data_t lxb_unicode_data_04D3 = {&lxb_unicode_entry_04D3, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_04D4 = {NULL, lxb_unicode_idna_map_04D4};
-static const lxb_unicode_data_t lxb_unicode_data_04D6 = {&lxb_unicode_entry_04D6, lxb_unicode_idna_map_04D6};
+static const lxb_unicode_data_t lxb_unicode_data_04D4 = {NULL, &lxb_unicode_idna_map_04D4};
+static const lxb_unicode_data_t lxb_unicode_data_04D6 = {&lxb_unicode_entry_04D6, &lxb_unicode_idna_map_04D6};
 static const lxb_unicode_data_t lxb_unicode_data_04D7 = {&lxb_unicode_entry_04D7, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_04D8 = {NULL, lxb_unicode_idna_map_04D8};
-static const lxb_unicode_data_t lxb_unicode_data_04DA = {&lxb_unicode_entry_04DA, lxb_unicode_idna_map_04DA};
+static const lxb_unicode_data_t lxb_unicode_data_04D8 = {NULL, &lxb_unicode_idna_map_04D8};
+static const lxb_unicode_data_t lxb_unicode_data_04DA = {&lxb_unicode_entry_04DA, &lxb_unicode_idna_map_04DA};
 static const lxb_unicode_data_t lxb_unicode_data_04DB = {&lxb_unicode_entry_04DB, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_04DC = {&lxb_unicode_entry_04DC, lxb_unicode_idna_map_04DC};
+static const lxb_unicode_data_t lxb_unicode_data_04DC = {&lxb_unicode_entry_04DC, &lxb_unicode_idna_map_04DC};
 static const lxb_unicode_data_t lxb_unicode_data_04DD = {&lxb_unicode_entry_04DD, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_04DE = {&lxb_unicode_entry_04DE, lxb_unicode_idna_map_04DE};
+static const lxb_unicode_data_t lxb_unicode_data_04DE = {&lxb_unicode_entry_04DE, &lxb_unicode_idna_map_04DE};
 static const lxb_unicode_data_t lxb_unicode_data_04DF = {&lxb_unicode_entry_04DF, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_04E0 = {NULL, lxb_unicode_idna_map_04E0};
-static const lxb_unicode_data_t lxb_unicode_data_04E2 = {&lxb_unicode_entry_04E2, lxb_unicode_idna_map_04E2};
+static const lxb_unicode_data_t lxb_unicode_data_04E0 = {NULL, &lxb_unicode_idna_map_04E0};
+static const lxb_unicode_data_t lxb_unicode_data_04E2 = {&lxb_unicode_entry_04E2, &lxb_unicode_idna_map_04E2};
 static const lxb_unicode_data_t lxb_unicode_data_04E3 = {&lxb_unicode_entry_04E3, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_04E4 = {&lxb_unicode_entry_04E4, lxb_unicode_idna_map_04E4};
+static const lxb_unicode_data_t lxb_unicode_data_04E4 = {&lxb_unicode_entry_04E4, &lxb_unicode_idna_map_04E4};
 static const lxb_unicode_data_t lxb_unicode_data_04E5 = {&lxb_unicode_entry_04E5, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_04E6 = {&lxb_unicode_entry_04E6, lxb_unicode_idna_map_04E6};
+static const lxb_unicode_data_t lxb_unicode_data_04E6 = {&lxb_unicode_entry_04E6, &lxb_unicode_idna_map_04E6};
 static const lxb_unicode_data_t lxb_unicode_data_04E7 = {&lxb_unicode_entry_04E7, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_04E8 = {NULL, lxb_unicode_idna_map_04E8};
-static const lxb_unicode_data_t lxb_unicode_data_04EA = {&lxb_unicode_entry_04EA, lxb_unicode_idna_map_04EA};
+static const lxb_unicode_data_t lxb_unicode_data_04E8 = {NULL, &lxb_unicode_idna_map_04E8};
+static const lxb_unicode_data_t lxb_unicode_data_04EA = {&lxb_unicode_entry_04EA, &lxb_unicode_idna_map_04EA};
 static const lxb_unicode_data_t lxb_unicode_data_04EB = {&lxb_unicode_entry_04EB, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_04EC = {&lxb_unicode_entry_04EC, lxb_unicode_idna_map_04EC};
+static const lxb_unicode_data_t lxb_unicode_data_04EC = {&lxb_unicode_entry_04EC, &lxb_unicode_idna_map_04EC};
 static const lxb_unicode_data_t lxb_unicode_data_04ED = {&lxb_unicode_entry_04ED, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_04EE = {&lxb_unicode_entry_04EE, lxb_unicode_idna_map_04EE};
+static const lxb_unicode_data_t lxb_unicode_data_04EE = {&lxb_unicode_entry_04EE, &lxb_unicode_idna_map_04EE};
 static const lxb_unicode_data_t lxb_unicode_data_04EF = {&lxb_unicode_entry_04EF, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_04F0 = {&lxb_unicode_entry_04F0, lxb_unicode_idna_map_04F0};
+static const lxb_unicode_data_t lxb_unicode_data_04F0 = {&lxb_unicode_entry_04F0, &lxb_unicode_idna_map_04F0};
 static const lxb_unicode_data_t lxb_unicode_data_04F1 = {&lxb_unicode_entry_04F1, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_04F2 = {&lxb_unicode_entry_04F2, lxb_unicode_idna_map_04F2};
+static const lxb_unicode_data_t lxb_unicode_data_04F2 = {&lxb_unicode_entry_04F2, &lxb_unicode_idna_map_04F2};
 static const lxb_unicode_data_t lxb_unicode_data_04F3 = {&lxb_unicode_entry_04F3, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_04F4 = {&lxb_unicode_entry_04F4, lxb_unicode_idna_map_04F4};
+static const lxb_unicode_data_t lxb_unicode_data_04F4 = {&lxb_unicode_entry_04F4, &lxb_unicode_idna_map_04F4};
 static const lxb_unicode_data_t lxb_unicode_data_04F5 = {&lxb_unicode_entry_04F5, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_04F6 = {NULL, lxb_unicode_idna_map_04F6};
-static const lxb_unicode_data_t lxb_unicode_data_04F8 = {&lxb_unicode_entry_04F8, lxb_unicode_idna_map_04F8};
+static const lxb_unicode_data_t lxb_unicode_data_04F6 = {NULL, &lxb_unicode_idna_map_04F6};
+static const lxb_unicode_data_t lxb_unicode_data_04F8 = {&lxb_unicode_entry_04F8, &lxb_unicode_idna_map_04F8};
 static const lxb_unicode_data_t lxb_unicode_data_04F9 = {&lxb_unicode_entry_04F9, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_04FA = {NULL, lxb_unicode_idna_map_04FA};
-static const lxb_unicode_data_t lxb_unicode_data_04FC = {NULL, lxb_unicode_idna_map_04FC};
-static const lxb_unicode_data_t lxb_unicode_data_04FE = {NULL, lxb_unicode_idna_map_04FE};
-static const lxb_unicode_data_t lxb_unicode_data_0500 = {NULL, lxb_unicode_idna_map_0500};
-static const lxb_unicode_data_t lxb_unicode_data_0502 = {NULL, lxb_unicode_idna_map_0502};
-static const lxb_unicode_data_t lxb_unicode_data_0504 = {NULL, lxb_unicode_idna_map_0504};
-static const lxb_unicode_data_t lxb_unicode_data_0506 = {NULL, lxb_unicode_idna_map_0506};
-static const lxb_unicode_data_t lxb_unicode_data_0508 = {NULL, lxb_unicode_idna_map_0508};
-static const lxb_unicode_data_t lxb_unicode_data_050A = {NULL, lxb_unicode_idna_map_050A};
-static const lxb_unicode_data_t lxb_unicode_data_050C = {NULL, lxb_unicode_idna_map_050C};
-static const lxb_unicode_data_t lxb_unicode_data_050E = {NULL, lxb_unicode_idna_map_050E};
-static const lxb_unicode_data_t lxb_unicode_data_0510 = {NULL, lxb_unicode_idna_map_0510};
-static const lxb_unicode_data_t lxb_unicode_data_0512 = {NULL, lxb_unicode_idna_map_0512};
-static const lxb_unicode_data_t lxb_unicode_data_0514 = {NULL, lxb_unicode_idna_map_0514};
-static const lxb_unicode_data_t lxb_unicode_data_0516 = {NULL, lxb_unicode_idna_map_0516};
-static const lxb_unicode_data_t lxb_unicode_data_0518 = {NULL, lxb_unicode_idna_map_0518};
-static const lxb_unicode_data_t lxb_unicode_data_051A = {NULL, lxb_unicode_idna_map_051A};
-static const lxb_unicode_data_t lxb_unicode_data_051C = {NULL, lxb_unicode_idna_map_051C};
-static const lxb_unicode_data_t lxb_unicode_data_051E = {NULL, lxb_unicode_idna_map_051E};
-static const lxb_unicode_data_t lxb_unicode_data_0520 = {NULL, lxb_unicode_idna_map_0520};
-static const lxb_unicode_data_t lxb_unicode_data_0522 = {NULL, lxb_unicode_idna_map_0522};
-static const lxb_unicode_data_t lxb_unicode_data_0524 = {NULL, lxb_unicode_idna_map_0524};
-static const lxb_unicode_data_t lxb_unicode_data_0526 = {NULL, lxb_unicode_idna_map_0526};
-static const lxb_unicode_data_t lxb_unicode_data_0528 = {NULL, lxb_unicode_idna_map_0528};
-static const lxb_unicode_data_t lxb_unicode_data_052A = {NULL, lxb_unicode_idna_map_052A};
-static const lxb_unicode_data_t lxb_unicode_data_052C = {NULL, lxb_unicode_idna_map_052C};
-static const lxb_unicode_data_t lxb_unicode_data_052E = {NULL, lxb_unicode_idna_map_052E};
-static const lxb_unicode_data_t lxb_unicode_data_0531 = {NULL, lxb_unicode_idna_map_0531};
-static const lxb_unicode_data_t lxb_unicode_data_0532 = {NULL, lxb_unicode_idna_map_0532};
-static const lxb_unicode_data_t lxb_unicode_data_0533 = {NULL, lxb_unicode_idna_map_0533};
-static const lxb_unicode_data_t lxb_unicode_data_0534 = {NULL, lxb_unicode_idna_map_0534};
-static const lxb_unicode_data_t lxb_unicode_data_0535 = {NULL, lxb_unicode_idna_map_0535};
-static const lxb_unicode_data_t lxb_unicode_data_0536 = {NULL, lxb_unicode_idna_map_0536};
-static const lxb_unicode_data_t lxb_unicode_data_0537 = {NULL, lxb_unicode_idna_map_0537};
-static const lxb_unicode_data_t lxb_unicode_data_0538 = {NULL, lxb_unicode_idna_map_0538};
-static const lxb_unicode_data_t lxb_unicode_data_0539 = {NULL, lxb_unicode_idna_map_0539};
-static const lxb_unicode_data_t lxb_unicode_data_053A = {NULL, lxb_unicode_idna_map_053A};
-static const lxb_unicode_data_t lxb_unicode_data_053B = {NULL, lxb_unicode_idna_map_053B};
-static const lxb_unicode_data_t lxb_unicode_data_053C = {NULL, lxb_unicode_idna_map_053C};
-static const lxb_unicode_data_t lxb_unicode_data_053D = {NULL, lxb_unicode_idna_map_053D};
-static const lxb_unicode_data_t lxb_unicode_data_053E = {NULL, lxb_unicode_idna_map_053E};
-static const lxb_unicode_data_t lxb_unicode_data_053F = {NULL, lxb_unicode_idna_map_053F};
-static const lxb_unicode_data_t lxb_unicode_data_0540 = {NULL, lxb_unicode_idna_map_0540};
-static const lxb_unicode_data_t lxb_unicode_data_0541 = {NULL, lxb_unicode_idna_map_0541};
-static const lxb_unicode_data_t lxb_unicode_data_0542 = {NULL, lxb_unicode_idna_map_0542};
-static const lxb_unicode_data_t lxb_unicode_data_0543 = {NULL, lxb_unicode_idna_map_0543};
-static const lxb_unicode_data_t lxb_unicode_data_0544 = {NULL, lxb_unicode_idna_map_0544};
-static const lxb_unicode_data_t lxb_unicode_data_0545 = {NULL, lxb_unicode_idna_map_0545};
-static const lxb_unicode_data_t lxb_unicode_data_0546 = {NULL, lxb_unicode_idna_map_0546};
-static const lxb_unicode_data_t lxb_unicode_data_0547 = {NULL, lxb_unicode_idna_map_0547};
-static const lxb_unicode_data_t lxb_unicode_data_0548 = {NULL, lxb_unicode_idna_map_0548};
-static const lxb_unicode_data_t lxb_unicode_data_0549 = {NULL, lxb_unicode_idna_map_0549};
-static const lxb_unicode_data_t lxb_unicode_data_054A = {NULL, lxb_unicode_idna_map_054A};
-static const lxb_unicode_data_t lxb_unicode_data_054B = {NULL, lxb_unicode_idna_map_054B};
-static const lxb_unicode_data_t lxb_unicode_data_054C = {NULL, lxb_unicode_idna_map_054C};
-static const lxb_unicode_data_t lxb_unicode_data_054D = {NULL, lxb_unicode_idna_map_054D};
-static const lxb_unicode_data_t lxb_unicode_data_054E = {NULL, lxb_unicode_idna_map_054E};
-static const lxb_unicode_data_t lxb_unicode_data_054F = {NULL, lxb_unicode_idna_map_054F};
-static const lxb_unicode_data_t lxb_unicode_data_0550 = {NULL, lxb_unicode_idna_map_0550};
-static const lxb_unicode_data_t lxb_unicode_data_0551 = {NULL, lxb_unicode_idna_map_0551};
-static const lxb_unicode_data_t lxb_unicode_data_0552 = {NULL, lxb_unicode_idna_map_0552};
-static const lxb_unicode_data_t lxb_unicode_data_0553 = {NULL, lxb_unicode_idna_map_0553};
-static const lxb_unicode_data_t lxb_unicode_data_0554 = {NULL, lxb_unicode_idna_map_0554};
-static const lxb_unicode_data_t lxb_unicode_data_0555 = {NULL, lxb_unicode_idna_map_0555};
-static const lxb_unicode_data_t lxb_unicode_data_0556 = {NULL, lxb_unicode_idna_map_0556};
-static const lxb_unicode_data_t lxb_unicode_data_0587 = {&lxb_unicode_entry_0587, lxb_unicode_idna_map_0587};
+static const lxb_unicode_data_t lxb_unicode_data_04FA = {NULL, &lxb_unicode_idna_map_04FA};
+static const lxb_unicode_data_t lxb_unicode_data_04FC = {NULL, &lxb_unicode_idna_map_04FC};
+static const lxb_unicode_data_t lxb_unicode_data_04FE = {NULL, &lxb_unicode_idna_map_04FE};
+static const lxb_unicode_data_t lxb_unicode_data_0500 = {NULL, &lxb_unicode_idna_map_0500};
+static const lxb_unicode_data_t lxb_unicode_data_0502 = {NULL, &lxb_unicode_idna_map_0502};
+static const lxb_unicode_data_t lxb_unicode_data_0504 = {NULL, &lxb_unicode_idna_map_0504};
+static const lxb_unicode_data_t lxb_unicode_data_0506 = {NULL, &lxb_unicode_idna_map_0506};
+static const lxb_unicode_data_t lxb_unicode_data_0508 = {NULL, &lxb_unicode_idna_map_0508};
+static const lxb_unicode_data_t lxb_unicode_data_050A = {NULL, &lxb_unicode_idna_map_050A};
+static const lxb_unicode_data_t lxb_unicode_data_050C = {NULL, &lxb_unicode_idna_map_050C};
+static const lxb_unicode_data_t lxb_unicode_data_050E = {NULL, &lxb_unicode_idna_map_050E};
+static const lxb_unicode_data_t lxb_unicode_data_0510 = {NULL, &lxb_unicode_idna_map_0510};
+static const lxb_unicode_data_t lxb_unicode_data_0512 = {NULL, &lxb_unicode_idna_map_0512};
+static const lxb_unicode_data_t lxb_unicode_data_0514 = {NULL, &lxb_unicode_idna_map_0514};
+static const lxb_unicode_data_t lxb_unicode_data_0516 = {NULL, &lxb_unicode_idna_map_0516};
+static const lxb_unicode_data_t lxb_unicode_data_0518 = {NULL, &lxb_unicode_idna_map_0518};
+static const lxb_unicode_data_t lxb_unicode_data_051A = {NULL, &lxb_unicode_idna_map_051A};
+static const lxb_unicode_data_t lxb_unicode_data_051C = {NULL, &lxb_unicode_idna_map_051C};
+static const lxb_unicode_data_t lxb_unicode_data_051E = {NULL, &lxb_unicode_idna_map_051E};
+static const lxb_unicode_data_t lxb_unicode_data_0520 = {NULL, &lxb_unicode_idna_map_0520};
+static const lxb_unicode_data_t lxb_unicode_data_0522 = {NULL, &lxb_unicode_idna_map_0522};
+static const lxb_unicode_data_t lxb_unicode_data_0524 = {NULL, &lxb_unicode_idna_map_0524};
+static const lxb_unicode_data_t lxb_unicode_data_0526 = {NULL, &lxb_unicode_idna_map_0526};
+static const lxb_unicode_data_t lxb_unicode_data_0528 = {NULL, &lxb_unicode_idna_map_0528};
+static const lxb_unicode_data_t lxb_unicode_data_052A = {NULL, &lxb_unicode_idna_map_052A};
+static const lxb_unicode_data_t lxb_unicode_data_052C = {NULL, &lxb_unicode_idna_map_052C};
+static const lxb_unicode_data_t lxb_unicode_data_052E = {NULL, &lxb_unicode_idna_map_052E};
+static const lxb_unicode_data_t lxb_unicode_data_0531 = {NULL, &lxb_unicode_idna_map_0531};
+static const lxb_unicode_data_t lxb_unicode_data_0532 = {NULL, &lxb_unicode_idna_map_0532};
+static const lxb_unicode_data_t lxb_unicode_data_0533 = {NULL, &lxb_unicode_idna_map_0533};
+static const lxb_unicode_data_t lxb_unicode_data_0534 = {NULL, &lxb_unicode_idna_map_0534};
+static const lxb_unicode_data_t lxb_unicode_data_0535 = {NULL, &lxb_unicode_idna_map_0535};
+static const lxb_unicode_data_t lxb_unicode_data_0536 = {NULL, &lxb_unicode_idna_map_0536};
+static const lxb_unicode_data_t lxb_unicode_data_0537 = {NULL, &lxb_unicode_idna_map_0537};
+static const lxb_unicode_data_t lxb_unicode_data_0538 = {NULL, &lxb_unicode_idna_map_0538};
+static const lxb_unicode_data_t lxb_unicode_data_0539 = {NULL, &lxb_unicode_idna_map_0539};
+static const lxb_unicode_data_t lxb_unicode_data_053A = {NULL, &lxb_unicode_idna_map_053A};
+static const lxb_unicode_data_t lxb_unicode_data_053B = {NULL, &lxb_unicode_idna_map_053B};
+static const lxb_unicode_data_t lxb_unicode_data_053C = {NULL, &lxb_unicode_idna_map_053C};
+static const lxb_unicode_data_t lxb_unicode_data_053D = {NULL, &lxb_unicode_idna_map_053D};
+static const lxb_unicode_data_t lxb_unicode_data_053E = {NULL, &lxb_unicode_idna_map_053E};
+static const lxb_unicode_data_t lxb_unicode_data_053F = {NULL, &lxb_unicode_idna_map_053F};
+static const lxb_unicode_data_t lxb_unicode_data_0540 = {NULL, &lxb_unicode_idna_map_0540};
+static const lxb_unicode_data_t lxb_unicode_data_0541 = {NULL, &lxb_unicode_idna_map_0541};
+static const lxb_unicode_data_t lxb_unicode_data_0542 = {NULL, &lxb_unicode_idna_map_0542};
+static const lxb_unicode_data_t lxb_unicode_data_0543 = {NULL, &lxb_unicode_idna_map_0543};
+static const lxb_unicode_data_t lxb_unicode_data_0544 = {NULL, &lxb_unicode_idna_map_0544};
+static const lxb_unicode_data_t lxb_unicode_data_0545 = {NULL, &lxb_unicode_idna_map_0545};
+static const lxb_unicode_data_t lxb_unicode_data_0546 = {NULL, &lxb_unicode_idna_map_0546};
+static const lxb_unicode_data_t lxb_unicode_data_0547 = {NULL, &lxb_unicode_idna_map_0547};
+static const lxb_unicode_data_t lxb_unicode_data_0548 = {NULL, &lxb_unicode_idna_map_0548};
+static const lxb_unicode_data_t lxb_unicode_data_0549 = {NULL, &lxb_unicode_idna_map_0549};
+static const lxb_unicode_data_t lxb_unicode_data_054A = {NULL, &lxb_unicode_idna_map_054A};
+static const lxb_unicode_data_t lxb_unicode_data_054B = {NULL, &lxb_unicode_idna_map_054B};
+static const lxb_unicode_data_t lxb_unicode_data_054C = {NULL, &lxb_unicode_idna_map_054C};
+static const lxb_unicode_data_t lxb_unicode_data_054D = {NULL, &lxb_unicode_idna_map_054D};
+static const lxb_unicode_data_t lxb_unicode_data_054E = {NULL, &lxb_unicode_idna_map_054E};
+static const lxb_unicode_data_t lxb_unicode_data_054F = {NULL, &lxb_unicode_idna_map_054F};
+static const lxb_unicode_data_t lxb_unicode_data_0550 = {NULL, &lxb_unicode_idna_map_0550};
+static const lxb_unicode_data_t lxb_unicode_data_0551 = {NULL, &lxb_unicode_idna_map_0551};
+static const lxb_unicode_data_t lxb_unicode_data_0552 = {NULL, &lxb_unicode_idna_map_0552};
+static const lxb_unicode_data_t lxb_unicode_data_0553 = {NULL, &lxb_unicode_idna_map_0553};
+static const lxb_unicode_data_t lxb_unicode_data_0554 = {NULL, &lxb_unicode_idna_map_0554};
+static const lxb_unicode_data_t lxb_unicode_data_0555 = {NULL, &lxb_unicode_idna_map_0555};
+static const lxb_unicode_data_t lxb_unicode_data_0556 = {NULL, &lxb_unicode_idna_map_0556};
+static const lxb_unicode_data_t lxb_unicode_data_0587 = {&lxb_unicode_entry_0587, &lxb_unicode_idna_map_0587};
 static const lxb_unicode_data_t lxb_unicode_data_0591 = {&lxb_unicode_entry_0591, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0592 = {&lxb_unicode_entry_0592, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0593 = {&lxb_unicode_entry_0593, NULL};
@@ -5677,10 +5803,10 @@ static const lxb_unicode_data_t lxb_unicode_data_065D = {&lxb_unicode_entry_065D
 static const lxb_unicode_data_t lxb_unicode_data_065E = {&lxb_unicode_entry_065E, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_065F = {&lxb_unicode_entry_065F, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0670 = {&lxb_unicode_entry_0670, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0675 = {&lxb_unicode_entry_0675, lxb_unicode_idna_map_0675};
-static const lxb_unicode_data_t lxb_unicode_data_0676 = {&lxb_unicode_entry_0676, lxb_unicode_idna_map_0676};
-static const lxb_unicode_data_t lxb_unicode_data_0677 = {&lxb_unicode_entry_0677, lxb_unicode_idna_map_0677};
-static const lxb_unicode_data_t lxb_unicode_data_0678 = {&lxb_unicode_entry_0678, lxb_unicode_idna_map_0678};
+static const lxb_unicode_data_t lxb_unicode_data_0675 = {&lxb_unicode_entry_0675, &lxb_unicode_idna_map_0675};
+static const lxb_unicode_data_t lxb_unicode_data_0676 = {&lxb_unicode_entry_0676, &lxb_unicode_idna_map_0676};
+static const lxb_unicode_data_t lxb_unicode_data_0677 = {&lxb_unicode_entry_0677, &lxb_unicode_idna_map_0677};
+static const lxb_unicode_data_t lxb_unicode_data_0678 = {&lxb_unicode_entry_0678, &lxb_unicode_idna_map_0678};
 static const lxb_unicode_data_t lxb_unicode_data_06C0 = {&lxb_unicode_entry_06C0, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_06C2 = {&lxb_unicode_entry_06C2, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_06D3 = {&lxb_unicode_entry_06D3, NULL};
@@ -5835,44 +5961,51 @@ static const lxb_unicode_data_t lxb_unicode_data_0951 = {&lxb_unicode_entry_0951
 static const lxb_unicode_data_t lxb_unicode_data_0952 = {&lxb_unicode_entry_0952, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0953 = {&lxb_unicode_entry_0953, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0954 = {&lxb_unicode_entry_0954, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0958 = {&lxb_unicode_entry_0958, lxb_unicode_idna_map_0958};
-static const lxb_unicode_data_t lxb_unicode_data_0959 = {&lxb_unicode_entry_0959, lxb_unicode_idna_map_0959};
-static const lxb_unicode_data_t lxb_unicode_data_095A = {&lxb_unicode_entry_095A, lxb_unicode_idna_map_095A};
-static const lxb_unicode_data_t lxb_unicode_data_095B = {&lxb_unicode_entry_095B, lxb_unicode_idna_map_095B};
-static const lxb_unicode_data_t lxb_unicode_data_095C = {&lxb_unicode_entry_095C, lxb_unicode_idna_map_095C};
-static const lxb_unicode_data_t lxb_unicode_data_095D = {&lxb_unicode_entry_095D, lxb_unicode_idna_map_095D};
-static const lxb_unicode_data_t lxb_unicode_data_095E = {&lxb_unicode_entry_095E, lxb_unicode_idna_map_095E};
-static const lxb_unicode_data_t lxb_unicode_data_095F = {&lxb_unicode_entry_095F, lxb_unicode_idna_map_095F};
+static const lxb_unicode_data_t lxb_unicode_data_0958 = {&lxb_unicode_entry_0958, &lxb_unicode_idna_map_0958};
+static const lxb_unicode_data_t lxb_unicode_data_0959 = {&lxb_unicode_entry_0959, &lxb_unicode_idna_map_0959};
+static const lxb_unicode_data_t lxb_unicode_data_095A = {&lxb_unicode_entry_095A, &lxb_unicode_idna_map_095A};
+static const lxb_unicode_data_t lxb_unicode_data_095B = {&lxb_unicode_entry_095B, &lxb_unicode_idna_map_095B};
+static const lxb_unicode_data_t lxb_unicode_data_095C = {&lxb_unicode_entry_095C, &lxb_unicode_idna_map_095C};
+static const lxb_unicode_data_t lxb_unicode_data_095D = {&lxb_unicode_entry_095D, &lxb_unicode_idna_map_095D};
+static const lxb_unicode_data_t lxb_unicode_data_095E = {&lxb_unicode_entry_095E, &lxb_unicode_idna_map_095E};
+static const lxb_unicode_data_t lxb_unicode_data_095F = {&lxb_unicode_entry_095F, &lxb_unicode_idna_map_095F};
 static const lxb_unicode_data_t lxb_unicode_data_09BC = {&lxb_unicode_entry_09BC, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_09BE = {&lxb_unicode_entry_09BE, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_09CB = {&lxb_unicode_entry_09CB, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_09CC = {&lxb_unicode_entry_09CC, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_09CD = {&lxb_unicode_entry_09CD, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_09DC = {&lxb_unicode_entry_09DC, lxb_unicode_idna_map_09DC};
-static const lxb_unicode_data_t lxb_unicode_data_09DD = {&lxb_unicode_entry_09DD, lxb_unicode_idna_map_09DD};
-static const lxb_unicode_data_t lxb_unicode_data_09DF = {&lxb_unicode_entry_09DF, lxb_unicode_idna_map_09DF};
+static const lxb_unicode_data_t lxb_unicode_data_09D7 = {&lxb_unicode_entry_09D7, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_09DC = {&lxb_unicode_entry_09DC, &lxb_unicode_idna_map_09DC};
+static const lxb_unicode_data_t lxb_unicode_data_09DD = {&lxb_unicode_entry_09DD, &lxb_unicode_idna_map_09DD};
+static const lxb_unicode_data_t lxb_unicode_data_09DF = {&lxb_unicode_entry_09DF, &lxb_unicode_idna_map_09DF};
 static const lxb_unicode_data_t lxb_unicode_data_09FE = {&lxb_unicode_entry_09FE, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0A33 = {&lxb_unicode_entry_0A33, lxb_unicode_idna_map_0A33};
-static const lxb_unicode_data_t lxb_unicode_data_0A36 = {&lxb_unicode_entry_0A36, lxb_unicode_idna_map_0A36};
+static const lxb_unicode_data_t lxb_unicode_data_0A33 = {&lxb_unicode_entry_0A33, &lxb_unicode_idna_map_0A33};
+static const lxb_unicode_data_t lxb_unicode_data_0A36 = {&lxb_unicode_entry_0A36, &lxb_unicode_idna_map_0A36};
 static const lxb_unicode_data_t lxb_unicode_data_0A3C = {&lxb_unicode_entry_0A3C, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0A4D = {&lxb_unicode_entry_0A4D, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0A59 = {&lxb_unicode_entry_0A59, lxb_unicode_idna_map_0A59};
-static const lxb_unicode_data_t lxb_unicode_data_0A5A = {&lxb_unicode_entry_0A5A, lxb_unicode_idna_map_0A5A};
-static const lxb_unicode_data_t lxb_unicode_data_0A5B = {&lxb_unicode_entry_0A5B, lxb_unicode_idna_map_0A5B};
-static const lxb_unicode_data_t lxb_unicode_data_0A5E = {&lxb_unicode_entry_0A5E, lxb_unicode_idna_map_0A5E};
+static const lxb_unicode_data_t lxb_unicode_data_0A59 = {&lxb_unicode_entry_0A59, &lxb_unicode_idna_map_0A59};
+static const lxb_unicode_data_t lxb_unicode_data_0A5A = {&lxb_unicode_entry_0A5A, &lxb_unicode_idna_map_0A5A};
+static const lxb_unicode_data_t lxb_unicode_data_0A5B = {&lxb_unicode_entry_0A5B, &lxb_unicode_idna_map_0A5B};
+static const lxb_unicode_data_t lxb_unicode_data_0A5E = {&lxb_unicode_entry_0A5E, &lxb_unicode_idna_map_0A5E};
 static const lxb_unicode_data_t lxb_unicode_data_0ABC = {&lxb_unicode_entry_0ABC, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0ACD = {&lxb_unicode_entry_0ACD, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0B3C = {&lxb_unicode_entry_0B3C, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_0B3E = {&lxb_unicode_entry_0B3E, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0B48 = {&lxb_unicode_entry_0B48, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0B4B = {&lxb_unicode_entry_0B4B, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0B4C = {&lxb_unicode_entry_0B4C, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0B4D = {&lxb_unicode_entry_0B4D, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0B5C = {&lxb_unicode_entry_0B5C, lxb_unicode_idna_map_0B5C};
-static const lxb_unicode_data_t lxb_unicode_data_0B5D = {&lxb_unicode_entry_0B5D, lxb_unicode_idna_map_0B5D};
+static const lxb_unicode_data_t lxb_unicode_data_0B56 = {&lxb_unicode_entry_0B56, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_0B57 = {&lxb_unicode_entry_0B57, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_0B5C = {&lxb_unicode_entry_0B5C, &lxb_unicode_idna_map_0B5C};
+static const lxb_unicode_data_t lxb_unicode_data_0B5D = {&lxb_unicode_entry_0B5D, &lxb_unicode_idna_map_0B5D};
 static const lxb_unicode_data_t lxb_unicode_data_0B94 = {&lxb_unicode_entry_0B94, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_0BBE = {&lxb_unicode_entry_0BBE, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0BCA = {&lxb_unicode_entry_0BCA, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0BCB = {&lxb_unicode_entry_0BCB, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0BCC = {&lxb_unicode_entry_0BCC, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0BCD = {&lxb_unicode_entry_0BCD, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_0BD7 = {&lxb_unicode_entry_0BD7, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0C3C = {&lxb_unicode_entry_0C3C, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0C48 = {&lxb_unicode_entry_0C48, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0C4D = {&lxb_unicode_entry_0C4D, NULL};
@@ -5880,23 +6013,30 @@ static const lxb_unicode_data_t lxb_unicode_data_0C55 = {&lxb_unicode_entry_0C55
 static const lxb_unicode_data_t lxb_unicode_data_0C56 = {&lxb_unicode_entry_0C56, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0CBC = {&lxb_unicode_entry_0CBC, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0CC0 = {&lxb_unicode_entry_0CC0, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_0CC2 = {&lxb_unicode_entry_0CC2, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0CC7 = {&lxb_unicode_entry_0CC7, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0CC8 = {&lxb_unicode_entry_0CC8, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0CCA = {&lxb_unicode_entry_0CCA, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0CCB = {&lxb_unicode_entry_0CCB, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0CCD = {&lxb_unicode_entry_0CCD, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_0CD5 = {&lxb_unicode_entry_0CD5, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_0CD6 = {&lxb_unicode_entry_0CD6, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0D3B = {&lxb_unicode_entry_0D3B, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0D3C = {&lxb_unicode_entry_0D3C, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_0D3E = {&lxb_unicode_entry_0D3E, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0D4A = {&lxb_unicode_entry_0D4A, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0D4B = {&lxb_unicode_entry_0D4B, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0D4C = {&lxb_unicode_entry_0D4C, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0D4D = {&lxb_unicode_entry_0D4D, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_0D57 = {&lxb_unicode_entry_0D57, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0DCA = {&lxb_unicode_entry_0DCA, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_0DCF = {&lxb_unicode_entry_0DCF, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0DDA = {&lxb_unicode_entry_0DDA, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0DDC = {&lxb_unicode_entry_0DDC, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0DDD = {&lxb_unicode_entry_0DDD, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0DDE = {&lxb_unicode_entry_0DDE, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0E33 = {&lxb_unicode_entry_0E33, lxb_unicode_idna_map_0E33};
+static const lxb_unicode_data_t lxb_unicode_data_0DDF = {&lxb_unicode_entry_0DDF, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_0E33 = {&lxb_unicode_entry_0E33, &lxb_unicode_idna_map_0E33};
 static const lxb_unicode_data_t lxb_unicode_data_0E38 = {&lxb_unicode_entry_0E38, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0E39 = {&lxb_unicode_entry_0E39, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0E3A = {&lxb_unicode_entry_0E3A, NULL};
@@ -5904,7 +6044,7 @@ static const lxb_unicode_data_t lxb_unicode_data_0E48 = {&lxb_unicode_entry_0E48
 static const lxb_unicode_data_t lxb_unicode_data_0E49 = {&lxb_unicode_entry_0E49, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0E4A = {&lxb_unicode_entry_0E4A, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0E4B = {&lxb_unicode_entry_0E4B, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0EB3 = {&lxb_unicode_entry_0EB3, lxb_unicode_idna_map_0EB3};
+static const lxb_unicode_data_t lxb_unicode_data_0EB3 = {&lxb_unicode_entry_0EB3, &lxb_unicode_idna_map_0EB3};
 static const lxb_unicode_data_t lxb_unicode_data_0EB8 = {&lxb_unicode_entry_0EB8, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0EB9 = {&lxb_unicode_entry_0EB9, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0EBA = {&lxb_unicode_entry_0EBA, NULL};
@@ -5912,55 +6052,104 @@ static const lxb_unicode_data_t lxb_unicode_data_0EC8 = {&lxb_unicode_entry_0EC8
 static const lxb_unicode_data_t lxb_unicode_data_0EC9 = {&lxb_unicode_entry_0EC9, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0ECA = {&lxb_unicode_entry_0ECA, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0ECB = {&lxb_unicode_entry_0ECB, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0EDC = {&lxb_unicode_entry_0EDC, lxb_unicode_idna_map_0EDC};
-static const lxb_unicode_data_t lxb_unicode_data_0EDD = {&lxb_unicode_entry_0EDD, lxb_unicode_idna_map_0EDD};
-static const lxb_unicode_data_t lxb_unicode_data_0F0C = {&lxb_unicode_entry_0F0C, lxb_unicode_idna_map_0F0C};
+static const lxb_unicode_data_t lxb_unicode_data_0EDC = {&lxb_unicode_entry_0EDC, &lxb_unicode_idna_map_0EDC};
+static const lxb_unicode_data_t lxb_unicode_data_0EDD = {&lxb_unicode_entry_0EDD, &lxb_unicode_idna_map_0EDD};
+static const lxb_unicode_data_t lxb_unicode_data_0F0C = {&lxb_unicode_entry_0F0C, &lxb_unicode_idna_map_0F0C};
 static const lxb_unicode_data_t lxb_unicode_data_0F18 = {&lxb_unicode_entry_0F18, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0F19 = {&lxb_unicode_entry_0F19, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0F35 = {&lxb_unicode_entry_0F35, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0F37 = {&lxb_unicode_entry_0F37, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0F39 = {&lxb_unicode_entry_0F39, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0F43 = {&lxb_unicode_entry_0F43, lxb_unicode_idna_map_0F43};
-static const lxb_unicode_data_t lxb_unicode_data_0F4D = {&lxb_unicode_entry_0F4D, lxb_unicode_idna_map_0F4D};
-static const lxb_unicode_data_t lxb_unicode_data_0F52 = {&lxb_unicode_entry_0F52, lxb_unicode_idna_map_0F52};
-static const lxb_unicode_data_t lxb_unicode_data_0F57 = {&lxb_unicode_entry_0F57, lxb_unicode_idna_map_0F57};
-static const lxb_unicode_data_t lxb_unicode_data_0F5C = {&lxb_unicode_entry_0F5C, lxb_unicode_idna_map_0F5C};
-static const lxb_unicode_data_t lxb_unicode_data_0F69 = {&lxb_unicode_entry_0F69, lxb_unicode_idna_map_0F69};
+static const lxb_unicode_data_t lxb_unicode_data_0F43 = {&lxb_unicode_entry_0F43, &lxb_unicode_idna_map_0F43};
+static const lxb_unicode_data_t lxb_unicode_data_0F4D = {&lxb_unicode_entry_0F4D, &lxb_unicode_idna_map_0F4D};
+static const lxb_unicode_data_t lxb_unicode_data_0F52 = {&lxb_unicode_entry_0F52, &lxb_unicode_idna_map_0F52};
+static const lxb_unicode_data_t lxb_unicode_data_0F57 = {&lxb_unicode_entry_0F57, &lxb_unicode_idna_map_0F57};
+static const lxb_unicode_data_t lxb_unicode_data_0F5C = {&lxb_unicode_entry_0F5C, &lxb_unicode_idna_map_0F5C};
+static const lxb_unicode_data_t lxb_unicode_data_0F69 = {&lxb_unicode_entry_0F69, &lxb_unicode_idna_map_0F69};
 static const lxb_unicode_data_t lxb_unicode_data_0F71 = {&lxb_unicode_entry_0F71, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0F72 = {&lxb_unicode_entry_0F72, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0F73 = {&lxb_unicode_entry_0F73, lxb_unicode_idna_map_0F73};
+static const lxb_unicode_data_t lxb_unicode_data_0F73 = {&lxb_unicode_entry_0F73, &lxb_unicode_idna_map_0F73};
 static const lxb_unicode_data_t lxb_unicode_data_0F74 = {&lxb_unicode_entry_0F74, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0F75 = {&lxb_unicode_entry_0F75, lxb_unicode_idna_map_0F75};
-static const lxb_unicode_data_t lxb_unicode_data_0F76 = {&lxb_unicode_entry_0F76, lxb_unicode_idna_map_0F76};
-static const lxb_unicode_data_t lxb_unicode_data_0F77 = {&lxb_unicode_entry_0F77, lxb_unicode_idna_map_0F77};
-static const lxb_unicode_data_t lxb_unicode_data_0F78 = {&lxb_unicode_entry_0F78, lxb_unicode_idna_map_0F78};
-static const lxb_unicode_data_t lxb_unicode_data_0F79 = {&lxb_unicode_entry_0F79, lxb_unicode_idna_map_0F79};
+static const lxb_unicode_data_t lxb_unicode_data_0F75 = {&lxb_unicode_entry_0F75, &lxb_unicode_idna_map_0F75};
+static const lxb_unicode_data_t lxb_unicode_data_0F76 = {&lxb_unicode_entry_0F76, &lxb_unicode_idna_map_0F76};
+static const lxb_unicode_data_t lxb_unicode_data_0F77 = {&lxb_unicode_entry_0F77, &lxb_unicode_idna_map_0F77};
+static const lxb_unicode_data_t lxb_unicode_data_0F78 = {&lxb_unicode_entry_0F78, &lxb_unicode_idna_map_0F78};
+static const lxb_unicode_data_t lxb_unicode_data_0F79 = {&lxb_unicode_entry_0F79, &lxb_unicode_idna_map_0F79};
 static const lxb_unicode_data_t lxb_unicode_data_0F7A = {&lxb_unicode_entry_0F7A, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0F7B = {&lxb_unicode_entry_0F7B, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0F7C = {&lxb_unicode_entry_0F7C, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0F7D = {&lxb_unicode_entry_0F7D, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0F80 = {&lxb_unicode_entry_0F80, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0F81 = {&lxb_unicode_entry_0F81, lxb_unicode_idna_map_0F81};
+static const lxb_unicode_data_t lxb_unicode_data_0F81 = {&lxb_unicode_entry_0F81, &lxb_unicode_idna_map_0F81};
 static const lxb_unicode_data_t lxb_unicode_data_0F82 = {&lxb_unicode_entry_0F82, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0F83 = {&lxb_unicode_entry_0F83, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0F84 = {&lxb_unicode_entry_0F84, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0F86 = {&lxb_unicode_entry_0F86, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_0F87 = {&lxb_unicode_entry_0F87, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_0F93 = {&lxb_unicode_entry_0F93, lxb_unicode_idna_map_0F93};
-static const lxb_unicode_data_t lxb_unicode_data_0F9D = {&lxb_unicode_entry_0F9D, lxb_unicode_idna_map_0F9D};
-static const lxb_unicode_data_t lxb_unicode_data_0FA2 = {&lxb_unicode_entry_0FA2, lxb_unicode_idna_map_0FA2};
-static const lxb_unicode_data_t lxb_unicode_data_0FA7 = {&lxb_unicode_entry_0FA7, lxb_unicode_idna_map_0FA7};
-static const lxb_unicode_data_t lxb_unicode_data_0FAC = {&lxb_unicode_entry_0FAC, lxb_unicode_idna_map_0FAC};
-static const lxb_unicode_data_t lxb_unicode_data_0FB9 = {&lxb_unicode_entry_0FB9, lxb_unicode_idna_map_0FB9};
+static const lxb_unicode_data_t lxb_unicode_data_0F93 = {&lxb_unicode_entry_0F93, &lxb_unicode_idna_map_0F93};
+static const lxb_unicode_data_t lxb_unicode_data_0F9D = {&lxb_unicode_entry_0F9D, &lxb_unicode_idna_map_0F9D};
+static const lxb_unicode_data_t lxb_unicode_data_0FA2 = {&lxb_unicode_entry_0FA2, &lxb_unicode_idna_map_0FA2};
+static const lxb_unicode_data_t lxb_unicode_data_0FA7 = {&lxb_unicode_entry_0FA7, &lxb_unicode_idna_map_0FA7};
+static const lxb_unicode_data_t lxb_unicode_data_0FAC = {&lxb_unicode_entry_0FAC, &lxb_unicode_idna_map_0FAC};
+static const lxb_unicode_data_t lxb_unicode_data_0FB9 = {&lxb_unicode_entry_0FB9, &lxb_unicode_idna_map_0FB9};
 static const lxb_unicode_data_t lxb_unicode_data_0FC6 = {&lxb_unicode_entry_0FC6, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_1026 = {&lxb_unicode_entry_1026, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_102E = {&lxb_unicode_entry_102E, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_1037 = {&lxb_unicode_entry_1037, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_1039 = {&lxb_unicode_entry_1039, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_103A = {&lxb_unicode_entry_103A, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_108D = {&lxb_unicode_entry_108D, NULL};
-static const lxb_unicode_data_t lxb_unicode_data_10C7 = {NULL, lxb_unicode_idna_map_10C7};
-static const lxb_unicode_data_t lxb_unicode_data_10CD = {NULL, lxb_unicode_idna_map_10CD};
-static const lxb_unicode_data_t lxb_unicode_data_10FC = {&lxb_unicode_entry_10FC, lxb_unicode_idna_map_10FC};
+static const lxb_unicode_data_t lxb_unicode_data_10C7 = {NULL, &lxb_unicode_idna_map_10C7};
+static const lxb_unicode_data_t lxb_unicode_data_10CD = {NULL, &lxb_unicode_idna_map_10CD};
+static const lxb_unicode_data_t lxb_unicode_data_10FC = {&lxb_unicode_entry_10FC, &lxb_unicode_idna_map_10FC};
+static const lxb_unicode_data_t lxb_unicode_data_1161 = {&lxb_unicode_entry_1161, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_1162 = {&lxb_unicode_entry_1162, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_1163 = {&lxb_unicode_entry_1163, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_1164 = {&lxb_unicode_entry_1164, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_1165 = {&lxb_unicode_entry_1165, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_1166 = {&lxb_unicode_entry_1166, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_1167 = {&lxb_unicode_entry_1167, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_1168 = {&lxb_unicode_entry_1168, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_1169 = {&lxb_unicode_entry_1169, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_116A = {&lxb_unicode_entry_116A, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_116B = {&lxb_unicode_entry_116B, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_116C = {&lxb_unicode_entry_116C, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_116D = {&lxb_unicode_entry_116D, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_116E = {&lxb_unicode_entry_116E, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_116F = {&lxb_unicode_entry_116F, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_1170 = {&lxb_unicode_entry_1170, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_1171 = {&lxb_unicode_entry_1171, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_1172 = {&lxb_unicode_entry_1172, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_1173 = {&lxb_unicode_entry_1173, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_1174 = {&lxb_unicode_entry_1174, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_1175 = {&lxb_unicode_entry_1175, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11A8 = {&lxb_unicode_entry_11A8, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11A9 = {&lxb_unicode_entry_11A9, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11AA = {&lxb_unicode_entry_11AA, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11AB = {&lxb_unicode_entry_11AB, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11AC = {&lxb_unicode_entry_11AC, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11AD = {&lxb_unicode_entry_11AD, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11AE = {&lxb_unicode_entry_11AE, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11AF = {&lxb_unicode_entry_11AF, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11B0 = {&lxb_unicode_entry_11B0, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11B1 = {&lxb_unicode_entry_11B1, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11B2 = {&lxb_unicode_entry_11B2, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11B3 = {&lxb_unicode_entry_11B3, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11B4 = {&lxb_unicode_entry_11B4, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11B5 = {&lxb_unicode_entry_11B5, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11B6 = {&lxb_unicode_entry_11B6, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11B7 = {&lxb_unicode_entry_11B7, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11B8 = {&lxb_unicode_entry_11B8, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11B9 = {&lxb_unicode_entry_11B9, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11BA = {&lxb_unicode_entry_11BA, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11BB = {&lxb_unicode_entry_11BB, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11BC = {&lxb_unicode_entry_11BC, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11BD = {&lxb_unicode_entry_11BD, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11BE = {&lxb_unicode_entry_11BE, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11BF = {&lxb_unicode_entry_11BF, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11C0 = {&lxb_unicode_entry_11C0, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11C1 = {&lxb_unicode_entry_11C1, NULL};
+static const lxb_unicode_data_t lxb_unicode_data_11C2 = {&lxb_unicode_entry_11C2, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_135D = {&lxb_unicode_entry_135D, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_135E = {&lxb_unicode_entry_135E, NULL};
 static const lxb_unicode_data_t lxb_unicode_data_135F = {&lxb_unicode_entry_135F, NULL};
@@ -8459,7 +8648,7 @@ static const lxb_unicode_data_t *lxb_unicode_table_0[5000] = {
     NULL,
     &lxb_unicode_data_09BC,
     NULL,
-    NULL,
+    &lxb_unicode_data_09BE,
     NULL,
     NULL,
     NULL,
@@ -8484,7 +8673,7 @@ static const lxb_unicode_data_t *lxb_unicode_table_0[5000] = {
     NULL,
     NULL,
     NULL,
-    NULL,
+    &lxb_unicode_data_09D7,
     NULL,
     NULL,
     NULL,
@@ -8843,7 +9032,7 @@ static const lxb_unicode_data_t *lxb_unicode_table_0[5000] = {
     NULL,
     &lxb_unicode_data_0B3C,
     NULL,
-    NULL,
+    &lxb_unicode_data_0B3E,
     NULL,
     NULL,
     NULL,
@@ -8867,8 +9056,8 @@ static const lxb_unicode_data_t *lxb_unicode_table_0[5000] = {
     NULL,
     NULL,
     NULL,
-    NULL,
-    NULL,
+    &lxb_unicode_data_0B56,
+    &lxb_unicode_data_0B57,
     NULL,
     NULL,
     NULL,
@@ -8971,7 +9160,7 @@ static const lxb_unicode_data_t *lxb_unicode_table_0[5000] = {
     NULL,
     NULL,
     NULL,
-    NULL,
+    &lxb_unicode_data_0BBE,
     NULL,
     NULL,
     NULL,
@@ -8996,7 +9185,7 @@ static const lxb_unicode_data_t *lxb_unicode_table_0[5000] = {
     NULL,
     NULL,
     NULL,
-    NULL,
+    &lxb_unicode_data_0BD7,
     NULL,
     NULL,
     NULL,
@@ -9231,7 +9420,7 @@ static const lxb_unicode_data_t *lxb_unicode_table_0[5000] = {
     NULL,
     &lxb_unicode_data_0CC0,
     NULL,
-    NULL,
+    &lxb_unicode_data_0CC2,
     NULL,
     NULL,
     NULL,
@@ -9250,8 +9439,8 @@ static const lxb_unicode_data_t *lxb_unicode_table_0[5000] = {
     NULL,
     NULL,
     NULL,
-    NULL,
-    NULL,
+    &lxb_unicode_data_0CD5,
+    &lxb_unicode_data_0CD6,
     NULL,
     NULL,
     NULL,
@@ -9355,7 +9544,7 @@ static const lxb_unicode_data_t *lxb_unicode_table_0[5000] = {
     &lxb_unicode_data_0D3B,
     &lxb_unicode_data_0D3C,
     NULL,
-    NULL,
+    &lxb_unicode_data_0D3E,
     NULL,
     NULL,
     NULL,
@@ -9380,7 +9569,7 @@ static const lxb_unicode_data_t *lxb_unicode_table_0[5000] = {
     NULL,
     NULL,
     NULL,
-    NULL,
+    &lxb_unicode_data_0D57,
     NULL,
     NULL,
     NULL,
@@ -9500,7 +9689,7 @@ static const lxb_unicode_data_t *lxb_unicode_table_0[5000] = {
     NULL,
     NULL,
     NULL,
-    NULL,
+    &lxb_unicode_data_0DCF,
     NULL,
     NULL,
     NULL,
@@ -9516,7 +9705,7 @@ static const lxb_unicode_data_t *lxb_unicode_table_0[5000] = {
     &lxb_unicode_data_0DDC,
     &lxb_unicode_data_0DDD,
     &lxb_unicode_data_0DDE,
-    NULL,
+    &lxb_unicode_data_0DDF,
     NULL,
     NULL,
     NULL,
@@ -10107,7 +10296,7 @@ static const lxb_unicode_data_t *lxb_unicode_table_0[5000] = {
     NULL,
     NULL,
     NULL,
-    NULL,
+    &lxb_unicode_data_102E,
     NULL,
     NULL,
     NULL,
@@ -10414,6 +10603,27 @@ static const lxb_unicode_data_t *lxb_unicode_table_0[5000] = {
     NULL,
     NULL,
     NULL,
+    &lxb_unicode_data_1161,
+    &lxb_unicode_data_1162,
+    &lxb_unicode_data_1163,
+    &lxb_unicode_data_1164,
+    &lxb_unicode_data_1165,
+    &lxb_unicode_data_1166,
+    &lxb_unicode_data_1167,
+    &lxb_unicode_data_1168,
+    &lxb_unicode_data_1169,
+    &lxb_unicode_data_116A,
+    &lxb_unicode_data_116B,
+    &lxb_unicode_data_116C,
+    &lxb_unicode_data_116D,
+    &lxb_unicode_data_116E,
+    &lxb_unicode_data_116F,
+    &lxb_unicode_data_1170,
+    &lxb_unicode_data_1171,
+    &lxb_unicode_data_1172,
+    &lxb_unicode_data_1173,
+    &lxb_unicode_data_1174,
+    &lxb_unicode_data_1175,
     NULL,
     NULL,
     NULL,
@@ -10464,54 +10674,33 @@ static const lxb_unicode_data_t *lxb_unicode_table_0[5000] = {
     NULL,
     NULL,
     NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
+    &lxb_unicode_data_11A8,
+    &lxb_unicode_data_11A9,
+    &lxb_unicode_data_11AA,
+    &lxb_unicode_data_11AB,
+    &lxb_unicode_data_11AC,
+    &lxb_unicode_data_11AD,
+    &lxb_unicode_data_11AE,
+    &lxb_unicode_data_11AF,
+    &lxb_unicode_data_11B0,
+    &lxb_unicode_data_11B1,
+    &lxb_unicode_data_11B2,
+    &lxb_unicode_data_11B3,
+    &lxb_unicode_data_11B4,
+    &lxb_unicode_data_11B5,
+    &lxb_unicode_data_11B6,
+    &lxb_unicode_data_11B7,
+    &lxb_unicode_data_11B8,
+    &lxb_unicode_data_11B9,
+    &lxb_unicode_data_11BA,
+    &lxb_unicode_data_11BB,
+    &lxb_unicode_data_11BC,
+    &lxb_unicode_data_11BD,
+    &lxb_unicode_data_11BE,
+    &lxb_unicode_data_11BF,
+    &lxb_unicode_data_11C0,
+    &lxb_unicode_data_11C1,
+    &lxb_unicode_data_11C2,
     NULL,
     NULL,
     NULL,

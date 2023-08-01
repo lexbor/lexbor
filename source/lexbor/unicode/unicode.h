@@ -127,8 +127,14 @@ typedef struct {
 lxb_unicode_entry_t;
 
 typedef struct {
-    const lxb_unicode_entry_t *entry;
-    const lxb_codepoint_t     *idna;
+    const lxb_codepoint_t *cps;
+    uint8_t               length;
+}
+lxb_unicode_idna_map_t;
+
+typedef struct {
+    const lxb_unicode_entry_t    *entry;
+    const lxb_unicode_idna_map_t *idna;
 }
 lxb_unicode_data_t;
 

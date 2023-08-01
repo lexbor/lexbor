@@ -444,7 +444,10 @@ sub build {
             $idna_name = $self->lxb_prefix("idna_map", $cp);
             $str = "0x" . join ", 0x", @$map;
 
-            $str = "static const lxb_codepoint_t $idna_name\[$len\] = {$str};";
+            $str = "static const lxb_unicode_idna_map_t $idna_name = "
+                   . "{.cps = (lxb_codepoint_t[]) {$str}, .length = $len};";
+
+            $idna_name = "&$idna_name";
         }
 
         push @idna_map, $str;
@@ -454,7 +457,7 @@ sub build {
             $dec = $data->{$cp}->[5];
 
             if (scalar @{$dec->{map}} > 0 || $dec->{type} ne "LXB_UNICODE_DECOMPOSITION_TYPE__UNDEF"
-               || $data->{$cp}->[3] > 0)
+               || $data->{$cp}->[3] > 0 || scalar keys %{$data->{$cp}->[13]} > 0)
             {
                 $ucode_name = $self->lxb_prefix("entry", $cp);
                 ($entry, $str) = $self->make_hash_entry($data->{$cp});
@@ -532,7 +535,7 @@ sub build {
             print "IDNA removed last duplicates (", scalar @idna_types - $id,"). ", 
                   "Now last entry is ", sprintf("%04X", $id), "\n";
 
-            splice @idna_types, $id;
+            splice @idna_types, $id + 1;
             last;
         }
     }

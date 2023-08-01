@@ -12,6 +12,9 @@ extern "C" {
 #endif
 
 
+
+static const lxb_unicode_entry_t lxb_unicode_entry_D7A3 = {.cp = 0xD7A3, .ccc = 0, .quick = LXB_UNICODE_NFD_QUICK_NO|LXB_UNICODE_NFKD_QUICK_NO, .de = NULL, .cde = NULL, .kde = NULL};
+static const lxb_unicode_data_t lxb_unicode_data_D7A3 = {&lxb_unicode_entry_D7A3, NULL};
 static const lxb_unicode_data_t *lxb_unicode_table_11[5000] = {
     NULL,
     NULL,
@@ -216,7 +219,7 @@ static const lxb_unicode_data_t *lxb_unicode_table_11[5000] = {
     NULL,
     NULL,
     NULL,
-    NULL,
+    &lxb_unicode_data_D7A3,
     NULL,
     NULL,
     NULL,
