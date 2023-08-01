@@ -11,7 +11,7 @@
 
 
 static lxb_status_t
-callback(const lxb_char_t *data, size_t len, void *ctx);
+callback(const lxb_char_t *data, size_t len, void *ctx, bool unchanged);
 
 static lxb_status_t
 callback_cp(const lxb_codepoint_t *cps, size_t len, void *ctx);
@@ -59,7 +59,7 @@ LLVMFuzzerTestOneInput(const uint8_t *data, size_t length)
         goto done;
     }
 
-    (void) lxb_punycode_decode_cp(str.data, str.length, callback_cp, NULL);
+    (void) lxb_punycode_decode_cb_cp(str.data, str.length, callback_cp, NULL);
 
 done:
 
@@ -72,7 +72,7 @@ done:
 
 
 static lxb_status_t
-callback(const lxb_char_t *data, size_t len, void *ctx)
+callback(const lxb_char_t *data, size_t len, void *ctx, bool unchanged)
 {
     lexbor_str_t *str = ctx;
 

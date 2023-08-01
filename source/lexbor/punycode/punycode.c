@@ -121,8 +121,9 @@ static lxb_status_t
 lxb_punycode_encode_body(const lxb_codepoint_t *cps, const lxb_codepoint_t *cps_end,
                          lxb_char_t *p, lxb_char_t *buf, const lxb_char_t *end,
                          const lxb_char_t *buffer, const lxb_char_t *buffer_end,
-                         lexbor_serialize_cb_f cb, void *ctx)
+                         lxb_punycode_encode_cb_f cb, void *ctx)
 {
+    bool unchanged;
     size_t h, b, n, q, k, t, delta, bias, nsize;
     lxb_char_t *tmp;
     lxb_status_t status;
@@ -135,9 +136,16 @@ lxb_punycode_encode_body(const lxb_codepoint_t *cps, const lxb_codepoint_t *cps_
     b = p - buf;
     cps_p = cps + b;
 
+    if (cps_p >= cps_end) {
+        unchanged = true;
+        goto done;
+    }
+
     if (p > buf) {
         *p++ = LXB_PUNYCODE_DELIMITER;
     }
+
+    unchanged = false;
 
     while (cps_p < cps_end) {
         m = UINT32_MAX;
@@ -210,7 +218,9 @@ lxb_punycode_encode_body(const lxb_codepoint_t *cps, const lxb_codepoint_t *cps_
         n += 1;
     }
 
-    status = cb(buf, p - buf, ctx);
+done:
+
+    status = cb(buf, p - buf, ctx, unchanged);
 
     if (buf != buffer) {
         (void) lexbor_free(buf);
@@ -221,7 +231,7 @@ lxb_punycode_encode_body(const lxb_codepoint_t *cps, const lxb_codepoint_t *cps_
 
 lxb_status_t
 lxb_punycode_encode(const lxb_char_t *data, size_t length,
-                    lexbor_serialize_cb_f cb, void *ctx)
+                    lxb_punycode_encode_cb_f cb, void *ctx)
 {
     size_t nsize, cp_length;
     uint8_t len;
@@ -296,7 +306,7 @@ lxb_punycode_encode(const lxb_char_t *data, size_t length,
 
 lxb_status_t
 lxb_punycode_encode_cp(const lxb_codepoint_t *cps, size_t length,
-                       lexbor_serialize_cb_f cb, void *ctx)
+                       lxb_punycode_encode_cb_f cb, void *ctx)
 {
     size_t nsize;
     lxb_char_t *p, *buf, *tmp;
@@ -335,8 +345,8 @@ lxb_punycode_decode(const lxb_char_t *data, size_t length,
 {
     lexbor_serialize_ctx_t nctx = {.cb = cb, .ctx = ctx};
 
-    return lxb_punycode_decode_cp(data, length, lxb_punycode_callback_cp,
-                                  &nctx);
+    return lxb_punycode_decode_cb_cp(data, length, lxb_punycode_callback_cp,
+                                     &nctx);
 }
 
 static lxb_status_t
@@ -392,8 +402,116 @@ lxb_punycode_callback_cp(const lxb_codepoint_t *cps, size_t len, void *ctx)
 }
 
 lxb_status_t
-lxb_punycode_decode_cp(const lxb_char_t *data, size_t length,
+lxb_punycode_decode_cp(const lxb_codepoint_t *data, size_t length,
                        lexbor_serialize_cb_cp_f cb, void *ctx)
+{
+    size_t nsize, buf_len, digit, oldi, bias, w, k, t, i, h, in;
+    const lxb_codepoint_t *delimiter, *data_p, *data_end;
+    lxb_status_t status;
+    lxb_codepoint_t cp, n;
+    lxb_codepoint_t *p, *buf, *end, *tmp;
+    lxb_codepoint_t buffer[4096];
+
+    p = buffer;
+    buf = buffer;
+    buf_len = sizeof(buffer) / sizeof(lxb_codepoint_t);
+    end = buffer + buf_len;
+
+    data_p = data;
+    data_end = data + length;
+    delimiter = data_end;
+
+    while (delimiter != data) {
+        delimiter -= 1;
+
+        if (*delimiter == LXB_PUNYCODE_DELIMITER) {
+            break;
+        }
+    }
+
+    while (data_p < delimiter) {
+        cp = *data_p++;
+
+        if (cp >= 0x80) {
+            return LXB_STATUS_ERROR_UNEXPECTED_DATA;
+        }
+
+        if (p >= end) {
+            LXB_PUNYCODE_DECODE_REALLOC(p, buf, end);
+        }
+
+        *p++ = cp;
+    }
+
+    i = 0;
+    n = LXB_PUNYCODE_INITIAL_N;
+    bias = LXB_PUNYCODE_INITIAL_BIAS;
+    data_p = (delimiter != data) ? delimiter + 1: data;
+    in = data_p - data;
+
+    for (; in < length; p++) {
+        for (oldi = i, w = 1, k = LXB_PUNYCODE_BASE; ; k += LXB_PUNYCODE_BASE) {
+            if (in >= length) {
+                return LXB_STATUS_ERROR_UNEXPECTED_DATA;
+            }
+
+            cp = data[in++];
+            digit = lxb_punycode_decode_digit(cp);
+
+            if (digit >= LXB_PUNYCODE_BASE) {
+                return LXB_STATUS_ERROR_UNEXPECTED_DATA;
+            }
+
+            if (digit > (UINT32_MAX - i) / w) {
+                return LXB_STATUS_ERROR_OVERFLOW;
+            }
+
+            i += digit * w;
+            t = k <= bias ? LXB_PUNYCODE_TMIN
+            : k >= bias + LXB_PUNYCODE_TMAX ? LXB_PUNYCODE_TMAX : k - bias;
+
+            if (digit < t) {
+                break;
+            }
+
+            if (w > UINT32_MAX / (LXB_PUNYCODE_BASE - t)) {
+                return LXB_STATUS_ERROR_OVERFLOW;
+            }
+
+            w *= (LXB_PUNYCODE_BASE - t);
+        }
+
+        h = (p - buf) + 1;
+
+        bias = lxb_punycode_adapt(i - oldi, h, oldi == 0);
+
+        if (i / h > UINT32_MAX - n) {
+            return LXB_STATUS_ERROR_OVERFLOW;
+        }
+
+        n += i / h;
+        i %= h;
+
+        if (p >= end) {
+            LXB_PUNYCODE_DECODE_REALLOC(p, buf, end);
+        }
+
+        memmove(buf + i + 1, buf + i, ((h - 1) - i) * sizeof(lxb_codepoint_t));
+        buf[i++] = n;
+    }
+
+    status = cb(buf, p - buf, ctx);
+
+    if (end != buffer + buf_len) {
+        (void) lexbor_free(buf);
+    }
+
+    return status;
+}
+
+lxb_status_t
+lxb_punycode_decode_cb_cp(const lxb_char_t *data, size_t length,
+                          lexbor_serialize_cb_cp_f cb, void *ctx)
 {
     size_t nsize, buf_len, digit, oldi, bias, w, k, t, i, h, in;
     const lxb_char_t *delimiter, *data_p, *data_end;

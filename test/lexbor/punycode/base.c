@@ -31,6 +31,12 @@ callback(const lxb_char_t *data, size_t len, void *ctx)
 }
 
 static lxb_status_t
+callback_enc(const lxb_char_t *data, size_t len, void *ctx, bool unchanged)
+{
+    return callback(data, len, ctx);
+}
+
+static lxb_status_t
 callback_cp(const lxb_codepoint_t *cps, size_t len, void *ctx)
 {
     lxb_codepoint_t *out = ctx;
@@ -52,7 +58,7 @@ TEST_BEGIN(encode_chr)
 
     const lexbor_str_t input = lexbor_str("лексбор");
 
-    status = lxb_punycode_encode(input.data, input.length, callback, &str);
+    status = lxb_punycode_encode(input.data, input.length, callback_enc, &str);
     test_eq(status, LXB_STATUS_OK);
 
     test_eq_str(str.data, "90ahpcsme");
@@ -77,7 +83,7 @@ TEST_BEGIN(encode_big_buffer)
         *p++ = 0x91;
     }
 
-    status = lxb_punycode_encode(buffer, length, callback, &str);
+    status = lxb_punycode_encode(buffer, length, callback_enc, &str);
     test_eq(status, LXB_STATUS_OK);
 
     lexbor_free(str.data);
@@ -100,7 +106,7 @@ TEST_BEGIN(encode_big_buffer_edge)
         *p++ = 0x91;
     }
 
-    status = lxb_punycode_encode(buffer, length, callback, &str);
+    status = lxb_punycode_encode(buffer, length, callback_enc, &str);
     test_eq(status, LXB_STATUS_OK);
 
     lexbor_free(str.data);
@@ -191,12 +197,12 @@ TEST_BEGIN(cp)
         *p++ = lxb_encoding_decode_valid_utf_8_single(&input_p, input_end);
     }
 
-    status = lxb_punycode_encode_cp(source, p - source, callback, &str);
+    status = lxb_punycode_encode_cp(source, p - source, callback_enc, &str);
     test_eq(status, LXB_STATUS_OK);
 
     test_eq_str(str.data, "90ahpcsme");
 
-    status = lxb_punycode_decode_cp(str.data, str.length, callback_cp, out);
+    status = lxb_punycode_decode_cb_cp(str.data, str.length, callback_cp, out);
     test_eq(status, LXB_STATUS_OK);
 
     end = p;

@@ -8,7 +8,7 @@
 
 
 static lxb_status_t
-callback(const lxb_char_t *data, size_t len, void *ctx);
+callback(const lxb_char_t *data, size_t len, void *ctx, bool unchanged);
 
 
 int
@@ -94,7 +94,7 @@ failed:
 }
 
 static lxb_status_t
-callback(const lxb_char_t *data, size_t len, void *ctx)
+callback(const lxb_char_t *data, size_t len, void *ctx, bool unchanged)
 {
     printf("%.*s", (int) len, (const char *) data);
 
