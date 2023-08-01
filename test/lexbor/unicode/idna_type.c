@@ -19,7 +19,7 @@ TEST_BEGIN(all)
         count += (size_t) lxb_unicode_idna_type(cp);
     }
 
-    test_eq(count, 4165203);
+    test_eq(count, 4165205);
 }
 TEST_END
 

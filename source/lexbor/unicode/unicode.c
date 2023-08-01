@@ -1062,7 +1062,7 @@ lxb_unicode_idna_type(lxb_codepoint_t cp)
     }
 
     if (cp >= 0x323B0) {
-        if (cp < 0xE0100 || cp >= 0xE01EF) {
+        if (cp < 0xE0100 || cp > 0xE01EF) {
             return LXB_UNICODE_IDNA_DISALLOWED;
         }
 
