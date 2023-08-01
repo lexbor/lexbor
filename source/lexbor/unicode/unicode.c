@@ -1007,8 +1007,20 @@ lxb_unicode_entry_compose_hangul(lxb_codepoint_t first, lxb_codepoint_t second)
 const lxb_unicode_entry_t *
 lxb_unicode_entry(lxb_codepoint_t cp)
 {
-    uint8_t n;
     const lxb_unicode_data_t *data;
+
+    data = lxb_unicode_data(cp);
+    if (data == NULL) {
+        return NULL;
+    }
+
+    return data->entry;
+}
+
+const lxb_unicode_data_t *
+lxb_unicode_data(lxb_codepoint_t cp)
+{
+    uint8_t n;
 
     if (cp >= 0x2FA1E) {
         return NULL;
@@ -1016,12 +1028,7 @@ lxb_unicode_entry(lxb_codepoint_t cp)
 
     n = (uint8_t) (cp / 5000);
 
-    data = lxb_unicode_tables[n][ cp - (n * 5000) ];
-    if (data == NULL) {
-        return NULL;
-    }
-
-    return data->entry;
+    return lxb_unicode_tables[n][ cp - (n * 5000) ];
 }
 
 const lxb_unicode_compose_entry_t *

@@ -465,6 +465,9 @@ lxb_unicode_normalization_form_set(lxb_unicode_normalizer_t *uc,
 LXB_API const lxb_unicode_entry_t *
 lxb_unicode_entry(lxb_codepoint_t cp);
 
+LXB_API const lxb_unicode_data_t *
+lxb_unicode_data(lxb_codepoint_t cp);
+
 LXB_API const lxb_unicode_compose_entry_t *
 lxb_unicode_compose_entry(lxb_codepoint_t first, lxb_codepoint_t second);
 
