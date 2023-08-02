@@ -12,6 +12,7 @@ extern "C" {
 #endif
 
 #include "lexbor/unicode/base.h"
+#include "lexbor/unicode/idna.h"
 #include "lexbor/core/array_obj.h"
 
 

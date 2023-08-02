@@ -53,6 +53,13 @@
 #include "lexbor/encoding/encoding.h"
 
 
+typedef union {
+    lexbor_serialize_cb_cp_f cp_cb;
+    lexbor_serialize_cb_f    cb;
+}
+lxb_unicode_callback_u;
+
+
 /* Hangul syllables for modern Korean. */
 static const lxb_codepoint_t lxb_unicode_sb = 0xAC00;
 static const lxb_codepoint_t lxb_unicode_sl = 0xD7A3;
@@ -113,6 +120,11 @@ static const lxb_unicode_data_t ** lxb_unicode_tables[] = {
 };
 
 
+static lxb_status_t
+lxb_unicode_normalize_body(lxb_unicode_normalizer_t *uc, const void *data,
+                           size_t length, lxb_unicode_callback_u *cb, void *ctx,
+                           bool is_last, bool is_cp);
+
 static void
 lxb_unicode_canonical(lxb_unicode_buffer_t *starter, lxb_unicode_buffer_t *op,
                       lxb_unicode_buffer_t *p);
@@ -136,6 +148,12 @@ lxb_unicode_compatibility_decomposition(lxb_unicode_normalizer_t *uc,
                                         lxb_codepoint_t cp,
                                         lxb_unicode_buffer_t **buf,
                                         const lxb_unicode_buffer_t **end);
+
+static lxb_unicode_buffer_t *
+lxb_unicode_decomposition(lxb_unicode_normalizer_t *uc, lxb_codepoint_t cp,
+                          lxb_unicode_buffer_t **buf,
+                          const lxb_unicode_buffer_t **end,
+                          lxb_unicode_decomposition_type_t type);
 
 static lxb_unicode_buffer_t *
 lxb_unicode_entry_decomposition_hangul(lxb_unicode_normalizer_t *uc,
@@ -418,46 +436,76 @@ lxb_unicode_restore(lxb_unicode_normalizer_t *uc, const lxb_char_t *data,
     return data;
 }
 
+
+
 lxb_status_t
 lxb_unicode_normalize(lxb_unicode_normalizer_t *uc, const lxb_char_t *data,
                       size_t length, lexbor_serialize_cb_f cb, void *ctx,
                       bool is_last)
 {
+    lxb_unicode_callback_u cu = {.cb = cb};
+
+    return lxb_unicode_normalize_body(uc, data, length, &cu, ctx, is_last, false);
+}
+
+lxb_status_t
+lxb_unicode_normalize_cp(lxb_unicode_normalizer_t *uc, const lxb_codepoint_t *cps,
+                         size_t length, lexbor_serialize_cb_cp_f cb, void *ctx,
+                         bool is_last)
+{
+    lxb_unicode_callback_u cu = {.cp_cb = cb};
+
+    return lxb_unicode_normalize_body(uc, cps, length, &cu, ctx, is_last, true);
+}
+
+static lxb_status_t
+lxb_unicode_normalize_body(lxb_unicode_normalizer_t *uc, const void *data,
+                           size_t length, lxb_unicode_callback_u *cb, void *ctx,
+                           bool is_last, bool is_cp)
+{
     lxb_status_t status;
     lxb_codepoint_t cp;
-    const lxb_char_t *end, *tp;
+    const lxb_char_t *end, *tp, *np;
     lxb_unicode_buffer_t *p, *dp, *op, *buf;
     const lxb_unicode_buffer_t *buf_end;
-
-    end = data + length;
 
     buf_end = uc->end;
     p = uc->p;
 
-    if (uc->tmp_lenght != 0) {
-        data = lxb_unicode_restore(uc, data, end, &cp, is_last);
-        if (data == NULL) {
+    np = data;
+    length *= (is_cp) ? sizeof(lxb_codepoint_t) : 1;
+    end = (const lxb_char_t *) data + length;
+
+    if (uc->tmp_lenght != 0 && !is_cp) {
+        np = lxb_unicode_restore(uc, np, end, &cp, is_last);
+        if (np == NULL) {
             return LXB_STATUS_OK;
         }
 
         goto restore;
     }
 
-    while (data < end) {
-        tp = data;
+    while (np < end) {
+        if (!is_cp) {
+            tp = np;
 
-        cp = lxb_encoding_decode_valid_utf_8_single(&data, end);
-        if (cp == LXB_ENCODING_DECODE_ERROR) {
-            if (data >= end && !is_last) {
-                uc->p = p;
-                uc->tmp_lenght = end - tp;
+            cp = lxb_encoding_decode_valid_utf_8_single(&np, end);
+            if (cp == LXB_ENCODING_DECODE_ERROR) {
+                if (np >= end && !is_last) {
+                    uc->p = p;
+                    uc->tmp_lenght = end - tp;
 
-                memcpy(uc->tmp, tp, uc->tmp_lenght);
+                    memcpy(uc->tmp, tp, uc->tmp_lenght);
 
-                return LXB_STATUS_OK;
+                    return LXB_STATUS_OK;
+                }
+
+                cp = LXB_ENCODING_REPLACEMENT_CODEPOINT;
             }
-
-            cp = LXB_ENCODING_REPLACEMENT_CODEPOINT;
+        }
+        else {
+            cp = *((const lxb_codepoint_t *) np);
+            np = (const lxb_char_t *) ((const lxb_codepoint_t *) np + 1);
         }
 
     restore:
@@ -483,7 +531,13 @@ lxb_unicode_normalize(lxb_unicode_normalizer_t *uc, const lxb_char_t *data,
                     uc->ican = p;
 
                     if (p - buf >= uc->flush_cp) {
-                        status = lxb_unicode_flush(uc, cb, ctx);
+                        if (!is_cp) {
+                            status = lxb_unicode_flush(uc, cb->cb, ctx);
+                        }
+                        else {
+                            status = lxb_unicode_flush_cp(uc, cb->cp_cb, ctx);
+                        }
+
                         if (status != LXB_STATUS_OK) {
                             return status;
                         }
@@ -513,7 +567,12 @@ lxb_unicode_normalize(lxb_unicode_normalizer_t *uc, const lxb_char_t *data,
 
         uc->ican = p;
 
-        status = lxb_unicode_flush(uc, cb, ctx);
+        if (!is_cp) {
+            status = lxb_unicode_flush(uc, cb->cb, ctx);
+        }
+        else {
+            status = lxb_unicode_flush_cp(uc, cb->cp_cb, ctx);
+        }
 
         uc->p = uc->buf;
         uc->ican = uc->buf;
@@ -531,88 +590,6 @@ lxb_unicode_normalize_end(lxb_unicode_normalizer_t *uc,
                           lexbor_serialize_cb_f cb, void *ctx)
 {
     return lxb_unicode_normalize(uc, NULL, 0, cb, ctx, true);
-}
-
-lxb_status_t
-lxb_unicode_normalize_cp(lxb_unicode_normalizer_t *uc, const lxb_codepoint_t *cps,
-                         size_t length, lexbor_serialize_cb_cp_f cb, void *ctx,
-                         bool is_last)
-{
-    lxb_status_t status;
-    lxb_codepoint_t cp;
-    const lxb_codepoint_t *end;
-    lxb_unicode_buffer_t *p, *dp, *op, *buf;
-    const lxb_unicode_buffer_t *buf_end;
-
-    end = cps + length;
-
-    buf_end = uc->end;
-    p = uc->p;
-
-    while (cps < end) {
-        cp = *cps++;
-        dp = uc->decomposition(uc, cp, &p, &buf_end);
-
-        while (p < dp) {
-            if (p->ccc == 0) {
-                op = p - 1;
-                buf = uc->buf;
-
-                if (uc->starter == NULL) {
-                    lxb_unicode_reorder(op, buf);
-
-                    uc->starter = p++;
-                    continue;
-                }
-
-                uc->composition(uc->starter, op, p + 1);
-
-                if (p->cp != LXB_ENCODING_ERROR_CODEPOINT) {
-                    uc->starter = p;
-                    uc->ican = p;
-
-                    if (p - buf >= uc->flush_cp) {
-                        status = lxb_unicode_flush_cp(uc, cb, ctx);
-                        if (status != LXB_STATUS_OK) {
-                            return status;
-                        }
-
-                        buf->cp = p->cp;
-                        buf->ccc = p->ccc;
-
-                        dp = buf + (dp - p);
-                        p = buf;
-
-                        uc->starter = p;
-                        uc->ican = p;
-                    }
-                }
-            }
-
-            p += 1;
-        }
-    }
-
-    status = LXB_STATUS_OK;
-
-    if (is_last) {
-        if (uc->starter != NULL && uc->starter != p - 1) {
-            uc->composition(uc->starter, p - 1, p);
-        }
-
-        uc->ican = p;
-
-        status = lxb_unicode_flush_cp(uc, cb, ctx);
-
-        uc->p = uc->buf;
-        uc->ican = uc->buf;
-        uc->starter = NULL;
-    }
-    else {
-        uc->p = p;
-    }
-
-    return status;
 }
 
 lxb_status_t
@@ -826,62 +803,8 @@ lxb_unicode_canonical_decomposition(lxb_unicode_normalizer_t *uc,
                                     lxb_unicode_buffer_t **buf,
                                     const lxb_unicode_buffer_t **end)
 {
-    size_t i, length;
-    lxb_unicode_buffer_t *p;
-    const lxb_codepoint_t *mapping;
-    const lxb_unicode_entry_t *entry;
-    const lxb_unicode_decomposition_t *cde;
-
-    entry = lxb_unicode_entry(cp);
-
-    if (entry != NULL && entry->cde != NULL
-        && entry->cde->type == LXB_UNICODE_DECOMPOSITION_TYPE__UNDEF)
-    {
-        cde = entry->cde;
-
-        length = cde->length;
-        mapping = cde->mapping;
-
-        lxb_unicode_check_buf(uc, buf, end, length);
-        if (*buf == NULL) {
-            return NULL;
-        }
-
-        p = *buf;
-
-        for (i = 0; i < length; i++) {
-            entry = lxb_unicode_entry(mapping[i]);
-
-            p->cp = mapping[i];
-            p->ccc = (entry != NULL) ? entry->ccc : 0;
-
-            p += 1;
-        }
-    }
-    else if (cp >= lxb_unicode_sb && cp <= lxb_unicode_sl) {
-        return lxb_unicode_entry_decomposition_hangul(uc, buf, end, cp);
-    }
-    else {
-        lxb_unicode_check_buf(uc, buf, end, 1);
-        if (*buf == NULL) {
-            return NULL;
-        }
-
-        p = *buf;
-
-        if (entry != NULL) {
-            p->cp = entry->cp;
-            p->ccc = entry->ccc;
-        }
-        else {
-            p->cp = cp;
-            p->ccc = 0;
-        }
-
-        p += 1;
-    }
-
-    return p;
+    return lxb_unicode_decomposition(uc,cp, buf, end,
+                                     LXB_UNICODE_DECOMPOSITION_TYPE__UNDEF);
 }
 
 static lxb_unicode_buffer_t *
@@ -890,19 +813,36 @@ lxb_unicode_compatibility_decomposition(lxb_unicode_normalizer_t *uc,
                                         lxb_unicode_buffer_t **buf,
                                         const lxb_unicode_buffer_t **end)
 {
+    return lxb_unicode_decomposition(uc,cp, buf, end,
+                                     LXB_UNICODE_DECOMPOSITION_TYPE__LAST_ENTRY);
+}
+
+static lxb_unicode_buffer_t *
+lxb_unicode_decomposition(lxb_unicode_normalizer_t *uc, lxb_codepoint_t cp,
+                          lxb_unicode_buffer_t **buf,
+                          const lxb_unicode_buffer_t **end,
+                          lxb_unicode_decomposition_type_t type)
+{
     size_t i, length;
     lxb_unicode_buffer_t *p;
     const lxb_codepoint_t *mapping;
     const lxb_unicode_entry_t *entry;
-    const lxb_unicode_decomposition_t *kde;
+    const lxb_unicode_decomposition_t *de;
 
     entry = lxb_unicode_entry(cp);
 
-    if (entry != NULL && entry->kde != NULL) {
-        kde = entry->kde;
+    if (entry != NULL && entry->cde != NULL
+        && entry->cde->type <= type)
+    {
+        if (type == LXB_UNICODE_DECOMPOSITION_TYPE__UNDEF) {
+            de = entry->cde;
+        }
+        else {
+            de = entry->kde;
+        }
 
-        length = kde->length;
-        mapping = kde->mapping;
+        length = de->length;
+        mapping = de->mapping;
 
         lxb_unicode_check_buf(uc, buf, end, length);
         if (*buf == NULL) {
