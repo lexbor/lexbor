@@ -175,6 +175,51 @@ lxb_unicode_idna_to_ascii_cp(lxb_unicode_idna_t *idna, const lxb_codepoint_t *cp
                              lxb_unicode_idna_flag_t flags);
 
 /*
+ * Processing and converting domain name to Unicode.
+ *
+ * Does the same thing as lxb_unicode_idna_processing().
+ *
+ * Callback will be invoked only once in at end of processing.
+ *
+ * https://www.unicode.org/reports/tr46/#ToUnicode
+ *
+ * @param[in] lxb_unicode_idna_t *.
+ * @param[in] Input characters for processing. Not NULL.
+ * @param[in] Length of characters. Can be 0.
+ * @param[in] Callback for results of processing.
+ * @param[in] Context for callback.
+ * @param[in] Bitmap of IDNA flags (LXB_UNICODE_IDNA_FLAG_*).
+ *
+ * @return LXB_STATUS_OK if successful, otherwise an error status value.
+ */
+LXB_API lxb_status_t
+lxb_unicode_idna_to_unicode(lxb_unicode_idna_t *idna, const lxb_char_t *data,
+                            size_t length, lexbor_serialize_cb_f cb, void *ctx,
+                            lxb_unicode_idna_flag_t flags);
+
+/*
+ * Processing and converting domain name to Unicode for code points.
+ *
+ * This function is exactly the same as lxb_unicode_idna_to_unicode() only it
+ * takes code points instead of characters as input.
+ *
+ * Please, see lxb_unicode_idna_to_unicode() function.
+ *
+ * @param[in] lxb_unicode_idna_t *.
+ * @param[in] Input characters for processing. Not NULL.
+ * @param[in] Length of characters. Can be 0.
+ * @param[in] Callback for results of processing.
+ * @param[in] Context for callback.
+ * @param[in] Bitmap of IDNA flags (LXB_UNICODE_IDNA_FLAG_*).
+ *
+ * @return LXB_STATUS_OK if successful, otherwise an error status value.
+ */
+LXB_API lxb_status_t
+lxb_unicode_idna_to_unicode_cp(lxb_unicode_idna_t *idna, const lxb_codepoint_t *cps,
+                               size_t length, lexbor_serialize_cb_f cb, void *ctx,
+                               lxb_unicode_idna_flag_t flags);
+
+/*
  * Validity Criteria.
  *
  * The function checks the domain name for validity according to a number of

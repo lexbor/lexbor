@@ -55,6 +55,15 @@ static lxb_status_t
 lxb_unicode_idna_ascii_puny_cb(const lxb_char_t *data, size_t length, void *ctx,
                                bool unchanged);
 
+static lxb_status_t
+lxb_unicode_idna_to_unicode_cb(const lxb_codepoint_t *part, size_t len,
+                               void *ctx, lxb_status_t status);
+
+static lxb_status_t
+lxb_unicode_idna_to_unicode_body(lxb_unicode_idna_t *idna, const void *data,
+                                 size_t length, lexbor_serialize_cb_f cb,
+                                 void *ctx, lxb_unicode_idna_flag_t flags,
+                                 bool is_cp);
 
 lxb_unicode_idna_t *
 lxb_unicode_idna_create(void)
@@ -556,4 +565,132 @@ lxb_unicode_idna_validity_criteria(const lxb_char_t *data, size_t length,
     }
 
     return true;
+}
+
+lxb_status_t
+lxb_unicode_idna_to_unicode(lxb_unicode_idna_t *idna, const lxb_char_t *data,
+                            size_t length, lexbor_serialize_cb_f cb,
+                            void *ctx, lxb_unicode_idna_flag_t flags)
+{
+    return lxb_unicode_idna_to_unicode_body(idna, data, length, cb, ctx,
+                                            flags, false);
+}
+
+lxb_status_t
+lxb_unicode_idna_to_unicode_cp(lxb_unicode_idna_t *idna,
+                               const lxb_codepoint_t *cps,
+                               size_t length, lexbor_serialize_cb_f cb,
+                               void *ctx, lxb_unicode_idna_flag_t flags)
+{
+    return lxb_unicode_idna_to_unicode_body(idna, cps, length, cb, ctx,
+                                            flags, true);
+}
+
+static lxb_status_t
+lxb_unicode_idna_to_unicode_body(lxb_unicode_idna_t *idna, const void *data,
+                                 size_t length, lexbor_serialize_cb_f cb,
+                                 void *ctx, lxb_unicode_idna_flag_t flags,
+                                 bool is_cp)
+{
+    size_t len;
+    lxb_status_t status;
+    lxb_unicode_idna_ascii_ctx_t context;
+
+    context.p = context.buffer;
+    context.buf = context.buffer;
+    context.end = context.buf + sizeof(context.buffer);
+    context.flags = flags;
+
+    if (!is_cp) {
+        status = lxb_unicode_idna_processing(idna, data, length,
+                                             lxb_unicode_idna_to_unicode_cb,
+                                             &context, flags);
+    }
+    else {
+        status = lxb_unicode_idna_processing_cp(idna, data, length,
+                                                lxb_unicode_idna_to_unicode_cb,
+                                                &context, flags);
+    }
+
+    if (status != LXB_STATUS_OK) {
+        goto done;
+    }
+
+    /* Remove last U+002E ( . ) FULL STOP. */
+
+    if (context.p > context.buf) {
+        context.p -= 1;
+    }
+
+    len = context.p - context.buf;
+
+    status = cb(context.buf, len, ctx);
+
+done:
+
+    if (context.buf != context.buffer) {
+        (void) lexbor_free(context.buf);
+    }
+
+    return status;
+}
+
+
+static lxb_status_t
+lxb_unicode_idna_to_unicode_cb(const lxb_codepoint_t *part, size_t len,
+                               void *ctx, lxb_status_t status)
+{
+    int8_t res;
+    size_t length, nlen;
+    lxb_char_t *tmp;
+    const lxb_codepoint_t *p, *end;
+    lxb_unicode_idna_ascii_ctx_t *asc = ctx;
+
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    p = part;
+    end = part + len;
+
+    length = 0;
+
+    while (p < end) {
+        res = lxb_encoding_encode_utf_8_length(*p++);
+        if (res == 0) {
+            return LXB_STATUS_ERROR_UNEXPECTED_DATA;
+        }
+
+        length += res;
+    }
+
+    if (asc->p + length + 2 > asc->end) {
+        nlen = ((asc->end - asc->buf) * 4) + length + 2;
+
+        if (asc->buf == asc->buffer) {
+            tmp = lexbor_malloc(nlen);
+        }
+        else {
+            tmp = lexbor_realloc(asc->buf, nlen);
+        }
+
+        if (tmp == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+
+        asc->p = tmp + (asc->p - asc->buf);
+        asc->buf = tmp;
+        asc->end = tmp + nlen;
+    }
+
+    p = part;
+
+    while (p < end) {
+        (void) lxb_encoding_encode_utf_8_single(NULL, &asc->p, asc->end, *p++);
+    }
+
+    *asc->p++ = '.';
+    *asc->p = 0x00;
+
+    return LXB_STATUS_OK;
 }
