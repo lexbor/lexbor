@@ -2637,6 +2637,10 @@ lxb_url_host_parse(lxb_url_parser_t *parser, const lxb_char_t *data,
 
         (void) lexbor_str_destroy(&host->u.domain, mraw, false);
 
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+
         host->u.ipv4 = ipv4;
         host->type = LXB_URL_HOST_TYPE_IPV4;
 
@@ -2728,7 +2732,7 @@ lxb_url_ipv4_parse(lxb_url_parser_t *parser, const lxb_char_t *data,
     const lxb_char_t *p, *begin;
     lxb_url_error_type_t type;
 
-    static const uint64_t st[] = {0, 256, 65536, 16777216, 4294967296};
+    static const uint64_t st[] = {0, 256, 65536, 16777216, 4294967296, 0};
 
     if (data >= end) {
         return LXB_STATUS_ERROR;
@@ -2738,6 +2742,10 @@ lxb_url_ipv4_parse(lxb_url_parser_t *parser, const lxb_char_t *data,
     p = data;
     begin = data;
     out_of = -1;
+
+    /* Let's make the compiler happy. */
+
+    parts[0] = 0;
 
     while (p < end) {
         if (*p == '.') {
