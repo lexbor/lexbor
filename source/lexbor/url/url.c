@@ -1232,13 +1232,11 @@ again:
 
         if (override_state != LXB_URL_STATE__UNDEF) {
             if (lxb_url_is_special(url) != lxb_url_scheme_is_special(schm)) {
-                p += 1;
                 return LXB_STATUS_OK;
             }
 
             if (url->has_port || lxb_url_includes_credentials(url)) {
                 if (schm->type == LXB_URL_SCHEMEL_TYPE_FILE) {
-                    p += 1;
                     return LXB_STATUS_OK;
                 }
             }
@@ -1246,7 +1244,6 @@ again:
             if (url->scheme.type == LXB_URL_SCHEMEL_TYPE_FILE
                 && url->host.type == LXB_URL_HOST_TYPE_EMPTY)
             {
-                p += 1;
                 return LXB_STATUS_OK;
             }
         }
