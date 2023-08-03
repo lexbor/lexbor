@@ -2015,7 +2015,7 @@ again:
         }
 
         if (override_state != LXB_URL_STATE__UNDEF
-            && url->host.type == LXB_URL_SCHEMEL_TYPE__UNDEF)
+            && url->host.type == LXB_URL_HOST_TYPE__UNDEF)
         {
             return lxb_url_path_list_append(parser, url,
                                             mp_str.data, mp_str.length);
@@ -3283,7 +3283,7 @@ lxb_url_serialize(const lxb_url_t *url, lexbor_serialize_cb_f cb, void *ctx,
 
     /* Host. */
 
-    if (url->host.type != LXB_URL_SCHEMEL_TYPE__UNDEF) {
+    if (url->host.type != LXB_URL_HOST_TYPE__UNDEF) {
         lexbor_serialize_write(cb, dsol_str.data, dsol_str.length, ctx, status);
 
         if (lxb_url_includes_credentials(url)) {
