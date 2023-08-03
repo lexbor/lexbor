@@ -122,6 +122,7 @@ main(int argc, const char *argv[])
         TEST_PRINTLN("Failed to read directory: %s", dir_path);
     }
 
+    lxb_url_parser_memory_destroy(ctx.parser);
     lxb_url_parser_destroy(ctx.parser, true);
 
     printf("Total: " LEXBOR_FORMAT_Z "\n", ctx.total);
