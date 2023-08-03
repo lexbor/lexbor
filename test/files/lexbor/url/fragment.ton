@@ -1,0 +1,47 @@
+[
+    /* Test count: 4 */
+    /* 1 */
+    {
+        "url": "https://lexbor.com/#install",
+        "done": "https://lexbor.com/#install",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "fragment": "install",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 2 */
+    {
+        "url": "https://lexbor.com/#ins tall",
+        "done": "https://lexbor.com/#ins%20tall",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "fragment": "ins%20tall",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 3 */
+    {
+        "url": "https://lexbor.com/#",
+        "done": "https://lexbor.com/#",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "fragment": "",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 4 */
+    {
+        "url": "https://lexbor.com/#Ё",
+        "done": "https://lexbor.com/#%D0%81",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "fragment": "%D0%81",
+        "failed": false,
+        "encoding": "utf-8"
+    }
+]

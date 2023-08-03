@@ -1,0 +1,135 @@
+[
+    /* Test count: 11 */
+    /* 1 */
+    {
+        "url": "https://lexbor.com/?abc=xyz",
+        "done": "https://lexbor.com/?abc=xyz",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "abc=xyz",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 2 */
+    {
+        "url": "https://lexbor.com/?abc='",
+        "done": "https://lexbor.com/?abc=%27",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "abc=%27",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 3 */
+    {
+        "url": "my://lexbor.com/?abc='",
+        "done": "my://lexbor.com/?abc='",
+        "scheme": "my",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "abc='",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 4 */
+    {
+        "url": "https://lexbor.com/?abc=≡",
+        "done": "https://lexbor.com/?abc=%E2%89%A1",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "abc=%E2%89%A1",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 5 */
+    {
+        "url": "https://lexbor.com/?abc=≡",
+        "done": "https://lexbor.com/?abc=%81%DF",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "abc=%81%DF",
+        "failed": false,
+        "encoding": "Shift_JIS"
+    },
+    /* 6 */
+    {
+        "url": "https://lexbor.com/?abc=‽",
+        "done": "https://lexbor.com/?abc=%26%238253%3B",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "abc=%26%238253%3B",
+        "failed": false,
+        "encoding": "Shift_JIS"
+    },
+    /* 7 */
+    {
+        "url": "https://lexbor.com/?abc=¥",
+        "done": "https://lexbor.com/?abc=%1B(J\\%1B(B",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "abc=%1B(J\\%1B(B",
+        "failed": false,
+        "encoding": "ISO-2022-JP"
+    },
+    /* 8 */
+    {
+        "url": "https://lexbor.com/?abc=1+1 ≡ 2%20‽",
+        "done": "https://lexbor.com/?abc=1+1%20%81%DF%202%20%26%238253%3B",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "abc=1+1%20%81%DF%202%20%26%238253%3B",
+        "failed": false,
+        "encoding": "Shift_JIS"
+    },
+    /* 9 */
+    {
+        "url": "https://lexbor.com/?abc=≡‽",
+        "done": "https://lexbor.com/?abc=%E2%89%A1%E2%80%BD",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "abc=%E2%89%A1%E2%80%BD",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 10 */
+    {
+        "url": "https://lexbor.com/?abc=x?yz",
+        "done": "https://lexbor.com/?abc=x?yz",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "abc=x?yz",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 11 */
+    {
+        "url": "https://lexbor.com/??abc=xyz",
+        "done": "https://lexbor.com/??abc=xyz",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "?abc=xyz",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 12 */
+    {
+        "url": "https://lexbor.com/?",
+        "done": "https://lexbor.com/?",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "",
+        "failed": false,
+        "encoding": "utf-8"
+    }
+]

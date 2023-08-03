@@ -1,0 +1,197 @@
+[
+    /* Test count: 23 */
+    /* 1 */
+    {
+        "url": "https://[::ffff:192.0.2.1]",
+        "done": "https://[::ffff:c000:201]/",
+        "scheme": "https",
+        "host": "[::ffff:c000:201]",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 2 */
+    {
+        "url": "https://[::ffff:1.2.3.256]",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 3 */
+    {
+        "url": "https://[1:2:3:]",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 4 */
+    {
+        "url": "https://[1:2:3!:4]",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 5 */
+    {
+        "url": "https://[1::1::1]",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 6 */
+    {
+        "url": "https://[1:2:3:4:5:6:7:8:9]",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 7 */
+    {
+        "url": "https://[:1]",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 8 */
+    {
+        "url": "https://[0000:0000:0000:0000:0000:0000:0000:0000]",
+        "done": "https://[::]/",
+        "scheme": "https",
+        "host": "[::]",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 9 */
+    {
+        "url": "https://[ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff]",
+        "done": "https://[ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff]/",
+        "scheme": "https",
+        "host": "[ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff]",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 10 */
+    {
+        "url": "https://[ff06:0:0:0:0:0:0:c3]",
+        "done": "https://[ff06::c3]/",
+        "scheme": "https",
+        "host": "[ff06::c3]",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 11 */
+    {
+        "url": "https://[::ffff:192.1.56.10]",
+        "done": "https://[::ffff:c001:380a]/",
+        "scheme": "https",
+        "host": "[::ffff:c001:380a]",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 12 */
+    {
+        "url": "https://[0:0:0:0:0:ffff:192.1.56.10]",
+        "done": "https://[::ffff:c001:380a]/",
+        "scheme": "https",
+        "host": "[::ffff:c001:380a]",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 13 */
+    {
+        "url": "https://[123:456:789:abc:def:fed:cba:987]",
+        "done": "https://[123:456:789:abc:def:fed:cba:987]/",
+        "scheme": "https",
+        "host": "[123:456:789:abc:def:fed:cba:987]",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 14 */
+    {
+        "url": "https://[123:0:0:abc:0:0:0:987]",
+        "done": "https://[123:0:0:abc::987]/",
+        "scheme": "https",
+        "host": "[123:0:0:abc::987]",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 15 */
+    {
+        "url": "https://[0:0:0:abc:0:0:0:987]",
+        "done": "https://[::abc:0:0:0:987]/",
+        "scheme": "https",
+        "host": "[::abc:0:0:0:987]",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 16 */
+    {
+        "url": "https://[0:0:0:abc:0:0:0:0]",
+        "done": "https://[0:0:0:abc::]/",
+        "scheme": "https",
+        "host": "[0:0:0:abc::]",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 17 */
+    {
+        "url": "https://[a:0:0:b:0:0:c:d]",
+        "done": "https://[a::b:0:0:c:d]/",
+        "scheme": "https",
+        "host": "[a::b:0:0:c:d]",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 18 */
+    {
+        "url": "https://[a:0:b:c:d:0:f:1]",
+        "done": "https://[a:0:b:c:d:0:f:1]/",
+        "scheme": "https",
+        "host": "[a:0:b:c:d:0:f:1]",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 19 */
+    {
+        "url": "https://[0:0:b:c:d:0:f:1]",
+        "done": "https://[::b:c:d:0:f:1]/",
+        "scheme": "https",
+        "host": "[::b:c:d:0:f:1]",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 20 */
+    {
+        "url": "https://[0:a:b:c:d:0:f:1]",
+        "done": "https://[0:a:b:c:d:0:f:1]/",
+        "scheme": "https",
+        "host": "[0:a:b:c:d:0:f:1]",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 21 */
+    {
+        "url": "https://[0:a::c:d::f:1]",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 22 */
+    {
+        "url": "https://[]",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 23 */
+    {
+        "url": "https://[0:1:a:Ё:c:d:e:f]",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+]

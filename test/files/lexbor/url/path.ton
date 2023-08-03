@@ -1,0 +1,303 @@
+[
+    /* Test count: 30 */
+    /* 1 */
+    {
+        "url": "https://lexbor.com/docs",
+        "done": "https://lexbor.com/docs",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/docs",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 2 */
+    {
+        "url": "https://lexbor.com/docs/",
+        "done": "https://lexbor.com/docs/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/docs/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 3 */
+    {
+        "url": "https://lexbor.com/docs/html",
+        "done": "https://lexbor.com/docs/html",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/docs/html",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 4 */
+    {
+        "url": "https://lexbor.com\\docs\\html",
+        "done": "https://lexbor.com/docs/html",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/docs/html",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 5 */
+    {
+        "url": "https://lexbor.com/docs/./././html",
+        "done": "https://lexbor.com/docs/html",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/docs/html",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 6 */
+    {
+        "url": "https://lexbor.com/docs/.html",
+        "done": "https://lexbor.com/docs/.html",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/docs/.html",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 7 */
+    {
+        "url": "https://lexbor.com/docs/.",
+        "done": "https://lexbor.com/docs/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/docs/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 8 */
+    {
+        "url": "https://lexbor.com/docs/./",
+        "done": "https://lexbor.com/docs/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/docs/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 9 */
+    {
+        "url": "my://lexbor.com/docs/.",
+        "done": "my://lexbor.com/docs/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/docs/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 10 */
+    {
+        "url": "my://lexbor.com/docs/./",
+        "done": "my://lexbor.com/docs/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/docs/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 11 */
+    {
+        "url": "html://lexbor.com/docs/..",
+        "done": "html://lexbor.com/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 12 */
+    {
+        "url": "html://lexbor.com/docs/../",
+        "done": "html://lexbor.com/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 13 */
+    {
+        "url": "my://lexbor.com/docs/../",
+        "done": "my://lexbor.com/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 14 */
+    {
+        "url": "my://lexbor.com/docs/..",
+        "done": "my://lexbor.com/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 15 */
+    {
+        "url": "html://lexbor.com/docs/..html",
+        "done": "html://lexbor.com/docs/..html",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/docs/..html",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 16 */
+    {
+        "url": "html://lexbor.com/docs/../html",
+        "done": "html://lexbor.com/html",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/html",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 17 */
+    {
+        "url": "html://lexbor.com/docs/../html/../static",
+        "done": "html://lexbor.com/static",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/static",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 18 */
+    {
+        "url": "html://lexbor.com/docs/../html/../../static",
+        "done": "html://lexbor.com/static",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/static",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 19 */
+    {
+        "url": "html://lexbor.com/docs/html/../static/../../yes",
+        "done": "html://lexbor.com/yes",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/yes",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 20 */
+    {
+        "url": "html://lexbor.com/docs/../../../../",
+        "done": "html://lexbor.com/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 21 */
+    {
+        "url": "html://lexbor.com/docs/../../../../",
+        "done": "html://lexbor.com/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 22 */
+    {
+        "url": "html://lexbor.com/docs/%2e",
+        "done": "html://lexbor.com/docs/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/docs/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 23 */
+    {
+        "url": "html://lexbor.com/docs/%2e%2e",
+        "done": "html://lexbor.com/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 24 */
+    {
+        "url": "html://lexbor.com//////",
+        "done": "html://lexbor.com//////",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "//////",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 25 */
+    {
+        "url": "html://lexbor.com///..//../",
+        "done": "html://lexbor.com//",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "//",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 26 */
+    {
+        "url": "html://lexbor.com/Ё/",
+        "done": "html://lexbor.com/%D0%81/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/%D0%81/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 27 */
+    {
+        "url": "html://lexbor.com/%20",
+        "done": "html://lexbor.com/%20",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/%20",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 28 */
+    {
+        "url": "html://lexbor.com/%2",
+        "done": "html://lexbor.com/%2",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/%2",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 29 */
+    {
+        "url": "html://lexbor.com/%",
+        "done": "html://lexbor.com/%",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/%",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 30 */
+    {
+        "url": "html://lexbor.com/ /",
+        "done": "html://lexbor.com/%20/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/%20/",
+        "failed": false,
+        "encoding": "utf-8"
+    }
+]

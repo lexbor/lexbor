@@ -1,0 +1,93 @@
+[
+    /* Test count: 12 */
+    /* 1 */
+    {
+        "url": "https://lexbor.com",
+        "done": "https://lexbor.com/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 2 */
+    {
+        "url": "https://lexborcom",
+        "done": "https://lexborcom/",
+        "scheme": "https",
+        "host": "lexborcom",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 3 */
+    {
+        "url": "https://lexbo%72.com",
+        "done": "https://lexbor.com/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 4 */
+    {
+        "url": "https://%6C%65%78%62%6F%72.com",
+        "done": "https://lexbor.com/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 5 */
+    {
+        "url": "https://lexbor.%00",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 6 */
+    {
+        "url": "https://lexbor.%7F",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 7 */
+    {
+        "url": "https://lexbor.%FF",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 8 */
+    {
+        "url": "https://",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 10 */
+    {
+        "url": "https://a",
+        "done": "https://a/",
+        "scheme": "https",
+        "host": "a",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 11 */
+    {
+        "url": "https://a%5Cc",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 12 */
+    {
+        "url": "https://лексбор.рф",
+        "done": "https://xn--90ahpcsme.xn--p1ai/",
+        "scheme": "https",
+        "host": "xn--90ahpcsme.xn--p1ai",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    }
+]

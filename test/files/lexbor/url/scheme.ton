@@ -1,0 +1,139 @@
+[
+    /* Test count: 16 */
+    /* 1 */
+    {
+        "url": "https://lexbor.com",
+        "done": "https://lexbor.com/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 2 */
+    {
+        "url": "http://lexbor.com",
+        "done": "http://lexbor.com/",
+        "scheme": "http",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 3 */
+    {
+        "url": "ws://lexbor.com",
+        "done": "ws://lexbor.com/",
+        "scheme": "ws",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 4 */
+    {
+        "url": "wss://lexbor.com",
+        "done": "wss://lexbor.com/",
+        "scheme": "wss",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 5 */
+    {
+        "url": "ftp://lexbor.com",
+        "done": "ftp://lexbor.com/",
+        "scheme": "ftp",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 6 */
+    {
+        "url": "my://lexbor.com",
+        "done": "my://lexbor.com",
+        "scheme": "my",
+        "host": "lexbor.com",
+        "path": "",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 7 */
+    {
+        "url": "://lexbor.com",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 8 */
+    {
+        "url": "Ё://lexbor.com",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 9 */
+    {
+        "url": "http",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 10 */
+    {
+        "url": "http:/",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 11 */
+    {
+        "url": "http://",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 12 */
+    {
+        "url": "file://lexbor.com",
+        "done": "file://lexbor.com/",
+        "scheme": "file",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 13 */
+    {
+        "url": "file://",
+        "done": "file:///",
+        "scheme": "file",
+        "host": "",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 14 */
+    {
+        "url": "file:/",
+        "done": "file:///",
+        "scheme": "file",
+        "host": "",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 15 */
+    {
+        "url": "file:",
+        "done": "file:///",
+        "scheme": "file",
+        "host": "",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 16 */
+    {
+        "url": "file",
+        "failed": true,
+        "encoding": "utf-8"
+    }
+]

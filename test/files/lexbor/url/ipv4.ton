@@ -1,0 +1,211 @@
+[
+    /* Test count: 24 */
+    /* 1 */
+    {
+        "url": "https://1.2.3.4",
+        "done": "https://1.2.3.4/",
+        "scheme": "https",
+        "host": "1.2.3.4",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 2 */
+    {
+        "url": "https://16909060",
+        "done": "https://1.2.3.4/",
+        "scheme": "https",
+        "host": "1.2.3.4",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 3 */
+    {
+        "url": "https://0x001020304",
+        "done": "https://1.2.3.4/",
+        "scheme": "https",
+        "host": "1.2.3.4",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 4 */
+    {
+        "url": "https://0100401404",
+        "done": "https://1.2.3.4/",
+        "scheme": "https",
+        "host": "1.2.3.4",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 5 */
+    {
+        "url": "https://0x01.0x02.0x03.0x04",
+        "done": "https://1.2.3.4/",
+        "scheme": "https",
+        "host": "1.2.3.4",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 6 */
+    {
+        "url": "https://0xff.0xff.0xff.0xff",
+        "done": "https://255.255.255.255/",
+        "scheme": "https",
+        "host": "255.255.255.255",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 7 */
+    {
+        "url": "https://01.02.03.04",
+        "done": "https://1.2.3.4/",
+        "scheme": "https",
+        "host": "1.2.3.4",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 8 */
+    {
+        "url": "https://0377.0377.0377.0377",
+        "done": "https://255.255.255.255/",
+        "scheme": "https",
+        "host": "255.255.255.255",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 9 */
+    {
+        "url": "https://1.0x020304",
+        "done": "https://1.2.3.4/",
+        "scheme": "https",
+        "host": "1.2.3.4",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 10 */
+    {
+        "url": "https://1.2.0x0304",
+        "done": "https://1.2.3.4/",
+        "scheme": "https",
+        "host": "1.2.3.4",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 11 */
+    {
+        "url": "https://255.255.0xffff",
+        "done": "https://255.255.255.255/",
+        "scheme": "https",
+        "host": "255.255.255.255",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 12 */
+    {
+        "url": "https://255.255.0xffff01",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 13 */
+    {
+        "url": "https://255.256.255.255",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 14 */
+    {
+        "url": "https://255.255.255.256",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 15 */
+    {
+        "url": "https://255.255.0xffffff",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 16 */
+    {
+        "url": "https://255..",
+        "done": "https://255../",
+        "scheme": "https",
+        "host": "255..",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 17 */
+    {
+        "url": "https://255..0",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 18 */
+    {
+        "url": "https://255......0",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 19 */
+    {
+        "url": "https://255.1",
+        "done": "https://255.0.0.1/",
+        "scheme": "https",
+        "host": "255.0.0.1",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 20 */
+    {
+        "url": "https://255.",
+        "done": "https://0.0.0.255/",
+        "scheme": "https",
+        "host": "0.0.0.255",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 21 */
+    {
+        "url": "https://255.1.2.",
+        "done": "https://255.1.0.2/",
+        "scheme": "https",
+        "host": "255.1.0.2",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 22 */
+    {
+        "url": "https://.255",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 23 */
+    {
+        "url": "https://1.2.3.xv",
+        "done": "https://1.2.3.xv/",
+        "scheme": "https",
+        "host": "1.2.3.xv",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 24 */
+    {
+        "url": "https://1.2.3.4.5",
+        "failed": true,
+        "encoding": "utf-8"
+    }
+]

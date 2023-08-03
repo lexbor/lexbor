@@ -1,0 +1,61 @@
+[
+    /* Test count: 5 */
+    /* 1 */
+    {
+        "url": "https://user:pass@lexbor.com:450/docs/lexbor/?search=lxb_status_t#version",
+        "done": "https://user:pass@lexbor.com:450/docs/lexbor/?search=lxb_status_t#version",
+        "scheme": "https",
+        "username": "user",
+        "password": "pass",
+        "host": "lexbor.com",
+        "port": 450, "has_port": true,
+        "path": "/docs/lexbor/",
+        "query": "search=lxb_status_t",
+        "fragment": "version",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 2 */
+    {
+        "url": "/docs/lexbor/?search=lxb_status_t#version",
+        "base": "https://user:pass@lexbor.com:450",
+        "done": "https://user:pass@lexbor.com:450/docs/lexbor/?search=lxb_status_t#version",
+        "scheme": "https",
+        "username": "user",
+        "password": "pass",
+        "host": "lexbor.com",
+        "port": 450, "has_port": true,
+        "path": "/docs/lexbor/",
+        "query": "search=lxb_status_t",
+        "fragment": "version",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 3 */
+    {
+        "url": "https://lexbor.com",
+        "done": "https://lexbor.com/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 4 */
+    {
+        "url": "https://lexbor.com:450",
+        "done": "https://lexbor.com:450/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "port": 450, "has_port": true,
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 5 */
+    {
+        "url": "file://c%7C/",
+        "failed": true,
+        "encoding": "utf-8"
+    }
+]
