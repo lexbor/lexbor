@@ -207,5 +207,15 @@
         "url": "https://1.2.3.4.5",
         "failed": true,
         "encoding": "utf-8"
-    }
+    },
+    /* 25 */
+    {
+        "url": "https://1.2.0X0304",
+        "done": "https://1.2.3.4/",
+        "scheme": "https",
+        "host": "1.2.3.4",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
 ]

@@ -2828,7 +2828,7 @@ lxb_url_ipv4_number_parse(const lxb_char_t *data,
 
     if (data + 2 < end) {
         if (data[0] == '0') {
-            if ((data[1] == 'x' || data[0] == 'X')) {
+            if ((data[1] == 'x' || data[1] == 'X')) {
                 data += 2;
                 r = 16;
                 str_map = lexbor_str_res_map_hex;
