@@ -440,7 +440,7 @@ TEST_BEGIN(lexbor_selectors_list)
     test_eq(status, LXB_STATUS_OK);
 
     str.data = lexbor_malloc(4096 * 4);
-    str.length = 0;
+    test_ne(str.data, NULL);
 
     TEST_PRINT("\n");
 
