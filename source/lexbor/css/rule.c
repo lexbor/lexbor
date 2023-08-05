@@ -330,7 +330,6 @@ lxb_css_rule_declaration_list_destroy(lxb_css_rule_declaration_list_t *list,
                                       bool self_destroy)
 {
     lxb_css_rule_t *declr, *next;
-    lxb_css_memory_t *memory = lxb_css_rule(list)->memory;
 
     if (list == NULL) {
         return NULL;
@@ -345,7 +344,7 @@ lxb_css_rule_declaration_list_destroy(lxb_css_rule_declaration_list_t *list,
     }
 
     if (self_destroy) {
-        return lexbor_mraw_free(memory->tree, list);
+        return lexbor_mraw_free(lxb_css_rule(list)->memory->tree, list);
     }
 
     list->first = NULL;
