@@ -35,24 +35,40 @@ main(int argc, const char *argv[])
 
     status = lxb_unicode_normalize(uc, source, sizeof(source) - 1,
                                    callback, "NFC", true);
+    if (status != LXB_STATUS_OK) {
+        printf("Failed to normalize NFC.\n");
+        return EXIT_FAILURE;
+    }
 
     /* NFD */
 
     (void) lxb_unicode_normalization_form_set(uc, LXB_UNICODE_NFD);
     status = lxb_unicode_normalize(uc, source, sizeof(source) - 1,
                                    callback, "NFD", true);
+    if (status != LXB_STATUS_OK) {
+        printf("Failed to normalize NFD.\n");
+        return EXIT_FAILURE;
+    }
 
     /* NFKC */
 
     (void) lxb_unicode_normalization_form_set(uc, LXB_UNICODE_NFKC);
     status = lxb_unicode_normalize(uc, source, sizeof(source) - 1,
                                    callback, "NFKC", true);
+    if (status != LXB_STATUS_OK) {
+        printf("Failed to normalize NFKC.\n");
+        return EXIT_FAILURE;
+    }
 
     /* NFKD */
 
     (void) lxb_unicode_normalization_form_set(uc, LXB_UNICODE_NFKD);
     status = lxb_unicode_normalize(uc, source, sizeof(source) - 1,
                                    callback, "NFKD", true);
+    if (status != LXB_STATUS_OK) {
+        printf("Failed to normalize NFKD.\n");
+        return EXIT_FAILURE;
+    }
 
     (void) lxb_unicode_normalizer_destroy(uc, true);
 
