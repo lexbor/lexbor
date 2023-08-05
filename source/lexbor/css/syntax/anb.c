@@ -98,8 +98,7 @@ lxb_css_syntax_anb_state(lxb_css_parser_t *parser,
     }
 
     if (parser->status != LXB_STATUS_OK
-        || (parser->status == LXB_STATUS_OK
-            && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED))
+        || (token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED))
     {
         (void) lxb_css_syntax_anb_fail(parser, token);
     }
