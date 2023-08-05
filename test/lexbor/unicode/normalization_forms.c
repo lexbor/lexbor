@@ -75,6 +75,13 @@ test_unicode_nf(lxb_unicode_form_t form)
     lxb_char_t buffer[64];
     lexbor_str_t str = {.data = buffer, .length = 0};
 
+    uc = lxb_unicode_normalizer_create();
+    status = lxb_unicode_normalizer_init(uc, form);
+    if (status != LXB_STATUS_OK) {
+        printf("Failed to init unicode object.\n");
+        goto failed;
+    }
+
     switch (form) {
         case LXB_UNICODE_NFC:  name = "NFC";  break;
         case LXB_UNICODE_NFD:  name = "NFD";  break;
@@ -84,13 +91,6 @@ test_unicode_nf(lxb_unicode_form_t form)
     }
 
     printf("Begin %s tests:\n", name);
-
-    uc = lxb_unicode_normalizer_create();
-    status = lxb_unicode_normalizer_init(uc, form);
-    if (status != LXB_STATUS_OK) {
-        printf("Failed to init unicode object.\n");
-        goto failed;
-    }
 
     i = 0;
 
