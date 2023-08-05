@@ -73,8 +73,8 @@ static const lxb_codepoint_t lxb_unicode_vl = 0x1175;
 static const lxb_codepoint_t lxb_unicode_tb = 0x11A8;
 static const lxb_codepoint_t lxb_unicode_tl = 0x11C2;
 static const lxb_codepoint_t lxb_unicode_ts = 0x11A7;
-static const lxb_codepoint_t lxb_unicode_vc = lxb_unicode_vl - lxb_unicode_vb + 1;
-static const lxb_codepoint_t lxb_unicode_tc = lxb_unicode_tl - lxb_unicode_ts + 1;
+static const lxb_codepoint_t lxb_unicode_vc = 0x15;
+static const lxb_codepoint_t lxb_unicode_tc = 0x1C;
 
 static const lxb_unicode_data_t ** lxb_unicode_tables[] = {
     lxb_unicode_table_0,
