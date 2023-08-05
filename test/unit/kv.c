@@ -5,6 +5,7 @@
  */
 
 #include "unit/kv.h"
+#include "lexbor/core/conv.h"
 
 
 const lxb_char_t *
@@ -277,8 +278,9 @@ unit_kv_position_as_string(unit_kv_t *kv, const char *desc,
                            lexbor_str_t *str, const lxb_char_t *begin,
                            const lxb_char_t *line_begin, size_t line_count)
 {
+    size_t len;
     lxb_char_t *data;
-    char buffer[128];
+    lxb_char_t buffer[128];
 
     data = lexbor_str_append(str, kv->mraw,
                              (const lxb_char_t *) desc, strlen(desc));
@@ -293,9 +295,10 @@ unit_kv_position_as_string(unit_kv_t *kv, const char *desc,
         return NULL;
     }
 
-    sprintf(buffer, LEXBOR_FORMAT_Z, line_count);
-    data = lexbor_str_append(str, kv->mraw,
-                             (const lxb_char_t *) buffer, strlen(buffer));
+
+    len = lexbor_conv_int64_to_data((int64_t) line_count,
+                                    buffer, sizeof(buffer));
+    data = lexbor_str_append(str, kv->mraw, buffer, len);
     if (data == NULL) {
         return NULL;
     }
@@ -308,9 +311,9 @@ unit_kv_position_as_string(unit_kv_t *kv, const char *desc,
         return NULL;
     }
 
-    sprintf(buffer, LEXBOR_FORMAT_Z, (begin - line_begin));
-    data = lexbor_str_append(str, kv->mraw,
-                             (const lxb_char_t *) buffer, strlen(buffer));
+    len = lexbor_conv_int64_to_data((int64_t) (begin - line_begin),
+                                    buffer, sizeof(buffer));
+    data = lexbor_str_append(str, kv->mraw, buffer, len);
     if (data == NULL) {
         return NULL;
     }

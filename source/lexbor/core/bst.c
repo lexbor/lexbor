@@ -5,6 +5,7 @@
  */
 
 #include "lexbor/core/bst.h"
+#include "lexbor/core/conv.h"
 
 
 lexbor_bst_t *
@@ -413,8 +414,8 @@ void
 lexbor_bst_serialize_entry(lexbor_bst_entry_t *entry,
                            lexbor_callback_f callback, void *ctx, size_t tabs)
 {
-    size_t buff_len;
-    char buff[1024];
+    size_t len;
+    lxb_char_t buff[1024];
 
     if (entry == NULL) {
         return;
@@ -427,8 +428,9 @@ lexbor_bst_serialize_entry(lexbor_bst_entry_t *entry,
     callback((lxb_char_t *) "<left ", 6, ctx);
 
     if (entry->left) {
-        buff_len = sprintf(buff, LEXBOR_FORMAT_Z, entry->left->size);
-        callback((lxb_char_t *) buff, buff_len, ctx);
+        len = lexbor_conv_int64_to_data((int64_t) entry->left->size,
+                                        buff, sizeof(buff));
+        callback(buff, len, ctx);
 
         callback((lxb_char_t *) ">\n", 2, ctx);
         lexbor_bst_serialize_entry(entry->left, callback, ctx, (tabs + 1));
@@ -450,8 +452,9 @@ lexbor_bst_serialize_entry(lexbor_bst_entry_t *entry,
     callback((lxb_char_t *) "<right ", 7, ctx);
 
     if (entry->right) {
-        buff_len = sprintf(buff, LEXBOR_FORMAT_Z, entry->right->size);
-        callback((lxb_char_t *) buff, buff_len, ctx);
+        len = lexbor_conv_int64_to_data((int64_t) entry->right->size,
+                                        buff, sizeof(buff));
+        callback(buff, len, ctx);
 
         callback((lxb_char_t *) ">\n", 2, ctx);
         lexbor_bst_serialize_entry(entry->right, callback, ctx, (tabs + 1));
