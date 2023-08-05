@@ -996,8 +996,8 @@ lxb_url_start_windows_drive_letter(const lxb_char_t *data,
         return false;
     }
 
-    if (length == 2 || (length >= 3 && (   data[2] == '/' || data[2] == '\\'
-                                        || data[2] == '?' || data[2] == '#')))
+    if (length == 2 || (   data[2] == '/' || data[2] == '\\'
+                        || data[2] == '?' || data[2] == '#'))
     {
         return true;
     }
