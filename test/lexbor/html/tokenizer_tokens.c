@@ -356,12 +356,11 @@ static lxb_status_t
 check_token_attr(tokenizer_helper_t *helper, unit_kv_value_t *entry,
                  lxb_html_token_t *token)
 {
+    lxb_status_t status;
     lexbor_str_t attr_name, attr_value;
     unit_kv_value_t *value;
     unit_kv_array_t *attr_entries;
     lxb_html_token_attr_t *attr;
-
-    lxb_status_t status = LXB_STATUS_OK;
 
     value = unit_kv_hash_value_nolen_c(entry, "attr");
     if (value == NULL) {
