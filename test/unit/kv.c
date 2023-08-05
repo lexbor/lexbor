@@ -248,7 +248,6 @@ unit_kv_parse_file(unit_kv_t *kv, const lxb_char_t *filepath)
 
     dup_fp = lexbor_malloc(nread);
     if (dup_fp == NULL) {
-        fclose(fh);
         lexbor_free(data);
 
         kv->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
