@@ -436,8 +436,8 @@ unit_kv_parse_error_as_string(unit_kv_t *kv)
 
         if (token->type == UNIT_KV_TOKEN_TYPE_EOF) {
             data = (lxb_char_t *) "Unexpected END OF FILE";
-            data = lexbor_str_append(&str, kv->mraw,
-                                     data, strlen((const char *) data));
+            lexbor_str_append(&str, kv->mraw,
+                              data, strlen((const char *) data));
             return str;
         }
 
@@ -470,17 +470,12 @@ unit_kv_parse_error_as_string(unit_kv_t *kv)
 
     if (kv->error_pos == unit_kv_eof) {
         data = (lxb_char_t *) "Unexpected END OF FILE";
-        data = lexbor_str_append(&str, kv->mraw,
-                                 data, strlen((const char *) data));
+        lexbor_str_append(&str, kv->mraw, data, strlen((const char *) data));
         return str;
     }
 
-    data = unit_kv_position_as_string(kv, "Unexpected character",
-                                      &str, kv->error_pos,
-                                      kv->line_begin, kv->line_count);
-    if (data == NULL) {
-        return str;
-    }
+    unit_kv_position_as_string(kv, "Unexpected character", &str, kv->error_pos,
+                               kv->line_begin, kv->line_count);
 
     return str;
 }
