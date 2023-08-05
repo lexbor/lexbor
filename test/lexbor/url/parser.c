@@ -125,6 +125,8 @@ main(int argc, const char *argv[])
     lxb_url_parser_memory_destroy(ctx.parser);
     lxb_url_parser_destroy(ctx.parser, true);
 
+    unit_kv_destroy(ctx.kv, true);
+
     printf("Total: " LEXBOR_FORMAT_Z "\n", ctx.total);
     printf("Errors: " LEXBOR_FORMAT_Z "\n", ctx.err_count);
 
