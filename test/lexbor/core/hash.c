@@ -10,6 +10,8 @@
 
 
 typedef struct {
+    lexbor_hash_entry_t entry;
+
     lexbor_hash_t hash;
     size_t        value;
 }
