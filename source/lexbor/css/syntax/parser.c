@@ -1112,6 +1112,7 @@ lxb_css_syntax_parser_declarations_value(lxb_css_parser_t *parser,
                                          lxb_css_syntax_rule_t *rule)
 {
     bool imp;
+    uintptr_t before_important;
     lxb_status_t status;
 
     if (rule->offset > token->offset) {
@@ -1141,7 +1142,7 @@ again:
                 return token;
             }
 
-            rule->u.declarations.before_important = token->offset;
+            before_important = token->offset;
 
             lxb_css_syntax_token_consume(parser->tkz);
 
@@ -1154,6 +1155,7 @@ again:
 
             if (token->type == LXB_CSS_SYNTAX_TOKEN_DELIM) {
                 rule->important = true;
+                rule->u.declarations.before_important = before_important;
 
                 lxb_css_syntax_token_consume(parser->tkz);
 
@@ -1329,6 +1331,7 @@ lxb_css_syntax_parser_declarations_next(lxb_css_parser_t *parser,
     decl->name_begin = 0;
     decl->name_end = 0;
     decl->value_begin = 0;
+    decl->before_important = 0;
     decl->value_end = 0;
 
     return lxb_css_syntax_parser_declarations(parser, token, rule);
