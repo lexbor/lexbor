@@ -270,15 +270,19 @@ lxb_css_rule_style_serialize(const lxb_css_rule_style_t *style,
         return status;
     }
 
-    lexbor_serialize_write(cb, lc_str, (sizeof(lc_str) - 1), ctx, status);
+    if (style->declarations != NULL) {
+        lexbor_serialize_write(cb, lc_str, (sizeof(lc_str) - 1), ctx, status);
 
-    status = lxb_css_rule_declaration_list_serialize(style->declarations, cb,
-                                                     ctx);
-    if (status != LXB_STATUS_OK) {
-        return status;
+        status = lxb_css_rule_declaration_list_serialize(style->declarations,
+                                                         cb, ctx);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+
+        return cb(rc_str, (sizeof(rc_str) - 1), ctx);
     }
 
-    return cb(rc_str, (sizeof(rc_str) - 1), ctx);
+    return LXB_STATUS_OK;
 }
 
 lxb_css_rule_bad_style_t *
