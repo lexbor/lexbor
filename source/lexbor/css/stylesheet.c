@@ -321,7 +321,9 @@ lxb_css_stylesheet_list_rules_end(lxb_css_parser_t *parser,
                                   const lxb_css_syntax_token_t *token,
                                   void *ctx, bool failed)
 {
-    lxb_css_rule_list_append(ctx, parser->context);
+    if (parser->context != NULL) {
+        lxb_css_rule_list_append(ctx, parser->context);
+    }
 
     parser->context = ctx;
 
