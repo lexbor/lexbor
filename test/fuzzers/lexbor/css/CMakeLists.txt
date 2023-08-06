@@ -8,9 +8,9 @@ include_directories(".")
 ################
 ## Sources
 #########################
-file(GLOB_RECURSE FUZZ_LEXBOR_CSS_SYNTAX_SOURCES "syntax/*.c")
+file(GLOB_RECURSE FUZZ_LEXBOR_CSS_SOURCES "*.c")
 
 ################
 ## Create
 #########################
-EXECUTABLE_LIST("fuzz_lexbor_css_syntax_" "${FUZZ_LEXBOR_CSS_SYNTAX_SOURCES}" ${TEST_LEXBOR_LIB_NAME})
+EXECUTABLE_LIST("fuzz_lexbor_css_" "${FUZZ_LEXBOR_CSS_SOURCES}" ${TEST_LEXBOR_LIB_NAME})
