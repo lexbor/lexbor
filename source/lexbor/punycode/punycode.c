@@ -243,6 +243,12 @@ lxb_punycode_encode(const lxb_char_t *data, size_t length,
     lxb_char_t buffer[4096];
     lxb_codepoint_t input[4096];
 
+    /*
+     * Make GCC happy.
+     * length variable can be 0.
+     */
+    input[0] = 0x00;
+
     p = buffer;
     buf = buffer;
     end = buffer + sizeof(buffer);
@@ -359,6 +365,12 @@ lxb_punycode_callback_cp(const lxb_codepoint_t *cps, size_t len, void *ctx)
     lexbor_serialize_ctx_t *nctx = ctx;
     lxb_char_t *p, *buf, *end;
     lxb_char_t buffer[4096];
+
+    /*
+     * Make GCC happy.
+     * len variable can be 0.
+     */
+    buffer[0] = 0x00;
 
     cps_p = cps;
     cps_end = cps_p + len;
