@@ -144,6 +144,14 @@ TEST_BEGIN(encode)
 
     enc_data = lxb_encoding_data(LXB_ENCODING_UTF_16BE);
 
+    /*
+     * Make GCC happy.
+     * Why here? warning: 'ch4' may be used uninitialized.
+     * Why not in the other functions of this file? Where it's the same.
+     * The "encode_single" callback does not read the buffer, it only fills it.
+     */
+    memset(ch4, 0x00, sizeof(ch4));
+
     ref = ch4;
     size = enc_data->encode_single(&ctx, &ref, ref + 2, 0x9FFF);
     test_eq(size, 2);

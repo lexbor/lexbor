@@ -147,6 +147,9 @@ test_encode_process_file(const lxb_test_entry_t *entry, void *ctx, size_t line)
         return status;
     }
 
+    /* Make GCC happy. */
+    memset(data, 0x00, sizeof(data));
+
     ref = data;
     end = data + sizeof(data) - 1;
 
