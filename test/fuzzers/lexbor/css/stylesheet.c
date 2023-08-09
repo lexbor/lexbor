@@ -13,14 +13,6 @@ callback(const lxb_char_t *data, size_t len, void *ctx)
     return LXB_STATUS_OK;
 }
 
-#ifndef LEXBOR_HAVE_FUZZER
-int
-main(int argc, const char *argv[])
-{
-    return EXIT_SUCCESS;
-}
-#endif
-
 int
 LLVMFuzzerTestOneInput(const uint8_t *data, size_t length)
 {

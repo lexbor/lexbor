@@ -279,6 +279,14 @@ ENDIF()
 
 FEATURE_CHECK_FUZZER(LEXBOR_HAVE_FUZZER)
 IF(${LEXBOR_HAVE_FUZZER})
+    set(LEXBOR_BUILD_EXAMPLES OFF)
+    set(LEXBOR_BUILD_UTILS OFF)
+
+    message(STATUS "Build only fuzzing test.")
+    message(STATUS "Set LEXBOR_BUILD_TESTS to OFF.")
+    message(STATUS "Set LEXBOR_BUILD_EXAMPLES to OFF.")
+    message(STATUS "Set LEXBOR_BUILD_UTILS to OFF.")
+
     add_definitions(-DLEXBOR_HAVE_FUZZER)
 ENDIF()
 

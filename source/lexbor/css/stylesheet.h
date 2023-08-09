@@ -25,10 +25,15 @@ struct lxb_css_stylesheet {
     void                     *element; /* lxb_html_style_element_t * */
 };
 
+LXB_API lxb_css_stylesheet_t *
+lxb_css_stylesheet_create(lxb_css_memory_t *memory);
 
 LXB_API lxb_css_stylesheet_t *
 lxb_css_stylesheet_destroy(lxb_css_stylesheet_t *sst, bool destroy_memory);
 
+LXB_API lxb_css_stylesheet_t *
+lxb_css_stylesheet_parse(lxb_css_parser_t *parser,
+                         const lxb_char_t *data, size_t length);
 
 LXB_API lxb_status_t
 lxb_css_stylesheet_prepare(lxb_css_parser_t *parser, lxb_css_memory_t *memory,
@@ -40,22 +45,6 @@ lxb_css_stylesheet_process(lxb_css_parser_t *parser,
 
 LXB_API void
 lxb_css_stylesheet_finish(lxb_css_parser_t *parser);
-
-
-LXB_API lxb_css_stylesheet_t *
-lxb_css_stylesheet_parse(lxb_css_parser_t *parser,
-                         const lxb_char_t *data, size_t length);
-
-
-/*
- * Inline functions
- */
-lxb_inline lxb_css_stylesheet_t *
-lxb_css_stylesheet_create(lxb_css_memory_t *memory)
-{
-    return (lxb_css_stylesheet_t *) lexbor_mraw_calloc(memory->mraw,
-                                                 sizeof(lxb_css_stylesheet_t));
-}
 
 
 #ifdef __cplusplus

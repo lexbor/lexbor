@@ -17,14 +17,6 @@ static lxb_status_t
 callback_cp(const lxb_codepoint_t *cps, size_t len, void *ctx);
 
 
-#ifndef LEXBOR_HAVE_FUZZER
-int
-main(int argc, const char * argv[])
-{
-    return EXIT_SUCCESS;
-}
-#endif
-
 int
 LLVMFuzzerTestOneInput(const uint8_t *data, size_t length)
 {

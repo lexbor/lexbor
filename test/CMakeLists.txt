@@ -8,7 +8,9 @@ include_directories(".")
 ################
 ## Includes
 #########################
-include(unit/CMakeLists.txt)
+IF(NOT LEXBOR_HAVE_FUZZER)
+    include(unit/CMakeLists.txt)
+ENDIF()
 
 ################
 ## Variables
@@ -26,5 +28,8 @@ ENDIF()
 ################
 ## Subs
 #########################
-FIND_AND_APPEND_SUB_DIRS("lexbor" OFF)
-FIND_AND_APPEND_SUB_DIRS("fuzzers/lexbor" OFF)
+IF(NOT LEXBOR_HAVE_FUZZER)
+    FIND_AND_APPEND_SUB_DIRS("lexbor" OFF)
+ELSE()
+    FIND_AND_APPEND_SUB_DIRS("fuzzers/lexbor" OFF)
+ENDIF()

@@ -86,49 +86,60 @@ int main(void) {
 ENDMACRO()
 
 MACRO(FEATURE_CHECK_FUZZER out_result)
-    set(lexbor_fuzzer_flags "-O0 -g -fsanitize=fuzzer")
+    IF(NOT LEXBOR_BUILD_WITH_FUZZER)
+        message(STATUS "Feature Fuzzer: disable")
+    ELSE()
+        set(lexbor_old_c_flags "${CMAKE_C_FLAGS}")
+        set(lexbor_old_cxx_flags "${CMAKE_CXX_FLAGS}")
+        set(lexbor_fuzzer_flags "-O0 -g -fsanitize=fuzzer")
+        set(feature_filename "${CMAKE_BINARY_DIR}/feature_check.c")
 
-    IF(LEXBOR_BUILD_WITH_FUZZER)
+        STRING(REGEX REPLACE " ?-O[0-9]" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+        STRING(REGEX REPLACE " ?-O[0-9]" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${lexbor_fuzzer_flags}")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${lexbor_fuzzer_flags}")
-    ENDIF()
 
-    set(feature_filename "${CMAKE_BINARY_DIR}/feature_check.c")
-
-    set(FEATUTE_CHECK_STRING "
+        set(FEATUTE_CHECK_STRING "
 #include <sanitizer/asan_interface.h>
 
 int
 LLVMFuzzerTestOneInput(const uint8_t *data, size_t size)
 {
     return 0;
-}")
+}
+")
 
-    file(WRITE ${feature_filename} "${FEATUTE_CHECK_STRING}")
+        file(WRITE ${feature_filename} "${FEATUTE_CHECK_STRING}")
 
-    try_compile(${out_result} "${CMAKE_BINARY_DIR}" "${feature_filename}"
-        CMAKE_FLAGS "-DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}"
-    )
+        try_compile(${out_result} "${CMAKE_BINARY_DIR}" "${feature_filename}"
+            CMAKE_FLAGS "${lexbor_fuzzer_flags}"
+            OUTPUT_VARIABLE OUTPUT
+        )
 
-    IF(${${out_result}})
-        message(STATUS "Feature Fuzzer: enabled")
-    ELSE()
-        message(STATUS "Feature Fuzzer: disable")
-    ENDIF()
-
-    file(REMOVE ${feature_filename})
-
-    IF(LEXBOR_BUILD_WITH_FUZZER)
-        IF(NOT ${${out_result}})
-            STRING(REGEX REPLACE " ${lexbor_fuzzer_flags}" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
-            STRING(REGEX REPLACE " ${lexbor_fuzzer_flags}" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-        ELSE()
+        IF(${out_result})
+            message(STATUS "Feature Fuzzer: enabled")
             message(STATUS "Updated CFLAGS: ${CMAKE_C_FLAGS}")
             message(STATUS "Updated CXXFLAGS: ${CMAKE_CXX_FLAGS}")
-        ENDIF()
-    ENDIF()
 
-    unset(lexbor_fuzzer_flags)
-    unset(FEATUTE_CHECK_STRING)
-    unset(feature_filename)
+            set(${out_result} TRUE)
+        ELSE()
+            set(CMAKE_C_FLAGS ${lexbor_old_c_flags})
+            set(CMAKE_CXX_FLAGS ${lexbor_old_cxx_flags})
+
+            message(STATUS "Feature Fuzzer: аn error was received at compilation.")
+            message(STATUS "Feature Fuzzer OUTPUT:")
+            message(FATAL_ERROR ${OUTPUT})
+
+            set(${out_result} FALSE)
+        ENDIF()
+
+        file(REMOVE ${feature_filename})
+
+        unset(lexbor_old_c_flags)
+        unset(lexbor_old_cxx_flags)
+        unset(lexbor_fuzzer_flags)
+        unset(FEATUTE_CHECK_STRING)
+        unset(feature_filename)
+    ENDIF()
 ENDMACRO()

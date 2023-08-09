@@ -134,6 +134,13 @@ static const lxb_css_syntax_cb_declarations_t lxb_css_stylesheet_declarations = 
 
 
 lxb_css_stylesheet_t *
+lxb_css_stylesheet_create(lxb_css_memory_t *memory)
+{
+    return (lxb_css_stylesheet_t *) lexbor_mraw_calloc(memory->mraw,
+                                                       sizeof(lxb_css_stylesheet_t));
+}
+
+lxb_css_stylesheet_t *
 lxb_css_stylesheet_destroy(lxb_css_stylesheet_t *sst, bool destroy_memory)
 {
     lxb_css_memory_t *memory;
