@@ -66,22 +66,23 @@ end:
 lxb_status_t
 lxb_css_syntax_stack_expand(lxb_css_parser_t *parser, size_t count)
 {
-    uint8_t *begin;
-    uintptr_t size, new_size;
+    size_t length, cur_len, size;
+    lxb_css_syntax_rule_t *p;
 
     if ((parser->rules + count) >= parser->rules_end) {
-        size = (parser->rules_end - parser->rules_begin);
+        cur_len = parser->rules - parser->rules_begin;
 
-        new_size = (count + 32) * sizeof(lxb_css_syntax_rule_t);
+        length = cur_len + count + 128;
+        size = length * sizeof(lxb_css_syntax_rule_t);
 
-        begin = lexbor_realloc(parser->rules_begin, new_size + size);
-        if (begin == NULL) {
+        p = lexbor_realloc(parser->rules_begin, size);
+        if (p == NULL) {
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         }
 
-        parser->rules_begin = (lxb_css_syntax_rule_t *) begin;
-        parser->rules_end = (lxb_css_syntax_rule_t *) (begin + new_size);
-        parser->rules = (lxb_css_syntax_rule_t *) (begin + size) - 1;
+        parser->rules_begin = p;
+        parser->rules_end = p + length;
+        parser->rules = p + (cur_len - 1);
     }
 
     return LXB_STATUS_OK;

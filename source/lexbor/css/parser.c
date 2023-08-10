@@ -156,25 +156,29 @@ lxb_css_parser_state_t *
 lxb_css_parser_states_push(lxb_css_parser_t *parser,
                            lxb_css_parser_state_f state, void *ctx, bool root)
 {
+    size_t length, cur_length;
     lxb_css_parser_state_t *states = ++parser->states;
 
     if (states >= parser->states_end) {
-        size_t length = parser->states_end - parser->states_begin;
-        size_t new_length = length + 1024;
+        cur_length = states - parser->states_begin;
 
-        if (SIZE_MAX - length < 1024) {
+        if (SIZE_MAX - cur_length < 1024) {
             goto memory_error;
         }
 
+        length = cur_length + 1024;
+
         states = lexbor_realloc(parser->states_begin,
-                                new_length * sizeof(lxb_css_parser_state_t));
+                                length * sizeof(lxb_css_parser_state_t));
         if (states == NULL) {
             goto memory_error;
         }
 
         parser->states_begin = states;
-        parser->states_end = states + new_length;
-        parser->states = states + length;
+        parser->states_end = states + length;
+        parser->states = states + cur_length;
+
+        states = parser->states;
     }
 
     states->state = state;
