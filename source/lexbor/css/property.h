@@ -195,18 +195,25 @@ typedef struct {
 }
 lxb_css_property_hanging_punctuation_t;
 
-typedef struct {
+typedef struct lxb_css_property_family_name lxb_css_property_family_name_t;
+
+struct lxb_css_property_family_name {
     bool generic;
 
     union {
         lxb_css_font_family_type_t type;
         lexbor_str_t               str;
     } u;
-}
-lxb_css_property_family_name_t;
+
+    lxb_css_property_family_name_t *next;
+    lxb_css_property_family_name_t *prev;
+};
 
 typedef struct {
-    lexbor_array_obj_t *families; /* lxb_css_property_family_name_t */
+    lxb_css_property_family_name_t *first;
+    lxb_css_property_family_name_t *last;
+
+    size_t                         count;
 }
 lxb_css_property_font_family_t;
 

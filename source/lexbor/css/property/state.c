@@ -3068,22 +3068,18 @@ lxb_css_property_state_font_family(lxb_css_parser_t *parser,
 {
     size_t length;
     const lxb_char_t *data;
-    lxb_status_t status;
     lexbor_str_t *str;
+    lexbor_mraw_t *mraw;
     lxb_css_value_type_t type;
     lxb_css_rule_declaration_t *declar = ctx;
-    lxb_css_property_font_family_t *ff = declar->u.font_family;
+    lxb_css_property_font_family_t *ff;
     lxb_css_property_family_name_t *name;
 
-    ff->families = lexbor_array_obj_create();
-    status = lexbor_array_obj_init(ff->families, 3,
-                                   sizeof(lxb_css_property_family_name_t));
-    if (status != LXB_STATUS_OK) {
-        return lxb_css_parser_memory_fail(parser);
-    }
+    mraw = parser->memory->mraw;
+    ff = declar->u.font_family;
 
     while (token != NULL) {
-        name = lexbor_array_obj_push(ff->families);
+        name = lexbor_mraw_alloc(mraw, sizeof(lxb_css_property_family_name_t));
         if (name == NULL) {
             return lxb_css_parser_memory_fail(parser);
         }
@@ -3108,9 +3104,11 @@ lxb_css_property_state_font_family(lxb_css_parser_t *parser,
             return lxb_css_parser_failed(parser);
         }
 
+        name->generic = false;
+
         str = &name->u.str;
 
-        (void) lexbor_str_init(str, parser->memory->mraw, length);
+        (void) lexbor_str_init(str, mraw, length);
         if (name->u.str.data == NULL) {
             return lxb_css_parser_memory_fail(parser);
         }
@@ -3121,6 +3119,17 @@ lxb_css_property_state_font_family(lxb_css_parser_t *parser,
         str->length = length;
 
     next:
+
+        if (ff->first == NULL) {
+            ff->first = name;
+        }
+        else {
+            ff->last->next = name;
+        }
+
+        name->next = NULL;
+        name->prev = ff->last;
+        ff->last = name;
 
         lxb_css_syntax_parser_consume(parser);
         token = lxb_css_syntax_parser_token_wo_ws(parser);

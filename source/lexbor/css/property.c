@@ -1809,9 +1809,20 @@ lxb_css_property_font_family_destroy(lxb_css_memory_t *memory,
                                      void *style, bool self_destroy)
 {
     lxb_css_property_font_family_t *ff = style;
+    lxb_css_property_family_name_t *name, *next;
 
-    if (ff->families != NULL) {
-        (void) lexbor_array_obj_destroy(ff->families, true);
+    name = ff->first;
+
+    while (name != NULL) {
+        next = name->next;
+
+        if (!name->generic) {
+            (void) lexbor_str_destroy(&name->u.str, memory->mraw, false);
+        }
+
+        lexbor_mraw_free(memory->mraw, name);
+
+        name = next;
     }
 
     return lxb_css_property__undef_destroy(memory, style, self_destroy);
@@ -1821,37 +1832,31 @@ lxb_status_t
 lxb_css_property_font_family_serialize(const void *style,
                                        lexbor_serialize_cb_f cb, void *ctx)
 {
-    size_t i;
     lxb_status_t status;
     const lxb_css_property_font_family_t *ff = style;
-    lexbor_array_obj_t *arr = ff->families;
     const lxb_css_property_family_name_t *name;
 
     static const lexbor_str_t str_comma = lexbor_str(", ");
 
-    i = 0;
+    name = ff->first;
 
-    while (i < arr->length) {
-        name = lexbor_array_obj_get(arr, i);
-
+    while (name != NULL) {
         if (name->generic) {
             status = lxb_css_value_serialize(name->u.type, cb, ctx);
-            if (status != LXB_STATUS_OK) {
-                return status;
-            }
         }
         else {
             status = lxb_css_syntax_ident_or_string_serialize(name->u.str.data,
                                                               name->u.str.length,
                                                               cb, ctx);
-            if (status != LXB_STATUS_OK) {
-                return status;
-            }
         }
 
-        ++i;
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
 
-        if (i != arr->length) {
+        name = name->next;
+
+        if (name != NULL) {
             lexbor_serialize_write(cb, str_comma.data, str_comma.length,
                                    ctx, status);
         }
