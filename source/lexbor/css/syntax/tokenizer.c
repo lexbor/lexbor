@@ -344,7 +344,7 @@ lxb_css_syntax_tokenizer_next_chunk(lxb_css_syntax_tokenizer_t *tkz,
 lxb_status_t
 lxb_css_syntax_tokenizer_tokens_expand(lxb_css_syntax_tokenizer_t *tkz)
 {
-    lxb_css_syntax_token_t **ext;
+    lxb_css_syntax_token_t **ext, **last;
     lxb_css_syntax_token_t **list = tkz->list;
 
     static const size_t length = 1028;
@@ -376,15 +376,19 @@ lxb_css_syntax_tokenizer_tokens_expand(lxb_css_syntax_tokenizer_t *tkz)
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
 
+    last = list + tkz->list_length;
     ext = &list[ tkz->last - tkz->list ];
 
-    memset(ext, 0x00, (list - ext) * sizeof(lxb_css_syntax_token_t *));
+    memset(ext, 0x00, (last - ext) * sizeof(lxb_css_syntax_token_t *));
 
-    tkz->prepared = list + (tkz->prepared - tkz->list);
+    if (tkz->prepared != NULL) {
+        tkz->prepared = list + (tkz->prepared - tkz->list);
+    }
+
     tkz->current = list + (tkz->current - tkz->list);
-    tkz->last = list + tkz->list_length;
     tkz->token = list + (tkz->token - tkz->list);
     tkz->list = list;
+    tkz->last = last;
 
     return LXB_STATUS_OK;
 }
