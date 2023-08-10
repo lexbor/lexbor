@@ -39,7 +39,7 @@ lexbor_conv_int64_to_data(int64_t num, lxb_char_t *buf, size_t len)
 
         if (num < 0) {
             length = 1;
-            num -= num;
+            num = -num;
             have_minus = 1;
         }
 
@@ -62,7 +62,7 @@ lexbor_conv_int64_to_data(int64_t num, lxb_char_t *buf, size_t len)
     if (len < length) {
         i = (length + have_minus) - len;
 
-        while (i != 0) {
+        while (i != have_minus) {
             i -= 1;
             num /= 10;
         }
@@ -77,7 +77,7 @@ lexbor_conv_int64_to_data(int64_t num, lxb_char_t *buf, size_t len)
     i = length;
     buf[length] = '\0';
 
-    while (i != 0) {
+    while (i != have_minus) {
         i -= 1;
         buf[i] = digits[ num % 10 ];
         num /= 10;
