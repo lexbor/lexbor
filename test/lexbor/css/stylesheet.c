@@ -110,6 +110,25 @@ TEST_BEGIN(prepared_token)
 }
 TEST_END
 
+TEST_BEGIN(eof_offset)
+{
+    lxb_status_t status;
+    lxb_css_parser_t *parser;
+    lxb_css_stylesheet_t *sst;
+
+    const lexbor_str_t input = lexbor_str("url((\\");
+
+    parser = lxb_css_parser_create();
+    status = lxb_css_parser_init(parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    sst = lxb_css_stylesheet_parse(parser, input.data, input.length);
+    test_eq(sst, NULL);
+
+    (void) lxb_css_parser_destroy(parser, true);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -117,6 +136,7 @@ main(int argc, const char * argv[])
 
     TEST_ADD(deep_selectors);
     TEST_ADD(prepared_token);
+    TEST_ADD(eof_offset);
 
     TEST_RUN("lexbor/css/stylesheet");
     TEST_RELEASE();

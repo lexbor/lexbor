@@ -2597,6 +2597,10 @@ lxb_css_syntax_state_bad_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_tok
         /* U+005C REVERSE SOLIDUS (\) */
         else if (*data == 0x5C) {
             data++;
+
+            if (data >= end) {
+                continue;
+            }
         }
 
         data++;
