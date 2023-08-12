@@ -63,7 +63,7 @@ lxb_css_syntax_token_consume(lxb_css_syntax_tokenizer_t *tkz)
     lxb_css_syntax_token_t *token;
 
     if (tkz->cache_pos < tkz->cache->length) {
-        if (tkz->prepared != 0 & tkz->cache_pos >= tkz->prepared) {
+        if (tkz->prepared != 0 && tkz->cache_pos >= tkz->prepared) {
             return;
         }
 
