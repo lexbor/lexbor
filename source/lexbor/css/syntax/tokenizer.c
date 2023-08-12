@@ -225,6 +225,10 @@ lxb_css_syntax_tokenizer_cache_expand(lxb_css_syntax_tokenizer_cache_t *cache,
     size_t new_size;
     lxb_css_syntax_token_t **list;
 
+    if (cache == NULL) {
+        return NULL;
+    }
+
     new_size = cache->length + up_to;
     list = lexbor_realloc(cache->list,
                           sizeof(lxb_css_syntax_token_t *) * new_size);
