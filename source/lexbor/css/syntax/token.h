@@ -214,6 +214,9 @@ LXB_API lxb_status_t
 lxb_css_syntax_token_string_make(lxb_css_syntax_tokenizer_t *tkz,
                                  lxb_css_syntax_token_t *token);
 
+LXB_API lxb_css_syntax_token_t *
+lxb_css_syntax_token_cached_create(lxb_css_syntax_tokenizer_t *tkz);
+
 LXB_API void
 lxb_css_syntax_token_string_free(lxb_css_syntax_tokenizer_t *tkz,
                                  lxb_css_syntax_token_t *token);

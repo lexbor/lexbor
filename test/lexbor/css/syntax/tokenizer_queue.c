@@ -13,7 +13,7 @@
 TEST_BEGIN(tokenizer_queue)
 {
     lxb_status_t status;
-    lxb_css_syntax_token_t *token, *origin;
+    lxb_css_syntax_token_t *token, *origin, *last;
     lxb_css_syntax_tokenizer_t *tkz;
 
     static const lxb_char_t css[] = "#id #class #id #class #id #class #id";
@@ -60,6 +60,8 @@ TEST_BEGIN(tokenizer_queue)
     test_ne(token, origin);
     test_eq(token->type, origin->type);
 
+    last = token;
+
     token = lxb_css_syntax_token(tkz);
     test_ne(token, NULL);
     test_eq(token, origin);
@@ -70,7 +72,7 @@ TEST_BEGIN(tokenizer_queue)
 
     token = lxb_css_syntax_token_next(tkz);
     test_ne(token, NULL);
-    test_eq(token, origin);
+    test_eq(token, last);
 
     (void) lxb_css_syntax_tokenizer_destroy(tkz);
 }

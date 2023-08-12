@@ -670,7 +670,6 @@ again:
 
                 case '|':
                 case '*':
-                    lxb_css_syntax_parser_consume(parser);
                     status = lxb_css_selectors_state_element_ns(parser, token);
                     break;
 
@@ -970,7 +969,6 @@ again:
 
                 case '|':
                 case '*':
-                    lxb_css_syntax_parser_consume(parser);
                     status = lxb_css_selectors_state_element_ns(parser, token);
                     break;
 
@@ -1042,6 +1040,7 @@ static lxb_status_t
 lxb_css_selectors_state_hash(lxb_css_parser_t *parser,
                              const lxb_css_syntax_token_t *token)
 {
+    lxb_status_t status;
     lxb_css_selector_t *selector;
     lxb_css_selectors_t *selectors;
     lxb_css_selector_list_t *last;
@@ -1061,19 +1060,22 @@ lxb_css_selectors_state_hash(lxb_css_parser_t *parser,
         lxb_css_selector_sp_set_a(last->specificity, 1);
     }
 
-    lxb_css_syntax_parser_consume(parser);
     lxb_css_selectors_state_append(parser, selectors, selector);
 
     selector->type = LXB_CSS_SELECTOR_TYPE_ID;
 
-    return lxb_css_syntax_token_string_dup(lxb_css_syntax_token_string(token),
-                                      &selector->name, parser->memory->mraw);
+    status = lxb_css_syntax_token_string_dup(lxb_css_syntax_token_string(token),
+                                             &selector->name, parser->memory->mraw);
+    lxb_css_syntax_parser_consume(parser);
+
+    return status;
 }
 
 static lxb_status_t
 lxb_css_selectors_state_class(lxb_css_parser_t *parser,
                               const lxb_css_syntax_token_t *token)
 {
+    lxb_status_t status;
     lxb_css_selector_t *selector;
     lxb_css_selectors_t *selectors;
 
@@ -1083,14 +1085,15 @@ lxb_css_selectors_state_class(lxb_css_parser_t *parser,
         selectors = parser->selectors;
 
         lxb_css_selectors_state_specificity_set_b(selectors);
-
-        lxb_css_syntax_parser_consume(parser);
         lxb_css_selectors_state_append(parser, selectors, selector);
 
         selector->type = LXB_CSS_SELECTOR_TYPE_CLASS;
 
-        return lxb_css_syntax_token_string_dup(lxb_css_syntax_token_string(token),
-                                        &selector->name, parser->memory->mraw);
+        status = lxb_css_syntax_token_string_dup(lxb_css_syntax_token_string(token),
+                                                 &selector->name, parser->memory->mraw);
+        lxb_css_syntax_parser_consume(parser);
+
+        return status;
     }
 
     return lxb_css_parser_unexpected_status(parser);
@@ -1122,6 +1125,8 @@ lxb_css_selectors_state_element_ns(lxb_css_parser_t *parser,
         lxb_css_syntax_parser_consume(parser);
         return lxb_css_selectors_state_ns(parser, selector);
     }
+
+    lxb_css_syntax_parser_consume(parser);
 
     return lxb_css_selectors_state_ns_ident(parser, selector);
 }
@@ -1368,6 +1373,7 @@ static lxb_status_t
 lxb_css_selectors_state_ns_ident(lxb_css_parser_t *parser,
                                  lxb_css_selector_t *selector)
 {
+    lxb_status_t status;
     const lxb_css_syntax_token_t *token;
     lxb_css_selectors_t *selectors;
 
@@ -1376,7 +1382,6 @@ lxb_css_selectors_state_ns_ident(lxb_css_parser_t *parser,
     if (token->type == LXB_CSS_SYNTAX_TOKEN_IDENT) {
         selectors = parser->selectors;
 
-        lxb_css_syntax_parser_consume(parser);
         lxb_css_selectors_state_specificity_set_c(selectors);
 
         selector->type = LXB_CSS_SELECTOR_TYPE_ELEMENT;
@@ -1384,8 +1389,12 @@ lxb_css_selectors_state_ns_ident(lxb_css_parser_t *parser,
         selector->ns = selector->name;
         lexbor_str_clean_all(&selector->name);
 
-        return lxb_css_syntax_token_string_dup(lxb_css_syntax_token_string(token),
+        status = lxb_css_syntax_token_string_dup(lxb_css_syntax_token_string(token),
                                            &selector->name, parser->memory->mraw);
+
+        lxb_css_syntax_parser_consume(parser);
+
+        return status;
     }
     else if (token->type == LXB_CSS_SYNTAX_TOKEN_DELIM
              && lxb_css_syntax_token_delim_char(token) == '*')

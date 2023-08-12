@@ -50,6 +50,7 @@ main(int argc, const char *argv[])
     lxb_status_t status;
     lxb_css_syntax_token_t *token;
     lxb_css_syntax_tokenizer_t *tkz;
+    lxb_css_syntax_token_type_t type;
     char inbuf[buffer_size];
 
     tkz = lxb_css_syntax_tokenizer_create();
@@ -76,9 +77,11 @@ main(int argc, const char *argv[])
 
         lxb_css_syntax_token_serialize(token, callback, NULL);
 
+        type = lxb_css_syntax_token_type(token);
+
         lxb_css_syntax_token_consume(tkz);
     }
-    while (lxb_css_syntax_token_type(token) != LXB_CSS_SYNTAX_TOKEN__EOF);
+    while (type != LXB_CSS_SYNTAX_TOKEN__EOF);
 
     lxb_css_syntax_tokenizer_destroy(tkz);
 
@@ -117,6 +120,7 @@ LLVMFuzzerTestOneInput(const uint8_t *data, size_t length)
     lxb_status_t status;
     lxb_css_syntax_token_t *token;
     lxb_css_syntax_tokenizer_t *tkz;
+    lxb_css_syntax_token_type_t type;
 
     tkz = lxb_css_syntax_tokenizer_create();
     if (tkz == NULL) {
@@ -144,9 +148,11 @@ LLVMFuzzerTestOneInput(const uint8_t *data, size_t length)
 
         lxb_css_syntax_token_serialize(token, callback, NULL);
 
+        type = lxb_css_syntax_token_type(token);
+
         lxb_css_syntax_token_consume(tkz);
     }
-    while (lxb_css_syntax_token_type(token) != LXB_CSS_SYNTAX_TOKEN__EOF);
+    while (type != LXB_CSS_SYNTAX_TOKEN__EOF);
 
     lxb_css_syntax_tokenizer_destroy(tkz);
 

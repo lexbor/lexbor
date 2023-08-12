@@ -25,6 +25,10 @@
 lxb_css_syntax_token_t *
 lxb_css_syntax_tokenizer_token(lxb_css_syntax_tokenizer_t *tkz);
 
+lxb_status_t
+lxb_css_syntax_tokenizer_cache_push(lxb_css_syntax_tokenizer_cache_t *cache,
+                                    lxb_css_syntax_token_t *value);
+
 
 typedef struct {
     lexbor_str_t  *str;
@@ -40,10 +44,8 @@ lxb_css_syntax_token_str_cb(const lxb_char_t *data, size_t len, void *ctx);
 lxb_css_syntax_token_t *
 lxb_css_syntax_token(lxb_css_syntax_tokenizer_t *tkz)
 {
-    if (tkz->current < tkz->token) {
-        if (tkz->prepared == NULL || *tkz->prepared > *tkz->current) {
-            return *tkz->current;
-        }
+    if (tkz->cache_pos < tkz->cache->length && tkz->prepared == 0) {
+        return tkz->cache->list[tkz->cache_pos];
     }
 
     return lxb_css_syntax_tokenizer_token(tkz);
@@ -58,14 +60,23 @@ lxb_css_syntax_token_next(lxb_css_syntax_tokenizer_t *tkz)
 void
 lxb_css_syntax_token_consume(lxb_css_syntax_tokenizer_t *tkz)
 {
-    if (tkz->current < tkz->token) {
-        lxb_css_syntax_token_string_free(tkz, *tkz->current);
+    lxb_css_syntax_token_t *token;
 
-        tkz->current++;
+    if (tkz->cache_pos < tkz->cache->length) {
+        if (tkz->prepared != 0 & tkz->cache_pos >= tkz->prepared) {
+            return;
+        }
 
-        if (tkz->current >= tkz->token) {
-            tkz->current = tkz->list;
-            tkz->token = tkz->list;
+        token = tkz->cache->list[tkz->cache_pos];
+
+        lxb_css_syntax_token_string_free(tkz, token);
+        lexbor_dobject_free(tkz->tokens, token);
+
+        tkz->cache_pos += 1;
+
+        if (tkz->cache_pos >= tkz->cache->length) {
+            tkz->cache->length = 0;
+            tkz->cache_pos = 0;
         }
     }
 }
@@ -147,6 +158,30 @@ copy:
 
     return LXB_STATUS_OK;
 }
+
+lxb_css_syntax_token_t *
+lxb_css_syntax_token_cached_create(lxb_css_syntax_tokenizer_t *tkz)
+{
+    lxb_status_t status;
+    lxb_css_syntax_token_t *token;
+
+    token = lexbor_dobject_alloc(tkz->tokens);
+    if (token == NULL) {
+        tkz->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        return NULL;
+    }
+
+    status = lxb_css_syntax_tokenizer_cache_push(tkz->cache, token);
+    if (status != LXB_STATUS_OK) {
+        tkz->status = status;
+        return NULL;
+    }
+
+    token->cloned = false;
+
+    return token;
+}
+
 
 void
 lxb_css_syntax_token_string_free(lxb_css_syntax_tokenizer_t *tkz,

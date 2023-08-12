@@ -190,41 +190,14 @@ lxb_css_syntax_state_dimension_set(lxb_css_syntax_tokenizer_t *tkz,
     return data;
 }
 
-static lxb_css_syntax_token_t *
-lxb_css_syntax_tokenizer_token_append(lxb_css_syntax_tokenizer_t *tkz)
+lxb_inline lxb_css_syntax_token_t *
+lxb_css_syntax_state_token_create(lxb_css_syntax_tokenizer_t *tkz)
 {
-    lxb_status_t status;
-    lxb_css_syntax_token_t *token;
-
-    if (tkz->token >= tkz->last) {
-        status = lxb_css_syntax_tokenizer_tokens_expand(tkz);
-        if (status != LXB_STATUS_OK) {
-            tkz->status = status;
-            return NULL;
-        }
+    if (tkz->prepared == 0) {
+        tkz->prepared = tkz->cache->length;
     }
 
-    token = *tkz->token;
-
-    if (token == NULL) {
-        token = lexbor_dobject_alloc(tkz->tokens);
-        if (token == NULL) {
-            tkz->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-            return NULL;
-        }
-
-        *tkz->token = token;
-    }
-
-    if (tkz->prepared == NULL) {
-        tkz->prepared = tkz->token;
-    }
-
-    token->cloned = false;
-
-    tkz->token++;
-
-    return token;
+    return lxb_css_syntax_token_cached_create(tkz);
 }
 
 /*
@@ -249,7 +222,7 @@ lxb_css_syntax_list_append_delim(lxb_css_syntax_tokenizer_t *tkz,
 {
     lxb_css_syntax_token_t *delim;
 
-    delim = lxb_css_syntax_tokenizer_token_append(tkz);
+    delim = lxb_css_syntax_state_token_create(tkz);
     if (delim == NULL) {
         return NULL;
     }
@@ -1329,7 +1302,7 @@ ident:
 
     LXB_CSS_SYNTAX_DELIM_APPEND(tkz, mark, 1, '!');
 
-    ident = lxb_css_syntax_tokenizer_token_append(tkz);
+    ident = lxb_css_syntax_state_token_create(tkz);
     if (ident == NULL) {
         return NULL;
     }
@@ -2264,7 +2237,7 @@ with_ws:
         str->data = tkz->start;
         *tkz->pos = 0x00;
 
-        ws = lxb_css_syntax_tokenizer_token_append(tkz);
+        ws = lxb_css_syntax_state_token_create(tkz);
         if (ws == NULL) {
             return NULL;
         }

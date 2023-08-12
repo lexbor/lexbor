@@ -17,6 +17,22 @@
 
 static const lxb_char_t lxb_css_syntax_tokenizer_important[] = "important";
 
+static lxb_css_syntax_tokenizer_cache_t *
+lxb_css_syntax_tokenizer_cache_create(void);
+
+static lxb_status_t
+lxb_css_syntax_tokenizer_cache_init(lxb_css_syntax_tokenizer_cache_t *cache,
+                                    size_t size);
+
+static void
+lxb_css_syntax_tokenizer_cache_clean(lxb_css_syntax_tokenizer_cache_t *cache);
+
+static lxb_css_syntax_tokenizer_cache_t *
+lxb_css_syntax_tokenizer_cache_destroy(lxb_css_syntax_tokenizer_cache_t *cache);
+
+LXB_API lxb_status_t
+lxb_css_syntax_tokenizer_cache_push(lxb_css_syntax_tokenizer_cache_t *cache,
+                                    lxb_css_syntax_token_t *value);
 
 static lxb_status_t
 lxb_css_syntax_tokenizer_blank(lxb_css_syntax_tokenizer_t *tkz,
@@ -55,35 +71,28 @@ lxb_status_t
 lxb_css_syntax_tokenizer_init(lxb_css_syntax_tokenizer_t *tkz)
 {
     lxb_status_t status;
-    lxb_css_syntax_token_t **list;
-
     static const unsigned tmp_size = 1024;
 
     if (tkz == NULL) {
         return LXB_STATUS_ERROR_OBJECT_IS_NULL;
     }
 
-    /* Init list for tokens. */
-
-    tkz->list_length = 64;
+    /* Tokens. */
 
     tkz->tokens = lexbor_dobject_create();
-    status = lexbor_dobject_init(tkz->tokens, tkz->list_length,
+    status = lexbor_dobject_init(tkz->tokens, 128,
                                  sizeof(lxb_css_syntax_token_t));
     if (status != LXB_STATUS_OK) {
         return status;
     }
 
-    list = lexbor_calloc(tkz->list_length, sizeof(lxb_css_syntax_token_t *));
-    if (list == NULL) {
-        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-    }
+    /* Cache for Tokens. */
 
-    tkz->token = list;
-    tkz->last = list + tkz->list_length;
-    tkz->current = list;
-    tkz->prepared = NULL;
-    tkz->list = list;
+    tkz->cache = lxb_css_syntax_tokenizer_cache_create();
+    status = lxb_css_syntax_tokenizer_cache_init(tkz->cache, 128);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
 
     /* Memory for text. */
 
@@ -111,6 +120,8 @@ lxb_css_syntax_tokenizer_init(lxb_css_syntax_tokenizer_t *tkz)
     }
 
     tkz->offset = 0;
+    tkz->cache_pos = 0;
+    tkz->prepared = 0;
 
     tkz->eof = false;
     tkz->with_comment = false;
@@ -126,13 +137,12 @@ lxb_css_syntax_tokenizer_clean(lxb_css_syntax_tokenizer_t *tkz)
 {
     lexbor_mraw_clean(tkz->mraw);
     lexbor_array_obj_clean(tkz->parse_errors);
-
-    tkz->token = tkz->list;
-    tkz->last = tkz->list + tkz->list_length;
-    tkz->current = tkz->list;
-    tkz->prepared = NULL;
+    lxb_css_syntax_tokenizer_cache_clean(tkz->cache);
+    lexbor_dobject_clean(tkz->tokens);
 
     tkz->offset = 0;
+    tkz->cache_pos = 0;
+    tkz->prepared = 0;
 
     tkz->eof = false;
     tkz->status = LXB_STATUS_OK;
@@ -152,7 +162,7 @@ lxb_css_syntax_tokenizer_destroy(lxb_css_syntax_tokenizer_t *tkz)
 
     if (tkz->tokens != NULL) {
         tkz->tokens = lexbor_dobject_destroy(tkz->tokens, true);
-        tkz->list = lexbor_free(tkz->list);
+        tkz->cache = lxb_css_syntax_tokenizer_cache_destroy(tkz->cache);
     }
 
     tkz->mraw = lexbor_mraw_destroy(tkz->mraw, true);
@@ -164,6 +174,86 @@ lxb_css_syntax_tokenizer_destroy(lxb_css_syntax_tokenizer_t *tkz)
 
     return lexbor_free(tkz);
 }
+
+static lxb_css_syntax_tokenizer_cache_t *
+lxb_css_syntax_tokenizer_cache_create(void)
+{
+    return lexbor_calloc(1, sizeof(lxb_css_syntax_tokenizer_cache_t));
+}
+
+static lxb_status_t
+lxb_css_syntax_tokenizer_cache_init(lxb_css_syntax_tokenizer_cache_t *cache,
+                                    size_t size)
+{
+    cache->length = 0;
+    cache->size = size;
+
+    cache->list = lexbor_malloc(sizeof(lxb_css_syntax_token_t *) * size);
+    if (cache->list == NULL) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    return LXB_STATUS_OK;
+}
+
+static void
+lxb_css_syntax_tokenizer_cache_clean(lxb_css_syntax_tokenizer_cache_t *cache)
+{
+    if (cache != NULL) {
+        cache->length = 0;
+    }
+}
+
+static lxb_css_syntax_tokenizer_cache_t *
+lxb_css_syntax_tokenizer_cache_destroy(lxb_css_syntax_tokenizer_cache_t *cache)
+{
+    if (cache == NULL) {
+        return NULL;
+    }
+
+    if (cache->list) {
+        lexbor_free(cache->list);
+    }
+
+    return lexbor_free(cache);
+}
+
+static lxb_css_syntax_token_t **
+lxb_css_syntax_tokenizer_cache_expand(lxb_css_syntax_tokenizer_cache_t *cache,
+                                      size_t up_to)
+{
+    size_t new_size;
+    lxb_css_syntax_token_t **list;
+
+    new_size = cache->length + up_to;
+    list = lexbor_realloc(cache->list,
+                          sizeof(lxb_css_syntax_token_t *) * new_size);
+    if (cache == NULL) {
+        return NULL;
+    }
+
+    cache->list = list;
+    cache->size = new_size;
+
+    return list;
+}
+
+lxb_status_t
+lxb_css_syntax_tokenizer_cache_push(lxb_css_syntax_tokenizer_cache_t *cache,
+                                    lxb_css_syntax_token_t *value)
+{
+    if (cache->length >= cache->size) {
+        if ((lxb_css_syntax_tokenizer_cache_expand(cache, 128) == NULL)) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+    }
+
+    cache->list[ cache->length ] = value;
+    cache->length++;
+
+    return LXB_STATUS_OK;
+}
+
 
 static lxb_status_t
 lxb_css_syntax_tokenizer_blank(lxb_css_syntax_tokenizer_t *tkz,
@@ -190,22 +280,23 @@ lxb_css_syntax_tokenizer_token(lxb_css_syntax_tokenizer_t *tkz)
     begin = tkz->in_begin;
     end = tkz->in_end;
 
-    if (tkz->prepared != NULL) {
-        token = *tkz->prepared;
-        token->offset = tkz->offset;
+    if (tkz->prepared != 0) {
+        if (tkz->cache_pos < tkz->prepared) {
+            token = tkz->cache->list[tkz->prepared - 1];
 
-        if (tkz->current < tkz->prepared) {
-            if (lxb_css_syntax_token_string_make(tkz, *(tkz->prepared - 1))
-                != LXB_STATUS_OK)
-            {
+            status = lxb_css_syntax_token_string_make(tkz, token);
+            if (status != LXB_STATUS_OK) {
                 return NULL;
             }
         }
 
-        tkz->prepared++;
+        token = tkz->cache->list[tkz->prepared];
+        token->offset = tkz->offset;
 
-        if (tkz->prepared >= tkz->token) {
-            tkz->prepared = NULL;
+        tkz->prepared += 1;
+
+        if (tkz->prepared >= tkz->cache->length) {
+            tkz->prepared = 0;
         }
 
         if (lxb_css_syntax_token_base(token)->length != 0) {
@@ -236,37 +327,21 @@ lxb_css_syntax_tokenizer_token(lxb_css_syntax_tokenizer_t *tkz)
         goto done;
     }
 
-    if (tkz->token >= tkz->last) {
-        status = lxb_css_syntax_tokenizer_tokens_expand(tkz);
+    if (tkz->cache_pos < tkz->cache->length) {
+        token = tkz->cache->list[tkz->cache->length - 1];
+
+        status = lxb_css_syntax_token_string_make(tkz, token);
         if (status != LXB_STATUS_OK) {
-            tkz->status = status;
             return NULL;
         }
     }
 
-    token = *tkz->token;
-
+    token = lxb_css_syntax_token_cached_create(tkz);
     if (token == NULL) {
-        token = lexbor_dobject_alloc(tkz->tokens);
-        if (token == NULL) {
-            tkz->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-            return NULL;
-        }
-
-        *tkz->token = token;
+        return NULL;
     }
 
     token->offset = tkz->offset;
-
-    if (tkz->current < tkz->token) {
-        if (lxb_css_syntax_token_string_make(tkz, *(tkz->token - 1))
-            != LXB_STATUS_OK)
-        {
-            return NULL;
-        }
-    }
-
-    tkz->token++;
 
 again:
 
@@ -341,76 +416,24 @@ lxb_css_syntax_tokenizer_next_chunk(lxb_css_syntax_tokenizer_t *tkz,
     return LXB_STATUS_OK;
 }
 
-lxb_status_t
-lxb_css_syntax_tokenizer_tokens_expand(lxb_css_syntax_tokenizer_t *tkz)
-{
-    lxb_css_syntax_token_t **ext, **last;
-    lxb_css_syntax_token_t **list = tkz->list;
-
-    static const size_t length = 1028;
-
-    /*
-    if (tkz->token != tkz->last) {
-        return NULL;
-    }
-     */
-
-    if (tkz->current >= tkz->token) {
-        tkz->token = tkz->list;
-        tkz->last = tkz->list + tkz->list_length;
-        tkz->current = tkz->list;
-
-        return LXB_STATUS_OK;
-    }
-
-    if ((SIZE_MAX - tkz->list_length) < length) {
-        return LXB_STATUS_ERROR_OVERFLOW;
-    }
-
-    tkz->list_length += length;
-
-    list = lexbor_realloc(list, (tkz->list_length
-                                 * sizeof(lxb_css_syntax_token_t *)));
-    if (list == NULL) {
-        tkz->list_length -= length;
-        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-    }
-
-    last = list + tkz->list_length;
-    ext = &list[ tkz->last - tkz->list ];
-
-    memset(ext, 0x00, (last - ext) * sizeof(lxb_css_syntax_token_t *));
-
-    if (tkz->prepared != NULL) {
-        tkz->prepared = list + (tkz->prepared - tkz->list);
-    }
-
-    tkz->current = list + (tkz->current - tkz->list);
-    tkz->token = list + (tkz->token - tkz->list);
-    tkz->list = list;
-    tkz->last = last;
-
-    return LXB_STATUS_OK;
-}
-
 bool
 lxb_css_syntax_tokenizer_lookup_colon(lxb_css_syntax_tokenizer_t *tkz)
 {
     const lxb_char_t *p, *end;
     lxb_css_syntax_token_t *token;
-    lxb_css_syntax_token_t **next = tkz->current + 1;
-    lxb_css_syntax_token_t **last = tkz->token;
 
-    if (next < last) {
-        if ((*next)->type == LXB_CSS_SYNTAX_TOKEN_WHITESPACE) {
-            next++;
+    if (tkz->cache_pos + 1 < tkz->cache->length) {
+        token = tkz->cache->list[tkz->cache_pos + 1];
+
+        if (token->type == LXB_CSS_SYNTAX_TOKEN_WHITESPACE) {
+            if (tkz->cache_pos + 2 < tkz->cache->length) {
+                token = tkz->cache->list[tkz->cache_pos + 2];
+
+                return token->type == LXB_CSS_SYNTAX_TOKEN_COLON;
+            }
         }
-        else if ((*next)->type == LXB_CSS_SYNTAX_TOKEN_COLON) {
+        else if (token->type == LXB_CSS_SYNTAX_TOKEN_COLON) {
             return true;
-        }
-
-        if (next < last) {
-            return (*next)->type == LXB_CSS_SYNTAX_TOKEN_COLON;
         }
     }
 
@@ -460,16 +483,14 @@ lxb_css_syntax_tokenizer_lookup_important(lxb_css_syntax_tokenizer_t *tkz,
 {
     const lxb_char_t *p, *end;
     lxb_css_syntax_token_t *token;
-    lxb_css_syntax_token_t **next = tkz->current + 1;
-    lxb_css_syntax_token_t **last = tkz->token;
 
     static const size_t length = sizeof(lxb_css_syntax_tokenizer_important) - 1;
 
     p = tkz->in_begin;
     end = tkz->in_end;
 
-    if (next < last) {
-        token = *next;
+    if (tkz->cache_pos + 1 < tkz->cache->length) {
+        token = tkz->cache->list[tkz->cache_pos + 1];
 
         if (token->type == LXB_CSS_SYNTAX_TOKEN_IDENT) {
             return false;
@@ -483,19 +504,17 @@ lxb_css_syntax_tokenizer_lookup_important(lxb_css_syntax_tokenizer_t *tkz,
             return false;
         }
 
-        next++;
+        if (tkz->cache_pos + 2 < tkz->cache->length) {
+            token = tkz->cache->list[tkz->cache_pos + 2];
 
-        if (next < last) {
-            if ((*next)->type == LXB_CSS_SYNTAX_TOKEN_WHITESPACE) {
-                next++;
-
-                if (next >= last) {
+            if (token->type == LXB_CSS_SYNTAX_TOKEN_WHITESPACE) {
+                if (tkz->cache_pos + 3 >= tkz->cache->length) {
                     return lxb_css_syntax_tokenizer_lookup_important_end(tkz,
                                                  p, end, stop_ch, stop, false);
                 }
-            }
 
-            token = *next;
+                token = tkz->cache->list[tkz->cache_pos + 3];
+            }
 
             return (token->type == LXB_CSS_SYNTAX_TOKEN_SEMICOLON
                     || token->type == stop
@@ -625,14 +644,15 @@ lxb_css_syntax_tokenizer_lookup_declaration_ws_end(lxb_css_syntax_tokenizer_t *t
                                                    lxb_css_syntax_token_type_t stop,
                                                    const lxb_char_t stop_ch)
 {
+    lxb_css_syntax_token_t *token;
     const lxb_char_t *p, *end;
-    lxb_css_syntax_token_t **next = tkz->current + 1;
-    lxb_css_syntax_token_t **last = tkz->token;
 
-    if (next < last) {
-        switch ((*next)->type) {
+    if (tkz->cache_pos + 1 < tkz->cache->length) {
+        token = tkz->cache->list[tkz->cache_pos + 1];
+
+        switch (token->type) {
             case LXB_CSS_SYNTAX_TOKEN_DELIM:
-                if (lxb_css_syntax_token_delim(*tkz->current)->character != '!') {
+                if (lxb_css_syntax_token_delim(token)->character != '!') {
                     return lxb_css_syntax_tokenizer_lookup_important(tkz, stop,
                                                                      stop_ch);
                 }
@@ -643,8 +663,8 @@ lxb_css_syntax_tokenizer_lookup_declaration_ws_end(lxb_css_syntax_tokenizer_t *t
                 return true;
 
             default:
-                return (*next)->type == stop_ch ||
-                       (*next)->type == LXB_CSS_SYNTAX_TOKEN__EOF;
+                return token->type == stop_ch ||
+                       token->type == LXB_CSS_SYNTAX_TOKEN__EOF;
         }
     }
 

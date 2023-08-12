@@ -33,16 +33,16 @@ enum lxb_css_syntax_tokenizer_opt {
     LXB_CSS_SYNTAX_TOKENIZER_OPT_UNDEF = 0x00,
 };
 
-struct lxb_css_syntax_tokenizer {
-    /* Current process token */
-    lxb_css_syntax_token_t             **token;
-    lxb_css_syntax_token_t             **last;
-    lxb_css_syntax_token_t             **current;
-    lxb_css_syntax_token_t             **prepared;
+typedef struct {
+    lxb_css_syntax_token_t **list;
+    size_t                 size;
+    size_t                 length;
+}
+lxb_css_syntax_tokenizer_cache_t;
 
+struct lxb_css_syntax_tokenizer {
+    lxb_css_syntax_tokenizer_cache_t   *cache;
     lexbor_dobject_t                   *tokens;
-    lxb_css_syntax_token_t             **list;
-    size_t                             list_length;
 
     lexbor_array_obj_t                 *parse_errors;
 
@@ -51,6 +51,8 @@ struct lxb_css_syntax_tokenizer {
     const lxb_char_t                   *begin;
 
     uintptr_t                          offset;
+    size_t                             cache_pos;
+    size_t                             prepared;
 
     lexbor_mraw_t                      *mraw;
 
@@ -87,9 +89,6 @@ lxb_css_syntax_tokenizer_destroy(lxb_css_syntax_tokenizer_t *tkz);
 LXB_API lxb_status_t
 lxb_css_syntax_tokenizer_next_chunk(lxb_css_syntax_tokenizer_t *tkz,
                                     const lxb_char_t **data, const lxb_char_t **end);
-
-LXB_API lxb_status_t
-lxb_css_syntax_tokenizer_tokens_expand(lxb_css_syntax_tokenizer_t *tkz);
 
 LXB_API bool
 lxb_css_syntax_tokenizer_lookup_colon(lxb_css_syntax_tokenizer_t *tkz);
