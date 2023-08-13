@@ -2545,24 +2545,38 @@ LXB_API lxb_status_t
 lxb_css_property_vertical_align_serialize(const void *style,
                                           lexbor_serialize_cb_f cb, void *ctx)
 {
+    bool is;
     lxb_status_t status;
     const lxb_css_property_vertical_align_t *va = style;
 
     static const lexbor_str_t str_ws = lexbor_str(" ");
 
+    is = false;
+
     if (va->type != LXB_CSS_VALUE__UNDEF) {
-        return lxb_css_value_serialize(va->type, cb, ctx);
+        status = lxb_css_value_serialize(va->type, cb, ctx);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+
+        is = true;
     }
 
     if (va->alignment.type != LXB_CSS_VALUE__UNDEF) {
+        if (is) {
+            lexbor_serialize_write(cb, str_ws.data, str_ws.length, ctx, status);
+        }
+
         status = lxb_css_value_serialize(va->alignment.type, cb, ctx);
         if (status != LXB_STATUS_OK) {
             return status;
         }
+
+        is = true;
     }
 
     if (va->shift.type != LXB_CSS_VALUE__UNDEF) {
-        if (va->alignment.type != LXB_CSS_VALUE__UNDEF) {
+        if (is) {
             lexbor_serialize_write(cb, str_ws.data, str_ws.length, ctx, status);
         }
 
@@ -2572,7 +2586,7 @@ lxb_css_property_vertical_align_serialize(const void *style,
         }
     }
 
-    return lxb_css_value_serialize(va->type, cb, ctx);
+    return LXB_STATUS_OK;
 }
 
 /* Baseline-source. */

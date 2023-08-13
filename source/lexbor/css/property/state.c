@@ -4441,28 +4441,77 @@ lxb_css_property_state_vertical_align(lxb_css_parser_t *parser,
                                       const lxb_css_syntax_token_t *token, void *ctx)
 {
     bool res;
+    uint8_t maps;
     lxb_css_value_type_t type;
     lxb_css_rule_declaration_t *declar = ctx;
     lxb_css_property_vertical_align_t *va = declar->u.vertical_align;
 
+    maps = 0;
+
+again:
+
     res = lxb_css_property_state_alignment_baseline_h(parser, token,
                                                       &va->alignment);
     if (res) {
-        (void) lxb_css_property_state_baseline_shift_h(parser, token,
-                                                       &va->shift);
-        return lxb_css_parser_success(parser);
+        if (maps & 1 << 1) {
+            return lxb_css_parser_failed(parser);
+        }
+
+        maps |= 1 << 1;
+
+        token = lxb_css_syntax_parser_token_wo_ws(parser);
+        lxb_css_property_state_check_token(parser, token);
+
+        res = lxb_css_property_state_baseline_shift_h(parser, token,
+                                                      &va->shift);
+        if (res) {
+            if (maps & 1 << 2) {
+                return lxb_css_parser_failed(parser);
+            }
+
+            maps |= 1 << 2;
+
+            token = lxb_css_syntax_parser_token_wo_ws(parser);
+            lxb_css_property_state_check_token(parser, token);
+        }
     }
     else {
         res = lxb_css_property_state_baseline_shift_h(parser, token,
                                                       &va->shift);
         if (res) {
-            (void) lxb_css_property_state_alignment_baseline_h(parser, token,
-                                                               &va->alignment);
-            return lxb_css_parser_success(parser);
+            if (maps & 1 << 2) {
+                return lxb_css_parser_failed(parser);
+            }
+
+            maps |= 1 << 2;
+
+            token = lxb_css_syntax_parser_token_wo_ws(parser);
+            lxb_css_property_state_check_token(parser, token);
+
+            res = lxb_css_property_state_alignment_baseline_h(parser, token,
+                                                              &va->alignment);
+            if (res) {
+                if (maps & 1 << 1) {
+                    return lxb_css_parser_failed(parser);
+                }
+
+                maps |= 1 << 1;
+
+                token = lxb_css_syntax_parser_token_wo_ws(parser);
+                lxb_css_property_state_check_token(parser, token);
+            }
         }
     }
 
     if (token->type != LXB_CSS_SYNTAX_TOKEN_IDENT) {
+        if (maps != 0) {
+            return lxb_css_parser_success(parser);
+        }
+
+        return lxb_css_parser_failed(parser);
+    }
+
+    if (maps & 1 << 3) {
         return lxb_css_parser_failed(parser);
     }
 
@@ -4486,7 +4535,12 @@ lxb_css_property_state_vertical_align(lxb_css_parser_t *parser,
 
     lxb_css_syntax_parser_consume(parser);
 
-    return lxb_css_parser_success(parser);
+    token = lxb_css_syntax_parser_token_wo_ws(parser);
+    lxb_css_property_state_check_token(parser, token);
+
+    maps = 1 << 3;
+
+    goto again;
 }
 
 bool
