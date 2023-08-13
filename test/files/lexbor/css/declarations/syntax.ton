@@ -1,5 +1,5 @@
 [
-    /* Test count: 25 */
+    /* Test count: 26 */
     /* 1 */
     {
         "data": "name: value",
@@ -177,6 +177,13 @@
             {"at": true, "type": "custom", "name": "at-some", "value": " xxx {yyy}"},
             {"at": true, "type": "custom", "name": "at-some", "value": " xxx"},
             {"type": "custom", "name": "myprop", "value": "1px", "important": false}
+        ]
+    },
+    /* 26 */
+    {
+        "data": "text-decoration: hsl(20 blah err",
+        "results": [
+            {"type": "undef", "name": "text-decoration", "value": "hsl(20 blah err", "important": false},
         ]
     }
 ]

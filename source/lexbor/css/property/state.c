@@ -1056,12 +1056,22 @@ lxb_css_property_state_color_lch(lxb_css_parser_t *parser,
     return true;
 }
 
+/*
+ * Return:
+ *     true  and status always LXB_STATUS_OK — token consumed, ok.
+ *     false and status != LXB_STATUS_OK     — token consumed, not ok.
+ *     false and status == LXB_STATUS_OK     — token not consumed, not ok.
+ */
 static bool
 lxb_css_property_state_color_handler(lxb_css_parser_t *parser,
                                      const lxb_css_syntax_token_t *token,
-                                     lxb_css_value_color_t *color)
+                                     lxb_css_value_color_t *color,
+                                     lxb_status_t *status)
 {
+    bool res;
     lxb_css_value_type_t type;
+
+    *status = LXB_STATUS_OK;
 
     switch (token->type) {
         case LXB_CSS_SYNTAX_TOKEN_HASH:
@@ -1078,33 +1088,40 @@ lxb_css_property_state_color_handler(lxb_css_parser_t *parser,
                 /* <color> */
                 case LXB_CSS_VALUE_RGB:
                 case LXB_CSS_VALUE_RGBA:
-                    return lxb_css_property_state_color_rgba(parser, token,
-                                                             color);
+                    res = lxb_css_property_state_color_rgba(parser, token,
+                                                            color);
+                    break;
 
                 case LXB_CSS_VALUE_HSL:
                 case LXB_CSS_VALUE_HSLA:
                 case LXB_CSS_VALUE_HWB:
-                    return lxb_css_property_state_color_hsla(parser, token,
-                                                             color);
+                    res = lxb_css_property_state_color_hsla(parser, token,
+                                                            color);
+                    break;
 
                 case LXB_CSS_VALUE_LAB:
                 case LXB_CSS_VALUE_OKLAB:
-                    return lxb_css_property_state_color_lab(parser, token,
-                                                            color);
+                    res = lxb_css_property_state_color_lab(parser, token,
+                                                           color);
+                    break;
 
                 case LXB_CSS_VALUE_LCH:
                 case LXB_CSS_VALUE_OKLCH:
-                    return lxb_css_property_state_color_lch(parser, token,
-                                                            color);
+                    res = lxb_css_property_state_color_lch(parser, token,
+                                                           color);
+                    break;
 
                 case LXB_CSS_VALUE_COLOR:
-                    return false;
-
                 default:
+                    *status = LXB_STATUS_OK;
                     return false;
             }
 
-            break;
+            if (!res) {
+                *status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+            }
+
+            return res;
 
         case LXB_CSS_SYNTAX_TOKEN_IDENT:
             type = lxb_css_value_by_name(lxb_css_syntax_token_ident(token)->data,
@@ -1945,6 +1962,7 @@ lxb_css_property_state_line_width_style_color(lxb_css_parser_t *parser,
                                               const lxb_css_syntax_token_t *token,
                                               lxb_css_property_border_t *border)
 {
+    lxb_status_t status;
     lxb_css_value_type_t type;
     const lxb_css_data_t *unit;
     lxb_css_value_length_t *length;
@@ -2035,7 +2053,8 @@ color:
         return false;
     }
 
-    return lxb_css_property_state_color_handler(parser, token, &border->color);
+    return lxb_css_property_state_color_handler(parser, token, &border->color,
+                                                &status);
 }
 
 bool
@@ -2167,6 +2186,7 @@ lxb_css_property_state_color(lxb_css_parser_t *parser,
                              const lxb_css_syntax_token_t *token, void *ctx)
 {
     bool res;
+    lxb_status_t status;
     lxb_css_value_type_t type;
     lxb_css_rule_declaration_t *declar = ctx;
 
@@ -2190,7 +2210,8 @@ lxb_css_property_state_color(lxb_css_parser_t *parser,
     }
 
     res = lxb_css_property_state_color_handler(parser, token,
-                                    (lxb_css_value_color_t *) declar->u.color);
+                                    (lxb_css_value_color_t *) declar->u.color,
+                                    &status);
     if (!res) {
         return lxb_css_parser_failed(parser);
     }
@@ -5303,12 +5324,18 @@ lsc:
 
         if (!color) {
             res = lxb_css_property_state_color_handler(parser, token,
-                                         (lxb_css_value_color_t *) &td->color);
+                                         (lxb_css_value_color_t *) &td->color,
+                                         &status);
             if (res) {
                 token = lxb_css_syntax_parser_token_wo_ws(parser);
                 lxb_css_property_state_check_token(parser, token);
 
                 color = true;
+            }
+            else {
+                if (status != LXB_STATUS_OK) {
+                    return lxb_css_parser_failed(parser);
+                }
             }
         }
     }
