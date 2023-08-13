@@ -44,7 +44,9 @@ lxb_css_syntax_token_str_cb(const lxb_char_t *data, size_t len, void *ctx);
 lxb_css_syntax_token_t *
 lxb_css_syntax_token(lxb_css_syntax_tokenizer_t *tkz)
 {
-    if (tkz->cache_pos < tkz->cache->length && tkz->prepared == 0) {
+    if (tkz->cache_pos < tkz->cache->length
+        && (tkz->prepared == 0 || tkz->cache_pos < tkz->prepared))
+    {
         return tkz->cache->list[tkz->cache_pos];
     }
 
