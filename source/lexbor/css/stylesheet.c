@@ -398,6 +398,8 @@ lxb_css_stylesheet_at_rule_end(lxb_css_parser_t *parser,
         return LXB_STATUS_OK;
     }
 
+    parser->status = LXB_STATUS_OK;
+
     /* Custom rule can't be here. */
 
     /* Always true. */
@@ -514,6 +516,7 @@ lxb_css_stylesheet_qualified_rule_end(lxb_css_parser_t *parser,
     }
 
     parser->context = bad;
+    parser->status = LXB_STATUS_OK;
 
     return LXB_STATUS_OK;
 }

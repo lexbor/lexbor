@@ -104,7 +104,7 @@ TEST_BEGIN(prepared_token)
     test_eq(status, LXB_STATUS_OK);
 
     sst = lxb_css_stylesheet_parse(parser, input.data, input.length);
-    test_eq(sst, NULL);
+    test_ne(sst, NULL);
 
     (void) lxb_css_parser_destroy(parser, true);
 }
@@ -123,7 +123,7 @@ TEST_BEGIN(eof_offset)
     test_eq(status, LXB_STATUS_OK);
 
     sst = lxb_css_stylesheet_parse(parser, input.data, input.length);
-    test_eq(sst, NULL);
+    test_ne(sst, NULL);
 
     (void) lxb_css_parser_destroy(parser, true);
 }
