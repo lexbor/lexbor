@@ -2065,6 +2065,8 @@ lxb_css_syntax_state_consume_ident(lxb_css_syntax_tokenizer_t *tkz,
                     LXB_CSS_SYNTAX_STR_APPEND(tkz, status, begin, data);
                 }
 
+                begin = data;
+
                 if (++data == end) {
                     LXB_CSS_SYNTAX_NEXT_CHUNK(tkz, status, data, end);
                     if (data >= end) {
