@@ -1073,6 +1073,20 @@ lxb_css_syntax_parser_declarations_name(lxb_css_parser_t *parser,
 
     if (token->type != LXB_CSS_SYNTAX_TOKEN_COLON) {
         /* Parse error. */
+
+        /*
+         * It can't be.
+         *
+         * Before entering the lxb_css_syntax_parser_declarations_name()
+         * function, data validation takes place. In fact, these checks are not
+         * needed here.
+         */
+
+        /*
+         * But it's good for validation, if we come here it means we're
+         * doing badly.
+         */
+
         return NULL;
     }
 

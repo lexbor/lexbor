@@ -439,6 +439,8 @@ lxb_css_syntax_tokenizer_lookup_colon(lxb_css_syntax_tokenizer_t *tkz)
         else if (token->type == LXB_CSS_SYNTAX_TOKEN_COLON) {
             return true;
         }
+
+        return false;
     }
 
     p = tkz->in_begin;
