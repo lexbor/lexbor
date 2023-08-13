@@ -1,5 +1,5 @@
 [
-    /* Test count: 1 */
+    /* Test count: 2 */
     /* 1 */
     {
         "data": "#id .class {width: 123px; broken declaration; @font 'http://x.x/' {size: 10px} height: 45pt}",
@@ -18,6 +18,19 @@
                     {"bad": "broken declaration"},
                     {"prelude": "@font \"http://x.x/\" ", "block": "size: 10px"},
                     {"name": "height", "value": "45pt", "important": false}
+                ]
+            }
+        ]
+    },
+    /* 2 */
+    {
+        "data": "{;@as\\",
+        "tokens": [
+            {
+                "type": "qualified-rule",
+                "prelude": [],
+                "block": [
+                    {"prelude": "@as\\", "block": ""}
                 ]
             }
         ]

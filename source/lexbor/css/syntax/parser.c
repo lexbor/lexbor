@@ -930,7 +930,7 @@ done:
     rule->phase = lxb_css_syntax_parser_end;
     rule->skip_consume = true;
 
-    if (rule->u.qualified.prelude_end != 0) {
+    if (rule->u.qualified.block != 0) {
         rule->u.qualified.block_end = token->offset;
     }
     else {
