@@ -72,7 +72,7 @@ lxb_css_syntax_stack_expand(lxb_css_parser_t *parser, size_t count)
     if ((parser->rules + count) >= parser->rules_end) {
         cur_len = parser->rules - parser->rules_begin;
 
-        length = cur_len + count + 128;
+        length = cur_len + count + 1024;
         size = length * sizeof(lxb_css_syntax_rule_t);
 
         p = lexbor_realloc(parser->rules_begin, size);
@@ -82,7 +82,7 @@ lxb_css_syntax_stack_expand(lxb_css_parser_t *parser, size_t count)
 
         parser->rules_begin = p;
         parser->rules_end = p + length;
-        parser->rules = p + (cur_len - 1);
+        parser->rules = p + cur_len;
     }
 
     return LXB_STATUS_OK;
