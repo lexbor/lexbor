@@ -96,8 +96,6 @@ lxb_css_syntax_cb_list_rules_t;
 
 struct lxb_css_syntax_rule {
     lxb_css_syntax_state_f       phase;
-    void                         *parser_context;
-
     lxb_css_parser_state_f       state;
     lxb_css_parser_state_f       state_back;
     lxb_css_syntax_state_f       back;
