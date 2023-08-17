@@ -107,6 +107,7 @@ TEST_BEGIN(prepared_token)
     test_ne(sst, NULL);
 
     (void) lxb_css_parser_destroy(parser, true);
+    (void) lxb_css_stylesheet_destroy(sst, true);
 }
 TEST_END
 
@@ -126,6 +127,7 @@ TEST_BEGIN(eof_offset)
     test_ne(sst, NULL);
 
     (void) lxb_css_parser_destroy(parser, true);
+    (void) lxb_css_stylesheet_destroy(sst, true);
 }
 TEST_END
 
@@ -145,6 +147,7 @@ TEST_BEGIN(colon_lookup)
     test_ne(sst, NULL);
 
     (void) lxb_css_parser_destroy(parser, true);
+    (void) lxb_css_stylesheet_destroy(sst, true);
 }
 TEST_END
 
