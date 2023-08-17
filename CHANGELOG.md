@@ -2,6 +2,32 @@
    
 ## [Unreleased]
 
+## [2.3.0] - 2023-08-17
+### Added
+- Added new module Unicode.
+- Added new module Punycode.
+- Added new module URL.
+- Added Unicode IDNA processing.
+- Added new tests.
+- Core: new functions for data conversations.
+- CSS: added initial properties.
+- CSS: added more than 70 new properties for parsing.
+- Encoding: added decode function for valid UTF-8.
+- Grammar: added new grammars for testing CSS properties.
+- Test: added fuzzer for CSS StyleSheet.
+
+### Fixed
+- Core: fixed test failure in Hash on 32-bit architectures. Thanks @nmeum.
+- CSS: fixed a couple of crashes related to lack of variable validation.
+- CSS: fixed use-after-poison for declarations.
+- CSS: fixed offset for token End-Of-File.
+- CSS: fixed Qualified Rule prelude offset.
+- Various Cppcheck report fixes.
+
+### Changed
+- CSS: renamed LXB_CSS_SYNTAX_TOKEN__TERMINATED to LXB_CSS_SYNTAX_TOKEN__END.
+- Removed deprecated function 'sprintf' for macOS.
+
 ## [2.2.0] - 2023-04-06
 ### Added
 - Added clone functions for DOM/HTML nodes.
