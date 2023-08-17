@@ -570,7 +570,7 @@ css_at_rule_block(lxb_css_parser_t *parser,
 
     /* Check for empty block. */
 
-    if (token->type == LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    if (token->type == LXB_CSS_SYNTAX_TOKEN__END) {
         return lxb_css_parser_success(parser);
     }
 
@@ -662,7 +662,7 @@ css_qualified_rule_block(lxb_css_parser_t *parser,
 
     /* Check for empty block. */
 
-    if (token->type == LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    if (token->type == LXB_CSS_SYNTAX_TOKEN__END) {
         return lxb_css_parser_success(parser);
     }
 
@@ -685,7 +685,7 @@ static bool
 css_qualified_rule_back(lxb_css_parser_t *parser,
                         const lxb_css_syntax_token_t *token, void *ctx)
 {
-    if (token->type == LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    if (token->type == LXB_CSS_SYNTAX_TOKEN__END) {
         return lxb_css_parser_success(parser);
     }
 
@@ -817,7 +817,7 @@ css_declarations_value(lxb_css_parser_t *parser,
 
     str = unit_kv_string(value);
 
-    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__END) {
         status = lxb_css_syntax_token_serialize_str(token, &helper->str,
                                                     helper->mraw);
         if (status != LXB_STATUS_OK) {
@@ -970,7 +970,7 @@ css_declarations_at_rule_state(lxb_css_parser_t *parser,
 
     str = unit_kv_string(prelude);
 
-    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__END) {
         status = lxb_css_syntax_token_serialize_str(token, &helper->str,
                                                     helper->mraw);
         if (status != LXB_STATUS_OK) {
@@ -1011,7 +1011,7 @@ css_declarations_at_rule_block(lxb_css_parser_t *parser,
 
     /* Check for empty block. */
 
-    if (token->type == LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    if (token->type == LXB_CSS_SYNTAX_TOKEN__END) {
         return lxb_css_parser_success(parser);
     }
 
@@ -1042,7 +1042,7 @@ css_declarations_at_rule_block(lxb_css_parser_t *parser,
 
     str = unit_kv_string(block);
 
-    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__END) {
         status = lxb_css_syntax_token_serialize_str(token, &helper->str,
                                                     helper->mraw);
         if (status != LXB_STATUS_OK) {
@@ -1121,7 +1121,7 @@ css_declarations_bad(lxb_css_parser_t *parser,
 
     str = unit_kv_string(bad);
 
-    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__END) {
         status = lxb_css_syntax_token_serialize_str(token, &helper->str,
                                                     helper->mraw);
         if (status != LXB_STATUS_OK) {
@@ -1242,5 +1242,5 @@ compare(lxb_css_parser_t *parser, helper_t *helper, unit_kv_array_t *arr,
 
     *out_length = i;
 
-    return i == arr->length && token->type == LXB_CSS_SYNTAX_TOKEN__TERMINATED;
+    return i == arr->length && token->type == LXB_CSS_SYNTAX_TOKEN__END;
 }

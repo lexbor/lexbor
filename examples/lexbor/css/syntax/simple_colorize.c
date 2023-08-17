@@ -210,7 +210,7 @@ lxb_inline void
 css_consule_tokens(lxb_css_parser_t *parser,
                    const lxb_css_syntax_token_t *token, void *ctx)
 {
-    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__END) {
         (void) lxb_css_syntax_token_serialize(token, token_cb_f, ctx);
 
         lxb_css_syntax_parser_consume(parser);
@@ -338,7 +338,7 @@ css_qualified_rule_block(lxb_css_parser_t *parser,
 
     printf("\033[33m{\033[39m");
 
-    if (token->type == LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    if (token->type == LXB_CSS_SYNTAX_TOKEN__END) {
         return lxb_css_parser_success(parser);
     }
 
@@ -403,7 +403,7 @@ css_declarations_value(lxb_css_parser_t *parser,
 
     printf("\033[36m");
 
-    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__END) {
         context->offset = token->offset + lxb_css_syntax_token_base(token)->length;
 
         (void) lxb_css_syntax_token_serialize(token, token_cb_f, ctx);

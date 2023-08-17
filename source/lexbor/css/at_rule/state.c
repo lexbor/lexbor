@@ -57,7 +57,7 @@ lxb_css_at_rule_state__custom(lxb_css_parser_t *parser,
     lxb_css_syntax_parser_consume(parser);
     token = lxb_css_syntax_parser_token(parser);
 
-    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__END) {
         status = lxb_css_syntax_token_serialize_str(token, &custom->prelude,
                                                     parser->memory->mraw);
         if (status != LXB_STATUS_OK) {
@@ -88,7 +88,7 @@ lxb_css_property_state__custom_block(lxb_css_parser_t *parser,
         return lxb_css_parser_memory_fail(parser);
     }
 
-    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__END) {
         status = lxb_css_syntax_token_serialize_str(token, &custom->block,
                                                     parser->memory->mraw);
         if (status != LXB_STATUS_OK) {

@@ -237,7 +237,7 @@ lxb_css_selectors_state_pseudo_of_begin(lxb_css_parser_t *parser,
             return lxb_css_parser_memory_fail(parser);
         }
 
-        if (token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+        if (token->type != LXB_CSS_SYNTAX_TOKEN__END) {
             if (lxb_css_syntax_token_error(parser, token, "Selectors") == NULL) {
                 return lxb_css_parser_memory_fail(parser);
             }

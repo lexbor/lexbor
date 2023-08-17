@@ -289,7 +289,7 @@ static bool
 css_qualified_rule_back(lxb_css_parser_t *parser,
                         const lxb_css_syntax_token_t *token, void *ctx)
 {
-    if (token->type == LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    if (token->type == LXB_CSS_SYNTAX_TOKEN__END) {
         return lxb_css_parser_success(parser);
     }
 
@@ -334,7 +334,7 @@ static bool
 css_declarations_value(lxb_css_parser_t *parser,
                        const lxb_css_syntax_token_t *token, void *ctx)
 {
-    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__END) {
         lxb_css_syntax_parser_consume(parser);
         token = lxb_css_syntax_parser_token(parser);
     }
@@ -405,7 +405,7 @@ static bool
 css_declarations_at_rule_state(lxb_css_parser_t *parser,
                                const lxb_css_syntax_token_t *token, void *ctx)
 {
-    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__END) {
         lxb_css_syntax_parser_consume(parser);
         token = lxb_css_syntax_parser_token(parser);
     }
@@ -417,7 +417,7 @@ static bool
 css_declarations_at_rule_block(lxb_css_parser_t *parser,
                                const lxb_css_syntax_token_t *token, void *ctx)
 {
-    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__END) {
         lxb_css_syntax_parser_consume(parser);
         token = lxb_css_syntax_parser_token(parser);
     }
@@ -471,7 +471,7 @@ static bool
 css_declarations_bad(lxb_css_parser_t *parser,
                      const lxb_css_syntax_token_t *token, void *ctx)
 {
-    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__END) {
         lxb_css_syntax_parser_consume(parser);
         token = lxb_css_syntax_parser_token(parser);
     }

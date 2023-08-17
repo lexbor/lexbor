@@ -1338,7 +1338,7 @@ lxb_css_property_state__custom(lxb_css_parser_t *parser,
         return lxb_css_parser_memory_fail(parser);
     }
 
-    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__END) {
         status = lxb_css_syntax_token_serialize_str(token, &custom->value,
                                                     parser->memory->mraw);
         if (status != LXB_STATUS_OK) {
@@ -1834,7 +1834,7 @@ next:
     token = lxb_css_syntax_parser_token_wo_ws(parser);
     lxb_css_property_state_check_token(parser, token);
 
-    if (token->type == LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    if (token->type == LXB_CSS_SYNTAX_TOKEN__END) {
         return lxb_css_parser_success(parser);
     }
 
@@ -2092,7 +2092,7 @@ lxb_css_property_state_border(lxb_css_parser_t *parser,
     token = lxb_css_syntax_parser_token_wo_ws(parser);
     lxb_css_property_state_check_token(parser, token);
 
-    if (token->type == LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    if (token->type == LXB_CSS_SYNTAX_TOKEN__END) {
         return lxb_css_parser_success(parser);
     }
 
@@ -2105,7 +2105,7 @@ lxb_css_property_state_border(lxb_css_parser_t *parser,
     token = lxb_css_syntax_parser_token_wo_ws(parser);
     lxb_css_property_state_check_token(parser, token);
 
-    if (token->type == LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    if (token->type == LXB_CSS_SYNTAX_TOKEN__END) {
         return lxb_css_parser_success(parser);
     }
 
@@ -3157,7 +3157,7 @@ lxb_css_property_state_font_family(lxb_css_parser_t *parser,
         lxb_css_property_state_check_token(parser, token);
 
         if (token->type != LXB_CSS_SYNTAX_TOKEN_COMMA) {
-            if (token->type == LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+            if (token->type == LXB_CSS_SYNTAX_TOKEN__END) {
                 return lxb_css_parser_success(parser);
             }
 
@@ -3999,7 +3999,7 @@ lxb_css_property_state_flex(lxb_css_parser_t *parser,
 
         res = lxb_css_property_state_flex_grow_basis(parser, token, flex);
 
-        if (!res && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+        if (!res && token->type != LXB_CSS_SYNTAX_TOKEN__END) {
             flex->basis.type = LXB_CSS_VALUE__NUMBER;
             flex->basis.u.length.num = flex->grow.number.num;
             flex->basis.u.length.unit = LXB_CSS_UNIT__UNDEF;

@@ -18,7 +18,7 @@ lxb_css_state_success(lxb_css_parser_t *parser,
             lxb_css_syntax_parser_consume(parser);
             return true;
 
-        case LXB_CSS_SYNTAX_TOKEN__TERMINATED:
+        case LXB_CSS_SYNTAX_TOKEN__END:
             return true;
 
         default:
@@ -32,7 +32,7 @@ bool
 lxb_css_state_failed(lxb_css_parser_t *parser,
                      const lxb_css_syntax_token_t *token, void *ctx)
 {
-    if (token->type == LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    if (token->type == LXB_CSS_SYNTAX_TOKEN__END) {
         return lxb_css_parser_success(parser);
     }
 

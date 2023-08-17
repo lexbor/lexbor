@@ -14,7 +14,7 @@
 static const lxb_css_syntax_token_t lxb_css_syntax_token_terminated =
 {
     .types.terminated = {.begin = NULL, .length = 0, .user_id = 0},
-    .type = LXB_CSS_SYNTAX_TOKEN__TERMINATED,
+    .type = LXB_CSS_SYNTAX_TOKEN__END,
     .offset = 0,
     .cloned = false
 };
@@ -705,7 +705,7 @@ lxb_css_syntax_parser_list_rules_back(lxb_css_parser_t *parser,
 {
     lxb_css_syntax_rule_t *rule;
 
-    if (token->type == LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    if (token->type == LXB_CSS_SYNTAX_TOKEN__END) {
         return lxb_css_parser_success(parser);
     }
 

@@ -259,8 +259,8 @@ lxb_css_syntax_token_type_name_by_id(lxb_css_syntax_token_type_t type)
             return (lxb_char_t *) "comment";
         case LXB_CSS_SYNTAX_TOKEN__EOF:
             return (lxb_char_t *) "end-of-file";
-        case LXB_CSS_SYNTAX_TOKEN__TERMINATED:
-            return (lxb_char_t *) "terminated";
+        case LXB_CSS_SYNTAX_TOKEN__END:
+            return (lxb_char_t *) "end";
         default:
             return (lxb_char_t *) "undefined";
     }
@@ -501,8 +501,8 @@ lxb_css_syntax_token_serialize(const lxb_css_syntax_token_t *token,
         case LXB_CSS_SYNTAX_TOKEN__EOF:
             return cb((lxb_char_t *) "END-OF-FILE", 11, ctx);
 
-        case LXB_CSS_SYNTAX_TOKEN__TERMINATED:
-            return cb((lxb_char_t *) "TERMINATED", 10, ctx);
+        case LXB_CSS_SYNTAX_TOKEN__END:
+            return cb((lxb_char_t *) "END", 3, ctx);
 
         default:
             return LXB_STATUS_ERROR;

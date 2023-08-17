@@ -290,7 +290,7 @@ lxb_css_declaration_list_bad(lxb_css_parser_t *parser,
     lxb_css_rule_declaration_t *declar = ctx;
     const lxb_css_syntax_declarations_offset_t *offset;
 
-    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+    while (token != NULL && token->type != LXB_CSS_SYNTAX_TOKEN__END) {
         lxb_css_syntax_parser_consume(parser);
         token = lxb_css_syntax_parser_token(parser);
     }

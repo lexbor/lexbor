@@ -512,7 +512,7 @@ again:
             lxb_css_parser_token_m(parser, token);
             goto again;
 
-        case LXB_CSS_SYNTAX_TOKEN__TERMINATED:
+        case LXB_CSS_SYNTAX_TOKEN__END:
             return lxb_css_selectors_done(parser);
 
         case LXB_CSS_SYNTAX_TOKEN_DELIM:
@@ -727,7 +727,7 @@ again:
             lxb_css_parser_token_m(parser, token);
             goto again;
 
-        case LXB_CSS_SYNTAX_TOKEN__TERMINATED:
+        case LXB_CSS_SYNTAX_TOKEN__END:
             selectors = parser->selectors;
 
             if (selectors->combinator > LXB_CSS_SELECTOR_COMBINATOR_CLOSE
@@ -1008,7 +1008,7 @@ again:
             lxb_css_parser_token_m(parser, token);
             goto again;
 
-        case LXB_CSS_SYNTAX_TOKEN__TERMINATED:
+        case LXB_CSS_SYNTAX_TOKEN__END:
             return lxb_css_parser_states_set_back(parser);
 
         default:
@@ -1884,7 +1884,7 @@ lxb_css_selectors_state_list_end(lxb_css_parser_t *parser,
         states = lxb_css_parser_states_current(parser);
 
         if (states->root) {
-            if (token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+            if (token->type != LXB_CSS_SYNTAX_TOKEN__END) {
                 token = lxb_css_selectors_state_function_error(parser, token);
                 if (token == NULL) {
                     return lxb_css_parser_fail(parser,
@@ -1930,7 +1930,7 @@ lxb_css_selectors_state_end(lxb_css_parser_t *parser,
     states = lxb_css_parser_states_current(parser);
 
     if (states->root) {
-        if (token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+        if (token->type != LXB_CSS_SYNTAX_TOKEN__END) {
             token = lxb_css_selectors_state_function_error(parser, token);
             if (token == NULL) {
                 return lxb_css_parser_fail(parser,
@@ -1981,7 +1981,7 @@ lxb_css_selectors_state_function_error(lxb_css_parser_t *parser,
             return NULL;
         }
 
-        if (token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED) {
+        if (token->type != LXB_CSS_SYNTAX_TOKEN__END) {
             origin = token;
         }
         else if (origin->type != LXB_CSS_SYNTAX_TOKEN__EOF) {
@@ -2004,7 +2004,7 @@ lxb_css_selectors_state_function_error(lxb_css_parser_t *parser,
         lxb_css_selector_list_destroy(list);
 
         while (token != NULL
-               && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED)
+               && token->type != LXB_CSS_SYNTAX_TOKEN__END)
         {
             if (comma == true
                 && token->type == LXB_CSS_SYNTAX_TOKEN_COMMA
@@ -2026,7 +2026,7 @@ lxb_css_selectors_state_function_error(lxb_css_parser_t *parser,
     selectors->list_last = NULL;
 
     while (token != NULL
-           && token->type != LXB_CSS_SYNTAX_TOKEN__TERMINATED)
+           && token->type != LXB_CSS_SYNTAX_TOKEN__END)
     {
         lxb_css_syntax_parser_consume(parser);
         token = lxb_css_syntax_parser_token(parser);
