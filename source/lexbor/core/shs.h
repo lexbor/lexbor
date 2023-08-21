@@ -27,9 +27,8 @@ lexbor_shs_entry_t;
 
 typedef struct {
     uint32_t key;
+    uint32_t next;
     void     *value;
-
-    size_t   next;
 }
 lexbor_shs_hash_t;
 

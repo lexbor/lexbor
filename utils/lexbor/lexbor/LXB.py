@@ -94,7 +94,7 @@ class HashKey:
     def append(self, key_id, value):
         self.buffer.append([self.hash_id(int(key_id, 0)), value])
 
-    def create(self, terminate_value = '{0, NULL, 0}', rate = 2, is_const = True, data_before = None):
+    def create(self, terminate_value = '{0, 0, NULL}', rate = 2, is_const = True, data_before = None):
         test = self.test(int(self.max_table_size / 1.2), int(self.max_table_size * 1.2))
 
         rate_dn = rate - 1
@@ -142,9 +142,9 @@ class HashKey:
             entry = table[idx]
 
             if entry:
-                result.append("{{{}, {}, {}}},".format(entry[0], entry[1], entry[2]))
+                result.append("{{{}, {}, {}}},".format(entry[0], entry[2], entry[1]))
             else:
-                result.append("{0, NULL, 0},")
+                result.append("{0, 0, NULL},")
 
             if int(idx) % rate == rate_dn:
                 result.append("\n    ")
@@ -154,9 +154,9 @@ class HashKey:
         if len(table):
             entry = table[-1]
             if entry:
-                result.append("{{{}, {}, {}}}\n".format(entry[0], entry[1], entry[2]))
+                result.append("{{{}, {}, {}}}\n".format(entry[0], entry[2], entry[1]))
             else:
-                result.append("{0, NULL, 0}\n")
+                result.append("{0, 0, NULL}\n")
 
         result.append("};")
 
