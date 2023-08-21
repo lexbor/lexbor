@@ -196,7 +196,7 @@ struct lxb_encoding_data {
 };
 
 typedef struct {
-    lxb_char_t      *name;
+    lxb_char_t      name[4];
     unsigned        size;
     lxb_codepoint_t codepoint;
 }
