@@ -106,10 +106,12 @@ class SingleByte:
             if idx in values:
                 entries = values[idx]
 
-                res.append('{{(lxb_char_t *) "{}", {}, {}}}'.format(toHex(entries[2].decode('utf-8')), entries[3], entries[1].decode('utf-8')))
+                assert len(entries[2]) <= 4
+                res.append('{{{{{}}}, {}, {}}}'.format(toHex(entries[2].decode('utf-8')),
+                                                             entries[3], entries[1].decode('utf-8')))
                 res.append('/* {} */'.format(entries[4].decode('utf-8')), is_comment = True)
             else:
-                res.append('{NULL, 0, LXB_ENCODING_DECODE_ERROR}')
+                res.append('{{0}, 0, LXB_ENCODING_DECODE_ERROR}')
                 res.append('/* Not defined */', is_comment = True)
 
         buf = res.create()
@@ -160,9 +162,9 @@ def toHex(s):
 
     for ch in bytes(s, 'utf-8'):
         hv = hex(ch).replace('0x', '\\\\x')
-        lst.append(hv)
+        lst.append("'{}'".format(hv))
 
-    return ''.join(lst)
+    return ', '.join(lst)
 
 if __name__ == "__main__":
 
