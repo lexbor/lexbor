@@ -109,8 +109,10 @@ lexbor_conv_data_to_double(const lxb_char_t **start, size_t len)
     switch (**start) {
         case '-':
             minus = true;
+            /* fall through */
         case '+':
             (*start)++;
+            /* fall through */
         default:
             break;
     }
@@ -245,8 +247,10 @@ lexbor_conv_data_to_long(const lxb_char_t **data, size_t length)
     switch (*p) {
         case '-':
             minus = true;
+            /* fall through */
         case '+':
             p++;
+            /* fall through */
         default:
             break;
     }
