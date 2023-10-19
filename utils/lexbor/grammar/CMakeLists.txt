@@ -1,10 +1,19 @@
 cmake_minimum_required(VERSION 2.8.12...3.27)
 
 IF(CMAKE_VERSION VERSION_LESS "3.0")
-    PROJECT("lexbor_grammar")
+    IF(LEXBOR_BUILD_TESTS_CPP)
+        PROJECT("lexbor_grammar")
+    ELSE()
+        PROJECT("lexbor_grammar" "C")
+    ENDIF()
 ELSE()
     cmake_policy(SET CMP0048 NEW)
-    PROJECT("lexbor_grammar" VERSION "${LEXBOR_VERSION_STRING}")
+
+    IF(LEXBOR_BUILD_TESTS_CPP)
+        PROJECT("lexbor_grammar" VERSION "${LEXBOR_VERSION_STRING}")
+    ELSE()
+        PROJECT("lexbor_grammar" VERSION "${LEXBOR_VERSION_STRING}" LANGUAGES "C")
+    ENDIF()
 ENDIF()
 
 # From /utils/lexbor/css/grammar.txt

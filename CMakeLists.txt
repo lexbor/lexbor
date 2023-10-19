@@ -12,7 +12,7 @@ cmake_minimum_required(VERSION 2.8.12...3.27)
 #                                         Each module will have its own shared library
 #    LEXBOR_BUILD_EXAMPLES               default: OFF; Build all examples
 #    LEXBOR_BUILD_TESTS                  default: OFF; Build tests
-#    LEXBOR_BUILD_TESTS_CPP              default: ON; Build C++ tests.
+#    LEXBOR_BUILD_TESTS_CPP              default: OFF; Build C++ tests.
 #                                         Used with LEXBOR_BUILD_TESTS
 #    LEXBOR_BUILD_UTILS                  default: OFF; Build utils/helpers for project.
 #    LEXBOR_BUILD_WITH_ASAN              default: OFF; Build with address sanitizer if possible
@@ -47,7 +47,7 @@ option(LEXBOR_BUILD_STATIC "Build static library" ON)
 option(LEXBOR_BUILD_SEPARATELY "Build modules separately" OFF)
 option(LEXBOR_BUILD_EXAMPLES "Build examples" OFF)
 option(LEXBOR_BUILD_TESTS "Build tests" OFF)
-option(LEXBOR_BUILD_TESTS_CPP "Build C++ tests" ON)
+option(LEXBOR_BUILD_TESTS_CPP "Build C++ tests" OFF)
 option(LEXBOR_BUILD_UTILS "Build utils" OFF)
 option(LEXBOR_BUILD_WITH_ASAN "Build with address sanitizer" OFF)
 option(LEXBOR_BUILD_WITH_FUZZER "Build with fuzzer" OFF)
@@ -60,7 +60,10 @@ IF(NOT LEXBOR_MAKE_DISTRO_NUM)
 ENDIF()
 
 enable_language(C)
-enable_language(CXX)
+
+IF(LEXBOR_BUILD_TESTS_CPP)
+    enable_language(CXX)
+ENDIF()
 
 ################
 ## Version and path
@@ -117,10 +120,19 @@ GET_LEXBOR_VERSION(LEXBOR_VERSION_MAJOR LEXBOR_VERSION_MINOR
 message(STATUS "Lexbor version: ${LEXBOR_VERSION_STRING}")
 
 IF(CMAKE_VERSION VERSION_LESS "3.0")
-    PROJECT("${PROJECT_NAME}")
+    IF(LEXBOR_BUILD_TESTS_CPP)
+        PROJECT("${PROJECT_NAME}")
+    ELSE()
+        PROJECT("${PROJECT_NAME}" "C")
+    ENDIF()
 ELSE()
     cmake_policy(SET CMP0048 NEW)
-    PROJECT("${PROJECT_NAME}" VERSION "${LEXBOR_VERSION_STRING}")
+
+    IF(LEXBOR_BUILD_TESTS_CPP)
+        PROJECT("${PROJECT_NAME}" VERSION "${LEXBOR_VERSION_STRING}")
+    ELSE()
+        PROJECT("${PROJECT_NAME}" VERSION "${LEXBOR_VERSION_STRING}" LANGUAGES "C")
+    ENDIF()
 ENDIF()
 
 ################

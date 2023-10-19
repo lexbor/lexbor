@@ -1,10 +1,19 @@
 cmake_minimum_required(VERSION 2.8.12...3.27)
 
 IF(CMAKE_VERSION VERSION_LESS "3.0")
-    PROJECT("utils_lexbor_encoding")
+    IF(LEXBOR_BUILD_TESTS_CPP)
+        PROJECT("utils_lexbor_encoding")
+    ELSE()
+        PROJECT("utils_lexbor_encoding" "C")
+    ENDIF()
 ELSE()
     cmake_policy(SET CMP0048 NEW)
-    PROJECT("utils_lexbor_encoding" VERSION "${LEXBOR_VERSION_STRING}")
+
+    IF(LEXBOR_BUILD_TESTS_CPP)
+        PROJECT("utils_lexbor_encoding" VERSION "${LEXBOR_VERSION_STRING}")
+    ELSE()
+        PROJECT("utils_lexbor_encoding" VERSION "${LEXBOR_VERSION_STRING}" LANGUAGES "C")
+    ENDIF()
 ENDIF()
 
 ################
