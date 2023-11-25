@@ -197,6 +197,18 @@ TEST_BEGIN(by_meta)
 
     status = check("<meta bu charset=\"windows-1251\" be name=\"viewport\" bu content=\"width\" be>", "windows-1251", 0);
     test_eq(status, LXB_STATUS_OK);
+
+    status = check("<meta charset =utf-8>", "utf-8", 0);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = check("<meta charset = utf-8>", "utf-8", 0);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = check("<meta charset   =   utf-8   >", "utf-8", 0);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = check("<meta charset = 'utf-8'>", "utf-8", 0);
+    test_eq(status, LXB_STATUS_OK);
 }
 TEST_END
 
