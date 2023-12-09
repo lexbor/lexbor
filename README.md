@@ -76,6 +76,10 @@ Binaries are available for:
 Currently for `x86_64` architecture.
 If you need any other architecture, please, write to [support@lexbor.com](mailto:support@lexbor.com).
 
+### vcpkg
+
+For vcpkg users there is a `lexbor` [port](https://github.com/microsoft/vcpkg/tree/master/ports/lexbor) that can be installed via `vcpkg install lexbor` or by adding it to `dependencies` section of your `vcpkg.json` file.
+
 ### macOS
 
 #### Homebrew
