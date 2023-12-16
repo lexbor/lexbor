@@ -3249,6 +3249,49 @@ lxb_url_percent_decode(const lxb_char_t *data, const lxb_char_t *end,
 lxb_url_t *
 lxb_url_destroy(lxb_url_t *url)
 {
+    lexbor_str_t *str;
+
+    if (url->scheme.name.data != NULL) {
+        lexbor_str_destroy(&url->scheme.name, url->mraw, false);
+    }
+
+    switch (url->host.type) {
+        case LXB_URL_HOST_TYPE_DOMAIN:
+        case LXB_URL_HOST_TYPE_OPAQUE:
+            lexbor_str_destroy(&url->host.u.domain, url->mraw, false);
+            break;
+
+        default:
+            break;
+    }
+
+    if (url->username.data != NULL) {
+        lexbor_str_destroy(&url->username, url->mraw, false);
+    }
+
+    if (url->password.data != NULL) {
+        lexbor_str_destroy(&url->password, url->mraw, false);
+    }
+
+    if (url->path.list != NULL) {
+        for (size_t i = 0; i < url->path.length; i++) {
+            str = url->path.list[i];
+
+            lexbor_str_destroy(str, url->mraw, false);
+            lexbor_mraw_free(url->mraw, str);
+        }
+
+        lexbor_mraw_free(url->mraw, url->path.list);
+    }
+
+    if (url->query.data != NULL) {
+        lexbor_str_destroy(&url->query, url->mraw, false);
+    }
+
+    if (url->fragment.data != NULL) {
+        lexbor_str_destroy(&url->fragment, url->mraw, false);
+    }
+
     return lexbor_mraw_free(url->mraw, url);
 }
 
