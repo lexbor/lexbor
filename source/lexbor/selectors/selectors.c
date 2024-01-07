@@ -1479,6 +1479,8 @@ lxb_selectors_pseudo_class_function(lxb_selectors_t *selectors,
 
                         if (found) {
                             index++;
+                        } else if (index == 0) {
+                            return false;
                         }
 
                         found = false;
@@ -1523,6 +1525,8 @@ lxb_selectors_pseudo_class_function(lxb_selectors_t *selectors,
 
                         if (found) {
                             index++;
+                        } else if (index == 0) {
+                            return false;
                         }
 
                         found = false;

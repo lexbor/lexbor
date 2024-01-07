@@ -43,7 +43,15 @@ static const lxb_char_t html[] =
     "    <span test span=11></span>"
     "    <span test='' span=12></span>"
     "</p>"
-    "</div>";
+    "</div>"
+    "<main>"
+    "    <h2 h2=1 class=mark></h2>"
+    "    <h2 h2=2></h2>"
+    "    <h2 h2=3 class=mark></h2>"
+    "    <h2 h2=4 class=mark></h2>"
+    "    <h2 h2=5></h2>"
+    "    <h2 h2=6 class=mark></h2>"
+    "</main>";
 
 
 static const lxb_test_entry_t selectors_list[] =
@@ -202,7 +210,14 @@ static const lxb_test_entry_t selectors_list[] =
      "<a a=\"8\">\n"
      "<span span=\"10\">\n"
      "<span test span=\"11\">\n"
-     "<span test=\"\" span=\"12\">"},
+     "<span test=\"\" span=\"12\">\n"
+     "<main>\n"
+     "<h2 h2=\"1\" class=\"mark\">\n"
+     "<h2 h2=\"2\">\n"
+     "<h2 h2=\"3\" class=\"mark\">\n"
+     "<h2 h2=\"4\" class=\"mark\">\n"
+     "<h2 h2=\"5\">\n"
+     "<h2 h2=\"6\" class=\"mark\">"},
 
     {"div span",
      "<span id=\"s1\" span=\"1\">\n"
@@ -302,7 +317,14 @@ static const lxb_test_entry_t selectors_list[] =
      "<p p=\"7\" lang=\"ru\">\n"
      "<a a=\"6\">\n"
      "<a a=\"7\">\n"
-     "<a a=\"8\">"},
+     "<a a=\"8\">\n"
+     "<main>\n"
+     "<h2 h2=\"1\" class=\"mark\">\n"
+     "<h2 h2=\"2\">\n"
+     "<h2 h2=\"3\" class=\"mark\">\n"
+     "<h2 h2=\"4\" class=\"mark\">\n"
+     "<h2 h2=\"5\">\n"
+     "<h2 h2=\"6\" class=\"mark\">"},
 
     {"p[p='7'] span:nth-child(2n+1)",
      "<span span=\"6\">\n"
@@ -365,6 +387,22 @@ static const lxb_test_entry_t selectors_list[] =
      "<p p=\"4\">\n"
      "<p p=\"5\">\n"
      "<p p=\"7\" lang=\"ru\">"},
+
+    {"main > h2:nth-child(even of .mark)",
+     "<h2 h2=\"3\" class=\"mark\">\n"
+     "<h2 h2=\"6\" class=\"mark\">"},
+
+    {"main > h2:nth-last-child(even of .mark)",
+     "<h2 h2=\"1\" class=\"mark\">\n"
+     "<h2 h2=\"4\" class=\"mark\">"},
+
+    {"main > h2:nth-child(odd of .mark)",
+     "<h2 h2=\"1\" class=\"mark\">\n"
+     "<h2 h2=\"4\" class=\"mark\">"},
+
+    {"main > h2:nth-last-child(odd of .mark)",
+     "<h2 h2=\"3\" class=\"mark\">\n"
+     "<h2 h2=\"6\" class=\"mark\">"},
 };
 
 
