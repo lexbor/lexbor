@@ -117,6 +117,15 @@ static const lxb_test_entry_t selectors_list[] =
     {"[lang |= 'ru']",
      "<p p=\"7\" lang=\"ru\">"},
 
+    {"[lang|='ru']",
+     "<p p=\"7\" lang=\"ru\">"},
+
+    {"[lang |='ru']",
+     "<p p=\"7\" lang=\"ru\">"},
+
+    {"[lang|= 'ru']",
+     "<p p=\"7\" lang=\"ru\">"},
+
     {"[lang |= 'r']",
      ""},
 

@@ -707,6 +707,88 @@ static const lxb_test_entry_t selectors_list[] =
      "",
      "Syntax error. Selectors. Unexpected token: ,",
      lxb_css_selectors_parse_relative},
+
+    {"[lang |= en]",
+     "[lang|=\"en\"]",
+     "",
+     lxb_css_selectors_parse},
+
+    {"[lang|=en]",
+     "[lang|=\"en\"]",
+     "",
+     lxb_css_selectors_parse},
+
+    {"[lang|= en]",
+     "[lang|=\"en\"]",
+     "",
+     lxb_css_selectors_parse},
+
+    {"[lang |=en]",
+     "[lang|=\"en\"]",
+     "",
+     lxb_css_selectors_parse},
+
+    {"[lang| =en]",
+     "",
+     "Syntax error. Selectors. Unexpected token:  ",
+     lxb_css_selectors_parse},
+
+    {"[lang | = en]",
+     "",
+     "Syntax error. Selectors. Unexpected token:  ",
+     lxb_css_selectors_parse},
+
+    {"[lang |= en]",
+     "[lang|=\"en\"]",
+     "",
+     lxb_css_selectors_parse_simple_list},
+
+    {"[lang|=en]",
+     "[lang|=\"en\"]",
+     "",
+     lxb_css_selectors_parse_simple_list},
+
+    {"[lang|= en]",
+     "[lang|=\"en\"]",
+     "",
+     lxb_css_selectors_parse_simple_list},
+
+    {"[lang |=en]",
+     "[lang|=\"en\"]",
+     "",
+     lxb_css_selectors_parse_simple_list},
+
+    {"[lang| =en]",
+     "",
+     "Syntax error. Selectors. Unexpected token:  ",
+     lxb_css_selectors_parse_simple_list},
+
+    {"[lang | = en]",
+     "",
+     "Syntax error. Selectors. Unexpected token:  ",
+     lxb_css_selectors_parse_simple_list},
+
+    {":has([lang | = en])",
+     "",
+     "Syntax error. Selectors. Unexpected token:  \n"
+     "Syntax error. Selectors. Pseudo function can't be empty: has()",
+     lxb_css_selectors_parse_compound},
+
+    {":has([lang| =en])",
+     "",
+     "Syntax error. Selectors. Unexpected token:  \n"
+     "Syntax error. Selectors. Pseudo function can't be empty: has()",
+     lxb_css_selectors_parse_compound},
+
+    {":has([lang|=en])",
+     ":has([lang|=\"en\"])",
+     "",
+     lxb_css_selectors_parse_compound},
+
+    {":has([lang| =en], #id)",
+     ":has(#id)",
+     "Syntax error. Selectors. Unexpected token:  ",
+     lxb_css_selectors_parse_compound},
 };
 
 
