@@ -1,11 +1,10 @@
 /*
- * Copyright (C) 2021 Alexander Borisov
+ * Copyright (C) 2024 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include <lexbor/html/html.h>
-#include <lexbor/css/css.h>
 #include <lexbor/selectors/selectors.h>
 
 
@@ -33,11 +32,11 @@ find_callback(lxb_dom_node_t *node, lxb_css_selector_specificity_t spec,
 }
 
 int
-main(int argc, const char *argv[])
+LLVMFuzzerTestOneInput(const uint8_t *data, size_t length)
 {
     unsigned count = 0;
     lxb_status_t status;
-    lxb_dom_node_t *body;
+    lxb_dom_node_t *node;
     lxb_selectors_t *selectors;
     lxb_html_document_t *document;
     lxb_css_parser_t *parser;
@@ -45,11 +44,41 @@ main(int argc, const char *argv[])
 
     /* HTML Data. */
 
-    static const lxb_char_t html[] = "<div><p class='x z'></p><p id='y'></p></div>";
-
-    /* CSS Data. */
-
-    static const lxb_char_t slctrs[] = ".x, div:has(p[id=Y i])";
+    static const lxb_char_t html[] =     
+        "<div div='First' class='Strong Massive'>"
+        "    <p p=1><a a=1>a1</a></p>"
+        "    <p p=2><a a=2>a2</a></p>"
+        "    <p p=3><a a=3>a3</a></p>"
+        "    <p p=4><a a=4>a4</a></p>"
+        "    <p p=5><a a=5>a5</a></p>"
+        "</div>"
+        "<div div='Second' class='Massive Stupid'>"
+        "<p p=6 lang='en-GB'>"
+        "    <span id=s1 span=1><s></s></span>"
+        "    <span id=s2 span=2></span>"
+        "    <span id=s3 span=3></span>"
+        "    <span id=s4 span=4></span>"
+        "    <span id=s5 span=5></span>"
+        "</p>"
+        "<p p=7 lang='ru'>"
+        "    <span span=6></span>"
+        "    <a a=6><span span=7></span></a>"
+        "    <a a=7><span span=8></span></a>"
+        "    <span span=9></span>"
+        "    <a a=8></a>"
+        "    <span span=10></span>"
+        "    <span test span=11></span>"
+        "    <span test='' span=12></span>"
+        "</p>"
+        "</div>"
+        "<main>"
+        "    <h2 h2=1 class=mark></h2>"
+        "    <h2 h2=2></h2>"
+        "    <h2 h2=3 class=mark></h2>"
+        "    <h2 h2=4 class=mark></h2>"
+        "    <h2 h2=5></h2>"
+        "    <h2 h2=6 class=mark></h2>"
+        "</main>";
 
     /* Create HTML Document. */
 
@@ -69,6 +98,7 @@ main(int argc, const char *argv[])
     }
 
     /* Selectors. */
+
     selectors = lxb_selectors_create();
     status = lxb_selectors_init(selectors);
     if (status != LXB_STATUS_OK) {
@@ -77,28 +107,21 @@ main(int argc, const char *argv[])
 
     /* Parse and get the log. */
 
-    list = lxb_css_selectors_parse(parser, slctrs,
-                                   sizeof(slctrs) / sizeof(lxb_char_t) - 1);
-    if (parser->status != LXB_STATUS_OK) {
-        return EXIT_FAILURE;
+    list = lxb_css_selectors_parse(parser, data, length);
+    if (list == NULL) {
+        goto destroy;
     }
-
-    /* Selector List Serialization. */
-
-    printf("Selectors: ");
-    (void) lxb_css_selector_serialize_list_chain(list, callback, NULL);
-    printf("\n");
 
     /* Find HTML nodes by CSS Selectors. */
 
-    body = lxb_dom_interface_node(document);
+    node = lxb_dom_interface_node(document);
 
-    printf("Found:\n");
-
-    status = lxb_selectors_find(selectors, body, list, find_callback, &count);
+    status = lxb_selectors_find(selectors, node, list, find_callback, &count);
     if (status != LXB_STATUS_OK) {
-        return EXIT_FAILURE;
+        printf("Selectors: failed to find: %.*s\n", (int) length, data);
     }
+
+destroy:
 
     /* Destroy Selectors object. */
     (void) lxb_selectors_destroy(selectors, true);

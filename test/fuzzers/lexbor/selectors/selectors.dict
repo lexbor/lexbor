@@ -1,0 +1,71 @@
+# Syntax
+
+any="*"
+descendant=" "
+child=">"
+sibling="+"
+following="~"
+column="||"
+open_attr="["
+close_attr="]"
+class="."
+hash="#"
+anb="2n+1"
+
+# Tags
+
+tag_div="div"
+tag_p="p"
+tag_a="a"
+tag_span="span"
+tag_s="s"
+tag_main="main"
+tag_h2="h2"
+
+# Examples
+
+ex1="div span"
+ex2="p > span"
+ex3="div > p > a"
+ex4="span ~ span"
+ex5="p[p='2'] + p"
+ex6="p:has(a)"
+ex7="p:is([p='2'], [p='5'])"
+ex8="div:has(p :not(span))"
+ex9=":not(span, div)"
+ex10=":nth-child(2n+1)"
+ex11=":has(a)"
+
+# Attributes
+
+attr_div="[div='First']"
+attr_class="[class~='Strong']"
+attr_p1="[p='1']"
+attr_p2="[p='2']"
+attr_p3="[p='3']"
+attr_p4="[p='4']"
+attr_p5="[p='5']"
+attr_a1="[a='1']"
+attr_a2="[a='2']"
+attr_a3="[a='3']"
+attr_a4="[a='4']"
+attr_a5="[a='5']"
+attr_lang="[a|='en']"
+
+# Selectors
+
+checked=":checked"
+empty=":empty"
+first_child=":first-child"
+first_of_type=":first-of-type"
+lang-rp=":lang("
+last_child=":last-child"
+last_of_type=":last-of-type"
+not-rp=":not("
+nth_child-rp=":nth-child("
+nth_last_child-rp=":nth-last-child("
+nth_last_of_type-rp=":nth-last-of-type("
+nth_of_type-rp=":nth-of-type("
+read_only=":read-only"
+read_write=":read-write"
+root=":root"

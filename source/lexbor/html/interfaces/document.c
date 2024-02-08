@@ -654,8 +654,10 @@ lxb_html_document_style_attach_by_element(lxb_html_document_t *document,
 {
     lxb_html_document_css_t *css = &document->css;
 
-    return lxb_selectors_find_reverse(css->selectors, lxb_dom_interface_node(element),
-                              style->selector, lxb_html_document_style_cb, style);
+    return lxb_selectors_match_node(css->selectors,
+                                    lxb_dom_interface_node(element),
+                                    style->selector,
+                                    lxb_html_document_style_cb, style);
 }
 
 static lxb_status_t

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Alexander Borisov
+ * Copyright (C) 2021-2024 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -272,21 +272,9 @@ static const lxb_test_entry_t selectors_list[] =
      "<span id=\"s3\" span=\"3\">\n"
      "<span id=\"s4\" span=\"4\">\n"
      "<span id=\"s5\" span=\"5\">\n"
-     "<span id=\"s3\" span=\"3\">\n"
-     "<span id=\"s4\" span=\"4\">\n"
-     "<span id=\"s5\" span=\"5\">\n"
-     "<span id=\"s4\" span=\"4\">\n"
-     "<span id=\"s5\" span=\"5\">\n"
-     "<span id=\"s5\" span=\"5\">\n"
      "<span span=\"9\">\n"
      "<span span=\"10\">\n"
      "<span test span=\"11\">\n"
-     "<span test=\"\" span=\"12\">\n"
-     "<span span=\"10\">\n"
-     "<span test span=\"11\">\n"
-     "<span test=\"\" span=\"12\">\n"
-     "<span test span=\"11\">\n"
-     "<span test=\"\" span=\"12\">\n"
      "<span test=\"\" span=\"12\">"},
 
     {"p[p='2'] + p",
@@ -442,6 +430,35 @@ find_callback(lxb_dom_node_t *node, lxb_css_selector_specificity_t spec,
     return lxb_html_serialize_cb(node, callback, ctx);
 }
 
+lxb_status_t
+find_callback_depth(lxb_dom_node_t *node, lxb_css_selector_specificity_t spec,
+                    void *ctx)
+{
+    return LXB_STATUS_OK;
+}
+
+lxb_status_t
+find_callback_root(lxb_dom_node_t *node, lxb_css_selector_specificity_t spec,
+                   void *ctx)
+{
+    bool *itis = ctx;
+
+    *itis = true;
+
+    return LXB_STATUS_OK;
+}
+
+lxb_status_t
+find_callback_count(lxb_dom_node_t *node, lxb_css_selector_specificity_t spec,
+                    void *ctx)
+{
+    size_t *count = ctx;
+
+    *count += 1;
+
+    return LXB_STATUS_OK;
+}
+
 TEST_BEGIN(lexbor_selectors_list)
 {
     char *test, *need;
@@ -524,12 +541,286 @@ TEST_BEGIN(lexbor_selectors_list)
 }
 TEST_END
 
+TEST_BEGIN(depth)
+{
+    lxb_status_t status;
+    lexbor_str_t slctrs;
+    lxb_dom_node_t *node;
+    lxb_selectors_t *selectors;
+    lxb_css_parser_t *parser;
+    lxb_css_selector_list_t *list;
+    lxb_html_document_t *document;
+
+    static const size_t depth = 4096;
+    static const lexbor_str_t str_not = lexbor_str(":not(");
+    static const lexbor_str_t str_div = lexbor_str("div");
+    static const lexbor_str_t str_rcl = lexbor_str(")");
+
+    /* ":not(" */
+    slctrs.length  = str_not.length * depth;
+    slctrs.length += str_div.length;
+    slctrs.length += str_rcl.length * depth;
+
+    slctrs.data = lexbor_malloc(slctrs.length);
+    test_ne(slctrs.data, NULL);
+
+    for (size_t i = 0; i < depth; i++) {
+        memcpy(&slctrs.data[i * str_not.length], str_not.data, str_not.length);
+        memcpy(&slctrs.data[slctrs.length - (i + 1)], str_rcl.data, str_rcl.length);
+    }
+
+    memcpy(&slctrs.data[str_not.length * depth], str_div.data, str_div.length);
+
+    /* Create HTML Document. */
+
+    document = lxb_html_document_create();
+    status = lxb_html_document_parse(document, html, sizeof(html) - 1);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Create CSS parser. */
+
+    parser = lxb_css_parser_create();
+    status = lxb_css_parser_init(parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Selectors. */
+
+    selectors = lxb_selectors_create();
+    status = lxb_selectors_init(selectors);
+    test_eq(status, LXB_STATUS_OK);
+
+    list = lxb_css_selectors_parse(parser, slctrs.data, slctrs.length);
+    test_ne(list, NULL);
+
+    node = lxb_dom_interface_node(document);
+
+    status = lxb_selectors_find(selectors, node, list, find_callback_depth, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    (void) lexbor_free(slctrs.data);
+    (void) lxb_css_selector_list_destroy_memory(list);
+    (void) lxb_css_parser_destroy(parser, true);
+    (void) lxb_selectors_destroy(selectors, true);
+    (void) lxb_html_document_destroy(document);
+}
+TEST_END
+
+TEST_BEGIN(match_root)
+{
+    bool itis;
+    lxb_status_t status;
+    lxb_dom_node_t *node;
+    lxb_selectors_t *selectors;
+    lxb_css_parser_t *parser;
+    lxb_css_selector_list_t *list;
+    lxb_html_document_t *document;
+
+    static const lexbor_str_t slctrs = lexbor_str("div[div='First']");
+
+    /* Create HTML Document. */
+
+    document = lxb_html_document_create();
+    status = lxb_html_document_parse(document, html, sizeof(html) - 1);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Create CSS parser. */
+
+    parser = lxb_css_parser_create();
+    status = lxb_css_parser_init(parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Selectors. */
+
+    selectors = lxb_selectors_create();
+    status = lxb_selectors_init(selectors);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Set options. */
+
+    lxb_selectors_opt_set(selectors, LXB_SELECTORS_OPT_MATCH_ROOT);
+
+    list = lxb_css_selectors_parse(parser, slctrs.data, slctrs.length);
+    test_ne(list, NULL);
+
+    /* Match root. */
+
+    itis = false;
+    node = lxb_dom_interface_node(lxb_html_document_body_element(document));
+
+    /* Get first <div div='First'. */
+    node = node->first_child;
+    test_eq(node->local_name, LXB_TAG_DIV);
+
+    status = lxb_selectors_find(selectors, node, list,
+                                find_callback_root, &itis);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_eq(itis, true);
+
+    /* Not match root. */
+
+    lxb_selectors_opt_set(selectors, LXB_SELECTORS_OPT_DEFAULT);
+
+    itis = false;
+
+    status = lxb_selectors_find(selectors, node, list,
+                                find_callback_root, &itis);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_eq(itis, false);
+
+    (void) lxb_css_selector_list_destroy_memory(list);
+    (void) lxb_css_parser_destroy(parser, true);
+    (void) lxb_selectors_destroy(selectors, true);
+    (void) lxb_html_document_destroy(document);
+}
+TEST_END
+
+TEST_BEGIN(match_root_document)
+{
+    bool itis;
+    lxb_status_t status;
+    lxb_dom_node_t *node;
+    lxb_selectors_t *selectors;
+    lxb_css_parser_t *parser;
+    lxb_css_selector_list_t *list;
+    lxb_html_document_t *document;
+
+    static const lexbor_str_t slctrs = lexbor_str("div");
+
+    /* Create HTML Document. */
+
+    document = lxb_html_document_create();
+    status = lxb_html_document_parse(document, html, sizeof(html) - 1);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Create CSS parser. */
+
+    parser = lxb_css_parser_create();
+    status = lxb_css_parser_init(parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Selectors. */
+
+    selectors = lxb_selectors_create();
+    status = lxb_selectors_init(selectors);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Set options. */
+
+    lxb_selectors_opt_set(selectors, LXB_SELECTORS_OPT_MATCH_ROOT);
+
+    list = lxb_css_selectors_parse(parser, slctrs.data, slctrs.length);
+    test_ne(list, NULL);
+
+    /* Match root. */
+
+    itis = false;
+    node = lxb_dom_interface_node(lxb_html_document_body_element(document));
+
+    status = lxb_selectors_find(selectors, node, list,
+                                find_callback_root, &itis);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_eq(itis, true);
+
+    /* Not match root. */
+
+    lxb_selectors_opt_set(selectors, LXB_SELECTORS_OPT_DEFAULT);
+
+    itis = false;
+
+    status = lxb_selectors_find(selectors, node, list,
+                                find_callback_root, &itis);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_eq(itis, true);
+
+    (void) lxb_css_selector_list_destroy_memory(list);
+    (void) lxb_css_parser_destroy(parser, true);
+    (void) lxb_selectors_destroy(selectors, true);
+    (void) lxb_html_document_destroy(document);
+}
+TEST_END
+
+TEST_BEGIN(match_first)
+{
+    size_t count;
+    lxb_status_t status;
+    lxb_dom_node_t *node;
+    lxb_selectors_t *selectors;
+    lxb_css_parser_t *parser;
+    lxb_css_selector_list_t *list;
+    lxb_html_document_t *document;
+
+    static const lexbor_str_t slctrs =
+    lexbor_str("p[lang|='ru'] > span:first-child, [p='7'] [span='6']");
+
+    /* Create HTML Document. */
+
+    document = lxb_html_document_create();
+    status = lxb_html_document_parse(document, html, sizeof(html) - 1);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Create CSS parser. */
+
+    parser = lxb_css_parser_create();
+    status = lxb_css_parser_init(parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Selectors. */
+
+    selectors = lxb_selectors_create();
+    status = lxb_selectors_init(selectors);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Set options. */
+
+    lxb_selectors_opt_set(selectors, LXB_SELECTORS_OPT_MATCH_FIRST);
+
+    list = lxb_css_selectors_parse(parser, slctrs.data, slctrs.length);
+    test_ne(list, NULL);
+
+    /* Match first. */
+
+    count = 0;
+    node = lxb_dom_interface_node(lxb_html_document_body_element(document));
+
+    status = lxb_selectors_find(selectors, node, list,
+                                find_callback_count, &count);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_eq(count, 1);
+
+    /* Not match first. */
+
+    lxb_selectors_opt_set(selectors, LXB_SELECTORS_OPT_DEFAULT);
+
+    count = 0;
+
+    status = lxb_selectors_find(selectors, node, list,
+                                find_callback_count, &count);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_eq(count, 2);
+
+    (void) lxb_css_selector_list_destroy_memory(list);
+    (void) lxb_css_parser_destroy(parser, true);
+    (void) lxb_selectors_destroy(selectors, true);
+    (void) lxb_html_document_destroy(document);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
     TEST_INIT();
 
     TEST_ADD(lexbor_selectors_list);
+    TEST_ADD(depth);
+    TEST_ADD(match_root);
+    TEST_ADD(match_root_document);
+    TEST_ADD(match_first);
 
     TEST_RUN("lexbor/selectors/selectors");
     TEST_RELEASE();

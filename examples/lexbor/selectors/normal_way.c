@@ -64,7 +64,7 @@ main(int argc, const char *argv[])
         return EXIT_FAILURE;
     }
 
-    body = lxb_dom_interface_node(lxb_html_document_body_element(document));
+    body = lxb_dom_interface_node(document);
 
     /* Memory for all parsed structures. */
 

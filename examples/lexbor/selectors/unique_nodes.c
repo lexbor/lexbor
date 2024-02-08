@@ -4,18 +4,9 @@
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
-#include <lexbor/core/core.h>
 #include <lexbor/html/html.h>
 #include <lexbor/css/css.h>
 #include <lexbor/selectors/selectors.h>
-
-
-typedef struct {
-    unsigned          count;
-    lexbor_avl_t      *avl;
-    lexbor_avl_node_t *root;
-}
-lxb_example_context_t;
 
 
 lxb_status_t
@@ -30,23 +21,11 @@ lxb_status_t
 find_callback(lxb_dom_node_t *node, lxb_css_selector_specificity_t spec,
               void *ctx)
 {
-    lexbor_avl_node_t *avl_node;
-    lxb_example_context_t *context = ctx;
+    unsigned *count = ctx;
 
-    context->count++;
+    *count += 1;
 
-    avl_node = lexbor_avl_search(context->avl, context->root, (uintptr_t) node);
-    if (avl_node != NULL) {
-        return LXB_STATUS_OK;
-    }
-
-    avl_node = lexbor_avl_insert(context->avl, &context->root,
-                                 (uintptr_t) node, NULL);
-    if (avl_node == NULL) {
-        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-    }
-
-    printf("%u) ", context->count);
+    printf("%u) ", *count);
     (void) lxb_html_serialize_cb(node, callback, NULL);
     printf("\n");
 
@@ -56,13 +35,13 @@ find_callback(lxb_dom_node_t *node, lxb_css_selector_specificity_t spec,
 int
 main(int argc, const char *argv[])
 {
+    unsigned count;
     lxb_status_t status;
     lxb_dom_node_t *body;
     lxb_selectors_t *selectors;
     lxb_css_selectors_t *css_selectors;
     lxb_html_document_t *document;
     lxb_css_parser_t *parser;
-    lxb_example_context_t ctx;
     lxb_css_selector_list_t *list;
 
     /* HTML Data. */
@@ -82,7 +61,7 @@ main(int argc, const char *argv[])
         return EXIT_FAILURE;
     }
 
-    body = lxb_dom_interface_node(lxb_html_document_body_element(document));
+    body = lxb_dom_interface_node(document);
 
     /* Create CSS parser. */
 
@@ -113,17 +92,6 @@ main(int argc, const char *argv[])
         return EXIT_FAILURE;
     }
 
-    /* AVL Tree. */
-
-    ctx.avl = lexbor_avl_create();
-    status = lexbor_avl_init(ctx.avl, 32, 0);
-    if (status != LXB_STATUS_OK) {
-        return EXIT_FAILURE;
-    }
-
-    ctx.count = 0;
-    ctx.root = NULL;
-
     /* Parse and get the log. */
 
     list = lxb_css_selectors_parse(parser, slctrs,
@@ -148,14 +116,17 @@ main(int argc, const char *argv[])
 
     printf("\nFound:\n");
 
-    status = lxb_selectors_find(selectors, body, list, find_callback, &ctx);
+    count = 0;
+
+    lxb_selectors_opt_set(selectors, LXB_SELECTORS_OPT_MATCH_FIRST);
+
+    status = lxb_selectors_find(selectors, body, list, find_callback, &count);
     if (status != LXB_STATUS_OK) {
         return EXIT_FAILURE;
     }
 
     /* Destroy Objects. */
 
-    (void) lexbor_avl_destroy(ctx.avl, true);
     (void) lxb_selectors_destroy(selectors, true);
     (void) lxb_css_parser_destroy(parser, true);
     (void) lxb_css_memory_destroy(list->memory, true);
