@@ -344,6 +344,10 @@ lxb_selectors_state_tree(lxb_selectors_t *selectors, lxb_dom_node_t *root,
         node = root->first_child;
     }
 
+    if (node == NULL) {
+        goto out;
+    }
+
     do {
         if (node->type != LXB_DOM_NODE_TYPE_ELEMENT) {
             goto next;
@@ -380,6 +384,7 @@ lxb_selectors_state_tree(lxb_selectors_t *selectors, lxb_dom_node_t *root,
     }
     while (true);
 
+out:
     lxb_selectors_clean(selectors);
 
     return LXB_STATUS_OK;
