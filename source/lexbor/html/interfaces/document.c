@@ -801,12 +801,14 @@ lxb_html_document_parse_fragment_chunk_begin(lxb_html_document_t *document,
                                              lxb_dom_element_t *element)
 {
     lxb_status_t status;
-    lxb_html_parser_t *parser = document->dom_document.parser;
+    lxb_html_parser_t *parser;
 
     status = lxb_html_document_parser_prepare(document);
     if (status != LXB_STATUS_OK) {
         return status;
     }
+
+    parser = document->dom_document.parser;
 
     return lxb_html_parse_fragment_chunk_begin(parser, document,
                                                element->node.local_name,
