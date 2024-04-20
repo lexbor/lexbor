@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Alexander Borisov
+ * Copyright (C) 2023-2024 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -138,12 +138,44 @@ TEST_BEGIN(styles)
 }
 TEST_END
 
+TEST_BEGIN(bad_styles)
+{
+    lxb_status_t status;
+    lxb_html_document_t *document;
+
+    /* HTML Data. */
+
+    static const lexbor_str_t html = lexbor_str("<div class=father></div>"
+                                                "<style>div.father</style>");
+
+    /* Create HTML Document. */
+
+    document = lxb_html_document_create();
+    test_ne(document, NULL);
+
+    /* Init all CSS objects and momory for Document. */
+
+    status = lxb_html_document_css_init(document);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Parse HTML. */
+
+    status = lxb_html_document_parse(document, html.data, html.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Destroy resources. */
+
+    (void) lxb_html_document_destroy(document);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
     TEST_INIT();
 
     TEST_ADD(styles);
+    TEST_ADD(bad_styles);
 
     TEST_RUN("lexbor/style/style_tag");
     TEST_RELEASE();
