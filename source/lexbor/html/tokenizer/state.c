@@ -227,7 +227,7 @@ lxb_html_tokenizer_state_data(lxb_html_tokenizer_t *tkz,
 {
     lxb_html_tokenizer_state_begin_set(tkz, data);
 
-    data = lxb_swar_seek4(data, end, 0x3C, 0x26, 0x0D, 0x00);
+    data = lexbor_swar_seek4(data, end, 0x3C, 0x26, 0x0D, 0x00);
 
     while (data != end) {
         switch (*data) {
@@ -909,7 +909,7 @@ lxb_html_tokenizer_state_attribute_value_double_quoted(lxb_html_tokenizer_t *tkz
 
     lxb_html_tokenizer_state_begin_set(tkz, data);
 
-    data = lxb_swar_seek4(data, end, 0x22, 0x26, 0x0D, 0x00);
+    data = lexbor_swar_seek4(data, end, 0x22, 0x26, 0x0D, 0x00);
 
     while (data != end) {
         switch (*data) {
