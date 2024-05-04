@@ -9,9 +9,8 @@
 
 #ifdef LEXBOR_WITH_PERF
 
-#ifdef LEXBOR_OS_DARWIN
+#ifdef __APPLE__
     #include <sys/sysctl.h>
-#elif LEXBOR_OS_LINUX
 #endif
 
 
@@ -112,7 +111,7 @@ lexbor_perf_frequency(void)
 {
     unsigned long long freq = 0;
 
-#if defined(LEXBOR_OS_DARWIN) && defined(CTL_HW) && defined(HW_CPU_FREQ)
+#if defined(__APPLE__) && defined(CTL_HW) && defined(HW_CPU_FREQ)
 
     /* OSX kernel: sysctl(CTL_HW | HW_CPU_FREQ) */
     size_t len = sizeof(freq);
@@ -124,7 +123,7 @@ lexbor_perf_frequency(void)
 
     return freq;
 
-#elif defined(LEXBOR_OS_LINUX)
+#elif defined(__linux__)
 
     char buf[1024] = {0};
     double fval = 0.0;
@@ -152,7 +151,7 @@ lexbor_perf_frequency(void)
 
     return freq;
 
-#endif /* LEXBOR_OS_DARWIN || LEXBOR_OS_LINUX */
+#endif /* __APPLE__ || __linux__ */
 }
 
 #endif /* LEXBOR_WITH_PERF */

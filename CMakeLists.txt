@@ -19,6 +19,7 @@ cmake_minimum_required(VERSION 2.8.12...3.27)
 #    LEXBOR_BUILD_WITH_FUZZER            default: OFF; Build with fuzzer tests if possible
 #    LEXBOR_INSTALL_HEADERS              default: ON; The header files will be installed
 #                                         if set to ON
+#    LEXBOR_WITH_PERF                    default: OFF; Enables support for rdtsc
 #    LEXBOR_MAKE_RPM_FILES               default: OFF; Create "spec" files in "packaging" direcotry
 #                                         for create packages
 #    LEXBOR_MAKE_DEB_FILES               default: OFF; Create "control" files in "packaging" direcotry
@@ -52,6 +53,7 @@ option(LEXBOR_BUILD_UTILS "Build utils" OFF)
 option(LEXBOR_BUILD_WITH_ASAN "Build with address sanitizer" OFF)
 option(LEXBOR_BUILD_WITH_FUZZER "Build with fuzzer" OFF)
 option(LEXBOR_INSTALL_HEADERS "Install header files" ON)
+option(LEXBOR_WITH_PERF "Enables support for rdtsc." OFF)
 option(LEXBOR_MAKE_PACKAGES_FILES "Create files for build packages" OFF)
 option(LEXBOR_PRINT_MODULE_DEPENDENCIES "Prints dependencies" OFF)
 
