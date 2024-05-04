@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2024 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -12,6 +12,8 @@
 #ifdef __APPLE__
     #include <sys/sysctl.h>
 #endif
+
+#endif /* LEXBOR_WITH_PERF */
 
 
 static unsigned long long
@@ -79,11 +81,13 @@ lexbor_perf_in_sec(void *perf)
 
     if (obj_perf->freq != 0) {
         return ((double) (obj_perf->end - obj_perf->start)
-                / (double)obj_perf->freq);
+                / (double) obj_perf->freq);
     }
 
     return 0.0f;
 }
+
+#ifdef LEXBOR_WITH_PERF
 
 static unsigned long long
 lexbor_perf_clock(void)
@@ -152,6 +156,20 @@ lexbor_perf_frequency(void)
     return freq;
 
 #endif /* __APPLE__ || __linux__ */
+}
+
+#else /* LEXBOR_WITH_PERF */
+
+static unsigned long long
+lexbor_perf_clock(void)
+{
+    return 0;
+}
+
+static unsigned long long
+lexbor_perf_frequency(void)
+{
+    return 0;
 }
 
 #endif /* LEXBOR_WITH_PERF */
