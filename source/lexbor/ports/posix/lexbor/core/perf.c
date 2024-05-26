@@ -92,6 +92,24 @@ lexbor_perf_in_sec(void *perf)
 static unsigned long long
 lexbor_perf_clock(void)
 {
+#if defined(__POWERPC__) || defined(__powerpc__)
+    unsigned long long int result = 0;
+    unsigned long int upper, lower, tmp;
+    __asm__ volatile (
+                      "0:\n"
+                      "\tmftbu %0\n"
+                      "\tmftb %1\n"
+                      "\tmftbu %2\n"
+                      "\tcmpw %2,%0\n"
+                      "\tbne 0b\n"
+                      : "=r"(upper), "=r"(lower), "=r"(tmp)
+                     );
+    result = upper;
+    result = result << 32;
+    result = result | lower;
+
+    return result;
+#else
     unsigned long long x;
 
      /*
@@ -108,6 +126,7 @@ lexbor_perf_clock(void)
                       : "rdx", "ebx", "ecx");
 
     return x;
+#endif
 }
 
 static unsigned long long
