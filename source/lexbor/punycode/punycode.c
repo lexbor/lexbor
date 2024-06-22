@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Alexander Borisov
+ * Copyright (C) 2023-2024 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -41,31 +41,31 @@
 
 #define LXB_PUNYCODE_DECODE_REALLOC(p, buf, end)                              \
     do {                                                                      \
-        if (end == buffer + buf_len) {                                        \
-            nsize = buf_len * 6;                                              \
+        size_t cur_size = (end) - (buf);                                      \
+        size_t nsize = cur_size * 4;                                          \
+        lxb_codepoint_t *tmp;                                                 \
                                                                               \
+        if ((p) == (end)) {                                                   \
             tmp = lexbor_malloc(nsize * sizeof(lxb_codepoint_t));             \
             if (tmp == NULL) {                                                \
                 return LXB_STATUS_ERROR_MEMORY_ALLOCATION;                    \
             }                                                                 \
                                                                               \
-            memcpy(tmp, buf, buf_len);                                        \
+            memcpy(tmp, (buf), cur_size * sizeof(lxb_codepoint_t));           \
                                                                               \
-            p = tmp + buf_len;                                                \
+            (p) = tmp + cur_size;                                             \
         }                                                                     \
         else {                                                                \
-            nsize = (end - buf) * 4;                                          \
-                                                                              \
-            tmp = lexbor_realloc(buf, nsize * sizeof(lxb_codepoint_t));       \
+            tmp = lexbor_realloc((buf), nsize * sizeof(lxb_codepoint_t));     \
             if (tmp == NULL) {                                                \
                 return LXB_STATUS_ERROR_MEMORY_ALLOCATION;                    \
             }                                                                 \
                                                                               \
-            p = tmp + (p - buf);                                              \
+            (p) = tmp + cur_size;                                             \
         }                                                                     \
                                                                               \
-        buf = tmp;                                                            \
-        end = tmp + nsize;                                                    \
+        (buf) = tmp;                                                          \
+        (end) = tmp + nsize;                                                  \
     }                                                                         \
     while (false)
 
@@ -417,11 +417,11 @@ lxb_status_t
 lxb_punycode_decode_cp(const lxb_codepoint_t *data, size_t length,
                        lexbor_serialize_cb_cp_f cb, void *ctx)
 {
-    size_t nsize, buf_len, digit, oldi, bias, w, k, t, i, h, in;
+    size_t buf_len, digit, oldi, bias, w, k, t, i, h, in;
     const lxb_codepoint_t *delimiter, *data_p, *data_end;
     lxb_status_t status;
     lxb_codepoint_t cp, n;
-    lxb_codepoint_t *p, *buf, *end, *tmp;
+    lxb_codepoint_t *p, *buf, *end;
     lxb_codepoint_t buffer[4096];
 
     p = buffer;
@@ -525,11 +525,11 @@ lxb_status_t
 lxb_punycode_decode_cb_cp(const lxb_char_t *data, size_t length,
                           lexbor_serialize_cb_cp_f cb, void *ctx)
 {
-    size_t nsize, buf_len, digit, oldi, bias, w, k, t, i, h, in;
+    size_t buf_len, digit, oldi, bias, w, k, t, i, h, in;
     const lxb_char_t *delimiter, *data_p, *data_end;
     lxb_status_t status;
     lxb_codepoint_t cp, n;
-    lxb_codepoint_t *p, *buf, *end, *tmp;
+    lxb_codepoint_t *p, *buf, *end;
     lxb_codepoint_t buffer[4096];
 
     p = buffer;
