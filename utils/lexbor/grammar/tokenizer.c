@@ -179,8 +179,7 @@ lxb_grammar_tokenizer_html_token(lxb_html_tokenizer_t *html_tkz,
         return token;
     }
 
-    element = lxb_html_tree_create_element_for_token(tree, token,
-                                                     LXB_NS_HTML, NULL);
+    element = lxb_html_tree_create_element_for_token(tree, token, LXB_NS_HTML);
     if (element == NULL) {
         return NULL;
     }
