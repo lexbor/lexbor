@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Alexander Borisov
+ * Copyright (C) 2019-2024 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -10,6 +10,13 @@
 
 
 static const char *lxb_filepath_test;
+
+
+typedef struct {
+    const lxb_codepoint_t *source;
+    const lxb_char_t      *result;
+}
+test_sequence;
 
 
 TEST_BEGIN(decode)
@@ -265,6 +272,52 @@ TEST_BEGIN(encode_buffer_check)
 }
 TEST_END
 
+TEST_BEGIN(encode_sequence)
+{
+    int8_t len;
+    lxb_status_t status;
+    lxb_encoding_encode_t encode;
+    const lxb_encoding_data_t *encoding;
+
+    lxb_char_t buffer[1024];
+    lxb_char_t *data;
+    const lxb_char_t *end = buffer + sizeof(buffer);
+
+    const test_sequence cps[] = {
+        {
+            .source = (lxb_codepoint_t[]) {0x00A5, 0x203E, 0x00},
+            .result = (lxb_char_t[]) {0x1B, 0x28, 0x4A, 0x5C, 0x7E, 0x1B, 0x28, 0x42, 0x00}
+        },
+        {
+            .source = (lxb_codepoint_t[]) {0x203E, 0x00A5, 0x00},
+            .result = (lxb_char_t[]) {0x1B, 0x28, 0x4A, 0x7E, 0x5C, 0x1B, 0x28, 0x42, 0x00}
+        }
+    };
+
+    encoding = lxb_encoding_data(LXB_ENCODING_ISO_2022_JP);
+
+    for (size_t i = 0; i != (sizeof(cps) / sizeof(test_sequence)); i++) {
+        data = buffer;
+
+        status = lxb_encoding_encode_init_single(&encode, encoding);
+        test_eq(status, LXB_STATUS_OK);
+
+        for (size_t x = 0; cps[i].source[x] != 0x00; x++) {
+            len = encoding->encode_single(&encode, &data, end, cps[i].source[x]);
+            if (len < LXB_ENCODING_ENCODE_OK) {
+                /* In this example, this cannot happen. */
+                continue;
+            }
+        }
+
+        lxb_encoding_encode_finish_single(&encode, &data, end);
+
+        test_eq_str_n(buffer, data - buffer,
+                      cps[i].result, strlen((const char *) cps[i].result));
+    }
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -282,6 +335,7 @@ main(int argc, const char * argv[])
     TEST_ADD(decode_map);
     TEST_ADD(encode_map);
     TEST_ADD(encode_buffer_check);
+    TEST_ADD(encode_sequence);
 
     TEST_RUN("lexbor/encoding/iso_2022_jp");
     TEST_RELEASE();
