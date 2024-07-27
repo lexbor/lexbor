@@ -8,68 +8,6 @@
 #include "lexbor/encoding/encoding.h"
 
 
-#define LXB_PUNYCODE_ENCODE_REALLOC(p, buf, end, buffer_end)                  \
-    do {                                                                      \
-        if (end == buffer_end) {                                              \
-            nsize = (buffer_end - buf) * 6;                                   \
-                                                                              \
-            tmp = lexbor_malloc(nsize);                                       \
-            if (tmp == NULL) {                                                \
-                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;                    \
-            }                                                                 \
-                                                                              \
-            memcpy(tmp, buf, (buffer_end - buf));                             \
-                                                                              \
-            p = tmp + (buffer_end - buf);                                     \
-        }                                                                     \
-        else {                                                                \
-            nsize = (end - buf) * 4;                                          \
-                                                                              \
-            tmp = lexbor_realloc(buf, nsize);                                 \
-            if (tmp == NULL) {                                                \
-                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;                    \
-            }                                                                 \
-                                                                              \
-            p = tmp + (p - buf);                                              \
-        }                                                                     \
-                                                                              \
-        buf = tmp;                                                            \
-        end = tmp + nsize;                                                    \
-    }                                                                         \
-    while (false)
-
-
-#define LXB_PUNYCODE_DECODE_REALLOC(p, buf, end)                              \
-    do {                                                                      \
-        size_t cur_size = (end) - (buf);                                      \
-        size_t nsize = cur_size * 4;                                          \
-        lxb_codepoint_t *tmp;                                                 \
-                                                                              \
-        if ((p) == (end)) {                                                   \
-            tmp = lexbor_malloc(nsize * sizeof(lxb_codepoint_t));             \
-            if (tmp == NULL) {                                                \
-                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;                    \
-            }                                                                 \
-                                                                              \
-            memcpy(tmp, (buf), cur_size * sizeof(lxb_codepoint_t));           \
-                                                                              \
-            (p) = tmp + cur_size;                                             \
-        }                                                                     \
-        else {                                                                \
-            tmp = lexbor_realloc((buf), nsize * sizeof(lxb_codepoint_t));     \
-            if (tmp == NULL) {                                                \
-                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;                    \
-            }                                                                 \
-                                                                              \
-            (p) = tmp + cur_size;                                             \
-        }                                                                     \
-                                                                              \
-        (buf) = tmp;                                                          \
-        (end) = tmp + nsize;                                                  \
-    }                                                                         \
-    while (false)
-
-
 enum {
     LXB_PUNYCODE_BASE = 36,
     LXB_PUNYCODE_TMIN = 1,
@@ -85,6 +23,65 @@ enum {
 static lxb_status_t
 lxb_punycode_callback_cp(const lxb_codepoint_t *cps, size_t len, void *ctx);
 
+
+lxb_inline lxb_char_t *
+lxb_punycode_encode_realloc(lxb_char_t *p, lxb_char_t **buf,
+                            const lxb_char_t **end, const lxb_char_t *buffer)
+{
+    size_t cur_size = *end - *buf;
+    size_t nsize = cur_size * 2;
+    lxb_char_t *tmp;
+
+    if (*buf == buffer) {
+        tmp = lexbor_malloc(nsize);
+        if (tmp == NULL) {
+            return NULL;
+        }
+
+        memcpy(tmp, *buf, cur_size);
+    }
+    else {
+        tmp = lexbor_realloc(*buf, nsize);
+        if (tmp == NULL) {
+            return lexbor_free(*buf);
+        }
+    }
+
+    *buf = tmp;
+    *end = tmp + nsize;
+
+    return tmp + cur_size;
+}
+
+lxb_inline lxb_codepoint_t *
+lxb_punycode_decode_realloc(lxb_codepoint_t *p, lxb_codepoint_t **buf,
+                            const lxb_codepoint_t **end,
+                            const lxb_codepoint_t *buffer)
+{
+    size_t cur_size = *end - *buf;
+    size_t nsize = cur_size * 2;
+    lxb_codepoint_t *tmp;
+
+    if (*buf == buffer) {
+        tmp = lexbor_malloc(nsize * sizeof(lxb_codepoint_t));
+        if (tmp == NULL) {
+            return NULL;
+        }
+
+        memcpy(tmp, *buf, cur_size * sizeof(lxb_codepoint_t));
+    }
+    else {
+        tmp = lexbor_realloc(*buf, nsize * sizeof(lxb_codepoint_t));
+        if (tmp == NULL) {
+            return lexbor_free(*buf);
+        }
+    }
+
+    *buf = tmp;
+    *end = tmp + nsize;
+
+    return tmp + cur_size;
+}
 
 static char
 lxb_punycode_encode_digit(size_t d) {
@@ -120,12 +117,11 @@ lxb_punycode_adapt(size_t delta, size_t numpoints, bool firsttime)
 static lxb_status_t
 lxb_punycode_encode_body(const lxb_codepoint_t *cps, const lxb_codepoint_t *cps_end,
                          lxb_char_t *p, lxb_char_t *buf, const lxb_char_t *end,
-                         const lxb_char_t *buffer, const lxb_char_t *buffer_end,
-                         lxb_punycode_encode_cb_f cb, void *ctx)
+                         const lxb_char_t *buffer, lxb_punycode_encode_cb_f cb,
+                         void *ctx)
 {
     bool unchanged;
-    size_t h, b, n, q, k, t, delta, bias, nsize;
-    lxb_char_t *tmp;
+    size_t h, b, n, q, k, t, delta, bias;
     lxb_status_t status;
     lxb_codepoint_t cp, m;
     const lxb_codepoint_t *cps_t, *cps_p;
@@ -162,7 +158,8 @@ lxb_punycode_encode_body(const lxb_codepoint_t *cps, const lxb_codepoint_t *cps_
         h = (cps_p - cps) + 1;
 
         if (m - n > (UINT32_MAX - delta) / h) {
-            return LXB_STATUS_ERROR_OVERFLOW;
+            status = LXB_STATUS_ERROR_OVERFLOW;
+            goto failed;
         }
 
         delta += (m - n) * h;
@@ -175,7 +172,8 @@ lxb_punycode_encode_body(const lxb_codepoint_t *cps, const lxb_codepoint_t *cps_
 
             if (cp < n) {
                 if (++delta == 0) {
-                    return LXB_STATUS_ERROR_OVERFLOW;
+                    status = LXB_STATUS_ERROR_OVERFLOW;
+                    goto failed;
                 }
             }
 
@@ -193,7 +191,10 @@ lxb_punycode_encode_body(const lxb_codepoint_t *cps, const lxb_codepoint_t *cps_
                     }
 
                     if (p >= end) {
-                        LXB_PUNYCODE_ENCODE_REALLOC(p, buf, end, buffer_end);
+                        p = lxb_punycode_encode_realloc(p, &buf, &end, buffer);
+                        if (p == NULL) {
+                            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+                        }
                     }
 
                     *p++ = lxb_punycode_encode_digit(t + (q - t)
@@ -204,7 +205,10 @@ lxb_punycode_encode_body(const lxb_codepoint_t *cps, const lxb_codepoint_t *cps_
                 h = cps_p - cps;
 
                 if (p >= end) {
-                    LXB_PUNYCODE_ENCODE_REALLOC(p, buf, end, buffer_end);
+                    p = lxb_punycode_encode_realloc(p, &buf, &end, buffer);
+                    if (p == NULL) {
+                        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+                    }
                 }
 
                 *p++ = lxb_punycode_encode_digit(q);
@@ -222,6 +226,8 @@ done:
 
     status = cb(buf, p - buf, ctx, unchanged);
 
+failed:
+
     if (buf != buffer) {
         (void) lexbor_free(buf);
     }
@@ -233,12 +239,12 @@ lxb_status_t
 lxb_punycode_encode(const lxb_char_t *data, size_t length,
                     lxb_punycode_encode_cb_f cb, void *ctx)
 {
-    size_t nsize, cp_length;
+    size_t cp_length;
     uint8_t len;
-    lxb_char_t *p, *buf, *tmp;
+    lxb_char_t *p, *buf;
     lxb_status_t status;
     lxb_codepoint_t cp, *cps, *cps_p;
-    const lxb_char_t *data_p, *data_end, *end, *buffer_end;
+    const lxb_char_t *data_p, *data_end, *end;
     const lxb_codepoint_t *cps_end;
     lxb_char_t buffer[4096];
     lxb_codepoint_t input[4096];
@@ -252,7 +258,6 @@ lxb_punycode_encode(const lxb_char_t *data, size_t length,
     p = buffer;
     buf = buffer;
     end = buffer + sizeof(buffer);
-    buffer_end = end;
 
     data_p = data;
     data_end = data + length;
@@ -286,22 +291,28 @@ lxb_punycode_encode(const lxb_char_t *data, size_t length,
     while (data_p < data_end) {
         cp = lxb_encoding_decode_valid_utf_8_single(&data_p, data_end);
         if (cp == LXB_ENCODING_DECODE_ERROR) {
-            return LXB_STATUS_ERROR_UNEXPECTED_DATA;
+            status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+            goto done;
         }
 
         *cps_p++ = cp;
 
         if (cp < 0x80) {
             if (p >= end) {
-                LXB_PUNYCODE_ENCODE_REALLOC(p, buf, end, buffer_end);
+                p = lxb_punycode_encode_realloc(p, &buf, &end, buffer);
+                if (p == NULL) {
+                    status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+                    goto done;
+                }
             }
 
             *p++ = cp;
         }
     }
 
-    status = lxb_punycode_encode_body(cps, cps_end, p, buf, end,
-                                      buffer, buffer_end, cb, ctx);
+    status = lxb_punycode_encode_body(cps, cps_end, p, buf, end, buffer,
+                                      cb, ctx);
+done:
 
     if (cps != input) {
         (void) lexbor_free(cps);
@@ -314,17 +325,15 @@ lxb_status_t
 lxb_punycode_encode_cp(const lxb_codepoint_t *cps, size_t length,
                        lxb_punycode_encode_cb_f cb, void *ctx)
 {
-    size_t nsize;
-    lxb_char_t *p, *buf, *tmp;
+    lxb_char_t *p, *buf;
     lxb_codepoint_t cp;
-    const lxb_char_t *end, *buffer_end;
+    const lxb_char_t *end;
     const lxb_codepoint_t *cps_p, *cps_end;
     lxb_char_t buffer[4096];
 
     p = buffer;
     buf = buffer;
     end = buffer + sizeof(buffer);
-    buffer_end = end;
 
     cps_p = cps;
     cps_end = cps + length;
@@ -334,15 +343,17 @@ lxb_punycode_encode_cp(const lxb_codepoint_t *cps, size_t length,
 
         if (cp < 0x80) {
             if (p >= end) {
-                LXB_PUNYCODE_ENCODE_REALLOC(p, buf, end, buffer);
+                p = lxb_punycode_encode_realloc(p, &buf, &end, buffer);
+                if (p == NULL) {
+                    return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+                }
             }
 
             *p++ = cp;
         }
     }
 
-    return lxb_punycode_encode_body(cps, cps_end, p, buf, end,
-                                    buffer, buffer_end, cb, ctx);
+    return lxb_punycode_encode_body(cps, cps_end, p, buf, end, buffer, cb, ctx);
 }
 
 lxb_status_t
@@ -421,7 +432,8 @@ lxb_punycode_decode_cp(const lxb_codepoint_t *data, size_t length,
     const lxb_codepoint_t *delimiter, *data_p, *data_end;
     lxb_status_t status;
     lxb_codepoint_t cp, n;
-    lxb_codepoint_t *p, *buf, *end;
+    lxb_codepoint_t *p, *buf;
+    const lxb_codepoint_t *end;
     lxb_codepoint_t buffer[4096];
 
     p = buffer;
@@ -445,11 +457,15 @@ lxb_punycode_decode_cp(const lxb_codepoint_t *data, size_t length,
         cp = *data_p++;
 
         if (cp >= 0x80) {
-            return LXB_STATUS_ERROR_UNEXPECTED_DATA;
+            status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+            goto done;
         }
 
         if (p >= end) {
-            LXB_PUNYCODE_DECODE_REALLOC(p, buf, end);
+            p = lxb_punycode_decode_realloc(p, &buf, &end, buffer);
+            if (p == NULL) {
+                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            }
         }
 
         *p++ = cp;
@@ -464,18 +480,21 @@ lxb_punycode_decode_cp(const lxb_codepoint_t *data, size_t length,
     for (; in < length; p++) {
         for (oldi = i, w = 1, k = LXB_PUNYCODE_BASE; ; k += LXB_PUNYCODE_BASE) {
             if (in >= length) {
-                return LXB_STATUS_ERROR_UNEXPECTED_DATA;
+                status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+                goto done;
             }
 
             cp = data[in++];
             digit = lxb_punycode_decode_digit(cp);
 
             if (digit >= LXB_PUNYCODE_BASE) {
-                return LXB_STATUS_ERROR_UNEXPECTED_DATA;
+                status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+                goto done;
             }
 
             if (digit > (UINT32_MAX - i) / w) {
-                return LXB_STATUS_ERROR_OVERFLOW;
+                status = LXB_STATUS_ERROR_OVERFLOW;
+                goto done;
             }
 
             i += digit * w;
@@ -487,7 +506,8 @@ lxb_punycode_decode_cp(const lxb_codepoint_t *data, size_t length,
             }
 
             if (w > UINT32_MAX / (LXB_PUNYCODE_BASE - t)) {
-                return LXB_STATUS_ERROR_OVERFLOW;
+                status = LXB_STATUS_ERROR_OVERFLOW;
+                goto done;
             }
 
             w *= (LXB_PUNYCODE_BASE - t);
@@ -498,14 +518,18 @@ lxb_punycode_decode_cp(const lxb_codepoint_t *data, size_t length,
         bias = lxb_punycode_adapt(i - oldi, h, oldi == 0);
 
         if (i / h > UINT32_MAX - n) {
-            return LXB_STATUS_ERROR_OVERFLOW;
+            status = LXB_STATUS_ERROR_OVERFLOW;
+            goto done;
         }
 
         n += i / h;
         i %= h;
 
         if (p >= end) {
-            LXB_PUNYCODE_DECODE_REALLOC(p, buf, end);
+            p = lxb_punycode_decode_realloc(p, &buf, &end, buffer);
+            if (p == NULL) {
+                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            }
         }
 
         memmove(buf + i + 1, buf + i, ((h - 1) - i) * sizeof(lxb_codepoint_t));
@@ -514,7 +538,9 @@ lxb_punycode_decode_cp(const lxb_codepoint_t *data, size_t length,
 
     status = cb(buf, p - buf, ctx);
 
-    if (end != buffer + buf_len) {
+done:
+
+    if (buffer != buf) {
         (void) lexbor_free(buf);
     }
 
@@ -529,7 +555,8 @@ lxb_punycode_decode_cb_cp(const lxb_char_t *data, size_t length,
     const lxb_char_t *delimiter, *data_p, *data_end;
     lxb_status_t status;
     lxb_codepoint_t cp, n;
-    lxb_codepoint_t *p, *buf, *end;
+    lxb_codepoint_t *p, *buf;
+    const lxb_codepoint_t *end;
     lxb_codepoint_t buffer[4096];
 
     p = buffer;
@@ -553,11 +580,15 @@ lxb_punycode_decode_cb_cp(const lxb_char_t *data, size_t length,
         cp = *data_p++;
 
         if (cp >= 0x80) {
-            return LXB_STATUS_ERROR_UNEXPECTED_DATA;
+            status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+            goto done;
         }
 
         if (p >= end) {
-            LXB_PUNYCODE_DECODE_REALLOC(p, buf, end);
+            p = lxb_punycode_decode_realloc(p, &buf, &end, buffer);
+            if (p == NULL) {
+                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            }
         }
 
         *p++ = cp;
@@ -572,18 +603,21 @@ lxb_punycode_decode_cb_cp(const lxb_char_t *data, size_t length,
     for (; in < length; p++) {
         for (oldi = i, w = 1, k = LXB_PUNYCODE_BASE; ; k += LXB_PUNYCODE_BASE) {
             if (in >= length) {
-                return LXB_STATUS_ERROR_UNEXPECTED_DATA;
+                status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+                goto done;
             }
 
             cp = data[in++];
             digit = lxb_punycode_decode_digit(cp);
 
             if (digit >= LXB_PUNYCODE_BASE) {
-                return LXB_STATUS_ERROR_UNEXPECTED_DATA;
+                status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+                goto done;
             }
 
             if (digit > (UINT32_MAX - i) / w) {
-                return LXB_STATUS_ERROR_OVERFLOW;
+                status = LXB_STATUS_ERROR_OVERFLOW;
+                goto done;
             }
 
             i += digit * w;
@@ -595,7 +629,8 @@ lxb_punycode_decode_cb_cp(const lxb_char_t *data, size_t length,
             }
 
             if (w > UINT32_MAX / (LXB_PUNYCODE_BASE - t)) {
-                return LXB_STATUS_ERROR_OVERFLOW;
+                status = LXB_STATUS_ERROR_OVERFLOW;
+                goto done;
             }
 
             w *= (LXB_PUNYCODE_BASE - t);
@@ -606,14 +641,18 @@ lxb_punycode_decode_cb_cp(const lxb_char_t *data, size_t length,
         bias = lxb_punycode_adapt(i - oldi, h, oldi == 0);
 
         if (i / h > UINT32_MAX - n) {
-            return LXB_STATUS_ERROR_OVERFLOW;
+            status = LXB_STATUS_ERROR_OVERFLOW;
+            goto done;
         }
 
         n += i / h;
         i %= h;
 
         if (p >= end) {
-            LXB_PUNYCODE_DECODE_REALLOC(p, buf, end);
+            p = lxb_punycode_decode_realloc(p, &buf, &end, buffer);
+            if (p == NULL) {
+                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            }
         }
 
         memmove(buf + i + 1, buf + i, ((h - 1) - i) * sizeof(lxb_codepoint_t));
@@ -622,7 +661,9 @@ lxb_punycode_decode_cb_cp(const lxb_char_t *data, size_t length,
 
     status = cb(buf, p - buf, ctx);
 
-    if (end != buffer + buf_len) {
+done:
+
+    if (buffer != buf) {
         (void) lexbor_free(buf);
     }
 
