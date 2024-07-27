@@ -218,6 +218,10 @@ Please, see [roadmap](https://lexbor.com/roadmap/) on [lexbor.com](https://lexbo
 
 * E-mail [support@lexbor.com](mailto:support@lexbor.com)
 
+## SAST Tools
+
+[PVS-Studio](https://pvs-studio.ru/ru/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
+
 ## AUTHOR
 
 Alexander Borisov <borisov@lexbor.com>
