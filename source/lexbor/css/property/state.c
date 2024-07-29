@@ -586,12 +586,12 @@ lxb_css_property_state_color_hex(lxb_css_parser_t *parser,
 
 static bool
 lxb_css_property_state_color_rgba(lxb_css_parser_t *parser,
-                                  const lxb_css_syntax_token_t *token,
                                   lxb_css_value_color_t *color)
 {
     bool res;
     lxb_css_color_type_t type;
     lxb_css_value_color_rgba_t *rgb;
+    const lxb_css_syntax_token_t *token;
 
     rgb = &color->u.rgb;
 
@@ -763,11 +763,11 @@ lxb_css_property_state_color_rgba_old(lxb_css_parser_t *parser,
 
 static bool
 lxb_css_property_state_color_hsla(lxb_css_parser_t *parser,
-                                  const lxb_css_syntax_token_t *token,
                                   lxb_css_value_color_t *color)
 {
     bool res;
     lxb_css_value_color_hsla_t *hsl;
+    const lxb_css_syntax_token_t *token;
 
     lxb_css_syntax_parser_consume(parser);
     token = lxb_css_syntax_parser_token_wo_ws(parser);
@@ -913,11 +913,11 @@ done:
 
 static bool
 lxb_css_property_state_color_lab(lxb_css_parser_t *parser,
-                                 const lxb_css_syntax_token_t *token,
                                  lxb_css_value_color_t *color)
 {
     bool res;
     lxb_css_value_color_lab_t *lab;
+    const lxb_css_syntax_token_t *token;
 
     lab = &color->u.lab;
 
@@ -986,11 +986,11 @@ lxb_css_property_state_color_lab(lxb_css_parser_t *parser,
 
 static bool
 lxb_css_property_state_color_lch(lxb_css_parser_t *parser,
-                                 const lxb_css_syntax_token_t *token,
                                  lxb_css_value_color_t *color)
 {
     bool res;
     lxb_css_value_color_lch_t *lch;
+    const lxb_css_syntax_token_t *token;
 
     lch = &color->u.lch;
 
@@ -1088,27 +1088,23 @@ lxb_css_property_state_color_handler(lxb_css_parser_t *parser,
                 /* <color> */
                 case LXB_CSS_VALUE_RGB:
                 case LXB_CSS_VALUE_RGBA:
-                    res = lxb_css_property_state_color_rgba(parser, token,
-                                                            color);
+                    res = lxb_css_property_state_color_rgba(parser, color);
                     break;
 
                 case LXB_CSS_VALUE_HSL:
                 case LXB_CSS_VALUE_HSLA:
                 case LXB_CSS_VALUE_HWB:
-                    res = lxb_css_property_state_color_hsla(parser, token,
-                                                            color);
+                    res = lxb_css_property_state_color_hsla(parser, color);
                     break;
 
                 case LXB_CSS_VALUE_LAB:
                 case LXB_CSS_VALUE_OKLAB:
-                    res = lxb_css_property_state_color_lab(parser, token,
-                                                           color);
+                    res = lxb_css_property_state_color_lab(parser, color);
                     break;
 
                 case LXB_CSS_VALUE_LCH:
                 case LXB_CSS_VALUE_OKLCH:
-                    res = lxb_css_property_state_color_lch(parser, token,
-                                                           color);
+                    res = lxb_css_property_state_color_lch(parser, color);
                     break;
 
                 case LXB_CSS_VALUE_COLOR:
