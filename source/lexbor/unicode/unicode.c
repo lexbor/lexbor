@@ -366,6 +366,7 @@ lxb_unicode_check_buf(lxb_unicode_normalizer_t *uc, lxb_unicode_buffer_t **p,
         buf = lexbor_realloc(uc->buf, new_len * sizeof(lxb_unicode_buffer_t));
         if (buf == NULL) {
             *p = NULL;
+            return;
         }
 
         if (uc->starter != NULL) {
@@ -511,6 +512,10 @@ lxb_unicode_normalize_body(lxb_unicode_normalizer_t *uc, const void *data,
     restore:
 
         dp = uc->decomposition(uc, cp, &p, &buf_end);
+        if (dp == NULL) {
+            lxb_unicode_normalizer_clean(uc);
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
 
         while (p < dp) {
             if (p->ccc == 0) {
