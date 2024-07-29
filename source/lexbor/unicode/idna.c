@@ -111,13 +111,15 @@ lxb_unicode_idna_realloc(lxb_codepoint_t *buf, const lxb_codepoint_t *buffer,
  
     if (buf == buffer) {
         tmp = lexbor_malloc(nlen * sizeof(lxb_codepoint_t));
+        if (tmp == NULL) {
+            return NULL;
+        }
     }
     else {
         tmp = lexbor_realloc(buf, nlen * sizeof(lxb_codepoint_t));
-    }
-
-    if (tmp == NULL) {
-        return NULL;
+        if (tmp == NULL) {
+            return lexbor_free(buf);
+        }
     }
 
     *buf_p = tmp + (*buf_p - buf);
@@ -199,7 +201,7 @@ lxb_unicode_idna_processing_body(lxb_unicode_idna_t *idna, const void *data,
                     buf = lxb_unicode_idna_realloc(buf, buffer, &buf_p,
                                                    &buf_end, length);
                     if (buf == NULL) {
-                        goto failed;
+                        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
                     }
                 }
 
@@ -247,7 +249,7 @@ lxb_unicode_idna_processing_body(lxb_unicode_idna_t *idna, const void *data,
                     buf = lxb_unicode_idna_realloc(buf, buffer, &buf_p,
                                                    &buf_end, 1);
                     if (buf == NULL) {
-                        goto failed;
+                        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
                     }
                 }
 
@@ -279,14 +281,6 @@ done:
     }
 
     return status;
-
-failed:
-
-    if (buf != buffer) {
-        (void) lexbor_free(buf);
-    }
-
-    return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
 }
 
 static lxb_status_t
