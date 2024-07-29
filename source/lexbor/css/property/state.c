@@ -2652,10 +2652,6 @@ lxb_css_property_state_text_indent(lxb_css_parser_t *parser,
             return lxb_css_parser_failed(parser);
     }
 
-    if (text_indent->type == LXB_CSS_VALUE__UNDEF) {
-        return lxb_css_parser_failed(parser);
-    }
-
     lxb_css_syntax_parser_consume(parser);
 
     return lxb_css_parser_success(parser);
