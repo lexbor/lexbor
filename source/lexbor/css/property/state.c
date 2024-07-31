@@ -40,7 +40,8 @@
     }                                                                         \
     while (false)
 
-#define LXB_CSS_PROPERTY_STATE_HEX_MASK(n)  ((((uint32_t) 1 << 31) - 1) << (n))
+#define LXB_CSS_PROPERTY_STATE_HEX_MASK(n)                                    \
+    ((((uint32_t) 1 << (32 - (n))) - 1) << (n))
 
 
 static bool
