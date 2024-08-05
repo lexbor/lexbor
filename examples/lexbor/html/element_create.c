@@ -15,7 +15,6 @@ main(int argc, const char *argv[])
     lxb_html_document_t *document;
     lxb_dom_element_t *element;
     lxb_dom_text_t *text;
-    lexbor_hash_t *tags;
 
     const lxb_char_t *tag_name;
     size_t tag_name_len;
@@ -31,11 +30,9 @@ main(int argc, const char *argv[])
     printf("\n");
 
     /* Create all known tags */
-    tags = lxb_html_document_tags(document);
-
     for (tag_id = LXB_TAG_A; tag_id < LXB_TAG__LAST_ENTRY; tag_id++)
     {
-        tag_name = lxb_tag_name_by_id(tags, tag_id, &tag_name_len);
+        tag_name = lxb_tag_name_by_id(tag_id, &tag_name_len);
         if (tag_name == NULL) {
             FAILED("Failed to get tag name by id");
         }

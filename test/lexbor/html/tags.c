@@ -44,8 +44,7 @@ TEST_BEGIN(tags)
 
     test_eq(lxb_html_element_tag_id(element), LXB_TAG_DIV);
 
-    name = lxb_tag_name_by_id(lxb_html_document_tags(document),
-                              lxb_html_element_tag_id(element), &length);
+    name = lxb_tag_name_by_id(lxb_html_element_tag_id(element), &length);
     test_ne(name, NULL);
     test_eq_str(name, "div");
 
@@ -56,8 +55,7 @@ TEST_BEGIN(tags)
 
     test_gt(lxb_html_element_tag_id(element), LXB_TAG__LAST_ENTRY);
 
-    name = lxb_tag_name_by_id(lxb_html_document_tags(document),
-                              lxb_html_element_tag_id(element), &length);
+    name = lxb_tag_name_by_id(lxb_html_element_tag_id(element), &length);
     test_ne(name, NULL);
     test_eq_str(name, "hoho");
 

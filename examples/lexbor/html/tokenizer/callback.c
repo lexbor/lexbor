@@ -23,9 +23,8 @@ token_callback(lxb_html_tokenizer_t *tkz, lxb_html_token_t *token, void *ctx)
 {
     bool is_close;
     const lxb_char_t *name;
-    lexbor_hash_t *tags = lxb_html_tokenizer_tags(tkz);
 
-    name = lxb_tag_name_by_id(tags, token->tag_id, NULL);
+    name = lxb_tag_name_by_id(token->tag_id, NULL);
     if (name == NULL) {
         FAILED("Failed to get token name");
     }
