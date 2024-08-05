@@ -484,8 +484,7 @@ lxb_grammar_node_serialize(const lxb_grammar_node_t *node,
 
         case LXB_GRAMMAR_NODE_DECLARATION:
         case LXB_GRAMMAR_NODE_ELEMENT: {
-            tag_data = lxb_tag_data_by_id(node->u.node->owner_document->tags,
-                                          node->u.node->local_name);
+            tag_data = lxb_tag_data_by_id(node->u.node->local_name);
             if (tag_data == NULL) {
                 return LXB_STATUS_ERROR;
             }

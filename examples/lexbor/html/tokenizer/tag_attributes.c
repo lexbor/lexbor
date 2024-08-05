@@ -30,7 +30,7 @@ token_callback(lxb_html_tokenizer_t *tkz, lxb_html_token_t *token, void *ctx)
         return token;
     }
 
-    tag = lxb_tag_name_by_id(lxb_html_tokenizer_tags(tkz), token->tag_id, NULL);
+    tag = lxb_tag_name_by_id(token->tag_id, NULL);
     if (tag == NULL) {
         FAILED("Failed to get token name");
     }

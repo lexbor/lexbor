@@ -539,8 +539,7 @@ utils_lxb_grammar_test(const lxb_char_t *grammar, const size_t length,
     }
 
     while (declr != NULL) {
-        tag_data = lxb_tag_data_by_id(declr->u.node->owner_document->tags,
-                                      declr->u.node->local_name);
+        tag_data = lxb_tag_data_by_id(declr->u.node->local_name);
         if (tag_data == NULL) {
             status = LXB_STATUS_ERROR;
             goto done;
