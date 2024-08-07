@@ -146,7 +146,7 @@ def toHex(s):
     lst = []
 
     for ch in bytes(s, 'utf-8'):
-        hv = hex(ch).replace('0x', '\\x')
+        hv = hex(ch).replace('0x', '\\\\x')
         lst.append(hv)
 
     return ''.join(lst)
