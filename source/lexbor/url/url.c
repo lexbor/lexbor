@@ -2409,60 +2409,44 @@ lxb_url_leading_trailing(lxb_url_parser_t *parser,
     p = *data;
     end = p + *length;
 
-    c = *p;
+    while (p < end) {
+        c = *p;
 
-    if (c <= 0x1F || c == 0x20) {
-        status = lxb_url_log_append(parser, p,
+        if (c > 0x1F && c != 0x20) {
+            break;
+        }
+
+        p += 1;
+    }
+
+    if (p != *data) {
+        status = lxb_url_log_append(parser, *data,
                                     LXB_URL_ERROR_TYPE_INVALID_URL_UNIT);
         if (status != LXB_STATUS_OK) {
             return status;
         }
+    }
 
-        p += 1;
+    while (end > p) {
+        end -= 1;
+        c = *end;
 
-        while (p < end) {
-            c = *p;
-
-            if (c > 0x1F && c != 0x20) {
-                break;
-            }
-
-            p += 1;
+        if (c > 0x1F && c != 0x20) {
+            end += 1;
+            break;
         }
     }
 
-    if (p == end) {
-        *data = p;
-        *length = 0;
-
-        return LXB_STATUS_OK;
-    }
-
-    end -= 1;
-    c = *end;
-
-    if (c <= 0x1F || c == 0x20) {
+    if (end != *data + *length) {
         status = lxb_url_log_append(parser, end,
                                     LXB_URL_ERROR_TYPE_INVALID_URL_UNIT);
         if (status != LXB_STATUS_OK) {
             return status;
         }
-
-        end -= 1;
-
-        while (end > p) {
-            c = *end;
-
-            if (c > 0x1F && c != 0x20) {
-                break;
-            }
-
-            end -= 1;
-        }
     }
 
     *data = p;
-    *length = (end + 1) - p;
+    *length = end - p;
 
     return LXB_STATUS_OK;
 }
