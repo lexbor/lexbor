@@ -40,26 +40,30 @@ static const test_url_t test_urls[] =
             LXB_URL_ERROR_TYPE__LAST_ENTRY
         },
     },
-    /*
-     * Tab and newline checking is not implemented.
-     *
-     {
-     .source = (lxb_char_t *) "http://lexb\nor.com/",
-     .result = (lxb_char_t *) "http://lexbor.com/",
-     .errors = (lxb_url_error_type_t[]) {
-     LXB_URL_ERROR_TYPE_INVALID_URL_UNIT,
-     LXB_URL_ERROR_TYPE__LAST_ENTRY
-     },
-     },
-     {
-     .source = (lxb_char_t *) "http://lexb\tor.com/",
-     .result = (lxb_char_t *) "http://lexbor.com/",
-     .errors = (lxb_url_error_type_t[]) {
-     LXB_URL_ERROR_TYPE_INVALID_URL_UNIT,
-     LXB_URL_ERROR_TYPE__LAST_ENTRY
-     },
-     },
-     */
+    {
+        .source = (lxb_char_t *) "http://lexb\nor.com/",
+        .result = (lxb_char_t *) "http://lexbor.com/",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_URL_UNIT,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "http://lexb\tor.com/",
+        .result = (lxb_char_t *) "http://lexbor.com/",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_URL_UNIT,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "http://lexb\ror.com/",
+        .result = (lxb_char_t *) "http://lexbor.com/",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_URL_UNIT,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
     {
         .source = (lxb_char_t *) "http://lexbor.com/path/to/world",
         .result = (lxb_char_t *) "http://lexbor.com/path/to/world",
