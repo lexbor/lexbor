@@ -209,7 +209,7 @@ You can create a binding or wrapper for the `lexbor` and place the link here!
 
 ## Documentation
 
-Available on [lexbor.com](https://lexbor.com) in [Documentation](https://lexbor.com/docs/lexbor/) section.
+Available on [lexbor.com](https://lexbor.com) in [Documentation](https://lexbor.com/documentation/) section.
 
 ## Roadmap
 
@@ -221,7 +221,7 @@ Please, see [roadmap](https://lexbor.com/roadmap/) on [lexbor.com](https://lexbo
 
 ## SAST Tools
 
-[PVS-Studio](https://pvs-studio.ru/ru/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
+[PVS-Studio](https://pvs-studio.com/en/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
 
 ## AUTHOR
 
