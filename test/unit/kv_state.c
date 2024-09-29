@@ -12,6 +12,8 @@
 #define LEXBOR_STR_RES_MAP_HEX
 #include "lexbor/core/str_res.h"
 
+#include "lexbor/encoding/encode.h"
+
 
 #define unit_kv_token_done_m(kv, data, end)                                      \
     do {                                                                         \
@@ -860,6 +862,7 @@ unit_kv_state_string_escape(unit_kv_t *kv,
         case 0x75:
             kv->state = unit_kv_state_string_escape_u;
             kv->count = 4;
+            kv->num = 0;
 
             return (data + 1);
 
@@ -908,6 +911,9 @@ static const lxb_char_t *
 unit_kv_state_string_escape_u(unit_kv_t *kv,
                               const lxb_char_t *data, const lxb_char_t *end)
 {
+    int8_t length;
+    lxb_char_t *p;
+
     /* EOF */
     if (kv->is_eof && *data == 0x00) {
         kv->state = kv->state_return;
@@ -922,9 +928,27 @@ unit_kv_state_string_escape_u(unit_kv_t *kv,
                 lexbor_str_append_one(str, kv->mraw, kv->num);
             }
             else {
-                /* 110xxxxx 10xxxxxx */
-                lexbor_str_append_one(str, kv->mraw, (0xC0 | (kv->num >> 6  )));
-                lexbor_str_append_one(str, kv->mraw, (0x80 | (kv->num & 0x3F)));
+                p = str->data;
+                length = lxb_encoding_encode_utf_8_length((lxb_codepoint_t) kv->num);
+
+                if (length == 0) {
+                    kv->status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+                    return end;
+                }
+
+                p = lexbor_str_check_size(str, kv->mraw, length + 1);
+                if (p == NULL) {
+                    kv->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+                    return end;
+                }
+
+                p += str->length;
+
+                lxb_encoding_encode_utf_8_single(NULL, &p, p + length,
+                                                 (lxb_codepoint_t) kv->num);
+
+                *p = '\0';
+                str->length += length;
             }
 
             kv->state = kv->state_return;
