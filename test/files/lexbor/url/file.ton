@@ -1,0 +1,29 @@
+[
+    /* Test count: 3 */
+    /* 1 */
+    {
+        "url": "file://C|/my/docs",
+        "done": "file:///C:/my/docs",
+        "scheme": "file",
+        "host": "",
+        "path": "/C:/my/docs",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 2 */
+    {
+        "url": "file://CdiSk/my/docs",
+        "done": "file://cdisk/my/docs",
+        "scheme": "file",
+        "host": "cdisk",
+        "path": "/my/docs",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 3 */
+    {
+        "url": "file://C|disk/my/docs",
+        "failed": true,
+        "encoding": "utf-8"
+    }
+]

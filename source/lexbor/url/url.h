@@ -136,9 +136,9 @@ typedef struct {
 lxb_url_host_t;
 
 typedef struct {
-    lexbor_str_t **list;
+    lexbor_str_t str;
     size_t       length;
-    bool         is_str;
+    bool         opaque;
 }
 lxb_url_path_t;
 
@@ -167,9 +167,7 @@ typedef struct {
     lexbor_mraw_t      *mraw;
     lexbor_plog_t      *log;
 
-    lexbor_array_t     *path;
-
-    lxb_unicode_idna_t idna;
+    lxb_unicode_idna_t *idna;
 }
 lxb_url_parser_t;
 
@@ -418,6 +416,12 @@ lxb_inline const lxb_url_path_t *
 lxb_url_path(const lxb_url_t *url)
 {
     return &url->path;
+}
+
+lxb_inline const lexbor_str_t *
+lxb_url_path_str(const lxb_url_t *url)
+{
+    return &url->path.str;
 }
 
 lxb_inline const lexbor_str_t *

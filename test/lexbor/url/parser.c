@@ -23,6 +23,8 @@ typedef struct {
     int64_t        port;
     bool           has_port;
     lexbor_str_t   path;
+    size_t         path_length;
+    bool           has_path_length;
     lexbor_str_t   query;
     lexbor_str_t   fragment;
     bool           failed;
@@ -55,7 +57,7 @@ test_value_to_str(unit_kv_value_t *value, lexbor_str_t *str, const char *key,
 
 static lxb_status_t
 test_value_to_number(unit_kv_value_t *value, int64_t *num, const char *key,
-                     bool is_req);
+                     bool is_req, bool *is_exist);
 
 static lxb_status_t
 test_value_to_bool(unit_kv_value_t *value, bool *isas, const char *key,
@@ -339,6 +341,21 @@ file_callback(const lxb_char_t *fullpath, size_t fullpath_len,
             have_error = true;
         }
 
+        /* Path length */
+
+        if (entry.has_path_length) {
+            if (url->path.length != entry.path_length) {
+                printf("Path Length: not equal\n");
+                printf("    Have: %d\n", url->path.length);
+                printf("    Need: %" PRId64 "\n", entry.path_length);
+
+                have_error = true;
+            }
+            else {
+                printf("Path Length: ok\n");
+            }
+        }
+
         /* Query */
 
         status = test_check_str(&url->query, &entry.query, "Query");
@@ -417,7 +434,7 @@ test_value_to_entry(unit_kv_value_t *value, url_entry_t *entry)
         return status;
     }
 
-    status = test_value_to_number(value, &entry->port, "port", false);
+    status = test_value_to_number(value, &entry->port, "port", false, NULL);
     if (status != LXB_STATUS_OK) {
         return status;
     }
@@ -428,6 +445,12 @@ test_value_to_entry(unit_kv_value_t *value, url_entry_t *entry)
     }
 
     status = test_value_to_str(value, &entry->path, "path", false);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    status = test_value_to_number(value, &entry->path_length,
+                                  "path_length", false, &entry->has_path_length);
     if (status != LXB_STATUS_OK) {
         return status;
     }
@@ -485,12 +508,16 @@ test_value_to_str(unit_kv_value_t *value, lexbor_str_t *str, const char *key,
 
 static lxb_status_t
 test_value_to_number(unit_kv_value_t *value, int64_t *num, const char *key,
-                     bool is_req)
+                     bool is_req, bool *is_exist)
 {
     unit_kv_value_t *src;
     unit_kv_number_t *number;
 
     *num = 0;
+
+    if (is_exist) {
+        *is_exist = false;
+    }
 
     src = unit_kv_hash_value_nolen_c(value, key);
     if (src == NULL) {
@@ -515,6 +542,10 @@ test_value_to_number(unit_kv_value_t *value, int64_t *num, const char *key,
     }
 
     *num = number->value.i;
+
+    if (is_exist) {
+        *is_exist = true;
+    }
 
     return LXB_STATUS_OK;
 }

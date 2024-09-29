@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Alexander Borisov
+ * Copyright (C) 2023-2024 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -11,6 +11,7 @@
 #include "lexbor/core/conv.h"
 #include "lexbor/core/utils.h"
 #include "lexbor/core/serialize.h"
+#include "lexbor/core/swar.h"
 #include "lexbor/unicode/idna.h"
 
 #define LEXBOR_STR_RES_MAP_LOWERCASE
@@ -38,6 +39,14 @@ typedef enum {
     LXB_URL_MAP_ALL           = 0xff
 }
 lxb_url_map_type_t;
+
+typedef enum {
+    LXB_URL_HOST_OPT_UNDEF       = 0 << 0,
+    LXB_URL_HOST_OPT_NOT_SPECIAL = 1 << 0,
+    LXB_URL_HOST_OPT_DECODE      = 1 << 1,
+    LXB_URL_HOST_OPT_IDNA        = 1 << 2
+}
+lxb_url_host_opt_t;
 
 typedef struct {
     lexbor_mraw_t *mraw;
@@ -80,10 +89,10 @@ static const uint8_t lxb_url_map[256] =
     LXB_URL_MAP_ALL, /* 0x1d */
     LXB_URL_MAP_ALL, /* 0x1e */
     LXB_URL_MAP_ALL, /* 0x1f */
-    LXB_URL_MAP_FRAGMENT|LXB_URL_MAP_QUERY|LXB_URL_MAP_SPECIAL_QUERY|LXB_URL_MAP_PATH|LXB_URL_MAP_COMPONENT, /* 0x20 ( ) */
+    LXB_URL_MAP_USERINFO|LXB_URL_MAP_FRAGMENT|LXB_URL_MAP_QUERY|LXB_URL_MAP_SPECIAL_QUERY|LXB_URL_MAP_PATH|LXB_URL_MAP_COMPONENT, /* 0x20 ( ) */
     LXB_URL_MAP_UNDEF, /* 0x21 (!) */
-    LXB_URL_MAP_FRAGMENT|LXB_URL_MAP_QUERY|LXB_URL_MAP_SPECIAL_QUERY|LXB_URL_MAP_PATH|LXB_URL_MAP_COMPONENT, /* 0x22 (") */
-    LXB_URL_MAP_QUERY|LXB_URL_MAP_SPECIAL_QUERY|LXB_URL_MAP_PATH|LXB_URL_MAP_COMPONENT, /* 0x23 (#) */
+    LXB_URL_MAP_USERINFO|LXB_URL_MAP_FRAGMENT|LXB_URL_MAP_QUERY|LXB_URL_MAP_SPECIAL_QUERY|LXB_URL_MAP_PATH|LXB_URL_MAP_COMPONENT, /* 0x22 (") */
+    LXB_URL_MAP_USERINFO|LXB_URL_MAP_QUERY|LXB_URL_MAP_SPECIAL_QUERY|LXB_URL_MAP_PATH|LXB_URL_MAP_COMPONENT, /* 0x23 (#) */
     LXB_URL_MAP_COMPONENT, /* 0x24 ($) */
     LXB_URL_MAP_UNDEF, /* 0x25 (%) */
     LXB_URL_MAP_COMPONENT, /* 0x26 (&) */
@@ -108,9 +117,9 @@ static const uint8_t lxb_url_map[256] =
     LXB_URL_MAP_UNDEF, /* 0x39 (9) */
     LXB_URL_MAP_USERINFO|LXB_URL_MAP_COMPONENT, /* 0x3a (:) */
     LXB_URL_MAP_USERINFO|LXB_URL_MAP_COMPONENT, /* 0x3b (;) */
-    LXB_URL_MAP_FRAGMENT|LXB_URL_MAP_QUERY|LXB_URL_MAP_SPECIAL_QUERY|LXB_URL_MAP_PATH|LXB_URL_MAP_COMPONENT, /* 0x3c (<) */
+    LXB_URL_MAP_USERINFO|LXB_URL_MAP_FRAGMENT|LXB_URL_MAP_QUERY|LXB_URL_MAP_SPECIAL_QUERY|LXB_URL_MAP_PATH|LXB_URL_MAP_COMPONENT, /* 0x3c (<) */
     LXB_URL_MAP_USERINFO|LXB_URL_MAP_COMPONENT, /* 0x3d (=) */
-    LXB_URL_MAP_FRAGMENT|LXB_URL_MAP_QUERY|LXB_URL_MAP_SPECIAL_QUERY|LXB_URL_MAP_PATH|LXB_URL_MAP_COMPONENT, /* 0x3e (>) */
+    LXB_URL_MAP_USERINFO|LXB_URL_MAP_FRAGMENT|LXB_URL_MAP_QUERY|LXB_URL_MAP_SPECIAL_QUERY|LXB_URL_MAP_PATH|LXB_URL_MAP_COMPONENT, /* 0x3e (>) */
     LXB_URL_MAP_PATH|LXB_URL_MAP_USERINFO|LXB_URL_MAP_COMPONENT, /* 0x3f (?) */
     LXB_URL_MAP_USERINFO|LXB_URL_MAP_COMPONENT, /* 0x40 (@) */
     LXB_URL_MAP_UNDEF, /* 0x41 (A) */
@@ -140,8 +149,8 @@ static const uint8_t lxb_url_map[256] =
     LXB_URL_MAP_UNDEF, /* 0x59 (Y) */
     LXB_URL_MAP_UNDEF, /* 0x5a (Z) */
     LXB_URL_MAP_USERINFO|LXB_URL_MAP_COMPONENT, /* 0x5b ([) */
-    LXB_URL_MAP_UNDEF, /* 0x5c (\) */
-    LXB_URL_MAP_UNDEF, /* 0x5d (]) */
+    LXB_URL_MAP_USERINFO|LXB_URL_MAP_COMPONENT, /* 0x5c (\) */
+    LXB_URL_MAP_USERINFO|LXB_URL_MAP_COMPONENT, /* 0x5d (]) */
     LXB_URL_MAP_USERINFO|LXB_URL_MAP_COMPONENT, /* 0x5e (^) */
     LXB_URL_MAP_UNDEF, /* 0x5f (_) */
     LXB_URL_MAP_PATH|LXB_URL_MAP_FRAGMENT|LXB_URL_MAP_USERINFO|LXB_URL_MAP_COMPONENT, /* 0x60 (`) */
@@ -406,6 +415,42 @@ static const lxb_char_t lxb_url_codepoint_alphanumeric[0xA0] = {
     0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff
 };
 
+static const lxb_char_t lxb_url_path_map[256] =
+{
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x01, 0x00, 0x01, 0x01, 0x00, 0x04, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x01,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x01, 0x01,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x02, 0x01, 0x02, 0x02, 0x00,
+    0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x01, 0x02, 0x01, 0x00, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02,
+    0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02, 0x02
+};
+
 static const lxb_url_scheme_data_t
 lxb_url_scheme_res[LXB_URL_SCHEMEL_TYPE__LAST_ENTRY] =
 {
@@ -432,14 +477,39 @@ lxb_url_scheme_length = sizeof(lxb_url_scheme_res) / sizeof(lxb_url_scheme_data_
     }                                                                         \
     while (false)
 
+#define LXB_URL_SBUF_REALLOC(sbuf, sbuf_begin, sbuf_end, sbuffer, last)       \
+    do {                                                                      \
+        size_t new_len, offset, lst;                                          \
+        lxb_char_t *tmp;                                                      \
+                                                                              \
+        lst = (last) - (sbuf_begin);                                          \
+        offset = (sbuf) - (sbuf_begin);                                       \
+        new_len = offset << 1;                                                \
+                                                                              \
+        if ((sbuf_begin) == (sbuffer)) {                                      \
+            tmp = lexbor_malloc(new_len);                                     \
+            if (tmp == NULL) {                                                \
+                return NULL;                                                  \
+            }                                                                 \
+        }                                                                     \
+        else {                                                                \
+            tmp = lexbor_realloc((sbuf_begin), new_len);                      \
+            if (tmp == NULL) {                                                \
+                lexbor_free(sbuf_begin);                                      \
+                return NULL;                                                  \
+            }                                                                 \
+        }                                                                     \
+                                                                              \
+        (sbuf) = tmp + offset;                                                \
+        (last) = sbuf + lst;                                                  \
+        (sbuf_begin) = tmp;                                                   \
+        (sbuf_end) = tmp + new_len;                                           \
+    }                                                                         \
+    while (false)
 
-static lxb_status_t
-lxb_url_path_set(lxb_url_parser_t *parser, lxb_url_t *url,
-                 const lxb_char_t *data, size_t length);
+#define lxb_url_is_windows_letter(data)                                       \
+    (((data) >= 'a' && (data) <= 'z') || ((data) >= 'A' && (data) <= 'Z'))
 
-static lxb_status_t
-lxb_url_path_list_append(lxb_url_parser_t *parser, lxb_url_t *url,
-                         const lxb_char_t *data, size_t length);
 
 static lxb_status_t
 lxb_url_leading_trailing(lxb_url_parser_t *parser,
@@ -457,6 +527,29 @@ lxb_url_parse_basic_h(lxb_url_parser_t *parser, lxb_url_t *url,
                       const lxb_url_t *base_url,
                       const lxb_char_t *data, size_t length,
                       lxb_url_state_t override_state, lxb_encoding_t encoding);
+
+static const lxb_char_t *
+lxb_url_path_fast_path(lxb_url_parser_t *parser, lxb_url_t *url,
+                       const lxb_char_t *data, const lxb_char_t *end, bool bqs);
+
+const lxb_char_t *
+lxb_url_path_slow_path(lxb_url_parser_t *parser, lxb_url_t *url,
+                       const lxb_char_t *data, const lxb_char_t *end, bool bqs);
+
+static lxb_status_t
+lxb_url_path_try_dot(lxb_url_t *url, const lxb_char_t **begin,
+                     const lxb_char_t **last, const lxb_char_t **start,
+                     const lxb_char_t *end, bool bqs);
+
+static const lxb_char_t *
+lxb_url_path_dot_count(lxb_url_t *url, const lxb_char_t *p,
+                       const lxb_char_t *end, const lxb_char_t *sbuf_begin,
+                       lxb_char_t **sbuf, lxb_char_t **last, size_t *path_count,
+                       bool bqs);
+
+static void
+lxb_url_path_fix_windows_drive(lxb_url_t *url, lxb_char_t *sbuf,
+                               const lxb_char_t *last, size_t count);
 
 static lxb_status_t
 lxb_url_percent_encode_after_encoding(const lxb_char_t *data,
@@ -476,7 +569,7 @@ lxb_url_percent_encode_after_utf_8(const lxb_char_t *data,
 static lxb_status_t
 lxb_url_host_parse(lxb_url_parser_t *parser, const lxb_char_t *data,
                    const lxb_char_t *end, lxb_url_host_t *host,
-                   lexbor_mraw_t *mraw, bool not_special);
+                   lexbor_mraw_t *mraw, lxb_url_host_opt_t opt);
 
 static lxb_status_t
 lxb_url_host_idna_cb(const lxb_char_t *data, size_t len, void *ctx);
@@ -508,7 +601,12 @@ lxb_url_opaque_host_parse(lxb_url_parser_t *parser, const lxb_char_t *data,
 
 static lxb_status_t
 lxb_url_percent_decode(const lxb_char_t *data, const lxb_char_t *end,
-                       lexbor_str_t *str, lexbor_mraw_t *mraw);
+                       lexbor_str_t *str, lexbor_mraw_t *mraw,
+                       lxb_url_host_opt_t *opt);
+
+static const lxb_char_t *
+lxb_url_path_part_by_index(const lxb_url_t *url, size_t index,
+                           size_t *out_length);
 
 
 lxb_url_parser_t *
@@ -529,12 +627,6 @@ lxb_url_parser_init(lxb_url_parser_t *parser, lexbor_mraw_t *mraw)
 
     itmy = false;
 
-    parser->path = lexbor_array_create();
-    status = lexbor_array_init(parser->path, 128);
-    if (status != LXB_STATUS_OK) {
-        goto failed;
-    }
-
     if (mraw == NULL) {
         mraw = lexbor_mraw_create();
         status = lexbor_mraw_init(mraw, LXB_URL_BUFFER_SIZE);
@@ -547,17 +639,11 @@ lxb_url_parser_init(lxb_url_parser_t *parser, lexbor_mraw_t *mraw)
 
     parser->mraw = mraw;
     parser->log = NULL;
-
-    status = lxb_unicode_idna_init(&parser->idna);
-    if (status != LXB_STATUS_OK) {
-        goto failed;
-    }
+    parser->idna = NULL;
 
     return LXB_STATUS_OK;
 
 failed:
-
-    (void) lexbor_array_destroy(parser->path, true);
 
     if (itmy) {
         (void) lexbor_mraw_destroy(mraw, true);
@@ -576,9 +662,6 @@ lxb_url_parser_clean(lxb_url_parser_t *parser)
     if (parser->log != NULL) {
         lexbor_plog_clean(parser->log);
     }
-
-    lexbor_array_clean(parser->path);
-    lxb_unicode_idna_clean(&parser->idna);
 }
 
 lxb_url_parser_t *
@@ -588,9 +671,8 @@ lxb_url_parser_destroy(lxb_url_parser_t *parser, bool destroy_self)
         return NULL;
     }
 
-    parser->path = lexbor_array_destroy(parser->path, true);
     parser->log = lexbor_plog_destroy(parser->log, true);
-    lxb_unicode_idna_destroy(&parser->idna, false);
+    parser->idna = lxb_unicode_idna_destroy(parser->idna, false);
 
     if (destroy_self) {
         return lexbor_free(parser);
@@ -628,12 +710,6 @@ lxb_url_log_append(lxb_url_parser_t *parser, const lxb_char_t *pos,
     return LXB_STATUS_OK;
 }
 
-lxb_inline lexbor_str_t *
-lxb_url_str_create(lexbor_mraw_t *mraw)
-{
-    return lexbor_mraw_alloc(mraw, sizeof(lexbor_str_t));
-}
-
 static lxb_status_t
 lxb_url_str_init(lexbor_str_t *str, lexbor_mraw_t *mraw, size_t length)
 {
@@ -664,6 +740,11 @@ static lxb_status_t
 lxb_url_str_copy(const lexbor_str_t *src, lexbor_str_t *dst,
                  lexbor_mraw_t *dst_mraw)
 {
+    if (src->data == NULL) {
+        *dst = *src;
+        return LXB_STATUS_OK;
+    }
+
     if (dst->data != NULL) {
         if (dst->length >= src->length) {
 
@@ -806,155 +887,139 @@ lxb_url_scheme_copy_special(const lxb_url_scheme_data_t *src,
 }
 
 static void
-lxb_url_path_set_null(lxb_url_parser_t *parser, lxb_url_t *url)
+lxb_url_path_set_null(lxb_url_t *url)
 {
-    lexbor_str_t *str;
-    lexbor_array_t *arr;
-
-    arr = parser->path;
-    url->path.is_str = false;
-
-    if (arr->length == 0) {
+    if (url->path.str.data == NULL) {
         return;
     }
 
-    for (size_t i = 0; i < arr->length; i++) {
-        str = arr->list[i];
+    (void) lexbor_str_destroy(&url->path.str, url->mraw, false);
 
-        (void) lexbor_str_destroy(str, url->mraw, false);
-        (void) lexbor_mraw_free(url->mraw, str);
-    }
-
-    arr->length = 0;
-
-    url->path.list = NULL;
+    url->path.str.length = 0;
     url->path.length = 0;
+    url->path.opaque = false;
 }
 
 static lxb_status_t
-lxb_url_path_copy(lxb_url_parser_t *parser, const lxb_url_t *src, lxb_url_t *dst)
+lxb_url_path_copy(const lxb_url_t *src, lxb_url_t *dst)
 {
-    lexbor_str_t *str, *to;
-    lxb_status_t status;
-    lexbor_str_t **src_arr;
-    lexbor_array_t *dst_arr;
+    lexbor_str_t *to;
+    const lexbor_str_t *str;
 
-    lxb_url_path_set_null(parser, dst);
-
-    dst->path.is_str = src->path.is_str;
-
-    src_arr = src->path.list;
-    dst_arr = parser->path;
-
-    for (size_t i = 0; i < src->path.length; i++) {
-        str = src_arr[i];
-
-        to = lxb_url_str_create(dst->mraw);
-        if (to == NULL) {
-            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-        }
-
-        status = lexbor_array_push(dst_arr, to);
-        if (status != LXB_STATUS_OK) {
-            return status;
-        }
-
-        to->data = lexbor_mraw_alloc(dst->mraw, (str->length + 1));
-        if (to->data == NULL) {
-            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-        }
-
-        /* +1 == '\0' */
-        memcpy(to->data, str->data, str->length + 1);
-
-        to->length = str->length;
+    if (dst->path.str.data != NULL) {
+        lxb_url_path_set_null(dst);
     }
+
+    dst->path.opaque = src->path.opaque;
+
+    if (src->path.str.data == NULL) {
+        return LXB_STATUS_OK;
+    }
+
+    dst->path.length = src->path.length;
+
+    str = &src->path.str;
+    to = &dst->path.str;
+
+    to->data = lexbor_mraw_alloc(dst->mraw, (str->length + 1));
+    if (to->data == NULL) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    /* +1 == '\0' */
+    memcpy(to->data, str->data, str->length + 1);
+
+    to->length = str->length;
 
     return LXB_STATUS_OK;
 }
 
 static void
-lxb_url_path_shorten(lxb_url_parser_t *parser, lxb_url_t *url)
+lxb_url_path_shorten(lxb_url_t *url)
 {
     lexbor_str_t *str;
-    lexbor_array_t *arr = parser->path;
+    lxb_char_t *p, *begin;
 
-    if (!url->path.is_str && url->scheme.type == LXB_URL_SCHEMEL_TYPE_FILE
-        && arr->length == 1)
+    str = &url->path.str;
+
+    if (url->scheme.type == LXB_URL_SCHEMEL_TYPE_FILE
+        && url->path.length == 1)
     {
-        str = lexbor_array_get(arr, 0);
-
-        if (str->length >= 2
-            && lexbor_str_res_alpha_character[str->data[0]]
-            && str->data[1] == ':')
+        if (str->length >= 3
+            && lxb_url_is_windows_letter(str->data[1])
+            && str->data[2] == ':')
         {
             return;
         }
     }
 
-    if (arr->length != 0) {
-        arr->length -= 1;
+    if (url->path.str.data != NULL) {
+        url->path.length -= 1;
+
+        begin = str->data;
+        p = begin + str->length;
+
+        while (p > begin) {
+            p -= 1;
+
+            if (*p == '/') {
+                *p = '\0';
+                break;
+            }
+        }
+
+        str->length = p - begin;
     }
 }
 
 static lxb_status_t
-lxb_url_path_set(lxb_url_parser_t *parser, lxb_url_t *url,
-                 const lxb_char_t *data, size_t length)
-{
-    if (parser->path->length != 0) {
-        lxb_url_path_set_null(parser, url);
-    }
-
-    url->path.is_str = true;
-
-    return lxb_url_path_list_append(parser, url, data, length);
-}
-
-static lxb_status_t
-lxb_url_path_list_append(lxb_url_parser_t *parser, lxb_url_t *url,
-                         const lxb_char_t *data, size_t length)
+lxb_url_path_append_wo_slash(lxb_url_t *url,
+                             const lxb_char_t *data, size_t length)
 {
     lxb_char_t *p;
-    lxb_status_t status;
-    lexbor_str_t *str;
-    lexbor_array_t *arr = parser->path;
 
-    str = lxb_url_str_create(url->mraw);
-    if (str == NULL) {
-        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    if (url->path.str.data == NULL) {
+        p = lexbor_str_init(&url->path.str, url->mraw, length);
+        if (p == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
     }
 
-    status = lexbor_array_push(arr, str);
-    if (status != LXB_STATUS_OK) {
-        return status;
-    }
-
-    p = lexbor_str_init_append(str, url->mraw, data, length);
+    p = lexbor_str_append(&url->path.str, url->mraw, data, length);
 
     return (p != NULL) ? LXB_STATUS_OK : LXB_STATUS_ERROR_MEMORY_ALLOCATION;
 }
 
 static lxb_status_t
-lxb_url_path_list_push(lxb_url_parser_t *parser, lxb_url_t *url,
-                       lexbor_str_t *data)
+lxb_url_path_append(lxb_url_t *url, const lxb_char_t *data, size_t length)
 {
-    lxb_status_t status;
+    size_t len;
+    lxb_char_t *p;
     lexbor_str_t *str;
-    lexbor_array_t *arr = parser->path;
 
-    str = lxb_url_str_create(url->mraw);
-    if (str == NULL) {
-        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    str = &url->path.str;
+
+    if (str->data == NULL) {
+        p = lexbor_str_init(str, url->mraw, length + 1);
+        if (p == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
     }
 
-    status = lexbor_array_push(arr, str);
-    if (status != LXB_STATUS_OK) {
-        return status;
-    }
+    len = str->length;
+    str->length += 1;
 
-    *str = *data;
+    p = lexbor_str_append(&url->path.str, url->mraw, data, length);
 
-    return LXB_STATUS_OK;
+    str->data[len] = '/';
+
+    return (p != NULL) ? LXB_STATUS_OK : LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+}
+
+static lxb_status_t
+lxb_url_path_list_push(lxb_url_t *url, lexbor_str_t *data)
+{
+    return lxb_url_path_append_wo_slash(url, data->data, data->length);
 }
 
 lxb_inline lxb_status_t
@@ -1093,19 +1158,19 @@ lxb_url_start_windows_drive_letter(const lxb_char_t *data,
         return false;
     }
 
-    if (lexbor_str_res_alpha_character[data[0]] == 0xff
+    if (!lxb_url_is_windows_letter(data[0])
         || (data[1] != ':' && data[1] != '|'))
     {
         return false;
     }
 
-    if (length == 2 || (   data[2] == '/' || data[2] == '\\'
+    if (length > 2 && !(   data[2] == '/' || data[2] == '\\'
                         || data[2] == '?' || data[2] == '#'))
     {
-        return true;
+        return false;
     }
 
-    return false;
+    return true;
 }
 
 static bool
@@ -1117,7 +1182,7 @@ lxb_url_windows_drive_letter(const lxb_char_t *data, const lxb_char_t *end)
         return false;
     }
 
-    return lexbor_str_res_alpha_character[data[0]] != 0xff
+    return lxb_url_is_windows_letter(data[0])
            && (data[1] == ':' || data[1] == '|');
 }
 
@@ -1131,53 +1196,7 @@ lxb_url_normalized_windows_drive_letter(const lxb_char_t *data,
         return false;
     }
 
-    return lexbor_str_res_alpha_character[data[0]] != 0xff && data[1] == ':';
-}
-
-static bool
-lxb_url_dot_path(const lxb_char_t *data, const lxb_char_t *end, size_t count)
-{
-    if (end - data < count) {
-        return false;
-    }
-
-again:
-
-    switch (*data++) {
-        case '.':
-            count -= 1;
-            break;
-
-        case '%':
-            if (end - data < 2) {
-                return false;
-            }
-
-            if (*data++ != '2') {
-                return false;
-            }
-
-            if (lexbor_str_res_map_lowercase[*data++] != 'e') {
-                return false;
-            }
-
-            count -= 1;
-
-            break;
-
-        default:
-            return false;
-    }
-
-    if (count == 0 && data >= end) {
-        return true;
-    }
-
-    if (end - data < count) {
-        return false;
-    }
-
-    goto again;
+    return lxb_url_is_windows_letter(data[0]) && data[1] == ':';
 }
 
 lxb_url_t *
@@ -1201,30 +1220,12 @@ lxb_url_parse_basic(lxb_url_parser_t *parser, lxb_url_t *url,
                     const lxb_char_t *data, size_t length,
                     lxb_url_state_t override_state, lxb_encoding_t encoding)
 {
-    size_t i, len;
     lxb_status_t status;
 
     status = lxb_url_parse_basic_h(parser, url, base_url, data,
                                    length, override_state, encoding);
     if (status != LXB_STATUS_OK) {
         return status;
-    }
-
-    url = parser->url;
-    len = parser->path->length;
-
-    if (len > 0) {
-        url->path.list = lexbor_mraw_alloc(url->mraw,
-                                           sizeof(lexbor_str_t *) * len);
-        if (url->path.list == NULL) {
-            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-        }
-
-        for (i = 0; i < len; i++) {
-            url->path.list[i] = parser->path->list[i];
-        }
-
-        url->path.length = len;
     }
 
     return LXB_STATUS_OK;
@@ -1237,9 +1238,10 @@ lxb_url_parse_basic_h(lxb_url_parser_t *parser, lxb_url_t *url,
                       lxb_url_state_t override_state, lxb_encoding_t encoding)
 {
     bool at_sign, inside_bracket;
+    size_t len;
     uint32_t port;
     lxb_status_t status;
-    lexbor_str_t *str, tmp_str;
+    lexbor_str_t tmp_str;
     lxb_url_state_t state;
     const lxb_char_t *p, *begin, *end, *tmp, *pswd, *buf;
     lxb_char_t c;
@@ -1247,9 +1249,9 @@ lxb_url_parse_basic_h(lxb_url_parser_t *parser, lxb_url_t *url,
     lxb_url_map_type_t map_type;
     const lxb_url_scheme_data_t *schm;
     const lxb_encoding_data_t *enc;
+    lxb_url_host_opt_t opt;
 
     static const lexbor_str_t mp_str = lexbor_str("");
-    static const lexbor_str_t ps_str = lexbor_str(" ");
     static const lexbor_str_t lh_str = lexbor_str("localhost");
 
     if (url == NULL) {
@@ -1308,11 +1310,7 @@ again:
 
     switch (state) {
     case LXB_URL_STATE_SCHEME_START_STATE:
-        if (p >= end) {
-            lxb_url_parse_return(data, buf, LXB_STATUS_ERROR_UNEXPECTED_DATA);
-        }
-
-        if (lexbor_str_res_alpha_character[*p] == 0xff) {
+        if (p >= end || lexbor_str_res_alpha_character[*p] == 0xff) {
             if (override_state == LXB_URL_STATE__UNDEF) {
                 state = LXB_URL_STATE_NO_SCHEME_STATE;
                 goto again;
@@ -1408,13 +1406,13 @@ again:
             goto again;
         }
 
-        if (end - p >= 1 && *p == '/') {
+        if (p < end && *p == '/') {
             p += 1;
             state = LXB_URL_STATE_PATH_OR_AUTHORITY_STATE;
             goto again;
         }
 
-        lxb_url_path_set_null(parser, url);
+        lxb_url_path_set_null(url);
 
         state = LXB_URL_STATE_OPAQUE_PATH_STATE;
         goto again;
@@ -1424,8 +1422,8 @@ again:
             goto failed_non_relative_url;
         }
 
-        if (base_url->path.is_str) {
-            if (*p != '#') {
+        if (base_url->path.opaque) {
+            if (p >= end || *p != '#') {
                 goto failed_non_relative_url;
             }
 
@@ -1433,6 +1431,11 @@ again:
 
             status = lxb_url_scheme_copy(&base_url->scheme,
                                          &url->scheme, url->mraw);
+            if (status != LXB_STATUS_OK) {
+                lxb_url_parse_return(data, buf, status);
+            }
+
+            status = lxb_url_path_copy(base_url, url);
             if (status != LXB_STATUS_OK) {
                 lxb_url_parse_return(data, buf, status);
             }
@@ -1474,7 +1477,7 @@ again:
         goto again;
 
     case LXB_URL_STATE_PATH_OR_AUTHORITY_STATE:
-        if (end - p >= 1 && *p == '/') {
+        if (p < end && *p == '/') {
             p += 1;
             state = LXB_URL_STATE_AUTHORITY_STATE;
         }
@@ -1528,9 +1531,11 @@ again:
             lxb_url_parse_return(data, buf, status);
         }
 
-        lxb_url_port_set(url, base_url->port);
+        if (base_url->has_port) {
+            lxb_url_port_set(url, base_url->port);
+        }
 
-        status = lxb_url_path_copy(parser, base_url, url);
+        status = lxb_url_path_copy(base_url, url);
         if (status != LXB_STATUS_OK) {
             lxb_url_parse_return(data, buf, status);
         }
@@ -1564,7 +1569,7 @@ again:
 
         (void) lexbor_str_destroy(&url->query, url->mraw, false);
 
-        lxb_url_path_shorten(parser, url);
+        lxb_url_path_shorten(url);
 
         state = LXB_URL_STATE_PATH_STATE;
         goto again;
@@ -1609,7 +1614,9 @@ again:
             lxb_url_parse_return(data, buf, status);
         }
 
-        lxb_url_port_set(url, base_url->port);
+        if (base_url->has_port) {
+            lxb_url_port_set(url, base_url->port);
+        }
 
         state = LXB_URL_STATE_PATH_STATE;
 
@@ -1671,9 +1678,9 @@ again:
                         tmp = (pswd != NULL) ? pswd - 1 : p;
 
                         if (tmp > begin) {
-                            status = lxb_url_percent_encode_after_encoding(begin,
-                                             tmp, &url->username, url->mraw, enc,
-                                             LXB_URL_MAP_USERINFO, false);
+                            status = lxb_url_percent_encode_after_utf_8(begin, tmp,
+                                                        &url->username, url->mraw,
+                                                        LXB_URL_MAP_USERINFO, false);
                             if (status != LXB_STATUS_OK) {
                                 lxb_url_parse_return(data, buf, status);
                             }
@@ -1681,9 +1688,9 @@ again:
                     }
 
                     if (pswd != NULL && p > pswd) {
-                        status = lxb_url_percent_encode_after_encoding(pswd,
-                                             p, &url->password, url->mraw, enc,
-                                             LXB_URL_MAP_USERINFO, false);
+                        status = lxb_url_percent_encode_after_utf_8(pswd, p,
+                                                    &url->password, url->mraw,
+                                                    LXB_URL_MAP_USERINFO, false);
                         if (status != LXB_STATUS_OK) {
                             lxb_url_parse_return(data, buf, status);
                         }
@@ -1726,7 +1733,7 @@ again:
     authority_done:
 
         if (at_sign) {
-            if (begin == p) {
+            if (begin == p || begin == p - 1) {
                 status = lxb_url_log_append(parser, p,
                                             LXB_URL_ERROR_TYPE_INVALID_CREDENTIALS);
                 if (status != LXB_STATUS_OK) {
@@ -1757,72 +1764,104 @@ again:
             goto again;
         }
 
-        while (true) {
-            c = (p < end) ? *p : '\0';
+        opt = !lxb_url_is_special(url);
 
-            if (c == ':' && !inside_bracket) {
-                if (p == begin) {
-                    goto failed_host;
-                }
+        for (; p < end; p++) {
+            c = *p;
 
-                if (override_state == LXB_URL_STATE_HOSTNAME_STATE) {
-                    lxb_url_parse_return(data, buf, LXB_STATUS_OK);
-                }
+            switch (c) {
+                case '/':
+                case '?':
+                case '#':
+                    goto host_done;
 
-                status = lxb_url_host_parse(parser, begin, p, &url->host,
-                                            url->mraw, !lxb_url_is_special(url));
-                if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
-                }
+                case '\\':
+                    if (!lxb_url_is_special(url)) {
+                        break;
+                    }
 
-                p += 1;
+                    goto host_done;
 
-                state = LXB_URL_STATE_PORT_STATE;
-                goto again;
-            }
+                case ':':
+                    if (inside_bracket) {
+                        break;
+                    }
 
-            if (p >= end || c == '/' || c == '?' || c == '#'
-                || (lxb_url_is_special(url) && c == '\\'))
-            {
-                if (lxb_url_is_special(url) && begin == p) {
-                    goto failed_host;
-                }
+                    if (p == begin) {
+                        goto failed_host;
+                    }
 
-                if (override_state != LXB_URL_STATE__UNDEF && begin == p
-                    && (lxb_url_includes_credentials(url) || url->has_port))
-                {
-                    lxb_url_parse_return(data, buf, LXB_STATUS_OK);
-                }
+                    if (override_state == LXB_URL_STATE_HOSTNAME_STATE) {
+                        lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+                    }
 
-                if (begin < p) {
                     status = lxb_url_host_parse(parser, begin, p, &url->host,
-                                                url->mraw, !lxb_url_is_special(url));
+                                                url->mraw, opt);
                     if (status != LXB_STATUS_OK) {
                         lxb_url_parse_return(data, buf, status);
                     }
-                }
 
-                if (override_state != LXB_URL_STATE__UNDEF) {
-                    lxb_url_parse_return(data, buf, LXB_STATUS_OK);
-                }
+                    p += 1;
 
-                state = LXB_URL_STATE_PATH_START_STATE;
-                goto again;
-            }
+                    state = LXB_URL_STATE_PORT_STATE;
+                    goto again;
 
-            switch (c) {
                 case '[':
                     inside_bracket = true;
                     break;
+
                 case ']':
                     inside_bracket = false;
                     break;
+
+                case '%':
+                    opt |= LXB_URL_HOST_OPT_DECODE;
+                    break;
+
+                case 'X':
+                case 'x':
+                    if (p + 4 <= end && (p[1] == 'n' || p[1] == 'N')
+                        && p[2] == '-' && p[3] == '-')
+                    {
+                        opt |= LXB_URL_HOST_OPT_IDNA;
+                        p += 3;
+                    }
+
+                    break;
+
                 default:
+                    if (c >= 0x80) {
+                        opt |= LXB_URL_HOST_OPT_IDNA;
+                    }
+
                     break;
             }
-
-            p += 1;
         }
+
+        host_done:
+
+        if (begin == p && lxb_url_is_special(url)) {
+            goto failed_host;
+        }
+
+        if (override_state != LXB_URL_STATE__UNDEF && begin == p
+            && (lxb_url_includes_credentials(url) || url->has_port))
+        {
+            lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+        }
+
+        status = lxb_url_host_parse(parser, begin, p, &url->host,
+                                    url->mraw, opt);
+        if (status != LXB_STATUS_OK) {
+            lxb_url_parse_return(data, buf, status);
+        }
+
+        if (override_state != LXB_URL_STATE__UNDEF) {
+            lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+        }
+
+        state = LXB_URL_STATE_PATH_START_STATE;
+        goto again;
 
     case LXB_URL_STATE_PORT_STATE:
         begin = p;
@@ -1865,7 +1904,7 @@ again:
                     }
                 }
 
-                if (schm->port != port) {
+                if (!lxb_url_is_special(url) || schm->port != port) {
                     url->port = port;
                     url->has_port = true;
                 }
@@ -1928,7 +1967,7 @@ again:
                 lxb_url_parse_return(data, buf, status);
             }
 
-            status = lxb_url_path_copy(parser, base_url, url);
+            status = lxb_url_path_copy(base_url, url);
             if (status != LXB_STATUS_OK) {
                 lxb_url_parse_return(data, buf, status);
             }
@@ -1963,7 +2002,7 @@ again:
             (void) lexbor_str_destroy(&url->query, url->mraw, false);
 
             if (!lxb_url_start_windows_drive_letter(p, end)) {
-                lxb_url_path_shorten(parser, url);
+                lxb_url_path_shorten(url);
             }
             else {
                 status = lxb_url_log_append(parser, p,
@@ -1972,11 +2011,8 @@ again:
                     lxb_url_parse_return(data, buf, status);
                 }
 
-                status = lxb_url_path_set(parser, url,
-                                          ps_str.data, ps_str.length);
-                if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
-                }
+                lxb_url_path_set_null(url);
+                url->path.opaque = true;
             }
         }
 
@@ -2010,15 +2046,18 @@ again:
             }
 
             if (!lxb_url_start_windows_drive_letter(p, end)
-                && !base_url->path.is_str && base_url->path.length >= 1)
+                && !base_url->path.opaque && base_url->path.length >= 1)
             {
-                str = base_url->path.list[0];
+                tmp = lxb_url_path_part_by_index(base_url,
+                                       base_url->path.str.data[0] == '/', &len);
 
-                if (lxb_url_normalized_windows_drive_letter(str->data,
-                                                      str->data + str->length))
+                if (tmp != NULL
+                    && lxb_url_normalized_windows_drive_letter(tmp, tmp + len))
                 {
-                    status = lxb_url_path_list_append(parser, url, str->data,
-                                                      str->length);
+                    len = (tmp + len) - base_url->path.str.data;
+
+                    status = lxb_url_path_append_wo_slash(url,
+                                                  base_url->path.str.data, len);
                     if (status != LXB_STATUS_OK) {
                         lxb_url_parse_return(data, buf, status);
                     }
@@ -2031,16 +2070,45 @@ again:
 
     case LXB_URL_STATE_FILE_HOST_STATE:
         begin = p;
+        opt = !lxb_url_is_special(url);
 
         while (true) {
-            c = (p < end) ? *p : '\0';
+            if (p < end) {
+                switch (*p) {
+                    case '/':
+                    case '\\':
+                    case '?':
+                    case '#':
+                        break;
 
-            if (p < end && c != '/' && c != '\\' && c != '?' && c != '#') {
-                p += 1;
-                continue;
+                    case '%':
+                        p += 1;
+                        opt |= LXB_URL_HOST_OPT_DECODE;
+                        continue;
+
+                    case 'X':
+                    case 'x':
+                        if (p + 4 <= end && (p[1] == 'n' || p[1] == 'N')
+                            && p[2] == '-' && p[3] == '-')
+                        {
+                            opt |= LXB_URL_HOST_OPT_IDNA;
+                            p += 3;
+                        }
+
+                        p += 1;
+                        continue;
+
+                    default:
+                        if (*p >= 0x80) {
+                            opt |= LXB_URL_HOST_OPT_IDNA;
+                        }
+
+                        p += 1;
+                        continue;
+                }
             }
 
-            if (override_state == LXB_URL_STATE__UNDEF
+            if (override_state == LXB_URL_STATE__UNDEF && p - begin == 2
                 && lxb_url_windows_drive_letter(begin, p))
             {
                 status = lxb_url_log_append(parser, begin,
@@ -2048,6 +2116,8 @@ again:
                 if (status != LXB_STATUS_OK) {
                     lxb_url_parse_return(data, buf, status);
                 }
+
+                p = begin;
 
                 state = LXB_URL_STATE_PATH_STATE;
                 goto again;
@@ -2065,7 +2135,7 @@ again:
             }
 
             status = lxb_url_host_parse(parser, begin, p, &url->host,
-                                        url->mraw, !lxb_url_is_special(url));
+                                        url->mraw, opt);
             if (status != LXB_STATUS_OK) {
                 lxb_url_parse_return(data, buf, status);
             }
@@ -2131,124 +2201,39 @@ again:
         if (override_state != LXB_URL_STATE__UNDEF
             && url->host.type == LXB_URL_HOST_TYPE__UNDEF)
         {
-            status = lxb_url_path_list_append(parser, url,
-                                              mp_str.data, mp_str.length);
+            status = lxb_url_path_append(url, mp_str.data, mp_str.length);
             lxb_url_parse_return(data, buf, status);
         }
 
         lxb_url_parse_return(data, buf, LXB_STATUS_OK);
 
     case LXB_URL_STATE_PATH_STATE:
-        begin = p;
-
-        while (true) {
-            c = (p < end) ? *p : '\0';
-
-            if (!(c == '/' || p >= end
-                  || (lxb_url_is_special(url) && c == '\\')
-                  || (override_state == LXB_URL_STATE__UNDEF && (c == '?' || c == '#'))))
-            {
-                tmp = p;
-                cp = lxb_encoding_decode_valid_utf_8_single(&p, end);
-
-                if ((!lxb_url_is_url_codepoint(cp) && cp != '%')
-                    || (cp == '%' && (end - p < 2
-                                      || lexbor_str_res_map_hex[p[0]] == 0xff
-                                      || lexbor_str_res_map_hex[p[1]] == 0xff)))
-                {
-                    status = lxb_url_log_append(parser, tmp,
-                                          LXB_URL_ERROR_TYPE_INVALID_URL_UNIT);
-                    if (status != LXB_STATUS_OK) {
-                        lxb_url_parse_return(data, buf, status);
-                    }
-                }
-
-                continue;
-            }
-
-            if (lxb_url_is_special(url) && c == '\\') {
-                status = lxb_url_log_append(parser, p,
-                                   LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS);
-                if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
-                }
-            }
-
-            tmp_str.data = NULL;
-
-            status = lxb_url_percent_encode_after_utf_8(begin, p,
-                                                        &tmp_str, url->mraw,
-                                                        LXB_URL_MAP_PATH, false);
-            if (status != LXB_STATUS_OK) {
-                lxb_url_parse_return(data, buf, status);
-            }
-
-            tmp = tmp_str.data + tmp_str.length;
-
-            if (lxb_url_dot_path(tmp_str.data, tmp, 2))
-            {
-                lxb_url_path_shorten(parser, url);
-
-                if (c != '/' && !(lxb_url_is_special(url) && c == '\\')) {
-                    status = lxb_url_path_list_append(parser, url, mp_str.data,
-                                                      mp_str.length);
-                    if (status != LXB_STATUS_OK) {
-                        lxb_url_parse_return(data, buf, status);
-                    }
-                }
-
-                (void) lexbor_str_destroy(&tmp_str, url->mraw, false);
-            }
-            else if (lxb_url_dot_path(tmp_str.data, tmp, 1)) {
-                if (c != '/' && !(lxb_url_is_special(url) && c == '\\')) {
-                    status = lxb_url_path_list_append(parser, url, mp_str.data,
-                                                      mp_str.length);
-                    if (status != LXB_STATUS_OK) {
-                        lxb_url_parse_return(data, buf, status);
-                    }
-                }
-
-                (void) lexbor_str_destroy(&tmp_str, url->mraw, false);
-            }
-            else {
-                if (schm->type == LXB_URL_SCHEMEL_TYPE_FILE
-                    && parser->path->length == 0
-                    && lxb_url_windows_drive_letter(tmp_str.data, tmp))
-                {
-                    tmp_str.data[1] = ':';
-                }
-
-                status = lxb_url_path_list_push(parser, url, &tmp_str);
-                if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
-                }
-            }
-
-            if (c == '?') {
-                p += 1;
-                state = LXB_URL_STATE_QUERY_STATE;
-                goto again;
-            }
-
-            if (c == '#') {
-                p += 1;
-                state = LXB_URL_STATE_FRAGMENT_STATE;
-                goto again;
-            }
-
-            if (p >= end) {
-                lxb_url_parse_return(data, buf, LXB_STATUS_OK);
-            }
-
-            p += 1;
-            begin = p;
+        p = lxb_url_path_fast_path(parser, url, p, end,
+                                   override_state == LXB_URL_STATE__UNDEF);
+        if (p == NULL) {
+            lxb_url_parse_return(data, buf, LXB_STATUS_ERROR_MEMORY_ALLOCATION);
         }
 
-        break;
+        if (p >= end) {
+            lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+        }
+
+        switch (*p) {
+            case '?':
+                p += 1;
+                state = LXB_URL_STATE_QUERY_STATE;
+                break;
+            case '#':
+                p += 1;
+                state = LXB_URL_STATE_FRAGMENT_STATE;
+                break;
+        }
+
+        goto again;
 
     case LXB_URL_STATE_OPAQUE_PATH_STATE:
         begin = p;
-        url->path.is_str = true;
+        url->path.opaque = true;
 
         while (true) {
             if (p >= end) {
@@ -2261,7 +2246,7 @@ again:
                     lxb_url_parse_return(data, buf, status);
                 }
 
-                status = lxb_url_path_list_push(parser, url, &tmp_str);
+                status = lxb_url_path_list_push(url, &tmp_str);
 
                 lxb_url_parse_return(data, buf, status);
             }
@@ -2278,7 +2263,7 @@ again:
                     lxb_url_parse_return(data, buf, status);
                 }
 
-                status = lxb_url_path_list_push(parser, url, &tmp_str);
+                status = lxb_url_path_list_push(url, &tmp_str);
                 if (status != LXB_STATUS_OK) {
                     lxb_url_parse_return(data, buf, status);
                 }
@@ -2427,13 +2412,522 @@ failed_host:
     lxb_url_parse_return(data, buf, LXB_STATUS_ERROR_UNEXPECTED_DATA);
 }
 
+static const lxb_char_t *
+lxb_url_path_fast_path(lxb_url_parser_t *parser, lxb_url_t *url,
+                       const lxb_char_t *p, const lxb_char_t *end, bool bqs)
+{
+    size_t count;
+    lxb_char_t x, c;
+    lxb_status_t status;
+    const lxb_char_t *begin, *last;
+
+    begin = p;
+    last = p;
+    count = url->path.length;
+
+    for (; p < end; p++) {
+        c = *p;
+        x = lxb_url_path_map[c];
+
+        if (x != 0x00) {
+            if (c == '/') {
+                count += 1;
+                last = p + 1;
+            }
+            else if (c == '%') {
+                if (end - p < 3
+                    || lexbor_str_res_map_hex[p[1]] == 0xff
+                    || lexbor_str_res_map_hex[p[2]] == 0xff)
+                {
+                    status = lxb_url_log_append(parser, p,
+                                                LXB_URL_ERROR_TYPE_INVALID_URL_UNIT);
+                    if (status != LXB_STATUS_OK) {
+                        return NULL;
+                    }
+
+                    p = (end - p < 3) ? end - 1 : p + 2;
+                }
+                else if (p[1] == '2' && (p[2] == 'e' || p[2] == 'E')
+                         && (p == begin
+                             || p[-1] == '/'
+                             || (p[-1] == '\\' && lxb_url_is_special(url))))
+                {
+                    url->path.length = count;
+
+                    status = lxb_url_path_try_dot(url, &begin, &last,
+                                                  &p, end, bqs);
+                    if (status != LXB_STATUS_OK) {
+                        return NULL;
+                    }
+
+                    count = url->path.length;
+                }
+                else {
+                    p += 2;
+                }
+            }
+            else if ((c == '?' || c == '#') && bqs) {
+                break;
+            }
+            else if (c == '\\' && lxb_url_is_special(url)) {
+                count += 1;
+
+                status = lxb_url_log_append(parser, p,
+                                            LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS);
+                if (status != LXB_STATUS_OK) {
+                    return NULL;
+                }
+
+                status = lxb_url_path_append(url, begin, p - begin);
+                if (status != LXB_STATUS_OK) {
+                    return NULL;
+                }
+
+                begin = p + 1;
+                last = p + 1;
+            }
+            else if (c == '.') {
+                if (p == begin
+                    || p[-1] == '/'
+                    || (p[-1] == '\\' && lxb_url_is_special(url)))
+                {
+                    url->path.length = count;
+
+                    status = lxb_url_path_try_dot(url, &begin, &last,
+                                                  &p, end, bqs);
+                    if (status != LXB_STATUS_OK) {
+                        return NULL;
+                    }
+
+                    count = url->path.length;
+                }
+            }
+            else {
+                url->path.length = count;
+
+                if (last - 1 > begin) {
+                    status = lxb_url_path_append(url, begin,
+                                                 (last - 1) - begin);
+                    if (status != LXB_STATUS_OK) {
+                        return NULL;
+                    }
+                }
+
+                return lxb_url_path_slow_path(parser, url, last, end, bqs);
+            }
+        }
+    }
+
+    status = lxb_url_path_append(url, begin, p - begin);
+    if (status != LXB_STATUS_OK) {
+        return NULL;
+    }
+
+    if (count == 0 || p != begin) {
+        count += 1;
+    }
+
+    url->path.length = count;
+
+    return p;
+}
+
+/*
+ * The lxb_url_path_slow_path() function should not be static.  Otherwise, the
+ * compiler will inline it, which will lead to cache problems and slower code
+ * execution.
+ */
+const lxb_char_t *
+lxb_url_path_slow_path(lxb_url_parser_t *parser, lxb_url_t *url,
+                       const lxb_char_t *data, const lxb_char_t *end, bool bqs)
+{
+    size_t len, count;
+    lxb_char_t c, *last, *sbuf, *sbuf_begin;
+    lexbor_str_t *str;
+    lxb_status_t status;
+    lxb_codepoint_t cp;
+    const lxb_char_t *p, *tmp, *sbuf_end;
+    lxb_char_t sbuffer[1024];
+
+    p = data;
+    sbuf = sbuffer;
+    sbuf_begin = sbuffer;
+    sbuf_end = sbuffer + sizeof(sbuffer);
+
+    c = '\0';
+
+    if (url->path.str.length != 0) {
+        str = &url->path.str;
+
+        if (sbuf + str->length > sbuf_end) {
+            len = str->length + sizeof(sbuffer);
+
+            sbuf_begin = lexbor_malloc(str->length);
+            if (sbuf_begin == NULL) {
+                return NULL;
+            }
+
+            sbuf = sbuf_begin;
+            sbuf_end = sbuf + len;
+        }
+
+        memcpy(sbuf, str->data, str->length);
+        sbuf += str->length;
+
+        str->length = 0;
+    }
+
+    *sbuf++ = '/';
+
+    last = sbuf;
+    count = url->path.length;
+
+    while (p < end) {
+        c = *p;
+
+        if (c >= 0x80) {
+            tmp = p;
+            cp = lxb_encoding_decode_valid_utf_8_single(&p, end);
+
+            if (!lxb_url_is_url_codepoint(cp)) {
+                status = lxb_url_log_append(parser, tmp,
+                                            LXB_URL_ERROR_TYPE_INVALID_URL_UNIT);
+                if (status != LXB_STATUS_OK) {
+                    goto failed;
+                }
+            }
+
+            len = (p - tmp) * 3;
+
+            if (sbuf + len + 1 >= sbuf_end) {
+                LXB_URL_SBUF_REALLOC(sbuf, sbuf_begin, sbuf_end, sbuffer, last);
+            }
+
+            while (tmp < p) {
+                c = *tmp++;
+
+                *sbuf++ = '%';
+                *sbuf++ = lexbor_str_res_char_to_two_hex_value[c][0];
+                *sbuf++ = lexbor_str_res_char_to_two_hex_value[c][1];
+            }
+
+            continue;
+        }
+
+        if (c == '/') {
+            *sbuf++ = '/';
+            if (sbuf >= sbuf_end) {
+                LXB_URL_SBUF_REALLOC(sbuf, sbuf_begin, sbuf_end, sbuffer, last);
+            }
+
+            lxb_url_path_fix_windows_drive(url, last, sbuf, count);
+
+            count += 1;
+            last = sbuf;
+
+            if (p + 1 >= end) {
+                count += 1;
+            }
+        }
+        else if (c == '\\' && lxb_url_is_special(url)) {
+            status = lxb_url_log_append(parser, p,
+                                        LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS);
+            if (status != LXB_STATUS_OK) {
+                goto failed;
+            }
+
+            *sbuf++ = '/';
+            if (sbuf >= sbuf_end) {
+                LXB_URL_SBUF_REALLOC(sbuf, sbuf_begin, sbuf_end, sbuffer, last);
+            }
+
+            lxb_url_path_fix_windows_drive(url, last, sbuf, count);
+
+            count += 1;
+            last = sbuf;
+
+            if (p + 1 >= end) {
+                count += 1;
+            }
+        }
+        else if ((c == '?' || c == '#') && bqs) {
+            lxb_url_path_fix_windows_drive(url, last, sbuf, count);
+
+            count += 1;
+            last = sbuf;
+            break;
+        }
+        else if (lxb_url_map[c] & LXB_URL_MAP_PATH) {
+            if (sbuf + 4 >= sbuf_end) {
+                LXB_URL_SBUF_REALLOC(sbuf, sbuf_begin, sbuf_end, sbuffer, last);
+            }
+
+            *sbuf++ = '%';
+            *sbuf++ = lexbor_str_res_char_to_two_hex_value[c][0];
+            *sbuf++ = lexbor_str_res_char_to_two_hex_value[c][1];
+        }
+        else if (c == '.') {
+            if (last == sbuf) {
+                tmp = lxb_url_path_dot_count(url, p, end, sbuf_begin,
+                                             &sbuf, &last, &count, bqs);
+
+                if (tmp != p) {
+                    p = tmp + 1;
+                    continue;
+                }
+            }
+
+            *sbuf++ = '.';
+            if (sbuf >= sbuf_end) {
+                LXB_URL_SBUF_REALLOC(sbuf, sbuf_begin,
+                                     sbuf_end, sbuffer, last);
+            }
+        }
+        else if (c == '%') {
+            if (end - p < 3
+                || lexbor_str_res_map_hex[p[1]] == 0xff
+                || lexbor_str_res_map_hex[p[2]] == 0xff)
+            {
+                status = lxb_url_log_append(parser, p,
+                                            LXB_URL_ERROR_TYPE_INVALID_URL_UNIT);
+                if (status != LXB_STATUS_OK) {
+                    goto failed;
+                }
+            }
+            else if (p[1] == '2' && (p[2] == 'e' || p[2] == 'E')
+                     && last == sbuf)
+            {
+                tmp = lxb_url_path_dot_count(url, p, end, sbuf_begin,
+                                             &sbuf, &last, &count, bqs);
+
+                if (tmp != p) {
+                    p = tmp + 1;
+                    continue;
+                }
+            }
+
+            *sbuf++ = '%';
+            if (sbuf >= sbuf_end) {
+                LXB_URL_SBUF_REALLOC(sbuf, sbuf_begin,
+                                     sbuf_end, sbuffer, last);
+            }
+        }
+        else {
+            if (lxb_url_codepoint_alphanumeric[c] == 0xFF) {
+                status = lxb_url_log_append(parser, p,
+                                            LXB_URL_ERROR_TYPE_INVALID_URL_UNIT);
+                if (status != LXB_STATUS_OK) {
+                    goto failed;
+                }
+            }
+
+            *sbuf++ = c;
+            if (sbuf >= sbuf_end) {
+                LXB_URL_SBUF_REALLOC(sbuf, sbuf_begin, sbuf_end, sbuffer, last);
+            }
+        }
+
+        p += 1;
+    }
+
+    if (count == 0 || last < sbuf) {
+        lxb_url_path_fix_windows_drive(url, last, sbuf, count);
+        count += 1;
+    }
+
+    url->path.length = count;
+
+    status = lxb_url_path_append_wo_slash(url, sbuf_begin, sbuf - sbuf_begin);
+    if (status != LXB_STATUS_OK) {
+        goto failed;
+    }
+
+    if (sbuf_begin != sbuffer) {
+        lexbor_free(sbuf_begin);
+    }
+
+    return p;
+
+failed:
+
+    if (sbuf_begin != sbuffer) {
+        lexbor_free(sbuf_begin);
+    }
+
+    return NULL;
+}
+
+static lxb_status_t
+lxb_url_path_try_dot(lxb_url_t *url, const lxb_char_t **begin,
+                     const lxb_char_t **last, const lxb_char_t **start,
+                     const lxb_char_t *end, bool bqs)
+{
+    unsigned count;
+    lxb_char_t c;
+    lexbor_str_t *str;
+    lxb_status_t status;
+    const lxb_char_t *p;
+
+    p = *start;
+    count = 0;
+
+    for (; p < end; p++) {
+        c = *p;
+
+        if (c == '/'
+            || (c == '\\' && lxb_url_is_special(url))
+            || ((c == '?' || c == '#') && bqs))
+        {
+            break;
+        }
+        else if (c == '.') {
+            count += 1;
+        }
+        else if (c == '%') {
+            if (p + 3 <= end && p[1] == '2' && (p[2] == 'e' || p[2] == 'E')) {
+                count += 1;
+            }
+            else {
+                return LXB_STATUS_OK;
+            }
+
+            p += 2;
+        }
+        else {
+            return LXB_STATUS_OK;
+        }
+    }
+
+    if (count == 0 || count > 2) {
+        return LXB_STATUS_OK;
+    }
+
+    if (*start > *begin) {
+        status = lxb_url_path_append(url, *begin, (*start - *begin) - 1);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+    }
+
+    if (p < end) {
+        *start = p;
+        *begin = p + 1;
+        *last = *begin;
+    }
+    else {
+        *start = end - 1;
+        *begin = end;
+        *last = end;
+    }
+
+    if (count == 2) {
+        lxb_url_path_shorten(url);
+    }
+    else if (count == 1) {
+        str = &url->path.str;
+
+        if (str->length > 0 && str->data[str->length - 1] == '/') {
+            str->length -= 1;
+            str->data[str->length] = '\0';
+        }
+    }
+
+    return LXB_STATUS_OK;
+}
+
+static const lxb_char_t *
+lxb_url_path_dot_count(lxb_url_t *url, const lxb_char_t *p,
+                       const lxb_char_t *end, const lxb_char_t *sbuf_begin,
+                       lxb_char_t **sbuf, lxb_char_t **last, size_t *path_count,
+                       bool bqs)
+{
+    unsigned count;
+    lxb_char_t c, *last_p;
+    const lxb_char_t *begin;
+
+    count = 0;
+    begin = p;
+
+    for (; p < end; p++) {
+        c = *p;
+
+        if (c == '/'
+            || (c == '\\' && lxb_url_is_special(url))
+            || ((c == '?' || c == '#') && bqs))
+        {
+            break;
+        }
+        else if (c == '.') {
+            count += 1;
+        }
+        else if (c == '%') {
+            if (p + 3 <= end && p[1] == '2' && (p[2] == 'e' || p[2] == 'E')) {
+                count += 1;
+            }
+            else {
+                return begin;
+            }
+
+            p += 2;
+        }
+        else {
+            return begin;
+        }
+    }
+
+    if (count == 0 || count > 2) {
+        return begin;
+    }
+
+    if (url->scheme.type == LXB_URL_SCHEMEL_TYPE_FILE
+        && *path_count == 1
+        && lxb_url_normalized_windows_drive_letter(sbuf_begin + 1, *last - 1))
+    {
+        return p;
+    }
+
+    if (count == 2) {
+        if (*path_count > 0) {
+            *path_count -= 1;
+            last_p = *last - 1;
+
+            while (last_p > sbuf_begin) {
+                last_p -= 1;
+
+                if (*last_p == '/') {
+                    *sbuf = last_p + 1;
+                    break;
+                }
+            }
+
+            *last = *sbuf;
+        }
+    }
+
+    return p;
+}
+
+static void
+lxb_url_path_fix_windows_drive(lxb_url_t *url, lxb_char_t *sbuf,
+                               const lxb_char_t *last, size_t count)
+{
+    if (url->scheme.type == LXB_URL_SCHEMEL_TYPE_FILE
+        && count == 0
+        && ((last - sbuf == 3 && (last[-1] == '/')) || last - sbuf == 2)
+        && lxb_url_windows_drive_letter(sbuf, last))
+    {
+        sbuf[1] = ':';
+    }
+}
+
 static lxb_status_t
 lxb_url_leading_trailing(lxb_url_parser_t *parser,
                          const lxb_char_t **data, size_t *length)
 {
     lxb_char_t c;
     lxb_status_t status;
-    const lxb_char_t *p, *end;
+    lxb_codepoint_t cp;
+    const lxb_char_t *p, *end, *tmp;
 
     p = *data;
     end = p + *length;
@@ -2441,8 +2935,16 @@ lxb_url_leading_trailing(lxb_url_parser_t *parser,
     while (p < end) {
         c = *p;
 
-        if (c > 0x1F && c != 0x20) {
+        if (c > 0x1F && c < 0x80 && c != 0x20) {
             break;
+        }
+        else if (c >= 0x80) {
+            tmp = p;
+            cp = lxb_encoding_decode_valid_utf_8_single(&p, end);
+            if (cp > 0x1F && cp != LXB_ENCODING_DECODE_ERROR) {
+                p = tmp;
+                break;
+            }
         }
 
         p += 1;
@@ -2457,11 +2959,11 @@ lxb_url_leading_trailing(lxb_url_parser_t *parser,
     }
 
     while (end > p) {
-        end -= 1;
-        c = *end;
+        tmp = end;
+        cp = lxb_encoding_decode_valid_utf_8_single_reverse(&end, p);
 
-        if (c > 0x1F && c != 0x20) {
-            end += 1;
+        if (cp > 0x1F && cp != 0x20 && cp != LXB_ENCODING_DECODE_ERROR) {
+            end = tmp;
             break;
         }
     }
@@ -2493,6 +2995,8 @@ lxb_url_remove_tab_newline(lxb_url_parser_t *parser,
     end = data + *length;
 
     /* Fast path. */
+
+    p = lexbor_swar_seek3(p, end, '\n', '\r', '\t');
 
     while (p < end) {
         c = *p;
@@ -2743,11 +3247,12 @@ lxb_url_percent_encode_after_utf_8(const lxb_char_t *data,
 static lxb_status_t
 lxb_url_host_parse(lxb_url_parser_t *parser, const lxb_char_t *data,
                    const lxb_char_t *end, lxb_url_host_t *host,
-                   lexbor_mraw_t *mraw, bool not_special)
+                   lexbor_mraw_t *mraw, lxb_url_host_opt_t opt)
 {
     uint32_t ipv4;
     lxb_char_t c;
     lxb_status_t status;
+    lexbor_str_t *domain;
     const lxb_char_t *p;
     lxb_url_idna_ctx_t context;
 
@@ -2770,29 +3275,66 @@ lxb_url_host_parse(lxb_url_parser_t *parser, const lxb_char_t *data,
         return lxb_url_ipv6_parse(parser, data, end, host->u.ipv6);
     }
 
-    if (not_special) {
+    if (opt & LXB_URL_HOST_OPT_NOT_SPECIAL) {
         return lxb_url_opaque_host_parse(parser, data, end, host, mraw);
     }
 
-    status = lxb_url_percent_decode(data, end, &host->u.domain, mraw);
-    if (status != LXB_STATUS_OK) {
-        return status;
+    domain = &host->u.domain;
+
+    if (opt & LXB_URL_HOST_OPT_DECODE) {
+        status = lxb_url_percent_decode(data, end, domain, mraw, &opt);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+    }
+    else {
+        domain->data = lexbor_mraw_alloc(mraw, (end - data) + 1);
+        if (domain->data == NULL) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+
+        if (opt & LXB_URL_HOST_OPT_IDNA) {
+            domain->length = end - data;
+
+            memcpy(domain->data, data, domain->length);
+            domain->data[domain->length] = '\0';
+        }
+        else {
+            (void) lexbor_str_append_lowercase(domain, mraw, data, end - data);
+        }
     }
 
-    context.str = &host->u.domain;
-    context.mraw = mraw;
+    if (opt & LXB_URL_HOST_OPT_IDNA) {
+        if (parser->idna == NULL) {
+            parser->idna = lxb_unicode_idna_create();
+            status = lxb_unicode_idna_init(parser->idna);
+            if (status != LXB_STATUS_OK) {
+                return status;
+            }
+        }
 
-    status = lxb_unicode_idna_to_ascii(&parser->idna, host->u.domain.data,
-                                       host->u.domain.length,
-                                       lxb_url_host_idna_cb, &context,
-                                       LXB_UNICODE_IDNA_FLAG_CHECK_BIDI
-                                       | LXB_UNICODE_IDNA_FLAG_CHECK_JOINERS);
-    if (status != LXB_STATUS_OK) {
-        return status;
+        context.str = domain;
+        context.mraw = mraw;
+
+        status = lxb_unicode_idna_to_ascii(parser->idna,
+                                           domain->data, domain->length,
+                                           lxb_url_host_idna_cb, &context,
+                                           LXB_UNICODE_IDNA_FLAG_CHECK_BIDI
+                                           | LXB_UNICODE_IDNA_FLAG_CHECK_JOINERS);
+
+        lxb_unicode_idna_clean(parser->idna);
+
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
     }
 
-    p = host->u.domain.data;
-    end = p + host->u.domain.length;
+    if (domain->length == 0) {
+        return LXB_STATUS_ERROR_UNEXPECTED_DATA;
+    }
+
+    p = domain->data;
+    end = p + domain->length;
 
     while (p < end) {
         c = *p++;
@@ -2808,10 +3350,10 @@ lxb_url_host_parse(lxb_url_parser_t *parser, const lxb_char_t *data,
         }
     }
 
-    if (lxb_url_is_ipv4(parser, host->u.domain.data, end)) {
-        status = lxb_url_ipv4_parse(parser, host->u.domain.data, end, &ipv4);
+    if (lxb_url_is_ipv4(parser, domain->data, end)) {
+        status = lxb_url_ipv4_parse(parser, domain->data, end, &ipv4);
 
-        (void) lexbor_str_destroy(&host->u.domain, mraw, false);
+        (void) lexbor_str_destroy(domain, mraw, false);
 
         if (status != LXB_STATUS_OK) {
             return status;
@@ -3010,7 +3552,7 @@ lxb_url_ipv4_number_parse(const lxb_char_t *data,
     str_map = lexbor_str_res_map_num;
     status = LXB_STATUS_OK;
 
-    if (data + 2 < end) {
+    if (data + 1 < end) {
         if (data[0] == '0') {
             if ((data[1] == 'x' || data[1] == 'X')) {
                 data += 2;
@@ -3080,16 +3622,16 @@ lxb_url_is_ipv4(lxb_url_parser_t *parser, const lxb_char_t *data,
         p -= 1;
         c = *p;
 
-        if (c < '0' || c > '9') {
-            isit = false;
-        }
-
         if (lexbor_str_res_map_hex[c] == 0xff) {
             if (c == '.') {
-                if (p == end - 1 && first) {
-                    end = p;
-                    first = false;
-                    continue;
+                if (p == end - 1) {
+                    if (first) {
+                        end = p;
+                        first = false;
+                        continue;
+                    }
+
+                    return false;
                 }
 
                 p += 1;
@@ -3099,8 +3641,16 @@ lxb_url_is_ipv4(lxb_url_parser_t *parser, const lxb_char_t *data,
                 return false;
             }
         }
+
+        if (c < '0' || c > '9') {
+            isit = false;
+        }
     }
     while (p > data);
+
+    if (p == end) {
+        return false;
+    }
 
     if (isit) {
         return true;
@@ -3382,7 +3932,8 @@ lxb_url_opaque_host_parse(lxb_url_parser_t *parser, const lxb_char_t *data,
 
 static lxb_status_t
 lxb_url_percent_decode(const lxb_char_t *data, const lxb_char_t *end,
-                       lexbor_str_t *str, lexbor_mraw_t *mraw)
+                       lexbor_str_t *str, lexbor_mraw_t *mraw,
+                       lxb_url_host_opt_t *opt)
 {
     lxb_char_t c, *dp;
     lxb_status_t status;
@@ -3407,13 +3958,15 @@ lxb_url_percent_decode(const lxb_char_t *data, const lxb_char_t *end,
         if (p + 2 <= end && lexbor_str_res_map_hex[p[0]] != 0xff
             && lexbor_str_res_map_hex[p[1]] != 0xff)
         {
-            *dp++ = lexbor_str_res_map_hex[p[0]] << 4
-                    | lexbor_str_res_map_hex[p[1]];
+            c = lexbor_str_res_map_hex[p[0]] << 4 | lexbor_str_res_map_hex[p[1]];
             p += 2;
+
+            if (c >= 0x80) {
+                *opt |= LXB_URL_HOST_OPT_IDNA;
+            }
         }
-        else {
-            *dp++ = c;
-        }
+
+        *dp++ = c;
     }
 
     *dp = '\0';
@@ -3425,8 +3978,6 @@ lxb_url_percent_decode(const lxb_char_t *data, const lxb_char_t *end,
 lxb_url_t *
 lxb_url_destroy(lxb_url_t *url)
 {
-    lexbor_str_t *str;
-
     if (url == NULL) {
         return NULL;
     }
@@ -3453,15 +4004,8 @@ lxb_url_destroy(lxb_url_t *url)
         lexbor_str_destroy(&url->password, url->mraw, false);
     }
 
-    if (url->path.list != NULL) {
-        for (size_t i = 0; i < url->path.length; i++) {
-            str = url->path.list[i];
-
-            lexbor_str_destroy(str, url->mraw, false);
-            lexbor_mraw_free(url->mraw, str);
-        }
-
-        lexbor_mraw_free(url->mraw, url->path.list);
+    if (url->path.str.data != NULL) {
+        lexbor_str_destroy(&url->path.str, url->mraw, false);
     }
 
     if (url->query.data != NULL) {
@@ -3479,6 +4023,38 @@ void
 lxb_url_memory_destroy(lxb_url_t *url)
 {
     (void) lexbor_mraw_destroy(url->mraw, true);
+}
+
+static const lxb_char_t *
+lxb_url_path_part_by_index(const lxb_url_t *url, size_t index,
+                           size_t *out_length)
+{
+    size_t i, length, begin;
+    const lxb_char_t *data;
+
+    data = url->path.str.data;
+    length = url->path.str.length;
+
+    i = 0;
+    begin = 0;
+
+    while (i < length) {
+        if (data[i] == '/') {
+            if (index == 0) {
+                *out_length = i - begin;
+                return &data[begin];
+            }
+
+            index -= 1;
+            begin = i + 1;
+        }
+
+        i += 1;
+    }
+
+    *out_length = 0;
+
+    return NULL;
 }
 
 lxb_status_t
@@ -3538,10 +4114,10 @@ lxb_url_serialize(const lxb_url_t *url, lexbor_serialize_cb_f cb, void *ctx,
             lexbor_serialize_write(cb, buf, p - buf, ctx, status);
         }
     }
-    else if (!url->path.is_str && url->path.length > 1) {
-        str = url->path.list[0];
+    else if (!url->path.opaque && url->path.str.length > 1) {
+        str = &url->path.str;
 
-        if (str->length == 0) {
+        if (str->data[0] == '/' && str->data[1] == '/') {
             lexbor_serialize_write(cb, dt_str.data, dt_str.length, ctx, status);
         }
     }
@@ -3798,19 +4374,7 @@ lxb_status_t
 lxb_url_serialize_path(const lxb_url_path_t *path,
                        lexbor_serialize_cb_f cb, void *ctx)
 {
-    lxb_status_t status;
-    const lexbor_str_t *str;
-
-    static const lexbor_str_t rs_str = lexbor_str("/");
-
-    for (size_t i = 0; i < path->length; i++) {
-        str = path->list[i];
-
-        lexbor_serialize_write(cb, rs_str.data, rs_str.length, ctx, status);
-        lexbor_serialize_write(cb, str->data, str->length, ctx, status);
-    }
-
-    return LXB_STATUS_OK;
+    return cb(path->str.data, path->str.length, ctx);
 }
 
 lxb_status_t
