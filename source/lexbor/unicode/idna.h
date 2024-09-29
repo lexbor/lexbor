@@ -240,6 +240,22 @@ LXB_API bool
 lxb_unicode_idna_validity_criteria(const lxb_char_t *data, size_t length,
                                    lxb_unicode_idna_flag_t flags);
 
+/*
+ * Validity Criteria.
+ *
+ * Same as lxb_unicode_idna_validity_criteria() only it takes codepoints as
+ * input.
+ *
+ * @param[in] Input codepoints for processing. Not NULL.
+ * @param[in] Length of codepoints. Can be 0.
+ * @param[in] Bitmap of IDNA flags (LXB_UNICODE_IDNA_FLAG_*).
+ *
+ * @return true if valid, otherwise false.
+ */
+LXB_API bool
+lxb_unicode_idna_validity_criteria_cp(const lxb_codepoint_t *data, size_t length,
+                                      lxb_unicode_idna_flag_t flags);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

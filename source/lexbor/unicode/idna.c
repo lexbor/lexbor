@@ -65,6 +65,10 @@ lxb_unicode_idna_to_unicode_body(lxb_unicode_idna_t *idna, const void *data,
                                  void *ctx, lxb_unicode_idna_flag_t flags,
                                  bool is_cp);
 
+static bool
+lxb_unicode_idna_validity_criteria_h(const void *data, size_t length,
+                                     lxb_unicode_idna_flag_t flags, bool is_cp);
+
 lxb_unicode_idna_t *
 lxb_unicode_idna_create(void)
 {
@@ -90,6 +94,10 @@ lxb_unicode_idna_clean(lxb_unicode_idna_t *idna)
 lxb_unicode_idna_t *
 lxb_unicode_idna_destroy(lxb_unicode_idna_t *idna, bool self_destroy)
 {
+    if (idna == NULL) {
+        return NULL;
+    }
+
     (void) lxb_unicode_normalizer_destroy(&idna->normalizer, false);
 
     if (self_destroy) {
@@ -160,7 +168,9 @@ lxb_unicode_idna_processing_body(lxb_unicode_idna_t *idna, const void *data,
     lxb_unicode_idna_type_t type;
     const lxb_unicode_data_t *udata;
     const lxb_codepoint_t *maps;
+    const lxb_encoding_data_t *encoding;
     lxb_unicode_idna_ctx_t context;
+    lxb_encoding_decode_t decode;
     lxb_codepoint_t buffer[4096];
 
     buf = buffer;
@@ -171,13 +181,16 @@ lxb_unicode_idna_processing_body(lxb_unicode_idna_t *idna, const void *data,
     len *= (is_cp) ? sizeof(lxb_codepoint_t) : 1;
     end = (const lxb_char_t *) data + len;
 
+    encoding = lxb_encoding_data(LXB_ENCODING_UTF_8);
+    status = lxb_encoding_decode_init_single(&decode, encoding);
+
     while (p < end) {
         if (is_cp) {
             cp = *((const lxb_codepoint_t *) p);
             p = (const lxb_char_t *) ((const lxb_codepoint_t *) p + 1);
         }
         else {
-            cp = lxb_encoding_decode_valid_utf_8_single(&p, end);
+            cp = encoding->decode_single(&decode, &p, end);
             if (cp > LXB_ENCODING_DECODE_MAX_CODEPOINT) {
                 status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
                 goto done;
@@ -329,11 +342,13 @@ lxb_unicode_idna_norm_c_send(const lxb_codepoint_t *cps,
                              const lxb_codepoint_t *p,
                              lxb_unicode_idna_ctx_t *context)
 {
+    bool cr;
     lxb_status_t status;
+    lxb_unicode_idna_ascii_ctx_t *asc;
 
     /* xn-- or Xn-- or xN-- or XN-- */
 
-    if (p - cps > 4
+    if (p - cps >= 4
         && (cps[0] == 0x0078 || cps[0] == 0x0058)
         && (cps[1] == 0x006E || cps[1] == 0x004E)
         && cps[2] == 0x002D && cps[3] == 0x002D)
@@ -352,13 +367,27 @@ lxb_unicode_idna_norm_c_send(const lxb_codepoint_t *cps,
         status = LXB_STATUS_OK;
     }
 
+    asc = context->context;
+
+    cr = lxb_unicode_idna_validity_criteria_cp(cps, p - cps, asc->flags);
+    if (!cr) {
+        return LXB_STATUS_ERROR_UNEXPECTED_RESULT;
+    }
+
     return context->cb(cps, p - cps, context->context, status);
 }
 
 static lxb_status_t
 lxb_unicode_idna_punycode_cb(const lxb_codepoint_t *cps, size_t len, void *ctx)
 {
+    bool cr;
     lxb_unicode_idna_ctx_t *context = ctx;
+    lxb_unicode_idna_ascii_ctx_t *asc = context->context;
+
+    cr = lxb_unicode_idna_validity_criteria_cp(cps, len, asc->flags);
+    if (!cr) {
+        return LXB_STATUS_ERROR_UNEXPECTED_RESULT;
+    }
 
     return context->cb(cps, len, context->context, LXB_STATUS_OK);
 }
@@ -445,17 +474,11 @@ static lxb_status_t
 lxb_unicode_idna_ascii_puny_cb(const lxb_char_t *data, size_t length, void *ctx,
                                bool unchanged)
 {
-    bool cr;
     size_t nlen;
     lxb_char_t *tmp;
     lxb_unicode_idna_ascii_ctx_t *asc = ctx;
 
     static const lexbor_str_t prefix = lexbor_str("xn--");
-
-    cr = lxb_unicode_idna_validity_criteria(data, length, asc->flags);
-    if (!cr) {
-        return LXB_STATUS_ERROR_UNEXPECTED_RESULT;
-    }
 
     if (asc->p + length + 6 > asc->end) {
         nlen = ((asc->end - asc->buf) * 4) + length + 6;
@@ -494,33 +517,91 @@ bool
 lxb_unicode_idna_validity_criteria(const lxb_char_t *data, size_t length,
                                    lxb_unicode_idna_flag_t flags)
 {
+    return lxb_unicode_idna_validity_criteria_h(data, length, flags, false);
+}
+
+bool
+lxb_unicode_idna_validity_criteria_cp(const lxb_codepoint_t *data, size_t length,
+                                      lxb_unicode_idna_flag_t flags)
+{
+    return lxb_unicode_idna_validity_criteria_h(data, length, flags, true);
+}
+
+static bool
+lxb_unicode_idna_validity_criteria_h(const void *data, size_t length,
+                                     lxb_unicode_idna_flag_t flags, bool is_cp)
+{
     lxb_codepoint_t cp;
+    const lxb_codepoint_t *cps;
     const lxb_char_t *p, *end;
     lxb_unicode_idna_type_t type;
 
     p = data;
-    end = data + length;
+    end = p + length;
 
     if (flags & LXB_UNICODE_IDNA_FLAG_CHECK_HYPHENS) {
         /* U+002D HYPHEN-MINUS */
 
-        if (length >= 4) {
-            if (p[3] == 0x002D || p[4] == 0x002D) {
+        if (is_cp) {
+            cps = data;
+
+            if (length > 4) {
+                if (cps[3] == 0x002D || cps[4] == 0x002D) {
+                    return false;
+                }
+            }
+
+            if (length >= 1) {
+                if (cps[0] == 0x002D || cps[length - 1] == 0x002D) {
+                    return false;
+                }
+            }
+        }
+        else {
+            if (length > 4) {
+                if (p[3] == 0x002D || p[4] == 0x002D) {
+                    return false;
+                }
+            }
+
+            if (length >= 1) {
+                if (p[0] == 0x002D || p[-1] == 0x002D) {
+                    return false;
+                }
+            }
+        }
+    }
+    else if (p - end >= 4) {
+        if (is_cp) {
+            cps = data;
+
+            if (   (cps[0] == 0x0078 || cps[0] == 0x0058)
+                && (cps[1] == 0x006E || cps[1] == 0x004E)
+                &&  cps[2] == 0x002D && cps[3] == 0x002D)
+            {
                 return false;
             }
         }
-
-        if (length >= 1) {
-            if (p[0] == 0x002D || end[-1] == 0x002D) {
+        else {
+            if (   (p[0] == 0x0078 || p[0] == 0x0058)
+                && (p[1] == 0x006E || p[1] == 0x004E)
+                &&  p[2] == 0x002D && p[3] == 0x002D)
+            {
                 return false;
             }
         }
     }
 
     while (p < end) {
-        cp = lxb_encoding_decode_valid_utf_8_single(&p, end);
-        if (cp == LXB_ENCODING_DECODE_ERROR) {
-            return false;
+        if (!is_cp) {
+            cp = lxb_encoding_decode_valid_utf_8_single(&p, end);
+            if (cp == LXB_ENCODING_DECODE_ERROR) {
+                return false;
+            }
+        }
+        else {
+            cp = *((const lxb_codepoint_t *) p);
+            p = (const lxb_char_t *) ((const lxb_codepoint_t *) p + 1);
         }
 
         /* U+002E ( . ) FULL STOP */
