@@ -1,5 +1,6 @@
 
 import sys, re, os
+from datetime import datetime
 
 # Find and append run script run dir to module search path
 ABS_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -89,6 +90,7 @@ class MultiByte:
         lxb_temp = LXB.Temp(self.temp_file_h, save_to_h)
         lxb_temp.pattern_append("%%EXTERNS%%", '\n'.join(externs))
         lxb_temp.pattern_append("%%SIZES%%", '\n'.join(hash_sizes))
+        lxb_temp.pattern_append("%%YEAR%%", str(datetime.now().year))
         lxb_temp.build()
         lxb_temp.save()
 
@@ -163,6 +165,7 @@ class MultiByte:
         lxb_temp = LXB.Temp(self.temp_file_c, save_to_c)
         lxb_temp.pattern_append("%%INDEX%%", buf)
         lxb_temp.pattern_append("%%HASH%%", hash_buf)
+        lxb_temp.pattern_append("%%YEAR%%", str(datetime.now().year))
         lxb_temp.build()
         lxb_temp.save()
 
