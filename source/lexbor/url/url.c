@@ -672,7 +672,7 @@ lxb_url_parser_destroy(lxb_url_parser_t *parser, bool destroy_self)
     }
 
     parser->log = lexbor_plog_destroy(parser->log, true);
-    parser->idna = lxb_unicode_idna_destroy(parser->idna, false);
+    parser->idna = lxb_unicode_idna_destroy(parser->idna, true);
 
     if (destroy_self) {
         return lexbor_free(parser);
