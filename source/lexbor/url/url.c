@@ -4398,3 +4398,25 @@ lxb_url_serialize_fragment(const lxb_url_t *url,
 
     return LXB_STATUS_OK;
 }
+
+lxb_url_t *lxb_url_copy(lxb_url_parser_t *parser, lxb_url_t *url)
+{
+	lxb_url_t *new_url = lexbor_mraw_calloc(parser->mraw, sizeof(lxb_url_t));
+	if (new_url == NULL) {
+		return NULL;
+	}
+
+	new_url->mraw = parser->mraw;
+
+	lxb_url_scheme_copy(&url->scheme, &new_url->scheme, new_url->mraw);
+	lxb_url_username_copy(&url->username, &new_url->username, new_url->mraw);
+	lxb_url_password_copy(&url->password, &new_url->password, new_url->mraw);
+	lxb_url_host_copy(&url->host, &new_url->host, new_url->mraw);
+	new_url->port = url->port;
+	new_url->has_port = url->has_port;
+	lxb_url_path_copy(url, new_url);
+	lxb_url_query_copy(&url->query, &new_url->query, new_url->mraw);
+	lxb_url_str_copy(&url->fragment, &new_url->fragment, new_url->mraw);
+
+	return new_url;
+}

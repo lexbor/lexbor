@@ -371,6 +371,7 @@ LXB_API lxb_status_t
 lxb_url_serialize_fragment(const lxb_url_t *url,
                            lexbor_serialize_cb_f cb, void *ctx);
 
+lxb_url_t *lxb_url_copy(lxb_url_parser_t *parser, lxb_url_t *url);
 
 /*
  * Inline functions.
