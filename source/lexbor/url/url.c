@@ -2588,10 +2588,11 @@ lxb_url_path_slow_path(lxb_url_parser_t *parser, lxb_url_t *url,
     if (url->path.str.length != 0) {
         str = &url->path.str;
 
-        if (sbuf + str->length > sbuf_end) {
+        /* "+ 2" == "/\0" */
+        if (sbuf + (str->length + 2) > sbuf_end) {
             len = str->length + sizeof(sbuffer);
 
-            sbuf_begin = lexbor_malloc(str->length);
+            sbuf_begin = lexbor_malloc(len);
             if (sbuf_begin == NULL) {
                 return NULL;
             }
