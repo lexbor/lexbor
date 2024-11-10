@@ -1268,7 +1268,7 @@ lxb_url_parse_basic_h(lxb_url_parser_t *parser, lxb_url_t *url,
     lxb_status_t status;
     lexbor_str_t tmp_str;
     lxb_url_state_t state;
-    const lxb_char_t *p, *begin, *end, *tmp, *pswd, *buf;
+    const lxb_char_t *p, *begin, *end, *tmp, *pswd, *buf, *orig_data;
     lxb_char_t c;
     lxb_codepoint_t cp;
     lxb_url_map_type_t map_type;
@@ -1294,6 +1294,7 @@ lxb_url_parse_basic_h(lxb_url_parser_t *parser, lxb_url_t *url,
     }
 
     parser->url = url;
+    orig_data = data;
 
     buf = lxb_url_remove_tab_newline(parser, data, &length);
     if (buf != data) {
@@ -1319,7 +1320,7 @@ lxb_url_parse_basic_h(lxb_url_parser_t *parser, lxb_url_t *url,
 
     enc = lxb_encoding_data(encoding);
     if (enc == NULL) {
-        lxb_url_parse_return(data, buf, LXB_STATUS_ERROR_WRONG_ARGS);
+        lxb_url_parse_return(orig_data, buf, LXB_STATUS_ERROR_WRONG_ARGS);
     }
 
     inside_bracket = false;
@@ -1341,7 +1342,7 @@ again:
                 goto again;
             }
 
-            lxb_url_parse_return(data, buf, LXB_STATUS_ERROR_UNEXPECTED_DATA);
+            lxb_url_parse_return(orig_data, buf, LXB_STATUS_ERROR_UNEXPECTED_DATA);
         }
 
         /* Fall through. */
@@ -1361,7 +1362,7 @@ again:
                 goto again;
             }
             else if (p < end || override_state != LXB_URL_STATE_SCHEME_START_STATE) {
-                lxb_url_parse_return(data, buf, LXB_STATUS_ERROR_UNEXPECTED_DATA);
+                lxb_url_parse_return(orig_data, buf, LXB_STATUS_ERROR_UNEXPECTED_DATA);
             }
         }
 
@@ -1369,19 +1370,19 @@ again:
 
         if (override_state != LXB_URL_STATE__UNDEF) {
             if (lxb_url_is_special(url) != lxb_url_scheme_is_special(schm)) {
-                lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+                lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
             }
 
             if (url->has_port || lxb_url_includes_credentials(url)) {
                 if (schm->type == LXB_URL_SCHEMEL_TYPE_FILE) {
-                    lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+                    lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
                 }
             }
 
             if (url->scheme.type == LXB_URL_SCHEMEL_TYPE_FILE
                 && url->host.type == LXB_URL_HOST_TYPE_EMPTY)
             {
-                lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+                lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
             }
         }
 
@@ -1390,7 +1391,7 @@ again:
 
         status = lxb_url_str_init(&url->scheme.name, url->mraw, p - data);
         if (status != LXB_STATUS_OK) {
-            lxb_url_parse_return(data, buf, LXB_STATUS_ERROR_MEMORY_ALLOCATION);
+            lxb_url_parse_return(orig_data, buf, LXB_STATUS_ERROR_MEMORY_ALLOCATION);
         }
 
         (void) lexbor_str_append_lowercase(&url->scheme.name, url->mraw,
@@ -1404,7 +1405,7 @@ again:
                 url->has_port = false;
             }
 
-            lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+            lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
         }
 
         if (schm->type == LXB_URL_SCHEMEL_TYPE_FILE) {
@@ -1412,7 +1413,7 @@ again:
                 status = lxb_url_log_append(parser, p,
                   LXB_URL_ERROR_TYPE_SPECIAL_SCHEME_MISSING_FOLLOWING_SOLIDUS);
                 if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
+                    lxb_url_parse_return(orig_data, buf, status);
                 }
             }
 
@@ -1459,18 +1460,18 @@ again:
             status = lxb_url_scheme_copy(&base_url->scheme,
                                          &url->scheme, url->mraw);
             if (status != LXB_STATUS_OK) {
-                lxb_url_parse_return(data, buf, status);
+                lxb_url_parse_return(orig_data, buf, status);
             }
 
             status = lxb_url_path_copy(base_url, url);
             if (status != LXB_STATUS_OK) {
-                lxb_url_parse_return(data, buf, status);
+                lxb_url_parse_return(orig_data, buf, status);
             }
 
             status = lxb_url_query_copy(&base_url->query, &url->query,
                                         url->mraw);
             if (status != LXB_STATUS_OK) {
-                lxb_url_parse_return(data, buf, status);
+                lxb_url_parse_return(orig_data, buf, status);
             }
 
             lxb_url_fragment_set_null(url);
@@ -1497,7 +1498,7 @@ again:
         status = lxb_url_log_append(parser, p,
                   LXB_URL_ERROR_TYPE_SPECIAL_SCHEME_MISSING_FOLLOWING_SOLIDUS);
         if (status != LXB_STATUS_OK) {
-            lxb_url_parse_return(data, buf, status);
+            lxb_url_parse_return(orig_data, buf, status);
         }
 
         state = LXB_URL_STATE_RELATIVE_STATE;
@@ -1517,7 +1518,7 @@ again:
     case LXB_URL_STATE_RELATIVE_STATE:
         status = lxb_url_scheme_copy(&base_url->scheme, &url->scheme, url->mraw);
         if (status != LXB_STATUS_OK) {
-            lxb_url_parse_return(data, buf, status);
+            lxb_url_parse_return(orig_data, buf, status);
         }
 
         if (end - p >= 1) {
@@ -1533,7 +1534,7 @@ again:
                 status = lxb_url_log_append(parser, p,
                                    LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS);
                 if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
+                    lxb_url_parse_return(orig_data, buf, status);
                 }
 
                 state = LXB_URL_STATE_RELATIVE_SLASH_STATE;
@@ -1544,18 +1545,18 @@ again:
         status = lxb_url_username_copy(&base_url->username, &url->username,
                                        url->mraw);
         if (status != LXB_STATUS_OK) {
-            lxb_url_parse_return(data, buf, status);
+            lxb_url_parse_return(orig_data, buf, status);
         }
 
         status = lxb_url_password_copy(&base_url->password, &url->password,
                                        url->mraw);
         if (status != LXB_STATUS_OK) {
-            lxb_url_parse_return(data, buf, status);
+            lxb_url_parse_return(orig_data, buf, status);
         }
 
         status = lxb_url_host_copy(&base_url->host, &url->host, url->mraw);
         if (status != LXB_STATUS_OK) {
-            lxb_url_parse_return(data, buf, status);
+            lxb_url_parse_return(orig_data, buf, status);
         }
 
         if (base_url->has_port) {
@@ -1564,16 +1565,16 @@ again:
 
         status = lxb_url_path_copy(base_url, url);
         if (status != LXB_STATUS_OK) {
-            lxb_url_parse_return(data, buf, status);
+            lxb_url_parse_return(orig_data, buf, status);
         }
 
         status = lxb_url_query_copy(&base_url->query, &url->query, url->mraw);
         if (status != LXB_STATUS_OK) {
-            lxb_url_parse_return(data, buf, status);
+            lxb_url_parse_return(orig_data, buf, status);
         }
 
         if (end - p == 0) {
-            lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+            lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
         }
 
         if (*p == '?') {
@@ -1609,7 +1610,7 @@ again:
                 status = lxb_url_log_append(parser, p,
                                    LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS);
                 if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
+                    lxb_url_parse_return(orig_data, buf, status);
                 }
             }
 
@@ -1627,18 +1628,18 @@ again:
         status = lxb_url_username_copy(&base_url->username, &url->username,
                                        url->mraw);
         if (status != LXB_STATUS_OK) {
-            lxb_url_parse_return(data, buf, status);
+            lxb_url_parse_return(orig_data, buf, status);
         }
 
         status = lxb_url_password_copy(&base_url->password, &url->password,
                                        url->mraw);
         if (status != LXB_STATUS_OK) {
-            lxb_url_parse_return(data, buf, status);
+            lxb_url_parse_return(orig_data, buf, status);
         }
 
         status = lxb_url_host_copy(&base_url->host, &url->host, url->mraw);
         if (status != LXB_STATUS_OK) {
-            lxb_url_parse_return(data, buf, status);
+            lxb_url_parse_return(orig_data, buf, status);
         }
 
         if (base_url->has_port) {
@@ -1659,7 +1660,7 @@ again:
             status = lxb_url_log_append(parser, p,
                   LXB_URL_ERROR_TYPE_SPECIAL_SCHEME_MISSING_FOLLOWING_SOLIDUS);
             if (status != LXB_STATUS_OK) {
-                lxb_url_parse_return(data, buf, status);
+                lxb_url_parse_return(orig_data, buf, status);
             }
         }
 
@@ -1674,7 +1675,7 @@ again:
         status = lxb_url_log_append(parser, p,
                   LXB_URL_ERROR_TYPE_SPECIAL_SCHEME_MISSING_FOLLOWING_SOLIDUS);
         if (status != LXB_STATUS_OK) {
-            lxb_url_parse_return(data, buf, status);
+            lxb_url_parse_return(orig_data, buf, status);
         }
 
         p += 1;
@@ -1693,7 +1694,7 @@ again:
                     status = lxb_url_log_append(parser, p,
                                                 LXB_URL_ERROR_TYPE_INVALID_CREDENTIALS);
                     if (status != LXB_STATUS_OK) {
-                        lxb_url_parse_return(data, buf, status);
+                        lxb_url_parse_return(orig_data, buf, status);
                     }
 
                     if (p == begin) {
@@ -1709,7 +1710,7 @@ again:
                                                         &url->username, url->mraw,
                                                         LXB_URL_MAP_USERINFO, false);
                             if (status != LXB_STATUS_OK) {
-                                lxb_url_parse_return(data, buf, status);
+                                lxb_url_parse_return(orig_data, buf, status);
                             }
                         }
                     }
@@ -1719,7 +1720,7 @@ again:
                                                     &url->password, url->mraw,
                                                     LXB_URL_MAP_USERINFO, false);
                         if (status != LXB_STATUS_OK) {
-                            lxb_url_parse_return(data, buf, status);
+                            lxb_url_parse_return(orig_data, buf, status);
                         }
 
                         pswd = p;
@@ -1764,10 +1765,10 @@ again:
                 status = lxb_url_log_append(parser, p,
                                             LXB_URL_ERROR_TYPE_INVALID_CREDENTIALS);
                 if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
+                    lxb_url_parse_return(orig_data, buf, status);
                 }
 
-                lxb_url_parse_return(data, buf, LXB_STATUS_ERROR_UNEXPECTED_DATA);
+                lxb_url_parse_return(orig_data, buf, LXB_STATUS_ERROR_UNEXPECTED_DATA);
             }
 
             /* Skip '@'. */
@@ -1819,13 +1820,13 @@ again:
                     }
 
                     if (override_state == LXB_URL_STATE_HOSTNAME_STATE) {
-                        lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+                        lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
                     }
 
                     status = lxb_url_host_parse(parser, begin, p, &url->host,
                                                 url->mraw, opt);
                     if (status != LXB_STATUS_OK) {
-                        lxb_url_parse_return(data, buf, status);
+                        lxb_url_parse_return(orig_data, buf, status);
                     }
 
                     p += 1;
@@ -1874,17 +1875,17 @@ again:
         if (override_state != LXB_URL_STATE__UNDEF && begin == p
             && (lxb_url_includes_credentials(url) || url->has_port))
         {
-            lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+            lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
         }
 
         status = lxb_url_host_parse(parser, begin, p, &url->host,
                                     url->mraw, opt);
         if (status != LXB_STATUS_OK) {
-            lxb_url_parse_return(data, buf, status);
+            lxb_url_parse_return(orig_data, buf, status);
         }
 
         if (override_state != LXB_URL_STATE__UNDEF) {
-            lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+            lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
         }
 
         state = LXB_URL_STATE_PATH_START_STATE;
@@ -1907,7 +1908,7 @@ again:
             {
                 if (begin == p) {
                     if (override_state != LXB_URL_STATE__UNDEF) {
-                        lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+                        lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
                     }
 
                     state = LXB_URL_STATE_PATH_START_STATE;
@@ -1923,10 +1924,10 @@ again:
                         status = lxb_url_log_append(parser, p,
                                           LXB_URL_ERROR_TYPE_PORT_OUT_OF_RANGE);
                         if (status != LXB_STATUS_OK) {
-                            lxb_url_parse_return(data, buf, status);
+                            lxb_url_parse_return(orig_data, buf, status);
                         }
 
-                        lxb_url_parse_return(data, buf,
+                        lxb_url_parse_return(orig_data, buf,
                                              LXB_STATUS_ERROR_UNEXPECTED_DATA);
                     }
                 }
@@ -1943,7 +1944,7 @@ again:
                 }
 
                 if (override_state != LXB_URL_STATE__UNDEF) {
-                    lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+                    lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
                 }
 
                 state = LXB_URL_STATE_PATH_START_STATE;
@@ -1953,10 +1954,10 @@ again:
             status = lxb_url_log_append(parser, p,
                                         LXB_URL_ERROR_TYPE_PORT_INVALID);
             if (status != LXB_STATUS_OK) {
-                lxb_url_parse_return(data, buf, status);
+                lxb_url_parse_return(orig_data, buf, status);
             }
 
-            lxb_url_parse_return(data, buf, LXB_STATUS_ERROR_UNEXPECTED_DATA);
+            lxb_url_parse_return(orig_data, buf, LXB_STATUS_ERROR_UNEXPECTED_DATA);
         }
 
         break;
@@ -1966,7 +1967,7 @@ again:
 
         status = lxb_url_scheme_copy_special(schm, &url->scheme, url->mraw);
         if (status != LXB_STATUS_OK) {
-            lxb_url_parse_return(data, buf, status);
+            lxb_url_parse_return(orig_data, buf, status);
         }
 
         lxb_url_host_set_empty(&url->host, url->mraw);
@@ -1978,7 +1979,7 @@ again:
                 status = lxb_url_log_append(parser, p,
                                    LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS);
                 if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
+                    lxb_url_parse_return(orig_data, buf, status);
                 }
             }
 
@@ -1993,17 +1994,17 @@ again:
         {
             status = lxb_url_host_copy(&base_url->host, &url->host, url->mraw);
             if (status != LXB_STATUS_OK) {
-                lxb_url_parse_return(data, buf, status);
+                lxb_url_parse_return(orig_data, buf, status);
             }
 
             status = lxb_url_path_copy(base_url, url);
             if (status != LXB_STATUS_OK) {
-                lxb_url_parse_return(data, buf, status);
+                lxb_url_parse_return(orig_data, buf, status);
             }
 
             status = lxb_url_query_copy(&base_url->query, &url->query, url->mraw);
             if (status != LXB_STATUS_OK) {
-                lxb_url_parse_return(data, buf, status);
+                lxb_url_parse_return(orig_data, buf, status);
             }
 
             if (c == '?') {
@@ -2025,7 +2026,7 @@ again:
             }
 
             if (p >= end) {
-                lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+                lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
             }
 
             (void) lexbor_str_destroy(&url->query, url->mraw, false);
@@ -2037,7 +2038,7 @@ again:
                 status = lxb_url_log_append(parser, p,
                           LXB_URL_ERROR_TYPE_FILE_INVALID_WINDOWS_DRIVE_LETTER);
                 if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
+                    lxb_url_parse_return(orig_data, buf, status);
                 }
 
                 lxb_url_path_set_null(url);
@@ -2056,7 +2057,7 @@ again:
                 status = lxb_url_log_append(parser, p,
                                    LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS);
                 if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
+                    lxb_url_parse_return(orig_data, buf, status);
                 }
             }
 
@@ -2071,7 +2072,7 @@ again:
         {
             status = lxb_url_host_copy(&base_url->host, &url->host, url->mraw);
             if (status != LXB_STATUS_OK) {
-                lxb_url_parse_return(data, buf, status);
+                lxb_url_parse_return(orig_data, buf, status);
             }
 
             if (!lxb_url_start_windows_drive_letter(p, end)
@@ -2088,7 +2089,7 @@ again:
                     status = lxb_url_path_append_wo_slash(url,
                                                   base_url->path.str.data, len);
                     if (status != LXB_STATUS_OK) {
-                        lxb_url_parse_return(data, buf, status);
+                        lxb_url_parse_return(orig_data, buf, status);
                     }
                 }
             }
@@ -2143,7 +2144,7 @@ again:
                 status = lxb_url_log_append(parser, begin,
                     LXB_URL_ERROR_TYPE_FILE_INVALID_WINDOWS_DRIVE_LETTER_HOST);
                 if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
+                    lxb_url_parse_return(orig_data, buf, status);
                 }
 
                 p = begin;
@@ -2156,7 +2157,7 @@ again:
                 lxb_url_host_set_empty(&url->host, url->mraw);
 
                 if (override_state != LXB_URL_STATE__UNDEF) {
-                    lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+                    lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
                 }
 
                 state = LXB_URL_STATE_PATH_START_STATE;
@@ -2166,7 +2167,7 @@ again:
             status = lxb_url_host_parse(parser, begin, p, &url->host,
                                         url->mraw, opt);
             if (status != LXB_STATUS_OK) {
-                lxb_url_parse_return(data, buf, status);
+                lxb_url_parse_return(orig_data, buf, status);
             }
 
             if (lxb_url_host_eq(&url->host, lh_str.data, lh_str.length)) {
@@ -2174,7 +2175,7 @@ again:
             }
 
             if (override_state != LXB_URL_STATE__UNDEF) {
-                lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+                lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
             }
 
             state = LXB_URL_STATE_PATH_START_STATE;
@@ -2191,7 +2192,7 @@ again:
                 status = lxb_url_log_append(parser, p,
                                    LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS);
                 if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
+                    lxb_url_parse_return(orig_data, buf, status);
                 }
 
                 p += 1;
@@ -2231,20 +2232,20 @@ again:
             && url->host.type == LXB_URL_HOST_TYPE__UNDEF)
         {
             status = lxb_url_path_append(url, mp_str.data, mp_str.length);
-            lxb_url_parse_return(data, buf, status);
+            lxb_url_parse_return(orig_data, buf, status);
         }
 
-        lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+        lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
 
     case LXB_URL_STATE_PATH_STATE:
         p = lxb_url_path_fast_path(parser, url, p, end,
                                    override_state == LXB_URL_STATE__UNDEF);
         if (p == NULL) {
-            lxb_url_parse_return(data, buf, LXB_STATUS_ERROR_MEMORY_ALLOCATION);
+            lxb_url_parse_return(orig_data, buf, LXB_STATUS_ERROR_MEMORY_ALLOCATION);
         }
 
         if (p >= end) {
-            lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+            lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
         }
 
         switch (*p) {
@@ -2272,12 +2273,12 @@ again:
                                                             &tmp_str, url->mraw,
                                                             LXB_URL_MAP_C0, false);
                 if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
+                    lxb_url_parse_return(orig_data, buf, status);
                 }
 
                 status = lxb_url_path_list_push(url, &tmp_str);
 
-                lxb_url_parse_return(data, buf, status);
+                lxb_url_parse_return(orig_data, buf, status);
             }
 
             c = *p;
@@ -2289,12 +2290,12 @@ again:
                                                             &tmp_str, url->mraw,
                                                             LXB_URL_MAP_C0, false);
                 if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
+                    lxb_url_parse_return(orig_data, buf, status);
                 }
 
                 status = lxb_url_path_list_push(url, &tmp_str);
                 if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
+                    lxb_url_parse_return(orig_data, buf, status);
                 }
 
                 p += 1;
@@ -2320,7 +2321,7 @@ again:
                 status = lxb_url_log_append(parser, tmp,
                                             LXB_URL_ERROR_TYPE_INVALID_URL_UNIT);
                 if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
+                    lxb_url_parse_return(orig_data, buf, status);
                 }
             }
         }
@@ -2337,7 +2338,7 @@ again:
 
             enc = lxb_encoding_data(encoding);
             if (enc == NULL) {
-                lxb_url_parse_return(data, buf, LXB_STATUS_ERROR_WRONG_ARGS);
+                lxb_url_parse_return(orig_data, buf, LXB_STATUS_ERROR_WRONG_ARGS);
             }
         }
 
@@ -2359,7 +2360,7 @@ again:
                                                                url->mraw, enc,
                                                                map_type, false);
                 if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
+                    lxb_url_parse_return(orig_data, buf, status);
                 }
 
                 if (p < end) {
@@ -2368,7 +2369,7 @@ again:
                     goto again;
                 }
 
-                lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+                lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
             }
 
             tmp = p;
@@ -2382,7 +2383,7 @@ again:
                 status = lxb_url_log_append(parser, tmp,
                                             LXB_URL_ERROR_TYPE_INVALID_URL_UNIT);
                 if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
+                    lxb_url_parse_return(orig_data, buf, status);
                 }
             }
         }
@@ -2404,7 +2405,7 @@ again:
                 status = lxb_url_log_append(parser, tmp,
                                             LXB_URL_ERROR_TYPE_INVALID_URL_UNIT);
                 if (status != LXB_STATUS_OK) {
-                    lxb_url_parse_return(data, buf, status);
+                    lxb_url_parse_return(orig_data, buf, status);
                 }
             }
         }
@@ -2412,33 +2413,33 @@ again:
         status = lxb_url_percent_encode_after_utf_8(begin, p, &url->fragment,
                                                     url->mraw,
                                                     LXB_URL_MAP_FRAGMENT, false);
-        lxb_url_parse_return(data, buf, status);
+        lxb_url_parse_return(orig_data, buf, status);
 
     default:
-        lxb_url_parse_return(data, buf, LXB_STATUS_ERROR);
+        lxb_url_parse_return(orig_data, buf, LXB_STATUS_ERROR);
     }
 
-    lxb_url_parse_return(data, buf, LXB_STATUS_OK);
+    lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
 
 failed_non_relative_url:
 
     status = lxb_url_log_append(parser, p,
                            LXB_URL_ERROR_TYPE_MISSING_SCHEME_NON_RELATIVE_URL);
     if (status != LXB_STATUS_OK) {
-        lxb_url_parse_return(data, buf, status);
+        lxb_url_parse_return(orig_data, buf, status);
     }
 
-    lxb_url_parse_return(data, buf, LXB_STATUS_ERROR_UNEXPECTED_DATA);
+    lxb_url_parse_return(orig_data, buf, LXB_STATUS_ERROR_UNEXPECTED_DATA);
 
 failed_host:
 
     status = lxb_url_log_append(parser, p,
                                 LXB_URL_ERROR_TYPE_HOST_MISSING);
     if (status != LXB_STATUS_OK) {
-        lxb_url_parse_return(data, buf, status);
+        lxb_url_parse_return(orig_data, buf, status);
     }
 
-    lxb_url_parse_return(data, buf, LXB_STATUS_ERROR_UNEXPECTED_DATA);
+    lxb_url_parse_return(orig_data, buf, LXB_STATUS_ERROR_UNEXPECTED_DATA);
 }
 
 static const lxb_char_t *
