@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Alexander Borisov
+ * Copyright (C) 2023-2024 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -11,6 +11,20 @@
 #include <unit/test.h>
 #include <unit/kv.h>
 
+
+typedef struct {
+    lexbor_str_t href;
+    lexbor_str_t protocol;
+    lexbor_str_t username;
+    lexbor_str_t password;
+    lexbor_str_t host;
+    lexbor_str_t hostname;
+    lexbor_str_t port;
+    lexbor_str_t pathname;
+    lexbor_str_t search;
+    lexbor_str_t hash;
+}
+url_change_t;
 
 typedef struct {
     lexbor_str_t   url;
@@ -29,6 +43,8 @@ typedef struct {
     lexbor_str_t   fragment;
     bool           failed;
     lxb_encoding_t encoding;
+    url_change_t   change;
+    bool           has_change;
 }
 url_entry_t;
 
@@ -49,7 +65,13 @@ file_callback(const lxb_char_t *fullpath, size_t fullpath_len,
               const lxb_char_t *filename, size_t filename_len, void *ctx);
 
 static lxb_status_t
+test_changes_set(lxb_url_t *url, url_entry_t *entry);
+
+static lxb_status_t
 test_value_to_entry(unit_kv_value_t *value, url_entry_t *entry);
+
+static lxb_status_t
+test_value_changes_to_entry(unit_kv_value_t *value, url_entry_t *entry);
 
 static lxb_status_t
 test_value_to_str(unit_kv_value_t *value, lexbor_str_t *str, const char *key,
@@ -213,7 +235,7 @@ file_callback(const lxb_char_t *fullpath, size_t fullpath_len,
         if (status != LXB_STATUS_OK) {
             if (!entry.failed) {
                 context->err_count += 1;
-                
+
                 printf("Failed to parse: %.*s\n", (int) entry.url.length,
                        (const char *) entry.url.data);
 
@@ -244,6 +266,18 @@ file_callback(const lxb_char_t *fullpath, size_t fullpath_len,
 
         printf("Expecting: %.*s\n", (int) entry.done.length,
                (const char *) entry.done.data);
+
+        status = test_changes_set(url, &entry);
+        if (status != LXB_STATUS_OK) {
+            if (!entry.failed) {
+                context->err_count += 1;
+
+                printf("Failed to change URL object: %.*s\n",
+                       (int) entry.url.length, (const char *) entry.url.data);
+
+                return EXIT_FAILURE;
+            }
+        }
 
         p = lexbor_str_init(&context->str, context->mraw, 1024);
         if (p == NULL) {
@@ -346,8 +380,8 @@ file_callback(const lxb_char_t *fullpath, size_t fullpath_len,
         if (entry.has_path_length) {
             if (url->path.length != entry.path_length) {
                 printf("Path Length: not equal\n");
-                printf("    Have: %d\n", url->path.length);
-                printf("    Need: %" PRId64 "\n", entry.path_length);
+                printf("    Have: " LEXBOR_FORMAT_Z "\n", url->path.length);
+                printf("    Need: " LEXBOR_FORMAT_Z "\n", entry.path_length);
 
                 have_error = true;
             }
@@ -390,8 +424,105 @@ file_callback(const lxb_char_t *fullpath, size_t fullpath_len,
 }
 
 static lxb_status_t
+test_changes_set(lxb_url_t *url, url_entry_t *entry)
+{
+    lxb_status_t status;
+    url_change_t *change;
+
+    if (!entry->has_change) {
+        return LXB_STATUS_OK;
+    }
+
+    change = &entry->change;
+
+    if (change->href.data != NULL) {
+        status = lxb_url_api_href_set(url, NULL,
+                                      change->href.data, change->href.length);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+    }
+
+    if (change->protocol.data != NULL) {
+        status = lxb_url_api_protocol_set(url, NULL, change->protocol.data,
+                                          change->protocol.length);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+    }
+
+    if (change->username.data != NULL) {
+        status = lxb_url_api_username_set(url, change->username.data,
+                                          change->username.length);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+    }
+
+    if (change->password.data != NULL) {
+        status = lxb_url_api_password_set(url, change->password.data,
+                                          change->password.length);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+    }
+
+    if (change->host.data != NULL) {
+        status = lxb_url_api_host_set(url, NULL, change->host.data,
+                                      change->host.length);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+    }
+
+    if (change->hostname.data != NULL) {
+        status = lxb_url_api_hostname_set(url, NULL, change->hostname.data,
+                                          change->hostname.length);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+    }
+
+    if (change->port.data != NULL) {
+        status = lxb_url_api_port_set(url, NULL,
+                                      change->port.data, change->port.length);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+    }
+
+    if (change->pathname.data != NULL) {
+        status = lxb_url_api_pathname_set(url, NULL, change->pathname.data,
+                                          change->pathname.length);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+    }
+
+    if (change->search.data != NULL) {
+        status = lxb_url_api_search_set(url, NULL, change->search.data,
+                                        change->search.length);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+    }
+
+    if (change->hash.data != NULL) {
+        status = lxb_url_api_hash_set(url, NULL, change->hash.data,
+                                      change->hash.length);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+    }
+
+    return LXB_STATUS_OK;
+}
+
+
+static lxb_status_t
 test_value_to_entry(unit_kv_value_t *value, url_entry_t *entry)
 {
+    int64_t num;
     lxb_status_t status;
 
     if (unit_kv_is_hash(value) == false) {
@@ -449,10 +580,16 @@ test_value_to_entry(unit_kv_value_t *value, url_entry_t *entry)
         return status;
     }
 
-    status = test_value_to_number(value, &entry->path_length,
+    status = test_value_to_number(value, &num,
                                   "path_length", false, &entry->has_path_length);
     if (status != LXB_STATUS_OK) {
         return status;
+    }
+
+    entry->path_length = 0;
+
+    if (num > 0) {
+        entry->path_length = (size_t) num;
     }
 
     status = test_value_to_str(value, &entry->query, "query", false);
@@ -470,7 +607,93 @@ test_value_to_entry(unit_kv_value_t *value, url_entry_t *entry)
         return status;
     }
 
-    return test_value_encoding(value, &entry->encoding);
+    status = test_value_encoding(value, &entry->encoding);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    return test_value_changes_to_entry(value, entry);
+}
+
+static lxb_status_t
+test_value_changes_to_entry(unit_kv_value_t *value, url_entry_t *entry)
+{
+    lxb_status_t status;
+    url_change_t *change;
+    unit_kv_value_t *change_value;
+
+    memset(&entry->change, 0x00, sizeof(url_change_t));
+
+    entry->has_change = false;
+
+    change_value = unit_kv_hash_value_nolen_c(value, "change");
+    if (change_value == NULL) {
+        return LXB_STATUS_OK;
+    }
+
+    if (!unit_kv_is_hash(change_value)) {
+        if (unit_kv_is_null(change_value)) {
+            return LXB_STATUS_OK;
+        }
+
+        TEST_PRINTLN("Parameter 'change' must be a HASH");
+        return LXB_STATUS_ERROR;
+    }
+
+    change = &entry->change;
+    entry->has_change = true;
+
+    status = test_value_to_str(change_value, &change->href, "href", false);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    status = test_value_to_str(change_value, &change->protocol,
+                               "protocol", false);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    status = test_value_to_str(change_value, &change->username,
+                               "username", false);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    status = test_value_to_str(change_value, &change->password,
+                               "password", false);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    status = test_value_to_str(change_value, &change->host, "host", false);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    status = test_value_to_str(change_value, &change->hostname,
+                               "hostname", false);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    status = test_value_to_str(change_value, &change->port, "port", false);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    status = test_value_to_str(change_value, &change->pathname,
+                               "pathname", false);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    status = test_value_to_str(change_value, &change->search, "search", false);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    return test_value_to_str(change_value, &change->hash, "hash", false);
 }
 
 static lxb_status_t
@@ -626,7 +849,7 @@ test_check_str(lexbor_str_t *have, const lexbor_str_t *need, const char *name)
 
         if (have->data != NULL) {
             printf("    Have: %.*s\n", (int) have->length,
-                                       (const char *) have->data);
+                   (const char *) have->data);
         }
         else {
             printf("    Have: NULL\n");
@@ -634,7 +857,7 @@ test_check_str(lexbor_str_t *have, const lexbor_str_t *need, const char *name)
 
         if (need->data != NULL) {
             printf("    Need: %.*s\n", (int) need->length,
-                                       (const char *) need->data);
+                   (const char *) need->data);
         }
         else {
             printf("    Need: NULL\n");

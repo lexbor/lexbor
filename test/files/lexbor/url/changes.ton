@@ -1,0 +1,921 @@
+[
+    /* Test count: 1 */
+    /* 1 */
+    {
+        "url": "https://user:pass@lexbor.com/docs/html/path?x=y&a=b#best-fragment",
+        "done": "http://example.com/path/to/path?q=a#fragment",
+        "change": {
+            "href": "http://example.com/path/to/path?q=a#fragment",
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "http",
+        "username": null,
+        "password": null,
+        "host": "example.com",
+        "path": "/path/to/path",
+        "query": "q=a",
+        "fragment": "fragment",
+        "failed": false
+    },
+    /* 2 */
+    {
+        "url": "https://user:pass@lexbor.com/docs/html/path?x=y&a=b#best-fragment",
+        "done": "http://lexbor:12345@example.com/new/path/for/me?la=be#new-frag",
+        "change": {
+            "href": null,
+            "protocol": "http",
+            "username": "lexbor",
+            "password": "12345",
+            "host": "example.com",
+            "hostname": "example.com",
+            "port": null,
+            "pathname": "/new/path/for/me",
+            "search": "la=be",
+            "hash": "new-frag"
+        },
+        "scheme": "http",
+        "username": "lexbor",
+        "password": "12345",
+        "host": "example.com",
+        "path": "/new/path/for/me",
+        "query": "la=be",
+        "fragment": "new-frag",
+        "failed": false
+    },
+    /* 3 */
+    {
+        "url": "https://user:pass@lexbor.com/docs/html/path?x=y&a=b#best-fragment",
+        "done": "https://user:pass@lexbor.com/docs/html/path?x=y&a=b#best-fragment",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "username": "user",
+        "password": "pass",
+        "host": "lexbor.com",
+        "path": "/docs/html/path",
+        "query": "x=y&a=b",
+        "fragment": "best-fragment",
+        "failed": false
+    },
+    /* 4 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "https://lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": "",
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": true
+    },
+    /* 5 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "https://lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": "own",
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false
+    },
+    /* 6 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "http://lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": "http",
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "http",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false
+    },
+    /* 7 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "http://lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": "http:",
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "http",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false
+    },
+    /* 8 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "http://lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": "http:blah",
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "http",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false
+    },
+    /* 9 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "https://user@lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": "user",
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "username": "user",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false
+    },
+    /* 10 */
+    {
+        "url": "https://user@lexbor.com/",
+        "done": "https://root@lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": "root",
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "username": "root",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false
+    },
+    /* 11 */
+    {
+        "url": "https://user@lexbor.com/",
+        "done": "https://lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": "",
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false
+    },
+    /* 12 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "https://:pass@lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": "pass",
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "password": "pass",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false
+    },
+    /* 13 */
+    {
+        "url": "https://root:12345@lexbor.com/",
+        "done": "https://root:98765@lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": "98765",
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "username": "root",
+        "password": "98765",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false
+    },
+    /* 14 */
+    {
+        "url": "https://root:12345@lexbor.com/",
+        "done": "https://root@lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": "",
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "username": "root",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false
+    },
+    /* 15 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "https://lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": "",
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false
+    },
+    /* 16 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "https://example.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": "example.com",
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "example.com",
+        "path": "/",
+        "failed": false
+    },
+    /* 17 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "https://example.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": "example.com",
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "example.com",
+        "path": "/",
+        "failed": false
+    },
+    /* 18 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "https://example.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": "example.com:x",
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "example.com",
+        "path": "/",
+        "failed": false
+    },
+    /* 19 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "https://lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": "example.com:x",
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false
+    },
+    /* 20 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "https://lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": "exam\bple.com",
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": true
+    },
+    /* 21 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "https://lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": "[1.2.3.4.5.6.7.8]",
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": true
+    },
+    /* 22 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "https://[2a01:4f8:140:33ee::2]/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": "[2a01:4f8:140:33ee::2]",
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "[2a01:4f8:140:33ee::2]",
+        "path": "/",
+        "failed": false
+    },
+    /* 23 */
+    {
+        "url": "https://[2a01:4f8:140:33ee::2]/",
+        "done": "https://[2a01:4f8:140:33ee::2]/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": "[1.2.3.4.5.6.7.8]",
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "[2a01:4f8:140:33ee::2]",
+        "path": "/",
+        "failed": true
+    },
+    /* 24 */
+    {
+        "url": "https://lexbor.com:8080/",
+        "done": "https://lexbor.com:80/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": "80",
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "port": 80,
+        "has_port": true,
+        "path": "/",
+        "failed": false
+    },
+    /* 25 */
+    {
+        "url": "http://lexbor.com:8080/",
+        "done": "http://lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": "80",
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "http",
+        "host": "lexbor.com",
+        "has_port": false,
+        "path": "/",
+        "failed": false
+    },
+    /* 26 */
+    {
+        "url": "http://lexbor.com/",
+        "done": "http://lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": "80",
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "http",
+        "host": "lexbor.com",
+        "has_port": false,
+        "path": "/",
+        "failed": false
+    },
+    /* 27 */
+    {
+        "url": "http://lexbor.com:8080/",
+        "done": "http://lexbor.com:8080/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": "123456789",
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "http",
+        "host": "lexbor.com",
+        "port": 8080,
+        "has_port": true,
+        "path": "/",
+        "failed": true
+    },
+    /* 28 */
+    {
+        "url": "http://lexbor.com:8080/",
+        "done": "http://lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": "",
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "http",
+        "host": "lexbor.com",
+        "has_port": false,
+        "path": "/",
+        "failed": false
+    },
+    /* 29 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "https://lexbor.com/my/path/to/world",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": "/my/path/to/world",
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/my/path/to/world",
+        "failed": false
+    },
+    /* 30 */
+    {
+        "url": "https://lexbor.com/my/path/to/world",
+        "done": "https://lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": "",
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false
+    },
+    /* 31 */
+    {
+        "url": "https://lexbor.com/my/path/to/world",
+        "done": "https://lexbor.com/world/to/path/my",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": "/world/to/path/my",
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/world/to/path/my",
+        "failed": false
+    },
+    /* 32 */
+    {
+        "url": "https://lexbor.com/my/path/to/world",
+        "done": "https://lexbor.com/world/to/path/my",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": "world/to/path/my",
+            "search": null,
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/world/to/path/my",
+        "failed": false
+    },
+    /* 33 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "https://lexbor.com/?a=b&x=y",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": "a=b&x=y",
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "a=b&x=y",
+        "failed": false
+    },
+    /* 34 */
+    {
+        "url": "https://lexbor.com/?a=b&x=y",
+        "done": "https://lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": "",
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false
+    },
+    /* 35 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "https://lexbor.com/?a=b&x=y",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": "?a=b&x=y",
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "a=b&x=y",
+        "failed": false
+    },
+    /* 36 */
+    {
+        "url": "https://lexbor.com/?a=b&x=y",
+        "done": "https://lexbor.com/?",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": "?",
+            "hash": null
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "",
+        "failed": false
+    },
+    /* 37 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "https://lexbor.com/#my-best-fragment",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": "my-best-fragment"
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "fragment": "my-best-fragment",
+        "failed": false
+    },
+    /* 38 */
+    {
+        "url": "https://lexbor.com/#my-best-fragment",
+        "done": "https://lexbor.com/",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": ""
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false
+    },
+    /* 39 */
+    {
+        "url": "https://lexbor.com/",
+        "done": "https://lexbor.com/#my-best-fragment",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": "#my-best-fragment"
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "fragment": "my-best-fragment",
+        "failed": false
+    },
+    /* 40 */
+    {
+        "url": "https://lexbor.com/#my-best-fragment",
+        "done": "https://lexbor.com/#fragment-best-my",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": "fragment-best-my"
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "fragment": "fragment-best-my",
+        "failed": false
+    },
+    /* 40 */
+    {
+        "url": "https://lexbor.com/#my-best-fragment",
+        "done": "https://lexbor.com/#",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": "#"
+        },
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "fragment": "",
+        "failed": false
+    },
+    /* 41 */
+    {
+        "url": "https://user:pass@lexbor.com/docs/html/path?x=y&a=b#best-fragment",
+        "done": "https://user:pass@lexbor.com/docs/html/path?x=y&a=b#best-fragment",
+        "change": {
+            "href": "",
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "http",
+        "username": "user",
+        "password": "pass",
+        "host": "lexbor.com",
+        "path": "/docs/html/path",
+        "query": "x=y&a=b",
+        "fragment": "best-fragment",
+        "failed": true
+    }
+]
