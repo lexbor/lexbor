@@ -4128,13 +4128,13 @@ lxb_url_api_href_set(lxb_url_t *url, lxb_url_parser_t *parser,
     parser->mraw = origin_mraw;
 
     if (status != LXB_STATUS_OK) {
-        lxb_url_destroy(parser->url);
-        return status;
+        parser->url = lxb_url_destroy(parser->url);
     }
+    else {
+        lxb_url_erase(url);
 
-    lxb_url_erase(url);
-
-    *url = *parser->url;
+        *url = *parser->url;
+    }
 
     if (parser == &self_parser) {
         lxb_url_parser_destroy(parser, false);
