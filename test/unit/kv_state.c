@@ -90,6 +90,10 @@ static const lxb_char_t *
 unit_kv_state_string_escape_u(unit_kv_t *kv,
                               const lxb_char_t *data, const lxb_char_t *end);
 
+static const lxb_char_t *
+unit_kv_state_string_escape_x(unit_kv_t *kv,
+                              const lxb_char_t *data, const lxb_char_t *end);
+
 //static const lxb_char_t *
 //unit_kv_state_number(unit_kv_t *kv,
 //                     const lxb_char_t *data, const lxb_char_t *end);
@@ -866,6 +870,14 @@ unit_kv_state_string_escape(unit_kv_t *kv,
 
             return (data + 1);
 
+        /* U+0078 LATIN SMALL LETTER X (x) */
+        case 0x78:
+            kv->state = unit_kv_state_string_escape_x;
+            kv->count = 2;
+            kv->num = 0;
+
+            return (data + 1);
+
         /* U+0030 (0) */
         case 0x30:
             res = lexbor_str_append_one(&kv->token->value.str, kv->mraw, 0x00);
@@ -950,6 +962,49 @@ unit_kv_state_string_escape_u(unit_kv_t *kv,
                 *p = '\0';
                 str->length += length;
             }
+
+            kv->state = kv->state_return;
+            return data;
+        }
+
+        if (lexbor_str_res_map_hex[*data] == LEXBOR_STR_RES_SLIP) {
+            kv->status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+            kv->error_pos = data;
+
+            return end;
+        }
+
+        kv->count--;
+
+        kv->num <<= 4;
+        kv->num |= lexbor_str_res_map_hex[ *data ];
+
+        data++;
+    }
+
+    return data;
+}
+
+static const lxb_char_t *
+unit_kv_state_string_escape_x(unit_kv_t *kv,
+                              const lxb_char_t *data, const lxb_char_t *end)
+{
+    /* EOF */
+    if (kv->is_eof && *data == 0x00) {
+        kv->state = kv->state_return;
+        return data;
+    }
+
+    while (data < end) {
+        if (kv->count == 0) {
+            if (kv->num > 0xff) {
+                kv->status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+                kv->error_pos = data;
+
+                return end;
+            }
+
+            lexbor_str_append_one(&kv->token->value.str, kv->mraw, kv->num);
 
             kv->state = kv->state_return;
             return data;
