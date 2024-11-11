@@ -1,5 +1,5 @@
 [
-    /* Test count: 6 */
+    /* Test count: 7 */
     /* 1 */
     {
         "url": "https://user:pass@lexbor.com:450/docs/lexbor/?search=lxb_status_t#version",
@@ -62,6 +62,17 @@
     {
         "url": " \xd4",
         "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 7 */
+    {
+        "url": "//",
+        "base": "hohoho://lexbor.com/docs/blah",
+        "done": "hohoho://",
+        "scheme": "hohoho",
+        "host": "",
+        "path": "",
+        "failed": false,
         "encoding": "utf-8"
     }
 ]

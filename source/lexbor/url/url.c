@@ -3289,7 +3289,7 @@ lxb_url_host_parse(lxb_url_parser_t *parser, const lxb_char_t *data,
     const lxb_char_t *p;
     lxb_url_idna_ctx_t context;
 
-    if (*data == '[') {
+    if (data < end && *data == '[') {
         if (end[-1] != ']') {
             status = lxb_url_log_append(parser, &end[-1],
                                         LXB_URL_ERROR_TYPE_IPV6_UNCLOSED);
