@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021 Alexander Borisov
+ * Copyright (C) 2018-2024 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
