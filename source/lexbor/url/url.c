@@ -2976,6 +2976,8 @@ lxb_url_leading_trailing(lxb_url_parser_t *parser,
                 p = tmp;
                 break;
             }
+
+            continue;
         }
 
         p += 1;
