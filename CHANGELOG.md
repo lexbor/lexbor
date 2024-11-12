@@ -1,6 +1,42 @@
 # Changelog
-   
+
 ## [Unreleased]
+
+## [2.4.0] - 2024-11-12
+### Added
+- Core: improve performance using SWAR.
+- URL: added APIs to modify the URL object.
+- URL: support for cloning urls.
+- URL: removing newlines and tabs before parsing.
+- Test: added performance test for HTML.
+- Test:KV: added escape special character \x.
+
+### Fixed
+- Core: fixed build perf without LEXBOR_WITH_PERF define.
+- HTML: fixed fragment parsing for tags not in data state.
+- HTML: fixed use-of-uninitialized-value in encoding function.
+- HTML: NULL dereference in lxb_html_document_parse_fragment_chunk_begin().
+- CSS: fixed use-of-uninitialized-value in parsing function.
+- CSS: fixed parse '|=' attribute value matching for selectors.
+- Selectors: fixed potential NULL pointer dereference.
+- Selectors: fixed matching of anb-of selectors.
+- URL: fixed buffer overflow for host parsing with base URL.
+- URL: fixed remove leading and trailing spaces for broken UTF-8.
+- URL: fixed memory leak if a URL contained \n\r\t.
+- URL: fixed memory leak after destroy parser.
+- Unicode: fixed incorrect order of verification in IDNA.
+- Unicode: fixed a potential memory leak.
+- Punycode: fixed potential memory leak.
+- PunyCode: fixed use-of-uninitialized-value for large decode data.
+- Encoding: fixed incorrect code point check for ISO 2022 JP.
+
+### Changed
+- Encoding: updated GB18030-2022 index.
+- Encoding: reduce the size for static data.
+- URL: performance improvement.
+
+Special thanks for patches, fixes and hints: Niels Dossche @nielsdos,
+Máté Kocsis @kocsismate, Sergey Fedorov @barracuda156, Peter Kokot @petk.
 
 ## [2.3.0] - 2023-08-17
 ### Added
