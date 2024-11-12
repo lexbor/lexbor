@@ -1228,14 +1228,8 @@ lxb_url_t *
 lxb_url_parse(lxb_url_parser_t *parser, const lxb_url_t *base_url,
               const lxb_char_t *data, size_t length)
 {
-    lxb_status_t status;
-
-    status = lxb_url_parse_basic(parser, NULL, base_url, data, length,
-                                 LXB_URL_STATE__UNDEF, LXB_ENCODING_AUTO);
-    if (status != LXB_STATUS_OK) {
-        return NULL;
-    }
-
+    (void) lxb_url_parse_basic(parser, NULL, base_url, data, length,
+                               LXB_URL_STATE__UNDEF, LXB_ENCODING_AUTO);
     return parser->url;
 }
 
@@ -1250,6 +1244,10 @@ lxb_url_parse_basic(lxb_url_parser_t *parser, lxb_url_t *url,
     status = lxb_url_parse_basic_h(parser, url, base_url, data,
                                    length, override_state, encoding);
     if (status != LXB_STATUS_OK) {
+        if (parser->url != url) {
+            parser->url = lxb_url_destroy(parser->url);
+        }
+
         return status;
     }
 
