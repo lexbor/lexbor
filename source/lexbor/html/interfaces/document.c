@@ -114,6 +114,15 @@ lxb_html_document_event_set_value(lxb_dom_node_t *node,
                                   const lxb_char_t *value, size_t length);
 
 
+static const lxb_dom_document_node_cb_t lxb_html_document_node_cbs =
+{
+    .insert = lxb_html_document_event_insert,
+    .remove = lxb_html_document_event_remove,
+    .destroy = lxb_html_document_event_destroy,
+    .set_value = lxb_html_document_event_set_value
+};
+
+
 lxb_html_document_t *
 lxb_html_document_interface_create(lxb_html_document_t *document)
 {
@@ -261,10 +270,7 @@ lxb_html_document_css_init(lxb_html_document_t *document)
 
     document->css_init = true;
 
-    document->dom_document.ev_insert = lxb_html_document_event_insert;
-    document->dom_document.ev_remove = lxb_html_document_event_remove;
-    document->dom_document.ev_destroy = lxb_html_document_event_destroy;
-    document->dom_document.ev_set_value = lxb_html_document_event_set_value;
+    document->dom_document.node_cb = &lxb_html_document_node_cbs;
 
     document->done = lxb_html_document_done;
 
@@ -297,10 +303,7 @@ lxb_html_document_css_destroy(lxb_html_document_t *document)
     css->stylesheets = lexbor_array_destroy(css->stylesheets, true);
     css->weak = lexbor_dobject_destroy(css->weak, true);
 
-    document->dom_document.ev_insert = NULL;
-    document->dom_document.ev_remove = NULL;
-    document->dom_document.ev_destroy = NULL;
-    document->dom_document.ev_set_value = NULL;
+    lxb_dom_document_set_default_node_cb(&document->dom_document);
 
     document->done = NULL;
 
