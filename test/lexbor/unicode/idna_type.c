@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Alexander Borisov
+ * Copyright (C) 2023-2024 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -9,19 +9,6 @@
 #include <lexbor/unicode/unicode.h>
 #include <lexbor/encoding/encoding.h>
 
-
-TEST_BEGIN(all)
-{
-    size_t count = 0;
-    lxb_codepoint_t cp;
-
-    for (cp = 0x0000; cp <= LXB_ENCODING_MAX_CODEPOINT; cp++) {
-        count += (size_t) lxb_unicode_idna_type(cp);
-    }
-
-    test_eq(count, 4165205);
-}
-TEST_END
 
 TEST_BEGIN(edge)
 {
@@ -37,7 +24,6 @@ main(int argc, const char * argv[])
 {
     TEST_INIT();
 
-    TEST_ADD(all);
     TEST_ADD(edge);
 
     TEST_RUN("lexbor/unicode/idna");

@@ -49,7 +49,6 @@ main(int argc, const char *argv[])
     }
 
     str.data = data;
-    str.length = 0;
 
     n = 1;
     p = lxb_unicode_idna_test_entries;
@@ -59,6 +58,8 @@ main(int argc, const char *argv[])
 
         source_len = strlen((const char *) p->source);
         ascii_len = strlen((const char *) p->ascii);
+
+        str.length = 0;
 
         status = lxb_unicode_idna_to_ascii(&idna, p->source,source_len,
                                            callback, &str,

@@ -16,7 +16,7 @@ extern "C" {
 
 
 #define LXB_UNICODE_VERSION_MAJOR 0
-#define LXB_UNICODE_VERSION_MINOR 2
+#define LXB_UNICODE_VERSION_MINOR 3
 #define LXB_UNICODE_VERSION_PATCH 0
 
 #define LXB_UNICODE_VERSION_STRING LEXBOR_STRINGIZE(LXB_UNICODE_VERSION_MAJOR) "." \
@@ -44,33 +44,33 @@ enum {
     LXB_UNICODE_DECOMPOSITION_TYPE_WIDE,
     LXB_UNICODE_DECOMPOSITION_TYPE__LAST_ENTRY
 };
+#define LXB_UNICODE_CANONICAL_SEPARATELY        (1 << 7)
+#define LXB_UNICODE_IS_CANONICAL_SEPARATELY(a)  ((a) >> 7)
+#define LXB_UNICODE_DECOMPOSITION_TYPE(a)       ((a) & ~(1 << 7))
 typedef uint8_t lxb_unicode_decomposition_type_t;
 
 enum {
-    LXB_UNICODE_QUICK_UNDEF      = 0x00,
-    LXB_UNICODE_NFC_QUICK_NO     = 1 << 1,
-    LXB_UNICODE_NFC_QUICK_MAYBE  = 1 << 2,
-    LXB_UNICODE_NFD_QUICK_NO     = 1 << 3,
-    LXB_UNICODE_NFKC_QUICK_NO    = 1 << 4,
-    LXB_UNICODE_NFKC_QUICK_MAYBE = 1 << 5,
-    LXB_UNICODE_NFKD_QUICK_NO    = 1 << 6
+    LXB_UNICODE_QUICK__UNDEF     = 0x00,
+    LXB_UNICODE_QUICK_NFC_MAYBE  = 1 << 0,
+    LXB_UNICODE_QUICK_NFC_NO     = 1 << 1,
+    LXB_UNICODE_QUICK_NFD_NO     = 1 << 2,
+    LXB_UNICODE_QUICK_NFKC_MAYBE = 1 << 3,
+    LXB_UNICODE_QUICK_NFKC_NO    = 1 << 4,
+    LXB_UNICODE_QUICK_NFKD_NO    = 1 << 5
 };
-typedef uint16_t lxb_unicode_quick_type_t;
+typedef uint8_t lxb_unicode_quick_type_t;
 
 enum {
-    LXB_UNICODE_IDNA_UNDEF                  = 0x00,
-    LXB_UNICODE_IDNA_DISALLOWED_STD3_VALID  = 0x01,
-    LXB_UNICODE_IDNA_VALID                  = 0x02,
-    LXB_UNICODE_IDNA_MAPPED                 = 0x03,
-    LXB_UNICODE_IDNA_DISALLOWED             = 0x04,
-    LXB_UNICODE_IDNA_DISALLOWED_STD3_MAPPED = 0x05,
-    LXB_UNICODE_IDNA_IGNORED                = 0x06,
-    LXB_UNICODE_IDNA_DEVIATION              = 0x07
+    LXB_UNICODE_IDNA__UNDEF = 0x00,
+    LXB_UNICODE_IDNA_DEVIATION,
+    LXB_UNICODE_IDNA_DISALLOWED,
+    LXB_UNICODE_IDNA_IGNORED,
+    LXB_UNICODE_IDNA_MAPPED,
+    LXB_UNICODE_IDNA_VALID
 };
 typedef uint8_t lxb_unicode_idna_type_t;
 
 typedef struct lxb_unicode_normalizer lxb_unicode_normalizer_t;
-typedef struct lxb_unicode_compose_table lxb_unicode_compose_table_t;
 
 typedef struct {
     lxb_codepoint_t cp;
@@ -92,52 +92,42 @@ typedef void
 (*lxb_unicode_co_handler_f)(lxb_unicode_buffer_t *starter,
                             lxb_unicode_buffer_t *op, lxb_unicode_buffer_t *p);
 
-typedef struct {
-    lxb_codepoint_t idx;
-    lxb_codepoint_t cp;
-    bool            exclusion;
-}
-lxb_unicode_compose_entry_t;
 
 typedef struct {
-    const lxb_unicode_compose_entry_t *entry;
-    const lxb_unicode_compose_table_t *table;
-}
-lxb_unicode_compose_node_t;
-
-struct lxb_unicode_compose_table {
-    uint16_t                         length;
-    const lxb_unicode_compose_node_t *nodes;
-};
-
-typedef struct {
-    lxb_unicode_decomposition_type_t type;
-    const lxb_codepoint_t            *mapping;
-    uint8_t                          length;
-}
-lxb_unicode_decomposition_t;
-
-typedef struct {
-    lxb_codepoint_t                   cp;    /* Codepoint.                        */
-    uint8_t                           ccc;   /* Canonical Combining Class.        */
-    lxb_unicode_quick_type_t          quick; /* Quick Check.                      */
-    const lxb_unicode_decomposition_t *de;   /* Canonical Decomposition.          */
-    const lxb_unicode_decomposition_t *cde;  /* Full Canonical Decomposition.     */
-    const lxb_unicode_decomposition_t *kde;  /* Full Compatibility Decomposition. */
+    uint16_t normalization; /* lxb_unicode_normalization_t */
+    uint16_t idna;          /* lxb_unicode_idna_t */
 }
 lxb_unicode_entry_t;
 
 typedef struct {
-    const lxb_codepoint_t *cps;
-    uint8_t               length;
+    lxb_unicode_decomposition_type_t type;
+    lxb_unicode_quick_type_t         quick;         /* Quick Check.               */
+    uint8_t                          ccc;           /* Canonical Combining Class. */
+    uint8_t                          length;
+    uint16_t                         decomposition; /* lxb_codepoint_t */
+    uint16_t                         composition;   /* lxb_unicode_composition_entry_t */
 }
-lxb_unicode_idna_map_t;
+lxb_unicode_normalization_entry_t;
 
 typedef struct {
-    const lxb_unicode_entry_t    *entry;
-    const lxb_unicode_idna_map_t *idna;
+    lxb_unicode_idna_type_t type;
+    uint8_t                 length;
+    uint16_t                index;
 }
-lxb_unicode_data_t;
+lxb_unicode_idna_entry_t;
+
+typedef struct {
+    uint8_t         length;  /* Length in lxb_unicode_composition_cps_t */
+    uint16_t        index;   /* lxb_unicode_composition_cps_t */
+    lxb_codepoint_t cp;      /* Begin code point in lxb_unicode_composition_cps_t */
+}
+lxb_unicode_composition_entry_t;
+
+typedef struct {
+    lxb_codepoint_t cp;
+    bool            exclusion;
+}
+lxb_unicode_composition_cp_t;
 
 struct lxb_unicode_normalizer {
     lxb_unicode_de_handler_f   decomposition;

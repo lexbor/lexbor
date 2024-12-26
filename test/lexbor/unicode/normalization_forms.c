@@ -18,7 +18,7 @@ typedef struct {
 lxb_unicode_test_t;
 
 
-#include "unicode_test_res.h"
+#include "unicode_normalization_test_res.h"
 
 
 static lxb_status_t

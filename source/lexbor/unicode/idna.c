@@ -11,8 +11,9 @@
 
 
 typedef struct {
-    lxb_unicode_idna_cb_f cb;
-    void                  *context;
+    lxb_unicode_idna_cb_f   cb;
+    void                    *context;
+    lxb_unicode_idna_flag_t flags;
 }
 lxb_unicode_idna_ctx_t;
 
@@ -166,11 +167,9 @@ lxb_unicode_idna_processing_body(lxb_unicode_idna_t *idna, const void *data,
     lxb_codepoint_t cp, *buf, *buf_p, *buf_end;
     const lxb_char_t *end, *p;
     lxb_unicode_idna_type_t type;
-    const lxb_unicode_data_t *udata;
+    const lxb_unicode_idna_entry_t *udata;
     const lxb_codepoint_t *maps;
-    const lxb_encoding_data_t *encoding;
     lxb_unicode_idna_ctx_t context;
-    lxb_encoding_decode_t decode;
     lxb_codepoint_t buffer[4096];
 
     buf = buffer;
@@ -181,16 +180,13 @@ lxb_unicode_idna_processing_body(lxb_unicode_idna_t *idna, const void *data,
     len *= (is_cp) ? sizeof(lxb_codepoint_t) : 1;
     end = (const lxb_char_t *) data + len;
 
-    encoding = lxb_encoding_data(LXB_ENCODING_UTF_8);
-    status = lxb_encoding_decode_init_single(&decode, encoding);
-
     while (p < end) {
         if (is_cp) {
             cp = *((const lxb_codepoint_t *) p);
             p = (const lxb_char_t *) ((const lxb_codepoint_t *) p + 1);
         }
         else {
-            cp = encoding->decode_single(&decode, &p, end);
+            cp = lxb_encoding_decode_valid_utf_8_single(&p, end);
             if (cp > LXB_ENCODING_DECODE_MAX_CODEPOINT) {
                 status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
                 goto done;
@@ -206,9 +202,8 @@ lxb_unicode_idna_processing_body(lxb_unicode_idna_t *idna, const void *data,
                 break;
 
             case LXB_UNICODE_IDNA_MAPPED:
-                udata = lxb_unicode_data(cp);
-                maps = udata->idna->cps;
-                length = udata->idna->length;
+                udata = lxb_unicode_idna_entry_by_cp(cp);
+                maps = lxb_unicode_idna_map(udata, &length);
 
                 if (buf_p + length > buf_end) {
                     buf = lxb_unicode_idna_realloc(buf, buffer, &buf_p,
@@ -223,27 +218,6 @@ lxb_unicode_idna_processing_body(lxb_unicode_idna_t *idna, const void *data,
                 }
 
                 break;
-
-            case LXB_UNICODE_IDNA_DISALLOWED_STD3_MAPPED:
-                if (!(flags & LXB_UNICODE_IDNA_FLAG_USE_STD3ASCII_RULES)) {
-                    type = LXB_UNICODE_IDNA_MAPPED;
-                }
-                else {
-                    type = LXB_UNICODE_IDNA_DISALLOWED;
-                }
-
-                goto again;
-
-            case LXB_UNICODE_IDNA_DISALLOWED_STD3_VALID:
-                if (!(flags & LXB_UNICODE_IDNA_FLAG_USE_STD3ASCII_RULES)) {
-                    type = LXB_UNICODE_IDNA_VALID;
-                    goto again;
-                }
-                else {
-                    type = LXB_UNICODE_IDNA_DISALLOWED;
-                }
-
-                goto again;
 
             case LXB_UNICODE_IDNA_DEVIATION:
                 if ((flags & LXB_UNICODE_IDNA_FLAG_TRANSITIONAL_PROCESSING)) {
@@ -273,6 +247,8 @@ lxb_unicode_idna_processing_body(lxb_unicode_idna_t *idna, const void *data,
 
     context.cb = cb;
     context.context = ctx;
+    context.flags = flags;
+
 
     need = lxb_unicode_quick_check_cp(&idna->normalizer, buf, buf_p - buf,
                                       true);
@@ -344,7 +320,6 @@ lxb_unicode_idna_norm_c_send(const lxb_codepoint_t *cps,
 {
     bool cr;
     lxb_status_t status;
-    lxb_unicode_idna_ascii_ctx_t *asc;
 
     /* xn-- or Xn-- or xN-- or XN-- */
 
@@ -367,9 +342,7 @@ lxb_unicode_idna_norm_c_send(const lxb_codepoint_t *cps,
         status = LXB_STATUS_OK;
     }
 
-    asc = context->context;
-
-    cr = lxb_unicode_idna_validity_criteria_cp(cps, p - cps, asc->flags);
+    cr = lxb_unicode_idna_validity_criteria_cp(cps, p - cps, context->flags);
     if (!cr) {
         return LXB_STATUS_ERROR_UNEXPECTED_RESULT;
     }
@@ -531,13 +504,15 @@ static bool
 lxb_unicode_idna_validity_criteria_h(const void *data, size_t length,
                                      lxb_unicode_idna_flag_t flags, bool is_cp)
 {
+    size_t len;
     lxb_codepoint_t cp;
     const lxb_codepoint_t *cps;
     const lxb_char_t *p, *end;
     lxb_unicode_idna_type_t type;
 
     p = data;
-    end = p + length;
+    len = length * ((is_cp) ? sizeof(lxb_codepoint_t) : 1);
+    end = (const lxb_char_t *) data + len;
 
     if (flags & LXB_UNICODE_IDNA_FLAG_CHECK_HYPHENS) {
         /* U+002D HYPHEN-MINUS */
@@ -571,7 +546,7 @@ lxb_unicode_idna_validity_criteria_h(const void *data, size_t length,
             }
         }
     }
-    else if (p - end >= 4) {
+    else if (length >= 4) {
         if (is_cp) {
             cps = data;
 
@@ -616,13 +591,6 @@ lxb_unicode_idna_validity_criteria_h(const void *data, size_t length,
             case LXB_UNICODE_IDNA_VALID:
                 break;
 
-            case LXB_UNICODE_IDNA_DISALLOWED_STD3_VALID:
-                if (!(flags & LXB_UNICODE_IDNA_FLAG_USE_STD3ASCII_RULES)) {
-                    break;
-                }
-
-                return false;
-
             case LXB_UNICODE_IDNA_DEVIATION:
                 if (!(flags & LXB_UNICODE_IDNA_FLAG_TRANSITIONAL_PROCESSING)) {
                     break;
@@ -633,7 +601,6 @@ lxb_unicode_idna_validity_criteria_h(const void *data, size_t length,
             case LXB_UNICODE_IDNA_DISALLOWED:
             case LXB_UNICODE_IDNA_IGNORED:
             case LXB_UNICODE_IDNA_MAPPED:
-            case LXB_UNICODE_IDNA_DISALLOWED_STD3_MAPPED:
             default:
                 return false;
         }

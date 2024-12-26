@@ -332,15 +332,47 @@ lxb_unicode_normalization_form_set(lxb_unicode_normalizer_t *uc,
 LXB_API const lxb_unicode_entry_t *
 lxb_unicode_entry(lxb_codepoint_t cp);
 
-LXB_API const lxb_unicode_data_t *
-lxb_unicode_data(lxb_codepoint_t cp);
-
-LXB_API const lxb_unicode_compose_entry_t *
+LXB_API const lxb_unicode_composition_cp_t *
 lxb_unicode_compose_entry(lxb_codepoint_t first, lxb_codepoint_t second);
 
 LXB_API lxb_unicode_idna_type_t
 lxb_unicode_idna_type(lxb_codepoint_t cp);
 
+LXB_API const lxb_unicode_composition_cp_t *
+lxb_unicode_composition_cp(lxb_codepoint_t first, lxb_codepoint_t second);
+
+LXB_API const lxb_unicode_normalization_entry_t *
+lxb_unicode_normalization_entry(const lxb_unicode_entry_t *entry);
+
+LXB_API const lxb_unicode_normalization_entry_t *
+lxb_unicode_normalization_entry_by_cp(lxb_codepoint_t cp);
+
+LXB_API const lxb_unicode_normalization_entry_t *
+lxb_unicode_normalization_entry_by_index(uint16_t index);
+
+LXB_API bool
+lxb_unicode_normalization_is_null(const lxb_unicode_normalization_entry_t *entry);
+
+LXB_API const lxb_codepoint_t *
+lxb_unicode_full_canonical(const lxb_unicode_normalization_entry_t *entry,
+                           size_t *out_length);
+
+LXB_API const lxb_codepoint_t *
+lxb_unicode_full_compatibility(const lxb_unicode_normalization_entry_t *entry,
+                               size_t *out_length);
+
+LXB_API const lxb_unicode_idna_entry_t *
+lxb_unicode_idna_entry(const lxb_unicode_entry_t *entry);
+
+LXB_API const lxb_unicode_idna_entry_t *
+lxb_unicode_idna_entry_by_cp(lxb_codepoint_t cp);
+
+LXB_API const lxb_unicode_idna_entry_t *
+lxb_unicode_idna_entry_by_index(uint16_t index);
+
+LXB_API const lxb_codepoint_t *
+lxb_unicode_idna_map(const lxb_unicode_idna_entry_t *entry,
+                     size_t *out_length);
 
 /*
  * Inline functions.

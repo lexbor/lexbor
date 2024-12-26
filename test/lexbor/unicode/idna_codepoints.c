@@ -53,7 +53,6 @@ main(int argc, const char *argv[])
     }
 
     str.data = data;
-    str.length = 0;
 
     n = 1;
     p = lxb_unicode_idna_test_entries;
@@ -66,6 +65,8 @@ main(int argc, const char *argv[])
 
         src = p->source;
         cps_p = cps;
+
+        str.length = 0;
 
         while (src < p->source + source_len) {
             cp = lxb_encoding_decode_valid_utf_8_single(&src,
