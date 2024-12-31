@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Alexander Borisov
+ * Copyright (C) 2019-2024 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -27,9 +27,9 @@ int main(int argc, const char * argv[])
     lxb_char_t data[8];
     lxb_status_t status;
     lxb_encoding_encode_t ctx;
-    const lxb_codepoint_t *cp;
+    lxb_codepoint_t cp;
+    const lxb_codepoint_t *p;
     const lxb_encoding_data_t *enc_data;
-    const lxb_encoding_multi_index_t *entry;
 
     const char *filepath = "./big5_map_decode.txt";
 
@@ -42,7 +42,7 @@ int main(int argc, const char * argv[])
     }
 
     fprintf(fc, "#\n"
-            "# Copyright (C) 2019 Alexander Borisov\n"
+            "# Copyright (C) 2019-2024 Alexander Borisov\n"
             "#\n"
             "# Author: Alexander Borisov <borisov@lexbor.com>\n"
             "#\n\n");
@@ -53,28 +53,36 @@ int main(int argc, const char * argv[])
             "#\n\n");
 
     /* Single index */
-    size = sizeof(lxb_encoding_multi_index_big5)
-           / sizeof(lxb_encoding_multi_index_t);
+    size = sizeof(lxb_encoding_multi_big5_map) / sizeof(lxb_codepoint_t);
 
     for (size_t i = 0; i < size; i++) {
-        entry = &lxb_encoding_multi_index_big5[i];
-
-        if (entry->codepoint == LXB_ENCODING_ERROR_CODEPOINT) {
+        /*
+         * https://encoding.spec.whatwg.org/#index-big5-pointer
+         *
+         * Let index be index Big5 excluding all entries whose pointer is less
+         * than (0xA1 - 0x81) × 157.
+         */
+        if (i < (0xA1 - 0x81) * 157) {
             continue;
         }
 
-        cp = &entry->codepoint;
+        p = &lxb_encoding_multi_big5_map[i];
+        cp = *p;
+
+        if (cp == LXB_ENCODING_ERROR_CODEPOINT) {
+            continue;
+        }
 
         lxb_encoding_encode_init(&ctx, enc_data, data, sizeof(data));
 
-        status = enc_data->encode(&ctx, &cp, (cp + 1));
+        status = enc_data->encode(&ctx, &p, (p + 1));
         if (status != LXB_STATUS_OK) {
             printf("Failed to encoding code point: 0x%04X; Status %d\n",
-                   entry->codepoint, status);
+                   cp, status);
             return EXIT_FAILURE;
         }
 
-        append_to_file(fc, ctx.buffer_out, ctx.buffer_used, entry->codepoint);
+        append_to_file(fc, ctx.buffer_out, ctx.buffer_used, cp);
     }
 
     fprintf(fc, "\n# END\n");

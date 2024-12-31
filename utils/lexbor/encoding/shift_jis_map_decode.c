@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019 Alexander Borisov
+ * Copyright (C) 2019-2024 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -22,7 +22,7 @@
 
 #define encode_to_file(fc, _cp)                                                \
     do {                                                                       \
-        cps = &_cp;                                                            \
+        const lxb_codepoint_t *cps = &_cp;                                     \
                                                                                \
         lxb_encoding_encode_init(&ctx, enc_data, data, sizeof(data));          \
                                                                                \
@@ -47,9 +47,8 @@ int main(int argc, const char * argv[])
     lxb_char_t data[8];
     lxb_status_t status;
     lxb_encoding_encode_t ctx;
-    const lxb_codepoint_t *cps;
+    lxb_codepoint_t cp;
     const lxb_encoding_data_t *enc_data;
-    const lxb_encoding_multi_index_t *entry;
 
     const char *filepath = "./shift_jis_map_decode.txt";
 
@@ -62,7 +61,7 @@ int main(int argc, const char * argv[])
     }
 
     fprintf(fc, "#\n"
-            "# Copyright (C) 2019 Alexander Borisov\n"
+            "# Copyright (C) 2019-2024 Alexander Borisov\n"
             "#\n"
             "# Author: Alexander Borisov <borisov@lexbor.com>\n"
             "#\n\n");
@@ -73,17 +72,16 @@ int main(int argc, const char * argv[])
             "#\n\n");
 
     /* Single index */
-    size = sizeof(lxb_encoding_multi_index_jis0208)
-           / sizeof(lxb_encoding_multi_index_t);
+    size = sizeof(lxb_encoding_multi_jis0208_map) / sizeof(lxb_codepoint_t);
 
     for (size_t i = 0; i < size; i++) {
-        entry = &lxb_encoding_multi_index_jis0208[i];
+        cp = lxb_encoding_multi_jis0208_map[i];
 
-        if (entry->codepoint == LXB_ENCODING_ERROR_CODEPOINT) {
+        if (cp == LXB_ENCODING_ERROR_CODEPOINT) {
             continue;
         }
 
-        encode_to_file(fc, entry->codepoint);
+        encode_to_file(fc, cp);
     }
 
     for (lxb_codepoint_t i = 0xFF61; i <= 0xFF9F; i++) {
