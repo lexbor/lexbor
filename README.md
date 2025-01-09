@@ -204,6 +204,7 @@ The `liblexbor-html` library already contains all the pointers to the required d
 * [D](https://github.com/trikko/parserino) Fast HTML5 Parser with CSS selectors for D programming language
 * [Ruby](https://github.com/serpapi/nokolexbor) Fast HTML5 Parser with both CSS selectors and XPath support.
 * [PHP](https://github.com/php/php-src)'s DOM extension uses Lexbor's HTML living standard parser and CSS selector support, starting from PHP 8.4.
+* [Julia](https://github.com/MichaelHatherly/Lexbor.jl) binding for the HTML module.
 
 You can create a binding or wrapper for the `lexbor` and place the link here!
 
