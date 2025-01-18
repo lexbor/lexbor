@@ -1,5 +1,5 @@
 [
-    /* Test count: 21 */
+    /* Test count: 31 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -336,4 +336,146 @@
                   "<div>foo</div>"
         $DATA
     },
+    /* Test number: 22 */
+    {
+        "data": "<select><hr>",
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <select>
+                  <hr>
+        $DATA
+    },
+    /* Test number: 23 */
+    {
+        "data": "<select><option><hr>",
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <select>
+                  <option>
+                  <hr>
+        $DATA
+    },
+    /* Test number: 24 */
+    {
+        "data": "<select><optgroup><option><hr>",
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <select>
+                  <optgroup>
+                    <option>
+                  <hr>
+        $DATA
+    },
+    /* Test number: 25 */
+    {
+        "data": "<select><optgroup><hr>",
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <select>
+                  <optgroup>
+                  <hr>
+        $DATA
+    },
+    /* Test number: 26 */
+    {
+        "data": "<select><option><optgroup><hr>",
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <select>
+                  <option>
+                  <optgroup>
+                  <hr>
+        $DATA
+    },
+    /* Test number: 27 */
+    {
+        "data": "<table><tr><td><select><hr>",
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <select>
+                          <hr>
+        $DATA
+    },
+    /* Test number: 28 */
+    {
+        "data": "<table><tr><td><select><option><hr>",
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <select>
+                          <option>
+                          <hr>
+        $DATA
+    },
+    /* Test number: 29 */
+    {
+        "data": "<table><tr><td><select><optgroup><option><hr>",
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <select>
+                          <optgroup>
+                            <option>
+                          <hr>
+        $DATA
+    },
+    /* Test number: 30 */
+    {
+        "data": "<table><tr><td><select><optgroup><hr>",
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <select>
+                          <optgroup>
+                          <hr>
+        $DATA
+    },
+    /* Test number: 31 */
+    {
+        "data": "<table><tr><td><select><option><optgroup><hr>",
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <table>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <select>
+                          <option>
+                          <optgroup>
+                          <hr>
+        $DATA
+    }
 ]
