@@ -70,7 +70,8 @@ lxb_selectors_match_attribute(const lxb_css_selector_t *selector,
 
 static bool
 lxb_selectors_pseudo_class(const lxb_css_selector_t *selector,
-                           const lxb_dom_node_t *node);
+                           const lxb_dom_node_t *node,
+                           const lxb_dom_node_t *context);
 
 static bool
 lxb_selectors_pseudo_class_function(const lxb_css_selector_t *selector,
@@ -1130,7 +1131,7 @@ lxb_selectors_match(lxb_selectors_t *selectors, lxb_selectors_entry_t *entry,
             return lxb_selectors_match_attribute(selector, node, entry);
 
         case LXB_CSS_SELECTOR_TYPE_PSEUDO_CLASS:
-            return lxb_selectors_pseudo_class(selector, node);
+            return lxb_selectors_pseudo_class(selector, node, selectors->context);
 
         case LXB_CSS_SELECTOR_TYPE_PSEUDO_CLASS_FUNCTION:
             return lxb_selectors_pseudo_class_function(selector, node);
@@ -1381,7 +1382,8 @@ lxb_selectors_match_attribute(const lxb_css_selector_t *selector,
 
 static bool
 lxb_selectors_pseudo_class(const lxb_css_selector_t *selector,
-                           const lxb_dom_node_t *node)
+                           const lxb_dom_node_t *node,
+                           const lxb_dom_node_t *context)
 {
     lexbor_str_t *str;
     lxb_dom_attr_t *attr;
@@ -1617,7 +1619,7 @@ lxb_selectors_pseudo_class(const lxb_css_selector_t *selector,
             return lxb_dom_document_root(node->owner_document) == node;
 
         case LXB_CSS_SELECTOR_PSEUDO_CLASS_SCOPE:
-            break;
+            return context == node;
 
         case LXB_CSS_SELECTOR_PSEUDO_CLASS_TARGET:
             break;

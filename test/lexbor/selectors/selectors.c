@@ -400,6 +400,9 @@ static const lxb_test_entry_t selectors_list[] =
     {"main > h2:nth-last-child(odd of .mark)",
      "<h2 h2=\"3\" class=\"mark\">\n"
      "<h2 h2=\"6\" class=\"mark\">"},
+
+    {":scope > *:nth-child(2)",
+     "<div div=\"Second\" class=\"Massive Stupid\">"},
 };
 
 
@@ -502,6 +505,7 @@ TEST_BEGIN(lexbor_selectors_list)
     selectors = lxb_selectors_create();
     status = lxb_selectors_init(selectors);
     test_eq(status, LXB_STATUS_OK);
+    lxb_selectors_context_set(selectors, body);
 
     str.data = lexbor_malloc(4096 * 4);
     test_ne(str.data, NULL);
