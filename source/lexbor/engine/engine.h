@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024 Alexander Borisov
+ * Copyright (C) 2024-2025 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  *
@@ -20,6 +20,7 @@ extern "C" {
 #include "lexbor/engine/base.h"
 #include "lexbor/html/html.h"
 #include "lexbor/encoding/encoding.h"
+#include "lexbor/style/style.h"
 
 
 typedef struct {

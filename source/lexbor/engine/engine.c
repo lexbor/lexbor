@@ -1,14 +1,11 @@
 /*
- * Copyright (C) 2024 Alexander Borisov
+ * Copyright (C) 2024-2025 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/engine/engine.h"
 
-
-static lxb_status_t
-lxb_engine_document_done_cb(lxb_html_document_t *document);
 
 static lxb_status_t
 lxb_engine_html_parse_cb(const lxb_char_t *data, size_t len, void *ctx);
@@ -31,6 +28,8 @@ lxb_engine_create(void)
 lxb_status_t
 lxb_engine_init(lxb_engine_t *engine)
 {
+    lxb_status_t status;
+
     if (engine == NULL) {
         return LXB_STATUS_ERROR_OBJECT_IS_NULL;
     }
@@ -40,7 +39,11 @@ lxb_engine_init(lxb_engine_t *engine)
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
 
-    engine->document->done = lxb_engine_document_done_cb;
+    status = lxb_html_document_css_init(engine->document, true);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
     engine->html_encoding = NULL;
 
     return LXB_STATUS_OK;
@@ -54,6 +57,7 @@ lxb_engine_destroy(lxb_engine_t *engine)
     }
 
     if (engine->document != NULL) {
+        lxb_html_document_css_destroy(engine->document);
         engine->document = lxb_html_document_destroy(engine->document);
     }
 
@@ -63,12 +67,6 @@ lxb_engine_destroy(lxb_engine_t *engine)
     }
 
     return lexbor_free(engine);
-}
-
-static lxb_status_t
-lxb_engine_document_done_cb(lxb_html_document_t *document)
-{
-    return LXB_STATUS_OK;
 }
 
 lxb_status_t
