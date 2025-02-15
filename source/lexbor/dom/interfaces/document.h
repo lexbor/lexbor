@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021 Alexander Borisov
+ * Copyright (C) 2018-2025 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -32,6 +32,8 @@ typedef enum {
 }
 lxb_dom_document_dtype_t;
 
+typedef struct lxb_dom_document_css lxb_dom_document_css_t;
+
 typedef struct {
     lxb_dom_node_cb_insert_f    insert;
     lxb_dom_node_cb_remove_f    remove;
@@ -41,33 +43,35 @@ typedef struct {
 lxb_dom_document_node_cb_t;
 
 struct lxb_dom_document {
-    lxb_dom_node_t                   node;
+    lxb_dom_node_t                    node;
 
-    lxb_dom_document_cmode_t         compat_mode;
-    lxb_dom_document_dtype_t         type;
+    lxb_dom_document_cmode_t          compat_mode;
+    lxb_dom_document_dtype_t          type;
 
-    lxb_dom_document_type_t          *doctype;
-    lxb_dom_element_t                *element;
+    lxb_dom_document_type_t           *doctype;
+    lxb_dom_element_t                 *element;
 
-    lxb_dom_interface_create_f       create_interface;
-    lxb_dom_interface_clone_f        clone_interface;
-    lxb_dom_interface_destroy_f      destroy_interface;
+    lxb_dom_interface_create_f        create_interface;
+    lxb_dom_interface_clone_f         clone_interface;
+    lxb_dom_interface_destroy_f       destroy_interface;
 
-    const lxb_dom_document_node_cb_t *node_cb;
+    const lxb_dom_document_node_cb_t  *node_cb;
 
-    lexbor_mraw_t                    *mraw;
-    lexbor_mraw_t                    *text;
-    lexbor_hash_t                    *tags;
-    lexbor_hash_t                    *attrs;
-    lexbor_hash_t                    *prefix;
-    lexbor_hash_t                    *ns;
-    void                             *parser;
-    void                             *user;
+    lexbor_mraw_t                     *mraw;
+    lexbor_mraw_t                     *text;
+    lexbor_hash_t                     *tags;
+    lexbor_hash_t                     *attrs;
+    lexbor_hash_t                     *prefix;
+    lexbor_hash_t                     *ns;
+    void                              *parser;
+    void                              *user;
 
-    bool                             tags_inherited;
-    bool                             ns_inherited;
+    lxb_dom_document_css_t            *css;
 
-    bool                             scripting;
+    bool                              tags_inherited;
+    bool                              ns_inherited;
+
+    bool                              scripting;
 };
 
 

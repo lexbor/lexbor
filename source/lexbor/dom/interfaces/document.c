@@ -112,6 +112,7 @@ lxb_dom_document_init(lxb_dom_document_t *document, lxb_dom_document_t *owner,
         document->user = owner->user;
         document->scripting = owner->scripting;
         document->compat_mode = owner->compat_mode;
+        document->css = owner->css;
 
         document->tags_inherited = true;
         document->ns_inherited = true;
@@ -120,6 +121,8 @@ lxb_dom_document_init(lxb_dom_document_t *document, lxb_dom_document_t *owner,
 
         return LXB_STATUS_OK;
     }
+
+    document->css = NULL;
 
     /* For nodes */
     document->mraw = lexbor_mraw_create();

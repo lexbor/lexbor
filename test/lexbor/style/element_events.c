@@ -4,8 +4,7 @@
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
-#include <lexbor/html/html.h>
-#include <lexbor/css/css.h>
+#include <lexbor/style/style.h>
 #include <lexbor/selectors/selectors.h>
 #include <unit/test.h>
 
@@ -55,7 +54,7 @@ TEST_BEGIN(styles)
 
     /* Init all CSS objects and momory for Document. */
 
-    status = lxb_html_document_css_init(document);
+    status = lxb_html_document_css_init(document, true);
     test_eq(status, LXB_STATUS_OK);
 
     /* Parse HTML. */
@@ -111,7 +110,7 @@ TEST_BEGIN(styles)
 
     out.data = NULL;
     status = lxb_html_element_style_serialize_str(np, &out,
-                                                  LXB_HTML_ELEMENT_OPT_UNDEF);
+                                                  LXB_DOM_ELEMENT_STYLE_OPT_UNDEF);
     test_eq(status, LXB_STATUS_OK);
 
     test_eq_str_n(out.data, out.length, res_str.data, res_str.length);
@@ -123,7 +122,7 @@ TEST_BEGIN(styles)
 
     out.length = 0;
     status = lxb_html_element_style_serialize_str(np, &out,
-                                                  LXB_HTML_ELEMENT_OPT_UNDEF);
+                                                  LXB_DOM_ELEMENT_STYLE_OPT_UNDEF);
     test_eq(status, LXB_STATUS_OK);
 
     test_eq_str_n(out.data, out.length, attr_rm_str.data, attr_rm_str.length);
@@ -135,7 +134,7 @@ TEST_BEGIN(styles)
 
     out.length = 0;
     status = lxb_html_element_style_serialize_str(np, &out,
-                                                  LXB_HTML_ELEMENT_OPT_UNDEF);
+                                                  LXB_DOM_ELEMENT_STYLE_OPT_UNDEF);
     test_eq(status, LXB_STATUS_OK);
 
     test_eq_str_n(out.data, out.length, res_str.data, res_str.length);
@@ -146,7 +145,7 @@ TEST_BEGIN(styles)
 
     out.length = 0;
     status = lxb_html_element_style_serialize_str(np, &out,
-                                                  LXB_HTML_ELEMENT_OPT_UNDEF);
+                                                  LXB_DOM_ELEMENT_STYLE_OPT_UNDEF);
     test_eq(status, LXB_STATUS_OK);
 
     test_eq_str_n(out.data, out.length, el_rm_str.data, el_rm_str.length);
@@ -157,7 +156,7 @@ TEST_BEGIN(styles)
 
     out.length = 0;
     status = lxb_html_element_style_serialize_str(np, &out,
-                                                  LXB_HTML_ELEMENT_OPT_UNDEF);
+                                                  LXB_DOM_ELEMENT_STYLE_OPT_UNDEF);
     test_eq(status, LXB_STATUS_OK);
 
     test_eq_str_n(out.data, out.length, res_str.data, res_str.length);

@@ -1,11 +1,10 @@
 /*
- * Copyright (C) 2023 Alexander Borisov
+ * Copyright (C) 2023-2025 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
-#include <lexbor/html/html.h>
-#include <lexbor/css/css.h>
+#include <lexbor/style/style.h>
 
 
 static lxb_status_t
@@ -17,7 +16,7 @@ callback(const lxb_char_t *data, size_t len, void *ctx)
 }
 
 static lxb_status_t
-walk_cb(lxb_html_element_t *element, const lxb_css_rule_declaration_t *declr,
+walk_cb(lxb_dom_element_t *element, const lxb_css_rule_declaration_t *declr,
         void *ctx, lxb_css_selector_specificity_t spec, bool is_weak)
 {
     lxb_status_t status;
@@ -94,7 +93,7 @@ main(int argc, const char * argv[])
 
     /* Init all CSS objects and momory for Document. */
 
-    status = lxb_html_document_css_init(document);
+    status = lxb_html_document_css_init(document, true);
     if (status != LXB_STATUS_OK) {
         return EXIT_FAILURE;
     }
@@ -152,7 +151,8 @@ main(int argc, const char * argv[])
 
     /* Walk. */
 
-    status = lxb_html_element_style_walk(div, walk_cb, NULL, true);
+    status = lxb_dom_element_style_walk(lxb_dom_interface_element(div),
+                                        walk_cb, NULL, true);
     if (status != LXB_STATUS_OK) {
         return EXIT_FAILURE;
     }

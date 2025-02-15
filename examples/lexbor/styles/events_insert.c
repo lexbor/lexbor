@@ -1,12 +1,11 @@
 /*
- * Copyright (C) 2023 Alexander Borisov
+ * Copyright (C) 2023-2025 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
-#include <lexbor/html/html.h>
-#include <lexbor/css/css.h>
 #include <lexbor/selectors/selectors.h>
+#include <lexbor/style/style.h>
 
 
 lxb_status_t
@@ -72,7 +71,7 @@ main(int argc, const char *argv[])
 
     /* Init all CSS objects and momory for Document. */
 
-    status = lxb_html_document_css_init(document);
+    status = lxb_html_document_css_init(document, true);
     if (status != LXB_STATUS_OK) {
         return EXIT_FAILURE;
     }
@@ -179,7 +178,7 @@ main(int argc, const char *argv[])
 
     printf("\n\nStyles of new element after insert to tree:\n");
 
-    status = lxb_html_element_style_serialize(np, LXB_HTML_ELEMENT_OPT_UNDEF,
+    status = lxb_html_element_style_serialize(np, LXB_DOM_ELEMENT_STYLE_OPT_UNDEF,
                                               callback, NULL);
     if (status != LXB_STATUS_OK) {
         return EXIT_FAILURE;

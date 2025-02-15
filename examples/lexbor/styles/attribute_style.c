@@ -1,13 +1,12 @@
 /*
- * Copyright (C) 2022 Alexander Borisov
+ * Copyright (C) 2022-2025 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "base.h"
 
-#include <lexbor/html/html.h>
-#include <lexbor/css/css.h>
+#include <lexbor/style/style.h>
 
 
 lxb_status_t
@@ -43,7 +42,7 @@ main(int argc, const char *argv[])
 
     /* Init CSS. */
 
-    status = lxb_html_document_css_init(doc);
+    status = lxb_html_document_css_init(doc, true);
     if (status != LXB_STATUS_OK) {
         FAILED("Failed to CSS initialization");
     }

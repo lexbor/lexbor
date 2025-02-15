@@ -1,11 +1,10 @@
 /*
- * Copyright (C) 2023-2024 Alexander Borisov
+ * Copyright (C) 2023-2025 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
-#include <lexbor/html/html.h>
-#include <lexbor/css/css.h>
+#include <lexbor/style/style.h>
 #include <unit/test.h>
 
 
@@ -44,7 +43,7 @@ TEST_BEGIN(styles)
 
     /* Init all CSS objects and momory for Document. */
 
-    status = lxb_html_document_css_init(document);
+    status = lxb_html_document_css_init(document, true);
     test_eq(status, LXB_STATUS_OK);
 
     /* Parse HTML. */
@@ -89,7 +88,7 @@ TEST_BEGIN(styles)
 
     out.data = NULL;
     status = lxb_html_element_style_serialize_str(div, &out,
-                                                  LXB_HTML_ELEMENT_OPT_UNDEF);
+                                                  LXB_DOM_ELEMENT_STYLE_OPT_UNDEF);
     test_eq(status, LXB_STATUS_OK);
 
     test_eq_str_n(out.data, out.length, res_str.data, res_str.length);
@@ -100,7 +99,7 @@ TEST_BEGIN(styles)
 
     out.length = 0;
     status = lxb_html_element_style_serialize_str(div, &out,
-                                                  LXB_HTML_ELEMENT_OPT_UNDEF);
+                                                  LXB_DOM_ELEMENT_STYLE_OPT_UNDEF);
     test_eq(status, LXB_STATUS_OK);
 
     test_eq_str_n(out.data, out.length, style_rm_str.data, style_rm_str.length);
@@ -111,7 +110,7 @@ TEST_BEGIN(styles)
 
     out.length = 0;
     status = lxb_html_element_style_serialize_str(div, &out,
-                                                  LXB_HTML_ELEMENT_OPT_UNDEF);
+                                                  LXB_DOM_ELEMENT_STYLE_OPT_UNDEF);
     test_eq(status, LXB_STATUS_OK);
 
     test_eq_str_n(out.data, out.length, style_in_str.data, style_in_str.length);
@@ -122,7 +121,7 @@ TEST_BEGIN(styles)
 
     out.length = 0;
     status = lxb_html_element_style_serialize_str(div, &out,
-                                                  LXB_HTML_ELEMENT_OPT_UNDEF);
+                                                  LXB_DOM_ELEMENT_STYLE_OPT_UNDEF);
     test_eq(status, LXB_STATUS_OK);
 
     test_eq_str_n(out.data, out.length, style_rm_str.data, style_rm_str.length);
@@ -155,7 +154,7 @@ TEST_BEGIN(bad_styles)
 
     /* Init all CSS objects and momory for Document. */
 
-    status = lxb_html_document_css_init(document);
+    status = lxb_html_document_css_init(document, true);
     test_eq(status, LXB_STATUS_OK);
 
     /* Parse HTML. */
