@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Alexander Borisov
+ * Copyright (C) 2018-2025 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -8,6 +8,7 @@
 #include "lexbor/css/syntax/tokenizer/error.h"
 #include "lexbor/css/syntax/state.h"
 #include "lexbor/css/syntax/state_res.h"
+#include "lexbor/css/syntax/token.h"
 
 #include "lexbor/core/array.h"
 
@@ -17,27 +18,6 @@
 
 static const lxb_char_t lxb_css_syntax_tokenizer_important[] = "important";
 
-static lxb_css_syntax_tokenizer_cache_t *
-lxb_css_syntax_tokenizer_cache_create(void);
-
-static lxb_status_t
-lxb_css_syntax_tokenizer_cache_init(lxb_css_syntax_tokenizer_cache_t *cache,
-                                    size_t size);
-
-static void
-lxb_css_syntax_tokenizer_cache_clean(lxb_css_syntax_tokenizer_cache_t *cache);
-
-static lxb_css_syntax_tokenizer_cache_t *
-lxb_css_syntax_tokenizer_cache_destroy(lxb_css_syntax_tokenizer_cache_t *cache);
-
-LXB_API lxb_status_t
-lxb_css_syntax_tokenizer_cache_push(lxb_css_syntax_tokenizer_cache_t *cache,
-                                    lxb_css_syntax_token_t *value);
-
-static lxb_status_t
-lxb_css_syntax_tokenizer_blank(lxb_css_syntax_tokenizer_t *tkz,
-                               const lxb_char_t **data, const lxb_char_t **end,
-                               void *ctx);
 
 static bool
 lxb_css_syntax_tokenizer_lookup_important_ch(lxb_css_syntax_tokenizer_t *tkz,
@@ -86,14 +66,6 @@ lxb_css_syntax_tokenizer_init(lxb_css_syntax_tokenizer_t *tkz)
         return status;
     }
 
-    /* Cache for Tokens. */
-
-    tkz->cache = lxb_css_syntax_tokenizer_cache_create();
-    status = lxb_css_syntax_tokenizer_cache_init(tkz->cache, 128);
-    if (status != LXB_STATUS_OK) {
-        return status;
-    }
-
     /* Memory for text. */
 
     tkz->mraw = lexbor_mraw_create();
@@ -119,15 +91,14 @@ lxb_css_syntax_tokenizer_init(lxb_css_syntax_tokenizer_t *tkz)
         return status;
     }
 
-    tkz->offset = 0;
-    tkz->cache_pos = 0;
-    tkz->prepared = 0;
+    tkz->first = NULL;
+    tkz->last = NULL;
 
-    tkz->eof = false;
+    tkz->offset = 0;
+
     tkz->with_comment = false;
     tkz->status = LXB_STATUS_OK;
     tkz->opt = LXB_CSS_SYNTAX_TOKENIZER_OPT_UNDEF;
-    tkz->chunk_cb = lxb_css_syntax_tokenizer_blank;
 
     return LXB_STATUS_OK;
 }
@@ -137,18 +108,16 @@ lxb_css_syntax_tokenizer_clean(lxb_css_syntax_tokenizer_t *tkz)
 {
     lexbor_mraw_clean(tkz->mraw);
     lexbor_array_obj_clean(tkz->parse_errors);
-    lxb_css_syntax_tokenizer_cache_clean(tkz->cache);
     lexbor_dobject_clean(tkz->tokens);
 
-    tkz->offset = 0;
-    tkz->cache_pos = 0;
-    tkz->prepared = 0;
-
-    tkz->eof = false;
-    tkz->status = LXB_STATUS_OK;
     tkz->in_begin = NULL;
+    tkz->in_p = NULL;
     tkz->in_end = NULL;
+    tkz->first = NULL;
+    tkz->last = NULL;
     tkz->pos = tkz->start;
+    tkz->offset = 0;
+    tkz->status = LXB_STATUS_OK;
 
     return LXB_STATUS_OK;
 }
@@ -162,7 +131,6 @@ lxb_css_syntax_tokenizer_destroy(lxb_css_syntax_tokenizer_t *tkz)
 
     if (tkz->tokens != NULL) {
         tkz->tokens = lexbor_dobject_destroy(tkz->tokens, true);
-        tkz->cache = lxb_css_syntax_tokenizer_cache_destroy(tkz->cache);
     }
 
     tkz->mraw = lexbor_mraw_destroy(tkz->mraw, true);
@@ -175,105 +143,6 @@ lxb_css_syntax_tokenizer_destroy(lxb_css_syntax_tokenizer_t *tkz)
     return lexbor_free(tkz);
 }
 
-static lxb_css_syntax_tokenizer_cache_t *
-lxb_css_syntax_tokenizer_cache_create(void)
-{
-    return lexbor_calloc(1, sizeof(lxb_css_syntax_tokenizer_cache_t));
-}
-
-static lxb_status_t
-lxb_css_syntax_tokenizer_cache_init(lxb_css_syntax_tokenizer_cache_t *cache,
-                                    size_t size)
-{
-    cache->length = 0;
-    cache->size = size;
-
-    cache->list = lexbor_malloc(sizeof(lxb_css_syntax_token_t *) * size);
-    if (cache->list == NULL) {
-        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-    }
-
-    return LXB_STATUS_OK;
-}
-
-static void
-lxb_css_syntax_tokenizer_cache_clean(lxb_css_syntax_tokenizer_cache_t *cache)
-{
-    if (cache != NULL) {
-        cache->length = 0;
-    }
-}
-
-static lxb_css_syntax_tokenizer_cache_t *
-lxb_css_syntax_tokenizer_cache_destroy(lxb_css_syntax_tokenizer_cache_t *cache)
-{
-    if (cache == NULL) {
-        return NULL;
-    }
-
-    if (cache->list) {
-        lexbor_free(cache->list);
-    }
-
-    return lexbor_free(cache);
-}
-
-static lxb_css_syntax_token_t **
-lxb_css_syntax_tokenizer_cache_expand(lxb_css_syntax_tokenizer_cache_t *cache,
-                                      size_t up_to)
-{
-    size_t new_size;
-    lxb_css_syntax_token_t **list;
-
-    if (cache == NULL) {
-        return NULL;
-    }
-
-    new_size = cache->length + up_to;
-    list = lexbor_realloc(cache->list,
-                          sizeof(lxb_css_syntax_token_t *) * new_size);
-    if (list == NULL) {
-        return NULL;
-    }
-
-    cache->list = list;
-    cache->size = new_size;
-
-    return list;
-}
-
-lxb_status_t
-lxb_css_syntax_tokenizer_cache_push(lxb_css_syntax_tokenizer_cache_t *cache,
-                                    lxb_css_syntax_token_t *value)
-{
-    if (cache->length >= cache->size) {
-        if ((lxb_css_syntax_tokenizer_cache_expand(cache, 128) == NULL)) {
-            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-        }
-    }
-
-    cache->list[ cache->length ] = value;
-    cache->length++;
-
-    return LXB_STATUS_OK;
-}
-
-
-static lxb_status_t
-lxb_css_syntax_tokenizer_blank(lxb_css_syntax_tokenizer_t *tkz,
-                               const lxb_char_t **data, const lxb_char_t **end,
-                               void *ctx)
-{
-    return LXB_STATUS_OK;
-}
-
-lxb_status_t
-lxb_css_syntax_tokenizer_chunk(lxb_css_syntax_tokenizer_t *tkz,
-                               const lxb_char_t *data, size_t size)
-{
-    return tkz->status;
-}
-
 lxb_css_syntax_token_t *
 lxb_css_syntax_tokenizer_token(lxb_css_syntax_tokenizer_t *tkz)
 {
@@ -281,143 +150,55 @@ lxb_css_syntax_tokenizer_token(lxb_css_syntax_tokenizer_t *tkz)
     lxb_css_syntax_token_t *token;
     const lxb_char_t *begin, *end;
 
-    begin = tkz->in_begin;
+    begin = tkz->in_p;
     end = tkz->in_end;
 
-    if (tkz->prepared != 0) {
-        if (tkz->cache_pos < tkz->prepared) {
-            token = tkz->cache->list[tkz->prepared - 1];
-
-            status = lxb_css_syntax_token_string_make(tkz, token);
-            if (status != LXB_STATUS_OK) {
-                return NULL;
-            }
-        }
-
-        token = tkz->cache->list[tkz->prepared];
-        token->offset = tkz->offset;
-
-        tkz->prepared += 1;
-
-        if (tkz->prepared >= tkz->cache->length) {
-            tkz->prepared = 0;
-        }
-
-        if (lxb_css_syntax_token_base(token)->length != 0) {
-            tkz->offset += lxb_css_syntax_token_base(token)->length;
-            token->cloned = false;
-            return token;
-        }
-
-        if (begin >= end) {
-            status = lxb_css_syntax_tokenizer_next_chunk(tkz, &begin, &end);
-            if (status != LXB_STATUS_OK) {
-                return NULL;
-            }
-
-            if (begin >= end) {
-                lxb_css_syntax_token_base(token)->length = 1;
-                goto done;
-            }
-        }
-
-        if (lxb_css_syntax_token_delim(token)->character == '-') {
-            begin = lxb_css_syntax_state_minus_process(tkz, token, begin, end);
-        }
-        else {
-            begin = lxb_css_syntax_state_plus_process(tkz, token, begin, end);
-        }
-
-        goto done;
-    }
-
-    if (tkz->cache_pos < tkz->cache->length) {
-        token = tkz->cache->list[tkz->cache->length - 1];
-
-        status = lxb_css_syntax_token_string_make(tkz, token);
-        if (status != LXB_STATUS_OK) {
-            return NULL;
-        }
-    }
-
-    token = lxb_css_syntax_token_cached_create(tkz);
+    token = lexbor_dobject_calloc(tkz->tokens);
     if (token == NULL) {
+        tkz->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         return NULL;
     }
 
-    token->offset = tkz->offset;
+    if (tkz->first == NULL) {
+        tkz->first = token;
+    }
+
+    if (tkz->last != NULL) {
+        status = lxb_css_syntax_token_string_make(tkz, tkz->last);
+        if (status != LXB_STATUS_OK) {
+            return NULL;
+        }
+
+        tkz->last->next = token;
+    }
+
+    tkz->last = token;
 
 again:
 
-    if (begin >= end) {
-        status = lxb_css_syntax_tokenizer_next_chunk(tkz, &begin, &end);
-        if (status != LXB_STATUS_OK) {
+    lxb_css_syntax_token_base(token)->begin = begin;
+
+    if (begin < end) {
+        begin = lxb_css_syntax_state_res_map[*begin](tkz, token, begin, end);
+        if (begin == NULL) {
             return NULL;
         }
-
-        if (begin >= end) {
-            token->type = LXB_CSS_SYNTAX_TOKEN__EOF;
-
-            lxb_css_syntax_token_base(token)->begin = begin;
-            lxb_css_syntax_token_base(token)->length = 0;
-
-            token->cloned = false;
-
-            return token;
-        }
+    }
+    else {
+        token->type = LXB_CSS_SYNTAX_TOKEN__EOF;
     }
 
-    begin = lxb_css_syntax_state_res_map[*begin](tkz, token, begin, end);
-
-done:
-
-    token->cloned = false;
-
-    if (begin == NULL) {
-        return NULL;
-    }
-
-    tkz->in_begin = begin;
+    token->offset = tkz->offset;
+    lxb_css_syntax_token_base(token)->length = begin - tkz->in_p;
     tkz->offset += lxb_css_syntax_token_base(token)->length;
 
+    tkz->in_p = begin;
+
     if (token->type == LXB_CSS_SYNTAX_TOKEN_COMMENT && !tkz->with_comment) {
-        end = tkz->in_end;
         goto again;
     }
 
     return token;
-}
-
-lxb_status_t
-lxb_css_syntax_tokenizer_next_chunk(lxb_css_syntax_tokenizer_t *tkz,
-                                    const lxb_char_t **data, const lxb_char_t **end)
-{
-    const lxb_char_t *begin;
-
-    if (tkz->eof == false) {
-        begin = *data;
-
-        tkz->status = tkz->chunk_cb(tkz, data, end, tkz->chunk_ctx);
-        if (tkz->status != LXB_STATUS_OK) {
-            return tkz->status;
-        }
-
-        if (*data >= *end) {
-            *data = begin;
-            *end = begin;
-
-            tkz->in_begin = begin;
-            tkz->in_end = begin;
-
-            tkz->eof = true;
-        }
-        else {
-            tkz->in_begin = *data;
-            tkz->in_end = *end;
-        }
-    }
-
-    return LXB_STATUS_OK;
 }
 
 bool
@@ -426,14 +207,12 @@ lxb_css_syntax_tokenizer_lookup_colon(lxb_css_syntax_tokenizer_t *tkz)
     const lxb_char_t *p, *end;
     lxb_css_syntax_token_t *token;
 
-    if (tkz->cache_pos + 1 < tkz->cache->length) {
-        token = tkz->cache->list[tkz->cache_pos + 1];
+    if (tkz->first != NULL && tkz->first->next != NULL) {
+        token = tkz->first->next;
 
         if (token->type == LXB_CSS_SYNTAX_TOKEN_WHITESPACE) {
-            if (tkz->cache_pos + 2 < tkz->cache->length) {
-                token = tkz->cache->list[tkz->cache_pos + 2];
-
-                return token->type == LXB_CSS_SYNTAX_TOKEN_COLON;
+            if (token->next != NULL) {
+                return token->next->type == LXB_CSS_SYNTAX_TOKEN_COLON;
             }
         }
         else if (token->type == LXB_CSS_SYNTAX_TOKEN_COLON) {
@@ -443,24 +222,12 @@ lxb_css_syntax_tokenizer_lookup_colon(lxb_css_syntax_tokenizer_t *tkz)
         return false;
     }
 
-    p = tkz->in_begin;
+    p = tkz->in_p;
     end = tkz->in_end;
 
     do {
         if (p >= end) {
-            token = lxb_css_syntax_token_next(tkz);
-            if (token == NULL) {
-                return false;
-            }
-
-            if (token->type == LXB_CSS_SYNTAX_TOKEN_WHITESPACE) {
-                token = lxb_css_syntax_token_next(tkz);
-                if (token == NULL) {
-                    return false;
-                }
-            }
-
-            return token->type == LXB_CSS_SYNTAX_TOKEN_COLON;
+            return false;
         }
 
         switch (*p) {
@@ -492,13 +259,13 @@ lxb_css_syntax_tokenizer_lookup_important(lxb_css_syntax_tokenizer_t *tkz,
 
     static const size_t length = sizeof(lxb_css_syntax_tokenizer_important) - 1;
 
-    p = tkz->in_begin;
+    p = tkz->in_p;
     end = tkz->in_end;
 
-    if (tkz->cache_pos + 1 < tkz->cache->length) {
-        token = tkz->cache->list[tkz->cache_pos + 1];
+    if (tkz->first != NULL && tkz->first->next != NULL) {
+        token = tkz->first->next;
 
-        if (token->type == LXB_CSS_SYNTAX_TOKEN_IDENT) {
+        if (token->type != LXB_CSS_SYNTAX_TOKEN_IDENT) {
             return false;
         }
 
@@ -510,16 +277,14 @@ lxb_css_syntax_tokenizer_lookup_important(lxb_css_syntax_tokenizer_t *tkz,
             return false;
         }
 
-        if (tkz->cache_pos + 2 < tkz->cache->length) {
-            token = tkz->cache->list[tkz->cache_pos + 2];
+        if (token->next != NULL) {
+            token = token->next;
 
             if (token->type == LXB_CSS_SYNTAX_TOKEN_WHITESPACE) {
-                if (tkz->cache_pos + 3 >= tkz->cache->length) {
+                if (token->next != NULL) {
                     return lxb_css_syntax_tokenizer_lookup_important_end(tkz,
                                                  p, end, stop_ch, stop, false);
                 }
-
-                token = tkz->cache->list[tkz->cache_pos + 3];
             }
 
             return (token->type == LXB_CSS_SYNTAX_TOKEN_SEMICOLON
@@ -653,8 +418,8 @@ lxb_css_syntax_tokenizer_lookup_declaration_ws_end(lxb_css_syntax_tokenizer_t *t
     lxb_css_syntax_token_t *token;
     const lxb_char_t *p, *end;
 
-    if (tkz->cache_pos + 1 < tkz->cache->length) {
-        token = tkz->cache->list[tkz->cache_pos + 1];
+    if (tkz->first != NULL && tkz->first->next) {
+        token = tkz->first->next;
 
         switch (token->type) {
             case LXB_CSS_SYNTAX_TOKEN_DELIM:
@@ -674,13 +439,12 @@ lxb_css_syntax_tokenizer_lookup_declaration_ws_end(lxb_css_syntax_tokenizer_t *t
         }
     }
 
-    p = tkz->in_begin;
+    p = tkz->in_p;
     end = tkz->in_end;
 
     do {
         if (p >= end) {
-            return lxb_css_syntax_tokenizer_lookup_important_tokens(tkz, stop,
-                                                                    true);
+            return false;
         }
 
         switch (*p) {

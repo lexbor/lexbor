@@ -30,7 +30,7 @@
                 "type": "qualified-rule",
                 "prelude": [],
                 "block": [
-                    {"prelude": "@as\\", "block": ""}
+                    {"prelude": "@as\uFFFD", "block": ""}
                 ]
             }
         ]

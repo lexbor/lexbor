@@ -1,0 +1,101 @@
+[
+    /* Test count: 1 */
+    /* 1 */
+    {
+        "data": "wor\x9Fld",
+        "tokens": [
+            {"type": "ident", "value": "wor\uFFFDld", "length": 6}
+        ]
+    },
+    /* 2 */
+    {
+        "data": "wor\uD800ld",
+        "tokens": [
+            {"type": "ident", "value": "wor\uFFFDld", "length": 8}
+        ]
+    },
+    /* 3 */
+    {
+        "data": "wor\uDBFFld",
+        "tokens": [
+            {"type": "ident", "value": "wor\uFFFDld", "length": 8}
+        ]
+    },
+    /* 4 */
+    {
+        "data": "wor\uDC00ld",
+        "tokens": [
+            {"type": "ident", "value": "wor\uFFFDld", "length": 8}
+        ]
+    },
+    /* 5 */
+    {
+        "data": "wor\uDFFFld",
+        "tokens": [
+            {"type": "ident", "value": "wor\uFFFDld", "length": 8}
+        ]
+    },
+    /* 6 */
+    {
+        "data": "wor\uD7FFld",
+        "tokens": [
+            {"type": "ident", "value": "wor\uD7FFld", "length": 8}
+        ]
+    },
+    /* 7 */
+    {
+        "data": "wor\uC000ld",
+        "tokens": [
+            {"type": "ident", "value": "wor\uC000ld", "length": 8}
+        ]
+    },
+    /* 8 */
+    {
+        "data": "\"wor\uD800ld\"",
+        "tokens": [
+            {"type": "string", "value": "\"wor\uFFFDld\"", "length": 10}
+        ]
+    },
+    /* 9 */
+    {
+        "data": "\"wor\xA0\x80ld\"",
+        "tokens": [
+            {"type": "string", "value": "\"wor\uFFFD\uFFFDld\"", "length": 9}
+        ]
+    },
+    /* 10 */
+    {
+        "data": "\"wor\xED\xA0ld\"",
+        "tokens": [
+            {"type": "string", "value": "\"wor\uFFFD\uFFFDld\"", "length": 9}
+        ]
+    },
+    /* 11 */
+    {
+        "data": "\"wor\xED\xA0",
+        "tokens": [
+            {"type": "string", "value": "\"wor\uFFFD\uFFFD\"", "length": 6}
+        ]
+    },
+    /* 12 */
+    {
+        "data": "wor\xED\xA0",
+        "tokens": [
+            {"type": "ident", "value": "wor\uFFFD\uFFFD", "length": 5}
+        ]
+    },
+    /* 13 */
+    {
+        "data": "wor\xED\xA0ld",
+        "tokens": [
+            {"type": "ident", "value": "wor\uFFFD\uFFFDld", "length": 7}
+        ]
+    },
+    /* 14 */
+    {
+        "data": "µ",
+        "tokens": [
+            {"type": "delim", "value": "µ", "length": 2}
+        ]
+    }
+]

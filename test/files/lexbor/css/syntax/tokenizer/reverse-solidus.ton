@@ -6,7 +6,7 @@
             \\
         $DATA,
         "tokens": [
-            {"type": "delim", "value": "\\", "length": 1}
+            {"type": "ident", "value": "\uFFFD", "length": 1}
         ]
     },
     /* 2 */

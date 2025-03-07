@@ -52,13 +52,6 @@ static lxb_status_t
 parse_data_new_tkz_cb(helper_t *helper, lexbor_str_t *str);
 
 static lxb_status_t
-parse_data_new_tkz_chunk_cb(helper_t *helper, lexbor_str_t *str);
-
-static lxb_status_t
-chunk_cb(lxb_css_syntax_tokenizer_t *tkz, const lxb_char_t **data,
-         const lxb_char_t **end, void *ctx);
-
-static lxb_status_t
 check_token(helper_t *helper, unit_kv_value_t *entry,
             lxb_css_syntax_token_t *token);
 
@@ -218,17 +211,6 @@ check(helper_t *helper, unit_kv_value_t *value)
 
         lexbor_array_clean(&helper->tokens);
         lxb_css_syntax_tokenizer_clean(helper->tkz);
-
-        TEST_PRINTLN("Test #"LEXBOR_FORMAT_Z" chunks", (i + 1));
-
-        status = check_entry(helper, entries->list[i],
-                             parse_data_new_tkz_chunk_cb);
-        if (status != LXB_STATUS_OK) {
-            return status;
-        }
-
-        lexbor_array_clean(&helper->tokens);
-        lxb_css_syntax_tokenizer_clean(helper->tkz);
     }
 
     return LXB_STATUS_OK;
@@ -370,70 +352,6 @@ parse_data_new_tkz_cb(helper_t *helper, lexbor_str_t *str)
         }
     }
     while (lxb_css_syntax_token_type(token) != LXB_CSS_SYNTAX_TOKEN__EOF);
-
-    return LXB_STATUS_OK;
-}
-
-static lxb_status_t
-parse_data_new_tkz_chunk_cb(helper_t *helper, lexbor_str_t *str)
-{
-    chunk_ctx_t ctx;
-    lxb_status_t status;
-    lxb_css_syntax_token_t *token;
-
-    if (helper->tkz != NULL) {
-        helper->tkz = lxb_css_syntax_tokenizer_destroy(helper->tkz);
-    }
-
-    helper->tkz = lxb_css_syntax_tokenizer_create();
-    status = lxb_css_syntax_tokenizer_init(helper->tkz);
-    if (status != LXB_STATUS_OK) {
-        helper->tkz = lxb_css_syntax_tokenizer_destroy(helper->tkz);
-
-        return status;
-    }
-
-    helper->tkz->with_comment = true;
-
-    ctx.begin = str->data;
-    ctx.end = str->data + str->length;
-    ctx.ch = *str->data;
-
-    lxb_css_syntax_tokenizer_buffer_set(helper->tkz, &ctx.ch, 1);
-
-    lxb_css_syntax_tokenizer_chunk_cb_set(helper->tkz, chunk_cb, &ctx);
-
-    do {
-        token = lxb_css_syntax_token_next(helper->tkz);
-        if (token == NULL) {
-            return helper->tkz->status;
-        }
-
-        if (lxb_css_syntax_token_type(token) != LXB_CSS_SYNTAX_TOKEN__EOF) {
-            status = lexbor_array_push(&helper->tokens, token);
-            if (status != LXB_STATUS_OK) {
-                return status;
-            }
-        }
-    }
-    while (lxb_css_syntax_token_type(token) != LXB_CSS_SYNTAX_TOKEN__EOF);
-
-    return LXB_STATUS_OK;
-}
-
-static lxb_status_t
-chunk_cb(lxb_css_syntax_tokenizer_t *tkz, const lxb_char_t **data,
-         const lxb_char_t **end, void *ctx)
-{
-    chunk_ctx_t *chunk = ctx;
-
-    chunk->begin++;
-    chunk->ch = *chunk->begin;
-
-    if (chunk->begin < chunk->end) {
-        *data = &chunk->ch;
-        *end = *data + 1;
-    }
 
     return LXB_STATUS_OK;
 }

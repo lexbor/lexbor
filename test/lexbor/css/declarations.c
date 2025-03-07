@@ -58,13 +58,6 @@ static lxb_status_t
 parse_cb(helper_t *helper, lexbor_str_t *str, unit_kv_array_t *entries);
 
 static lxb_status_t
-parse_chunk_cb(helper_t *helper, lexbor_str_t *str, unit_kv_array_t *entries);
-
-static lxb_status_t
-chunk_cb(lxb_css_syntax_tokenizer_t *tkz, const lxb_char_t **data,
-         const lxb_char_t **end, void *ctx);
-
-static lxb_status_t
 print_error(helper_t *helper, unit_kv_value_t *value);
 
 static lxb_status_t
@@ -238,15 +231,6 @@ check(helper_t *helper, unit_kv_value_t *value)
         }
 
         lxb_css_parser_clean(helper->parser);
-
-        TEST_PRINTLN("Test #"LEXBOR_FORMAT_Z" chunks", (i + 1));
-
-        status = check_entry(helper, entries->list[i], parse_chunk_cb);
-        if (status != LXB_STATUS_OK) {
-            return status;
-        }
-
-        lxb_css_parser_clean(helper->parser);
     }
 
     return LXB_STATUS_OK;
@@ -332,65 +316,6 @@ failed:
     helper->parser = lxb_css_parser_destroy(helper->parser, true);
 
     return status;
-}
-
-static lxb_status_t
-parse_chunk_cb(helper_t *helper, lexbor_str_t *str, unit_kv_array_t *entries)
-{
-    chunk_ctx_t ctx;
-    lxb_status_t status;
-    lxb_css_rule_declaration_list_t *list;
-
-    if (helper->parser != NULL) {
-        lxb_css_memory_clean(helper->mem);
-        helper->parser = lxb_css_parser_destroy(helper->parser, true);
-    }
-
-    helper->parser = lxb_css_parser_create();
-    status = lxb_css_parser_init(helper->parser, NULL);
-    if (status != LXB_STATUS_OK) {
-        goto failed;
-    }
-
-    lxb_css_memory_clean(helper->mem);
-
-    ctx.begin = str->data;
-    ctx.end = str->data + str->length;
-    ctx.ch = *str->data;
-
-    lxb_css_syntax_tokenizer_chunk_cb_set(helper->parser->tkz, chunk_cb, &ctx);
-
-    list = lxb_css_declaration_list_parse(helper->parser, helper->mem,
-                                          &ctx.ch, 1);
-    if (list == NULL) {
-        status = helper->parser->status;
-        goto failed;
-    }
-
-    return compare(helper, entries, list);
-
-failed:
-
-    helper->parser = lxb_css_parser_destroy(helper->parser, true);
-
-    return status;
-}
-
-static lxb_status_t
-chunk_cb(lxb_css_syntax_tokenizer_t *tkz, const lxb_char_t **data,
-         const lxb_char_t **end, void *ctx)
-{
-    chunk_ctx_t *chunk = ctx;
-
-    chunk->begin++;
-    chunk->ch = *chunk->begin;
-
-    if (chunk->begin < chunk->end) {
-        *data = &chunk->ch;
-        *end = *data + 1;
-    }
-
-    return LXB_STATUS_OK;
 }
 
 static lxb_status_t

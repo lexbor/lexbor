@@ -181,12 +181,6 @@ lxb_css_stylesheet_prepare(lxb_css_parser_t *parser, lxb_css_memory_t *memory,
     parser->tkz->with_comment = false;
     parser->stage = LXB_CSS_PARSER_RUN;
 
-    parser->chunk_cb = parser->tkz->chunk_cb;
-    parser->chunk_ctx = parser->tkz->chunk_ctx;
-
-    parser->tkz->chunk_cb = lxb_css_syntax_parser_tkz_cb;
-    parser->tkz->chunk_ctx = parser;
-
     return LXB_STATUS_OK;
 }
 
@@ -229,9 +223,6 @@ lxb_css_stylesheet_process(lxb_css_parser_t *parser,
 void
 lxb_css_stylesheet_finish(lxb_css_parser_t *parser)
 {
-    parser->tkz->chunk_cb = parser->chunk_cb;
-    parser->tkz->chunk_ctx = parser->chunk_ctx;
-
     parser->memory = parser->old_memory;
     parser->selectors = parser->old_selectors;
     parser->stage = LXB_CSS_PARSER_END;

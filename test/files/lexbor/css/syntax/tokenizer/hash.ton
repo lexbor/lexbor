@@ -81,8 +81,7 @@
     {
         "data": "#\\",
         "tokens": [
-            {"type": "delim", "value": "#", "length": 1},
-            {"type": "delim", "value": "\\", "length": 1}
+            {"type": "hash", "value": "#\uFFFD", "length": 2}
         ]
     },
     /* 13 */

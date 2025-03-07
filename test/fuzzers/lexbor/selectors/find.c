@@ -1,10 +1,11 @@
 /*
- * Copyright (C) 2024 Alexander Borisov
+ * Copyright (C) 2024-2025 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include <lexbor/html/html.h>
+#include <lexbor/css/css.h>
 #include <lexbor/selectors/selectors.h>
 
 

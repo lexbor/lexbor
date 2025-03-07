@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Alexander Borisov
+ * Copyright (C) 2018-2025 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -138,7 +138,7 @@ lxb_css_syntax_token_dimension_t;
 
 typedef struct lxb_css_syntax_token_delim {
     lxb_css_syntax_token_base_t base;
-    lxb_char_t                  character;
+    lxb_codepoint_t             character;
 }
 lxb_css_syntax_token_delim_t;
 
@@ -192,6 +192,8 @@ struct lxb_css_syntax_token {
     lxb_css_syntax_token_type_t type;
     uintptr_t                   offset;
     bool                        cloned;
+
+    lxb_css_syntax_token_t      *next;
 };
 
 
@@ -214,9 +216,6 @@ lxb_css_syntax_token_string_dup(lxb_css_syntax_token_string_t *token,
 LXB_API lxb_status_t
 lxb_css_syntax_token_string_make(lxb_css_syntax_tokenizer_t *tkz,
                                  lxb_css_syntax_token_t *token);
-
-LXB_API lxb_css_syntax_token_t *
-lxb_css_syntax_token_cached_create(lxb_css_syntax_tokenizer_t *tkz);
 
 LXB_API void
 lxb_css_syntax_token_string_free(lxb_css_syntax_tokenizer_t *tkz,

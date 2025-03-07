@@ -70,12 +70,6 @@ lxb_css_declaration_list_prepare(lxb_css_parser_t *parser,
     parser->tkz->with_comment = false;
     parser->stage = LXB_CSS_PARSER_RUN;
 
-    parser->chunk_cb = parser->tkz->chunk_cb;
-    parser->chunk_ctx = parser->tkz->chunk_ctx;
-
-    parser->tkz->chunk_cb = lxb_css_syntax_parser_tkz_cb;
-    parser->tkz->chunk_ctx = parser;
-
     return LXB_STATUS_OK;
 }
 
@@ -118,9 +112,6 @@ failed:
 void
 lxb_css_declaration_list_finish(lxb_css_parser_t *parser)
 {
-    parser->tkz->chunk_cb = parser->chunk_cb;
-    parser->tkz->chunk_ctx = parser->chunk_ctx;
-
     parser->memory = parser->old_memory;
     parser->stage = LXB_CSS_PARSER_END;
 }

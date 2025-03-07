@@ -25,8 +25,7 @@
             {"type": "delim", "value": "<", "length": 1},
             {"type": "delim", "value": "!", "length": 1},
             {"type": "whitespace", "value": " ", "length": 1},
-            {"type": "delim", "value": "-", "length": 1},
-            {"type": "delim", "value": "-", "length": 1}
+            {"type": "ident", "value": "--", "length": 2}
         ]
     },
     /* 4 */
@@ -36,8 +35,7 @@
             {"type": "delim", "value": "<", "length": 1},
             {"type": "whitespace", "value": " ", "length": 1},
             {"type": "delim", "value": "!", "length": 1},
-            {"type": "delim", "value": "-", "length": 1},
-            {"type": "delim", "value": "-", "length": 1}
+            {"type": "ident", "value": "--", "length": 2}
         ]
     },
     /* 5 */
@@ -55,8 +53,7 @@
         "tokens": [
             {"type": "delim", "value": "<", "length": 1},
             {"type": "delim", "value": "!", "length": 1},
-            {"type": "delim", "value": "-", "length": 1},
-            {"type": "delim", "value": "\\", "length": 1}
+            {"type": "ident", "value": "-\uFFFD", "length": 2}
         ]
     },
     /* 7 */
@@ -152,8 +149,7 @@
     {
         "data": "-- >",
         "tokens": [
-            {"type": "delim", "value": "-", "length": 1},
-            {"type": "delim", "value": "-", "length": 1},
+            {"type": "ident", "value": "--", "length": 2},
             {"type": "whitespace", "value": " ", "length": 1},
             {"type": "delim", "value": ">", "length": 1}
         ]
@@ -180,8 +176,7 @@
         "data": "<--1F",
         "tokens": [
             {"type": "delim", "value": "<", "length": 1},
-            {"type": "delim", "value": "-", "length": 1},
-            {"type": "dimension", "value": "-1F", "length": 3}
+            {"type": "ident", "value": "--1F", "length": 4}
         ]
     },
     /* 20 */

@@ -126,21 +126,21 @@
     {
         "data": "url(http://lexbor\".com/)",
         "tokens": [
-            {"type": "bad-url", "value": "url(http://lexbor)", "length": 24}
+            {"type": "bad-url", "value": "url(http://lexbor\".com/)", "length": 24}
         ]
     },
     /* 17 */
     {
         "data": "url(http://lexbor'.com/)",
         "tokens": [
-            {"type": "bad-url", "value": "url(http://lexbor)", "length": 24}
+            {"type": "bad-url", "value": "url(http://lexbor'.com/)", "length": 24}
         ]
     },
     /* 18 */
     {
         "data": "url(http://lexbor(.com/)",
         "tokens": [
-            {"type": "bad-url", "value": "url(http://lexbor)", "length": 24}
+            {"type": "bad-url", "value": "url(http://lexbor(.com/)", "length": 24}
         ]
     },
     /* 19 */
@@ -154,7 +154,7 @@
     {
         "data": "url(http://lexbor	.com/)",
         "tokens": [
-            {"type": "bad-url", "value": "url(http://lexbor)", "length": 24}
+            {"type": "bad-url", "value": "url(http://lexbor.com/)", "length": 24}
         ]
     },
     /* 21 */

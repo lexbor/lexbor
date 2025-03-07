@@ -83,8 +83,7 @@
     {
         "data": "resident-evil\\",
         "tokens": [
-            {"type": "ident", "value": "resident-evil", "length": 13},
-            {"type": "delim", "value": "\\", "length": 1}
+            {"type": "ident", "value": "resident-evil\uFFFD", "length": 14}
         ]
     },
    /* 13 */
