@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2021 Alexander Borisov
+ * Copyright (C) 2019-2025 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -32,7 +32,7 @@ typedef struct {
 chunk_ctx_t;
 
 typedef lxb_status_t
-(*parse_data_cb_f)(helper_t *helper, lexbor_str_t *str);
+(*parse_data_cb_f)(helper_t *helper, lexbor_str_t *str, bool with_range);
 
 
 static lxb_status_t
@@ -49,7 +49,7 @@ static lxb_status_t
 check_entry(helper_t *helper, unit_kv_value_t *entry, parse_data_cb_f cb);
 
 static lxb_status_t
-parse_data_new_tkz_cb(helper_t *helper, lexbor_str_t *str);
+parse_data_new_tkz_cb(helper_t *helper, lexbor_str_t *str, bool with_range);
 
 static lxb_status_t
 check_token(helper_t *helper, unit_kv_value_t *entry,
@@ -219,10 +219,11 @@ check(helper_t *helper, unit_kv_value_t *value)
 static lxb_status_t
 check_entry(helper_t *helper, unit_kv_value_t *entry, parse_data_cb_f cb)
 {
+    bool with_range;
     lxb_status_t status;
     lexbor_str_t *str;
     unit_kv_array_t *token_entries;
-    unit_kv_value_t *data, *tokens;
+    unit_kv_value_t *data, *tokens, *range;
 
     /* Validate */
     data = unit_kv_hash_value_nolen_c(entry, "data");
@@ -251,10 +252,24 @@ check_entry(helper_t *helper, unit_kv_value_t *entry, parse_data_cb_f cb)
         return print_error(helper, tokens);
     }
 
+    with_range = false;
+
+    range = unit_kv_hash_value_nolen_c(entry, "range");
+    if (range != NULL) {
+        if (unit_kv_is_bool(range)) {
+            with_range = unit_kv_bool(range);
+        }
+        else {
+            TEST_PRINTLN("Parameter 'range' must be an BOOL");
+
+            return print_error(helper, range);
+        }
+    }
+
     /* Parse */
     str = unit_kv_string(data);
 
-    status = cb(helper, str);
+    status = cb(helper, str, with_range);
 
     if (status != LXB_STATUS_OK) {
         TEST_PRINTLN("Failed to CSS");
@@ -315,7 +330,7 @@ check_raw(lxb_css_syntax_token_t *token)
 }
 
 static lxb_status_t
-parse_data_new_tkz_cb(helper_t *helper, lexbor_str_t *str)
+parse_data_new_tkz_cb(helper_t *helper, lexbor_str_t *str, bool with_range)
 {
     lxb_status_t status;
     lxb_css_syntax_token_t *token;
@@ -332,6 +347,7 @@ parse_data_new_tkz_cb(helper_t *helper, lexbor_str_t *str)
         return status;
     }
 
+    lxb_css_syntax_tokenizer_with_unicode_range(helper->tkz, with_range);
     helper->tkz->with_comment = true;
 
     lxb_css_syntax_tokenizer_buffer_set(helper->tkz, str->data, str->length);

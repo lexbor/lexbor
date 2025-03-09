@@ -193,6 +193,8 @@ lxb_css_syntax_token_type_name_by_id(lxb_css_syntax_token_type_t type)
             return (lxb_char_t *) "bad-url";
         case LXB_CSS_SYNTAX_TOKEN_DELIM:
             return (lxb_char_t *) "delim";
+        case LXB_CSS_SYNTAX_TOKEN_UNICODE_RANGE:
+            return (lxb_char_t *) "unicode-range";
         case LXB_CSS_SYNTAX_TOKEN_NUMBER:
             return (lxb_char_t *) "number";
         case LXB_CSS_SYNTAX_TOKEN_PERCENTAGE:
@@ -263,6 +265,25 @@ lxb_css_syntax_token_serialize(const lxb_css_syntax_token_t *token,
         case LXB_CSS_SYNTAX_TOKEN_DELIM:
             len = lxb_css_syntax_token_encode_utf_8(buf, buf + 5,
                                                     token->types.delim.character);
+            buf[len] = 0x00;
+
+            return cb(buf, len, ctx);
+
+        case LXB_CSS_SYNTAX_TOKEN_UNICODE_RANGE:
+            /* Start */
+            buf[0] = 'U';
+            buf[1] = '+';
+            len = 2;
+            len += lexbor_conv_dec_to_hex(token->types.unicode_range.start,
+                                          &buf[len], (sizeof(buf) - 1) - len,
+                                          true);
+
+            /* End */
+            buf[len] = '-';
+            len += 1;
+            len += lexbor_conv_dec_to_hex(token->types.unicode_range.end,
+                                          &buf[len], (sizeof(buf) - 1) - len,
+                                          true);
             buf[len] = 0x00;
 
             return cb(buf, len, ctx);

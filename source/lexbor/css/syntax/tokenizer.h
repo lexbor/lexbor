@@ -50,6 +50,7 @@ struct lxb_css_syntax_tokenizer {
     unsigned int                       opt;             /* bitmap */
     lxb_status_t                       status;
     bool                               with_comment;
+    bool                               with_unicode_range;
 };
 
 
@@ -98,6 +99,13 @@ lxb_css_syntax_tokenizer_buffer_set(lxb_css_syntax_tokenizer_t *tkz,
     tkz->in_begin = data;
     tkz->in_p = data;
     tkz->in_end = data + size;
+}
+
+lxb_inline void
+lxb_css_syntax_tokenizer_with_unicode_range(lxb_css_syntax_tokenizer_t *tkz,
+                                            bool with_range)
+{
+    tkz->with_unicode_range = with_range;
 }
 
 

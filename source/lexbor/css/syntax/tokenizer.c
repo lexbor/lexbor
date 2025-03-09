@@ -97,6 +97,7 @@ lxb_css_syntax_tokenizer_init(lxb_css_syntax_tokenizer_t *tkz)
     tkz->offset = 0;
 
     tkz->with_comment = false;
+    tkz->with_unicode_range = false;
     tkz->status = LXB_STATUS_OK;
     tkz->opt = LXB_CSS_SYNTAX_TOKENIZER_OPT_UNDEF;
 

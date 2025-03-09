@@ -118,6 +118,12 @@ lxb_css_syntax_state_consume_ident(lxb_css_syntax_tokenizer_t *tkz,
                                    const lxb_char_t *data, const lxb_char_t *end);
 
 static const lxb_char_t *
+lxb_css_syntax_state_consume_unicode_range(lxb_css_syntax_tokenizer_t *tkz,
+                                           lxb_css_syntax_token_t *token,
+                                           const lxb_char_t *data,
+                                           const lxb_char_t *end);
+
+static const lxb_char_t *
 lxb_css_syntax_state_url(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_token_t *token,
                          const lxb_char_t *data, const lxb_char_t *end);
 
@@ -1243,6 +1249,84 @@ lxb_css_syntax_state_consume_ident(lxb_css_syntax_tokenizer_t *tkz,
     return lxb_css_syntax_state_string_set(tkz, token, data);
 }
 
+static const lxb_char_t *
+lxb_css_syntax_state_consume_unicode_range(lxb_css_syntax_tokenizer_t *tkz,
+                                           lxb_css_syntax_token_t *token,
+                                           const lxb_char_t *data,
+                                           const lxb_char_t *end)
+{
+    bool mq;
+    unsigned count, question;
+    lxb_codepoint_t cp, range_start, range_end;
+
+    token->type = LXB_CSS_SYNTAX_TOKEN_UNICODE_RANGE;
+
+    /* Skip [Uu]\+ */
+    data += 2;
+    mq = true;
+
+again:
+
+    cp = 0x0000;
+    count = 6;
+
+    while (data < end && count > 0) {
+        if (lexbor_str_res_map_hex[*data] == LEXBOR_STR_RES_SLIP) {
+            /* U+003F QUESTION MARK (?) */
+            if (*data == 0x3F && mq) {
+                question = 0;
+
+                do {
+                    question += 1;
+                    count -= 1;
+                    data += 1;
+                }
+                while (data < end && *data == 0x3F && count > 0);
+
+                range_start = cp << (4 * question);
+                range_end = range_start | (1 << (4 * question)) - 1;
+
+                lxb_css_syntax_token_unicode_range(token)->start = range_start;
+                lxb_css_syntax_token_unicode_range(token)->end = range_end;
+
+                return data;
+            }
+
+            break;
+        }
+
+        cp <<= 4;
+        cp |= lexbor_str_res_map_hex[ *data ];
+
+        count -= 1;
+        data += 1;
+    }
+
+    if (mq) {
+        mq = false;
+
+        lxb_css_syntax_token_unicode_range(token)->start = cp;
+
+        /* U+002D HYPHEN-MINUS (-) */
+        if (data + 2 > end || data[0] != 0x2D
+            || lexbor_str_res_map_hex[data[1]] == LEXBOR_STR_RES_SLIP)
+        {
+            lxb_css_syntax_token_unicode_range(token)->end = cp;
+            return data;
+        }
+
+        /* Skip U+002D HYPHEN-MINUS (-) */
+        data += 1;
+
+        goto again;
+    }
+
+    lxb_css_syntax_token_unicode_range(token)->end = cp;
+
+    return data;
+}
+
+
 const lxb_char_t *
 lxb_css_syntax_state_ident_like(lxb_css_syntax_tokenizer_t *tkz,
                                 lxb_css_syntax_token_t *token,
@@ -1252,6 +1336,18 @@ lxb_css_syntax_state_ident_like(lxb_css_syntax_tokenizer_t *tkz,
     const lxb_char_t *begin;
     lxb_css_syntax_token_string_t *str;
     static const lxb_char_t url[] = "url";
+
+    /* Would start a unicode-range. */
+    /*
+     * U+002B PLUS SIGN (+)
+     * U+003F QUESTION MARK (?)
+     */
+    if (tkz->with_unicode_range && data + 3 <= end && data[1] == 0x2B
+        && (lexbor_str_res_map_hex[ data[2] ] != 0xFF || data[2] == 0x3F))
+    {
+        return lxb_css_syntax_state_consume_unicode_range(tkz, token,
+                                                          data, end);
+    }
 
     data = lxb_css_syntax_state_consume_ident(tkz, token, data, end);
     if (data == NULL) {

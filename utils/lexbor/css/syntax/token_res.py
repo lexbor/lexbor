@@ -18,6 +18,7 @@ enum_tokens = {
     "url": "LXB_CSS_SYNTAX_TOKEN_URL",
     "bad-url": "LXB_CSS_SYNTAX_TOKEN_BAD_URL",
     "delim": "LXB_CSS_SYNTAX_TOKEN_DELIM",
+    "unicode-range": "LXB_CSS_SYNTAX_TOKEN_UNICODE_RANGE",
     "number": "LXB_CSS_SYNTAX_TOKEN_NUMBER",
     "percentage": "LXB_CSS_SYNTAX_TOKEN_PERCENTAGE",
     "dimension": "LXB_CSS_SYNTAX_TOKEN_DIMENSION",
@@ -45,7 +46,7 @@ def create(name, enum_tokens):
 
     shs = LXB.SHS(tlist, 0, True)
 
-    test = shs.make_test(5, 128)
+    test = shs.make_test(5, 1024)
     shs.table_size_set(test[0][2])
 
     return shs.create(name)

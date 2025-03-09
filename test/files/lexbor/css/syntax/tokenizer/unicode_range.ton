@@ -1,0 +1,139 @@
+[
+    /* Test count: 17 */
+    /* 1 */
+    {
+        "data": "U+FFFFFF",
+        "tokens": [
+            {"type": "unicode-range", "value": "U+FFFFFF-FFFFFF", "length": 8}
+        ],
+        "range": true
+    },
+    /* 2 */
+    {
+        "data": "U+??????",
+        "tokens": [
+            {"type": "unicode-range", "value": "U+0-FFFFFF", "length": 8}
+        ],
+        "range": true
+    },
+    /* 3 */
+    {
+        "data": "U+1?????",
+        "tokens": [
+            {"type": "unicode-range", "value": "U+100000-1FFFFF", "length": 8}
+        ],
+        "range": true
+    },
+    /* 4 */
+    {
+        "data": "U+12????",
+        "tokens": [
+            {"type": "unicode-range", "value": "U+120000-12FFFF", "length": 8}
+        ],
+        "range": true
+    },
+    /* 5 */
+    {
+        "data": "U+123???",
+        "tokens": [
+            {"type": "unicode-range", "value": "U+123000-123FFF", "length": 8}
+        ],
+        "range": true
+    },
+    /* 6 */
+    {
+        "data": "U+1234??",
+        "tokens": [
+            {"type": "unicode-range", "value": "U+123400-1234FF", "length": 8}
+        ],
+        "range": true
+    },
+    /* 7 */
+    {
+        "data": "U+12345?",
+        "tokens": [
+            {"type": "unicode-range", "value": "U+123450-12345F", "length": 8}
+        ],
+        "range": true
+    },
+    /* 8 */
+    {
+        "data": "U+123456",
+        "tokens": [
+            {"type": "unicode-range", "value": "U+123456-123456", "length": 8}
+        ],
+        "range": true
+    },
+    /* 9 */
+    {
+        "data": "U+20-ff",
+        "tokens": [
+            {"type": "unicode-range", "value": "U+20-FF", "length": 7}
+        ],
+        "range": true
+    },
+    /* 10 */
+    {
+        "data": "U+1234567-ff",
+        "tokens": [
+            {"type": "unicode-range", "value": "U+123456-123456", "length": 8},
+            {"type": "dimension", "value": "7-ff", "length": 4}
+        ],
+        "range": true
+    },
+    /* 11 */
+    {
+        "data": "U+123456-abcdefabc",
+        "tokens": [
+            {"type": "unicode-range", "value": "U+123456-ABCDEF", "length": 15},
+            {"type": "ident", "value": "abc", "length": 3}
+        ],
+        "range": true
+    },
+    /* 12 */
+    {
+        "data": "U+123456-",
+        "tokens": [
+            {"type": "unicode-range", "value": "U+123456-123456", "length": 8},
+            {"type": "delim", "value": "-", "length": 1}
+        ],
+        "range": true
+    },
+    /* 13 */
+    {
+        "data": "U+123456-x",
+        "tokens": [
+            {"type": "unicode-range", "value": "U+123456-123456", "length": 8},
+            {"type": "ident", "value": "-x", "length": 2}
+        ],
+        "range": true
+    },
+    /* 15 */
+    {
+        "data": "U+123xyz",
+        "tokens": [
+            {"type": "unicode-range", "value": "U+123-123", "length": 5},
+            {"type": "ident", "value": "xyz", "length": 3}
+        ],
+        "range": true
+    },
+    /* 16 */
+    {
+        "data": "U+",
+        "tokens": [
+            {"type": "ident", "value": "U", "length": 1},
+            {"type": "delim", "value": "+", "length": 1}
+        ],
+        "range": true
+    },
+    /* 17 */
+    {
+        "data": "U+x",
+        "tokens": [
+            {"type": "ident", "value": "U", "length": 1},
+            {"type": "delim", "value": "+", "length": 1},
+            {"type": "ident", "value": "x", "length": 1}
+        ],
+        "range": true
+    }
+]

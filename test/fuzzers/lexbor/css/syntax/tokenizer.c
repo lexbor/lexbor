@@ -68,6 +68,9 @@ LLVMFuzzerTestOneInput(const uint8_t *data, size_t length)
         return EXIT_FAILURE;
     }
 
+    lxb_css_syntax_tokenizer_with_unicode_range(tkz, true);
+    tkz->with_comment = true;
+
     lxb_css_syntax_tokenizer_buffer_set(tkz, data, length);
 
     do {

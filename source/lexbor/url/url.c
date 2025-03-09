@@ -4721,7 +4721,7 @@ lxb_url_serialize_host_ipv6(const uint16_t *ipv6,
             continue;
         }
 
-        p += lexbor_conv_dec_to_hex(ipv6[i], p, end - p);
+        p += lexbor_conv_dec_to_hex(ipv6[i], p, end - p, false);
 
         if (i != 7) {
             *p++ = ':';
