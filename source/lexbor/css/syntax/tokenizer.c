@@ -23,23 +23,13 @@ static bool
 lxb_css_syntax_tokenizer_lookup_important_ch(lxb_css_syntax_tokenizer_t *tkz,
                                              const lxb_char_t *p,
                                              const lxb_char_t *end,
-                                             const lxb_char_t stop_ch,
-                                             lxb_css_syntax_token_type_t stop,
-                                             bool skip_first);
+                                             const lxb_char_t stop_ch);
 
 static bool
 lxb_css_syntax_tokenizer_lookup_important_end(lxb_css_syntax_tokenizer_t *tkz,
                                               const lxb_char_t *p,
                                               const lxb_char_t *end,
-                                              const lxb_char_t stop_ch,
-                                              lxb_css_syntax_token_type_t stop,
-                                              bool skip_first);
-
-static bool
-lxb_css_syntax_tokenizer_lookup_important_tokens(lxb_css_syntax_tokenizer_t *tkz,
-                                                 lxb_css_syntax_token_type_t stop,
-                                                 bool skip_first);
-
+                                              const lxb_char_t stop_ch);
 
 lxb_css_syntax_tokenizer_t *
 lxb_css_syntax_tokenizer_create(void)
@@ -226,11 +216,7 @@ lxb_css_syntax_tokenizer_lookup_colon(lxb_css_syntax_tokenizer_t *tkz)
     p = tkz->in_p;
     end = tkz->in_end;
 
-    do {
-        if (p >= end) {
-            return false;
-        }
-
+    while (p < end) {
         switch (*p) {
             case 0x3A:
                 return true;
@@ -240,14 +226,15 @@ lxb_css_syntax_tokenizer_lookup_colon(lxb_css_syntax_tokenizer_t *tkz)
             case 0x09:
             case 0x20:
             case 0x0A:
-                p++;
+                p += 1;
                 break;
 
             default:
                 return false;
         }
     }
-    while (true);
+
+    return false;
 }
 
 bool
@@ -282,10 +269,12 @@ lxb_css_syntax_tokenizer_lookup_important(lxb_css_syntax_tokenizer_t *tkz,
             token = token->next;
 
             if (token->type == LXB_CSS_SYNTAX_TOKEN_WHITESPACE) {
-                if (token->next != NULL) {
+                if (token->next == NULL) {
                     return lxb_css_syntax_tokenizer_lookup_important_end(tkz,
-                                                 p, end, stop_ch, stop, false);
+                                                              p, end, stop_ch);
                 }
+
+                token = token->next;
             }
 
             return (token->type == LXB_CSS_SYNTAX_TOKEN_SEMICOLON
@@ -294,55 +283,38 @@ lxb_css_syntax_tokenizer_lookup_important(lxb_css_syntax_tokenizer_t *tkz,
         }
 
         return lxb_css_syntax_tokenizer_lookup_important_end(tkz, p, end,
-                                                         stop_ch, stop, false);
+                                                             stop_ch);
     }
 
-    return lxb_css_syntax_tokenizer_lookup_important_ch(tkz, p, end, stop_ch,
-                                                        stop, false);
+    return lxb_css_syntax_tokenizer_lookup_important_ch(tkz, p, end, stop_ch);
 }
 
 static bool
 lxb_css_syntax_tokenizer_lookup_important_ch(lxb_css_syntax_tokenizer_t *tkz,
                                              const lxb_char_t *p,
                                              const lxb_char_t *end,
-                                             const lxb_char_t stop_ch,
-                                             lxb_css_syntax_token_type_t stop,
-                                             bool skip_first)
+                                             const lxb_char_t stop_ch)
 {
-    const lxb_char_t *imp;
+    static const size_t length = sizeof(lxb_css_syntax_tokenizer_important) - 1;
 
-    imp = lxb_css_syntax_tokenizer_important;
-
-    do {
-        if (p >= end) {
-            return lxb_css_syntax_tokenizer_lookup_important_tokens(tkz, stop,
-                                                                    skip_first);
-        }
-
-        if (lexbor_str_res_map_lowercase[*p++] != *imp++) {
-            return false;
-        }
+    if (!(end - p >= length
+           && lexbor_str_data_ncasecmp(p, lxb_css_syntax_tokenizer_important,
+                                       length)))
+    {
+        return false;
     }
-    while (*imp != 0x00);
 
-    return lxb_css_syntax_tokenizer_lookup_important_end(tkz, p, end, stop_ch,
-                                                         stop, skip_first);
+    return lxb_css_syntax_tokenizer_lookup_important_end(tkz, p + length,
+                                                         end, stop_ch);
 }
 
 static bool
 lxb_css_syntax_tokenizer_lookup_important_end(lxb_css_syntax_tokenizer_t *tkz,
                                               const lxb_char_t *p,
                                               const lxb_char_t *end,
-                                              const lxb_char_t stop_ch,
-                                              lxb_css_syntax_token_type_t stop,
-                                              bool skip_first)
+                                              const lxb_char_t stop_ch)
 {
-    do {
-        if (p >= end) {
-            return lxb_css_syntax_tokenizer_lookup_important_tokens(tkz, stop,
-                                                                    skip_first);
-        }
-
+    while (p < end) {
         switch (*p) {
             case 0x3B:
                 return true;
@@ -352,63 +324,16 @@ lxb_css_syntax_tokenizer_lookup_important_end(lxb_css_syntax_tokenizer_t *tkz,
             case 0x09:
             case 0x20:
             case 0x0A:
-                p++;
+                p += 1;
                 break;
 
             default:
                 return (stop_ch != 0x00 && stop_ch == *p);
         }
     }
-    while (true);
-}
 
-static bool
-lxb_css_syntax_tokenizer_lookup_important_tokens(lxb_css_syntax_tokenizer_t *tkz,
-                                                 lxb_css_syntax_token_type_t stop,
-                                                 bool skip_first)
-{
-    const lxb_css_syntax_token_t *next;
-
-    static const size_t length = sizeof(lxb_css_syntax_tokenizer_important) - 1;
-
-    if (skip_first) {
-        next = lxb_css_syntax_token_next(tkz);
-        if (next == NULL) {
-            return false;
-        }
-    }
-
-    next = lxb_css_syntax_token_next(tkz);
-    if (next == NULL) {
-        return false;
-    }
-
-    if (next->type != LXB_CSS_SYNTAX_TOKEN_IDENT) {
-        return false;
-    }
-
-    if (!(lxb_css_syntax_token_ident(next)->length == length
-          && lexbor_str_data_ncasecmp(lxb_css_syntax_token_ident(next)->data,
-                                      lxb_css_syntax_tokenizer_important,
-                                      length)))
-    {
-        return false;
-    }
-
-    next = lxb_css_syntax_token_next(tkz);
-    if (next == NULL) {
-        return false;
-    }
-
-    if (next->type == LXB_CSS_SYNTAX_TOKEN_WHITESPACE) {
-        next = lxb_css_syntax_token_next(tkz);
-        if (next == NULL) {
-            return false;
-        }
-    }
-
-    return (next->type == LXB_CSS_SYNTAX_TOKEN_SEMICOLON
-            || next->type == stop || next->type == LXB_CSS_SYNTAX_TOKEN__EOF);
+    /* EOF */
+    return true;
 }
 
 bool
@@ -443,25 +368,22 @@ lxb_css_syntax_tokenizer_lookup_declaration_ws_end(lxb_css_syntax_tokenizer_t *t
     p = tkz->in_p;
     end = tkz->in_end;
 
-    do {
-        if (p >= end) {
-            return false;
-        }
-
+    while (p < end) {
         switch (*p) {
             case 0x3B:
                 return true;
 
             case 0x21:
-                p++;
+                p += 1;
                 return lxb_css_syntax_tokenizer_lookup_important_ch(tkz, p, end,
-                                                           stop_ch, stop, true);
+                                                                    stop_ch);
 
             default:
                 return (stop_ch != 0x00 && stop_ch == *p);
         }
     }
-    while (true);
+
+    return false;
 }
 
 /*
