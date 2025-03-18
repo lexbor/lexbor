@@ -2694,6 +2694,12 @@ lxb_url_path_slow_path(lxb_url_parser_t *parser, lxb_url_t *url,
             *sbuf++ = '%';
             *sbuf++ = lexbor_str_res_char_to_two_hex_value[c][0];
             *sbuf++ = lexbor_str_res_char_to_two_hex_value[c][1];
+
+            status = lxb_url_log_append(parser, p,
+                                        LXB_URL_ERROR_TYPE_INVALID_URL_UNIT);
+            if (status != LXB_STATUS_OK) {
+                goto failed;
+            }
         }
         else if (c == '.') {
             if (last == sbuf) {
