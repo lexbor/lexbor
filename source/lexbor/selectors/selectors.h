@@ -104,6 +104,8 @@ struct lxb_selectors {
     lxb_selectors_nested_t   *current;
     lxb_selectors_entry_t    *first;
 
+    const lxb_dom_node_t     *context;
+
     lxb_selectors_opt_t      options;
     lxb_status_t             status;
 };
@@ -258,6 +260,20 @@ lxb_selectors_selector(const lxb_selectors_t *selectors)
 }
 
 /*
+ * Sets the context node.
+ *
+ * Function to set the context node, used for e.g. `:scope`.
+ *
+ * @param[in] lxb_selectors_t *.
+ * @param[in] const lxb_dom_node_t *.
+ */
+lxb_inline void
+lxb_selectors_context_set(lxb_selectors_t *selectors, const lxb_dom_node_t *context)
+{
+    selectors->context = context;
+}
+
+/*
  * Not inline for inline.
  */
 
@@ -272,6 +288,12 @@ lxb_selectors_opt_set_noi(lxb_selectors_t *selectors, lxb_selectors_opt_t opt);
  */
 LXB_API const lxb_css_selector_list_t *
 lxb_selectors_selector_noi(const lxb_selectors_t *selectors);
+
+/*
+ * Same as lxb_selectors_context_set() function, but not inline.
+ */
+LXB_API void
+lxb_selectors_context_set_noi(lxb_selectors_t *selectors, lxb_dom_node_t *context);
 
 
 #ifdef __cplusplus
