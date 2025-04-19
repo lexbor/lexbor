@@ -285,8 +285,16 @@ lxb_status_t
 lxb_dom_attr_clone_name_value(lxb_dom_attr_t *attr_from,
                               lxb_dom_attr_t *attr_to)
 {
+    lexbor_str_t *value;
+
     attr_to->node.local_name = attr_from->node.local_name;
     attr_to->qualified_name = attr_from->qualified_name;
+
+    value = attr_from->value;
+
+    if (value != NULL && value->data != NULL) {
+        return lxb_dom_attr_set_value(attr_to, value->data, value->length);
+    }
 
     return LXB_STATUS_OK;
 }
