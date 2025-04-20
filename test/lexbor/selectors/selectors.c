@@ -50,7 +50,7 @@ static const lxb_char_t html[] =
     "    <h2 h2=3 class=mark></h2>"
     "    <h2 h2=4 class=mark></h2>"
     "    <h2 h2=5></h2>"
-    "    <h2 h2=6 class=mark></h2>"
+    "    <h2 h2=6 class=mark></h2>\n"
     "</main>";
 
 
@@ -400,6 +400,10 @@ static const lxb_test_entry_t selectors_list[] =
     {"main > h2:nth-last-child(odd of .mark)",
      "<h2 h2=\"3\" class=\"mark\">\n"
      "<h2 h2=\"6\" class=\"mark\">"},
+
+    {"span:has(+ a)",
+     "<span span=\"6\">\n"
+     "<span span=\"9\">"}
 };
 
 
