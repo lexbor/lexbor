@@ -93,6 +93,38 @@ TEST_BEGIN(bad_html_remove_attributes)
 }
 TEST_END
 
+TEST_BEGIN(duplicate_attributes_svg_namespace)
+{
+    lxb_status_t status;
+    lexbor_str_t str = {0};
+    lxb_html_document_t *document;
+
+    static const lxb_char_t html[] = "<svg>"
+    "<use xmlns:xlink=\"http://www.w3.org/1999/xlink\" "
+    "xmlns:xlink=\"http://www.w3.org/1999/xlink\">";
+    static const size_t length = sizeof(html) - 1;
+
+    static const lxb_char_t res[] = "<svg>"
+    "<use xmlns:xlink=\"http://www.w3.org/1999/xlink\"></use></svg>";
+    static const size_t res_length = sizeof(res) - 1;
+
+    document = lxb_html_document_create();
+    test_ne(document, NULL);
+
+    status = lxb_html_document_parse(document, html, length);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_html_serialize_deep_str(lxb_dom_interface_node(document->body),
+                                         &str);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_eq(str.length, res_length); /* "abc\n" */
+    test_eq_str(str.data, res);
+
+    lxb_html_document_destroy(document);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -100,6 +132,7 @@ main(int argc, const char * argv[])
 
     TEST_ADD(fixed_svg_tags);
     TEST_ADD(bad_html_remove_attributes);
+    TEST_ADD(duplicate_attributes_svg_namespace);
 
     TEST_RUN("lexbor/html/other");
     TEST_RELEASE();
