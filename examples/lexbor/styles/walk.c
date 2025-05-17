@@ -162,6 +162,7 @@ main(int argc, const char * argv[])
     (void) lxb_dom_collection_destroy(collection, true);
     (void) lxb_css_stylesheet_destroy(sst, true);
     (void) lxb_css_parser_destroy(parser, true);
+    (void) lxb_html_document_css_destroy(document);
     (void) lxb_html_document_destroy(document);
 
     return EXIT_SUCCESS;

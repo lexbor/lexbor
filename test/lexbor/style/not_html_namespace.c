@@ -68,6 +68,7 @@ TEST_BEGIN(styles)
     /* Destroy resources. */
 
     (void) lxb_dom_collection_destroy(collection, true);
+    (void) lxb_html_document_css_destroy(document);
     (void) lxb_html_document_destroy(document);
 
     return EXIT_SUCCESS;
