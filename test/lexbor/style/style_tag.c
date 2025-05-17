@@ -165,6 +165,7 @@ TEST_BEGIN(bad_styles)
 
     /* Destroy resources. */
 
+    (void) lxb_html_document_css_destroy(document);
     (void) lxb_html_document_destroy(document);
 }
 TEST_END
