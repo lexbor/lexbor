@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2025 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -49,10 +49,13 @@ check_entry_chunk(unit_kv_t *kv, unit_kv_value_t *hash,
 
 static void
 check_compare(unit_kv_t *kv, lxb_dom_node_t *root,
-              lexbor_str_t *data, lexbor_str_t *result);
+              lexbor_str_t *data, lexbor_str_t *result, bool raw);
 
 static lexbor_str_t *
 hash_get_str(unit_kv_t *kv, unit_kv_value_t *hash, const char *name);
+
+static bool
+hash_get_bool(unit_kv_t *kv, unit_kv_value_t *hash, const char *name);
 
 static fragment_entry_t
 hash_get_fragment(unit_kv_t *kv, unit_kv_value_t *hash);
@@ -201,6 +204,7 @@ check_entry(unit_kv_t *kv, unit_kv_value_t *hash, lxb_html_parser_t *parser)
     lexbor_str_t *data = hash_get_str(kv, hash, "data");
     lexbor_str_t *result = hash_get_str(kv, hash, "result");
     fragment_entry_t fragment = hash_get_fragment(kv, hash);
+    bool raw = hash_get_bool(kv, hash, "raw");
 
     lxb_html_tree_scripting_set(parser->tree, scripting);
 
@@ -213,7 +217,7 @@ check_entry(unit_kv_t *kv, unit_kv_value_t *hash, lxb_html_parser_t *parser)
             TEST_FAILURE("%s", data->data);
         }
 
-        check_compare(kv, root, data, result);
+        check_compare(kv, root, data, result, raw);
 
         lxb_html_document_destroy(lxb_html_interface_document(root->owner_document));
         return;
@@ -225,7 +229,7 @@ check_entry(unit_kv_t *kv, unit_kv_value_t *hash, lxb_html_parser_t *parser)
         TEST_FAILURE("%s", data->data);
     }
 
-    check_compare(kv, lxb_dom_interface_node(document), data, result);
+    check_compare(kv, lxb_dom_interface_node(document), data, result, raw);
 
     lxb_html_document_destroy(document);
 }
@@ -243,6 +247,7 @@ check_entry_chunk(unit_kv_t *kv, unit_kv_value_t *hash,
     lexbor_str_t *data = hash_get_str(kv, hash, "data");
     lexbor_str_t *result = hash_get_str(kv, hash, "result");
     fragment_entry_t fragment = hash_get_fragment(kv, hash);
+    bool raw = hash_get_bool(kv, hash, "raw");
 
     lxb_html_tree_scripting_set(parser->tree, scripting);
 
@@ -269,7 +274,7 @@ check_entry_chunk(unit_kv_t *kv, unit_kv_value_t *hash,
             TEST_FAILURE("%s", data->data);
         }
 
-        check_compare(kv, root, data, result);
+        check_compare(kv, root, data, result, raw);
 
         lxb_html_document_destroy(lxb_html_interface_document(root->owner_document));
         return;
@@ -294,25 +299,29 @@ check_entry_chunk(unit_kv_t *kv, unit_kv_value_t *hash,
         TEST_FAILURE("%s", data->data);
     }
 
-    check_compare(kv, lxb_dom_interface_node(document), data, result);
+    check_compare(kv, lxb_dom_interface_node(document), data, result, raw);
 
     lxb_html_document_destroy(document);
 }
 
 static void
 check_compare(unit_kv_t *kv, lxb_dom_node_t *root,
-              lexbor_str_t *data, lexbor_str_t *want)
+              lexbor_str_t *data, lexbor_str_t *want, bool raw)
 {
     lxb_status_t status;
+    lxb_html_serialize_opt_t opt;
     lexbor_str_t res = {0};
 
-    status = lxb_html_serialize_pretty_deep_str(root,
-                                                LXB_HTML_SERIALIZE_OPT_WITHOUT_CLOSING
-                                                |LXB_HTML_SERIALIZE_OPT_RAW
-                                                |LXB_HTML_SERIALIZE_OPT_TAG_WITH_NS
-                                                |LXB_HTML_SERIALIZE_OPT_WITHOUT_TEXT_INDENT
-                                                |LXB_HTML_SERIALIZE_OPT_FULL_DOCTYPE,
-                                                0, &res);
+    opt = LXB_HTML_SERIALIZE_OPT_WITHOUT_CLOSING
+         |LXB_HTML_SERIALIZE_OPT_TAG_WITH_NS
+         |LXB_HTML_SERIALIZE_OPT_WITHOUT_TEXT_INDENT
+         |LXB_HTML_SERIALIZE_OPT_FULL_DOCTYPE;
+
+    if (raw) {
+        opt |= LXB_HTML_SERIALIZE_OPT_RAW;
+    }
+
+    status = lxb_html_serialize_pretty_deep_str(root, opt, 0, &res);
     if (status != LXB_STATUS_OK) {
         TEST_FAILURE("Failed to serialization tree");
     }
@@ -361,6 +370,26 @@ hash_get_str(unit_kv_t *kv, unit_kv_value_t *hash, const char *name)
     }
 
     return unit_kv_string(data);
+}
+
+static bool
+hash_get_bool(unit_kv_t *kv, unit_kv_value_t *hash, const char *name)
+{
+    unit_kv_value_t *data;
+
+    data = unit_kv_hash_value_nolen_c(hash, name);
+    if (data == NULL) {
+        return true;
+    }
+
+    if (unit_kv_is_bool(data) == false) {
+        TEST_PRINTLN("Parameter '%s' must be BOOL", name);
+        print_error(kv, data);
+
+        exit(EXIT_FAILURE);
+    }
+
+    return unit_kv_bool(data);
 }
 
 static fragment_entry_t
