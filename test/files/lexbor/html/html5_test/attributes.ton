@@ -1,0 +1,29 @@
+[
+    /* Test count: 2 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <div x="y<z">
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <div x="y&lt;z">
+        $DATA,
+        "raw": false
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <div x="y>z">
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <div x="y&gt;z">
+        $DATA,
+        "raw": false
+    }
+]

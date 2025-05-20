@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Alexander Borisov
+ * Copyright (C) 2018-2025 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -582,6 +582,32 @@ lxb_html_serialize_send_escaping_attribute_string(const lxb_char_t *data,
                 lxb_html_serialize_send("&nbsp;", 6, ctx);
 
                 data += 2;
+                pos = data;
+
+                break;
+
+            /* U+003C LESS-THAN SIGN (<) */
+            case 0x3C:
+                if (pos != data) {
+                    lxb_html_serialize_send(pos, (data - pos), ctx);
+                }
+
+                lxb_html_serialize_send("&lt;", 4, ctx);
+
+                data++;
+                pos = data;
+
+                break;
+
+            /* U+003E GREATER-THAN SIGN (>) */
+            case 0x3E:
+                if (pos != data) {
+                    lxb_html_serialize_send(pos, (data - pos), ctx);
+                }
+
+                lxb_html_serialize_send("&gt;", 4, ctx);
+
+                data++;
                 pos = data;
 
                 break;
