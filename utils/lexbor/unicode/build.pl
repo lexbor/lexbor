@@ -430,7 +430,7 @@ sub decomposition_entries {
     $CCC = $self->{ccc};
     $quick = $self->{normalization_props};
 
-    push @map, [0, lxb_quick("_UNDEF"), 0, 0, 0];
+    push @map, [0, lxb_quick("_UNDEF"), 0, 0, 0, 0];
 
     foreach my $key (keys %$res) {
         $entry = $res->{$key};
