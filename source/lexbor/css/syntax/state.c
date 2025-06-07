@@ -1107,7 +1107,7 @@ lxb_css_syntax_state_consume_numeric(lxb_css_syntax_tokenizer_t *tkz,
 
         if (data >= end) {
             lxb_css_syntax_consume_numeric_set(tkz, token, buf, buf_p,
-                                               is_float, e_is_negative,
+                                               true, e_is_negative,
                                                exponent, e_digit);
             return data;
         }
@@ -1115,7 +1115,7 @@ lxb_css_syntax_state_consume_numeric(lxb_css_syntax_tokenizer_t *tkz,
     while(*data >= 0x30 && *data <= 0x39);
 
     lxb_css_syntax_consume_numeric_set(tkz, token, buf, buf_p,
-                                       is_float, e_is_negative,
+                                       true, e_is_negative,
                                        exponent, e_digit);
 
     return lxb_css_syntax_state_consume_numeric_name_start(tkz, token,
