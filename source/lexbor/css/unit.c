@@ -51,11 +51,11 @@ lxb_css_unit_relative_by_name(const lxb_char_t *name, size_t length)
 }
 
 const lxb_css_data_t *
-lxb_css_unit_angel_by_name(const lxb_char_t *name, size_t length)
+lxb_css_unit_angle_by_name(const lxb_char_t *name, size_t length)
 {
     const lexbor_shs_entry_t *entry;
 
-    entry = lexbor_shs_entry_get_lower_static(lxb_css_unit_angel_shs,
+    entry = lexbor_shs_entry_get_lower_static(lxb_css_unit_angle_shs,
                                               name, length);
     if (entry == NULL) {
         return NULL;

@@ -1941,7 +1941,7 @@ lxb_css_property_font_style_serialize(const void *style,
         return status;
     }
 
-    if (fs->angle.unit != (lxb_css_unit_angel_t) LXB_CSS_UNIT__UNDEF) {
+    if (fs->angle.unit != (lxb_css_unit_angle_t) LXB_CSS_UNIT__UNDEF) {
         lexbor_serialize_write(cb, str_ws.data, str_ws.length, ctx, status);
 
         status = lxb_css_value_angle_sr(&fs->angle, cb, ctx);
