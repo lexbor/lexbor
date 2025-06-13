@@ -274,7 +274,7 @@ unit_relative = {
     "vi": [], "vb": [], "vmin": [], "vmax": []
 }
 
-unit_angel = {
+unit_angle = {
     "deg": [],
     "grad": [],
     "rad": [],
@@ -296,7 +296,7 @@ unit_duration = {
 units = [
     ["absolute", unit_absolute],
     ["relative", unit_relative],
-    ["angel", unit_angel],
+    ["angel", unit_angle],
     ["frequency", unit_frequency],
     ["resolution", unit_resolution],
     ["duration", unit_duration]

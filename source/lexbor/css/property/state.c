@@ -396,7 +396,7 @@ lxb_css_property_state_angle(lxb_css_parser_t *parser,
         return false;
     }
 
-    unit = lxb_css_unit_angel_by_name(lxb_css_syntax_token_dimension(token)->str.data,
+    unit = lxb_css_unit_angle_by_name(lxb_css_syntax_token_dimension(token)->str.data,
                                       lxb_css_syntax_token_dimension(token)->str.length);
     if (unit == NULL) {
         return false;
@@ -404,7 +404,7 @@ lxb_css_property_state_angle(lxb_css_parser_t *parser,
 
     angle->num = lxb_css_syntax_token_dimension(token)->num.num;
     angle->is_float = lxb_css_syntax_token_dimension(token)->num.is_float;
-    angle->unit = (lxb_css_unit_angel_t) unit->unique;
+    angle->unit = (lxb_css_unit_angle_t) unit->unique;
 
     lxb_css_syntax_parser_consume(parser);
 
@@ -450,7 +450,7 @@ lxb_css_property_state_hue(lxb_css_parser_t *parser,
 
     switch (token->type) {
         case LXB_CSS_SYNTAX_TOKEN_DIMENSION:
-            unit = lxb_css_unit_angel_by_name(lxb_css_syntax_token_dimension(token)->str.data,
+            unit = lxb_css_unit_angle_by_name(lxb_css_syntax_token_dimension(token)->str.data,
                                               lxb_css_syntax_token_dimension(token)->str.length);
             if (unit == NULL) {
                 return false;
@@ -459,7 +459,7 @@ lxb_css_property_state_hue(lxb_css_parser_t *parser,
             hue->type = LXB_CSS_VALUE__ANGLE;
             hue->u.angle.num = lxb_css_syntax_token_dimension(token)->num.num;
             hue->u.angle.is_float = lxb_css_syntax_token_dimension(token)->num.is_float;
-            hue->u.angle.unit = (lxb_css_unit_angel_t) unit->unique;
+            hue->u.angle.unit = (lxb_css_unit_angle_t) unit->unique;
             break;
 
         case LXB_CSS_SYNTAX_TOKEN_NUMBER:
@@ -3313,7 +3313,7 @@ lxb_css_property_state_font_style(lxb_css_parser_t *parser,
                 return lxb_css_parser_success(parser);
             }
             else {
-                fs->angle.unit = (lxb_css_unit_angel_t) LXB_CSS_UNIT__UNDEF;
+                fs->angle.unit = (lxb_css_unit_angle_t) LXB_CSS_UNIT__UNDEF;
             }
 
             break;
