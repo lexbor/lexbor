@@ -173,12 +173,46 @@ TEST_BEGIN(styles)
 }
 TEST_END
 
+TEST_BEGIN(destroy_element_with_inline_style)
+{
+    lxb_status_t status;
+    lxb_dom_attr_t *attr;
+    lxb_html_element_t *element;
+    lxb_html_document_t *document;
+
+    static const lexbor_str_t div_str = lexbor_str("div");
+    static const lexbor_str_t style_str = lexbor_str("style");
+    static const lexbor_str_t inline_str = lexbor_str("display: flex;");
+
+    document = lxb_html_document_create();
+    test_ne(document, NULL);
+
+    status = lxb_html_document_css_init(document, true);
+    test_eq(status, LXB_STATUS_OK);
+
+    element = lxb_html_document_create_element(document, div_str.data,
+                                               div_str.length, NULL);
+    test_ne(element, NULL);
+
+    attr = lxb_dom_element_set_attribute(lxb_dom_interface_element(element),
+                                         style_str.data, style_str.length,
+                                         inline_str.data, inline_str.length);
+    test_ne(attr, NULL);
+
+    lxb_dom_document_destroy_interface(lxb_dom_interface_node(element));
+
+    (void) lxb_html_document_css_destroy(document);
+    (void) lxb_html_document_destroy(document);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
     TEST_INIT();
 
     TEST_ADD(styles);
+    TEST_ADD(destroy_element_with_inline_style);
 
     TEST_RUN("lexbor/style/element_events");
     TEST_RELEASE();

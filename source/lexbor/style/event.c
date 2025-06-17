@@ -145,8 +145,9 @@ lxb_style_event_remove_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
     if (context->all) {
         lxb_dom_element_style_remove_all(context->doc, root, style);
     }
-
-    lxb_dom_element_style_remove_all_not(context->doc, root, style, false);
+    else {
+        lxb_dom_element_style_remove_all_not(context->doc, root, style, false);
+    }
 
     return LXB_STATUS_OK;
 }
