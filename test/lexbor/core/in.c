@@ -92,7 +92,7 @@ TEST_BEGIN(node_make_arg_null)
     test_eq_size(node->offset, 0UL);
 
     test_eq(node->begin, NULL);
-    test_ne(node->end, NULL);
+    test_eq(node->end, NULL);
 
     test_eq(node->next, NULL);
     test_eq(node->prev, NULL);
