@@ -209,7 +209,6 @@ TEST_END
 TEST_BEGIN(destroy_elements)
 {
     lxb_status_t status;
-    lxb_dom_attr_t *attr;
     lxb_html_element_t *body, *container, *box1, *box2;
     lxb_html_document_t *document;
 
