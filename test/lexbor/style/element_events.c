@@ -206,6 +206,77 @@ TEST_BEGIN(destroy_element_with_inline_style)
 }
 TEST_END
 
+TEST_BEGIN(destroy_elements)
+{
+    lxb_status_t status;
+    lxb_dom_attr_t *attr;
+    lxb_html_element_t *body, *container, *box1, *box2;
+    lxb_html_document_t *document;
+
+    static const lexbor_str_t style_str = lexbor_str("margin-top: 10px; margin-right: 20px;"
+                                                     "margin-bottom: 30px; margin-left: 40px;");
+    static const lexbor_str_t body_str = lexbor_str("body");
+    static const lexbor_str_t div_str = lexbor_str("div");
+
+    document = lxb_html_document_create();
+    test_ne(document, NULL);
+
+    status = lxb_html_document_css_init(document, true);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Create container div. */
+    body = lxb_html_document_create_element(document, body_str.data,
+                                            body_str.length, NULL);
+    test_ne(body, NULL);
+
+    document->body = lxb_html_interface_body(body);
+
+    /* Create container div. */
+    container = lxb_html_document_create_element(document, div_str.data,
+                                                 div_str.length, NULL);
+    test_ne(container, NULL);
+
+    /* Create box1. */
+    box1 = lxb_html_document_create_element(document, div_str.data,
+                                            div_str.length, NULL);
+    test_ne(box1, NULL);
+
+    status = lxb_html_element_style_parse(box1, style_str.data,
+                                          style_str.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Insert box1 into container. */
+    lxb_dom_node_insert_child(lxb_dom_interface_node(container),
+                              lxb_dom_interface_node(box1));
+
+    /* Create box2. */
+    box2 = lxb_html_document_create_element(document, div_str.data,
+                                            div_str.length, NULL);
+    test_ne(box2, NULL);
+
+    status = lxb_html_element_style_parse(box2, style_str.data,
+                                          style_str.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Insert box2 into container. */
+    lxb_dom_node_insert_child(lxb_dom_interface_node(container),
+                              lxb_dom_interface_node(box2));
+
+    /* Insert container into body. */
+    lxb_dom_node_insert_child(lxb_dom_interface_node(body),
+                              lxb_dom_interface_node(container));
+
+    /* Now destroy boxes. */
+    lxb_dom_node_destroy(lxb_dom_interface_node(box1));
+    lxb_dom_node_destroy(lxb_dom_interface_node(box2));
+
+    /* Destroy all. */
+    lxb_dom_node_destroy(lxb_dom_interface_node(document->body));
+    lxb_dom_document_css_destroy(lxb_dom_interface_document(document));
+    lxb_html_document_destroy(document);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -213,6 +284,7 @@ main(int argc, const char * argv[])
 
     TEST_ADD(styles);
     TEST_ADD(destroy_element_with_inline_style);
+    TEST_ADD(destroy_elements);
 
     TEST_RUN("lexbor/style/element_events");
     TEST_RELEASE();
