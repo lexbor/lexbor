@@ -9,6 +9,7 @@
 #include <lexbor/selectors/selectors.h>
 
 
+/*
 lxb_status_t
 callback(const lxb_char_t *data, size_t len, void *ctx)
 {
@@ -16,6 +17,7 @@ callback(const lxb_char_t *data, size_t len, void *ctx)
 
     return LXB_STATUS_OK;
 }
+*/
 
 lxb_status_t
 find_callback(lxb_dom_node_t *node, lxb_css_selector_specificity_t spec,
@@ -24,11 +26,11 @@ find_callback(lxb_dom_node_t *node, lxb_css_selector_specificity_t spec,
     unsigned *count = ctx;
 
     (*count)++;
-
+/*
     printf("%u) ", *count);
     (void) lxb_html_serialize_cb(node, callback, NULL);
     printf("\n");
-
+*/
     return LXB_STATUS_OK;
 }
 
@@ -119,7 +121,7 @@ LLVMFuzzerTestOneInput(const uint8_t *data, size_t length)
 
     status = lxb_selectors_find(selectors, node, list, find_callback, &count);
     if (status != LXB_STATUS_OK) {
-        printf("Selectors: failed to find: %.*s\n", (int) length, data);
+        /* printf("Selectors: failed to find: %.*s\n", (int) length, data); */
     }
 
 destroy:

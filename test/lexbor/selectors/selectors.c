@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021-2024 Alexander Borisov
+ * Copyright (C) 2021-2025 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -403,7 +403,37 @@ static const lxb_test_entry_t selectors_list[] =
 
     {"span:has(+ a)",
      "<span span=\"6\">\n"
-     "<span span=\"9\">"}
+     "<span span=\"9\">"},
+
+    {"div:has(+ div ~ main > h2[h2]) ~ div",
+     "<div div=\"Second\" class=\"Massive Stupid\">"},
+
+    {"div:has(+ div ~ main > span[s2][s3]) ~ div",
+     ""},
+
+    {"div:has(a) a",
+     "<a a=\"1\">\n"
+     "<a a=\"2\">\n"
+     "<a a=\"3\">\n"
+     "<a a=\"4\">\n"
+     "<a a=\"5\">\n"
+     "<a a=\"6\">\n"
+     "<a a=\"7\">\n"
+     "<a a=\"8\">"},
+
+    {"div p:nth-child(n+2 of div > p)",
+     "<p p=\"2\">\n"
+     "<p p=\"3\">\n"
+     "<p p=\"4\">\n"
+     "<p p=\"5\">\n"
+     "<p p=\"7\" lang=\"ru\">"},
+
+    {"div:has(p) ~ *",
+     "<div div=\"Second\" class=\"Massive Stupid\">\n"
+     "<main>"},
+
+    {":has(~ a.A, S)",
+     ""}
 };
 
 
