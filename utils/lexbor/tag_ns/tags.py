@@ -181,6 +181,17 @@ class Tags:
         for idx in range(0, len(self.ns_list)):
             fixname.append([])
 
+        functions = []
+        functions_index = {}
+
+        func_name_create = "{}_wrapper".format(self.enum_list[0]["interface"][-1])
+        func_name_destroy = "{}_wrapper".format(self.enum_list[0]["interface_del"][-1])
+
+        functions_index[func_name_create] = 1
+        functions_index[func_name_destroy] = 1
+        functions.append("lxb_inline void *\n{}(void *interface)\n{{\n    return {}(interface);\n}}\n".format(func_name_create, self.enum_list[0]["interface"][-1]))
+        functions.append("lxb_inline void *\n{}(void *interface)\n{{\n    return {}(interface);\n}}\n".format(func_name_destroy, self.enum_list[0]["interface_del"][-1]))
+
         for entry in self.enum_list:
             ns = ["        "]
             interface = ["        "]
@@ -197,10 +208,21 @@ class Tags:
                     else:
                         ns.append(",")
 
-                interface.append("({}) {},".format(self.creation_interface, entry["interface"][idx]))
+                func_name = "{}_wrapper".format(entry["interface"][idx])
+                func_name_del = "{}_wrapper".format(entry["interface_del"][idx])
+
+                if func_name not in functions_index:
+                    functions_index[func_name] = 1
+                    functions.append("lxb_inline void *\n{}(void *interface)\n{{\n    return {}(interface);\n}}\n".format(func_name, entry["interface"][idx]))
+
+                if func_name_del not in functions_index:
+                    functions_index[func_name_del] = 1
+                    functions.append("lxb_inline void *\n{}(void *interface)\n{{\n    return {}(interface);\n}}\n".format(func_name_del, entry["interface_del"][idx]))
+
+                interface.append("({}) {},".format(self.creation_interface, func_name))
                 interface.append("\n        ")
 
-                interface_del.append("({}) {},".format(self.deletion_interface, entry["interface_del"][idx]))
+                interface_del.append("({}) {},".format(self.deletion_interface, func_name_del))
                 interface_del.append("\n        ")
 
                 fixname[idx].append("/* {} */\n    ".format(entry["c_name"]))
@@ -220,8 +242,8 @@ class Tags:
             else:
                 ns.append("\n|".join(entry["ns"][-1]))
 
-            interface.append("({}) {}".format(self.creation_interface, entry["interface"][-1]))
-            interface_del.append("({}) {}".format(self.deletion_interface, entry["interface_del"][-1]))
+            interface.append("({}) {}".format(self.creation_interface, func_name_create))
+            interface_del.append("({}) {}".format(self.deletion_interface, func_name_destroy))
 
             fixname[-1].append("/* {} */\n    ".format(entry["c_name"]))
     
@@ -246,7 +268,8 @@ class Tags:
         return [cats.create(1, False), self.interfaces.make_includes(),
                 constructor.create(1, False),
                 destructor.create(1, False),
-                svg_fixname.create(1, False)]
+                svg_fixname.create(1, False),
+                functions]
 
     def ns_data_create(self):
         res = LXB.Res("lxb_ns_data_t", self.ns_res_data, False, self.ns_last_entry_name)
@@ -493,6 +516,7 @@ class Tags:
         lxb_temp.pattern_append("%%CHECK_TAG_VERSION%%", self.enum_hash_ifdef())
         lxb_temp.pattern_append("%%CHECK_NS_VERSION%%", self.ns_hash_ifdef())
         lxb_temp.pattern_append("%%INCLUDES%%", '\n'.join(data_list[1]))
+        lxb_temp.pattern_append("%%FUNCTIONS%%", '\n'.join(data_list[5]))
         lxb_temp.pattern_append("%%CONSTRUCTOR%%", ''.join(data_list[2]))
         lxb_temp.pattern_append("%%DESTRUCTOR%%", ''.join(data_list[3]))
 

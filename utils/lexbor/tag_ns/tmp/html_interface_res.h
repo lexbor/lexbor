@@ -22,6 +22,8 @@
 
 %%INCLUDES%%
 
+%%FUNCTIONS%%
+
 %%CONSTRUCTOR%%
 
 %%DESTRUCTOR%%
