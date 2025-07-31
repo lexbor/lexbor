@@ -14,6 +14,7 @@ cmake_minimum_required(VERSION 2.8.12...3.27)
 #    LEXBOR_BUILD_TESTS                  default: OFF; Build tests
 #    LEXBOR_BUILD_TESTS_CPP              default: OFF; Build C++ tests.
 #                                         Used with LEXBOR_BUILD_TESTS
+#    LEXBOR_BUILD_BENCHMARKS             default: OFF; Build benchmarks.
 #    LEXBOR_BUILD_UTILS                  default: OFF; Build utils/helpers for project.
 #    LEXBOR_BUILD_WITH_ASAN              default: OFF; Build with address sanitizer if possible
 #    LEXBOR_BUILD_WITH_FUZZER            default: OFF; Build with fuzzer tests if possible
@@ -50,6 +51,7 @@ option(LEXBOR_BUILD_EXAMPLES "Build examples" OFF)
 option(LEXBOR_BUILD_TESTS "Build tests" OFF)
 option(LEXBOR_BUILD_TESTS_CPP "Build C++ tests" OFF)
 option(LEXBOR_BUILD_UTILS "Build utils" OFF)
+option(LEXBOR_BUILD_BENCHMARKS "Build with benchmarks" OFF)
 option(LEXBOR_BUILD_WITH_ASAN "Build with address sanitizer" OFF)
 option(LEXBOR_BUILD_WITH_FUZZER "Build with fuzzer" OFF)
 option(LEXBOR_INSTALL_HEADERS "Install header files" ON)
@@ -65,6 +67,11 @@ enable_language(C)
 
 IF(LEXBOR_BUILD_TESTS_CPP)
     enable_language(CXX)
+ENDIF()
+
+IF(LEXBOR_BUILD_BENCHMARKS)
+    add_definitions(-DLEXBOR_WITH_PERF)
+    message(STATUS "Build with LEXBOR_BUILD_BENCHMARKS=ON, hard set LEXBOR_WITH_PERF as defined.")
 ENDIF()
 
 ################
@@ -324,6 +331,13 @@ ENDIF()
 #########################
 IF(LEXBOR_BUILD_UTILS)
     add_subdirectory(utils)
+ENDIF()
+
+################
+## Benchmarks
+#########################
+IF(LEXBOR_BUILD_BENCHMARKS)
+    add_subdirectory(benchmarks)
 ENDIF()
 
 ################

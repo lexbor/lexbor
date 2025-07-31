@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2024 Alexander Borisov
+ * Copyright (C) 2018-2025 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -11,6 +11,10 @@
 
 #ifdef __APPLE__
     #include <sys/sysctl.h>
+#endif
+
+#if defined(__arm64__) || defined(__arm__)
+    #include <time.h>
 #endif
 
 #endif /* LEXBOR_WITH_PERF */
@@ -109,6 +113,16 @@ lexbor_perf_clock(void)
     result = result | lower;
 
     return result;
+
+#elif defined(__arm64__) || defined(__arm__)
+    struct timespec ts;
+
+    if (clock_gettime(CLOCK_MONOTONIC, &ts) == -1) {
+        return 0;
+    }
+
+    return ts.tv_sec * 1000000000ULL + ts.tv_nsec;
+
 #else
     unsigned long long x;
 
@@ -134,7 +148,13 @@ lexbor_perf_frequency(void)
 {
     unsigned long long freq = 0;
 
-#if defined(__APPLE__) && defined(CTL_HW) && defined(HW_CPU_FREQ)
+#if defined(__arm64__) || defined(__arm__)
+
+    freq = 1000000000;
+
+    return freq;
+
+#elif defined(__APPLE__) && defined(CTL_HW) && defined(HW_CPU_FREQ)
 
     /* OSX kernel: sysctl(CTL_HW | HW_CPU_FREQ) */
     size_t len = sizeof(freq);
