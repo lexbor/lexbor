@@ -291,18 +291,31 @@ MACRO(GET_LEXBOR_VERSION major minor patch vstr)
     set(${vstr} "${AV}.${BV}.${CV}")
 ENDMACRO()
 
-MACRO(SET_MODULE_LIB_DEPENDENCIES libname deps postfix)
+function(SET_MODULE_LIB_DEPENDENCIES libname deps postfix)
     IF(NOT ${deps} EQUAL "")
         string(REGEX REPLACE " +" ";" dep_list ${deps})
 
         FOREACH(dep ${dep_list})
             set(dep_libname "${PROJECT_NAME}-${dep}${postfix}")
 
-            add_dependencies(${libname} "${dep_libname}")
-            target_link_libraries(${libname} "${dep_libname}")
+            list(FIND duplicates "${dep}" out_var)
+            IF(out_var EQUAL -1)
+                list(APPEND duplicates "${dep}")
+
+                GET_MODULE_DEPENDENCIES(${PROJECT_NAME} ${dep} module_deps)
+                SET_MODULE_LIB_DEPENDENCIES(${libname} "${module_deps}" "${postfix}")
+            ENDIF()
+
+            get_target_property(link_result ${libname} LINK_LIBRARIES)
+            list(FIND link_result "${dep_libname}" out_var)
+
+            IF(out_var EQUAL -1)
+                add_dependencies(${libname} "${dep_libname}")
+                target_link_libraries(${libname} "${dep_libname}")
+            ENDIF()
         ENDFOREACH()
     ENDIF()
-ENDMACRO()
+endfunction()
 
 MACRO(ADD_MODULE_LIBRARY type libname version_string major)
     target_link_libraries(${libname} ${CMAKE_THREAD_LIBS_INIT})
