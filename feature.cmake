@@ -27,9 +27,13 @@ MACRO(FEATURE_TRY_FUNCTION_EXISTS target fname lib_name)
 ENDMACRO()
 
 MACRO(FEATURE_CHECK_ASAN out_result)
-    set(lexbor_asan_flags "-O0 -g -fsanitize=address -fno-omit-frame-pointer")
+    set(lexbor_asan_flags "-O0 -g -fsanitize=undefined,address -fno-omit-frame-pointer")
 
     IF(LEXBOR_BUILD_WITH_ASAN)
+        IF(LEXBOR_BUILD_WITH_MSAN)
+            message(FATAL_ERROR "Attempt to build a project with two types of sanitize: LEXBOR_BUILD_WITH_MSAN and LEXBOR_BUILD_WITH_ASAN")
+        ENDIF()
+
         set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${lexbor_asan_flags}")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${lexbor_asan_flags}")
     ENDIF()
@@ -81,6 +85,61 @@ int main(void) {
     ENDIF()
 
     unset(lexbor_asan_flags)
+    unset(FEATUTE_CHECK_STRING)
+    unset(feature_filename)
+ENDMACRO()
+
+MACRO(FEATURE_CHECK_MSAN out_result)
+    set(lexbor_msan_flags "-O0 -g -fsanitize=memory -fno-omit-frame-pointer")
+
+    IF(LEXBOR_BUILD_WITH_MSAN)
+        IF(LEXBOR_BUILD_WITH_ASAN)
+            message(FATAL_ERROR "Attempt to build a project with two types of sanitize: LEXBOR_BUILD_WITH_MSAN and LEXBOR_BUILD_WITH_ASAN")
+        ENDIF()
+
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${lexbor_msan_flags}")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${lexbor_msan_flags}")
+    ENDIF()
+
+    set(feature_filename "${CMAKE_BINARY_DIR}/feature_check.c")
+
+    set(FEATUTE_CHECK_STRING "
+#include <stdio.h>
+
+int main(void) {
+    return
+        #if defined(__has_feature)
+            #if __has_feature(memory_sanitizer)
+                0;
+            #endif
+        #endif
+}")
+
+    file(WRITE ${feature_filename} "${FEATUTE_CHECK_STRING}")
+
+    try_compile(${out_result} "${CMAKE_BINARY_DIR}" "${feature_filename}"
+        CMAKE_FLAGS "-DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}"
+    )
+
+    IF(${${out_result}})
+        message(STATUS "Feature MSAN: enabled")
+    ELSE()
+        message(STATUS "Feature MSAN: disable")
+    ENDIF()
+
+    file(REMOVE ${feature_filename})
+
+    IF(LEXBOR_BUILD_WITH_MSAN)
+        IF(NOT ${${out_result}})
+            STRING(REGEX REPLACE " ${lexbor_msan_flags}" "" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+            STRING(REGEX REPLACE " ${lexbor_msan_flags}" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+        ELSE()
+            message(STATUS "Updated CFLAGS: ${CMAKE_C_FLAGS}")
+            message(STATUS "Updated CXXFLAGS: ${CMAKE_CXX_FLAGS}")
+        ENDIF()
+    ENDIF()
+
+    unset(lexbor_msan_flags)
     unset(FEATUTE_CHECK_STRING)
     unset(feature_filename)
 ENDMACRO()

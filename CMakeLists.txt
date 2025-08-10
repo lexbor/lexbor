@@ -17,6 +17,7 @@ cmake_minimum_required(VERSION 2.8.12...3.27)
 #    LEXBOR_BUILD_BENCHMARKS             default: OFF; Build benchmarks.
 #    LEXBOR_BUILD_UTILS                  default: OFF; Build utils/helpers for project.
 #    LEXBOR_BUILD_WITH_ASAN              default: OFF; Build with address sanitizer if possible
+#    LEXBOR_BUILD_WITH_MSAN              default: OFF; Build with memory sanitizer if possible
 #    LEXBOR_BUILD_WITH_FUZZER            default: OFF; Build with fuzzer tests if possible
 #    LEXBOR_INSTALL_HEADERS              default: ON; The header files will be installed
 #                                         if set to ON
@@ -53,6 +54,7 @@ option(LEXBOR_BUILD_TESTS_CPP "Build C++ tests" OFF)
 option(LEXBOR_BUILD_UTILS "Build utils" OFF)
 option(LEXBOR_BUILD_BENCHMARKS "Build with benchmarks" OFF)
 option(LEXBOR_BUILD_WITH_ASAN "Build with address sanitizer" OFF)
+option(LEXBOR_BUILD_WITH_MSAN "Build with memory sanitizer" OFF)
 option(LEXBOR_BUILD_WITH_FUZZER "Build with fuzzer" OFF)
 option(LEXBOR_INSTALL_HEADERS "Install header files" ON)
 option(LEXBOR_WITH_PERF "Enables support for rdtsc." OFF)
@@ -296,6 +298,11 @@ message(STATUS "CXXFLAGS: ${CMAKE_CXX_FLAGS}")
 FEATURE_CHECK_ASAN(LEXBOR_HAVE_ASAN)
 IF(${LEXBOR_HAVE_ASAN})
     add_definitions(-DLEXBOR_HAVE_ADDRESS_SANITIZER)
+ENDIF()
+
+FEATURE_CHECK_MSAN(LEXBOR_HAVE_MSAN)
+IF(${LEXBOR_HAVE_MSAN})
+    add_definitions(-DLEXBOR_HAVE_MEMORY_SANITIZER)
 ENDIF()
 
 FEATURE_CHECK_FUZZER(LEXBOR_HAVE_FUZZER)
