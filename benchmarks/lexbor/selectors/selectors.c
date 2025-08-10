@@ -23,6 +23,10 @@ static const lexbor_str_t bm_selectors[] =
 {
     lexbor_str("div"),
     lexbor_str("div span"),
+    lexbor_str("p ~ p"),
+    lexbor_str("p + p"),
+    lexbor_str("div > p"),
+    lexbor_str("div > div"),
     lexbor_str("div p:not(#p-5) a"),
     lexbor_str("div:has(a) a"),
     lexbor_str("div p:nth-child(n+2)"),
