@@ -10,10 +10,10 @@ default:
 	@echo "available targets: rpm deb"
 
 rpm:
-	@cd rpm && VERSION=$(VERSION) RELEASE=$(RELEASE) ARCH=$(ARCH) $(MAKE) all
+	@cd rpm && VERSION=$(VERSION) RELEASE=$(RELEASE) ARCH=$(ARCH) $(MAKE) -j all
 
 deb:
-	@cd deb && VERSION=$(VERSION) RELEASE=$(RELEASE) ARCH=$(ARCH) $(MAKE) all
+	@cd deb && VERSION=$(VERSION) RELEASE=$(RELEASE) ARCH=$(ARCH) $(MAKE) -j all
 
 clean:
 ifneq (,$(wildcard rpm/Makefile))
