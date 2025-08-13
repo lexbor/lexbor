@@ -2,6 +2,39 @@
 
 ## [Unreleased]
 
+## [2.5.0] - 2025-08-13
+### Added
+- Added new module Engine.
+- Added benchmarks.
+- Added LEXBOR_BUILD_WITH_MSAN definition for building with msan.
+- CSS::Syntax: added UNICODE-RANGE token.
+- Added link to external bindings for Julia.
+
+### Fixed
+- Core: Fix undefined behavior in function lexbor_str_append().
+- Core: Fix undefined behavior in function lexbor_in_node_make().
+- Core: fixed slow realloc for large strings.
+- HTML: fixed error report for whitespace characters reference.
+- HTML: fixed error report on self-closing tag parsing.
+- HTML: fixed attribute cloning for bad HTML.
+- HTML: fixed duplicate attributes in svg namespace.
+- CSS::Syntax: fixed consume a numeric token.
+- Style: fixed use-after-poison when the element is destroyed.
+- URL: fixed hostname setter if port is specified.
+- Selectors: fixed selector :has(). It didn't always work properly.
+
+### Changed
+- HTML: allowed `<hr>` to be used inside `<select>`.
+- HTML: changing the serialization of attributes. The `<` and `>` characters will now be escaped in attributes.
+- Unicode: significant reduction tables size.
+- Encoding: size reduction and performance up of multibyte encodings.
+- CSS::Syntax: code refactoring.
+- Selectors: code refactoring. The approach to searching for nodes by selectors has been rewritten.
+
+Special thanks for patches, fixes and hints: Michael Hatherly @MichaelHatherly,
+Alex Peattie @alexpeattie, Niels Dossche @nielsdos, Máté Kocsis @kocsismate,
+Sebastian Pipping @hartwork.
+
 ## [2.4.0] - 2024-11-12
 ### Added
 - Core: improve performance using SWAR.
