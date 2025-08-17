@@ -179,7 +179,7 @@ make
 make test
 ```
 
-Please, see more information in [documentation](https://lexbor.com/docs/lexbor/#source_code).
+Please, see more information in [documentation](https://lexbor.com/documentation/#source-code).
 
 ## Single or separately
 
