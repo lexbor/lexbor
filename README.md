@@ -220,13 +220,18 @@ Please, see [roadmap](https://lexbor.com/roadmap/) on [lexbor.com](https://lexbo
 
 * E-mail [support@lexbor.com](mailto:support@lexbor.com)
 
+## Our Sponsors
+
+* [goneural.ai](https://goneural.ai/)
+
+## Sponsorship
+
+You can help sponsor the maintainers of this software through the following organization:
+[github.com/sponsors/toxypi](https://github.com/sponsors/toxypi)
+
 ## SAST Tools
 
 [PVS-Studio](https://pvs-studio.com/en/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
-
-## AUTHOR
-
-Alexander Borisov <borisov@lexbor.com>
 
 ## COPYRIGHT AND LICENSE
 
