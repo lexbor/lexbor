@@ -222,7 +222,7 @@ Please, see [roadmap](https://lexbor.com/roadmap/) on [lexbor.com](https://lexbo
 
 ## Our Sponsors
 
-* [goneural.ai](https://goneural.ai/)
+[<img src="images/neural-logo.png" alt="goneural.ai" width="320">](https://goneural.ai/)
 
 ## Sponsorship
 
