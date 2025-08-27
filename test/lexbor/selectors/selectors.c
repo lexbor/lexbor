@@ -27,11 +27,11 @@ static const lxb_char_t html[] =
     "</div>"
     "<div div='Second' class='Massive Stupid'>"
     "<p p=6 lang='en-GB'>"
-    "    <span id=s1 span=1></span>"
-    "    <span id=s2 span=2></span>"
-    "    <span id=s3 span=3></span>"
-    "    <span id=s4 span=4></span>"
-    "    <span id=s5 span=5></span>"
+    "    <span id=s1 span=1>abc</span>"
+    "    <span id=s2 span=2>AbC</span>"
+    "    <span id=s3 span=3>ABC</span>"
+    "    <span id=s4 span=4>aBc</span>"
+    "    <span id=s5 span=5>ABc</span>"
     "</p>"
     "<p p=7 lang='ru'>"
     "    <span span=6></span>"
@@ -433,7 +433,57 @@ static const lxb_test_entry_t selectors_list[] =
      "<main>"},
 
     {":has(~ a.A, S)",
-     ""}
+     ""},
+
+    {"div p span:lexbor-contains(\"abc\")",
+     "<span id=\"s1\" span=\"1\">"},
+
+    {"div p span:lexbor-contains(\"abc\" i)",
+     "<span id=\"s1\" span=\"1\">\n"
+     "<span id=\"s2\" span=\"2\">\n"
+     "<span id=\"s3\" span=\"3\">\n"
+     "<span id=\"s4\" span=\"4\">\n"
+     "<span id=\"s5\" span=\"5\">"},
+
+    {"div p span:lexbor-contains(\"abc\"i)",
+     "<span id=\"s1\" span=\"1\">\n"
+     "<span id=\"s2\" span=\"2\">\n"
+     "<span id=\"s3\" span=\"3\">\n"
+     "<span id=\"s4\" span=\"4\">\n"
+     "<span id=\"s5\" span=\"5\">"},
+
+    {"div p span:lexbor-contains(\"AbC\")",
+     "<span id=\"s2\" span=\"2\">"},
+
+    {"div p span:lexbor-contains(\"cba\"i)",
+     ""},
+
+    {"div p span:lexbor-contains(  \"abc\"   i)",
+     "<span id=\"s1\" span=\"1\">\n"
+     "<span id=\"s2\" span=\"2\">\n"
+     "<span id=\"s3\" span=\"3\">\n"
+     "<span id=\"s4\" span=\"4\">\n"
+     "<span id=\"s5\" span=\"5\">"},
+
+    {"div p span:lexbor-contains(   \"abc\"   i   )",
+     "<span id=\"s1\" span=\"1\">\n"
+     "<span id=\"s2\" span=\"2\">\n"
+     "<span id=\"s3\" span=\"3\">\n"
+     "<span id=\"s4\" span=\"4\">\n"
+     "<span id=\"s5\" span=\"5\">"},
+
+    {"div p span:lexbor-contains(   \"AbC\" )",
+     "<span id=\"s2\" span=\"2\">"},
+
+    {"div p span:lexbor-contains(abc i)",
+     "<span id=\"s1\" span=\"1\">\n"
+     "<span id=\"s2\" span=\"2\">\n"
+     "<span id=\"s3\" span=\"3\">\n"
+     "<span id=\"s4\" span=\"4\">\n"
+     "<span id=\"s5\" span=\"5\">"},
+
+    {"div p span:lexbor-contains(AbC)",
+     "<span id=\"s2\" span=\"2\">"}
 };
 
 

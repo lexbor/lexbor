@@ -182,6 +182,117 @@ lxb_css_selectors_state_pseudo_element_function__undef(lxb_css_parser_t *parser,
     return true;
 }
 
+bool
+lxb_css_selectors_state_pseudo_class_function_lexbor_contains(lxb_css_parser_t *parser,
+                                const lxb_css_syntax_token_t *token, void *ctx)
+{
+    lxb_css_selectors_t *selectors;
+    lxb_css_selector_t *selector;
+    lxb_css_selector_contains_t *contains;
+    lexbor_str_t *str;
+    const lxb_char_t *data;
+    size_t length;
+
+    selectors = parser->selectors;
+    selector = selectors->list_last->last;
+
+again:
+
+    switch (token->type) {
+        case LXB_CSS_SYNTAX_TOKEN_STRING:
+            data = token->types.string.data;
+            length = token->types.string.length;
+            break;
+
+        case LXB_CSS_SYNTAX_TOKEN_IDENT:
+            data = token->types.ident.data;
+            length = token->types.ident.length;
+            break;
+
+        case LXB_CSS_SYNTAX_TOKEN_WHITESPACE:
+            lxb_css_syntax_parser_consume(parser);
+            lxb_css_parser_token_status_m(parser, token);
+            goto again;
+
+        default:
+            lxb_css_parser_unexpected_data(parser, token);
+            return lxb_css_parser_failed(parser);
+    }
+
+    contains = lexbor_mraw_alloc(parser->memory->mraw,
+                            sizeof(lxb_css_selector_contains_t));
+    if (contains == NULL) {
+        return lxb_css_parser_memory_fail(parser);
+    }
+
+    contains->insensitive = false;
+    str = &contains->str;
+
+    str->data = lexbor_mraw_alloc(parser->memory->mraw,
+                                  sizeof(lexbor_str_t));
+    if (str->data == NULL) {
+        return lxb_css_parser_memory_fail(parser);
+    }
+
+    memcpy(str->data, data, length + 1);
+
+    str->length = length;
+    str->data[length] = '\0';
+
+    selector->u.pseudo.data = contains;
+
+again_end:
+
+    lxb_css_syntax_parser_consume(parser);
+    lxb_css_parser_token_status_m(parser, token);
+
+    switch (token->type) {
+        case LXB_CSS_SYNTAX_TOKEN__END:
+            break;
+
+        case LXB_CSS_SYNTAX_TOKEN_WHITESPACE:
+            goto again_end;
+
+        case LXB_CSS_SYNTAX_TOKEN_IDENT:
+            data = token->types.ident.data;
+            length = token->types.ident.length;
+
+            if (length == 1 && (*data == 'i' || *data == 'I')) {
+                contains->insensitive = true;
+
+                lxb_css_syntax_parser_consume(parser);
+                lxb_css_parser_token_status_m(parser, token);
+
+                if (token->type == LXB_CSS_SYNTAX_TOKEN_WHITESPACE) {
+                    lxb_css_syntax_parser_consume(parser);
+                    lxb_css_parser_token_status_m(parser, token);
+                }
+
+                if (token->type != LXB_CSS_SYNTAX_TOKEN__END) {
+                    goto failed;
+                }
+
+                break;
+            }
+            /* Fall through. */
+
+        default:
+            goto failed;
+    }
+
+    parser->selectors->list = NULL;
+
+    return lxb_css_parser_success(parser);
+
+failed:
+
+    lexbor_mraw_free(parser->memory->mraw, contains->str.data);
+    lexbor_mraw_free(parser->memory->mraw, contains);
+
+    lxb_css_parser_unexpected_data(parser, token);
+    return lxb_css_parser_failed(parser);
+}
+
 static bool
 lxb_css_selectors_state_pseudo_anb(lxb_css_parser_t *parser,
                                    const lxb_css_syntax_token_t *token,

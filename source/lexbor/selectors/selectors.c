@@ -1882,12 +1882,16 @@ lxb_selectors_pseudo_class_function(lxb_selectors_t *selectors,
                                     const lxb_css_selector_t *selector,
                                     lxb_dom_node_t *node)
 {
+    bool is;
     size_t index;
     lxb_dom_node_t *base;
     lxb_selectors_nested_t *current;
+    const lexbor_str_t *str;
+    const lxb_dom_text_t *text;
     const lxb_css_selector_list_t *list;
     const lxb_css_selector_anb_of_t *anb;
     const lxb_css_selector_pseudo_t *pseudo;
+    const lxb_css_selector_contains_t *contains;
 
     pseudo = &selector->u.pseudo;
 
@@ -2014,6 +2018,36 @@ lxb_selectors_pseudo_class_function(lxb_selectors_t *selectors,
             }
 
             return lxb_selectors_anb_calc(pseudo->data, index);
+
+        case LXB_CSS_SELECTOR_PSEUDO_CLASS_FUNCTION_LEXBOR_CONTAINS:
+            contains = pseudo->data;
+
+            node = node->first_child;
+            while (node != NULL) {
+                if (node->type == LXB_DOM_NODE_TYPE_TEXT) {
+                    text = lxb_dom_interface_text(node);
+                    str = &text->char_data.data;
+
+                    if (contains->insensitive) {
+                        is = lexbor_str_data_ncasecmp_contain(str->data, str->length,
+                                                              contains->str.data,
+                                                              contains->str.length);
+                    }
+                    else {
+                        is = lexbor_str_data_ncmp_contain(str->data, str->length,
+                                                          contains->str.data,
+                                                          contains->str.length);
+                    }
+
+                    if (is) {
+                        return true;
+                    }
+                }
+
+                node = node->next;
+            }
+
+            return false;
 
         case LXB_CSS_SELECTOR_PSEUDO_CLASS_FUNCTION_DIR:
         case LXB_CSS_SELECTOR_PSEUDO_CLASS_FUNCTION_LANG:

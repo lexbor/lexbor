@@ -789,6 +789,38 @@ static const lxb_test_entry_t selectors_list[] =
      ":has(#id)",
      "Syntax error. Selectors. Unexpected token:  ",
      lxb_css_selectors_parse_compound},
+
+    /* lexbor-contains */
+
+    {":lexbor-contains(\"abc\")",
+     ":lexbor-contains(\"abc\")",
+     "",
+     lxb_css_selectors_parse_simple_list},
+
+    {":lexbor-contains(\"abc\"i)",
+     ":lexbor-contains(\"abc\" i)",
+     "",
+     lxb_css_selectors_parse_simple_list},
+
+    {":lexbor-contains(\"abc\" i)",
+     ":lexbor-contains(\"abc\" i)",
+     "",
+     lxb_css_selectors_parse_simple_list},
+
+    {":lexbor-contains(abc i)",
+     ":lexbor-contains(\"abc\" i)",
+     "",
+    lxb_css_selectors_parse_simple_list},
+
+    {":lexbor-contains(abc)",
+     ":lexbor-contains(\"abc\")",
+     "",
+     lxb_css_selectors_parse_simple_list},
+
+    {":lexbor-contains(12345)",
+     "",
+     "Syntax error. Selectors. Unexpected token: 12345",
+     lxb_css_selectors_parse_simple_list},
 };
 
 

@@ -40,7 +40,8 @@ pseudo_class_functions_dict = {
     "nth-of-type": [lxb_css_selectors_state_function_end, False, "CLOSE", False, False],
     "nth-last-of-type": [lxb_css_selectors_state_function_end, False, "CLOSE", False, False],
     "nth-col": [lxb_css_selectors_state_function_end, False, "CLOSE", False, False],
-    "nth-last-col": [lxb_css_selectors_state_function_end, False, "CLOSE", False, False]
+    "nth-last-col": [lxb_css_selectors_state_function_end, False, "CLOSE", False, False],
+    "lexbor-contains": [lxb_css_selectors_state_function_end, False, "CLOSE", False, False]
 }
 
 pseudo_class_functions = list(pseudo_class_functions_dict.keys())
