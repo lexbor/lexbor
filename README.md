@@ -233,6 +233,12 @@ You can help sponsor the maintainers of this software through the following orga
 
 [PVS-Studio](https://pvs-studio.com/en/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
 
+## Status of available distributions
+
+These are third-party distributions; we do not create them. Thank you to the community.
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/lexbor.svg?exclude_unsupported=1)](https://repology.org/project/lexbor/versions)
+
 ## COPYRIGHT AND LICENSE
 
    Lexbor.
