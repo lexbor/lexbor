@@ -17,6 +17,7 @@ extern "C" {
 
 
 typedef enum {
+    LXB_DOM_EXCEPTION_OK = -1,
     LXB_DOM_EXCEPTION_ERR = 0,
     LXB_DOM_EXCEPTION_INDEX_SIZE_ERR = 1, /* Deprecated. */
     LXB_DOM_EXCEPTION_DOMSTRING_SIZE_ERR,

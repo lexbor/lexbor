@@ -221,7 +221,9 @@ lxb_dom_exception_create(lxb_dom_document_t *document,
 
     /* Name. */
 
-    if (name == NULL || name_length == 0) {
+    if (exception->code != LXB_DOM_EXCEPTION_ERR
+        || name == NULL || name_length == 0)
+    {
         data = &lxb_dom_exception_data[exception->code];
         exception->name = *((lexbor_str_t *) &data->name);
     }
@@ -260,7 +262,7 @@ lxb_dom_exception_create_by_code(lxb_dom_document_t *document,
     const lxb_dom_exception_data_t *data;
     lxb_dom_exception_t *exception;
 
-    if (code >= LXB_DOM_EXCEPTION__LAST_ENTRY) {
+    if (code <= LXB_DOM_EXCEPTION_OK || code >= LXB_DOM_EXCEPTION__LAST_ENTRY) {
         return NULL;
     }
 
@@ -333,7 +335,7 @@ lxb_dom_exception_destroy(lxb_dom_exception_t *exception)
 const lexbor_str_t *
 lxb_dom_exception_message_by_code(lxb_dom_exception_code_t code)
 {
-    if (code >= LXB_DOM_EXCEPTION__LAST_ENTRY) {
+    if (code <= LXB_DOM_EXCEPTION_OK || code >= LXB_DOM_EXCEPTION__LAST_ENTRY) {
         return NULL;
     }
 
@@ -343,7 +345,7 @@ lxb_dom_exception_message_by_code(lxb_dom_exception_code_t code)
 const lexbor_str_t *
 lxb_dom_exception_name_by_code(lxb_dom_exception_code_t code)
 {
-    if (code >= LXB_DOM_EXCEPTION__LAST_ENTRY) {
+    if (code <= LXB_DOM_EXCEPTION_OK || code >= LXB_DOM_EXCEPTION__LAST_ENTRY) {
         return NULL;
     }
 
