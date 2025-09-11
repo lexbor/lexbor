@@ -10,6 +10,7 @@
 #include "lexbor/dom/interfaces/document_type.h"
 #include "lexbor/dom/interfaces/element.h"
 #include "lexbor/dom/interfaces/processing_instruction.h"
+#include "lexbor/dom/interfaces/shadow_root.h"
 
 
 typedef struct lxb_dom_node_cb_ctx lxb_dom_node_cb_ctx_t;
@@ -441,6 +442,351 @@ lxb_dom_node_insert_after(lxb_dom_node_t *to, lxb_dom_node_t *node)
     if (node->owner_document->node_cb->insert != NULL) {
         node->owner_document->node_cb->insert(node);
     }
+}
+
+lxb_dom_exception_code_t
+lxb_dom_node_pre_insert_validity(lxb_dom_node_t *parent, lxb_dom_node_t *node,
+                                 lxb_dom_node_t *child)
+{
+    size_t count;
+    lxb_dom_node_t *tmp;
+
+    /*
+     * If parent is not a Document, DocumentFragment, or Element node, then
+     * throw a "HierarchyRequestError" DOMException.
+     */
+    if (parent == NULL) {
+        return LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR;
+    }
+
+    switch (parent->type) {
+        case LXB_DOM_NODE_TYPE_ELEMENT:
+        case LXB_DOM_NODE_TYPE_DOCUMENT:
+        case LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT:
+            break;
+
+        default:
+            return LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR;
+    }
+
+    if (lxb_dom_node_host_including_inclusive_ancestor(node, parent)) {
+        return LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR;
+    }
+
+    /*
+     * If child is non-null and its parent is not parent,
+     * then throw a "NotFoundError" DOMException.
+     */
+    if (child != NULL && parent != child->parent) {
+        return LXB_DOM_EXCEPTION_NOT_FOUND_ERR;
+    }
+
+    /*
+     * If node is not a DocumentFragment, DocumentType, Element,
+     * or CharacterData node, then throw a "HierarchyRequestError" DOMException.
+     */
+    if (node == NULL) {
+        return LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR;
+    }
+
+    switch (parent->type) {
+        case LXB_DOM_NODE_TYPE_ELEMENT:
+        case LXB_DOM_NODE_TYPE_DOCUMENT:
+        case LXB_DOM_NODE_TYPE_DOCUMENT_TYPE:
+        case LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT:
+        case LXB_DOM_NODE_TYPE_CHARACTER_DATA:
+        case LXB_DOM_NODE_TYPE_TEXT:
+            break;
+
+        default:
+            return LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR;
+    }
+
+    /*
+     * If either node is a Text node and parent is a document, or node is
+     * a doctype and parent is not a document, then throw
+     * a "HierarchyRequestError" DOMException.
+     */
+    if ((node->type == LXB_DOM_NODE_TYPE_TEXT
+        && parent->type == LXB_DOM_NODE_TYPE_DOCUMENT)
+        || (node->type == LXB_DOM_NODE_TYPE_DOCUMENT_TYPE
+            && parent->type != LXB_DOM_NODE_TYPE_DOCUMENT))
+    {
+        return LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR;
+    }
+
+    if (parent->type != LXB_DOM_NODE_TYPE_DOCUMENT) {
+        return LXB_DOM_EXCEPTION_OK;
+    }
+
+    switch (node->type) {
+        case LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT:
+            tmp = node->first_child;
+
+            if (tmp == NULL) {
+                return LXB_DOM_EXCEPTION_OK;
+            }
+
+            count = 0;
+
+            do {
+                if (tmp->type == LXB_DOM_NODE_TYPE_TEXT) {
+                    return LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR;
+                }
+                else if (tmp->type == LXB_DOM_NODE_TYPE_ELEMENT) {
+                    count += 1;
+
+                    if (count > 1) {
+                        return LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR;
+                    }
+                }
+
+                tmp = tmp->next;
+            }
+            while (tmp != NULL);
+
+            if (count != 1) {
+                return LXB_DOM_EXCEPTION_OK;
+            }
+
+            /* Fall Through. */
+
+        case LXB_DOM_NODE_TYPE_ELEMENT:
+            tmp = parent->first_child;
+
+            while (tmp != NULL) {
+                if (tmp->type == LXB_DOM_NODE_TYPE_ELEMENT) {
+                    return LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR;
+                }
+
+                tmp = tmp->next;
+            }
+
+            if (child == NULL) {
+                return LXB_DOM_EXCEPTION_OK;
+            }
+
+            if (child->type == LXB_DOM_NODE_TYPE_DOCUMENT_TYPE) {
+                return LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR;
+            }
+
+            tmp = child->next;
+
+            while (tmp != NULL) {
+                if (tmp->type == LXB_DOM_NODE_TYPE_DOCUMENT_TYPE) {
+                    return LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR;
+                }
+
+                tmp = tmp->next;
+            }
+
+            break;
+
+        case LXB_DOM_NODE_TYPE_DOCUMENT_TYPE:
+            tmp = parent->first_child;
+
+            while (tmp != NULL) {
+                if (tmp->type == LXB_DOM_NODE_TYPE_DOCUMENT_TYPE) {
+                    return LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR;
+                }
+                else if (tmp->type == LXB_DOM_NODE_TYPE_ELEMENT
+                         && child == NULL)
+                {
+                    return LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR;
+                }
+
+                tmp = tmp->next;
+            }
+
+            if (child == NULL) {
+                return LXB_DOM_EXCEPTION_OK;
+            }
+
+            tmp = child->prev;
+
+            while (tmp != NULL) {
+                if (tmp->type == LXB_DOM_NODE_TYPE_ELEMENT) {
+                    return LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR;
+                }
+
+                tmp = tmp->prev;
+            }
+
+            break;
+
+        default:
+            break;
+    }
+
+    return LXB_DOM_EXCEPTION_OK;
+}
+
+lxb_dom_exception_code_t
+lxb_dom_node_pre_insert(lxb_dom_node_t *parent, lxb_dom_node_t *node,
+                        lxb_dom_node_t *child)
+{
+    lxb_dom_exception_code_t ex_code;
+
+    ex_code = lxb_dom_node_pre_insert_validity(parent, node, child);
+    if (ex_code != LXB_DOM_EXCEPTION_OK) {
+        return ex_code;
+    }
+
+    if (child == node) {
+        child = node->next;
+    }
+
+    return lxb_dom_node_insert(parent, node, child, false);
+}
+
+lxb_inline lxb_dom_exception_code_t
+lxb_dom_node_insert_node(lxb_dom_node_t *parent, lxb_dom_node_t *node,
+                         lxb_dom_node_t *child, bool suppress_observers)
+{
+    lxb_dom_exception_code_t code;
+
+    code = lxb_dom_node_adopt(node);
+    if (code != LXB_DOM_EXCEPTION_OK) {
+        return code;
+    }
+
+    if (child == NULL) {
+        lxb_dom_node_insert_child(parent, node);
+    }
+    else {
+        lxb_dom_node_insert_before(child, node);
+    }
+
+    return LXB_DOM_EXCEPTION_OK;
+}
+
+lxb_dom_exception_code_t
+lxb_dom_node_insert(lxb_dom_node_t *parent, lxb_dom_node_t *node,
+                    lxb_dom_node_t *child, bool suppress_observers)
+{
+    lxb_dom_node_t *tmp, *next;
+    lxb_dom_exception_code_t code;
+
+    if (node->type == LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT) {
+        if (node->first_child == NULL) {
+            return LXB_DOM_EXCEPTION_OK;
+        }
+    }
+
+    /* TODO: live range. */
+
+    if (node->type != LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT) {
+        return lxb_dom_node_insert_node(parent, node, child,
+                                        suppress_observers);
+    }
+
+    tmp = node->first_child;
+
+    while (tmp != NULL) {
+        next = tmp->next;
+
+        code = lxb_dom_node_insert_node(parent, tmp, child,
+                                        suppress_observers);
+        if (code != LXB_DOM_EXCEPTION_OK) {
+            return code;
+        }
+
+        tmp = next;
+    }
+
+    /* TODO: Shadow and queue a tree mutation record. */
+
+    return LXB_DOM_EXCEPTION_OK;
+}
+
+lxb_dom_exception_code_t
+lxb_dom_node_insert_before_spec(lxb_dom_node_t *dst, lxb_dom_node_t *node,
+                                lxb_dom_node_t *child)
+{
+    return lxb_dom_node_pre_insert(dst, node, child);
+}
+
+lxb_dom_exception_code_t
+lxb_dom_node_append_child(lxb_dom_node_t *parent, lxb_dom_node_t *node)
+{
+    return lxb_dom_node_pre_insert(parent, node, NULL);
+}
+
+lxb_dom_exception_code_t
+lxb_dom_node_remove_child(lxb_dom_node_t *parent, lxb_dom_node_t *child)
+{
+    if (parent != child->parent) {
+        return LXB_DOM_EXCEPTION_NOT_FOUND_ERR;
+    }
+
+    return lxb_dom_node_remove_spec(child, false);
+}
+
+lxb_dom_exception_code_t
+lxb_dom_node_replace_child(lxb_dom_node_t *parent, lxb_dom_node_t *node,
+                           lxb_dom_node_t *child)
+{
+    lxb_dom_node_t *tmp, *next;
+    lxb_dom_node_t *before;
+    lxb_dom_exception_code_t code;
+
+    code = lxb_dom_node_pre_insert_validity(parent, node, child);
+    if (code != LXB_DOM_EXCEPTION_OK) {
+        return code;
+    }
+
+    before = child->prev;
+    if (before == NULL) {
+        before = child->next;
+    }
+
+    if (child->parent != NULL) {
+        code = lxb_dom_node_remove_spec(child, true);
+        if (code != LXB_DOM_EXCEPTION_OK) {
+            return code;
+        }
+    }
+
+    if (node->type != LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT) {
+        return lxb_dom_node_insert_node(parent, node, before, true);
+    }
+
+    tmp = node->first_child;
+
+    while (tmp != NULL) {
+        next = tmp->next;
+
+        code = lxb_dom_node_insert_node(parent, tmp, before, true);
+        if (code != LXB_DOM_EXCEPTION_OK) {
+            return code;
+        }
+
+        tmp = next;
+    }
+
+    return LXB_DOM_EXCEPTION_OK;
+}
+
+lxb_dom_exception_code_t
+lxb_dom_node_remove_spec(lxb_dom_node_t *node, bool suppress_observers)
+{
+    if (node->parent == NULL) {
+        return LXB_DOM_EXCEPTION_OK;
+    }
+
+    /* TODO: 3. Run the live range pre-remove steps, given node. */
+
+    /*
+     * TODO: For each NodeIterator object iterator whose root’s node document
+     * is node’s node document, run the NodeIterator pre-remove steps given
+     * node and iterator.
+     */
+
+    lxb_dom_node_remove(node);
+
+    /* TODO: finish everything else. */
+
+    return LXB_DOM_EXCEPTION_OK;
 }
 
 void
@@ -1276,6 +1622,47 @@ lxb_dom_node_is_empty(const lxb_dom_node_t *root)
     }
 
     return true;
+}
+
+bool
+lxb_dom_node_host_including_inclusive_ancestor(const lxb_dom_node_t *node,
+                                               const lxb_dom_node_t *parent)
+{
+    const lxb_dom_shadow_root_t *root;
+
+    while (parent != NULL) {
+        if (parent == node) {
+            return true;
+        }
+
+        if (parent->type == LXB_DOM_NODE_TYPE_SHADOW_ROOT) {
+            root = lxb_dom_interface_shadow_root(parent);
+            parent = &root->host->node;
+
+            continue;
+        }
+
+        parent = parent->parent;
+    }
+
+    return false;
+}
+
+lxb_dom_exception_code_t
+lxb_dom_node_adopt(lxb_dom_node_t *node)
+{
+    lxb_dom_exception_code_t code;
+
+    if (node->parent != NULL) {
+        code = lxb_dom_node_remove_spec(node, false);
+        if (code != LXB_DOM_EXCEPTION_OK) {
+            return code;
+        }
+    }
+
+    /* TODO: If document is not oldDocument steps. */
+
+    return LXB_DOM_EXCEPTION_OK;
 }
 
 lxb_tag_id_t

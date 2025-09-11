@@ -13,6 +13,7 @@ extern "C" {
 
 #include "lexbor/dom/interface.h"
 #include "lexbor/dom/collection.h"
+#include "lexbor/dom/exception.h"
 #include "lexbor/dom/interfaces/event_target.h"
 
 
@@ -59,7 +60,9 @@ typedef enum {
     LXB_DOM_NODE_TYPE_DOCUMENT_TYPE          = 0x0A,
     LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT      = 0x0B,
     LXB_DOM_NODE_TYPE_NOTATION               = 0x0C, // historical
-    LXB_DOM_NODE_TYPE_LAST_ENTRY             = 0x0D
+    LXB_DOM_NODE_TYPE_CHARACTER_DATA,
+    LXB_DOM_NODE_TYPE_SHADOW_ROOT,
+    LXB_DOM_NODE_TYPE_LAST_ENTRY
 }
 lxb_dom_node_type_t;
 
@@ -133,11 +136,102 @@ lxb_dom_node_insert_after_wo_events(lxb_dom_node_t *to, lxb_dom_node_t *node);
 LXB_API void
 lxb_dom_node_insert_after(lxb_dom_node_t *to, lxb_dom_node_t *node);
 
+LXB_API lxb_dom_exception_code_t
+lxb_dom_node_pre_insert_validity(lxb_dom_node_t *parent, lxb_dom_node_t *node,
+                                 lxb_dom_node_t *child);
+
+LXB_API lxb_dom_exception_code_t
+lxb_dom_node_pre_insert(lxb_dom_node_t *parent, lxb_dom_node_t *node,
+                        lxb_dom_node_t *child);
+
+LXB_API lxb_dom_exception_code_t
+lxb_dom_node_insert(lxb_dom_node_t *parent, lxb_dom_node_t *node,
+                    lxb_dom_node_t *child, bool suppress_observers);
+
+/*
+ * Add a node as a child.
+ *
+ * Function according to specification. Node.appendChild(node).
+ *
+ * The function not only adds a node as a child, but also validates
+ * the possibility of adding it.
+ * For example, the lxb_dom_node_insert_child() function does not perform
+ * any validation.
+ *
+ * @param[in] lxb_dom_node_t *. Where to add. Not NULL.
+ * @param[in] lxb_dom_node_t *. Who to add. Not NULL.
+ *
+ * @return LXB_DOM_EXCEPTION_OK if successful, otherwise an error exception code.
+ */
+LXB_API lxb_dom_exception_code_t
+lxb_dom_node_append_child(lxb_dom_node_t *parent, lxb_dom_node_t *node);
+
+/*
+ * Insert before child.
+ *
+ * Function according to specification. Node.insertBefore(node, child).
+ *
+ * The function not only insert a node as a child, but also validates
+ * the possibility of adding it.
+ * For example, the lxb_dom_node_insert_before() function does not perform
+ * any validation.
+ *
+ * @param[in] lxb_dom_node_t *. Where to add. Not NULL.
+ * @param[in] lxb_dom_node_t *. Who to add. Not NULL.
+ * @param[in] lxb_dom_node_t *. The child before need to insert. Not NULL.
+ *
+ * @return LXB_DOM_EXCEPTION_OK if successful, otherwise an error exception code.
+ */
+LXB_API lxb_dom_exception_code_t
+lxb_dom_node_insert_before_spec(lxb_dom_node_t *dst, lxb_dom_node_t *node,
+                                lxb_dom_node_t *child);
+
+LXB_API lxb_dom_exception_code_t
+lxb_dom_node_remove_spec(lxb_dom_node_t *node, bool suppress_observers);
+
 LXB_API void
 lxb_dom_node_remove_wo_events(lxb_dom_node_t *node);
 
 LXB_API void
 lxb_dom_node_remove(lxb_dom_node_t *node);
+
+/*
+ * Removing a node.
+ *
+ * Function according to specification. Node.removeChild(node).
+ *
+ * The function not only removing a node, but also validates the possibility
+ * of adding it.
+ * For example, the lxb_dom_node_remove() function does not perform
+ * any validation.
+ *
+ * @param[in] lxb_dom_node_t *. Where remove. Not NULL.
+ * @param[in] lxb_dom_node_t *. Who remove. Not NULL.
+ *
+ * @return LXB_DOM_EXCEPTION_OK if successful, otherwise an error exception code.
+ */
+LXB_API lxb_dom_exception_code_t
+lxb_dom_node_remove_child(lxb_dom_node_t *parent, lxb_dom_node_t *child);
+
+/*
+ * The function replaces the child with a node.
+ *
+ * Function according to specification. Node.replaceChild(node, child).
+ *
+ * The function not only replace a node, but also validates the possibility
+ * of adding it.
+ * For example, the lxb_dom_node_replace_all() function does not perform
+ * any validation.
+ *
+ * @param[in] lxb_dom_node_t *. Where replace. Not NULL.
+ * @param[in] lxb_dom_node_t *. Who replace. Not NULL.
+ * @param[in] lxb_dom_node_t *. Replaceable child. Not NULL.
+ *
+ * @return LXB_DOM_EXCEPTION_OK if successful, otherwise an error exception code.
+ */
+LXB_API lxb_dom_exception_code_t
+lxb_dom_node_replace_child(lxb_dom_node_t *parent, lxb_dom_node_t *node,
+                           lxb_dom_node_t *child);
 
 LXB_API lxb_status_t
 lxb_dom_node_replace_all(lxb_dom_node_t *parent, lxb_dom_node_t *node);
@@ -191,6 +285,12 @@ lxb_dom_node_text_content_set(lxb_dom_node_t *node,
 LXB_API bool
 lxb_dom_node_is_empty(const lxb_dom_node_t *root);
 
+LXB_API bool
+lxb_dom_node_host_including_inclusive_ancestor(const lxb_dom_node_t *node,
+                                               const lxb_dom_node_t *parent);
+
+LXB_API lxb_dom_exception_code_t
+lxb_dom_node_adopt(lxb_dom_node_t *node);
 
 /*
  * Inline functions
