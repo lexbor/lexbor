@@ -938,5 +938,26 @@
         "host": "",
         "path": "toto",
         "failed": false
+    },
+    /* 43 */
+    {
+        "url": "scheme://host",
+        "done": "scheme://host",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": "[::1",
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "scheme",
+        "host": "host",
+        "path": "",
+        "failed": true
     }
 ]
