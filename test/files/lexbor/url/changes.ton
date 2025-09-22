@@ -917,5 +917,26 @@
         "query": "x=y&a=b",
         "fragment": "best-fragment",
         "failed": true
+    },
+    /* 42 */
+    {
+        "url": "data:toto",
+        "done": "data:toto",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": "example.com",
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "data",
+        "host": "",
+        "path": "toto",
+        "failed": false
     }
 ]
