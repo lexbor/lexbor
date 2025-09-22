@@ -959,5 +959,26 @@
         "host": "host",
         "path": "",
         "failed": true
+    },
+    /* 44 */
+    {
+        "url": "scheme://host/path",
+        "done": "scheme://333.333.333.333/path",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": "333.333.333.333",
+            "port": null,
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "scheme",
+        "host": "333.333.333.333",
+        "path": "/path",
+        "failed": false
     }
 ]
