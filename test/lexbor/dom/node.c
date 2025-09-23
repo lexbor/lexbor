@@ -9,6 +9,13 @@
 #include <lexbor/html/html.h>
 
 
+typedef struct {
+    const lexbor_str_t str;
+    bool               is_null;
+}
+test_id_data_t;
+
+
 static const lexbor_str_t html = lexbor_str("<div id='div-1'></div>"
                                             "<div id='div-2'></div>");
 
@@ -365,6 +372,57 @@ TEST_BEGIN(remove_child)
 }
 TEST_END
 
+TEST_BEGIN(get_by_id)
+{
+    size_t len;
+    lexbor_status_t status;
+    lxb_html_document_t *document;
+    lxb_dom_node_t *body, *node;
+    lxb_html_body_element_t *element;
+
+    static const lexbor_str_t html_str = lexbor_str("<div id='idDIV'></div>");
+    static const test_id_data_t id_data[] =
+    {
+        {lexbor_str("idDIV"), false},
+        {lexbor_str(" idDIV"), true},
+        {lexbor_str("idDIV "), true},
+        {lexbor_str(" dDIV"), true},
+        {lexbor_str("idDI "), true},
+        {lexbor_str("iddiv"), true}
+    };
+
+    /* Create HTML Document. */
+
+    document = lxb_html_document_create();
+    test_ne(document, NULL);
+
+    status = lxb_html_document_parse(document, html_str.data, html_str.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    element = lxb_html_document_body_element(document);
+    body = lxb_dom_interface_node(element);
+
+    /* Find. */
+
+    len = sizeof(id_data) / sizeof(test_id_data_t);
+
+    for (size_t i = 0; i < len; i++) {
+        node = lxb_dom_node_by_id(body,
+                                  id_data[i].str.data, id_data[i].str.length);
+        if (id_data[i].is_null) {
+            test_eq(node, NULL);
+        }
+        else {
+            test_eq(node, body->first_child);
+        }
+    }
+
+    /* Destroy all. */
+
+    lxb_html_document_destroy(document);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -376,6 +434,7 @@ main(int argc, const char * argv[])
     TEST_ADD(replace_child);
     TEST_ADD(replace_child_document_fragment);
     TEST_ADD(remove_child);
+    TEST_ADD(get_by_id);
 
     TEST_RUN("lexbor/dom/node");
     TEST_RELEASE();

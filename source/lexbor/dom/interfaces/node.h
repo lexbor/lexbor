@@ -240,6 +240,10 @@ LXB_API void
 lxb_dom_node_simple_walk(lxb_dom_node_t *root,
                          lxb_dom_node_simple_walker_f walker_cb, void *ctx);
 
+LXB_API lxb_dom_node_t *
+lxb_dom_node_by_id(lxb_dom_node_t *root,
+                   const lxb_char_t *qualified_name, size_t len);
+
 LXB_API lxb_status_t
 lxb_dom_node_by_tag_name(lxb_dom_node_t *root, lxb_dom_collection_t *collection,
                          const lxb_char_t *qualified_name, size_t len);
