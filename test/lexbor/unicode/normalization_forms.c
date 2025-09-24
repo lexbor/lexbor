@@ -117,11 +117,12 @@ test_unicode_nf(lxb_unicode_form_t form)
             goto failed;
         }
 
-        if (str.length != p_nf - nf
+        if (str.length != lxb_size(p_nf - nf)
             || memcmp(buffer, nf, p_nf - nf) != 0)
         {
             printf("Length not match: in buffer = "LEXBOR_FORMAT_Z"; "
-                   "in %s test = %ld\n", str.length, name, p_nf - nf);
+                   "in %s test = "LEXBOR_FORMAT_Z"\n",
+                   str.length, name, (size_t) (p_nf - nf));
 
             printf("Sorc codepoints: ");
             printf_cps(test->source);
