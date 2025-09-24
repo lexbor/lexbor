@@ -209,7 +209,7 @@ main(int argc, const char *argv[])
             }
 
             /* The printf function cannot print \x00, it can be in UTF-16 */
-            if (fwrite(outbuf, 1, len, stdout) != len) {
+            if (fwrite(outbuf, 1, len, stdout) != lxb_size(len)) {
                 FAILED(false, "Failed to write data to stdout");
             }
         }
@@ -232,8 +232,8 @@ main(int argc, const char *argv[])
     out = outbuf;
 
     len = lxb_encoding_encode_finish_single(&encode, &out, out_end);
-    if (len != 0) {
-        if (fwrite(outbuf, 1, len, stdout) != len) {
+    if (len > 0) {
+        if (fwrite(outbuf, 1, len, stdout) != lxb_size(len)) {
             FAILED(false, "Failed to write data to stdout");
         }
     }

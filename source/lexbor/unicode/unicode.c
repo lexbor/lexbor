@@ -451,7 +451,7 @@ lxb_unicode_normalize_body(lxb_unicode_normalizer_t *uc, const void *data,
                     uc->starter = p;
                     uc->ican = p;
 
-                    if (p - buf >= uc->flush_cp) {
+                    if (lxb_size(p - buf) >= uc->flush_cp) {
                         if (!is_cp) {
                             status = lxb_unicode_flush(uc, cb->cb, ctx);
                         }

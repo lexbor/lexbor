@@ -312,7 +312,7 @@ TEST_BEGIN(encode_sequence)
 
         lxb_encoding_encode_finish_single(&encode, &data, end);
 
-        test_eq_str_n(buffer, data - buffer,
+        test_eq_str_n(buffer, lxb_size(data - buffer),
                       cps[i].result, strlen((const char *) cps[i].result));
     }
 }

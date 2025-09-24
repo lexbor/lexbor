@@ -457,7 +457,7 @@ check_token(helper_t *helper, unit_kv_value_t *entry,
 
     length = lxb_css_syntax_token_base(token)->length;
 
-    if (unit_kv_number(value)->value.i != length) {
+    if (unit_kv_number(value)->value.i != (int64_t) length) {
         TEST_PRINTLN("Token length not match. \nHave:\n"
                      LEXBOR_FORMAT_Z"\nNeed:\n%"PRId64,
                      length, unit_kv_number(value)->value.i);

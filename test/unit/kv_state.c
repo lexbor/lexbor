@@ -670,7 +670,7 @@ unit_kv_state_data_body_end(unit_kv_t *kv,
     while (data < end) {
         if (lexbor_str_res_alphanumeric_character[*data] == LEXBOR_STR_RES_SLIP)
         {
-            if ((data - begin) != kv->var_name.length
+            if (lxb_size(data - begin) != kv->var_name.length
                 || lexbor_str_data_ncmp(kv->var_name.data, begin,
                                         kv->var_name.length) == false)
             {

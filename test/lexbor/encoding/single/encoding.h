@@ -159,7 +159,7 @@ test_encode_process_file(const lxb_test_entry_t *entry, void *ctx, size_t line)
         size += lxb_encoding_encode_iso_2022_jp_eof_single(&enc_ctx, &ref, end);
     }
 
-    if (size != entry->size
+    if (size < 0 || lxb_size(size) != entry->size
         || strncmp((const char *) data, (const char *) entry->data, size))
     {
         TEST_PRINT("Need: ");

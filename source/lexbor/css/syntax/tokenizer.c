@@ -297,7 +297,7 @@ lxb_css_syntax_tokenizer_lookup_important_ch(lxb_css_syntax_tokenizer_t *tkz,
 {
     static const size_t length = sizeof(lxb_css_syntax_tokenizer_important) - 1;
 
-    if (!(end - p >= length
+    if (!(lxb_size(end - p) >= length
            && lexbor_str_data_ncasecmp(p, lxb_css_syntax_tokenizer_important,
                                        length)))
     {

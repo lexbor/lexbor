@@ -83,7 +83,7 @@ static const lexbor_str_t lxb_comma = lexbor_str(", ");
 static const lexbor_str_t lxb_wo_ws = lexbor_str("");
 static const lexbor_str_t lxb_wo_ws_comma = lexbor_str(",");
 
-static const size_t test_max_repeat = 20;
+static const long test_max_repeat = 20;
 
 
 static utils_lxb_grammar_tree_t *
@@ -1356,7 +1356,8 @@ utils_lxb_grammar_test_make_text(utils_lxb_grammar_tree_t *tree,
 {
     lxb_status_t status;
     uint64_t id;
-    size_t prev_len, str_len, total, min, max, cidx;
+    size_t prev_len, str_len, total, cidx;
+    long min, max;
     lexbor_str_t *str, *ptr, *p;
     const lexbor_str_t *prev;
     const lxb_grammar_period_t *multi;

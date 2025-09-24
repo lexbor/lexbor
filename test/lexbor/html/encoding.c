@@ -111,7 +111,9 @@ check(const char *data, const char *need, size_t idx)
             return LXB_STATUS_ERROR;
         }
 
-        if (strlen(need) != (end - name) || memcmp(name, need, (end - name))) {
+        if (strlen(need) != lxb_size(end - name)
+            || memcmp(name, need, (end - name)))
+        {
             return LXB_STATUS_ERROR;
         }
     }
@@ -125,7 +127,9 @@ check(const char *data, const char *need, size_t idx)
             return LXB_STATUS_ERROR;
         }
 
-        if (strlen(need) != (end - name) || memcmp(name, need, (end - name))) {
+        if (strlen(need) != lxb_size(end - name)
+            || memcmp(name, need, (end - name)))
+        {
             return LXB_STATUS_ERROR;
         }
     }
