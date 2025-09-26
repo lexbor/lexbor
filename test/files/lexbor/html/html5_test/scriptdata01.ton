@@ -1,5 +1,5 @@
 [
-    /* Test count: 27 */
+    /* Test count: 26 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -192,21 +192,6 @@
     /* Test number: 14 */
     {
         "data": $DATA{ ,12}
-            FOO<script>'<!-->'</script>BAR
-        $DATA,
-        "result": $DATA{ ,12}
-            <html>
-              <head>
-              <body>
-                "FOO"
-                <script>
-                  "'<!-->'"
-                "BAR"
-        $DATA
-    },
-    /* Test number: 15 */
-    {
-        "data": $DATA{ ,12}
             FOO<script>'<!-- potato'</script>BAR
         $DATA,
         "result": $DATA{ ,12}
@@ -219,7 +204,7 @@
                 "BAR"
         $DATA
     },
-    /* Test number: 16 */
+    /* Test number: 15 */
     {
         "data": $DATA{ ,12}
             FOO<script>'<!-- <sCrIpt'</script>BAR
@@ -234,7 +219,7 @@
                 "BAR"
         $DATA
     },
-    /* Test number: 17 */
+    /* Test number: 16 */
     {
         "data": $DATA{ ,12}
             FOO<script type="text/plain">'<!-- <sCrIpt>'</script>BAR
@@ -248,7 +233,7 @@
                   "'<!-- <sCrIpt>'</script>BAR"
         $DATA
     },
-    /* Test number: 18 */
+    /* Test number: 17 */
     {
         "data": $DATA{ ,12}
             FOO<script type="text/plain">'<!-- <sCrIpt> -'</script>BAR
@@ -262,7 +247,7 @@
                   "'<!-- <sCrIpt> -'</script>BAR"
         $DATA
     },
-    /* Test number: 19 */
+    /* Test number: 18 */
     {
         "data": $DATA{ ,12}
             FOO<script type="text/plain">'<!-- <sCrIpt> --'</script>BAR
@@ -276,7 +261,7 @@
                   "'<!-- <sCrIpt> --'</script>BAR"
         $DATA
     },
-    /* Test number: 20 */
+    /* Test number: 19 */
     {
         "data": $DATA{ ,12}
             FOO<script>'<!-- <sCrIpt> -->'</script>BAR
@@ -291,7 +276,7 @@
                 "BAR"
         $DATA
     },
-    /* Test number: 21 */
+    /* Test number: 20 */
     {
         "data": $DATA{ ,12}
             FOO<script type="text/plain">'<!-- <sCrIpt> --!>'</script>BAR
@@ -305,7 +290,7 @@
                   "'<!-- <sCrIpt> --!>'</script>BAR"
         $DATA
     },
-    /* Test number: 22 */
+    /* Test number: 21 */
     {
         "data": $DATA{ ,12}
             FOO<script type="text/plain">'<!-- <sCrIpt> -- >'</script>BAR
@@ -319,7 +304,7 @@
                   "'<!-- <sCrIpt> -- >'</script>BAR"
         $DATA
     },
-    /* Test number: 23 */
+    /* Test number: 22 */
     {
         "data": $DATA{ ,12}
             FOO<script type="text/plain">'<!-- <sCrIpt '</script>BAR
@@ -333,7 +318,7 @@
                   "'<!-- <sCrIpt '</script>BAR"
         $DATA
     },
-    /* Test number: 24 */
+    /* Test number: 23 */
     {
         "data": $DATA{ ,12}
             FOO<script type="text/plain">'<!-- <sCrIpt/'</script>BAR
@@ -347,7 +332,7 @@
                   "'<!-- <sCrIpt/'</script>BAR"
         $DATA
     },
-    /* Test number: 25 */
+    /* Test number: 24 */
     {
         "data": $DATA{ ,12}
             FOO<script type="text/plain">'<!-- <sCrIpt\'</script>BAR
@@ -362,7 +347,7 @@
                 "BAR"
         $DATA
     },
-    /* Test number: 26 */
+    /* Test number: 25 */
     {
         "data": $DATA{ ,12}
             FOO<script type="text/plain">'<!-- <sCrIpt/'</script>BAR</script>QUX
@@ -377,7 +362,7 @@
                 "QUX"
         $DATA
     },
-    /* Test number: 27 */
+    /* Test number: 26 */
     {
         "data": $DATA{ ,12}
             FOO<script><!--<script>-></script>--></script>QUX

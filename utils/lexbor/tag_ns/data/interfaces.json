@@ -70,6 +70,8 @@
             "HTMLInputElement": {"inherit": "HTMLElement", "c_name": "input_element"},
             "HTMLButtonElement": {"inherit": "HTMLElement", "c_name": "button_element"},
             "HTMLSelectElement": {"inherit": "HTMLElement", "c_name": "select_element"},
+            "HTMLSelectedContentElement": {"inherit": "HTMLElement", "c_name": "selectedcontent_element"},
+            "HTMLSearchElement": {"inherit": "HTMLElement", "c_name": "search_element"},
             "HTMLDataListElement": {"inherit": "HTMLElement", "c_name": "data_list_element"},
             "HTMLOptGroupElement": {"inherit": "HTMLElement", "c_name": "opt_group_element"},
             "HTMLOptionElement": {"inherit": "HTMLElement", "c_name": "option_element"},

@@ -87,7 +87,8 @@ lxb_html_tree_insertion_mode_foreign_content_anything_else(lxb_html_tree_t *tree
         tree->before_append_attr = lxb_html_tree_adjust_attributes_svg;
     }
 
-    element = lxb_html_tree_insert_foreign_element(tree, token, node->ns);
+    element = lxb_html_tree_insert_foreign_element(tree, token, node->ns,
+                                                   false);
     if (element == NULL) {
         tree->before_append_attr = NULL;
         tree->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
@@ -259,22 +260,19 @@ go_next:
 
     lxb_html_tree_parse_error(tree, token, LXB_HTML_RULES_ERROR_UNTO);
 
-    if (tree->fragment != NULL) {
-        return lxb_html_tree_insertion_mode_foreign_content_anything_else(tree,
-                                                                          token);
-    }
+    node = lxb_html_tree_current_node(tree);
 
-    do {
+    while (node != NULL &&
+           !(lxb_html_tree_mathml_text_integration_point(node)
+             || lxb_html_tree_html_integration_point(node)
+             || node->ns == LXB_NS_HTML))
+    {
         lxb_html_tree_open_elements_pop(tree);
 
         node = lxb_html_tree_current_node(tree);
     }
-    while (node &&
-           !(lxb_html_tree_mathml_text_integration_point(node)
-            || lxb_html_tree_html_integration_point(node)
-            || node->ns == LXB_NS_HTML));
 
-    return false;
+    return tree->mode(tree, token);
 }
 
 bool
@@ -286,6 +284,10 @@ lxb_html_tree_insertion_mode_foreign_content(lxb_html_tree_t *tree,
             case LXB_TAG_SCRIPT:
                 return lxb_html_tree_insertion_mode_foreign_content_script_closed(tree,
                                                                                   token);
+            case LXB_TAG_P:
+            case LXB_TAG_BR:
+                return lxb_html_tree_insertion_mode_foreign_content_all(tree,
+                                                                        token);
             default:
                 return lxb_html_tree_insertion_mode_foreign_content_anything_else_closed(tree,
                                                                                          token);

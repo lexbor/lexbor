@@ -1,5 +1,5 @@
 [
-    /* Test count: 17 */
+    /* Test count: 19 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -261,6 +261,37 @@
                         <svg:svg>
                           <svg:desc>
                       <td>
+        $DATA
+    },
+    /* Test number: 18 */
+    {
+        "data": $DATA{ ,12}
+            <div><table><svg><foreignObject><select><table><s>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <div>
+                  <svg:svg>
+                    <svg:foreignObject>
+                      <select>
+                  <table>
+                  <s>
+                  <table>
+        $DATA
+    },
+    /* Test number: 19 */
+    {
+        "data": $DATA{ ,12}
+            <table>a<!doctype html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "a"
+                <table>
         $DATA
     },
 ]

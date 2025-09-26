@@ -1,5 +1,5 @@
 [
-    /* Test count: 58 */
+    /* Test count: 66 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -7,7 +7,7 @@
         $DATA,
         "fragment": {"tag": "path", "ns": "svg"},
         "result": $DATA{ ,12}
-            <svg:nobr>
+            <nobr>
               "X"
         $DATA
     },
@@ -18,7 +18,7 @@
         $DATA,
         "fragment": {"tag": "path", "ns": "svg"},
         "result": $DATA{ ,12}
-            <svg:font color>
+            <font color>
             "X"
         $DATA
     },
@@ -421,7 +421,7 @@
         $DATA,
         "fragment": {"tag": "annotation-xml", "ns": "math"},
         "result": $DATA{ ,12}
-            <math:div>
+            <div>
         $DATA
     },
     /* Test number: 40 */
@@ -441,7 +441,7 @@
         $DATA,
         "fragment": {"tag": "math", "ns": "math"},
         "result": $DATA{ ,12}
-            <math:div>
+            <div>
         $DATA
     },
     /* Test number: 42 */
@@ -511,8 +511,8 @@
         $DATA,
         "fragment": {"tag": "svg", "ns": "svg"},
         "result": $DATA{ ,12}
-            <svg:div>
-              <svg:h1>
+            <div>
+              <h1>
                 "X"
         $DATA
     },
@@ -523,7 +523,7 @@
         $DATA,
         "fragment": {"tag": "svg", "ns": "svg"},
         "result": $DATA{ ,12}
-            <svg:div>
+            <div>
         $DATA
     },
     /* Test number: 50 */
@@ -539,16 +539,6 @@
     /* Test number: 51 */
     {
         "data": $DATA{ ,12}
-            <figure></figure>
-        $DATA,
-        "fragment": {"tag": "desc", "ns": "svg"},
-        "result": $DATA{ ,12}
-            <figure>
-        $DATA
-    },
-    /* Test number: 52 */
-    {
-        "data": $DATA{ ,12}
             <plaintext><foo>
         $DATA,
         "fragment": {"tag": "desc", "ns": "svg"},
@@ -557,7 +547,7 @@
               "<foo>"
         $DATA
     },
-    /* Test number: 53 */
+    /* Test number: 52 */
     {
         "data": $DATA{ ,12}
             <frameset>X
@@ -567,7 +557,7 @@
             "X"
         $DATA
     },
-    /* Test number: 54 */
+    /* Test number: 53 */
     {
         "data": $DATA{ ,12}
             <head>X
@@ -577,7 +567,7 @@
             "X"
         $DATA
     },
-    /* Test number: 55 */
+    /* Test number: 54 */
     {
         "data": $DATA{ ,12}
             <body>X
@@ -587,7 +577,7 @@
             "X"
         $DATA
     },
-    /* Test number: 56 */
+    /* Test number: 55 */
     {
         "data": $DATA{ ,12}
             <html>X
@@ -597,7 +587,7 @@
             "X"
         $DATA
     },
-    /* Test number: 57 */
+    /* Test number: 56 */
     {
         "data": $DATA{ ,12}
             <html class="foo">X
@@ -607,7 +597,7 @@
             "X"
         $DATA
     },
-    /* Test number: 58 */
+    /* Test number: 57 */
     {
         "data": $DATA{ ,12}
             <body class="foo">X
@@ -615,6 +605,105 @@
         "fragment": {"tag": "desc", "ns": "svg"},
         "result": $DATA{ ,12}
             "X"
+        $DATA
+    },
+    /* Test number: 58 */
+    {
+        "data": $DATA{ ,12}
+            <svg><p>
+        $DATA,
+        "fragment": {"tag": "div", "ns": "html"},
+        "result": $DATA{ ,12}
+            <svg:svg>
+            <p>
+        $DATA
+    },
+    /* Test number: 59 */
+    {
+        "data": $DATA{ ,12}
+            <p>
+        $DATA,
+        "fragment": {"tag": "svg", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <p>
+        $DATA
+    },
+    /* Test number: 60 */
+    {
+        "data": $DATA{ ,12}
+            <svg></p><foo>
+        $DATA,
+        "fragment": {"tag": "div", "ns": "html"},
+        "result": $DATA{ ,12}
+            <svg:svg>
+            <p>
+            <foo>
+        $DATA
+    },
+    /* Test number: 61 */
+    {
+        "data": $DATA{ ,12}
+            <svg></br><foo>
+        $DATA,
+        "fragment": {"tag": "div", "ns": "html"},
+        "result": $DATA{ ,12}
+            <svg:svg>
+            <br>
+            <foo>
+        $DATA
+    },
+    /* Test number: 62 */
+    {
+        "data": $DATA{ ,12}
+            </p><foo>
+        $DATA,
+        "fragment": {"tag": "svg", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <p>
+            <svg:foo>
+        $DATA
+    },
+    /* Test number: 63 */
+    {
+        "data": $DATA{ ,12}
+            </br><foo>
+        $DATA,
+        "fragment": {"tag": "svg", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <br>
+            <svg:foo>
+        $DATA
+    },
+    /* Test number: 64 */
+    {
+        "data": $DATA{ ,12}
+            <body><foo>
+        $DATA,
+        "fragment": {"tag": "svg", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <svg:foo>
+        $DATA
+    },
+    /* Test number: 65 */
+    {
+        "data": $DATA{ ,12}
+            <p><foo>
+        $DATA,
+        "fragment": {"tag": "svg", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <p>
+              <foo>
+        $DATA
+    },
+    /* Test number: 66 */
+    {
+        "data": $DATA{ ,12}
+            <p></p><foo>
+        $DATA,
+        "fragment": {"tag": "svg", "ns": "svg"},
+        "result": $DATA{ ,12}
+            <p>
+            <svg:foo>
         $DATA
     },
 ]

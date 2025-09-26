@@ -208,7 +208,8 @@
               <head>
               <body>
                 <select>
-                  "X"
+                  <plaintext>
+                    "</plaintext>X"
         $DATA
     },
     /* Test number: 15 */
@@ -222,10 +223,9 @@
               <head>
               <body>
                 <select>
-                  "a"
+                  <plaintext>
+                    "a<caption>b"
                 <table>
-                  <caption>
-                    "b"
         $DATA
     },
     /* Test number: 16 */

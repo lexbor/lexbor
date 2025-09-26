@@ -193,6 +193,7 @@
               <head>
               <body>
                 <select>
+                  <menuitem>
         $DATA
     },
     /* Test number: 15 */

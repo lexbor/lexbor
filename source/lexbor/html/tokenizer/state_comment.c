@@ -452,8 +452,12 @@ lxb_html_tokenizer_state_comment_end_bang(lxb_html_tokenizer_t *tkz,
                                           const lxb_char_t *data,
                                           const lxb_char_t *end)
 {
+    static const lexbor_str_t two = lexbor_str("--!");
+
     /* U+002D HYPHEN-MINUS (-) */
     if (*data == 0x2D) {
+        lxb_html_tokenizer_state_append_m(tkz, two.data, two.length);
+
         tkz->state = lxb_html_tokenizer_state_comment_end_dash;
 
         return (data + 1);
@@ -481,6 +485,11 @@ lxb_html_tokenizer_state_comment_end_bang(lxb_html_tokenizer_t *tkz,
 
             return end;
         }
+
+        lxb_html_tokenizer_state_append_m(tkz, two.data, two.length);
+    }
+    else {
+        lxb_html_tokenizer_state_append_m(tkz, two.data, two.length);
     }
 
     tkz->state = lxb_html_tokenizer_state_comment;

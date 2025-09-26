@@ -51,6 +51,7 @@
               <head>
               <body>
                 <select>
+                  <svg:svg>
         $DATA
     },
     /* Test number: 5 */
@@ -65,6 +66,7 @@
               <body>
                 <select>
                   <option>
+                    <svg:svg>
         $DATA
     },
     /* Test number: 6 */
@@ -302,7 +304,13 @@
                     <tr>
                       <td>
                         <select>
-                          "foobarbaz"
+                          <svg:svg>
+                            <svg:g>
+                              "foo"
+                            <svg:g>
+                              "bar"
+                          <p>
+                            "baz"
                 <p>
                   "quux"
         $DATA
@@ -318,7 +326,13 @@
               <head>
               <body>
                 <select>
-                  "foobarbaz"
+                  <svg:svg>
+                    <svg:g>
+                      "foo"
+                    <svg:g>
+                      "bar"
+                  <p>
+                    "baz"
                 <table>
                 <p>
                   "quux"

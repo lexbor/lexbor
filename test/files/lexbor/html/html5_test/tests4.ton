@@ -1,5 +1,5 @@
 [
-    /* Test count: 7 */
+    /* Test count: 9 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -71,6 +71,26 @@
         "result": $DATA{ ,12}
             <title>
               "setting head's innerHTML"
+        $DATA
+    },
+    /* Test number: 8 */
+    {
+        "data": $DATA{ ,12}
+            direct <title> content
+        $DATA,
+        "fragment": {"tag": "title", "ns": "html"},
+        "result": $DATA{ ,12}
+            "direct <title> content"
+        $DATA
+    },
+    /* Test number: 9 */
+    {
+        "data": $DATA{ ,12}
+            <!-- inside </script> -->
+        $DATA,
+        "fragment": {"tag": "script", "ns": "html"},
+        "result": $DATA{ ,12}
+            "<!-- inside </script> -->"
         $DATA
     },
 ]

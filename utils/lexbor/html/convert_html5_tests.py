@@ -60,7 +60,7 @@ class Converter:
         json_entries.append("    /* Test count: {} */".format(len(entries)))
 
         for entry in entries:
-            idx += 1;
+            idx += 1
 
             json_entries.append("    /* Test number: {} */".format(idx))
             json_entries.append("    {")
@@ -79,8 +79,8 @@ class Converter:
         data = "\n    ".join(entry["data"]).split("\n")
 
         for idx in range(0, len(data)):
-            data[idx] = data[idx].replace(b"\r", b"\\r")
-            data[idx] = data[idx].replace(b"\0", b"\\0")
+            data[idx] = data[idx].replace("\r", "\\r")
+            data[idx] = data[idx].replace("\0", "\\0")
 
         result.append('"data": $DATA{ ,12}')
         result.append("    {}".format("\n        ".join(data)))
@@ -97,7 +97,7 @@ class Converter:
             if len(entry["document-fragment"]) != 1:
                 raise Exception("Garbage in document-fragment")
 
-            fnd = re.match("^([^ ]+)\s+(.+)$", entry["document-fragment"][0])
+            fnd = re.match(r"^([^ ]+)\s+(.+)$", entry["document-fragment"][0])
 
             if fnd is not None:
                 result.append('"fragment": {{"tag": "{}", "ns": "{}"}},'.format(fnd.group(2), fnd.group(1)))
@@ -113,7 +113,7 @@ class Converter:
         # oh God...
 
         for line in entry["document"]:
-            if re.match("^\| ", line) is not None:
+            if re.match(r"^\| ", line) is not None:
                 fline = "{}\n".format(line[2:])
 
             else:
@@ -122,23 +122,23 @@ class Converter:
 
                 continue
 
-            fnd = re.match("^(\s*?)<([^ ]+)\s+([^>]+)>", fline)
+            fnd = re.match(r"^(\s*?)<([^ ]+)\s+([^>]+)>", fline)
 
-            if fnd is not None and re.match("^\s*?<\!|^\s*?<\?", fline) is None:
+            if fnd is not None and re.match(r"^\s*?<\!|^\s*?<\?", fline) is None:
                 new_doc.append("{}<{}:{}>\n".format(fnd.group(1), fnd.group(2), fnd.group(3)))
 
-            elif re.match("^\s*?\"", fline) is not None:
+            elif re.match(r"^\s*?\"", fline) is not None:
                 new_doc.append(fline)
 
-            elif re.match("^\s*?<", fline) is None:
+            elif re.match(r"^\s*?<", fline) is None:
                 fline = re.sub(r"^\s+|\s+$", "", fline)
-                fnd = re.match("^(\s*?)<(?:[^>]+:)?template>", new_doc[-1])
+                fnd = re.match(r"^(\s*?)<(?:[^>]+:)?template>", new_doc[-1])
 
                 if fline == "content" and fnd is not None:
                     new_doc.append("{}  #document-fragment\n".format(fnd.group(1)))
 
                 else:
-                    fnd = re.match("^([^ =]+)\s+([^ =]+)(=.+)?$", fline)
+                    fnd = re.match(r"^([^ =]+)\s+([^ =]+)(=.+)?$", fline)
 
                     if fnd is not None:
                         new_doc[-1] = re.sub(r">$", " {}:{}{}>".format(fnd.group(1), fnd.group(2), fnd.group(3)), new_doc[-1])

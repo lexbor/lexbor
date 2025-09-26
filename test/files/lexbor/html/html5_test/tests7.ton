@@ -1,5 +1,5 @@
 [
-    /* Test count: 31 */
+    /* Test count: 34 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -60,6 +60,48 @@
     /* Test number: 5 */
     {
         "data": $DATA{ ,12}
+            <!doctype html></head><base>X
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <base>
+              <body>
+                "X"
+        $DATA
+    },
+    /* Test number: 6 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html></head><basefont>X
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <basefont>
+              <body>
+                "X"
+        $DATA
+    },
+    /* Test number: 7 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html></head><bgsound>X
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <bgsound>
+              <body>
+                "X"
+        $DATA
+    },
+    /* Test number: 8 */
+    {
+        "data": $DATA{ ,12}
             <!doctype html><table><meta></table>
         $DATA,
         "result": $DATA{ ,12}
@@ -71,7 +113,7 @@
                 <table>
         $DATA
     },
-    /* Test number: 6 */
+    /* Test number: 9 */
     {
         "data": $DATA{ ,12}
             <!doctype html><table>X<tr><td><table> <meta></table></table>
@@ -91,7 +133,7 @@
                           " "
         $DATA
     },
-    /* Test number: 7 */
+    /* Test number: 10 */
     {
         "data": $DATA{ ,12}
             <!doctype html><html> <head>
@@ -103,7 +145,7 @@
               <body>
         $DATA
     },
-    /* Test number: 8 */
+    /* Test number: 11 */
     {
         "data": $DATA{ ,12}
             <!doctype html> <head>
@@ -115,7 +157,7 @@
               <body>
         $DATA
     },
-    /* Test number: 9 */
+    /* Test number: 12 */
     {
         "data": $DATA{ ,12}
             <!doctype html><table><style> <tr>x </style> </table>
@@ -131,7 +173,7 @@
                   " "
         $DATA
     },
-    /* Test number: 10 */
+    /* Test number: 13 */
     {
         "data": $DATA{ ,12}
             <!doctype html><table><TBODY><script> <tr>x </script> </table>
@@ -148,7 +190,7 @@
                     " "
         $DATA
     },
-    /* Test number: 11 */
+    /* Test number: 14 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><applet><p>X</p></applet>
@@ -164,7 +206,7 @@
                       "X"
         $DATA
     },
-    /* Test number: 12 */
+    /* Test number: 15 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><object type="application/x-non-existant-plugin"><p>X</p></object>
@@ -180,7 +222,7 @@
                       "X"
         $DATA
     },
-    /* Test number: 13 */
+    /* Test number: 16 */
     {
         "data": $DATA{ ,12}
             <!doctype html><listing>
@@ -195,7 +237,7 @@
                   "X"
         $DATA
     },
-    /* Test number: 14 */
+    /* Test number: 17 */
     {
         "data": $DATA{ ,12}
             <!doctype html><select><input>X
@@ -210,7 +252,7 @@
                 "X"
         $DATA
     },
-    /* Test number: 15 */
+    /* Test number: 18 */
     {
         "data": $DATA{ ,12}
             <!doctype html><select><select>X
@@ -224,7 +266,7 @@
                 "X"
         $DATA
     },
-    /* Test number: 16 */
+    /* Test number: 19 */
     {
         "data": $DATA{ ,12}
             <!doctype html><table><input type=hidDEN></table>
@@ -238,7 +280,7 @@
                   <input type="hidDEN">
         $DATA
     },
-    /* Test number: 17 */
+    /* Test number: 20 */
     {
         "data": $DATA{ ,12}
             <!doctype html><table>X<input type=hidDEN></table>
@@ -253,7 +295,7 @@
                   <input type="hidDEN">
         $DATA
     },
-    /* Test number: 18 */
+    /* Test number: 21 */
     {
         "data": $DATA{ ,12}
             <!doctype html><table>  <input type=hidDEN></table>
@@ -268,7 +310,7 @@
                   <input type="hidDEN">
         $DATA
     },
-    /* Test number: 19 */
+    /* Test number: 22 */
     {
         "data": $DATA{ ,12}
             <!doctype html><table>  <input type='hidDEN'></table>
@@ -283,7 +325,7 @@
                   <input type="hidDEN">
         $DATA
     },
-    /* Test number: 20 */
+    /* Test number: 23 */
     {
         "data": $DATA{ ,12}
             <!doctype html><table><input type=" hidden"><input type=hidDEN></table>
@@ -298,7 +340,7 @@
                   <input type="hidDEN">
         $DATA
     },
-    /* Test number: 21 */
+    /* Test number: 24 */
     {
         "data": $DATA{ ,12}
             <!doctype html><table><select>X<tr>
@@ -315,7 +357,7 @@
                     <tr>
         $DATA
     },
-    /* Test number: 22 */
+    /* Test number: 25 */
     {
         "data": $DATA{ ,12}
             <!doctype html><select>X</select>
@@ -329,7 +371,7 @@
                   "X"
         $DATA
     },
-    /* Test number: 23 */
+    /* Test number: 26 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE hTmL><html></html>
@@ -341,7 +383,7 @@
               <body>
         $DATA
     },
-    /* Test number: 24 */
+    /* Test number: 27 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE HTML><html></html>
@@ -353,7 +395,7 @@
               <body>
         $DATA
     },
-    /* Test number: 25 */
+    /* Test number: 28 */
     {
         "data": $DATA{ ,12}
             <body>X</body></body>
@@ -365,7 +407,7 @@
               "X"
         $DATA
     },
-    /* Test number: 26 */
+    /* Test number: 29 */
     {
         "data": $DATA{ ,12}
             <div><p>a</x> b
@@ -379,7 +421,7 @@
                     "a b"
         $DATA
     },
-    /* Test number: 27 */
+    /* Test number: 30 */
     {
         "data": $DATA{ ,12}
             <table><tr><td><code></code> </table>
@@ -396,7 +438,7 @@
                         " "
         $DATA
     },
-    /* Test number: 28 */
+    /* Test number: 31 */
     {
         "data": $DATA{ ,12}
             <table><b><tr><td>aaa</td></tr>bbb</table>ccc
@@ -417,7 +459,7 @@
                   "ccc"
         $DATA
     },
-    /* Test number: 29 */
+    /* Test number: 32 */
     {
         "data": $DATA{ ,12}
             A<table><tr> B</tr> B</table>
@@ -432,7 +474,7 @@
                     <tr>
         $DATA
     },
-    /* Test number: 30 */
+    /* Test number: 33 */
     {
         "data": $DATA{ ,12}
             A<table><tr> B</tr> </em>C</table>
@@ -448,7 +490,7 @@
                     " "
         $DATA
     },
-    /* Test number: 31 */
+    /* Test number: 34 */
     {
         "data": $DATA{ ,12}
             <select><keygen>
@@ -458,7 +500,7 @@
               <head>
               <body>
                 <select>
-                <keygen>
+                  <keygen>
         $DATA
     },
 ]

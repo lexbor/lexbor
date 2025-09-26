@@ -1,5 +1,5 @@
 [
-    /* Test count: 49 */
+    /* Test count: 52 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -306,6 +306,22 @@
     /* Test number: 23 */
     {
         "data": $DATA{ ,12}
+            <html><body></body></html><!-- Comment A --><!-- Comment B --><!-- Comment C --><!-- Comment D --><!-- Comment E -->
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+            <!--  Comment A  -->
+            <!--  Comment B  -->
+            <!--  Comment C  -->
+            <!--  Comment D  -->
+            <!--  Comment E  -->
+        $DATA
+    },
+    /* Test number: 24 */
+    {
+        "data": $DATA{ ,12}
             <html><body></body></html>x<!-- Hi there -->
         $DATA,
         "result": $DATA{ ,12}
@@ -316,7 +332,7 @@
                 <!--  Hi there  -->
         $DATA
     },
-    /* Test number: 24 */
+    /* Test number: 25 */
     {
         "data": $DATA{ ,12}
             <html><body></body></html>x<!-- Hi there --></html><!-- Again -->
@@ -330,7 +346,7 @@
             <!--  Again  -->
         $DATA
     },
-    /* Test number: 25 */
+    /* Test number: 26 */
     {
         "data": $DATA{ ,12}
             <html><body></body></html>x<!-- Hi there --></body></html><!-- Again -->
@@ -344,7 +360,37 @@
             <!--  Again  -->
         $DATA
     },
-    /* Test number: 26 */
+    /* Test number: 27 */
+    {
+        "data": $DATA{ ,12}
+            <html><body></body>
+               <!-- Hi there --></html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "
+               "
+              <!--  Hi there  -->
+        $DATA
+    },
+    /* Test number: 28 */
+    {
+        "data": $DATA{ ,12}
+            <html><body></body></html>
+               <!-- Hi there -->
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "
+               "
+            <!--  Hi there  -->
+        $DATA
+    },
+    /* Test number: 29 */
     {
         "data": $DATA{ ,12}
             <html><body><ruby><div><rp>xx</rp></div></ruby></body></html>
@@ -359,7 +405,7 @@
                       "xx"
         $DATA
     },
-    /* Test number: 27 */
+    /* Test number: 30 */
     {
         "data": $DATA{ ,12}
             <html><body><ruby><div><rt>xx</rt></div></ruby></body></html>
@@ -374,7 +420,7 @@
                       "xx"
         $DATA
     },
-    /* Test number: 28 */
+    /* Test number: 31 */
     {
         "data": $DATA{ ,12}
             <html><frameset><!--1--><noframes>A</noframes><!--2--></frameset><!--3--><noframes>B</noframes><!--4--></html><!--5--><noframes>C</noframes><!--6-->
@@ -397,7 +443,7 @@
             <!-- 6 -->
         $DATA
     },
-    /* Test number: 29 */
+    /* Test number: 32 */
     {
         "data": $DATA{ ,12}
             <select><option>A<select><option>B<select><option>C<select><option>D<select><option>E<select><option>F<select><option>G<select>
@@ -426,7 +472,7 @@
                       "G"
         $DATA
     },
-    /* Test number: 30 */
+    /* Test number: 33 */
     {
         "data": $DATA{ ,12}
             <dd><dd><dt><dt><dd><li><li>
@@ -444,7 +490,7 @@
                   <li>
         $DATA
     },
-    /* Test number: 31 */
+    /* Test number: 34 */
     {
         "data": $DATA{ ,12}
             <div><b></div><div><nobr>a<nobr>
@@ -462,7 +508,7 @@
                     <nobr>
         $DATA
     },
-    /* Test number: 32 */
+    /* Test number: 35 */
     {
         "data": $DATA{ ,12}
             <head></head>
@@ -476,7 +522,7 @@
               <body>
         $DATA
     },
-    /* Test number: 33 */
+    /* Test number: 36 */
     {
         "data": $DATA{ ,12}
             <head></head> <style></style>ddd
@@ -490,7 +536,7 @@
                 "ddd"
         $DATA
     },
-    /* Test number: 34 */
+    /* Test number: 37 */
     {
         "data": $DATA{ ,12}
             <kbd><table></kbd><col><select><tr>
@@ -508,7 +554,7 @@
                       <tr>
         $DATA
     },
-    /* Test number: 35 */
+    /* Test number: 38 */
     {
         "data": $DATA{ ,12}
             <kbd><table></kbd><col><select><tr></table><div>
@@ -527,7 +573,7 @@
                   <div>
         $DATA
     },
-    /* Test number: 36 */
+    /* Test number: 39 */
     {
         "data": $DATA{ ,12}
             <a><li><style></style><title></title></a>
@@ -543,7 +589,7 @@
                     <title>
         $DATA
     },
-    /* Test number: 37 */
+    /* Test number: 40 */
     {
         "data": $DATA{ ,12}
             <font></p><p><meta><title></title></font>
@@ -560,7 +606,7 @@
                     <title>
         $DATA
     },
-    /* Test number: 38 */
+    /* Test number: 41 */
     {
         "data": $DATA{ ,12}
             <a><center><title></title><a>
@@ -576,7 +622,7 @@
                   <a>
         $DATA
     },
-    /* Test number: 39 */
+    /* Test number: 42 */
     {
         "data": $DATA{ ,12}
             <svg><title><div>
@@ -590,7 +636,7 @@
                     <div>
         $DATA
     },
-    /* Test number: 40 */
+    /* Test number: 43 */
     {
         "data": $DATA{ ,12}
             <svg><title><rect><div>
@@ -605,7 +651,7 @@
                       <div>
         $DATA
     },
-    /* Test number: 41 */
+    /* Test number: 44 */
     {
         "data": $DATA{ ,12}
             <svg><title><svg><div>
@@ -620,7 +666,7 @@
                     <div>
         $DATA
     },
-    /* Test number: 42 */
+    /* Test number: 45 */
     {
         "data": $DATA{ ,12}
             <img <="" FAIL>
@@ -632,7 +678,7 @@
                 <img <="" fail>
         $DATA
     },
-    /* Test number: 43 */
+    /* Test number: 46 */
     {
         "data": $DATA{ ,12}
             <ul><li><div id='foo'/>A</li><li>B<div>C</div></li></ul>
@@ -651,7 +697,7 @@
                       "C"
         $DATA
     },
-    /* Test number: 44 */
+    /* Test number: 47 */
     {
         "data": $DATA{ ,12}
             <svg><em><desc></em>
@@ -665,7 +711,7 @@
                   <desc>
         $DATA
     },
-    /* Test number: 45 */
+    /* Test number: 48 */
     {
         "data": $DATA{ ,12}
             <table><tr><td><svg><desc><td></desc><circle>
@@ -684,7 +730,7 @@
                         <circle>
         $DATA
     },
-    /* Test number: 46 */
+    /* Test number: 49 */
     {
         "data": $DATA{ ,12}
             <svg><tfoot></mi><td>
@@ -698,7 +744,7 @@
                     <svg:td>
         $DATA
     },
-    /* Test number: 47 */
+    /* Test number: 50 */
     {
         "data": $DATA{ ,12}
             <math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math>
@@ -716,7 +762,7 @@
                       "a"
         $DATA
     },
-    /* Test number: 48 */
+    /* Test number: 51 */
     {
         "data": $DATA{ ,12}
             <!doctype html><input type="hidden"><frameset>
@@ -728,7 +774,7 @@
               <frameset>
         $DATA
     },
-    /* Test number: 49 */
+    /* Test number: 52 */
     {
         "data": $DATA{ ,12}
             <!doctype html><input type="button"><frameset>

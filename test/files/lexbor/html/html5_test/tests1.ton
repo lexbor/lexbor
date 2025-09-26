@@ -1,5 +1,5 @@
 [
-    /* Test count: 114 */
+    /* Test count: 112 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -394,9 +394,11 @@
               <head>
               <body>
                 <select>
+                  <b>
+                    <option>
+                <b>
                   <option>
-                <option>
-                  "X"
+                "X"
         $DATA
     },
     /* Test number: 31 */
@@ -1425,7 +1427,7 @@
     /* Test number: 94 */
     {
         "data": $DATA{ ,12}
-            <b><table><td><i></table>
+            <b><table><td></b><i></table>
         $DATA,
         "result": $DATA{ ,12}
             <html>
@@ -1442,23 +1444,6 @@
     /* Test number: 95 */
     {
         "data": $DATA{ ,12}
-            <b><table><td></b><i></table>
-        $DATA,
-        "result": $DATA{ ,12}
-            <html>
-              <head>
-              <body>
-                <b>
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <i>
-        $DATA
-    },
-    /* Test number: 96 */
-    {
-        "data": $DATA{ ,12}
             <h1><h2>
         $DATA,
         "result": $DATA{ ,12}
@@ -1469,7 +1454,7 @@
                 <h2>
         $DATA
     },
-    /* Test number: 97 */
+    /* Test number: 96 */
     {
         "data": $DATA{ ,12}
             <a><p><a></a></p></a>
@@ -1484,7 +1469,7 @@
                   <a>
         $DATA
     },
-    /* Test number: 98 */
+    /* Test number: 97 */
     {
         "data": $DATA{ ,12}
             <b><button></b></button></b>
@@ -1498,7 +1483,7 @@
                   <b>
         $DATA
     },
-    /* Test number: 99 */
+    /* Test number: 98 */
     {
         "data": $DATA{ ,12}
             <p><b><div><marquee></p></b></div>
@@ -1515,7 +1500,7 @@
                       <p>
         $DATA
     },
-    /* Test number: 100 */
+    /* Test number: 99 */
     {
         "data": $DATA{ ,12}
             <script></script></div><title></title><p><p>
@@ -1530,21 +1515,7 @@
                 <p>
         $DATA
     },
-    /* Test number: 101 */
-    {
-        "data": $DATA{ ,12}
-            <p><hr></p>
-        $DATA,
-        "result": $DATA{ ,12}
-            <html>
-              <head>
-              <body>
-                <p>
-                <hr>
-                <p>
-        $DATA
-    },
-    /* Test number: 102 */
+    /* Test number: 100 */
     {
         "data": $DATA{ ,12}
             <select><b><option><select><option></b></select>
@@ -1554,11 +1525,13 @@
               <head>
               <body>
                 <select>
+                  <b>
+                    <option>
+                <b>
                   <option>
-                <option>
         $DATA
     },
-    /* Test number: 103 */
+    /* Test number: 101 */
     {
         "data": $DATA{ ,12}
             <html><head><title></title><body></body></html>
@@ -1570,7 +1543,7 @@
               <body>
         $DATA
     },
-    /* Test number: 104 */
+    /* Test number: 102 */
     {
         "data": $DATA{ ,12}
             <a><table><td><a><table></table><a></tr><a></table><a>
@@ -1591,7 +1564,7 @@
                 <a>
         $DATA
     },
-    /* Test number: 105 */
+    /* Test number: 103 */
     {
         "data": $DATA{ ,12}
             <ul><li></li><div><li></div><li><li><div><li><address><li><b><em></b><li></ul>
@@ -1615,7 +1588,7 @@
                   <li>
         $DATA
     },
-    /* Test number: 106 */
+    /* Test number: 104 */
     {
         "data": $DATA{ ,12}
             <ul><li><ul></li><li>a</li></ul></li></ul>
@@ -1631,7 +1604,7 @@
                         "a"
         $DATA
     },
-    /* Test number: 107 */
+    /* Test number: 105 */
     {
         "data": $DATA{ ,12}
             <frameset><frame><frameset><frame></frameset><noframes></noframes></frameset>
@@ -1646,7 +1619,7 @@
                 <noframes>
         $DATA
     },
-    /* Test number: 108 */
+    /* Test number: 106 */
     {
         "data": $DATA{ ,12}
             <h1><table><td><h3></table><h3></h1>
@@ -1664,7 +1637,7 @@
                 <h3>
         $DATA
     },
-    /* Test number: 109 */
+    /* Test number: 107 */
     {
         "data": $DATA{ ,12}
             <table><colgroup><col><colgroup><col><col><col><colgroup><col><col><thead><tr><td></table>
@@ -1688,7 +1661,7 @@
                       <td>
         $DATA
     },
-    /* Test number: 110 */
+    /* Test number: 108 */
     {
         "data": $DATA{ ,12}
             <table><col><tbody><col><tr><col><td><col></table><col>
@@ -1714,7 +1687,7 @@
                     <col>
         $DATA
     },
-    /* Test number: 111 */
+    /* Test number: 109 */
     {
         "data": $DATA{ ,12}
             <table><colgroup><tbody><colgroup><tr><colgroup><td><colgroup></table><colgroup>
@@ -1736,7 +1709,7 @@
                   <colgroup>
         $DATA
     },
-    /* Test number: 112 */
+    /* Test number: 110 */
     {
         "data": $DATA{ ,12}
             </strong></b></em></i></u></strike></s></blink></tt></pre></big></small></font></select></h1></h2></h3></h4></h5></h6></body></br></a></img></title></span></style></script></table></th></td></tr></frame></area></link></param></hr></input></col></base></meta></basefont></bgsound></embed></spacer></p></dd></dt></caption></colgroup></tbody></tfoot></thead></address></blockquote></center></dir></div></dl></fieldset></listing></menu></ol></ul></li></nobr></wbr></form></button></marquee></object></html></frameset></head></iframe></image></isindex></noembed></noframes></noscript></optgroup></option></plaintext></textarea>
@@ -1749,7 +1722,7 @@
                 <p>
         $DATA
     },
-    /* Test number: 113 */
+    /* Test number: 111 */
     {
         "data": $DATA{ ,12}
             <table><tr></strong></b></em></i></u></strike></s></blink></tt></pre></big></small></font></select></h1></h2></h3></h4></h5></h6></body></br></a></img></title></span></style></script></table></th></td></tr></frame></area></link></param></hr></input></col></base></meta></basefont></bgsound></embed></spacer></p></dd></dt></caption></colgroup></tbody></tfoot></thead></address></blockquote></center></dir></div></dl></fieldset></listing></menu></ol></ul></li></nobr></wbr></form></button></marquee></object></html></frameset></head></iframe></image></isindex></noembed></noframes></noscript></optgroup></option></plaintext></textarea>
@@ -1765,7 +1738,7 @@
                 <p>
         $DATA
     },
-    /* Test number: 114 */
+    /* Test number: 112 */
     {
         "data": $DATA{ ,12}
             <frameset>

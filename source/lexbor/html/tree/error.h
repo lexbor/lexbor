@@ -90,6 +90,18 @@ typedef enum {
     LXB_HTML_RULES_ERROR_DOTOAFFRMO,
     /* doctype-token-foreign-content-mode */
     LXB_HTML_RULES_ERROR_DOTOFOCOMO,
+    /* select-in-scope */
+    LXB_HTML_RULES_ERROR_SEINSC,
+    /* fragment-parsing-select-in-context-parse-input */
+    LXB_HTML_RULES_ERROR_FRPASEINCOPAIN,
+    /* fragment-parsing-select-in-context-parse-select */
+    LXB_HTML_RULES_ERROR_FRPASEINCOPASE,
+    /* hr-parsing-select-option-optgroup-in-scope */
+    LXB_HTML_RULES_ERROR_HRPASEOPOPINSC,
+    /* option-parsing-option-in-scope */
+    LXB_HTML_RULES_ERROR_OPPAOPINSC,
+    /* optgroup-parsing-option-optgroup-in-scope */
+    LXB_HTML_RULES_ERROR_OPPAOPOPINSC,
 
     LXB_HTML_RULES_ERROR_LAST_ENTRY
 }

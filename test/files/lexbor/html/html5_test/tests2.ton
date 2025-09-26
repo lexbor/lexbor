@@ -1,5 +1,5 @@
 [
-    /* Test count: 62 */
+    /* Test count: 63 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -602,6 +602,18 @@
     /* Test number: 45 */
     {
         "data": $DATA{ ,12}
+            <!DOCTYPE html> <!DOCTYPE html>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+        $DATA
+    },
+    /* Test number: 46 */
+    {
+        "data": $DATA{ ,12}
             test
             test
         $DATA,
@@ -613,7 +625,7 @@
             test"
         $DATA
     },
-    /* Test number: 46 */
+    /* Test number: 47 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE html><body><title>test</body></title>
@@ -627,7 +639,7 @@
                   "test</body>"
         $DATA
     },
-    /* Test number: 47 */
+    /* Test number: 48 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE html><body><title>X</title><meta name=z><link rel=foo><style>
@@ -647,7 +659,7 @@
             x { content:"</style" } "
         $DATA
     },
-    /* Test number: 48 */
+    /* Test number: 49 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE html><select><optgroup></optgroup></select>
@@ -661,7 +673,7 @@
                   <optgroup>
         $DATA
     },
-    /* Test number: 49 */
+    /* Test number: 50 */
     {
         "data": $DATA{ ,12}
              
@@ -673,7 +685,7 @@
               <body>
         $DATA
     },
-    /* Test number: 50 */
+    /* Test number: 51 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE html>  <html>
@@ -685,7 +697,7 @@
               <body>
         $DATA
     },
-    /* Test number: 51 */
+    /* Test number: 52 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE html><script>
@@ -705,7 +717,7 @@
               <body>
         $DATA
     },
-    /* Test number: 52 */
+    /* Test number: 53 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE html><html><body><html id=x>
@@ -717,7 +729,7 @@
               <body>
         $DATA
     },
-    /* Test number: 53 */
+    /* Test number: 54 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE html>X</body><html id="x">
@@ -730,7 +742,7 @@
                 "X"
         $DATA
     },
-    /* Test number: 54 */
+    /* Test number: 55 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE html><head><html id=x>
@@ -742,7 +754,7 @@
               <body>
         $DATA
     },
-    /* Test number: 55 */
+    /* Test number: 56 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE html>X</html>X
@@ -755,7 +767,7 @@
                 "XX"
         $DATA
     },
-    /* Test number: 56 */
+    /* Test number: 57 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE html>X</html> 
@@ -768,7 +780,7 @@
                 "X "
         $DATA
     },
-    /* Test number: 57 */
+    /* Test number: 58 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE html>X</html><p>X
@@ -783,7 +795,7 @@
                   "X"
         $DATA
     },
-    /* Test number: 58 */
+    /* Test number: 59 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE html>X<p/x/y/z>
@@ -797,7 +809,7 @@
                 <p x y z>
         $DATA
     },
-    /* Test number: 59 */
+    /* Test number: 60 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE html><!--x--
@@ -810,7 +822,7 @@
               <body>
         $DATA
     },
-    /* Test number: 60 */
+    /* Test number: 61 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE html><table><tr><td></p></table>
@@ -827,7 +839,7 @@
                         <p>
         $DATA
     },
-    /* Test number: 61 */
+    /* Test number: 62 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE <!DOCTYPE HTML>><!--<!--x-->-->
@@ -842,7 +854,7 @@
                 "-->"
         $DATA
     },
-    /* Test number: 62 */
+    /* Test number: 63 */
     {
         "data": $DATA{ ,12}
             <!doctype html><div><form></form><div></div></div>

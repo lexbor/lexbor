@@ -28,8 +28,7 @@ enum lxb_html_tag_category {
     LXB_HTML_TAG_CATEGORY_SCOPE           = 0x0008,
     LXB_HTML_TAG_CATEGORY_SCOPE_LIST_ITEM = 0x0010,
     LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON    = 0x0020,
-    LXB_HTML_TAG_CATEGORY_SCOPE_TABLE     = 0x0040,
-    LXB_HTML_TAG_CATEGORY_SCOPE_SELECT    = 0x0080,
+    LXB_HTML_TAG_CATEGORY_SCOPE_TABLE     = 0x0040
 };
 
 typedef struct {
@@ -55,7 +54,7 @@ lxb_html_tag_is_category(lxb_tag_id_t tag_id, lxb_ns_id_t ns,
         return lxb_html_tag_res_cats[tag_id][ns] & cat;
     }
 
-    return (LXB_HTML_TAG_CATEGORY_ORDINARY|LXB_HTML_TAG_CATEGORY_SCOPE_SELECT) & cat;
+    return (LXB_HTML_TAG_CATEGORY_ORDINARY) & cat;
 }
 
 lxb_inline const lxb_html_tag_fixname_t *

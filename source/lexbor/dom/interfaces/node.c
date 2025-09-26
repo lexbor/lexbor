@@ -778,6 +778,28 @@ lxb_dom_node_replace_child(lxb_dom_node_t *parent, lxb_dom_node_t *node,
 }
 
 lxb_dom_exception_code_t
+lxb_dom_node_replace_all_spec(lxb_dom_node_t *parent, lxb_dom_node_t *node)
+{
+    lxb_dom_node_t *child, *next;
+    lxb_dom_exception_code_t code;
+
+    child = parent->first_child;
+
+    while (child != NULL) {
+        next = child->next;
+
+        code = lxb_dom_node_remove_spec(child, true);
+        if (code != LXB_DOM_EXCEPTION_OK) {
+            return code;
+        }
+
+        child = next;
+    }
+
+    return lxb_dom_node_append_child(parent, node);
+}
+
+lxb_dom_exception_code_t
 lxb_dom_node_remove_spec(lxb_dom_node_t *node, bool suppress_observers)
 {
     if (node->parent == NULL) {

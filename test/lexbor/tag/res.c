@@ -352,10 +352,14 @@ TEST_BEGIN(names)
     test_ne(entry, NULL); test_eq_u_str(lexbor_hash_entry_str(&entry->entry), (const lxb_char_t *) "samp");
     entry = lxb_tag_data_by_name(tags, (const lxb_char_t *) "script", 6);
     test_ne(entry, NULL); test_eq_u_str(lexbor_hash_entry_str(&entry->entry), (const lxb_char_t *) "script");
+    entry = lxb_tag_data_by_name(tags, (const lxb_char_t *) "search", 6);
+    test_ne(entry, NULL); test_eq_u_str(lexbor_hash_entry_str(&entry->entry), (const lxb_char_t *) "search");
     entry = lxb_tag_data_by_name(tags, (const lxb_char_t *) "section", 7);
     test_ne(entry, NULL); test_eq_u_str(lexbor_hash_entry_str(&entry->entry), (const lxb_char_t *) "section");
     entry = lxb_tag_data_by_name(tags, (const lxb_char_t *) "select", 6);
     test_ne(entry, NULL); test_eq_u_str(lexbor_hash_entry_str(&entry->entry), (const lxb_char_t *) "select");
+    entry = lxb_tag_data_by_name(tags, (const lxb_char_t *) "selectedcontent", 15);
+    test_ne(entry, NULL); test_eq_u_str(lexbor_hash_entry_str(&entry->entry), (const lxb_char_t *) "selectedcontent");
     entry = lxb_tag_data_by_name(tags, (const lxb_char_t *) "slot", 4);
     test_ne(entry, NULL); test_eq_u_str(lexbor_hash_entry_str(&entry->entry), (const lxb_char_t *) "slot");
     entry = lxb_tag_data_by_name(tags, (const lxb_char_t *) "small", 5);

@@ -1,5 +1,5 @@
 [
-    /* Test count: 25 */
+    /* Test count: 23 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -55,19 +55,6 @@
     /* Test number: 5 */
     {
         "data": $DATA{ ,12}
-            <svg><![CDATA[foo
-        $DATA,
-        "result": $DATA{ ,12}
-            <html>
-              <head>
-              <body>
-                <svg:svg>
-                  "foo"
-        $DATA
-    },
-    /* Test number: 6 */
-    {
-        "data": $DATA{ ,12}
             <svg><![CDATA[
         $DATA,
         "result": $DATA{ ,12}
@@ -77,7 +64,7 @@
                 <svg:svg>
         $DATA
     },
-    /* Test number: 7 */
+    /* Test number: 6 */
     {
         "data": $DATA{ ,12}
             <svg><![CDATA[]]>
@@ -89,33 +76,20 @@
                 <svg:svg>
         $DATA
     },
+    /* Test number: 7 */
+    {
+        "data": $DATA{ ,12}
+            <svg><![CDATA[]] >]]>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <svg:svg>
+                  "]] >"
+        $DATA
+    },
     /* Test number: 8 */
-    {
-        "data": $DATA{ ,12}
-            <svg><![CDATA[]] >]]>
-        $DATA,
-        "result": $DATA{ ,12}
-            <html>
-              <head>
-              <body>
-                <svg:svg>
-                  "]] >"
-        $DATA
-    },
-    /* Test number: 9 */
-    {
-        "data": $DATA{ ,12}
-            <svg><![CDATA[]] >]]>
-        $DATA,
-        "result": $DATA{ ,12}
-            <html>
-              <head>
-              <body>
-                <svg:svg>
-                  "]] >"
-        $DATA
-    },
-    /* Test number: 10 */
     {
         "data": $DATA{ ,12}
             <svg><![CDATA[]]
@@ -128,7 +102,7 @@
                   "]]"
         $DATA
     },
-    /* Test number: 11 */
+    /* Test number: 9 */
     {
         "data": $DATA{ ,12}
             <svg><![CDATA[]
@@ -141,7 +115,7 @@
                   "]"
         $DATA
     },
-    /* Test number: 12 */
+    /* Test number: 10 */
     {
         "data": $DATA{ ,12}
             <svg><![CDATA[]>a
@@ -154,7 +128,7 @@
                   "]>a"
         $DATA
     },
-    /* Test number: 13 */
+    /* Test number: 11 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE html><svg><![CDATA[foo]]]>
@@ -168,7 +142,7 @@
                   "foo]"
         $DATA
     },
-    /* Test number: 14 */
+    /* Test number: 12 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE html><svg><![CDATA[foo]]]]>
@@ -182,7 +156,7 @@
                   "foo]]"
         $DATA
     },
-    /* Test number: 15 */
+    /* Test number: 13 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE html><svg><![CDATA[foo]]]]]>
@@ -196,7 +170,7 @@
                   "foo]]]"
         $DATA
     },
-    /* Test number: 16 */
+    /* Test number: 14 */
     {
         "data": $DATA{ ,12}
             <svg><foreignObject><div><![CDATA[foo]]>
@@ -211,7 +185,7 @@
                       <!-- [CDATA[foo]] -->
         $DATA
     },
-    /* Test number: 17 */
+    /* Test number: 15 */
     {
         "data": $DATA{ ,12}
             <svg><![CDATA[<svg>]]>
@@ -224,7 +198,7 @@
                   "<svg>"
         $DATA
     },
-    /* Test number: 18 */
+    /* Test number: 16 */
     {
         "data": $DATA{ ,12}
             <svg><![CDATA[</svg>a]]>
@@ -237,7 +211,7 @@
                   "</svg>a"
         $DATA
     },
-    /* Test number: 19 */
+    /* Test number: 17 */
     {
         "data": $DATA{ ,12}
             <svg><![CDATA[<svg>a
@@ -250,7 +224,7 @@
                   "<svg>a"
         $DATA
     },
-    /* Test number: 20 */
+    /* Test number: 18 */
     {
         "data": $DATA{ ,12}
             <svg><![CDATA[</svg>a
@@ -263,7 +237,7 @@
                   "</svg>a"
         $DATA
     },
-    /* Test number: 21 */
+    /* Test number: 19 */
     {
         "data": $DATA{ ,12}
             <svg><![CDATA[<svg>]]><path>
@@ -277,7 +251,7 @@
                   <svg:path>
         $DATA
     },
-    /* Test number: 22 */
+    /* Test number: 20 */
     {
         "data": $DATA{ ,12}
             <svg><![CDATA[<svg>]]></path>
@@ -290,7 +264,7 @@
                   "<svg>"
         $DATA
     },
-    /* Test number: 23 */
+    /* Test number: 21 */
     {
         "data": $DATA{ ,12}
             <svg><![CDATA[<svg>]]><!--path-->
@@ -304,7 +278,7 @@
                   <!-- path -->
         $DATA
     },
-    /* Test number: 24 */
+    /* Test number: 22 */
     {
         "data": $DATA{ ,12}
             <svg><![CDATA[<svg>]]>path
@@ -317,7 +291,7 @@
                   "<svg>path"
         $DATA
     },
-    /* Test number: 25 */
+    /* Test number: 23 */
     {
         "data": $DATA{ ,12}
             <svg><![CDATA[<!--svg-->]]>

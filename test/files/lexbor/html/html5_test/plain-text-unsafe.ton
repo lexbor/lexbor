@@ -9,7 +9,7 @@
             <html>
               <head>
               <body>
-                "FOOZOO"
+                "FOO\rZOO"
         $DATA
     },
     /* Test number: 2 */
@@ -282,8 +282,8 @@
     /* Test number: 24 */
     {
         "data": $DATA{ ,12}
-            <!DOCTYPE html><pre>\r
-            \r
+            <!DOCTYPE html><pre>
+            
             A</pre>
         $DATA,
         "result": $DATA{ ,12}
@@ -299,7 +299,9 @@
     /* Test number: 25 */
     {
         "data": $DATA{ ,12}
-            <!DOCTYPE html><pre>\r\rA</pre>
+            <!DOCTYPE html><pre>
+            
+            A</pre>
         $DATA,
         "result": $DATA{ ,12}
             <!DOCTYPE html>
@@ -314,7 +316,8 @@
     /* Test number: 26 */
     {
         "data": $DATA{ ,12}
-            <!DOCTYPE html><pre>\rA</pre>
+            <!DOCTYPE html><pre>
+            A</pre>
         $DATA,
         "result": $DATA{ ,12}
             <!DOCTYPE html>

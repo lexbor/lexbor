@@ -1,5 +1,5 @@
 [
-    /* Test count: 109 */
+    /* Test count: 112 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -918,23 +918,6 @@
     /* Test number: 63 */
     {
         "data": $DATA{ ,12}
-            <body><template><template><tr></tr></template><td></td></template>
-        $DATA,
-        "result": $DATA{ ,12}
-            <html>
-              <head>
-              <body>
-                <template>
-                  #document-fragment
-                    <template>
-                      #document-fragment
-                        <tr>
-                    <td>
-        $DATA
-    },
-    /* Test number: 64 */
-    {
-        "data": $DATA{ ,12}
             <body><table><colgroup><template><col></col></template></colgroup></table></body>
         $DATA,
         "result": $DATA{ ,12}
@@ -948,7 +931,7 @@
                         <col>
         $DATA
     },
-    /* Test number: 65 */
+    /* Test number: 64 */
     {
         "data": $DATA{ ,12}
             <body a=b><template><div></div><body c=d><div></div></body></template></body>
@@ -963,7 +946,7 @@
                     <div>
         $DATA
     },
-    /* Test number: 66 */
+    /* Test number: 65 */
     {
         "data": $DATA{ ,12}
             <html a=b><template><div><html b=c><span></template>
@@ -978,7 +961,7 @@
               <body>
         $DATA
     },
-    /* Test number: 67 */
+    /* Test number: 66 */
     {
         "data": $DATA{ ,12}
             <html a=b><template><col></col><html b=c><col></col></template>
@@ -993,7 +976,7 @@
               <body>
         $DATA
     },
-    /* Test number: 68 */
+    /* Test number: 67 */
     {
         "data": $DATA{ ,12}
             <html a=b><template><frame></frame><html b=c><frame></frame></template>
@@ -1005,7 +988,7 @@
               <body>
         $DATA
     },
-    /* Test number: 69 */
+    /* Test number: 68 */
     {
         "data": $DATA{ ,12}
             <body><template><tr></tr><template></template><td></td></template>
@@ -1022,7 +1005,7 @@
                       <td>
         $DATA
     },
-    /* Test number: 70 */
+    /* Test number: 69 */
     {
         "data": $DATA{ ,12}
             <body><template><thead></thead><template><tr></tr></template><tr></tr><tfoot></tfoot></template>
@@ -1042,7 +1025,7 @@
                     <tfoot>
         $DATA
     },
-    /* Test number: 71 */
+    /* Test number: 70 */
     {
         "data": $DATA{ ,12}
             <body><template><template><b><template></template></template>text</template>
@@ -1060,7 +1043,7 @@
                     "text"
         $DATA
     },
-    /* Test number: 72 */
+    /* Test number: 71 */
     {
         "data": $DATA{ ,12}
             <body><template><col><colgroup>
@@ -1074,7 +1057,7 @@
                     <col>
         $DATA
     },
-    /* Test number: 73 */
+    /* Test number: 72 */
     {
         "data": $DATA{ ,12}
             <body><template><col></colgroup>
@@ -1088,7 +1071,7 @@
                     <col>
         $DATA
     },
-    /* Test number: 74 */
+    /* Test number: 73 */
     {
         "data": $DATA{ ,12}
             <body><template><col><colgroup></template></body>
@@ -1102,7 +1085,7 @@
                     <col>
         $DATA
     },
-    /* Test number: 75 */
+    /* Test number: 74 */
     {
         "data": $DATA{ ,12}
             <body><template><col><div>
@@ -1116,7 +1099,7 @@
                     <col>
         $DATA
     },
-    /* Test number: 76 */
+    /* Test number: 75 */
     {
         "data": $DATA{ ,12}
             <body><template><col></div>
@@ -1130,7 +1113,7 @@
                     <col>
         $DATA
     },
-    /* Test number: 77 */
+    /* Test number: 76 */
     {
         "data": $DATA{ ,12}
             <body><template><col>Hello
@@ -1144,7 +1127,7 @@
                     <col>
         $DATA
     },
-    /* Test number: 78 */
+    /* Test number: 77 */
     {
         "data": $DATA{ ,12}
             <body><template><i><menu>Foo</i>
@@ -1161,7 +1144,7 @@
                         "Foo"
         $DATA
     },
-    /* Test number: 79 */
+    /* Test number: 78 */
     {
         "data": $DATA{ ,12}
             <body><template></div><div>Foo</div><template></template><tr></tr>
@@ -1177,7 +1160,7 @@
                     <template>
         $DATA
     },
-    /* Test number: 80 */
+    /* Test number: 79 */
     {
         "data": $DATA{ ,12}
             <body><div><template></div><tr><td>Foo</td></tr></template>
@@ -1194,7 +1177,7 @@
                           "Foo"
         $DATA
     },
-    /* Test number: 81 */
+    /* Test number: 80 */
     {
         "data": $DATA{ ,12}
             <template></figcaption><sub><table></table>
@@ -1209,7 +1192,7 @@
               <body>
         $DATA
     },
-    /* Test number: 82 */
+    /* Test number: 81 */
     {
         "data": $DATA{ ,12}
             <template><template>
@@ -1223,7 +1206,7 @@
               <body>
         $DATA
     },
-    /* Test number: 83 */
+    /* Test number: 82 */
     {
         "data": $DATA{ ,12}
             <template><div>
@@ -1237,7 +1220,7 @@
               <body>
         $DATA
     },
-    /* Test number: 84 */
+    /* Test number: 83 */
     {
         "data": $DATA{ ,12}
             <template><template><div>
@@ -1253,7 +1236,7 @@
               <body>
         $DATA
     },
-    /* Test number: 85 */
+    /* Test number: 84 */
     {
         "data": $DATA{ ,12}
             <template><template><table>
@@ -1269,7 +1252,7 @@
               <body>
         $DATA
     },
-    /* Test number: 86 */
+    /* Test number: 85 */
     {
         "data": $DATA{ ,12}
             <template><template><tbody>
@@ -1285,7 +1268,7 @@
               <body>
         $DATA
     },
-    /* Test number: 87 */
+    /* Test number: 86 */
     {
         "data": $DATA{ ,12}
             <template><template><tr>
@@ -1301,7 +1284,7 @@
               <body>
         $DATA
     },
-    /* Test number: 88 */
+    /* Test number: 87 */
     {
         "data": $DATA{ ,12}
             <template><template><td>
@@ -1317,7 +1300,7 @@
               <body>
         $DATA
     },
-    /* Test number: 89 */
+    /* Test number: 88 */
     {
         "data": $DATA{ ,12}
             <template><template><caption>
@@ -1333,7 +1316,7 @@
               <body>
         $DATA
     },
-    /* Test number: 90 */
+    /* Test number: 89 */
     {
         "data": $DATA{ ,12}
             <template><template><colgroup>
@@ -1349,7 +1332,7 @@
               <body>
         $DATA
     },
-    /* Test number: 91 */
+    /* Test number: 90 */
     {
         "data": $DATA{ ,12}
             <template><template><col>
@@ -1365,7 +1348,7 @@
               <body>
         $DATA
     },
-    /* Test number: 92 */
+    /* Test number: 91 */
     {
         "data": $DATA{ ,12}
             <template><template><tbody><select>
@@ -1382,7 +1365,7 @@
               <body>
         $DATA
     },
-    /* Test number: 93 */
+    /* Test number: 92 */
     {
         "data": $DATA{ ,12}
             <template><template><table>Foo
@@ -1399,7 +1382,7 @@
               <body>
         $DATA
     },
-    /* Test number: 94 */
+    /* Test number: 93 */
     {
         "data": $DATA{ ,12}
             <template><template><frame>
@@ -1413,7 +1396,7 @@
               <body>
         $DATA
     },
-    /* Test number: 95 */
+    /* Test number: 94 */
     {
         "data": $DATA{ ,12}
             <template><template><script>var i
@@ -1430,7 +1413,7 @@
               <body>
         $DATA
     },
-    /* Test number: 96 */
+    /* Test number: 95 */
     {
         "data": $DATA{ ,12}
             <template><template><style>var i
@@ -1447,7 +1430,7 @@
               <body>
         $DATA
     },
-    /* Test number: 97 */
+    /* Test number: 96 */
     {
         "data": $DATA{ ,12}
             <template><table></template><body><span>Foo
@@ -1463,7 +1446,7 @@
                   "Foo"
         $DATA
     },
-    /* Test number: 98 */
+    /* Test number: 97 */
     {
         "data": $DATA{ ,12}
             <template><td></template><body><span>Foo
@@ -1479,7 +1462,7 @@
                   "Foo"
         $DATA
     },
-    /* Test number: 99 */
+    /* Test number: 98 */
     {
         "data": $DATA{ ,12}
             <template><object></template><body><span>Foo
@@ -1495,7 +1478,7 @@
                   "Foo"
         $DATA
     },
-    /* Test number: 100 */
+    /* Test number: 99 */
     {
         "data": $DATA{ ,12}
             <template><svg><template>
@@ -1510,7 +1493,7 @@
               <body>
         $DATA
     },
-    /* Test number: 101 */
+    /* Test number: 100 */
     {
         "data": $DATA{ ,12}
             <template><svg><foo><template><foreignObject><div></template><div>
@@ -1529,7 +1512,7 @@
                 <div>
         $DATA
     },
-    /* Test number: 102 */
+    /* Test number: 101 */
     {
         "data": $DATA{ ,12}
             <dummy><template><span></dummy>
@@ -1544,7 +1527,7 @@
                       <span>
         $DATA
     },
-    /* Test number: 103 */
+    /* Test number: 102 */
     {
         "data": $DATA{ ,12}
             <body><table><tr><td><select><template>Foo</template><caption>A</table>
@@ -1565,7 +1548,7 @@
                     "A"
         $DATA
     },
-    /* Test number: 104 */
+    /* Test number: 103 */
     {
         "data": $DATA{ ,12}
             <body></body><template>
@@ -1577,7 +1560,7 @@
                 <template>
         $DATA
     },
-    /* Test number: 105 */
+    /* Test number: 104 */
     {
         "data": $DATA{ ,12}
             <head></head><template>
@@ -1589,7 +1572,7 @@
               <body>
         $DATA
     },
-    /* Test number: 106 */
+    /* Test number: 105 */
     {
         "data": $DATA{ ,12}
             <head></head><template>Foo</template>
@@ -1600,6 +1583,18 @@
                 <template>
                   #document-fragment
                     "Foo"
+              <body>
+        $DATA
+    },
+    /* Test number: 106 */
+    {
+        "data": $DATA{ ,12}
+            <html><head></head><template></template><head>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <template>
               <body>
         $DATA
     },
@@ -1643,14 +1638,72 @@
     /* Test number: 109 */
     {
         "data": $DATA{ ,12}
-            <svg><template>
+            <template><form><input name="q"></form><div>second</div></template>
+        $DATA,
+        "fragment": {"tag": "template", "ns": "html"},
+        "result": $DATA{ ,12}
+            <template>
+              #document-fragment
+                <form>
+                  <input name="q">
+                <div>
+                  "second"
+        $DATA
+    },
+    /* Test number: 110 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE HTML><template><tr><td>cell</td></tr></template>
         $DATA,
         "result": $DATA{ ,12}
+            <!DOCTYPE html>
             <html>
               <head>
+                <template>
+                  #document-fragment
+                    <tr>
+                      <td>
+                        "cell"
               <body>
-                <svg:svg>
-                  <svg:template>
+        $DATA
+    },
+    /* Test number: 111 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <template>
+                  #document-fragment
+                    " "
+                    <tr>
+                      " "
+                      <td>
+                        "cell"
+                      " "
+                    " "
+              <body>
+        $DATA
+    },
+    /* Test number: 112 */
+    {
+        "data": $DATA{ ,12}
+            <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+                <template>
+                  #document-fragment
+                    <tr>
+                      <td>
+                        "cell"
+                    "a"
+              <body>
         $DATA
     },
 ]

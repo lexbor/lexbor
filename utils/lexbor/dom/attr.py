@@ -19,7 +19,7 @@ attributes_name = [
     "style", "title", "checked", "maxlength", "content", "http-equiv", "scheme",
     "charset", "is", "for", "slot", "html", "system", "public", "type", "color",
     "face", "size", "active", "selected", "focus", "hover", "required", "placeholder",
-    "readonly"
+    "readonly", "multiple"
 ]
 
 

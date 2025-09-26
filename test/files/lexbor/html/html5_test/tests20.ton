@@ -1,5 +1,5 @@
 [
-    /* Test count: 44 */
+    /* Test count: 64 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -33,6 +33,36 @@
     /* Test number: 3 */
     {
         "data": $DATA{ ,12}
+            <!doctype html><p><button><article>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <article>
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><aside>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <aside>
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
             <!doctype html><p><button><blockquote>
         $DATA,
         "result": $DATA{ ,12}
@@ -45,7 +75,202 @@
                     <blockquote>
         $DATA
     },
-    /* Test number: 4 */
+    /* Test number: 6 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><center>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <center>
+        $DATA
+    },
+    /* Test number: 7 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><details>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <details>
+        $DATA
+    },
+    /* Test number: 8 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><dialog>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <dialog>
+        $DATA
+    },
+    /* Test number: 9 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><dir>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <dir>
+        $DATA
+    },
+    /* Test number: 10 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><div>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <div>
+        $DATA
+    },
+    /* Test number: 11 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><dl>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <dl>
+        $DATA
+    },
+    /* Test number: 12 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><fieldset>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <fieldset>
+        $DATA
+    },
+    /* Test number: 13 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><figcaption>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <figcaption>
+        $DATA
+    },
+    /* Test number: 14 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><figure>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <figure>
+        $DATA
+    },
+    /* Test number: 15 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><footer>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <footer>
+        $DATA
+    },
+    /* Test number: 16 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><header>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <header>
+        $DATA
+    },
+    /* Test number: 17 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><hgroup>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <hgroup>
+        $DATA
+    },
+    /* Test number: 18 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><main>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <main>
+        $DATA
+    },
+    /* Test number: 19 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><button><menu>
@@ -60,7 +285,37 @@
                     <menu>
         $DATA
     },
-    /* Test number: 5 */
+    /* Test number: 20 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><nav>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <nav>
+        $DATA
+    },
+    /* Test number: 21 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><ol>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <ol>
+        $DATA
+    },
+    /* Test number: 22 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><button><p>
@@ -75,7 +330,52 @@
                     <p>
         $DATA
     },
-    /* Test number: 6 */
+    /* Test number: 23 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><search>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <search>
+        $DATA
+    },
+    /* Test number: 24 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><section>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <section>
+        $DATA
+    },
+    /* Test number: 25 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><p><button><summary>
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <p>
+                  <button>
+                    <summary>
+        $DATA
+    },
+    /* Test number: 26 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><button><ul>
@@ -90,7 +390,7 @@
                     <ul>
         $DATA
     },
-    /* Test number: 7 */
+    /* Test number: 27 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><button><h1>
@@ -105,7 +405,7 @@
                     <h1>
         $DATA
     },
-    /* Test number: 8 */
+    /* Test number: 28 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><button><h6>
@@ -120,7 +420,7 @@
                     <h6>
         $DATA
     },
-    /* Test number: 9 */
+    /* Test number: 29 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><button><listing>
@@ -135,7 +435,7 @@
                     <listing>
         $DATA
     },
-    /* Test number: 10 */
+    /* Test number: 30 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><button><pre>
@@ -150,7 +450,7 @@
                     <pre>
         $DATA
     },
-    /* Test number: 11 */
+    /* Test number: 31 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><button><form>
@@ -165,7 +465,7 @@
                     <form>
         $DATA
     },
-    /* Test number: 12 */
+    /* Test number: 32 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><button><li>
@@ -180,7 +480,7 @@
                     <li>
         $DATA
     },
-    /* Test number: 13 */
+    /* Test number: 33 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><button><dd>
@@ -195,7 +495,7 @@
                     <dd>
         $DATA
     },
-    /* Test number: 14 */
+    /* Test number: 34 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><button><dt>
@@ -210,7 +510,7 @@
                     <dt>
         $DATA
     },
-    /* Test number: 15 */
+    /* Test number: 35 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><button><plaintext>
@@ -225,7 +525,7 @@
                     <plaintext>
         $DATA
     },
-    /* Test number: 16 */
+    /* Test number: 36 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><button><table>
@@ -240,7 +540,7 @@
                     <table>
         $DATA
     },
-    /* Test number: 17 */
+    /* Test number: 37 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><button><hr>
@@ -255,7 +555,7 @@
                     <hr>
         $DATA
     },
-    /* Test number: 18 */
+    /* Test number: 38 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><button><xmp>
@@ -270,7 +570,7 @@
                     <xmp>
         $DATA
     },
-    /* Test number: 19 */
+    /* Test number: 39 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><button></p>
@@ -285,7 +585,22 @@
                     <p>
         $DATA
     },
-    /* Test number: 20 */
+    /* Test number: 40 */
+    {
+        "data": $DATA{ ,12}
+            <!doctype html><button><p></button>x
+        $DATA,
+        "result": $DATA{ ,12}
+            <!DOCTYPE html>
+            <html>
+              <head>
+              <body>
+                <button>
+                  <p>
+                "x"
+        $DATA
+    },
+    /* Test number: 41 */
     {
         "data": $DATA{ ,12}
             <!doctype html><address><button></address>a
@@ -300,22 +615,7 @@
                 "a"
         $DATA
     },
-    /* Test number: 21 */
-    {
-        "data": $DATA{ ,12}
-            <!doctype html><address><button></address>a
-        $DATA,
-        "result": $DATA{ ,12}
-            <!DOCTYPE html>
-            <html>
-              <head>
-              <body>
-                <address>
-                  <button>
-                "a"
-        $DATA
-    },
-    /* Test number: 22 */
+    /* Test number: 42 */
     {
         "data": $DATA{ ,12}
             <p><table></p>
@@ -329,7 +629,7 @@
                   <table>
         $DATA
     },
-    /* Test number: 23 */
+    /* Test number: 43 */
     {
         "data": $DATA{ ,12}
             <!doctype html><svg>
@@ -342,7 +642,7 @@
                 <svg:svg>
         $DATA
     },
-    /* Test number: 24 */
+    /* Test number: 44 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><figcaption>
@@ -356,7 +656,7 @@
                 <figcaption>
         $DATA
     },
-    /* Test number: 25 */
+    /* Test number: 45 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><summary>
@@ -370,7 +670,7 @@
                 <summary>
         $DATA
     },
-    /* Test number: 26 */
+    /* Test number: 46 */
     {
         "data": $DATA{ ,12}
             <!doctype html><form><table><form>
@@ -384,7 +684,7 @@
                   <table>
         $DATA
     },
-    /* Test number: 27 */
+    /* Test number: 47 */
     {
         "data": $DATA{ ,12}
             <!doctype html><table><form><form>
@@ -398,7 +698,7 @@
                   <form>
         $DATA
     },
-    /* Test number: 28 */
+    /* Test number: 48 */
     {
         "data": $DATA{ ,12}
             <!doctype html><table><form></table><form>
@@ -412,7 +712,7 @@
                   <form>
         $DATA
     },
-    /* Test number: 29 */
+    /* Test number: 49 */
     {
         "data": $DATA{ ,12}
             <!doctype html><svg><foreignObject><p>
@@ -427,7 +727,7 @@
                     <p>
         $DATA
     },
-    /* Test number: 30 */
+    /* Test number: 50 */
     {
         "data": $DATA{ ,12}
             <!doctype html><svg><title>abc
@@ -442,7 +742,7 @@
                     "abc"
         $DATA
     },
-    /* Test number: 31 */
+    /* Test number: 51 */
     {
         "data": $DATA{ ,12}
             <option><span><option>
@@ -456,7 +756,7 @@
                     <option>
         $DATA
     },
-    /* Test number: 32 */
+    /* Test number: 52 */
     {
         "data": $DATA{ ,12}
             <option><option>
@@ -469,7 +769,7 @@
                 <option>
         $DATA
     },
-    /* Test number: 33 */
+    /* Test number: 53 */
     {
         "data": $DATA{ ,12}
             <math><annotation-xml><div>
@@ -483,7 +783,7 @@
                 <div>
         $DATA
     },
-    /* Test number: 34 */
+    /* Test number: 54 */
     {
         "data": $DATA{ ,12}
             <math><annotation-xml encoding="application/svg+xml"><div>
@@ -497,7 +797,7 @@
                 <div>
         $DATA
     },
-    /* Test number: 35 */
+    /* Test number: 55 */
     {
         "data": $DATA{ ,12}
             <math><annotation-xml encoding="application/xhtml+xml"><div>
@@ -511,7 +811,7 @@
                     <div>
         $DATA
     },
-    /* Test number: 36 */
+    /* Test number: 56 */
     {
         "data": $DATA{ ,12}
             <math><annotation-xml encoding="aPPlication/xhtmL+xMl"><div>
@@ -525,7 +825,7 @@
                     <div>
         $DATA
     },
-    /* Test number: 37 */
+    /* Test number: 57 */
     {
         "data": $DATA{ ,12}
             <math><annotation-xml encoding="text/html"><div>
@@ -539,7 +839,7 @@
                     <div>
         $DATA
     },
-    /* Test number: 38 */
+    /* Test number: 58 */
     {
         "data": $DATA{ ,12}
             <math><annotation-xml encoding="Text/htmL"><div>
@@ -553,7 +853,7 @@
                     <div>
         $DATA
     },
-    /* Test number: 39 */
+    /* Test number: 59 */
     {
         "data": $DATA{ ,12}
             <math><annotation-xml encoding=" text/html "><div>
@@ -567,7 +867,7 @@
                 <div>
         $DATA
     },
-    /* Test number: 40 */
+    /* Test number: 60 */
     {
         "data": $DATA{ ,12}
             <math><annotation-xml> </annotation-xml>
@@ -581,7 +881,7 @@
                     " "
         $DATA
     },
-    /* Test number: 41 */
+    /* Test number: 61 */
     {
         "data": $DATA{ ,12}
             <math><annotation-xml>c</annotation-xml>
@@ -595,7 +895,7 @@
                     "c"
         $DATA
     },
-    /* Test number: 42 */
+    /* Test number: 62 */
     {
         "data": $DATA{ ,12}
             <math><annotation-xml><!--foo-->
@@ -609,7 +909,7 @@
                     <!-- foo -->
         $DATA
     },
-    /* Test number: 43 */
+    /* Test number: 63 */
     {
         "data": $DATA{ ,12}
             <math><annotation-xml></svg>x
@@ -623,7 +923,7 @@
                     "x"
         $DATA
     },
-    /* Test number: 44 */
+    /* Test number: 64 */
     {
         "data": $DATA{ ,12}
             <math><annotation-xml><svg>x

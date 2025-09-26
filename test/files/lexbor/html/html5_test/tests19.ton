@@ -1,5 +1,5 @@
 [
-    /* Test count: 105 */
+    /* Test count: 103 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -436,20 +436,6 @@
     /* Test number: 30 */
     {
         "data": $DATA{ ,12}
-            <!doctype html><select><option></optgroup>
-        $DATA,
-        "result": $DATA{ ,12}
-            <!DOCTYPE html>
-            <html>
-              <head>
-              <body>
-                <select>
-                  <option>
-        $DATA
-    },
-    /* Test number: 31 */
-    {
-        "data": $DATA{ ,12}
             <!doctype html><dd><optgroup><dd>
         $DATA,
         "result": $DATA{ ,12}
@@ -462,7 +448,7 @@
                 <dd>
         $DATA
     },
-    /* Test number: 32 */
+    /* Test number: 31 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><math><mi><p><h1>
@@ -479,7 +465,7 @@
                       <h1>
         $DATA
     },
-    /* Test number: 33 */
+    /* Test number: 32 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><math><mo><p><h1>
@@ -496,7 +482,7 @@
                       <h1>
         $DATA
     },
-    /* Test number: 34 */
+    /* Test number: 33 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><math><mn><p><h1>
@@ -513,7 +499,7 @@
                       <h1>
         $DATA
     },
-    /* Test number: 35 */
+    /* Test number: 34 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><math><ms><p><h1>
@@ -530,7 +516,7 @@
                       <h1>
         $DATA
     },
-    /* Test number: 36 */
+    /* Test number: 35 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><math><mtext><p><h1>
@@ -547,7 +533,7 @@
                       <h1>
         $DATA
     },
-    /* Test number: 37 */
+    /* Test number: 36 */
     {
         "data": $DATA{ ,12}
             <!doctype html><frameset></noframes>
@@ -559,7 +545,7 @@
               <frameset>
         $DATA
     },
-    /* Test number: 38 */
+    /* Test number: 37 */
     {
         "data": $DATA{ ,12}
             <!doctype html><html c=d><body></html><html a=b>
@@ -571,7 +557,7 @@
               <body>
         $DATA
     },
-    /* Test number: 39 */
+    /* Test number: 38 */
     {
         "data": $DATA{ ,12}
             <!doctype html><html c=d><frameset></frameset></html><html a=b>
@@ -583,7 +569,7 @@
               <frameset>
         $DATA
     },
-    /* Test number: 40 */
+    /* Test number: 39 */
     {
         "data": $DATA{ ,12}
             <!doctype html><html><frameset></frameset></html><!--foo-->
@@ -596,7 +582,7 @@
             <!-- foo -->
         $DATA
     },
-    /* Test number: 41 */
+    /* Test number: 40 */
     {
         "data": $DATA{ ,12}
             <!doctype html><html><frameset></frameset></html>  
@@ -609,7 +595,7 @@
               "  "
         $DATA
     },
-    /* Test number: 42 */
+    /* Test number: 41 */
     {
         "data": $DATA{ ,12}
             <!doctype html><html><frameset></frameset></html>abc
@@ -621,7 +607,7 @@
               <frameset>
         $DATA
     },
-    /* Test number: 43 */
+    /* Test number: 42 */
     {
         "data": $DATA{ ,12}
             <!doctype html><html><frameset></frameset></html><p>
@@ -633,7 +619,7 @@
               <frameset>
         $DATA
     },
-    /* Test number: 44 */
+    /* Test number: 43 */
     {
         "data": $DATA{ ,12}
             <!doctype html><html><frameset></frameset></html></p>
@@ -645,7 +631,7 @@
               <frameset>
         $DATA
     },
-    /* Test number: 45 */
+    /* Test number: 44 */
     {
         "data": $DATA{ ,12}
             <html><frameset></frameset></html><!doctype html>
@@ -656,7 +642,7 @@
               <frameset>
         $DATA
     },
-    /* Test number: 46 */
+    /* Test number: 45 */
     {
         "data": $DATA{ ,12}
             <!doctype html><body><frameset>
@@ -668,7 +654,7 @@
               <body>
         $DATA
     },
-    /* Test number: 47 */
+    /* Test number: 46 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><frameset><frame>
@@ -681,7 +667,7 @@
                 <frame>
         $DATA
     },
-    /* Test number: 48 */
+    /* Test number: 47 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p>a<frameset>
@@ -695,7 +681,7 @@
                   "a"
         $DATA
     },
-    /* Test number: 49 */
+    /* Test number: 48 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p> <frameset><frame>
@@ -708,7 +694,7 @@
                 <frame>
         $DATA
     },
-    /* Test number: 50 */
+    /* Test number: 49 */
     {
         "data": $DATA{ ,12}
             <!doctype html><pre><frameset>
@@ -721,7 +707,7 @@
                 <pre>
         $DATA
     },
-    /* Test number: 51 */
+    /* Test number: 50 */
     {
         "data": $DATA{ ,12}
             <!doctype html><listing><frameset>
@@ -734,7 +720,7 @@
                 <listing>
         $DATA
     },
-    /* Test number: 52 */
+    /* Test number: 51 */
     {
         "data": $DATA{ ,12}
             <!doctype html><li><frameset>
@@ -747,7 +733,7 @@
                 <li>
         $DATA
     },
-    /* Test number: 53 */
+    /* Test number: 52 */
     {
         "data": $DATA{ ,12}
             <!doctype html><dd><frameset>
@@ -760,7 +746,7 @@
                 <dd>
         $DATA
     },
-    /* Test number: 54 */
+    /* Test number: 53 */
     {
         "data": $DATA{ ,12}
             <!doctype html><dt><frameset>
@@ -773,7 +759,7 @@
                 <dt>
         $DATA
     },
-    /* Test number: 55 */
+    /* Test number: 54 */
     {
         "data": $DATA{ ,12}
             <!doctype html><button><frameset>
@@ -786,7 +772,7 @@
                 <button>
         $DATA
     },
-    /* Test number: 56 */
+    /* Test number: 55 */
     {
         "data": $DATA{ ,12}
             <!doctype html><applet><frameset>
@@ -799,7 +785,7 @@
                 <applet>
         $DATA
     },
-    /* Test number: 57 */
+    /* Test number: 56 */
     {
         "data": $DATA{ ,12}
             <!doctype html><marquee><frameset>
@@ -812,7 +798,7 @@
                 <marquee>
         $DATA
     },
-    /* Test number: 58 */
+    /* Test number: 57 */
     {
         "data": $DATA{ ,12}
             <!doctype html><object><frameset>
@@ -825,7 +811,7 @@
                 <object>
         $DATA
     },
-    /* Test number: 59 */
+    /* Test number: 58 */
     {
         "data": $DATA{ ,12}
             <!doctype html><table><frameset>
@@ -838,7 +824,7 @@
                 <table>
         $DATA
     },
-    /* Test number: 60 */
+    /* Test number: 59 */
     {
         "data": $DATA{ ,12}
             <!doctype html><area><frameset>
@@ -851,7 +837,7 @@
                 <area>
         $DATA
     },
-    /* Test number: 61 */
+    /* Test number: 60 */
     {
         "data": $DATA{ ,12}
             <!doctype html><basefont><frameset>
@@ -864,7 +850,7 @@
               <frameset>
         $DATA
     },
-    /* Test number: 62 */
+    /* Test number: 61 */
     {
         "data": $DATA{ ,12}
             <!doctype html><bgsound><frameset>
@@ -877,7 +863,7 @@
               <frameset>
         $DATA
     },
-    /* Test number: 63 */
+    /* Test number: 62 */
     {
         "data": $DATA{ ,12}
             <!doctype html><br><frameset>
@@ -890,7 +876,7 @@
                 <br>
         $DATA
     },
-    /* Test number: 64 */
+    /* Test number: 63 */
     {
         "data": $DATA{ ,12}
             <!doctype html><embed><frameset>
@@ -903,7 +889,7 @@
                 <embed>
         $DATA
     },
-    /* Test number: 65 */
+    /* Test number: 64 */
     {
         "data": $DATA{ ,12}
             <!doctype html><img><frameset>
@@ -916,7 +902,7 @@
                 <img>
         $DATA
     },
-    /* Test number: 66 */
+    /* Test number: 65 */
     {
         "data": $DATA{ ,12}
             <!doctype html><input><frameset>
@@ -929,7 +915,7 @@
                 <input>
         $DATA
     },
-    /* Test number: 67 */
+    /* Test number: 66 */
     {
         "data": $DATA{ ,12}
             <!doctype html><keygen><frameset>
@@ -942,7 +928,7 @@
                 <keygen>
         $DATA
     },
-    /* Test number: 68 */
+    /* Test number: 67 */
     {
         "data": $DATA{ ,12}
             <!doctype html><wbr><frameset>
@@ -955,7 +941,7 @@
                 <wbr>
         $DATA
     },
-    /* Test number: 69 */
+    /* Test number: 68 */
     {
         "data": $DATA{ ,12}
             <!doctype html><hr><frameset>
@@ -968,7 +954,7 @@
                 <hr>
         $DATA
     },
-    /* Test number: 70 */
+    /* Test number: 69 */
     {
         "data": $DATA{ ,12}
             <!doctype html><textarea></textarea><frameset>
@@ -981,7 +967,7 @@
                 <textarea>
         $DATA
     },
-    /* Test number: 71 */
+    /* Test number: 70 */
     {
         "data": $DATA{ ,12}
             <!doctype html><xmp></xmp><frameset>
@@ -994,7 +980,7 @@
                 <xmp>
         $DATA
     },
-    /* Test number: 72 */
+    /* Test number: 71 */
     {
         "data": $DATA{ ,12}
             <!doctype html><iframe></iframe><frameset>
@@ -1007,7 +993,7 @@
                 <iframe>
         $DATA
     },
-    /* Test number: 73 */
+    /* Test number: 72 */
     {
         "data": $DATA{ ,12}
             <!doctype html><select></select><frameset>
@@ -1020,7 +1006,7 @@
                 <select>
         $DATA
     },
-    /* Test number: 74 */
+    /* Test number: 73 */
     {
         "data": $DATA{ ,12}
             <!doctype html><svg></svg><frameset><frame>
@@ -1033,7 +1019,7 @@
                 <frame>
         $DATA
     },
-    /* Test number: 75 */
+    /* Test number: 74 */
     {
         "data": $DATA{ ,12}
             <!doctype html><math></math><frameset><frame>
@@ -1046,7 +1032,7 @@
                 <frame>
         $DATA
     },
-    /* Test number: 76 */
+    /* Test number: 75 */
     {
         "data": $DATA{ ,12}
             <!doctype html><svg><foreignObject><div> <frameset><frame>
@@ -1059,7 +1045,7 @@
                 <frame>
         $DATA
     },
-    /* Test number: 77 */
+    /* Test number: 76 */
     {
         "data": $DATA{ ,12}
             <!doctype html><svg>a</svg><frameset><frame>
@@ -1073,7 +1059,7 @@
                   "a"
         $DATA
     },
-    /* Test number: 78 */
+    /* Test number: 77 */
     {
         "data": $DATA{ ,12}
             <!doctype html><svg> </svg><frameset><frame>
@@ -1086,7 +1072,7 @@
                 <frame>
         $DATA
     },
-    /* Test number: 79 */
+    /* Test number: 78 */
     {
         "data": $DATA{ ,12}
             <html>aaa<frameset></frameset>
@@ -1098,7 +1084,7 @@
                 "aaa"
         $DATA
     },
-    /* Test number: 80 */
+    /* Test number: 79 */
     {
         "data": $DATA{ ,12}
             <html> a <frameset></frameset>
@@ -1110,7 +1096,7 @@
                 "a "
         $DATA
     },
-    /* Test number: 81 */
+    /* Test number: 80 */
     {
         "data": $DATA{ ,12}
             <!doctype html><div><frameset>
@@ -1122,7 +1108,7 @@
               <frameset>
         $DATA
     },
-    /* Test number: 82 */
+    /* Test number: 81 */
     {
         "data": $DATA{ ,12}
             <!doctype html><div><body><frameset>
@@ -1135,7 +1121,7 @@
                 <div>
         $DATA
     },
-    /* Test number: 83 */
+    /* Test number: 82 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><math></p>a
@@ -1150,7 +1136,7 @@
                 "a"
         $DATA
     },
-    /* Test number: 84 */
+    /* Test number: 83 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><math><mn><span></p>a
@@ -1168,7 +1154,7 @@
                         "a"
         $DATA
     },
-    /* Test number: 85 */
+    /* Test number: 84 */
     {
         "data": $DATA{ ,12}
             <!doctype html><math></html>
@@ -1181,7 +1167,7 @@
                 <math:math>
         $DATA
     },
-    /* Test number: 86 */
+    /* Test number: 85 */
     {
         "data": $DATA{ ,12}
             <!doctype html><meta charset="ascii">
@@ -1194,7 +1180,7 @@
               <body>
         $DATA
     },
-    /* Test number: 87 */
+    /* Test number: 86 */
     {
         "data": $DATA{ ,12}
             <!doctype html><meta http-equiv="content-type" content="text/html;charset=ascii">
@@ -1207,7 +1193,7 @@
               <body>
         $DATA
     },
-    /* Test number: 88 */
+    /* Test number: 87 */
     {
         "data": $DATA{ ,12}
             <!doctype html><head><!--aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa--><meta charset="utf8">
@@ -1221,7 +1207,7 @@
               <body>
         $DATA
     },
-    /* Test number: 89 */
+    /* Test number: 88 */
     {
         "data": $DATA{ ,12}
             <!doctype html><html a=b><head></head><html c=d>
@@ -1233,7 +1219,7 @@
               <body>
         $DATA
     },
-    /* Test number: 90 */
+    /* Test number: 89 */
     {
         "data": $DATA{ ,12}
             <!doctype html><image/>
@@ -1246,7 +1232,7 @@
                 <img>
         $DATA
     },
-    /* Test number: 91 */
+    /* Test number: 90 */
     {
         "data": $DATA{ ,12}
             <!doctype html>a<i>b<table>c<b>d</i>e</b>f
@@ -1265,7 +1251,7 @@
                   <table>
         $DATA
     },
-    /* Test number: 92 */
+    /* Test number: 91 */
     {
         "data": $DATA{ ,12}
             <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
@@ -1293,7 +1279,7 @@
                 <table>
         $DATA
     },
-    /* Test number: 93 */
+    /* Test number: 92 */
     {
         "data": $DATA{ ,12}
             <!doctype html><i>a<b>b<div>c<a>d</i>e</b>f
@@ -1320,7 +1306,7 @@
                     "f"
         $DATA
     },
-    /* Test number: 94 */
+    /* Test number: 93 */
     {
         "data": $DATA{ ,12}
             <!doctype html><table><i>a<b>b<div>c</i>
@@ -1341,35 +1327,7 @@
                 <table>
         $DATA
     },
-    /* Test number: 95 */
-    {
-        "data": $DATA{ ,12}
-            <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
-        $DATA,
-        "result": $DATA{ ,12}
-            <!DOCTYPE html>
-            <html>
-              <head>
-              <body>
-                <i>
-                  "a"
-                  <b>
-                    "b"
-                <b>
-                <div>
-                  <b>
-                    <i>
-                      "c"
-                      <a>
-                        "d"
-                    <a>
-                      "e"
-                  <a>
-                    "f"
-                <table>
-        $DATA
-    },
-    /* Test number: 96 */
+    /* Test number: 94 */
     {
         "data": $DATA{ ,12}
             <!doctype html><table><i>a<div>b<tr>c<b>d</i>e
@@ -1394,7 +1352,7 @@
                     <tr>
         $DATA
     },
-    /* Test number: 97 */
+    /* Test number: 95 */
     {
         "data": $DATA{ ,12}
             <!doctype html><table><td><table><i>a<div>b<b>c</i>d
@@ -1420,7 +1378,7 @@
                         <table>
         $DATA
     },
-    /* Test number: 98 */
+    /* Test number: 96 */
     {
         "data": $DATA{ ,12}
             <!doctype html><body><bgsound>
@@ -1433,7 +1391,7 @@
                 <bgsound>
         $DATA
     },
-    /* Test number: 99 */
+    /* Test number: 97 */
     {
         "data": $DATA{ ,12}
             <!doctype html><body><basefont>
@@ -1446,7 +1404,7 @@
                 <basefont>
         $DATA
     },
-    /* Test number: 100 */
+    /* Test number: 98 */
     {
         "data": $DATA{ ,12}
             <!doctype html><a><b></a><basefont>
@@ -1461,7 +1419,7 @@
                 <basefont>
         $DATA
     },
-    /* Test number: 101 */
+    /* Test number: 99 */
     {
         "data": $DATA{ ,12}
             <!doctype html><a><b></a><bgsound>
@@ -1476,7 +1434,7 @@
                 <bgsound>
         $DATA
     },
-    /* Test number: 102 */
+    /* Test number: 100 */
     {
         "data": $DATA{ ,12}
             <!doctype html><figcaption><article></figcaption>a
@@ -1491,7 +1449,7 @@
                 "a"
         $DATA
     },
-    /* Test number: 103 */
+    /* Test number: 101 */
     {
         "data": $DATA{ ,12}
             <!doctype html><summary><article></summary>a
@@ -1506,7 +1464,7 @@
                 "a"
         $DATA
     },
-    /* Test number: 104 */
+    /* Test number: 102 */
     {
         "data": $DATA{ ,12}
             <!doctype html><p><a><plaintext>b
@@ -1523,7 +1481,7 @@
                     "b"
         $DATA
     },
-    /* Test number: 105 */
+    /* Test number: 103 */
     {
         "data": $DATA{ ,12}
             <!DOCTYPE html><div>a<a></div>b<p>c</p>d

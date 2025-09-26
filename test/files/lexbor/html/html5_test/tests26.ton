@@ -1,5 +1,5 @@
 [
-    /* Test count: 18 */
+    /* Test count: 20 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -347,42 +347,57 @@
     /* Test number: 17 */
     {
         "data": $DATA{ ,12}
-            <sometag><p><button>
+            <svg></p><foo>
         $DATA,
         "result": $DATA{ ,12}
             <html>
               <head>
               <body>
-                <sometag>
-                  <p>
-                    <button>
+                <svg:svg>
+                <p>
+                <foo>
         $DATA
     },
     /* Test number: 18 */
     {
         "data": $DATA{ ,12}
-            <p><font data=1 size=4><font data=1 color=red><font data=1 size=4><font data=1 size=4><font data=1 size=4><font size=4 data=1><font data=1 size=4><font color=red><p>X
+            <svg></br><foo>
         $DATA,
         "result": $DATA{ ,12}
             <html>
               <head>
               <body>
+                <svg:svg>
+                <br>
+                <foo>
+        $DATA
+    },
+    /* Test number: 19 */
+    {
+        "data": $DATA{ ,12}
+            <math></p><foo>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <math:math>
                 <p>
-                  <font data="1" size="4">
-                    <font data="1" color="red">
-                      <font data="1" size="4">
-                        <font data="1" size="4">
-                          <font data="1" size="4">
-                            <font size="4" data="1">
-                              <font data="1" size="4">
-                                <font color="red">
-                <p>
-                  <font data="1" color="red">
-                    <font data="1" size="4">
-                      <font size="4" data="1">
-                        <font data="1" size="4">
-                          <font color="red">
-                            "X"
+                <foo>
+        $DATA
+    },
+    /* Test number: 20 */
+    {
+        "data": $DATA{ ,12}
+            <math></br><foo>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <math:math>
+                <br>
+                <foo>
         $DATA
     },
 ]

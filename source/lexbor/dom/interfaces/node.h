@@ -233,6 +233,9 @@ LXB_API lxb_dom_exception_code_t
 lxb_dom_node_replace_child(lxb_dom_node_t *parent, lxb_dom_node_t *node,
                            lxb_dom_node_t *child);
 
+LXB_API lxb_dom_exception_code_t
+lxb_dom_node_replace_all_spec(lxb_dom_node_t *parent, lxb_dom_node_t *node);
+
 LXB_API lxb_status_t
 lxb_dom_node_replace_all(lxb_dom_node_t *parent, lxb_dom_node_t *node);
 

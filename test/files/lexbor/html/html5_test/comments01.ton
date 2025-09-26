@@ -1,5 +1,5 @@
 [
-    /* Test count: 14 */
+    /* Test count: 16 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -31,6 +31,34 @@
     /* Test number: 3 */
     {
         "data": $DATA{ ,12}
+            FOO<!-- BAR --! >BAZ
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <!--  BAR --! >BAZ -->
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            FOO<!-- BAR --!
+            >BAZ
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "FOO"
+                <!--  BAR --!
+            >BAZ -->
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
             FOO<!-- BAR --   >BAZ
         $DATA,
         "result": $DATA{ ,12}
@@ -41,7 +69,7 @@
                 <!--  BAR --   >BAZ -->
         $DATA
     },
-    /* Test number: 4 */
+    /* Test number: 6 */
     {
         "data": $DATA{ ,12}
             FOO<!-- BAR -- <QUX> -- MUX -->BAZ
@@ -55,7 +83,7 @@
                 "BAZ"
         $DATA
     },
-    /* Test number: 5 */
+    /* Test number: 7 */
     {
         "data": $DATA{ ,12}
             FOO<!-- BAR -- <QUX> -- MUX --!>BAZ
@@ -69,7 +97,7 @@
                 "BAZ"
         $DATA
     },
-    /* Test number: 6 */
+    /* Test number: 8 */
     {
         "data": $DATA{ ,12}
             FOO<!-- BAR -- <QUX> -- MUX -- >BAZ
@@ -82,7 +110,7 @@
                 <!--  BAR -- <QUX> -- MUX -- >BAZ -->
         $DATA
     },
-    /* Test number: 7 */
+    /* Test number: 9 */
     {
         "data": $DATA{ ,12}
             FOO<!---->BAZ
@@ -96,7 +124,7 @@
                 "BAZ"
         $DATA
     },
-    /* Test number: 8 */
+    /* Test number: 10 */
     {
         "data": $DATA{ ,12}
             FOO<!--->BAZ
@@ -110,7 +138,7 @@
                 "BAZ"
         $DATA
     },
-    /* Test number: 9 */
+    /* Test number: 11 */
     {
         "data": $DATA{ ,12}
             FOO<!-->BAZ
@@ -124,7 +152,7 @@
                 "BAZ"
         $DATA
     },
-    /* Test number: 10 */
+    /* Test number: 12 */
     {
         "data": $DATA{ ,12}
             <?xml version="1.0">Hi
@@ -137,7 +165,7 @@
                 "Hi"
         $DATA
     },
-    /* Test number: 11 */
+    /* Test number: 13 */
     {
         "data": $DATA{ ,12}
             <?xml version="1.0">
@@ -149,7 +177,7 @@
               <body>
         $DATA
     },
-    /* Test number: 12 */
+    /* Test number: 14 */
     {
         "data": $DATA{ ,12}
             <?xml version
@@ -161,7 +189,7 @@
               <body>
         $DATA
     },
-    /* Test number: 13 */
+    /* Test number: 15 */
     {
         "data": $DATA{ ,12}
             FOO<!----->BAZ
@@ -175,7 +203,7 @@
                 "BAZ"
         $DATA
     },
-    /* Test number: 14 */
+    /* Test number: 16 */
     {
         "data": $DATA{ ,12}
             <html><!-- comment --><title>Comment before head</title>

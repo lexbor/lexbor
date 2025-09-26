@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2025 Alexander Borisov
+ * Copyright (C) 2018 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -17,9 +17,9 @@
 #endif /* LXB_HTML_INTERFACE_RES_H */
 
 #ifdef LXB_TAG_CONST_VERSION
-#ifndef LXB_TAG_CONST_VERSION_A161EC911182C3254E7A972D5C51DF86
+#ifndef LXB_TAG_CONST_VERSION_24CCD9902BAD024339EFD2FE19A98AB1
 #error Mismatched tags version! See "lexbor/tag/const.h".
-#endif /* LXB_TAG_CONST_VERSION_A161EC911182C3254E7A972D5C51DF86 */
+#endif /* LXB_TAG_CONST_VERSION_24CCD9902BAD024339EFD2FE19A98AB1 */
 #else
 #error You need to include "lexbor/tag/const.h".
 #endif /* LXB_TAG_CONST_VERSION */
@@ -97,7 +97,9 @@
 #include "lexbor/html/interfaces/progress_element.h"
 #include "lexbor/html/interfaces/quote_element.h"
 #include "lexbor/html/interfaces/script_element.h"
+#include "lexbor/html/interfaces/search_element.h"
 #include "lexbor/html/interfaces/select_element.h"
+#include "lexbor/html/interfaces/selectedcontent_element.h"
 #include "lexbor/html/interfaces/slot_element.h"
 #include "lexbor/html/interfaces/source_element.h"
 #include "lexbor/html/interfaces/span_element.h"
@@ -827,6 +829,18 @@ lxb_html_script_element_interface_destroy_wrapper(void *interface)
 }
 
 lxb_inline void *
+lxb_html_search_element_interface_create_wrapper(void *interface)
+{
+    return lxb_html_search_element_interface_create(interface);
+}
+
+lxb_inline void *
+lxb_html_search_element_interface_destroy_wrapper(void *interface)
+{
+    return lxb_html_search_element_interface_destroy(interface);
+}
+
+lxb_inline void *
 lxb_html_select_element_interface_create_wrapper(void *interface)
 {
     return lxb_html_select_element_interface_create(interface);
@@ -836,6 +850,18 @@ lxb_inline void *
 lxb_html_select_element_interface_destroy_wrapper(void *interface)
 {
     return lxb_html_select_element_interface_destroy(interface);
+}
+
+lxb_inline void *
+lxb_html_selectedcontent_element_interface_create_wrapper(void *interface)
+{
+    return lxb_html_selectedcontent_element_interface_create(interface);
+}
+
+lxb_inline void *
+lxb_html_selectedcontent_element_interface_destroy_wrapper(void *interface)
+{
+    return lxb_html_selectedcontent_element_interface_destroy(interface);
 }
 
 lxb_inline void *
@@ -2806,6 +2832,17 @@ static  lxb_dom_interface_constructor_f lxb_html_interface_res_constructors[LXB_
         (lxb_dom_interface_constructor_f) lxb_dom_element_interface_create_wrapper,
         (lxb_dom_interface_constructor_f) lxb_dom_element_interface_create_wrapper
     },
+    /* LXB_TAG_SEARCH */
+    {
+        (lxb_dom_interface_constructor_f) lxb_html_unknown_element_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_html_unknown_element_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_html_search_element_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_dom_element_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_dom_element_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_dom_element_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_dom_element_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_dom_element_interface_create_wrapper
+    },
     /* LXB_TAG_SECTION */
     {
         (lxb_dom_interface_constructor_f) lxb_html_unknown_element_interface_create_wrapper,
@@ -2822,6 +2859,17 @@ static  lxb_dom_interface_constructor_f lxb_html_interface_res_constructors[LXB_
         (lxb_dom_interface_constructor_f) lxb_html_unknown_element_interface_create_wrapper,
         (lxb_dom_interface_constructor_f) lxb_html_unknown_element_interface_create_wrapper,
         (lxb_dom_interface_constructor_f) lxb_html_select_element_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_dom_element_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_dom_element_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_dom_element_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_dom_element_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_dom_element_interface_create_wrapper
+    },
+    /* LXB_TAG_SELECTEDCONTENT */
+    {
+        (lxb_dom_interface_constructor_f) lxb_html_unknown_element_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_html_unknown_element_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_html_selectedcontent_element_interface_create_wrapper,
         (lxb_dom_interface_constructor_f) lxb_dom_element_interface_create_wrapper,
         (lxb_dom_interface_constructor_f) lxb_dom_element_interface_create_wrapper,
         (lxb_dom_interface_constructor_f) lxb_dom_element_interface_create_wrapper,
@@ -4971,6 +5019,17 @@ static  lxb_dom_interface_destructor_f lxb_html_interface_res_destructor[LXB_TAG
         (lxb_dom_interface_destructor_f) lxb_dom_element_interface_destroy_wrapper,
         (lxb_dom_interface_destructor_f) lxb_dom_element_interface_destroy_wrapper
     },
+    /* LXB_TAG_SEARCH */
+    {
+        (lxb_dom_interface_destructor_f) lxb_html_unknown_element_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_html_unknown_element_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_html_search_element_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_dom_element_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_dom_element_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_dom_element_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_dom_element_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_dom_element_interface_destroy_wrapper
+    },
     /* LXB_TAG_SECTION */
     {
         (lxb_dom_interface_destructor_f) lxb_html_unknown_element_interface_destroy_wrapper,
@@ -4987,6 +5046,17 @@ static  lxb_dom_interface_destructor_f lxb_html_interface_res_destructor[LXB_TAG
         (lxb_dom_interface_destructor_f) lxb_html_unknown_element_interface_destroy_wrapper,
         (lxb_dom_interface_destructor_f) lxb_html_unknown_element_interface_destroy_wrapper,
         (lxb_dom_interface_destructor_f) lxb_html_select_element_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_dom_element_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_dom_element_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_dom_element_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_dom_element_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_dom_element_interface_destroy_wrapper
+    },
+    /* LXB_TAG_SELECTEDCONTENT */
+    {
+        (lxb_dom_interface_destructor_f) lxb_html_unknown_element_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_html_unknown_element_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_html_selectedcontent_element_interface_destroy_wrapper,
         (lxb_dom_interface_destructor_f) lxb_dom_element_interface_destroy_wrapper,
         (lxb_dom_interface_destructor_f) lxb_dom_element_interface_destroy_wrapper,
         (lxb_dom_interface_destructor_f) lxb_dom_element_interface_destroy_wrapper,

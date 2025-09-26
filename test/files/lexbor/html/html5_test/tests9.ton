@@ -67,6 +67,7 @@
               <head>
               <body>
                 <select>
+                  <math:math>
         $DATA
     },
     /* Test number: 6 */
@@ -81,6 +82,7 @@
               <body>
                 <select>
                   <option>
+                    <math:math>
         $DATA
     },
     /* Test number: 7 */
@@ -318,7 +320,13 @@
                     <tr>
                       <td>
                         <select>
-                          "foobarbaz"
+                          <math:math>
+                            <math:mi>
+                              "foo"
+                            <math:mi>
+                              "bar"
+                          <p>
+                            "baz"
                 <p>
                   "quux"
         $DATA
@@ -334,7 +342,13 @@
               <head>
               <body>
                 <select>
-                  "foobarbaz"
+                  <math:math>
+                    <math:mi>
+                      "foo"
+                    <math:mi>
+                      "bar"
+                  <p>
+                    "baz"
                 <table>
                 <p>
                   "quux"
