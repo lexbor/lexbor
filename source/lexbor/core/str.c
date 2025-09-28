@@ -380,6 +380,30 @@ lexbor_str_whitespace_from_end(lexbor_str_t *target)
     return 0;
 }
 
+lxb_char_t *
+lexbor_str_copy_to(lexbor_str_t *str, const lxb_char_t *buff, size_t length)
+{
+    lxb_char_t *data_begin;
+
+    data_begin = &str->data[str->length];
+    memcpy(data_begin, buff, sizeof(lxb_char_t) * length);
+
+    str->length += length;
+
+    return data_begin;
+}
+
+lxb_char_t *
+lexbor_str_copy_to_with_null(lexbor_str_t *str,
+                             const lxb_char_t *buff, size_t length)
+{
+    lxb_char_t *data_begin = lexbor_str_copy_to(str, buff, length);
+
+    str->data[str->length] = '\0';
+
+    return data_begin;
+}
+
 /*
  * Data utils
  * TODO: All functions need optimization.

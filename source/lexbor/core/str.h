@@ -117,6 +117,12 @@ lexbor_str_whitespace_from_begin(lexbor_str_t *target);
 LXB_API size_t
 lexbor_str_whitespace_from_end(lexbor_str_t *target);
 
+LXB_API lxb_char_t *
+lexbor_str_copy_to(lexbor_str_t *str, const lxb_char_t *buff, size_t length);
+
+LXB_API lxb_char_t *
+lexbor_str_copy_to_with_null(lexbor_str_t *str,
+                             const lxb_char_t *buff, size_t length);
 
 /* Data utils */
 /*
