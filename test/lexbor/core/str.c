@@ -390,13 +390,19 @@ TEST_END
 
 TEST_BEGIN(destroy_stack)
 {
+    const lxb_char_t *cat = (lxb_char_t *) "Cat";
+    size_t cat_size = strlen((const char *) cat);
+
     lexbor_mraw_t *mraw;
     TEST_CALL_ARGS(test_make_mraw, &mraw);
 
     lexbor_str_t str;
     test_ne(lexbor_str_init(&str, mraw, 128), NULL);
+    lexbor_str_append(&str, mraw, cat, cat_size);
+    test_eq(str.length, 3);
 
     test_eq(lexbor_str_destroy(&str, mraw, false), &str);
+    test_eq(str.length, 0);
     TEST_CALL_ARGS(test_destroy_mraw, &mraw);
 }
 TEST_END
