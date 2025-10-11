@@ -168,6 +168,8 @@ typedef struct {
     lexbor_plog_t      *log;
 
     lxb_unicode_idna_t *idna;
+
+    lxb_char_t         *buffer;
 }
 lxb_url_parser_t;
 

@@ -479,7 +479,7 @@ lxb_url_scheme_length = sizeof(lxb_url_scheme_res) / sizeof(lxb_url_scheme_data_
 #define lxb_url_parse_return(data, buf, status)                               \
     do {                                                                      \
         if ((buf) != (data)) {                                                \
-            lexbor_free((lxb_char_t *) (buf));                                \
+            parser->buffer = (lxb_char_t *) (buf);                            \
         }                                                                     \
         return (status);                                                      \
     }                                                                         \
@@ -661,6 +661,7 @@ lxb_url_parser_init(lxb_url_parser_t *parser, lexbor_mraw_t *mraw)
     parser->mraw = mraw;
     parser->log = NULL;
     parser->idna = NULL;
+    parser->buffer = NULL;
 
     return LXB_STATUS_OK;
 
@@ -683,6 +684,10 @@ lxb_url_parser_clean(lxb_url_parser_t *parser)
     if (parser->log != NULL) {
         lexbor_plog_clean(parser->log);
     }
+
+    if (parser->buffer != NULL) {
+        parser->buffer = lexbor_free(parser->buffer);
+    }
 }
 
 lxb_url_parser_t *
@@ -694,6 +699,10 @@ lxb_url_parser_destroy(lxb_url_parser_t *parser, bool destroy_self)
 
     parser->log = lexbor_plog_destroy(parser->log, true);
     parser->idna = lxb_unicode_idna_destroy(parser->idna, true);
+
+    if (parser->buffer != NULL) {
+        parser->buffer = lexbor_free(parser->buffer);
+    }
 
     if (destroy_self) {
         return lexbor_free(parser);
@@ -3072,7 +3081,7 @@ oh_my:
         return NULL;
     }
 
-    buf = lexbor_malloc(*length);
+    buf = lexbor_malloc(*length + 1);
     if (buf == NULL) {
         return NULL;
     }
@@ -3098,6 +3107,8 @@ oh_my:
     }
 
     *length = p_buf - buf;
+
+    buf[*length] = '\0';
 
     return buf;
 }
@@ -4183,6 +4194,7 @@ lxb_url_api_href_set(lxb_url_t *url, lxb_url_parser_t *parser,
 
         parser->log = NULL;
         parser->idna = NULL;
+        parser->buffer = NULL;
     }
 
     origin_mraw = parser->mraw;
@@ -4227,6 +4239,7 @@ lxb_url_api_protocol_set(lxb_url_t *url, lxb_url_parser_t *parser,
 
         parser->log = NULL;
         parser->idna = NULL;
+        parser->buffer = NULL;
     }
 
     status = lxb_url_parse_basic_h(parser, url, NULL, protocol, length,
@@ -4321,6 +4334,7 @@ lxb_url_host_set_h(lxb_url_t *url, lxb_url_parser_t *parser,
 
         parser->log = NULL;
         parser->idna = NULL;
+        parser->buffer = NULL;
     }
 
     old = url->host;
@@ -4375,6 +4389,7 @@ lxb_url_api_port_set(lxb_url_t *url, lxb_url_parser_t *parser,
 
         parser->log = NULL;
         parser->idna = NULL;
+        parser->buffer = NULL;
     }
 
     status = lxb_url_parse_basic_h(parser, url, NULL, port, length,
@@ -4409,6 +4424,7 @@ lxb_url_api_pathname_set(lxb_url_t *url, lxb_url_parser_t *parser,
 
         parser->log = NULL;
         parser->idna = NULL;
+        parser->buffer = NULL;
     }
 
     url->path.length = 0;
@@ -4451,6 +4467,7 @@ lxb_url_api_search_set(lxb_url_t *url, lxb_url_parser_t *parser,
 
         parser->log = NULL;
         parser->idna = NULL;
+        parser->buffer = NULL;
     }
 
     status = lxb_url_parse_basic_h(parser, url, NULL, search, length,
@@ -4490,6 +4507,7 @@ lxb_url_api_hash_set(lxb_url_t *url, lxb_url_parser_t *parser,
 
         parser->log = NULL;
         parser->idna = NULL;
+        parser->buffer = NULL;
     }
 
     status = lxb_url_parse_basic_h(parser, url, NULL, hash, length,
