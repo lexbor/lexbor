@@ -2,6 +2,28 @@
 
 ## [Unreleased]
 
+## [2.6.0] - 2025-11-10
+
+### Added
+- Added pseudo-selector :lexbor-contains(). The selector is intended for searching by text within elements.
+- DOM: added the DOMException interface/object.
+- DOM::Node: added functions for manipulating with DOM by specification.
+- URL: add test case.
+- Added interface for the DOM getElementById() function.
+- DOM: added the lxb_dom_document_type_create() function.
+- URL: added support URLSearchParams interface.
+
+### Fixed
+- URL: Fix host setters for opaque paths.
+- Fixed warning on Windows with gcc.
+- Fixed warnings with -Wsign-compare -Wformat.
+- URL: Fix port setter for malformed ports.
+- URL: fixed a use-after-free bug in parser logs.
+
+### Changed
+- Unicode: update to version 17.0.0.
+- HTML: relax <select> parser. The approach to parsing the <select> tag has been changed according to the specification. Regarding recent changes to the specifications.
+
 ## [2.5.0] - 2025-08-13
 ### Added
 - Added new module Engine.
