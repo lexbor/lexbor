@@ -55,12 +55,48 @@ TEST_BEGIN(url_clone)
 }
 TEST_END
 
+TEST_BEGIN(url_path_mem_error)
+{
+    lxb_status_t status;
+    lxb_url_t *url, *before;
+    lexbor_mraw_t mraw;
+    lxb_url_parser_t parser;
+
+    const lexbor_str_t input = lexbor_str("ftp:a\\aaaaaaaaaaaaaaaaaaaaaa\\\\\\");
+
+    status = lexbor_mraw_init(&mraw, 8192);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_url_parser_init(&parser, &mraw);
+    test_eq(status, LXB_STATUS_OK);
+
+    before = NULL;
+
+    for (size_t i = 0; i < 100; i++) {
+        url = lxb_url_parse(&parser, NULL, input.data, input.length);
+        test_ne(url, NULL);
+
+        if (before != NULL) {
+            lxb_url_destroy(before);
+        }
+
+        before = url;
+
+        lxb_url_parser_clean(&parser);
+    }
+
+    lxb_url_parser_destroy(&parser, false);
+    lexbor_mraw_destroy(&mraw, false);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
     TEST_INIT();
 
     TEST_ADD(url_clone);
+    TEST_ADD(url_path_mem_error);
 
     TEST_RUN("lexbor/url/other");
     TEST_RELEASE();
