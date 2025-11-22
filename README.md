@@ -199,6 +199,7 @@ The `liblexbor-html` library already contains all the pointers to the required d
 ## External Bindings and Wrappers
 
 * [Elixir](https://git.pleroma.social/pleroma/elixir-libraries/fast_html) binding for the HTML module (since 2.0 version)
+* [Erlang](https://hex.pm/packages/lexbor_erl) Fast HTML5 Parser with CSS selectors and DOM manipulation (since 2.6.0 version)
 * [Crystal](https://github.com/kostya/lexbor) Fast HTML5 Parser with CSS selectors for Crystal language
 * [Python](https://github.com/rushter/selectolax#available-backends) binding for modest and lexbor engines.
 * [D](https://github.com/trikko/parserino) Fast HTML5 Parser with CSS selectors for D programming language
