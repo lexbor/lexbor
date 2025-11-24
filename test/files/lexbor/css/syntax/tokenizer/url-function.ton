@@ -1,5 +1,5 @@
 [
-    /* Test count: 28 */
+    /* Test count: 29 */
     /* 1 */
     {
         "data": "url(http://lexbor.com/)",
@@ -217,6 +217,13 @@
         "tokens": [
             {"type": "function", "value": "url(", "length": 4},
             {"type": "whitespace", "value": "\t", "length": 1}
+        ]
+    },
+    /* 29 */
+    {
+        "data": "url(1\f",
+        "tokens": [
+            {"type": "url", "value": "url(1)", "length": 6}
         ]
     }
 ]

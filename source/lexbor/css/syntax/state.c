@@ -1523,7 +1523,7 @@ lxb_css_syntax_state_url(lxb_css_syntax_tokenizer_t *tkz,
                 lxb_css_syntax_tokenizer_error_add(tkz->parse_errors, data,
                                         LXB_CSS_SYNTAX_TOKENIZER_ERROR_EOINUR);
 
-                return lxb_css_syntax_state_string_set(tkz, token, data);
+                goto done;
 
             default:
                 if (*data >= 0x80) {
