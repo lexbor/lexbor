@@ -203,6 +203,7 @@ The `liblexbor-html` library already contains all the pointers to the required d
 * [Crystal](https://github.com/kostya/lexbor) Fast HTML5 Parser with CSS selectors for Crystal language
 * [Python](https://github.com/rushter/selectolax#available-backends) binding for modest and lexbor engines.
 * [D](https://github.com/trikko/parserino) Fast HTML5 Parser with CSS selectors for D programming language
+* [Ring](https://github.com/ysdragon/ring-html) Fast HTML5 Parser with CSS selectors and DOM manipulation for the Ring programming language.
 * [Ruby](https://github.com/serpapi/nokolexbor) Fast HTML5 Parser with both CSS selectors and XPath support.
 * [PHP](https://github.com/php/php-src)'s DOM extension uses Lexbor's HTML living standard parser and CSS selector support, starting from PHP 8.4.
 * [Julia](https://github.com/MichaelHatherly/Lexbor.jl) binding for the HTML module.
