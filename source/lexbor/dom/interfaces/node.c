@@ -1778,3 +1778,9 @@ lxb_dom_node_last_child_noi(lxb_dom_node_t *node)
 {
     return lxb_dom_node_last_child(node);
 }
+
+lxb_dom_node_type_t
+lxb_dom_node_type_noi(lxb_dom_node_t *node)
+{
+    return lxb_dom_node_type(node);
+}

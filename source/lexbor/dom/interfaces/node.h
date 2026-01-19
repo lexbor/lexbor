@@ -338,6 +338,12 @@ lxb_dom_node_last_child(lxb_dom_node_t *node)
     return node->last_child;
 }
 
+lxb_inline lxb_dom_node_type_t
+lxb_dom_node_type(lxb_dom_node_t *node)
+{
+    return node->type;
+}
+
 /*
  * No inline functions for ABI.
  */
@@ -358,6 +364,9 @@ lxb_dom_node_first_child_noi(lxb_dom_node_t *node);
 
 LXB_API lxb_dom_node_t *
 lxb_dom_node_last_child_noi(lxb_dom_node_t *node);
+
+LXB_API lxb_dom_node_type_t
+lxb_dom_node_type_noi(lxb_dom_node_t *node);
 
 
 #ifdef __cplusplus
