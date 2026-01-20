@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022-2025 Alexander Borisov
+ * Copyright (C) 2022-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -62,8 +62,9 @@ main(int argc, const char *argv[])
         FAILED("Failed to initialization CSS parser");
     }
 
-    sst = lxb_css_stylesheet_parse(parser, css.data, css.length);
-    if (sst == NULL) {
+    sst = lxb_css_stylesheet_create(NULL);
+    status = lxb_css_stylesheet_parse(sst, parser, css.data, css.length);
+    if (status != LXB_STATUS_OK) {
         FAILED("Failed to parse CSS StyleSheet");
     }
 

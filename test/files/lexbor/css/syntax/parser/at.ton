@@ -6,16 +6,20 @@
         "tokens": [
             {
                 "type": "at-rule",
+                "name": "@Naruto",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "ident", "value": "Orochimaru"},
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"type": "ident", "value": "Sasuke"},
-                    {"type": "whitespace", "value": " "},
-                    {"type": "ident", "value": "Uchiha"}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [
+                            {"type": "ident", "value": "Sasuke"},
+                            {"type": "whitespace", "value": " "},
+                            {"type": "ident", "value": "Uchiha"}
+                        ]
+                    }
                 ]
             }
         ]
@@ -26,9 +30,8 @@
         "tokens": [
             {
                 "type": "at-rule",
+                "name": "@Naruto",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "ident", "value": "Orochimaru"}
                 ],
                 "block": []
@@ -41,9 +44,8 @@
         "tokens": [
             {
                 "type": "at-rule",
+                "name": "@Naruto",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "ident", "value": "Orochimaru"}
                 ],
                 "block": []
@@ -56,9 +58,8 @@
         "tokens": [
             {
                 "type": "at-rule",
-                "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"}
-                ],
+                "name": "@Naruto",
+                "prelude": [],
                 "block": []
             }
         ]
@@ -69,9 +70,8 @@
         "tokens": [
             {
                 "type": "at-rule",
+                "name": "@Naruto",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "ident", "value": "Orochimaru"},
                     {"type": "whitespace", "value": " "}
                 ],
@@ -85,9 +85,8 @@
         "tokens": [
             {
                 "type": "at-rule",
-                "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"}
-                ],
+                "name": "@Naruto",
+                "prelude": [],
                 "block": []
             }
         ]
@@ -98,9 +97,8 @@
         "tokens": [
             {
                 "type": "at-rule",
+                "name": "@Naruto",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "left-square-bracket", "value": "["},
                     {"type": "semicolon", "value": ";"},
                     {"type": "right-square-bracket", "value": "]"}
@@ -115,9 +113,8 @@
         "tokens": [
             {
                 "type": "at-rule",
+                "name": "@Naruto",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "function", "value": "Orochimaru("},
                     {"type": "semicolon", "value": ";"},
                     {"type": "right-parenthesis", "value": ")"}
@@ -132,9 +129,8 @@
         "tokens": [
             {
                 "type": "at-rule",
+                "name": "@Naruto",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "left-parenthesis", "value": "("},
                     {"type": "semicolon", "value": ";"},
                     {"type": "right-parenthesis", "value": ")"}
@@ -149,18 +145,22 @@
         "tokens": [
             {
                 "type": "at-rule",
+                "name": "@Naruto",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "left-square-bracket", "value": "["},
                     {"type": "semicolon", "value": ";"},
                     {"type": "right-square-bracket", "value": "]"},
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"type": "left-square-bracket", "value": "["},
-                    {"type": "right-curly-bracket", "value": "}"},
-                    {"type": "right-square-bracket", "value": "]"}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [
+                            {"type": "left-square-bracket", "value": "["},
+                            {"type": "right-curly-bracket", "value": "}"},
+                            {"type": "right-square-bracket", "value": "]"}
+                        ]
+                    }
                 ]
             }
         ]
@@ -171,18 +171,27 @@
         "tokens": [
             {
                 "type": "at-rule",
+                "name": "@Naruto",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "function", "value": "Orochimaru("},
                     {"type": "semicolon", "value": ";"},
                     {"type": "right-parenthesis", "value": ")"},
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"type": "left-curly-bracket", "value": "{"},
-                    {"type": "right-square-bracket", "value": "]"},
-                    {"type": "right-curly-bracket", "value": "}"}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [],
+                        "block": [
+                            {
+                                "type": "qualified-rule",
+                                "prelude": [
+                                    {"type": "right-square-bracket", "value": "]"}
+                                ],
+                                "block": []
+                            }
+                        ]
+                    }
                 ]
             }
         ]
@@ -193,18 +202,23 @@
         "tokens": [
             {
                 "type": "at-rule",
+                "name": "@Naruto",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "left-parenthesis", "value": "("},
                     {"type": "semicolon", "value": ";"},
                     {"type": "right-parenthesis", "value": ")"},
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"type": "left-parenthesis", "value": "("},
-                    {"type": "right-curly-bracket", "value": "}"},
-                    {"type": "right-parenthesis", "value": ")"}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [
+                            {"type": "left-parenthesis", "value": "("},
+                            {"type": "right-curly-bracket", "value": "}"},
+                            {"type": "right-parenthesis", "value": ")"}
+                        ],
+                        "block": []
+                    }
                 ]
             }
         ]
@@ -215,18 +229,27 @@
         "tokens": [
             {
                 "type": "at-rule",
+                "name": "@Naruto",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "ident", "value": "Orochimaru"},
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"type": "left-curly-bracket", "value": "{"},
-                    {"type": "left-square-bracket", "value": "["},
-                    {"type": "right-curly-bracket", "value": "}"},
-                    {"type": "right-square-bracket", "value": "]"},
-                    {"type": "right-curly-bracket", "value": "}"}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [],
+                        "block": [
+                            {
+                                "type": "qualified-rule",
+                                "prelude": [
+                                    {"type": "left-square-bracket", "value": "["},
+                                    {"type": "right-curly-bracket", "value": "}"},
+                                    {"type": "right-square-bracket", "value": "]"}
+                                ],
+                                "block": []
+                            }
+                        ]
+                    }
                 ]
             }
         ]
@@ -237,14 +260,17 @@
         "tokens": [
             {
                 "type": "at-rule",
-                "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "}
-                ],
+                "name": "@Naruto",
+                "prelude": [],
                 "block": [
-                    {"type": "ident", "value": "Sasuke"},
-                    {"type": "whitespace", "value": " "},
-                    {"type": "ident", "value": "Uchiha"}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [
+                            {"type": "ident", "value": "Sasuke"},
+                            {"type": "whitespace", "value": " "},
+                            {"type": "ident", "value": "Uchiha"}
+                        ]
+                    }
                 ]
             }
         ]
@@ -255,13 +281,17 @@
         "tokens": [
             {
                 "type": "at-rule",
-                "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"}
-                ],
+                "name": "@Naruto",
+                "prelude": [],
                 "block": [
-                    {"type": "ident", "value": "Sasuke"},
-                    {"type": "whitespace", "value": " "},
-                    {"type": "ident", "value": "Uchiha"}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [
+                            {"type": "ident", "value": "Sasuke"},
+                            {"type": "whitespace", "value": " "},
+                            {"type": "ident", "value": "Uchiha"}
+                        ]
+                    }
                 ]
             }
         ]
@@ -272,9 +302,8 @@
         "tokens": [
             {
                 "type": "at-rule",
-                "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"}
-                ],
+                "name": "@Naruto",
+                "prelude": [],
                 "block": []
             }
         ]
@@ -285,9 +314,8 @@
         "tokens": [
             {
                 "type": "at-rule",
-                "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"}
-                ],
+                "name": "@Naruto",
+                "prelude": [],
                 "block": []
             }
         ]
@@ -298,15 +326,17 @@
         "tokens": [
             {
                 "type": "at-rule",
-                "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "}
-                ],
+                "name": "@Naruto",
+                "prelude": [],
                 "block": [
-                    {"type": "whitespace", "value": "    "},
-                    {"type": "ident", "value": "Sasuke"},
-                    {"type": "whitespace", "value": " "},
-                    {"type": "ident", "value": "Uchiha"}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [
+                            {"type": "ident", "value": "Sasuke"},
+                            {"type": "whitespace", "value": " "},
+                            {"type": "ident", "value": "Uchiha"}
+                        ]
+                    }
                 ]
             }
         ]
@@ -317,15 +347,18 @@
         "tokens": [
             {
                 "type": "at-rule",
-                "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "}
-                ],
+                "name": "@Naruto",
+                "prelude": [],
                 "block": [
-                    {"type": "ident", "value": "Sasuke"},
-                    {"type": "whitespace", "value": " "},
-                    {"type": "ident", "value": "Uchiha"},
-                    {"type": "whitespace", "value": "    "}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [
+                            {"type": "ident", "value": "Sasuke"},
+                            {"type": "whitespace", "value": " "},
+                            {"type": "ident", "value": "Uchiha"},
+                            {"type": "whitespace", "value": "    "}
+                        ]
+                    }
                 ]
             }
         ]
@@ -336,13 +369,9 @@
         "tokens": [
             {
                 "type": "at-rule",
-                "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "}
-                ],
-                "block": [
-                    {"type": "whitespace", "value": "    "}
-                ]
+                "name": "@Naruto",
+                "prelude": [],
+                "block": []
             }
         ]
     },
@@ -352,28 +381,36 @@
         "tokens": [
             {
                 "type": "at-rule",
+                "name": "@Naruto",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "ident", "value": "Orochimaru"},
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"type": "ident", "value": "Sasuke"},
-                    {"type": "whitespace", "value": " "},
-                    {"type": "ident", "value": "Uchiha"}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [
+                            {"type": "ident", "value": "Sasuke"},
+                            {"type": "whitespace", "value": " "},
+                            {"type": "ident", "value": "Uchiha"}
+                        ]
+                    }
                 ]
             },
             {
                 "type": "at-rule",
+                "name": "@Red",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Red"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "ident", "value": "Blue"},
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"type": "ident", "value": "Yellow"}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [
+                            {"type": "ident", "value": "Yellow"}
+                        ]
+                    }
                 ]
             }
         ]
@@ -384,28 +421,36 @@
         "tokens": [
             {
                 "type": "at-rule",
+                "name": "@Naruto",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "ident", "value": "Orochimaru"},
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"type": "ident", "value": "Sasuke"},
-                    {"type": "whitespace", "value": " "},
-                    {"type": "ident", "value": "Uchiha"}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [
+                            {"type": "ident", "value": "Sasuke"},
+                            {"type": "whitespace", "value": " "},
+                            {"type": "ident", "value": "Uchiha"}
+                        ]
+                    }
                 ]
             },
             {
                 "type": "at-rule",
+                "name": "@Red",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Red"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "ident", "value": "Blue"},
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"type": "ident", "value": "Yellow"}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [
+                            {"type": "ident", "value": "Yellow"}
+                        ]
+                    }
                 ]
             }
         ]
@@ -416,23 +461,26 @@
         "tokens": [
             {
                 "type": "at-rule",
+                "name": "@Naruto",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "ident", "value": "Orochimaru"}
                 ],
                 "block": []
             },
             {
                 "type": "at-rule",
+                "name": "@Red",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Red"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "ident", "value": "Blue"},
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"type": "ident", "value": "Yellow"}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [
+                            {"type": "ident", "value": "Yellow"}
+                        ]
+                    }
                 ]
             }
         ]
@@ -443,23 +491,26 @@
         "tokens": [
             {
                 "type": "at-rule",
+                "name": "@Naruto",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Naruto"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "ident", "value": "Orochimaru"}
                 ],
                 "block": []
             },
             {
                 "type": "at-rule",
+                "name": "@Red",
                 "prelude": [
-                    {"type": "at-keyword", "value": "@Red"},
-                    {"type": "whitespace", "value": " "},
                     {"type": "ident", "value": "Blue"},
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"type": "ident", "value": "Yellow"}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [
+                            {"type": "ident", "value": "Yellow"}
+                        ]
+                    }
                 ]
             }
         ]

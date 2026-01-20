@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021-2022 Alexander Borisov
+ * Copyright (C) 2021-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -104,15 +104,119 @@ lxb_css_rule_serialize_chain(const lxb_css_rule_t *rule,
 lxb_css_rule_list_t *
 lxb_css_rule_list_destroy(lxb_css_rule_list_t *list, bool self_destroy)
 {
-    lxb_css_rule_t *rule, *next;
-    lxb_css_memory_t *memory = lxb_css_rule(list)->memory;
+    lxb_css_rule_t *rule, *next, *parent;
+    lxb_css_rule_t *child_rule;
+    lxb_css_memory_t *memory;
+    lxb_css_rule_at_t *at;
+    lxb_css_rule_style_t *style;
+    lxb_css_rule_bad_style_t *bad;
+    lxb_css_rule_list_t *sub_list;
+    lxb_css_rule_declaration_list_t *declr_list;
+
+    if (list == NULL) {
+        return NULL;
+    }
 
     rule = list->first;
+    memory = lxb_css_rule(list)->memory;
 
     while (rule != NULL) {
+        child_rule = NULL;
+
+        switch (rule->type) {
+            case LXB_CSS_RULE_LIST:
+                sub_list = lxb_css_rule_list(rule);
+
+                if (sub_list->first != NULL) {
+                    child_rule = sub_list->first;
+
+                    sub_list->first = NULL;
+                    sub_list->last = NULL;
+                }
+                break;
+
+            case LXB_CSS_RULE_STYLE:
+                style = lxb_css_rule_style(rule);
+
+                if (style->child != NULL) {
+                    child_rule = lxb_css_rule(style->child);
+                    style->child = NULL;
+                }
+                break;
+
+            case LXB_CSS_RULE_BAD_STYLE:
+                bad = lxb_css_rule_bad_style(rule);
+
+                if (bad->child != NULL) {
+                    child_rule = lxb_css_rule(bad->child);
+                    bad->child = NULL;
+                }
+                break;
+
+            case LXB_CSS_RULE_AT_RULE:
+                at = lxb_css_rule_at(rule);
+
+                if (at->type == LXB_CSS_AT_RULE_MEDIA) {
+                    if (at->u.media != NULL && at->u.media->block != NULL) {
+                        child_rule = lxb_css_rule(at->u.media->block);
+                        at->u.media->block = NULL;
+                    }
+                }
+                else if (at->type == LXB_CSS_AT_RULE__UNDEF) {
+                    if (at->u.undef != NULL && at->u.undef->block != NULL) {
+                        child_rule = lxb_css_rule(at->u.undef->block);
+                        at->u.undef->block = NULL;
+                    }
+                }
+                else if (at->type == LXB_CSS_AT_RULE__CUSTOM) {
+                    if (at->u.custom != NULL && at->u.custom->block != NULL) {
+                        child_rule = lxb_css_rule(at->u.custom->block);
+                        at->u.custom->block = NULL;
+                    }
+                }
+                else if (at->type == LXB_CSS_AT_RULE_FONT_FACE) {
+                    if (at->u.font_face != NULL && at->u.font_face->block != NULL) {
+                        child_rule = lxb_css_rule(at->u.font_face->block);
+                        at->u.font_face->block = NULL;
+                    }
+                }
+                break;
+
+            case LXB_CSS_RULE_DECLARATION_LIST:
+                declr_list = lxb_css_rule_declaration_list(rule);
+
+                if (declr_list->first != NULL) {
+                    child_rule = declr_list->first;
+
+                    declr_list->first = NULL;
+                    declr_list->last = NULL;
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        if (child_rule != NULL) {
+            rule = child_rule;
+            continue;
+        }
+
         next = rule->next;
+        parent = rule->parent;
+
         (void) lxb_css_rule_destroy(rule, true);
-        rule = next;
+
+        if (next != NULL) {
+            rule = next;
+        }
+        else {
+            if (parent == lxb_css_rule(list)) {
+                break;
+            }
+
+            rule = parent;
+        }
     }
 
     if (self_destroy) {
@@ -197,7 +301,7 @@ lxb_css_rule_at_serialize(const lxb_css_rule_at_t *at, lexbor_serialize_cb_f cb,
     lxb_status_t status;
     const lxb_css_at_rule__undef_t *undef;
     const lxb_css_at_rule__custom_t *custom;
-    const lxb_css_entry_data_t *data, *undata;
+    const lxb_css_entry_at_rule_data_t *data, *undata;
 
     static const lxb_char_t at_str[] = "@";
 
@@ -245,9 +349,11 @@ lxb_css_rule_style_destroy(lxb_css_rule_style_t *style, bool self_destroy)
 
     lxb_css_selector_list_destroy(style->selector);
     (void) lxb_css_rule_declaration_list_destroy(style->declarations, true);
+    (void) lxb_css_rule_list_destroy(style->child, true);
 
     style->selector = NULL;
     style->declarations = NULL;
+    style->child = NULL;
 
     if (self_destroy) {
         return lexbor_mraw_free(memory->tree, style);
@@ -264,6 +370,7 @@ lxb_css_rule_style_serialize(const lxb_css_rule_style_t *style,
 
     static const lxb_char_t lc_str[] = " {";
     static const lxb_char_t rc_str[] = "}";
+    static const lxb_char_t cm_str[] = "; ";
 
     status = lxb_css_selector_serialize_list_chain(style->selector, cb, ctx);
     if (status != LXB_STATUS_OK) {
@@ -279,7 +386,23 @@ lxb_css_rule_style_serialize(const lxb_css_rule_style_t *style,
             return status;
         }
 
-        return cb(rc_str, (sizeof(rc_str) - 1), ctx);
+        if (style->child == NULL) {
+            lexbor_serialize_write(cb, rc_str, (sizeof(rc_str) - 1),
+                                   ctx, status);
+        }
+    }
+
+    if (style->child != NULL && style->child->first != NULL) {
+        lexbor_serialize_write(cb, cm_str, (sizeof(cm_str) - 1), ctx, status);
+
+        status = lxb_css_rule_list_serialize(style->child, cb, ctx);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+    }
+
+    if (style->declarations != NULL) {
+        lexbor_serialize_write(cb, rc_str, (sizeof(rc_str) - 1), ctx, status);
     }
 
     return LXB_STATUS_OK;
@@ -293,6 +416,8 @@ lxb_css_rule_bad_style_destroy(lxb_css_rule_bad_style_t *bad, bool self_destroy)
     (void) lexbor_str_destroy(&bad->selectors, memory->mraw, false);
     bad->declarations = lxb_css_rule_declaration_list_destroy(bad->declarations,
                                                               true);
+    bad->child = lxb_css_rule_list_destroy(bad->child, true);
+
     if (self_destroy) {
         return lexbor_mraw_free(memory->tree, bad);
     }
@@ -399,8 +524,11 @@ lxb_css_rule_declaration_destroy(lxb_css_rule_declaration_t *declr,
 {
     lxb_css_memory_t *memory = lxb_css_rule(declr)->memory;
 
-    declr->u.user = lxb_css_property_destroy(memory, declr->u.user,
-                                             declr->type, true);
+    if (declr->u.user != NULL) {
+        declr->u.user = lxb_css_property_destroy(memory, declr->u.user,
+                                                 declr->type, true);
+    }
+
     if (self_destroy) {
         return lexbor_mraw_free(memory->tree, declr);
     }

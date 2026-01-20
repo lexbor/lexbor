@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Alexander Borisov
+ * Copyright (C) 2025-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -377,8 +377,9 @@ lxb_dom_element_style_parse(lxb_dom_element_t *element,
     lxb_dom_document_t *doc = lxb_dom_element_document(element);
     lxb_dom_document_css_t *css = doc->css;
 
-    list = lxb_css_declaration_list_parse(css->parser, css->memory,
-                                          style, size);
+    css->parser->memory = css->memory;
+
+    list = lxb_css_declaration_list_parse(css->parser, style, size);
     if (list == NULL) {
         return css->parser->status;
     }

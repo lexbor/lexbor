@@ -113,8 +113,9 @@ main(int argc, const char * argv[])
         return EXIT_FAILURE;
     }
 
-    sst = lxb_css_stylesheet_parse(parser, slctrs.data, slctrs.length);
-    if (sst == NULL) {
+    sst = lxb_css_stylesheet_create(NULL);
+    status = lxb_css_stylesheet_parse(sst, parser, slctrs.data, slctrs.length);
+    if (status != LXB_STATUS_OK) {
         return EXIT_FAILURE;
     }
 

@@ -11,7 +11,8 @@ import LXB
 
 at_rules = {
     "media": {"initial": "NULL"},
-    "namespace": {"initial": "NULL"}
+    "namespace": {"initial": "NULL"},
+    "font-face": {"initial": "NULL"}
 }
 
 min_max = ["min-content", "max-content", "_length", "_percentage", "_number", "_angle"]
@@ -296,7 +297,7 @@ unit_duration = {
 units = [
     ["absolute", unit_absolute],
     ["relative", unit_relative],
-    ["angel", unit_angle],
+    ["angle", unit_angle],
     ["frequency", unit_frequency],
     ["resolution", unit_resolution],
     ["duration", unit_duration]
@@ -306,12 +307,14 @@ class Pseudo:
     prefix = "LXB_CSS_"
     const_tmp = "tmp/const.h"
     res_tmp = "tmp/res.h"
+    types_tmp = "tmp/types.h"
     value_const_tmp = "tmp/value_const.h"
     value_res_tmp = "tmp/value_res.h"
 
-    def make(self, prefix, values):
+    def make(self, prefix, values, is_at_rule):
         idx = 0
         entries = []
+        callbacks = []
         data_name = "lxb_css_{}_data".format(prefix)
 
         arr = list(values.keys())
@@ -322,6 +325,10 @@ class Pseudo:
         res = LXB.Res("lxb_css_entry_data_t", data_name, False,
                       self.make_enum_name(prefix, "_LAST_ENTRY"))
 
+        if is_at_rule:
+            res = LXB.Res("lxb_css_entry_at_rule_data_t", data_name, False,
+                          self.make_enum_name(prefix, "_LAST_ENTRY"))
+
         frmt_enum = LXB.FormatEnum("{}{}_type_t".format(self.prefix.lower(),
                                                         self.make_name(prefix)))
 
@@ -330,6 +337,9 @@ class Pseudo:
             name = self.make_name(name)
             enum_name = self.make_enum_name(prefix, name)
             func_name = "lxb_css_{}_state_{}".format(prefix, name)
+
+            if is_at_rule:
+                func_name = "&lxb_css_{}_{}_cb".format(prefix, name)
 
             if origin not in values or "hide" not in values[origin] or values[origin]["hide"] == False:
                 frmt_enum.append(enum_name, "0x{0:04x}".format(idx))
@@ -345,14 +355,12 @@ class Pseudo:
                                enum_name, func_name, create, destroy, serialize,
                                "(void *) (uintptr_t) " + enum_name
                             ))
-                continue
             elif name == "_custom":
                 res.append("{{(lxb_char_t *) \"#сustom\", 7, {}, {},\n"
                            "     {}, {}, {}, {}}}".format(
                                enum_name, func_name, create, destroy, serialize,
                                "(void *) (uintptr_t) " + enum_name
                             ))
-                continue
             elif "hide" not in values[origin] or values[origin]["hide"] == False:
                 res.append("{{(lxb_char_t *) \"{}\", {}, {}, {},\n"
                            "     {}, {}, {},\n"
@@ -361,9 +369,24 @@ class Pseudo:
                                 values[origin]["initial"]
                             ))
 
-            if "hide" not in values[origin] or values[origin]["hide"] == False:
                 entries.append({"key": origin,
                                 "value": "(void *) &{}[{}]".format(data_name, enum_name)})
+
+            if is_at_rule:
+                func_name = re.sub(r'^\&', '', func_name)
+
+                cb = "static const lxb_css_syntax_cb_at_rule_t {} = {{\n".format(func_name)
+
+                func_name = re.sub(r'_cb$', '', func_name)
+
+                cb += "    .prelude = {}_prelude,\n".format(func_name)
+                cb += "    .prelude_end = {}_prelude_end,\n".format(func_name)
+                cb += "    .block = {}_block,\n".format(func_name)
+                cb += "    .cb.failed = {}_prelude_failed,\n".format(func_name)
+                cb += "    .cb.end = {}_end\n".format(func_name)
+                cb += "};\n"
+
+                callbacks.append(cb)
 
         frmt_enum.append(self.make_enum_name(prefix, "_LAST_ENTRY"),
                                              "0x{0:04x}".format(idx))
@@ -378,7 +401,7 @@ class Pseudo:
 
         print(self.shs_stat(shs))
 
-        return [result_enum, result_res, result_sh]
+        return [result_enum, result_res, result_sh, callbacks]
 
     def make_value(self, values):
         vals_hash = []
@@ -569,6 +592,7 @@ class Pseudo:
 
         const_save_to = "{}/const.h".format(path)
         res_save_to = "{}/res.h".format(path)
+        types_save_to = "{}/types.h".format(path)
         header = "lexbor/css/{}/const.h".format(prefix)
 
         if os.path.isdir(path) == False:
@@ -588,6 +612,18 @@ class Pseudo:
 
         lxb_temp.build()
         lxb_temp.save()
+
+        if len(res) > 3:
+            callbacks = '\n'.join(res[3])
+
+            lxb_temp = LXB.Temp(self.types_tmp, types_save_to)
+
+            lxb_temp.pattern_append("%%YEAR%%", str(now.year))
+            lxb_temp.pattern_append("%%PREFIX%%", prefix.upper())
+            lxb_temp.pattern_append("%%BODY%%", callbacks)
+
+            lxb_temp.build()
+            lxb_temp.save()
 
         print("Const saved to {}".format(const_save_to))
 
@@ -721,7 +757,7 @@ if __name__ == "__main__":
         print("Compile {}:".format(entry[0]))
 
         lw = entry[0].lower()
-        res = ps.make(lw, entry[1])
+        res = ps.make(lw, entry[1], (entry[1] == at_rules))
         ps.save(lw, res, "../../../source/lexbor/css/", vals_res[1], entry[2])
 
     res = ps.make_units("unit", units)

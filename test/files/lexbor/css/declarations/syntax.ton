@@ -125,58 +125,58 @@
     {
         "data": "@at-some prelude {block}",
         "results": [
-            {"at": true, "type": "custom", "name": "at-some", "value": " prelude {block}"}
+            {"type": "undef", "name": "", "value": "@at-some prelude {block}", "important": false}
         ]
     },
     /* 19 */
     {
         "data": "@at-some prelude",
         "results": [
-            {"at": true, "type": "custom", "name": "at-some", "value": " prelude"}
+            {"type": "undef", "name": "", "value": "@at-some prelude", "important": false}
         ]
     },
     /* 20 */
     {
         "data": "@at-some prelude;",
         "results": [
-            {"at": true, "type": "custom", "name": "at-some", "value": " prelude"}
+            {"type": "undef", "name": "", "value": "@at-some prelude", "important": false}
         ]
     },
     /* 21 */
     {
         "data": "@at-some prelude {}",
         "results": [
-            {"at": true, "type": "custom", "name": "at-some", "value": " prelude {}"}
+            {"type": "undef", "name": "", "value": "@at-some prelude {}", "important": false}
         ]
     },
     /* 22 */
     {
         "data": "@at-some",
         "results": [
-            {"at": true, "type": "custom", "name": "at-some", "value": ""}
+            {"type": "undef", "name": "", "value": "@at-some", "important": false}
         ]
     },
     /* 23 */
     {
         "data": "@at-some;",
         "results": [
-            {"at": true, "type": "custom", "name": "at-some", "value": ""}
+            {"type": "undef", "name": "", "value": "@at-some", "important": false}
         ]
     },
     /* 24 */
     {
         "data": "@at-some{xxx}",
         "results": [
-            {"at": true, "type": "custom", "name": "at-some", "value": "{xxx}"}
+            {"type": "undef", "name": "", "value": "@at-some{xxx}", "important": false}
         ]
     },
     /* 25 */
     {
         "data": "@at-some xxx {yyy} @at-some xxx; myprop: 1px",
         "results": [
-            {"at": true, "type": "custom", "name": "at-some", "value": " xxx {yyy}"},
-            {"at": true, "type": "custom", "name": "at-some", "value": " xxx"},
+            {"type": "undef", "name": "", "value": "@at-some xxx {yyy} @at-some xxx", "important": false},
             {"type": "custom", "name": "myprop", "value": "1px", "important": false}
+            
         ]
     },
     /* 26 */

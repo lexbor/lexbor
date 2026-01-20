@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Alexander Borisov
+ * Copyright (C) 2023-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -47,12 +47,13 @@ main(int argc, const char *argv[])
         FAILED("Failed to create CSS Parser");
     }
 
-    sst = lxb_css_stylesheet_parse(parser, css, css_len);
+    sst = lxb_css_stylesheet_create(NULL);
+    status = lxb_css_stylesheet_parse(sst, parser, css, css_len);
 
     (void) lexbor_free(css);
     (void) lxb_css_parser_destroy(parser, true);
 
-    if (sst == NULL) {
+    if (status != LXB_STATUS_OK) {
         FAILED("Failed to parse CSS");
     }
 

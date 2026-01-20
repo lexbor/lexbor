@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022 Alexander Borisov
+ * Copyright (C) 2022-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -300,9 +300,11 @@ parse_cb(helper_t *helper, lexbor_str_t *str, unit_kv_array_t *entries)
         goto failed;
     }
 
+    helper->parser->memory = helper->mem;
+
     lxb_css_memory_clean(helper->mem);
 
-    list = lxb_css_declaration_list_parse(helper->parser, helper->mem,
+    list = lxb_css_declaration_list_parse(helper->parser,
                                           str->data, str->length);
     if (list == NULL) {
         status = helper->parser->status;

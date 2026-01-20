@@ -123,13 +123,13 @@ class Pseudo:
 
                 if name == "_undef":
                     res.append("{{(lxb_char_t *) \"#undef\", 6, {},\n     {}, {},\n     "
-                               "{{.state = {}, .block = NULL,\n      .failed = {}, .end = {}}}, {}, {}}}".format(enum_name, str(can_empty).lower(),
+                               "{{.value = {},\n      .cb.failed = {}, .cb.end = {}}}, {}, {}}}".format(enum_name, str(can_empty).lower(),
                                         self.make_combinator_name(combinator),
                                         state, "lxb_css_state_failed", success, "false", "false"))
                     continue
                 else:
                     res.append("{{(lxb_char_t *) \"{}\", {}, {},\n     {}, {},\n     "
-                               "{{.state = {}, .block = NULL,\n      .failed = {}, .end = {}}}, {}, {}}}".format(name, len(name),
+                               "{{.value = {},\n      .cb.failed = {}, .cb.end = {}}}, {}, {}}}".format(name, len(name),
                                         enum_name, str(can_empty).lower(), self.make_combinator_name(combinator),
                                         state, "lxb_css_state_failed", success, forgiving, comma))
             else:

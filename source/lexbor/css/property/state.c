@@ -3154,7 +3154,7 @@ lxb_css_property_state_font_family(lxb_css_parser_t *parser,
                 return lxb_css_parser_success(parser);
             }
 
-            return lxb_css_parser_memory_fail(parser);
+            return lxb_css_parser_failed(parser);
         }
 
         lxb_css_syntax_parser_consume(parser);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Alexander Borisov
+ * Copyright (C) 2021-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -73,7 +73,6 @@ lxb_css_parser_init(lxb_css_parser_t *parser, lxb_css_syntax_tokenizer_t *tkz)
     parser->rules->context = NULL;
 
     /* Temp */
-    parser->pos = NULL;
     parser->str.length = 0;
     parser->str_size = 4096;
 
@@ -93,11 +92,33 @@ lxb_css_parser_init(lxb_css_parser_t *parser, lxb_css_syntax_tokenizer_t *tkz)
     parser->types_pos = NULL;
     parser->types_end = NULL;
     parser->stage = LXB_CSS_PARSER_CLEAN;
-    parser->receive_endings = false;
     parser->status = LXB_STATUS_OK;
     parser->fake_null = false;
+    parser->token_end.type = LXB_CSS_SYNTAX_TOKEN__END;
 
     return LXB_STATUS_OK;
+}
+
+lxb_status_t
+lxb_css_parser_selectors_init(lxb_css_parser_t *parser)
+{
+    lxb_status_t status;
+
+    parser->selectors = lxb_css_selectors_create();
+    status = lxb_css_selectors_init(parser->selectors);
+    if (status != LXB_STATUS_OK) {
+        parser->selectors = lxb_css_selectors_destroy(parser->selectors, true);
+    }
+
+    return status;
+}
+
+void
+lxb_css_parser_selectors_destroy(lxb_css_parser_t *parser)
+{
+    if (parser->selectors != NULL) {
+        parser->selectors = lxb_css_selectors_destroy(parser->selectors, true);
+    }
 }
 
 void
@@ -111,7 +132,6 @@ lxb_css_parser_clean(lxb_css_parser_t *parser)
     parser->types_pos = parser->types_begin;
     parser->stage = LXB_CSS_PARSER_CLEAN;
     parser->status = LXB_STATUS_OK;
-    parser->pos = NULL;
     parser->str.length = 0;
     parser->fake_null = false;
 }
@@ -329,6 +349,14 @@ lxb_css_parser_unexpected_data_status(lxb_css_parser_t *parser,
     }
 
     return LXB_STATUS_ERROR_UNEXPECTED_DATA;
+}
+
+void *
+lxb_css_parser_memory_fail_null(lxb_css_parser_t *parser)
+{
+    parser->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    parser->loop = false;
+    return NULL;
 }
 
 bool

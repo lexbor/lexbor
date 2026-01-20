@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Alexander Borisov
+ * Copyright (C) 2025-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -11,6 +11,7 @@
 lxb_status_t
 lxb_html_style_element_parse(lxb_html_style_element_t *element)
 {
+    lxb_status_t status;
     lexbor_str_t *str;
     lxb_dom_text_t *text;
     lxb_dom_node_t *node;
@@ -31,13 +32,19 @@ lxb_html_style_element_parse(lxb_html_style_element_t *element)
     text = lxb_dom_interface_text(lxb_dom_interface_node(element)->first_child);
     str = &text->char_data.data;
 
-    stylesheet = lxb_css_stylesheet_parse(css->parser, str->data, str->length);
+    stylesheet = lxb_css_stylesheet_create(css->memory);
     if (stylesheet == NULL) {
-        return css->parser->status;
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    status = lxb_css_stylesheet_parse(stylesheet, css->parser,
+                                      str->data, str->length);
+    if (status != LXB_STATUS_OK) {
+        (void) lxb_css_stylesheet_destroy(stylesheet, false);
+        return status;
     }
 
     stylesheet->element = element;
-
     element->stylesheet = stylesheet;
 
     return LXB_STATUS_OK;

@@ -1,5 +1,5 @@
 [
-    /* Test count: 1 */
+    /* Test count: 35 */
     /* 1 */
     {
         "data": "#id .class",
@@ -149,7 +149,12 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"name": "width", "value": "10px", "important": false}
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": false}
+                        ]
+                    }
                 ]
             }
         ]
@@ -165,7 +170,12 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"name": "width", "value": "10px", "important": false}
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": false}
+                        ]
+                    }
                 ]
             }
         ]
@@ -181,7 +191,12 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"name": "width", "value": "10px", "important": false}
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": false}
+                        ]
+                    }
                 ]
             }
         ]
@@ -197,7 +212,12 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"name": "width", "value": "10px", "important": false}
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": false}
+                        ]
+                    }
                 ]
             }
         ]
@@ -213,7 +233,12 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"name": "width", "value": "10px", "important": false}
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": false}
+                        ]
+                    }
                 ]
             }
         ]
@@ -229,7 +254,12 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"name": "width", "value": "10px", "important": false}
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": false}
+                        ]
+                    }
                 ]
             }
         ]
@@ -245,7 +275,12 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"name": "width", "value": "10px", "important": false}
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": false}
+                        ]
+                    }
                 ]
             }
         ]
@@ -261,7 +296,12 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"name": "width", "value": "[;] 10px", "important": false}
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "[;] 10px", "important": false}
+                        ]
+                    }
                 ]
             }
         ]
@@ -277,7 +317,12 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"name": "width", "value": "10px", "important": false}
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": false}
+                        ]
+                    }
                 ]
             }
         ]
@@ -293,7 +338,12 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"name": "width", "value": "10px", "important": false}
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": false}
+                        ]
+                    }
                 ]
             }
         ]
@@ -309,7 +359,12 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"name": "width", "value": "10px", "important": true}
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": true}
+                        ]
+                    }
                 ]
             }
         ]
@@ -325,7 +380,12 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"name": "width", "value": "10px", "important": true}
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": true}
+                        ]
+                    }
                 ]
             }
         ]
@@ -341,8 +401,13 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"name": "width", "value": "10px", "important": true},
-                    {"name": "height", "value": "20px", "important": false}
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": true},
+                            {"name": "height", "value": "20px", "important": false}
+                        ]
+                    }
                 ]
             }
         ]
@@ -358,8 +423,13 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"name": "width", "value": "10px", "important": true},
-                    {"name": "height", "value": "20px", "important": false}
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": true},
+                            {"name": "height", "value": "20px", "important": false}
+                        ]
+                    }
                 ]
             }
         ]
@@ -375,8 +445,13 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"name": "width", "value": "10px !important x", "important": false},
-                    {"name": "height", "value": "20px", "important": false}
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px !important x", "important": false},
+                            {"name": "height", "value": "20px", "important": false}
+                        ]
+                    }
                 ]
             }
         ]
@@ -392,8 +467,13 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"name": "width", "value": "10px ! important", "important": false},
-                    {"name": "height", "value": "20px", "important": false}
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px ! important", "important": false},
+                            {"name": "height", "value": "20px", "important": false}
+                        ]
+                    }
                 ]
             }
         ]
@@ -409,7 +489,25 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"prelude": "@Naruto Orochimaru ", "block": "Sasuke Uchiha"}
+                    {
+                        "type": "at-rule",
+                        "name": "@Naruto",
+                        "prelude": [
+                            {"type": "ident", "value": "Orochimaru"},
+                            {"type": "whitespace", "value": " "}
+                        ],
+                        "block": [
+                            {
+                                "type": "qualified-rule",
+                                "prelude": [
+                                    {"type": "ident", "value": "Sasuke"},
+                                    {"type": "whitespace", "value": " "},
+                                    {"type": "ident", "value": "Uchiha"}
+                                ],
+                                "block": []
+                            },
+                        ]
+                    }
                 ]
             }
         ]
@@ -425,7 +523,13 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"prelude": "@Naruto Orochimaru", "block": ""}
+                    {
+                        "type": "at-rule",
+                        "name": "@Naruto",
+                        "prelude": [
+                            {"type": "ident", "value": "Orochimaru"}
+                        ]
+                    }
                 ]
             }
         ]
@@ -441,7 +545,13 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"prelude": "@Naruto Orochimaru", "block": ""}
+                    {
+                        "type": "at-rule",
+                        "name": "@Naruto",
+                        "prelude": [
+                            {"type": "ident", "value": "Orochimaru"}
+                        ]
+                    }
                 ]
             }
         ]
@@ -457,8 +567,19 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"prelude": "@Naruto Orochimaru", "block": ""},
-                    {"name": "width", "value": "10px", "important": false}
+                    {
+                        "type": "at-rule",
+                        "name": "@Naruto",
+                        "prelude": [
+                            {"type": "ident", "value": "Orochimaru"}
+                        ]
+                    },
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": false},
+                        ]
+                    }
                 ]
             }
         ]
@@ -474,8 +595,19 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"prelude": "@Naruto Orochimaru", "block": ""},
-                    {"name": "width", "value": "10px", "important": false}
+                    {
+                        "type": "at-rule",
+                        "name": "@Naruto",
+                        "prelude": [
+                            {"type": "ident", "value": "Orochimaru"}
+                        ]
+                    },
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": false},
+                        ]
+                    }
                 ]
             }
         ]
@@ -491,8 +623,30 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"prelude": "@Naruto Orochimaru ", "block": "Sasuke Uchiha"},
-                    {"name": "width", "value": "10px", "important": false}
+                    {
+                        "type": "at-rule",
+                        "name": "@Naruto",
+                        "prelude": [
+                            {"type": "ident", "value": "Orochimaru"},
+                            {"type": "whitespace", "value": " "}
+                        ],
+                        "block": [
+                            {
+                                "type": "qualified-rule",
+                                "prelude": [
+                                    {"type": "ident", "value": "Sasuke"},
+                                    {"type": "whitespace", "value": " "},
+                                    {"type": "ident", "value": "Uchiha"}
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": false},
+                        ]
+                    }
                 ]
             }
         ]
@@ -508,8 +662,30 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"prelude": "@Naruto Orochimaru ", "block": "Sasuke Uchiha"},
-                    {"name": "width", "value": "10px", "important": false}
+                    {
+                        "type": "at-rule",
+                        "name": "@Naruto",
+                        "prelude": [
+                            {"type": "ident", "value": "Orochimaru"},
+                            {"type": "whitespace", "value": " "}
+                        ],
+                        "block": [
+                            {
+                                "type": "qualified-rule",
+                                "prelude": [
+                                    {"type": "ident", "value": "Sasuke"},
+                                    {"type": "whitespace", "value": " "},
+                                    {"type": "ident", "value": "Uchiha"}
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": false},
+                        ]
+                    }
                 ]
             }
         ]
@@ -525,7 +701,14 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"bad": "broken declaration"}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [
+                            {"type": "ident", "value": "broken"},
+                            {"type": "whitespace", "value": " "},
+                            {"type": "ident", "value": "declaration"}
+                        ]
+                    }
                 ]
             }
         ]
@@ -541,7 +724,16 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"bad": "broken de:claration"}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [
+                            {"type": "ident", "value": "broken"},
+                            {"type": "whitespace", "value": " "},
+                            {"type": "ident", "value": "de"},
+                            {"type": "colon", "value": ":"},
+                            {"type": "ident", "value": "claration"}
+                        ]
+                    }
                 ]
             }
         ]
@@ -557,8 +749,20 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"bad": "broken declaration"},
-                    {"name": "width", "value": "10px", "important": false}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [
+                            {"type": "ident", "value": "broken"},
+                            {"type": "whitespace", "value": " "},
+                            {"type": "ident", "value": "declaration"}
+                        ]
+                    },
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": false},
+                        ]
+                    }
                 ]
             }
         ]
@@ -574,8 +778,20 @@
                     {"type": "whitespace", "value": " "}
                 ],
                 "block": [
-                    {"bad": "broken declaration"},
-                    {"name": "width", "value": "10px", "important": false}
+                    {
+                        "type": "qualified-rule",
+                        "prelude": [
+                            {"type": "ident", "value": "broken"},
+                            {"type": "whitespace", "value": " "},
+                            {"type": "ident", "value": "declaration"}
+                        ]
+                    },
+                    {
+                        "type": "declarations",
+                        "declarations": [
+                            {"name": "width", "value": "10px", "important": false},
+                        ]
+                    }
                 ]
             }
         ]

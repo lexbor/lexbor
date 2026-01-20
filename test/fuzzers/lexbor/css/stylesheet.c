@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 Alexander Borisov
+ * Copyright (C) 2023-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -19,6 +19,7 @@ LLVMFuzzerTestOneInput(const uint8_t *data, size_t length)
     lxb_status_t status;
     lxb_css_parser_t *parser;
     lxb_css_stylesheet_t *sst;
+    lxb_css_memory_t *memory;
 
     /* Create CSS parser. */
 
@@ -30,9 +31,10 @@ LLVMFuzzerTestOneInput(const uint8_t *data, size_t length)
 
     /* Parse. */
 
-    sst = lxb_css_stylesheet_parse(parser, data, length);
-    if (sst == NULL) {
-        goto done;
+    sst = lxb_css_stylesheet_create(NULL);
+    status = lxb_css_stylesheet_parse(sst, parser, data, length);
+    if (status != LXB_STATUS_OK) {
+        return EXIT_FAILURE;
     }
 
     /* Serialization. */
@@ -42,11 +44,12 @@ LLVMFuzzerTestOneInput(const uint8_t *data, size_t length)
         return EXIT_FAILURE;
     }
 
-done:
+    memory = sst->memory;
 
     /* Destroy resources for CSS Parser. */
     (void) lxb_css_parser_destroy(parser, true);
-    (void) lxb_css_stylesheet_destroy(sst, true);
+    (void) lxb_css_stylesheet_destroy(sst, false);
+    (void) lxb_css_memory_destroy(memory, true);
 
     return EXIT_SUCCESS;
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023-2025 Alexander Borisov
+ * Copyright (C) 2023-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -57,8 +57,9 @@ TEST_BEGIN(styles)
     status = lxb_css_parser_init(parser, NULL);
     test_eq(status, LXB_STATUS_OK);
 
-    sst = lxb_css_stylesheet_parse(parser, slctrs.data, slctrs.length);
-    test_ne(sst, NULL);
+    sst = lxb_css_stylesheet_create(parser->memory);
+    status = lxb_css_stylesheet_parse(sst, parser, slctrs.data, slctrs.length);
+    test_eq(status, LXB_STATUS_OK);
 
     status = lxb_html_document_stylesheet_attach(document, sst);
     test_eq(status, LXB_STATUS_OK);
