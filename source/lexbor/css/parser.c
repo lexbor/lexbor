@@ -375,3 +375,189 @@ lxb_css_parser_memory_fail_status(lxb_css_parser_t *parser)
 
     return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
 }
+
+/*
+ * No-inline functions for ABI.
+ */
+lxb_status_t
+lxb_css_parser_status_noi(lxb_css_parser_t *parser)
+{
+    return lxb_css_parser_status(parser);
+}
+
+lxb_css_memory_t *
+lxb_css_parser_memory_noi(lxb_css_parser_t *parser)
+{
+    return lxb_css_parser_memory(parser);
+}
+
+void
+lxb_css_parser_memory_set_noi(lxb_css_parser_t *parser, lxb_css_memory_t *memory)
+{
+    lxb_css_parser_memory_set(parser, memory);
+}
+
+lxb_css_selectors_t *
+lxb_css_parser_selectors_noi(lxb_css_parser_t *parser)
+{
+    return lxb_css_parser_selectors(parser);
+}
+
+void
+lxb_css_parser_selectors_set_noi(lxb_css_parser_t *parser,
+                                 lxb_css_selectors_t *selectors)
+{
+    lxb_css_parser_selectors_set(parser, selectors);
+}
+
+bool
+lxb_css_parser_is_running_noi(lxb_css_parser_t *parser)
+{
+    return lxb_css_parser_is_running(parser);
+}
+
+bool
+lxb_css_parser_status_is_unexpected_data_noi(lxb_css_parser_t *parser)
+{
+    return lxb_css_parser_status_is_unexpected_data(parser);
+}
+
+void
+lxb_css_parser_failed_set_noi(lxb_css_parser_t *parser, bool is)
+{
+    lxb_css_parser_failed_set(parser, is);
+}
+
+void
+lxb_css_parser_failed_set_by_id_noi(lxb_css_parser_t *parser, int idx, bool is)
+{
+    lxb_css_parser_failed_set_by_id(parser, idx, is);
+}
+
+bool
+lxb_css_parser_is_failed_noi(lxb_css_parser_t *parser)
+{
+    return lxb_css_parser_is_failed(parser);
+}
+
+void
+lxb_css_parser_set_ok_noi(lxb_css_parser_t *parser)
+{
+    lxb_css_parser_set_ok(parser);
+}
+
+const lxb_char_t *
+lxb_css_parser_buffer_noi(lxb_css_parser_t *parser, size_t *length)
+{
+    return lxb_css_parser_buffer(parser, length);
+}
+
+void
+lxb_css_parser_buffer_set_noi(lxb_css_parser_t *parser,
+                              const lxb_char_t *data, size_t length)
+{
+    lxb_css_parser_buffer_set(parser, data, length);
+}
+
+lxb_css_parser_state_f
+lxb_css_parser_state_noi(lxb_css_parser_t *parser)
+{
+    return lxb_css_parser_state(parser);
+}
+
+void
+lxb_css_parser_state_set_noi(lxb_css_parser_t *parser, lxb_css_parser_state_f state)
+{
+    lxb_css_parser_state_set(parser, state);
+}
+
+lxb_css_syntax_rule_t *
+lxb_css_parser_current_rule_noi(lxb_css_parser_t *parser)
+{
+    return lxb_css_parser_current_rule(parser);
+}
+
+size_t
+lxb_css_parser_rule_deep_noi(lxb_css_parser_t *parser)
+{
+    return lxb_css_parser_rule_deep(parser);
+}
+
+lxb_css_parser_state_t *
+lxb_css_parser_states_pop_noi(lxb_css_parser_t *parser)
+{
+    return lxb_css_parser_states_pop(parser);
+}
+
+lxb_css_parser_state_t *
+lxb_css_parser_states_to_root_noi(lxb_css_parser_t *parser)
+{
+    return lxb_css_parser_states_to_root(parser);
+}
+
+bool
+lxb_css_parser_states_set_back_noi(lxb_css_parser_t *parser)
+{
+    return lxb_css_parser_states_set_back(parser);
+}
+
+void
+lxb_css_parser_states_clean_noi(lxb_css_parser_t *parser)
+{
+    lxb_css_parser_states_clean(parser);
+}
+
+lxb_css_parser_state_t *
+lxb_css_parser_states_current_noi(lxb_css_parser_t *parser)
+{
+    return lxb_css_parser_states_current(parser);
+}
+
+void
+lxb_css_parser_states_set_noi(lxb_css_parser_state_t *states,
+                              lxb_css_parser_state_f state, void *context)
+{
+    lxb_css_parser_states_set(states, state, context);
+}
+
+void
+lxb_css_parser_states_up_noi(lxb_css_parser_t *parser)
+{
+    lxb_css_parser_states_up(parser);
+}
+
+void
+lxb_css_parser_states_down_noi(lxb_css_parser_t *parser)
+{
+    lxb_css_parser_states_down(parser);
+}
+
+lxb_css_log_t *
+lxb_css_parser_log_noi(lxb_css_parser_t *parser)
+{
+    return lxb_css_parser_log(parser);
+}
+
+const lxb_css_syntax_token_t *
+lxb_css_parser_token_end_noi(lxb_css_parser_t *parser, size_t offset)
+{
+    return lxb_css_parser_token_end(parser, offset);
+}
+
+void
+lxb_css_parser_set_context_noi(lxb_css_parser_t *parser, void *ctx)
+{
+    lxb_css_parser_set_context(parser, ctx);
+}
+
+void
+lxb_css_syntax_set_return_noi(lxb_css_parser_t *parser, void *value)
+{
+    lxb_css_syntax_set_return(parser, value);
+}
+
+void *
+lxb_css_syntax_returned_noi(lxb_css_parser_t *parser)
+{
+    return lxb_css_syntax_returned(parser);
+}

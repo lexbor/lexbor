@@ -652,6 +652,103 @@ lxb_css_syntax_returned(lxb_css_parser_t *parser)
     return parser->rules->returned;
 }
 
+/*
+ * No-inline functions for ABI.
+ */
+LXB_API lxb_status_t
+lxb_css_parser_status_noi(lxb_css_parser_t *parser);
+
+LXB_API lxb_css_memory_t *
+lxb_css_parser_memory_noi(lxb_css_parser_t *parser);
+
+LXB_API void
+lxb_css_parser_memory_set_noi(lxb_css_parser_t *parser, lxb_css_memory_t *memory);
+
+LXB_API lxb_css_selectors_t *
+lxb_css_parser_selectors_noi(lxb_css_parser_t *parser);
+
+LXB_API void
+lxb_css_parser_selectors_set_noi(lxb_css_parser_t *parser,
+                                 lxb_css_selectors_t *selectors);
+
+LXB_API bool
+lxb_css_parser_is_running_noi(lxb_css_parser_t *parser);
+
+LXB_API bool
+lxb_css_parser_status_is_unexpected_data_noi(lxb_css_parser_t *parser);
+
+LXB_API void
+lxb_css_parser_failed_set_noi(lxb_css_parser_t *parser, bool is);
+
+LXB_API void
+lxb_css_parser_failed_set_by_id_noi(lxb_css_parser_t *parser, int idx, bool is);
+
+LXB_API bool
+lxb_css_parser_is_failed_noi(lxb_css_parser_t *parser);
+
+LXB_API void
+lxb_css_parser_set_ok_noi(lxb_css_parser_t *parser);
+
+LXB_API const lxb_char_t *
+lxb_css_parser_buffer_noi(lxb_css_parser_t *parser, size_t *length);
+
+LXB_API void
+lxb_css_parser_buffer_set_noi(lxb_css_parser_t *parser,
+                              const lxb_char_t *data, size_t length);
+
+LXB_API lxb_css_parser_state_f
+lxb_css_parser_state_noi(lxb_css_parser_t *parser);
+
+LXB_API void
+lxb_css_parser_state_set_noi(lxb_css_parser_t *parser,
+                             lxb_css_parser_state_f state);
+
+LXB_API lxb_css_syntax_rule_t *
+lxb_css_parser_current_rule_noi(lxb_css_parser_t *parser);
+
+LXB_API size_t
+lxb_css_parser_rule_deep_noi(lxb_css_parser_t *parser);
+
+LXB_API lxb_css_parser_state_t *
+lxb_css_parser_states_pop_noi(lxb_css_parser_t *parser);
+
+LXB_API lxb_css_parser_state_t *
+lxb_css_parser_states_to_root_noi(lxb_css_parser_t *parser);
+
+LXB_API bool
+lxb_css_parser_states_set_back_noi(lxb_css_parser_t *parser);
+
+LXB_API void
+lxb_css_parser_states_clean_noi(lxb_css_parser_t *parser);
+
+LXB_API lxb_css_parser_state_t *
+lxb_css_parser_states_current_noi(lxb_css_parser_t *parser);
+
+LXB_API void
+lxb_css_parser_states_set_noi(lxb_css_parser_state_t *states,
+                              lxb_css_parser_state_f state, void *context);
+
+LXB_API void
+lxb_css_parser_states_up_noi(lxb_css_parser_t *parser);
+
+LXB_API void
+lxb_css_parser_states_down_noi(lxb_css_parser_t *parser);
+
+LXB_API lxb_css_log_t *
+lxb_css_parser_log_noi(lxb_css_parser_t *parser);
+
+LXB_API const lxb_css_syntax_token_t *
+lxb_css_parser_token_end_noi(lxb_css_parser_t *parser, size_t offset);
+
+LXB_API void
+lxb_css_parser_set_context_noi(lxb_css_parser_t *parser, void *ctx);
+
+LXB_API void
+lxb_css_syntax_set_return_noi(lxb_css_parser_t *parser, void *value);
+
+LXB_API void *
+lxb_css_syntax_returned_noi(lxb_css_parser_t *parser);
+
 #ifdef __cplusplus
 } /* extern "C" */
 #endif
