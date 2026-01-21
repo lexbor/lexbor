@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022-2023 Alexander Borisov
+ * Copyright (C) 2022-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -10,10 +10,11 @@
 #include "lexbor/core/serialize.h"
 #include "lexbor/core/conv.h"
 
-#define LEXBOR_STR_RES_MAP_HEX_TO_CHAR_LOWERCASE
-#define LEXBOR_STR_RES_CHAR_TO_TWO_HEX_VALUE_LOWERCASE
-#include "lexbor/core/str_res.h"
 
+#ifndef LEXBOR_DISABLE_INTERNAL_EXTERN
+    LXB_EXTERN const lxb_char_t lexbor_str_res_map_hex_to_char_lowercase[17];
+    LXB_EXTERN const char *lexbor_str_res_char_to_two_hex_value_lowercase[257];
+#endif
 
 static const lexbor_str_t lxb_str_ws = lexbor_str(" ");
 static const lexbor_str_t lxb_str_comma = lexbor_str(", ");

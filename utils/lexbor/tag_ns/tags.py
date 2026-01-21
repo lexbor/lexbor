@@ -171,10 +171,10 @@ class Tags:
 
     def tag_data_create_html(self):
         result = []
-        cats = LXB.Res("lxb_html_tag_category_t", "lxb_html_tag_res_cats", True, [self.tag_last_entry_name, self.ns_last_entry_name])
-        constructor = LXB.Res("lxb_dom_interface_constructor_f", "lxb_html_interface_res_constructors", True, [self.tag_last_entry_name, self.ns_last_entry_name])
-        destructor = LXB.Res("lxb_dom_interface_destructor_f", "lxb_html_interface_res_destructor", True, [self.tag_last_entry_name, self.ns_last_entry_name])
-        svg_fixname = LXB.Res("lxb_html_tag_fixname_t", "lxb_html_tag_res_fixname_svg", True, [self.tag_last_entry_name])
+        cats = LXB.Res("lxb_html_tag_category_t", "lxb_html_tag_res_cats", False, [self.tag_last_entry_name, self.ns_last_entry_name], prefix = "LXB_API")
+        constructor = LXB.Res("lxb_dom_interface_constructor_f", "lxb_html_interface_res_constructors", False, [self.tag_last_entry_name, self.ns_last_entry_name])
+        destructor = LXB.Res("lxb_dom_interface_destructor_f", "lxb_html_interface_res_destructor", False, [self.tag_last_entry_name, self.ns_last_entry_name])
+        svg_fixname = LXB.Res("lxb_html_tag_fixname_t", "lxb_html_tag_res_fixname_svg", False, [self.tag_last_entry_name], prefix = "LXB_API")
 
         fixname = []
 

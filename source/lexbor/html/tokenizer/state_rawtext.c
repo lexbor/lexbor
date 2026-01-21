@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Alexander Borisov
+ * Copyright (C) 2018-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -7,10 +7,10 @@
 #include "lexbor/html/tokenizer/state_rawtext.h"
 #include "lexbor/html/tokenizer/state.h"
 
-#define LEXBOR_STR_RES_ANSI_REPLACEMENT_CHARACTER
-#define LEXBOR_STR_RES_ALPHA_CHARACTER
-#include "lexbor/core/str_res.h"
-
+#ifndef LEXBOR_DISABLE_INTERNAL_EXTERN
+    LXB_EXTERN const lxb_char_t lexbor_str_res_ansi_replacement_character[4];
+    LXB_EXTERN const size_t     lexbor_str_res_alpha_character[256];
+#endif
 
 const lxb_tag_data_t *
 lxb_tag_append_lower(lexbor_hash_t *hash,

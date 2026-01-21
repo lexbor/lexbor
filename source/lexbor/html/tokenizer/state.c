@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Alexander Borisov
+ * Copyright (C) 2018-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -8,16 +8,16 @@
 #include "lexbor/html/tokenizer/state_comment.h"
 #include "lexbor/html/tokenizer/state_doctype.h"
 
-#define LEXBOR_STR_RES_ANSI_REPLACEMENT_CHARACTER
-#define LEXBOR_STR_RES_ALPHANUMERIC_CHARACTER
-#define LEXBOR_STR_RES_REPLACEMENT_CHARACTER
-#define LEXBOR_STR_RES_ALPHA_CHARACTER
-#define LEXBOR_STR_RES_MAP_HEX
-#define LEXBOR_STR_RES_MAP_NUM
-#include "lexbor/core/str_res.h"
-#include "lexbor/core/swar.h"
+#ifndef LEXBOR_DISABLE_INTERNAL_EXTERN
+    LXB_EXTERN const lxb_char_t lexbor_str_res_map_num[256];
+    LXB_EXTERN const lxb_char_t lexbor_str_res_map_hex[256];
+    LXB_EXTERN const lxb_char_t lexbor_str_res_ansi_replacement_character[4];
+    LXB_EXTERN const size_t     lexbor_str_res_alphanumeric_character[256];
+    LXB_EXTERN const size_t     lexbor_str_res_alpha_character[256];
+    LXB_EXTERN const size_t     lexbor_str_res_replacement_character[160];
+#endif
 
-#define LXB_HTML_TOKENIZER_RES_ENTITIES_SBST
+#include "lexbor/core/swar.h"
 #include "lexbor/html/tokenizer/res.h"
 
 

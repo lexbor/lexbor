@@ -1,11 +1,8 @@
 /*
- * Copyright (C) 2018-2020 Alexander Borisov
+ * Copyright (C) 2018-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
-
-#define LEXBOR_TOKENIZER_CHARS_MAP
-#include "lexbor/core/str_res.h"
 
 #include "lexbor/html/tree/insertion_mode.h"
 #include "lexbor/html/tree/open_elements.h"
@@ -16,6 +13,9 @@
 #include "lexbor/html/parser.h"
 #include "lexbor/html/tokenizer/state_rcdata.h"
 
+#ifndef LEXBOR_DISABLE_INTERNAL_EXTERN
+    LXB_EXTERN const unsigned char lexbor_tokenizer_chars_map[256];
+#endif
 
 static bool
 lxb_html_tree_insertion_mode_in_body_anything_else_closed(lxb_html_tree_t *tree,

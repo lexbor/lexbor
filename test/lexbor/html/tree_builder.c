@@ -15,10 +15,6 @@
 #include <unit/test.h>
 #include <unit/kv.h>
 
-#define LXB_HTML_TAG_RES_DATA
-#define LXB_HTML_TAG_RES_SHS_DATA
-#include <lexbor/html/tag_res.h>
-
 
 typedef struct {
     lxb_tag_id_t tag_id;

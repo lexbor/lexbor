@@ -10,9 +10,7 @@
 #include <lexbor/encoding/encoding.h>
 #include <lexbor/encoding/encode.h>
 
-#define LEXBOR_STR_RES_MAP_HEX
-#include <lexbor/core/str_res.h>
-
+LXB_EXTERN const lxb_char_t lexbor_str_res_map_hex[256];
 
 #define FAILED(with_usage, ...)                                                \
     do {                                                                       \

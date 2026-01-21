@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2025 Alexander Borisov
+ * Copyright (C) 2018-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -14,9 +14,9 @@
 #include "lexbor/ns/ns.h"
 #include "lexbor/html/interfaces/template_element.h"
 
-#define LEXBOR_TOKENIZER_CHARS_MAP
-#include "lexbor/core/str_res.h"
-
+#ifndef LEXBOR_DISABLE_INTERNAL_EXTERN
+    LXB_EXTERN const unsigned char lexbor_tokenizer_chars_map[256];
+#endif
 
 #define lxb_html_serialize_send(data, len, ctx)                                \
     do {                                                                       \

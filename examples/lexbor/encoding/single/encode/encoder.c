@@ -1,13 +1,12 @@
 /*
- * Copyright (C) 2019-2020 Alexander Borisov
+ * Copyright (C) 2019-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include <lexbor/encoding/encoding.h>
 
-#define LEXBOR_STR_RES_MAP_HEX
-#include <lexbor/core/str_res.h>
+LXB_EXTERN const lxb_char_t lexbor_str_res_map_hex[256];
 
 
 #define FAILED(with_usage, ...)                                                \

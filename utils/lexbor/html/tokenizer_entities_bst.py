@@ -164,9 +164,6 @@ def entities_bst_result(name, bst):
     result = []
     last_idx = entries.pop()
 
-    result.append("#ifdef {}\n".format(name.upper()))
-    result.append("#ifndef {}_ENABLED\n".format(name.upper()))
-    result.append("#define {}_ENABLED\n".format(name.upper()))
     result.append("static const lexbor_sbst_entry_static_t {}[] =\n".format(name))
     result.append("{\n\t")
 
@@ -188,8 +185,6 @@ def entities_bst_result(name, bst):
                           bst[last_idx][3]));
 
     result.append("};\n")
-    result.append("#endif /* {}_ENABLED */\n".format(name.upper()))
-    result.append("#endif /* {} */\n".format(name.upper()))
 
     return result
 
@@ -210,5 +205,5 @@ def entities_bst_print(bst):
 
 if __name__ == "__main__":
     entities_bst("tmp/tokenizer_res.h",
-                 "../../../source/lexbor/html/tokenizer_res.h",
+                 "../../../source/lexbor/html/tokenizer/res.h",
                  "data/entities.json");

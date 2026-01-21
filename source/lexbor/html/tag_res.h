@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -13,10 +13,6 @@
 
 #ifndef LXB_HTML_TAG_RES_H
 #define LXB_HTML_TAG_RES_H
-
-#include "lexbor/html/tag.h"
-
-#endif /* LXB_HTML_TAG_RES_H */
 
 #ifdef LXB_TAG_CONST_VERSION
 #ifndef LXB_TAG_CONST_VERSION_24CCD9902BAD024339EFD2FE19A98AB1
@@ -34,10 +30,7 @@
 #error You need to include "lexbor/ns/const.h".
 #endif /* LXB_NS_CONST_VERSION */
 
-#ifdef LXB_HTML_TAG_RES_CATS
-#ifndef LXB_HTML_TAG_RES_CATS_ENABLED
-#define LXB_HTML_TAG_RES_CATS_ENABLED
-static  lxb_html_tag_category_t lxb_html_tag_res_cats[LXB_TAG__LAST_ENTRY][LXB_NS__LAST_ENTRY] = 
+LXB_API  lxb_html_tag_category_t lxb_html_tag_res_cats[LXB_TAG__LAST_ENTRY][LXB_NS__LAST_ENTRY] = 
 {
     /* LXB_TAG__UNDEF */
     {
@@ -1501,13 +1494,8 @@ static  lxb_html_tag_category_t lxb_html_tag_res_cats[LXB_TAG__LAST_ENTRY][LXB_N
         LXB_HTML_TAG_CATEGORY__UNDEF, LXB_HTML_TAG_CATEGORY__UNDEF
     }
 };
-#endif /* LXB_HTML_TAG_RES_CATS_ENABLED */
-#endif /* LXB_HTML_TAG_RES_CATS */
 
-#ifdef LXB_HTML_TAG_RES_FIXNAME_SVG
-#ifndef LXB_HTML_TAG_RES_FIXNAME_SVG_ENABLED
-#define LXB_HTML_TAG_RES_FIXNAME_SVG_ENABLED
-static  lxb_html_tag_fixname_t lxb_html_tag_res_fixname_svg[LXB_TAG__LAST_ENTRY] = 
+LXB_API  lxb_html_tag_fixname_t lxb_html_tag_res_fixname_svg[LXB_TAG__LAST_ENTRY] = 
 {
     /* LXB_TAG__UNDEF */
     {NULL, 0},
@@ -1907,5 +1895,5 @@ static  lxb_html_tag_fixname_t lxb_html_tag_res_fixname_svg[LXB_TAG__LAST_ENTRY]
     {NULL, 0},
     
 };
-#endif /* LXB_HTML_TAG_RES_FIXNAME_SVG_ENABLED */
-#endif /* LXB_HTML_TAG_RES_FIXNAME_SVG */
+
+#endif /* LXB_HTML_TAG_RES_H */

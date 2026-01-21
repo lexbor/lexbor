@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -13,8 +13,6 @@
 
 #ifndef LXB_HTML_INTERFACE_RES_H
 #define LXB_HTML_INTERFACE_RES_H
-
-#endif /* LXB_HTML_INTERFACE_RES_H */
 
 #ifdef LXB_TAG_CONST_VERSION
 #ifndef LXB_TAG_CONST_VERSION_24CCD9902BAD024339EFD2FE19A98AB1
@@ -1045,9 +1043,6 @@ lxb_html_video_element_interface_destroy_wrapper(void *interface)
 }
 
 
-#ifdef LXB_HTML_INTERFACE_RES_CONSTRUCTORS
-#ifndef LXB_HTML_INTERFACE_RES_CONSTRUCTORS_ENABLED
-#define LXB_HTML_INTERFACE_RES_CONSTRUCTORS_ENABLED
 static  lxb_dom_interface_constructor_f lxb_html_interface_res_constructors[LXB_TAG__LAST_ENTRY][LXB_NS__LAST_ENTRY] = 
 {
     /* LXB_TAG__UNDEF */
@@ -3229,12 +3224,7 @@ static  lxb_dom_interface_constructor_f lxb_html_interface_res_constructors[LXB_
         (lxb_dom_interface_constructor_f) lxb_dom_element_interface_create_wrapper
     }
 };
-#endif /* LXB_HTML_INTERFACE_RES_CONSTRUCTORS_ENABLED */
-#endif /* LXB_HTML_INTERFACE_RES_CONSTRUCTORS */
 
-#ifdef LXB_HTML_INTERFACE_RES_DESTRUCTOR
-#ifndef LXB_HTML_INTERFACE_RES_DESTRUCTOR_ENABLED
-#define LXB_HTML_INTERFACE_RES_DESTRUCTOR_ENABLED
 static  lxb_dom_interface_destructor_f lxb_html_interface_res_destructor[LXB_TAG__LAST_ENTRY][LXB_NS__LAST_ENTRY] = 
 {
     /* LXB_TAG__UNDEF */
@@ -5416,5 +5406,5 @@ static  lxb_dom_interface_destructor_f lxb_html_interface_res_destructor[LXB_TAG
         (lxb_dom_interface_destructor_f) lxb_dom_element_interface_destroy_wrapper
     }
 };
-#endif /* LXB_HTML_INTERFACE_RES_DESTRUCTOR_ENABLED */
-#endif /* LXB_HTML_INTERFACE_RES_DESTRUCTOR */
+
+#endif /* LXB_HTML_INTERFACE_RES_H */

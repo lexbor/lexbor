@@ -17,10 +17,11 @@
 #include "lexbor/dom/interfaces/text.h"
 #include "lexbor/dom/interfaces/element.h"
 
-#define LXB_HTML_TAG_RES_DATA
-#define LXB_HTML_TAG_RES_SHS_DATA
-#include "lexbor/html/tag_res.h"
 
+#ifndef LEXBOR_DISABLE_INTERNAL_EXTERN
+    LXB_EXTERN lxb_html_tag_category_t lxb_html_tag_res_cats[LXB_TAG__LAST_ENTRY][LXB_NS__LAST_ENTRY];
+    LXB_EXTERN lxb_html_tag_fixname_t lxb_html_tag_res_fixname_svg[LXB_TAG__LAST_ENTRY];
+#endif
 
 lxb_status_t
 lxb_html_parse_chunk_prepare(lxb_html_parser_t *parser,

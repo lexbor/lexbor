@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -14,10 +14,6 @@
 #ifndef LXB_HTML_TAG_RES_H
 #define LXB_HTML_TAG_RES_H
 
-#include "lexbor/html/tag.h"
-
-#endif /* LXB_HTML_TAG_RES_H */
-
 %%CHECK_TAG_VERSION%%
 
 %%CHECK_NS_VERSION%%
@@ -25,3 +21,5 @@
 %%TAG_DATA%%
 
 %%FIXNAME_SVG_DATA%%
+
+#endif /* LXB_HTML_TAG_RES_H */

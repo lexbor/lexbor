@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2020 Alexander Borisov
+ * Copyright (C) 2018-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -8,10 +8,10 @@
 #include "lexbor/html/tree/open_elements.h"
 #include "lexbor/html/interfaces/element.h"
 
-#define LEXBOR_TOKENIZER_CHARS_MAP
-#define LEXBOR_STR_RES_ANSI_REPLACEMENT_CHARACTER
-#include "lexbor/core/str_res.h"
-
+#ifndef LEXBOR_DISABLE_INTERNAL_EXTERN
+    LXB_EXTERN const lxb_char_t lexbor_str_res_ansi_replacement_character[4];
+    LXB_EXTERN const unsigned char lexbor_tokenizer_chars_map[256];
+#endif
 
 lxb_status_t
 lxb_dom_element_qualified_name_set(lxb_dom_element_t *element,

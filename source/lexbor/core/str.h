@@ -21,7 +21,6 @@ extern "C" {
 #define lexbor_str_len(str) lexbor_str_get(str, length)
 #define lexbor_str(p) {.data = (lxb_char_t *) (p), sizeof(p) - 1}
 
-
 #define lexbor_str_check_size_arg_m(str, size, mraw, plus_len, return_fail)    \
     do {                                                                       \
         void *tmp;                                                             \

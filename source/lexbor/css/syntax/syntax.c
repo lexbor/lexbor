@@ -9,15 +9,13 @@
 
 #include "lexbor/core/str.h"
 
-#define LEXBOR_STR_RES_MAP_HEX
-#define LEXBOR_STR_RES_MAP_HEX_TO_CHAR_LOWERCASE
-#define LEXBOR_STR_RES_CHAR_TO_TWO_HEX_VALUE_LOWERCASE
-#define LEXBOR_STR_RES_ANSI_REPLACEMENT_CHARACTER
-#include "lexbor/core/str_res.h"
-
-#define LXB_CSS_SYNTAX_RES_NAME_MAP
-#include "lexbor/css/syntax/res.h"
-
+#ifndef LEXBOR_DISABLE_INTERNAL_EXTERN
+    LXB_EXTERN const lxb_char_t lexbor_str_res_ansi_replacement_character[4];
+    LXB_EXTERN const lxb_char_t lexbor_str_res_map_hex[256];
+    LXB_EXTERN const lxb_char_t lexbor_str_res_map_hex_to_char_lowercase[17];
+    LXB_EXTERN const char *lexbor_str_res_char_to_two_hex_value_lowercase[257];
+    LXB_EXTERN const lxb_char_t lxb_css_syntax_res_name_map[256];
+#endif
 
 static const lexbor_str_t lxb_str_ws = lexbor_str(" ");
 
