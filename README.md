@@ -1,74 +1,44 @@
-## Lexbor: Crafting a Browser Engine with Simplicity and Flexibility
+# Lexbor
 
-Why build yet another browser engine?
-There's a myriad of challenges developers face in fully utilizing modern web technologies.
-Parsing HTML and CSS, dealing with URLs and encodings often involves slow, resource-heavy implementations or outdated solutions.
-Even established solutions, written in C++ and reaching tens of megabytes in volume, are often not versatile enough.
-Meanwhile, language-specific implementations for Python, Node.js, Rust, or any other favorite of the day are slow and prone to lock-in.
+Crafting a Browser Engine with Simplicity and Flexibility.
 
+## Description
 
-### The Core Requirements
+Lexbor is still in development, but the existing modules are already production-ready.
 
-Lexbor's core requirements rose from the ashes of these challenges:
-
-#### Portability
-
-Lexbor aims to adapt to different platforms and integrate into various programming languages.
-It's not yet another library full of quirks and idiosyncrasies;
-Lexbor aims to offer developers flexibility to incorporate it into their work directly, regardless of the programming language they chose.
-
-#### Modularity
-
-Lexbor wants to keep things simple: Developers should be able to use only the parts they need.
-Whether it's an HTML or URL parser, the engine's code should be straightforward and easy to navigate, promoting rapid development.
-
-#### Speed
-
-In a nutshell, Lexbor wants things to happen *real fast*.
-It's not just about making a browser engine; it's about making sure that *everything*,
-even the most resource-intensive tasks such as HTML parsing, occur swiftly to meet the real-time demands of modern web applications.
-
-#### Independence
-
-Lexbor empowers developers by giving them full control over algorithms, resources, and dimensions.
-By eliminating  on external dependencies, we let developers customize the engine without sacrificing performance or features.
-
-#### Compliance
-
-Lexbor commits to industry standards.
-Developers need to be sure that the code aligns with widely established specifications.
-The output of Lexbor's modules, be it HTML, CSS, URLs, or others, should match that of modern browsers, meeting industry specifications.
-
-
-### Origin Story
-
-Having had all these goals in mind for about a decade, Alexander Borisov,
-whose name gave the project its title,
-came up with the idea of a browser engine crafted entirely in C
-(there's no school like the old school).
-The language was chosen simply because we believed it could meet all the criteria seamlessly.
-
-Unlike heavyweights such as WebKit or Blink, Lexbor takes a lean and focused approach,
-delivering a nimble yet powerful browser engine.
-All it takes is years of top-notch developer expertise.
-
-An important point to make: Lexbor doesn't stop at parsing and rendering modern HTML.
-It offers each component as a standalone entity, ready to be integrated into other people's projects.
-This approach sets us apart, providing a modular solution that not only meets browser needs
-but also empowers developers with versatile tools for their own web-related tasks.
-
-All in all, we envision Lexbor a promising player in the menagerie of browser technologies,
-pushing the boundaries and helping developers fully leverage modern web technologies.
-
+A set of fast, standards-compliant tools (modules) for working with modern web technologies — HTML parsing, CSS processing, URL handling, and more. These modules are production-ready today and form the foundation of a browser engine in development.
 
 ## Features
 
-* [Modules](https://github.com/lexbor/lexbor/tree/master/source/lexbor).
-* [Single or separate](https://github.com/lexbor/lexbor#single-or-separately) libraries for each module.
-* No outside dependencies.
-* Easy to port to any platform.
-* C99 support.
-* Speed.
+- **High Performance** — one of the fastest HTML parsers available
+- **Standards Compliant** — rigid adherence to [WHATWG](https://whatwg.org/) (HTML, DOM, URL, Encoding) and [W3C](https://www.w3.org/Style/CSS/) (CSS) specifications
+- **Modular Architecture** — use only what you need (e.g., just the CSS parser or Encoding module) to keep your application lightweight
+- **Zero Dependencies** — written in pure C99, making it easy to assist, build, and embed in any project without dependency hell
+- **Production Ready** — heavily tested on over 200 million web pages to ensure stability and correctness
+
+## Available Modules
+
+| Module | Status | Description |
+|--------|--------|-------------|
+| DOM | ✅ Ready | DOM tree manipulation |
+| HTML | ✅ Ready | Full HTML parser |
+| CSS | ✅ Ready | CSS parsing, CSSOM, Selectors |
+| URL | ✅ Ready | URL parsing |
+| Encoding | ✅ Ready | 40+ encodings support |
+| Unicode | ✅ Ready | Normalization, IDNA |
+| Punycode | ✅ Ready | IDN encode/decode |
+| Layout | 🚧 In progress | — |
+| Fonts | 🚧 In progress | — |
+| and more | 🚧 In progress | — |
+
+## Who Uses Lexbor?
+
+- **[PHP](https://www.php.net/)** — DOM/HTML extension (since PHP 8.4), URL extension (since PHP 8.5)
+- **[SerpApi](https://serpapi.com/)** — uses Lexbor in production for HTML parsing at scale
+- **[Selectolax](https://github.com/rushter/selectolax)** — popular Python library for fast web scraping
+- **[Nokolexbor](https://github.com/serpapi/nokolexbor)** — high-performance Nokogiri alternative for Ruby
+
+[More bindings](#external-bindings-and-wrappers) available for Elixir, Crystal, D, Julia, Erlang.
 
 ### HTML Module
 
@@ -78,10 +48,9 @@ pushing the boundaries and helping developers fully leverage modern web technolo
 * Supports parsing [by chunks](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/document_parse_chunk.c).
 * Passes all tree construction tests.
 * [Tested](https://github.com/lexbor/warc_test) by 200+ million HTML pages with [ASAN](https://clang.llvm.org/docs/AddressSanitizer.html).
-* Two way for parsing HTML: [by Document](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/document_parse.c), [by Parser](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/parse.c).
+* Two ways to parse HTML: [by Document](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/document_parse.c), [by Parser](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/parse.c).
 * Supports [determining encoding](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/encoding.c) by byte stream.
 * [Parsing CSS Styles](https://github.com/lexbor/lexbor/tree/master/examples/lexbor/styles) in tag attributes and in the `<style>` tag.
-* Fast
 
 ### CSS Module
 
@@ -90,25 +59,21 @@ pushing the boundaries and helping developers fully leverage modern web technolo
 * * [x] [Selectors](https://github.com/lexbor/lexbor/tree/master/examples/lexbor/selectors).
 * * [x] [StyleSheet Tree](https://github.com/lexbor/lexbor/tree/master/examples/lexbor/css) (aka CSSOM).
 * * [x] and so on.
-* Fast.
 
 ### Selectors Module
 
 * Search for HTML elements using CSS selectors.
-* Fast.
 
 ### Encoding Module
 
 * Full conformance with the [Encoding specification](https://encoding.spec.whatwg.org/).
 * Supports `40 encodings` for encode/decode.
 * Supports [single](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/encoding/single/from_to.c) and [buffering](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/encoding/buffer/from_to.c) encode/decode.
-* Fast.
 
 ### URL Module
 
 * Conformance with the [URL specification](https://url.spec.whatwg.org/)
 * Support [Unicode ToASCII](https://www.unicode.org/reports/tr46/#ToASCII)
-* Fast.
 
 ### Punycode Module
 
@@ -124,13 +89,6 @@ pushing the boundaries and helping developers fully leverage modern web technolo
 * * Support Unicode [IDNA Processing](https://www.unicode.org/reports/tr46/#Processing).
 * * Support Unicode [ToASCII](https://www.unicode.org/reports/tr46/#ToASCII).
 * * Support Unicode [ToUnicode](https://www.unicode.org/reports/tr46/#ToUnicode).
-* Fast.
-
-### Development of modules in process
-
-* Layout
-* Font
-* and so on
 
 ## Build and Installation
 
@@ -189,7 +147,7 @@ Please, see more information in [documentation](https://lexbor.com/documentation
 ### Separately
 * liblexbor-{module name} — libraries for each module.
 
-You only need an HTML parser? Use `liblexbor-html`.
+If you only need an HTML parser, use `liblexbor-html`.
 
 Separate modules may depend on each other.
 For example, dependencies for `liblexbor-html`: `liblexbor-core`, `liblexbor-dom`, `liblexbor-tag`, `liblexbor-ns`.
@@ -245,7 +203,7 @@ These are third-party distributions; we do not create them. Thank you to the com
 
    Lexbor.
 
-   Copyright 2018-2025 Alexander Borisov
+   Copyright 2018-2026 Alexander Borisov
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
