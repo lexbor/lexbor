@@ -88,9 +88,6 @@ lxb_dom_document_style_attach_by_element(lxb_dom_document_t *document,
                                          lxb_dom_element_t *element,
                                          lxb_css_rule_style_t *style);
 
-LXB_API lxb_status_t
-lxb_dom_document_apply_stylesheets(lxb_dom_document_t *document);
-
 
 #ifdef __cplusplus
 } /* extern "C" */
