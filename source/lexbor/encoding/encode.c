@@ -199,45 +199,6 @@ lxb_encoding_multi_gb18030_index(lxb_codepoint_t cp)
 }
 
 lxb_inline uint16_t
-lxb_encoding_multi_iso_2022_jp_katakana_index(lxb_codepoint_t cp)
-{
-    if (cp >= 12289 && cp < 12541) {
-        return lxb_encoding_multi_iso_2022_jp_katakana_12289_12541_map[cp - 12289];
-    }
-
-    return UINT16_MAX;
-}
-
-lxb_inline uint16_t
-lxb_encoding_multi_jis0212_index(lxb_codepoint_t cp)
-{
-    if (cp > 0xFF5F) {
-        return UINT16_MAX;
-    }
-
-    if (cp < 8483) {
-        if (cp >= 161 && cp < 1120) {
-            return lxb_encoding_multi_jis0212_161_1120_map[cp - 161];
-        }
-        else if (cp >= 8470) {
-            return lxb_encoding_multi_jis0212_8470_8483_map[cp - 8470];
-        }
-    }
-    else if (cp >= 19970) {
-        if (cp < 40870) {
-            return lxb_encoding_multi_jis0212_19970_40870_map[cp - 19970];
-        }
-        else if (cp >= 65374) {
-            if (cp < 65375) {
-                return lxb_encoding_multi_jis0212_65374_65375_map[cp - 65374];
-            }
-        }
-    }
-
-    return UINT16_MAX;
-}
-
-lxb_inline uint16_t
 lxb_encoding_multi_jis0208_index(lxb_codepoint_t cp)
 {
     if (cp > 0xFFE6) {
