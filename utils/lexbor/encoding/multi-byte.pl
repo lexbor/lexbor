@@ -76,12 +76,14 @@ foreach my $entry (@files) {
     push @multi_func, $func;
 }
 
+print join("\n\n", @multi_func), "\n";
+
 $data = $multi->template_header("ENCODING_MULTI",
-            join "\n\n", join("\n", @milti_declr_maps), @milti_declr_tables, @multi_func);
+            join "\n\n", join("\n", @milti_declr_maps), @milti_declr_tables);
 $multi->save_to("$output/multi.h", $data);
 
 $data = $multi->template_source(join "\n\n", @multi_maps, @multi_tables);
-$multi->save_to("$output/multi.c", $data);
+$multi->save_to("$output/multi_res.c", $data);
 
 
 package MultiByte;
@@ -381,8 +383,9 @@ extern "C" {
 
 #include "lexbor/encoding/base.h"
 
-
+#ifndef LEXBOR_DISABLE_INTERNAL_EXTERN
 $data
+#endif /* !LEXBOR_DISABLE_INTERNAL_EXTERN */
 
 
 #ifdef __cplusplus

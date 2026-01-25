@@ -172,7 +172,7 @@ if __name__ == "__main__":
                     "../../../test/lexbor/encoding/single")
 
     sb.save_res("tmp/single.h", "../../../source/lexbor/encoding/single.h",
-                "tmp/single.c", "../../../source/lexbor/encoding/single.c")
+                "tmp/single.c", "../../../source/lexbor/encoding/single_res.c")
 
     # yn = input("Print encode declarations? (y - yes, n - no): ")
     # if yn.lower() == 'y':

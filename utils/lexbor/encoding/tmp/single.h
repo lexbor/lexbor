@@ -25,8 +25,9 @@ extern "C" {
 
 %%SIZES%%
 
-
+#ifndef LEXBOR_DISABLE_INTERNAL_EXTERN
 %%EXTERNS%%
+#endif /* !LEXBOR_DISABLE_INTERNAL_EXTERN */
 
 
 #ifdef __cplusplus

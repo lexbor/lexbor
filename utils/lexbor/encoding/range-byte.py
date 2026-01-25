@@ -115,4 +115,4 @@ if __name__ == "__main__":
     sb = RangeByte("ranges")
 
     sb.save_res("tmp/range.h", "../../../source/lexbor/encoding/range.h",
-                "tmp/range.c", "../../../source/lexbor/encoding/range.c")
+                "tmp/range.c", "../../../source/lexbor/encoding/range_res.c")

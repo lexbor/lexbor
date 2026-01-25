@@ -17,7 +17,7 @@
     LXB_EXTERN const lxb_char_t lxb_css_syntax_res_name_map[256];
 #endif
 
-static const lexbor_str_t lxb_str_ws = lexbor_str(" ");
+static const lexbor_str_t lxb_css_syntax_str_ws = lexbor_str(" ");
 
 
 lxb_css_rule_list_t *
@@ -421,8 +421,9 @@ lxb_css_syntax_ident_serialize(const lxb_char_t *data, size_t length,
             data = ++p;
 
             if (p < end && lexbor_str_res_map_hex[*p] != 0xff) {
-                lexbor_serialize_write(cb, lxb_str_ws.data,
-                                       lxb_str_ws.length, ctx, status);
+                lexbor_serialize_write(cb, lxb_css_syntax_str_ws.data,
+                                       lxb_css_syntax_str_ws.length,
+                                       ctx, status);
             }
 
             continue;
@@ -486,8 +487,9 @@ lxb_css_syntax_string_serialize(const lxb_char_t *data, size_t length,
                     p++;
 
                     if (p < end && lexbor_str_res_map_hex[*p] != 0xff) {
-                        lexbor_serialize_write(cb, lxb_str_ws.data,
-                                               lxb_str_ws.length, ctx, status);
+                        lexbor_serialize_write(cb, lxb_css_syntax_str_ws.data,
+                                               lxb_css_syntax_str_ws.length,
+                                               ctx, status);
                     }
 
                     data = p;

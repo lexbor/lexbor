@@ -100,6 +100,54 @@ lxb_encoding_utf_16le_skip_bom(const lxb_char_t **begin, size_t *length)
     }
 }
 
+const lxb_encoding_data_t *
+lxb_encoding_data_by_name(const lxb_char_t *name, size_t length)
+{
+    const lexbor_shs_entry_t *entry;
+
+    if (length == 0) {
+        return NULL;
+    }
+
+    entry = lexbor_shs_entry_get_lower_static(lxb_encoding_res_shs_entities,
+                                              name, length);
+    if (entry == NULL) {
+        return NULL;
+    }
+
+    return (const lxb_encoding_data_t *) entry->value;
+}
+
+const lxb_encoding_data_t *
+lxb_encoding_data(lxb_encoding_t encoding)
+{
+    if (encoding >= LXB_ENCODING_LAST_ENTRY) {
+        return NULL;
+    }
+
+    return &lxb_encoding_res_map[encoding];
+}
+
+lxb_encoding_encode_f
+lxb_encoding_encode_function(lxb_encoding_t encoding)
+{
+    if (encoding >= LXB_ENCODING_LAST_ENTRY) {
+        return NULL;
+    }
+
+    return lxb_encoding_res_map[encoding].encode;
+}
+
+lxb_encoding_decode_f
+lxb_encoding_decode_function(lxb_encoding_t encoding)
+{
+    if (encoding >= LXB_ENCODING_LAST_ENTRY) {
+        return NULL;
+    }
+
+    return lxb_encoding_res_map[encoding].decode;
+}
+
 /*
  * No inline functions for ABI.
  */

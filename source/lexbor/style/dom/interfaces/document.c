@@ -9,18 +9,18 @@
 #include "lexbor/style/dom/interfaces/element.h"
 
 
-static const lexbor_hash_search_t  lxb_dom_document_css_customs_se = {
+static const lexbor_hash_search_t  lxb_style_dom_document_css_customs_se = {
     .cmp = lexbor_str_data_ncasecmp,
     .hash = lexbor_hash_make_id
 };
 
-static const lexbor_hash_insert_t  lxb_dom_document_css_customs_in = {
+static const lexbor_hash_insert_t  lxb_style_dom_document_css_customs_in = {
     .copy = lexbor_hash_copy,
     .cmp = lexbor_str_data_ncasecmp,
     .hash = lexbor_hash_make_id
 };
 
-static const lxb_dom_document_node_cb_t lxb_dom_document_node_cbs =
+static const lxb_dom_document_node_cb_t lxb_style_dom_document_node_cbs =
 {
     .insert = lxb_style_event_insert,
     .remove = lxb_style_event_remove,
@@ -130,7 +130,7 @@ lxb_dom_document_css_init(lxb_dom_document_t *document, bool init_events)
     }
 
     if (init_events) {
-        document->node_cb = &lxb_dom_document_node_cbs;
+        document->node_cb = &lxb_style_dom_document_node_cbs;
     }
 
     return LXB_STATUS_OK;
@@ -216,7 +216,8 @@ lxb_dom_document_css_customs_find_id(const lxb_dom_document_t *document,
     const lxb_dom_document_css_custom_entry_t *entry;
 
     entry = lexbor_hash_search(document->css->customs,
-                               &lxb_dom_document_css_customs_se, key, length);
+                               &lxb_style_dom_document_css_customs_se,
+                               key, length);
 
     return (entry != NULL) ? entry->id : 0;
 }
@@ -232,7 +233,8 @@ lxb_dom_document_css_customs_insert(lxb_dom_document_t *document,
     }
 
     entry = lexbor_hash_insert(document->css->customs,
-                               &lxb_dom_document_css_customs_in, key, length);
+                               &lxb_style_dom_document_css_customs_in,
+                               key, length);
     if (entry == NULL) {
         return NULL;
     }
@@ -249,7 +251,8 @@ lxb_dom_document_css_customs_id(lxb_dom_document_t *document,
     lxb_dom_document_css_custom_entry_t *entry;
 
     entry = lexbor_hash_search(document->css->customs,
-                               &lxb_dom_document_css_customs_se, key, length);
+                               &lxb_style_dom_document_css_customs_se,
+                               key, length);
     if (entry != NULL) {
         return entry->id;
     }

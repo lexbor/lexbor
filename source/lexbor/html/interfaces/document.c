@@ -35,7 +35,7 @@ lxb_html_document_title_walker(lxb_dom_node_t *node, void *ctx);
 
 
 lxb_inline lxb_dom_interface_t *
-lxb_html_document_interface_create_wrapper(lxb_dom_document_t *document,
+lxb_html_document_interface_create_handler(lxb_dom_document_t *document,
                                            lxb_tag_id_t tag_id, lxb_ns_id_t ns)
 {
     return lxb_html_interface_create(lxb_html_interface_document(document),
@@ -61,7 +61,7 @@ lxb_html_document_interface_create(lxb_html_document_t *document)
     }
 
     status = lxb_dom_document_init(doc, lxb_dom_interface_document(document),
-                                   lxb_html_document_interface_create_wrapper,
+                                   lxb_html_document_interface_create_handler,
                                    lxb_html_interface_clone,
                                    lxb_html_interface_destroy,
                                    LXB_DOM_DOCUMENT_DTYPE_HTML, LXB_NS_HTML);
