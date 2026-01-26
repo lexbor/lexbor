@@ -1,5 +1,5 @@
 [
-    /* Test count: 26 */
+    /* Test count: 27 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -377,4 +377,17 @@
                 "QUX"
         $DATA
     },
+    /* Test number: 27 */
+    {
+        "data": $DATA{ ,12}
+            <script></abc-123></script>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <script>
+                  "</abc-123>"
+              <body>
+        $DATA
+    }
 ]
