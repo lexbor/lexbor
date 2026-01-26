@@ -139,6 +139,49 @@ make test
 
 Please, see more information in [documentation](https://lexbor.com/documentation/#source-code).
 
+## Amalgamation
+
+Lexbor can be built as a single-header/single-source amalgamation for easy integration into your project without managing multiple files or dependencies.
+
+The amalgamation combines all selected modules and their dependencies into one `.h` file, making it simple to drop into any C/C++ project.
+
+### Generate Amalgamation
+
+Use the `single.pl` script to generate an amalgamated version:
+
+```bash
+# Generate amalgamation with all modules
+perl single.pl --all > lexbor_single.h
+
+# Generate amalgamation for specific modules
+perl single.pl html css > lexbor_html_css_single.h
+
+# Generate with exported symbols (for dynamic linking)
+perl single.pl --with-export-symbols html > lexbor_html_single.h
+
+# Use a different port (default: posix)
+perl single.pl --port=windows_nt html > lexbor_html_single.h
+```
+
+Once generated, simply include the amalgamated file in your project:
+
+```C
+#include "lexbor_single.h"
+
+int
+main(void)
+{
+    /* Your code using Lexbor. */
+    return 0;
+}
+```
+
+Compile without any additional dependencies:
+
+```bash
+gcc -o myapp myapp.c lexbor_single.h
+```
+
 ## Single or separately
 
 ### Single
