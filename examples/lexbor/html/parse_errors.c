@@ -160,7 +160,7 @@ tree_error_name(lxb_html_tree_error_id_t id)
         case LXB_HTML_RULES_ERROR_DOTOINBEHEMO:
             return "doctype-token-in-before-head-mode";
         case LXB_HTML_RULES_ERROR_UNCLTOINBEHEMO:
-            return "unexpected-closed_token-in-before-head-mode";
+            return "unexpected-closed-token-in-before-head-mode";
         case LXB_HTML_RULES_ERROR_DOTOINHEMO:
             return "doctype-token-in-head-mode";
         case LXB_HTML_RULES_ERROR_NOVOHTELSTTAWITRSO:
