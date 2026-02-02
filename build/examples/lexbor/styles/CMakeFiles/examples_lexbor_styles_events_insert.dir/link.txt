@@ -1,1 +1,0 @@
-/usr/bin/cc  -O2 -Wall -pedantic -pipe -std=c99 -fPIC -Wl,--dependency-file=CMakeFiles/examples_lexbor_styles_events_insert.dir/link.d CMakeFiles/examples_lexbor_styles_events_insert.dir/events_insert.c.o -o events_insert  -Wl,-rpath,/home/runner/work/lexbor/lexbor/build ../../../liblexbor.so.2.7.0 -lm

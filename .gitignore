@@ -1,0 +1,20 @@
+# Build directory
+build/
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Object files
+*.o
+*.so
+*.a
+*.dylib
+*.dll
+
+# Executables
+*.exe
+*.out

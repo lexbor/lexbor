@@ -1,1 +1,0 @@
-/usr/bin/cc  -O2 -Wall -pedantic -pipe -std=c99 -fPIC -Wl,--dependency-file=CMakeFiles/examples_lexbor_encoding_single_encode_validate.dir/link.d CMakeFiles/examples_lexbor_encoding_single_encode_validate.dir/single/encode/validate.c.o -o single/encode/validate  -Wl,-rpath,/home/runner/work/lexbor/lexbor/build ../../../liblexbor.so.2.7.0 -lm

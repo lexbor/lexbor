@@ -1,1 +1,0 @@
-/usr/bin/cc  -O2 -Wall -pedantic -pipe -std=c99 -fPIC -Wl,--dependency-file=CMakeFiles/examples_lexbor_punycode_encode.dir/link.d CMakeFiles/examples_lexbor_punycode_encode.dir/encode.c.o -o encode  -Wl,-rpath,/home/runner/work/lexbor/lexbor/build ../../../liblexbor.so.2.7.0 -lm
