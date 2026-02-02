@@ -1,0 +1,1 @@
+/usr/bin/cc  -O2 -Wall -pedantic -pipe -std=c99 -fPIC -Wl,--dependency-file=CMakeFiles/examples_lexbor_html_elements_by_attr.dir/link.d CMakeFiles/examples_lexbor_html_elements_by_attr.dir/elements_by_attr.c.o -o elements_by_attr  -Wl,-rpath,/home/runner/work/lexbor/lexbor/build ../../../liblexbor.so.2.7.0 -lm
