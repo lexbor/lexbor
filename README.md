@@ -31,6 +31,8 @@ A set of fast, standards-compliant tools (modules) for working with modern web t
 | Fonts | 🚧 In progress | — |
 | and more | 🚧 In progress | — |
 
+https://lexbor.com/modules/.
+
 ## Who Uses Lexbor?
 
 - **[PHP](https://www.php.net/)** — DOM/HTML extension (since PHP 8.4), URL extension (since PHP 8.5)
@@ -52,6 +54,8 @@ A set of fast, standards-compliant tools (modules) for working with modern web t
 * Supports [determining encoding](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/html/encoding.c) by byte stream.
 * [Parsing CSS Styles](https://github.com/lexbor/lexbor/tree/master/examples/lexbor/styles) in tag attributes and in the `<style>` tag.
 
+Documentation: https://lexbor.com/modules/html/.
+
 ### CSS Module
 
 * Full conformance with the [CSS Syntax](https://drafts.csswg.org/css-syntax-3/) module.
@@ -64,11 +68,15 @@ A set of fast, standards-compliant tools (modules) for working with modern web t
 
 * Search for HTML elements using CSS selectors.
 
+Documentation: https://lexbor.com/modules/selectors/.
+
 ### Encoding Module
 
 * Full conformance with the [Encoding specification](https://encoding.spec.whatwg.org/).
 * Supports `40 encodings` for encode/decode.
 * Supports [single](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/encoding/single/from_to.c) and [buffering](https://github.com/lexbor/lexbor/blob/master/examples/lexbor/encoding/buffer/from_to.c) encode/decode.
+
+Documentation: https://lexbor.com/modules/encoding/.
 
 ### URL Module
 
@@ -89,6 +97,8 @@ A set of fast, standards-compliant tools (modules) for working with modern web t
 * * Support Unicode [IDNA Processing](https://www.unicode.org/reports/tr46/#Processing).
 * * Support Unicode [ToASCII](https://www.unicode.org/reports/tr46/#ToASCII).
 * * Support Unicode [ToUnicode](https://www.unicode.org/reports/tr46/#ToUnicode).
+
+Documentation: https://lexbor.com/modules/unicode/.
 
 ## Build and Installation
 
@@ -181,6 +191,8 @@ Compile without any additional dependencies:
 ```bash
 gcc -o myapp myapp.c lexbor_single.h
 ```
+
+Documentation: https://lexbor.com/amalgamation/.
 
 ## Single or separately
 
