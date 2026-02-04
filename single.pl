@@ -26,10 +26,11 @@ unless (@ARGV) {
 # Global variables
 my $ALL = 0;
 my $EXPORT = 0;
-my $PRINT_DEPS = 0;
-my $PRINT_MODULES = 0;
+my $COMPARE;
 my $PORT = "posix";
 my $LEXBOR_DIR = $FindBin::RealBin;
+my %OPTIONS;
+my $OPT_INDEX = 1;
 
 # Parse command line arguments
 GetOptions(
@@ -40,41 +41,77 @@ GetOptions(
     'all' => \$ALL,
     'port=s' => \$PORT,
     'with-export-symbols' => \$EXPORT,
-    'print-dependencies' => \$PRINT_DEPS,
-    'print-modules' => \$PRINT_MODULES,
+    'dependencies' => sub {$OPTIONS{"print_modules_dependencies"} = $OPT_INDEX++},
+    'modules' => sub {$OPTIONS{"print_modules"} = $OPT_INDEX++},
+    'graph' => sub {$OPTIONS{"print_dependency_graph"} = $OPT_INDEX++},
+    'stats' => sub {$OPTIONS{"print_statistics"} = $OPT_INDEX++},
+    'reverse-deps' => sub {$OPTIONS{"print_reverse_dependencies"} = $OPT_INDEX++},
+    'check-cycles' => sub {$OPTIONS{"check_cyclic_dependencies"} = $OPT_INDEX++},
+    'dot-graph' => sub {$OPTIONS{"print_dot_graph"} = $OPT_INDEX++},
+    'validate' => sub {$OPTIONS{"validate_dependencies"} = $OPT_INDEX++},
+    'compare=s' => sub {$OPTIONS{"compare"} = $OPT_INDEX++; $COMPARE = $_[1] },
+    'minimal-deps' => sub {$OPTIONS{"print_minimal_dependencies"} = $OPT_INDEX++},
+    'size-info' => sub {$OPTIONS{"print_size_info"} = $OPT_INDEX++},
+    'versions' => sub {$OPTIONS{"print_versions"} = $OPT_INDEX++},
+    'version' => sub {$OPTIONS{"print_lexbor_version"} = $OPT_INDEX++},
+    'export-json' => sub {$OPTIONS{"export_json"} = $OPT_INDEX++},
+    'export-yaml' => sub {$OPTIONS{"export_yaml"} = $OPT_INDEX++},
 ) or die "Error parsing args";
+
+# If certain options are specified without modules, act like --all
+if (!@ARGV) {
+    $ALL = 1;
+}
 
 # Create Single instance
 my $single = new Single($LEXBOR_DIR, \@ARGV, $ALL, $PORT, $EXPORT);
 
-# Print information about modules
-if ($PRINT_DEPS) {
-    $single->print_modules_dependencies($single->original_modules());
-    exit 0;
-}
+foreach my $sub (sort { $OPTIONS{$a} <=> $OPTIONS{$b} } keys %OPTIONS) {
+    if ($sub eq "compare") {
+        my @compare_mods = split /,/, $COMPARE;
 
-# Print all modules
-if ($PRINT_MODULES) {
-    my @modules;
-    my $dirpath = catfile($LEXBOR_DIR, "source", "lexbor");
-    die "I can't find the directory with the lexbor source code: $dirpath."
-        unless -d $dirpath;
+        die "Please specify exactly 2 modules to compare (--compare=module1,module2)"
+            unless @compare_mods == 2;
 
-    opendir my $dh, $dirpath or die "Cannot open $dirpath: $!";
+        my $single_compare = new Single($LEXBOR_DIR, \@compare_mods, 0, $PORT, $EXPORT);
+        $single_compare->compare_modules($compare_mods[0], $compare_mods[1]);
 
-    while (my $sub = readdir $dh) {
-        next if $sub =~ /^\./;
-        next if $sub eq "ports";
-
-        push @modules, $sub;
+        next;
     }
 
-    closedir $dh;
+    if ($sub eq "reverse_dependencies") {
+        my $single_all = new Single($LEXBOR_DIR, [], 1, $PORT, $EXPORT);
+        $single_all->print_reverse_dependencies(@ARGV ? \@ARGV : $single_all->original_modules());
+        
+        next;
+    }
 
-    print join(" ", sort { $a cmp $b } @modules), "\n";
+    if ($sub eq "modules") {
+        my @modules;
+        my $dirpath = catfile($LEXBOR_DIR, "source", "lexbor");
+        die "I can't find the directory with the lexbor source code: $dirpath."
+            unless -d $dirpath;
 
-    exit 0;
+        opendir my $dh, $dirpath or die "Cannot open $dirpath: $!";
+
+        while (my $sub = readdir $dh) {
+            next if $sub =~ /^\./;
+            next if $sub eq "ports";
+
+            push @modules, $sub;
+        }
+
+        closedir $dh;
+
+        print join(" ", sort { $a cmp $b } @modules), "\n";
+
+        next;
+    }
+
+    $single->$sub(@ARGV ? \@ARGV : $single->original_modules());
 }
+
+exit 0 if scalar keys %OPTIONS;
 
 # Fix order of some headers
 $single->reorder_headers_by_template(['core/def.h', 'core/types.h',
@@ -166,8 +203,24 @@ sub help_message
     print "  --all                         Include all modules if no modules specified\n";
     print "  --port=<port>                 Specify the port (in source/lexbor/ports) to use (default: posix)\n";
     print "  --with-export-symbols         Export symbols\n";
-    print "  --print-dependencies          Print dependencies of specified modules\n";
-    print "  --print-modules               Print all modules\n";
+    print "\nInformation:\n";
+    print "  --modules                     Print all available modules\n";
+    print "  --dependencies                Print detailed dependencies of specified modules\n";
+    print "  --graph                       Print dependency graph as a tree\n";
+    print "  --stats                       Print statistics about module dependencies\n";
+    print "  --reverse-deps                Print reverse dependencies (which modules depend on specified ones)\n";
+    print "  --size-info                   Print size information (lines of code, file counts)\n";
+    print "  --minimal-deps                Show minimal set of dependencies\n";
+    print "  --versions                    Print version information for modules\n";
+    print "  --version                     Print Lexbor version\n";
+    print "\nValidation:\n";
+    print "  --check-cycles                Check for cyclic dependencies\n";
+    print "  --validate                    Validate that all dependencies exist\n";
+    print "  --compare=mod1,mod2           Compare dependencies between two modules\n";
+    print "\nExport:\n";
+    print "  --dot-graph                   Export dependency graph in DOT format (Graphviz)\n";
+    print "  --export-json                 Export dependency structure to JSON\n";
+    print "  --export-yaml                 Export dependency structure to YAML\n";
 }
 
 package Single;
@@ -365,6 +418,7 @@ sub dependencies
             internal => $internal,
             # Other include (.h) dependencies
             other => $other,
+            headers => $self->subpath_headers($module),
             # Source files (.c) dependencies
             source => $self->subpath_sources($module),
             # Module dependencies
@@ -406,6 +460,20 @@ sub subpath_sources
     }
 
     return $sources;
+}
+
+sub subpath_headers
+{
+    my ($self, $module) = @_;
+
+    my $headers = [];
+    my $modules_h = $self->{modules_h};
+
+    foreach my $c (@{$modules_h->{$module}}) {
+        push @$headers, catfile($module, $c);
+    }
+
+    return $headers;
 }
 
 sub module_dependencies
@@ -1062,6 +1130,548 @@ sub modules
     return [sort {$a cmp $b} @modules];
 }
 
+sub print_dependency_graph
+{
+    my ($self, $modules) = @_;
+
+    foreach my $idx (0..$#$modules) {
+        my $module = $modules->[$idx];
+
+        my $dependencies = $self->{dependencies};
+        my $dep = $dependencies->{$module};
+        my $modules_deps = $dep ? $dep->{modules} : [];
+
+        print "\e[1;36m$module\e[0m";
+        if (@$modules_deps) {
+            print " \e[90m-> [" . join(", ", @$modules_deps) . "]\e[0m";
+        }
+        print "\n";
+
+        for my $i (0..$#$modules_deps) {
+            my $dep_module = $modules_deps->[$i];
+            my $is_last_child = ($i == $#$modules_deps);
+
+            # Each direct dependency gets a fresh visited set with only root module marked
+            my $visited = {};
+            $visited->{$module} = 1;
+
+            $self->print_dependency_tree($dep_module, "", $visited, $is_last_child);
+        }
+
+        print "\n" if ($idx != $#$modules);
+    }
+}
+
+sub print_dependency_tree
+{
+    my ($self, $module, $prefix, $visited, $is_last) = @_;
+
+    $prefix //= "";
+    $visited //= {};
+    $is_last //= 1;
+
+    my $dependencies = $self->{dependencies};
+    my $dep = $dependencies->{$module};
+
+    # Return early if module doesn't exist
+    return unless $dep;
+
+    my $modules_deps = $dep->{modules};
+
+    # Check if already visited (for cyclic dependencies)
+    my $already_visited = $visited->{$module};
+
+    my $branch = $is_last ? "`-- " : "|-- ";
+    my $extension = $is_last ? "    " : "|   ";
+
+    # Always print the node
+    print "$prefix$branch\e[1;33m$module\e[0m";
+
+    if ($already_visited) {
+        print " \e[90m(already shown)\e[0m\n";
+        return;
+    }
+
+    if (@$modules_deps) {
+        print " \e[90m-> [" . join(", ", @$modules_deps) . "]\e[0m";
+    }
+    print "\n";
+
+    # Mark as visited
+    $visited->{$module} = 1;
+
+    my $new_prefix = $prefix . $extension;
+
+    for my $i (0..$#$modules_deps) {
+        my $dep_module = $modules_deps->[$i];
+        my $is_last_child = ($i == $#$modules_deps);
+
+        $self->print_dependency_tree($dep_module, $new_prefix, $visited, $is_last_child);
+    }
+}
+
+sub print_statistics
+{
+    my ($self, $modules) = @_;
+    my $dependencies = $self->{dependencies};
+    my %usage_count;
+    my $total_direct = 0;
+    my $total_recursive = 0;
+
+    # Count how many times each module is used
+    foreach my $module (@{$self->{modules}}) {
+        my $dep = $dependencies->{$module};
+        next unless $dep;
+
+        foreach my $dep_mod (@{$dep->{modules}}) {
+            $usage_count{$dep_mod}++;
+        }
+    }
+
+    # Calculate statistics for requested modules
+    foreach my $module (@$modules) {
+        my $dep = $dependencies->{$module};
+        next unless $dep;
+
+        my $direct_count = scalar @{$dep->{modules}};
+        my $recursive_count = scalar @{$dep->{modules_all}};
+
+        $total_direct += $direct_count;
+        $total_recursive += $recursive_count;
+
+        print "\e[1;36m$module\e[0m:\n";
+        print "  Direct dependencies:    $direct_count\n";
+        print "  Recursive dependencies: $recursive_count\n";
+        print "  Used by modules:        " . ($usage_count{$module} // 0) . "\n";
+        print "  Header files:           " . scalar(@{$dep->{headers}}) . "\n";
+        print "  Source files:           " . scalar(@{$dep->{source}}) . "\n";
+        print "\n";
+    }
+
+    # Most used modules
+    print "\e[1;32mMost Used Modules:\e[0m\n";
+    my @sorted_usage = sort { $usage_count{$b} <=> $usage_count{$a} } keys %usage_count;
+    foreach my $i (0..4) {
+        last if $i > $#sorted_usage;
+        my $mod = $sorted_usage[$i];
+        print "  $i. \e[1;33m$mod\e[0m - used by $usage_count{$mod} module(s)\n";
+    }
+    print "\n";
+
+    # Modules without dependencies
+    my @no_deps;
+    foreach my $module (@{$self->{modules}}) {
+        my $dep = $dependencies->{$module};
+        push @no_deps, $module if $dep && scalar(@{$dep->{modules}}) == 0;
+    }
+
+    print "\e[1;32mModules without dependencies:\e[0m " . scalar(@no_deps) . "\n";
+    print "  " . join(", ", @no_deps) . "\n" if @no_deps;
+}
+
+sub print_reverse_dependencies
+{
+    my ($self, $modules) = @_;
+    my $dependencies = $self->{dependencies};
+    my %reverse_deps;
+
+    # Build reverse dependency map
+    foreach my $module (@{$self->{modules}}) {
+        my $dep = $dependencies->{$module};
+        next unless $dep;
+
+        foreach my $dep_mod (@{$dep->{modules}}) {
+            $reverse_deps{$dep_mod} //= [];
+            push @{$reverse_deps{$dep_mod}}, $module;
+        }
+    }
+
+    # Print reverse dependencies for requested modules
+    foreach my $idx (0..$#$modules) {
+        my $module = $modules->[$idx];
+        next if $module =~ /^ports\//;
+
+        print "\e[1;36m$module\e[0m is used by:\n";
+
+        if ($reverse_deps{$module}) {
+            my @users = sort @{$reverse_deps{$module}};
+            foreach my $i (0..$#users) {
+                my $user = $users[$i];
+                my $branch = ($i == $#users) ? "`-- " : "|-- ";
+                print "$branch\e[1;33m$user\e[0m\n";
+            }
+        } else {
+            print "  \e[90m(no modules depend on this)\e[0m\n";
+        }
+
+        print "\n" if ($idx != $#$modules);
+    }
+}
+
+sub check_cyclic_dependencies
+{
+    my ($self, $modules) = @_;
+    my $dependencies = $self->{dependencies};
+    my $found_cycles = 0;
+    my %reported_cycles;
+
+    foreach my $module (@$modules) {
+        my @path;
+        my %visited;
+
+        if ($self->find_cycle($module, \@path, \%visited)) {
+            # Create a normalized cycle key to detect duplicates
+            # Sort the cycle to create a canonical representation
+            my @sorted_cycle = sort @path;
+            my $cycle_key = join("|", @sorted_cycle);
+
+            unless ($reported_cycles{$cycle_key}) {
+                $reported_cycles{$cycle_key} = 1;
+                $found_cycles = 1;
+                print "\e[1;31mCycle found:\e[0m ";
+                print join(" -> ", map { "\e[1;33m$_\e[0m" } @path);
+                print " -> \e[1;33m$path[0]\e[0m\n";
+            }
+        }
+    }
+
+    if (!$found_cycles) {
+        print "\e[1;32mNo cyclic dependencies found!\e[0m\n";
+    }
+}
+
+sub find_cycle
+{
+    my ($self, $module, $path, $visited) = @_;
+
+    # Check if we've seen this module in current path (cycle detected)
+    foreach my $m (@$path) {
+        if ($m eq $module) {
+            # Found cycle - trim path to cycle only
+            my $idx = 0;
+            $idx++ while $idx <= $#$path && $path->[$idx] ne $module;
+            @$path = @$path[$idx..$#$path];
+            return 1;
+        }
+    }
+
+    # Already fully explored this module
+    return 0 if $visited->{$module};
+
+    push @$path, $module;
+
+    my $dependencies = $self->{dependencies};
+    my $dep = $dependencies->{$module};
+
+    if ($dep) {
+        foreach my $dep_mod (@{$dep->{modules}}) {
+            return 1 if $self->find_cycle($dep_mod, $path, $visited);
+        }
+    }
+
+    pop @$path;
+    $visited->{$module} = 1;
+    return 0;
+}
+
+sub print_dot_graph
+{
+    my ($self, $modules) = @_;
+
+    print "digraph dependencies {\n";
+    print "  rankdir=LR;\n";
+    print "  node [shape=box, style=rounded];\n\n";
+
+    my $dependencies = $self->{dependencies};
+    my %printed;
+
+    foreach my $module (@$modules) {
+        $self->print_dot_node($module, \%printed);
+    }
+
+    print "}\n";
+}
+
+sub print_dot_node
+{
+    my ($self, $module, $printed) = @_;
+
+    return if $printed->{$module};
+    $printed->{$module} = 1;
+
+    my $dependencies = $self->{dependencies};
+    my $dep = $dependencies->{$module};
+    return unless $dep;
+
+    my $label = $module;
+    $label =~ s/\//_/g;
+
+    foreach my $dep_mod (@{$dep->{modules}}) {
+        my $dep_label = $dep_mod;
+        $dep_label =~ s/\//_/g;
+
+        print "  $label -> $dep_label;\n";
+
+        $self->print_dot_node($dep_mod, $printed);
+    }
+}
+
+sub validate_dependencies
+{
+    my ($self, $modules) = @_;
+    my $dependencies = $self->{dependencies};
+    my $errors = 0;
+
+    foreach my $module (@$modules) {
+        my $dep = $dependencies->{$module};
+
+        unless ($dep) {
+            print "\e[1;31mERROR:\e[0m Module \e[1;33m$module\e[0m not found\n";
+            $errors++;
+            next;
+        }
+
+        # Check if all dependency modules exist
+        foreach my $dep_mod (@{$dep->{modules}}) {
+            unless ($dependencies->{$dep_mod}) {
+                print "\e[1;31mERROR:\e[0m Module \e[1;33m$module\e[0m depends on non-existent module \e[1;33m$dep_mod\e[0m\n";
+                $errors++;
+            }
+        }
+
+        # Check if header files exist
+        foreach my $header (@{$dep->{internal}}) {
+            my $path = catfile($self->{source}, $header);
+            unless (-f $path) {
+                print "\e[1;33mWARNING:\e[0m Header file not found: $path\n";
+            }
+        }
+    }
+
+    if ($errors == 0) {
+        print "\e[1;32mAll dependencies are valid!\e[0m\n";
+    } else {
+        print "\n\e[1;31mFound $errors error(s)\e[0m\n";
+    }
+}
+
+sub compare_modules
+{
+    my ($self, $module1, $module2) = @_;
+    my $dependencies = $self->{dependencies};
+    my $dep1 = $dependencies->{$module1};
+    my $dep2 = $dependencies->{$module2};
+
+    unless ($dep1 && $dep2) {
+        print "\e[1;31mERROR:\e[0m One or both modules not found\n";
+        return;
+    }
+
+    my %deps1 = map { $_ => 1 } @{$dep1->{modules}};
+    my %deps2 = map { $_ => 1 } @{$dep2->{modules}};
+
+    # Common dependencies
+    my @common = grep { $deps2{$_} } keys %deps1;
+
+    # Unique to module1
+    my @unique1 = grep { !$deps2{$_} } keys %deps1;
+
+    # Unique to module2
+    my @unique2 = grep { !$deps1{$_} } keys %deps2;
+
+    print "\e[1;32mCommon dependencies:\e[0m " . scalar(@common) . "\n";
+    if (@common) {
+        print "  " . join(", ", sort @common) . "\n";
+    }
+    print "\n";
+
+    print "\e[1;36mUnique to $module1:\e[0m " . scalar(@unique1) . "\n";
+    if (@unique1) {
+        print "  " . join(", ", sort @unique1) . "\n";
+    }
+    print "\n";
+
+    print "\e[1;36mUnique to $module2:\e[0m " . scalar(@unique2) . "\n";
+    if (@unique2) {
+        print "  " . join(", ", sort @unique2) . "\n";
+    }
+}
+
+sub print_minimal_dependencies
+{
+    my ($self, $modules) = @_;
+    my $dependencies = $self->{dependencies};
+
+    foreach my $idx (0..$#$modules) {
+        my $module = $modules->[$idx];
+        my $dep = $dependencies->{$module};
+        next unless $dep;
+
+        print "\e[1;36m$module\e[0m requires:\n";
+
+        my @direct = @{$dep->{modules}};
+        if (@direct) {
+            foreach my $d (sort @direct) {
+                print "  - \e[1;33m$d\e[0m\n";
+            }
+        } else {
+            print "  \e[90m(no dependencies)\e[0m\n";
+        }
+
+        print "\n" if ($idx != $#$modules);
+    }
+}
+
+sub print_size_info
+{
+    my ($self, $modules) = @_;
+
+    my $total_headers = 0;
+    my $total_sources = 0;
+    my $total_headers_lines = 0;
+    my $total_sources_lines = 0;
+    my $dependencies = $self->{dependencies};
+
+    foreach my $idx (0..$#$modules) {
+        my $module = $modules->[$idx];
+        my $dep = $dependencies->{$module};
+        next unless $dep;
+
+        my $header_count = scalar(@{$dep->{headers}});
+        my $source_count = scalar(@{$dep->{source}});
+
+        # Count lines of code1
+        my $header_lines = 0;
+        my $source_lines = 0;
+
+        foreach my $h (@{$dep->{headers}}) {
+            my $path = catfile($self->{source}, $h);
+            $header_lines += $self->count_lines($path) if -f $path;
+        }
+
+        foreach my $s (@{$dep->{source}}) {
+            my $path = catfile($self->{source}, $s);
+            $source_lines += $self->count_lines($path) if -f $path;
+        }
+
+        $total_headers += $header_count;
+        $total_sources += $source_count;
+        $total_headers_lines += $header_lines;
+        $total_sources_lines += $source_lines;
+
+        print "\e[1;36m$module\e[0m:\n";
+        print "  Header files: $header_count (" . $self->format_number($header_lines) . " lines)\n";
+        print "  Source files: $source_count (" . $self->format_number($source_lines) . " lines)\n";
+        print "  Total lines:  " . $self->format_number($header_lines + $source_lines) . "\n";
+        print "\n" if ($idx != $#$modules);
+    }
+
+    print "\n\e[1;32mTotal modules:\e[0m " . scalar(@$modules) . "\n";
+    print "\e[1;32mTotal header files:\e[0m " . $self->format_number($total_headers) . "\n";
+    print "\e[1;32mTotal source files:\e[0m " . $self->format_number($total_sources) . "\n";
+    print "\e[1;32mTotal header lines:\e[0m " . $self->format_number($total_headers_lines) . "\n";
+    print "\e[1;32mTotal source lines:\e[0m " . $self->format_number($total_sources_lines) . "\n";
+    print "\e[1;32mTotal files:\e[0m " . $self->format_number($total_headers + $total_sources) . "\n";
+    print "\e[1;32mTotal lines:\e[0m " . $self->format_number($total_headers_lines + $total_sources_lines) . "\n";
+}
+
+sub count_lines
+{
+    my ($self, $path) = @_;
+
+    return 0 unless -f $path;
+
+    open my $fh, '<', $path or return 0;
+    my $count = 0;
+    $count++ while <$fh>;
+    close $fh;
+
+    return $count;
+}
+
+sub format_number
+{
+    my ($self, $num) = @_;
+
+    $num = reverse $num;
+    $num =~ s/(\d{3})(?=\d)/$1 /g;
+    return scalar reverse $num;
+}
+
+sub print_versions
+{
+    my ($self, $modules) = @_;
+    my $versions = $self->{versions};
+
+    foreach my $idx (0..$#$modules) {
+        my $module = $modules->[$idx];
+        next if $module =~ /^ports\//;
+
+        if (exists $versions->{$module}) {
+            my $ver = $versions->{$module};
+            printf "\e[1;36m%-20s\e[0m %d.%d.%d\n", $module, $ver->[0], $ver->[1], $ver->[2];
+        } else {
+            printf "\e[1;36m%-20s\e[0m \e[90m(no version info)\e[0m\n", $module;
+        }
+    }
+}
+
+sub export_json
+{
+    my ($self, $modules) = @_;
+
+    print "{\n";
+    print "  \"modules\": [\n";
+
+    my $dependencies = $self->{dependencies};
+
+    foreach my $idx (0..$#$modules) {
+        my $module = $modules->[$idx];
+        my $dep = $dependencies->{$module};
+        next unless $dep;
+
+        print "    {\n";
+        print "      \"name\": \"$module\",\n";
+        print "      \"dependencies\": [" . join(", ", map { '"'. $_ .'"' } @{$dep->{modules}}) . "],\n";
+        print "      \"headers\": [" . join(", ", map { '"'. catfile("lexbor", $_) .'"' } @{$dep->{headers}}) . "],\n";
+        print "      \"sources\": [" . join(", ", map { '"'. catfile("lexbor", $_) .'"' } @{$dep->{source}}) . "]\n";
+        print "    }";
+        print "," if $idx != $#$modules;
+        print "\n";
+    }
+
+    print "  ]\n";
+    print "}\n";
+}
+
+sub export_yaml
+{
+    my ($self, $modules) = @_;
+
+    print "modules:\n";
+
+    my $dependencies = $self->{dependencies};
+
+    foreach my $module (@$modules) {
+        my $dep = $dependencies->{$module};
+        next unless $dep;
+
+        print "  - name: $module\n";
+        print "    dependencies:\n";
+        foreach my $d (@{$dep->{modules}}) {
+            print "      - $d\n";
+        }
+        print "    headers:\n";
+        foreach my $h (@{$dep->{headers}}) {
+            print "      - ", catfile("lexbor", $h), "\n";
+        }
+        print "    sources:\n";
+        foreach my $s (@{$dep->{source}}) {
+            print "      - ", catfile("lexbor", $s), "\n";
+        }
+    }
+}
+
 sub print_modules_dependencies
 {
     my ($self, $modules) = @_;
@@ -1087,13 +1697,18 @@ sub print_dependencies
     my $dep = $dependencies->{$module};
     my $witspace = " " x $ident;
 
-    print "$witspace"."Internal Headers:\n";
+    print "$witspace"."Internal Headers (from #include <...>):\n";
     foreach my $h (@{$dep->{internal}}) {
         print "$witspace    $h\n";
     }
 
-    print "$witspace"."Other Headers:\n";
+    print "$witspace"."Other Headers (from #include <...>):\n";
     foreach my $h (@{$dep->{other}}) {
+        print "$witspace    $h\n";
+    }
+
+    print "$witspace"."Header files:\n";
+    foreach my $h (@{$dep->{headers}}) {
         print "$witspace    $h\n";
     }
 
@@ -1107,12 +1722,12 @@ sub print_dependencies
         print "$witspace    $m\n";
     }
 
-    print "$witspace"."Internal Headers with recursive dependencies:\n";
+    print "$witspace"."Internal Headers with recursive dependencies (from #include <...>):\n";
     foreach my $m (@{$dep->{internal_all}}) {
         print "$witspace    $m\n";
     }
 
-    print "$witspace"."Other Headers with recursive dependencies:\n";
+    print "$witspace"."Other Headers with recursive dependencies (from #include <...>):\n";
     foreach my $m (@{$dep->{other_all}}) {
         print "$witspace    $m\n";
     }
@@ -1149,6 +1764,14 @@ sub defines
     }
 
     return \@defines;
+}
+
+sub print_lexbor_version
+{
+    my $self = shift;
+    my $version = $self->lexbor_version();
+
+    print "Lexbor Version: $version\n";
 }
 
 sub lexbor_version
