@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -119,10 +119,12 @@ LXB_API lxb_html_tree_error_t *
 lxb_html_tree_error_add(lexbor_array_obj_t *parse_errors,
                         lxb_html_token_t *token, lxb_html_tree_error_id_t id);
 
+LXB_API const lxb_char_t *
+lxb_html_tree_error_to_string(lxb_html_tree_error_id_t id, size_t *len);
+
 
 #ifdef __cplusplus
 } /* extern "C" */
 #endif
 
 #endif /* LEXBOR_HTML_TREE_ERROR_H */
-
