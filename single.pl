@@ -42,7 +42,7 @@ GetOptions(
     'port=s' => \$PORT,
     'with-export-symbols' => \$EXPORT,
     'dependencies' => sub {$OPTIONS{"print_modules_dependencies"} = $OPT_INDEX++},
-    'modules' => sub {$OPTIONS{"print_modules"} = $OPT_INDEX++},
+    'modules' => sub {$OPTIONS{"modules"} = $OPT_INDEX++},
     'graph' => sub {$OPTIONS{"print_dependency_graph"} = $OPT_INDEX++},
     'stats' => sub {$OPTIONS{"print_statistics"} = $OPT_INDEX++},
     'reverse-deps' => sub {$OPTIONS{"print_reverse_dependencies"} = $OPT_INDEX++},

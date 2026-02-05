@@ -22,7 +22,7 @@ fi
 
 # Get the list of modules
 echo "Fetching modules list..."
-MODULES=$($SCRIPT --print-modules)
+MODULES=$($SCRIPT --modules)
 
 # Compilation flags
 CFLAGS=${CFLAGS:="-Wall -Werror -pedantic -pipe -std=c99 -fPIC"}
