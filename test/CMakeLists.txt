@@ -33,3 +33,12 @@ IF(NOT LEXBOR_HAVE_FUZZER)
 ELSE()
     FIND_AND_APPEND_SUB_DIRS("fuzzers/lexbor" OFF)
 ENDIF()
+
+################
+## Amalgamation
+#########################
+IF(NOT LEXBOR_HAVE_FUZZER AND LEXBOR_TEST_AMALGAMATION)
+    add_test(NAME amalgamation
+        COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/amalgamation/generate_and_compile.sh"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/amalgamation")
+ENDIF()

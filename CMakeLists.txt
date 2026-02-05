@@ -14,6 +14,8 @@ cmake_minimum_required(VERSION 2.8.12...3.27)
 #    LEXBOR_BUILD_TESTS                  default: OFF; Build tests
 #    LEXBOR_BUILD_TESTS_CPP              default: OFF; Build C++ tests.
 #                                         Used with LEXBOR_BUILD_TESTS
+#    LEXBOR_TEST_AMALGAMATION            default: OFF; Testing all modules to create a single header file.
+#                                         Used with LEXBOR_BUILD_TESTS
 #    LEXBOR_BUILD_BENCHMARKS             default: OFF; Build benchmarks.
 #    LEXBOR_BUILD_UTILS                  default: OFF; Build utils/helpers for project.
 #    LEXBOR_BUILD_WITH_ASAN              default: OFF; Build with address sanitizer if possible
@@ -51,6 +53,7 @@ option(LEXBOR_BUILD_SEPARATELY "Build modules separately" OFF)
 option(LEXBOR_BUILD_EXAMPLES "Build examples" OFF)
 option(LEXBOR_BUILD_TESTS "Build tests" OFF)
 option(LEXBOR_BUILD_TESTS_CPP "Build C++ tests" OFF)
+option(LEXBOR_TEST_AMALGAMATION "Testing all modules to create a single header file" OFF)
 option(LEXBOR_BUILD_UTILS "Build utils" OFF)
 option(LEXBOR_BUILD_BENCHMARKS "Build with benchmarks" OFF)
 option(LEXBOR_BUILD_WITH_ASAN "Build with address sanitizer" OFF)
