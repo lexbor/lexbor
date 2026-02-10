@@ -198,13 +198,15 @@ ENDFOREACH()
 ## First, need to add target for shared and static library
 IF(LEXBOR_BUILD_SHARED)
     add_library(${LEXBOR_LIB_NAME} SHARED ${LEXBOR_SOURCES})
-    target_include_directories(${LEXBOR_LIB_NAME} PUBLIC ${LEXBOR_SOURCE})
+    target_include_directories(${LEXBOR_LIB_NAME} PUBLIC $<BUILD_INTERFACE:${LEXBOR_SOURCE}>
+                                                         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
     target_compile_definitions(${LEXBOR_LIB_NAME} PRIVATE "LEXBOR_BUILDING")
 ENDIF()
 
 IF(LEXBOR_BUILD_STATIC)
     add_library(${LEXBOR_LIB_NAME_STATIC} STATIC ${LEXBOR_SOURCES})
-    target_include_directories(${LEXBOR_LIB_NAME_STATIC} PUBLIC ${LEXBOR_SOURCE})
+    target_include_directories(${LEXBOR_LIB_NAME_STATIC} PUBLIC $<BUILD_INTERFACE:${LEXBOR_SOURCE}>
+                                                                $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
     set_target_properties(${LEXBOR_LIB_NAME_STATIC} PROPERTIES OUTPUT_NAME ${LEXBOR_LIB_NAME_STATIC})
     set_target_properties(${LEXBOR_LIB_NAME_STATIC} PROPERTIES
         COMPILE_PDB_NAME "${LEXBOR_LIB_NAME_STATIC}"
@@ -349,6 +351,30 @@ ENDIF()
 IF(LEXBOR_BUILD_BENCHMARKS)
     add_subdirectory(benchmarks)
 ENDIF()
+
+################
+## CMake target export
+#########################
+include("CMakePackageConfigHelpers")
+
+install(
+    EXPORT "${PROJECT_NAME}-export"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}/"
+    FILE "${PROJECT_NAME}-targets.cmake"
+    NAMESPACE "${PROJECT_NAME}::")
+
+configure_package_config_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}-config.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
+    INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}/")
+
+write_basic_package_version_file(
+    "${PROJECT_NAME}-config-version.cmake"
+    COMPATIBILITY SameMajorVersion
+    VERSION "${PROJECT_VERSION}")
+
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
+              "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake"
+        DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}/")
 
 ################
 ## Build an RPM.
