@@ -368,7 +368,7 @@ configure_package_config_file(
     INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}/")
 
 write_basic_package_version_file(
-    "${PROJECT_NAME}-version.cmake"
+    "${PROJECT_NAME}-config-version.cmake"
     COMPATIBILITY SameMajorVersion
     VERSION "${PROJECT_VERSION}")
 
