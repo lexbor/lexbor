@@ -351,6 +351,26 @@ IF(LEXBOR_BUILD_BENCHMARKS)
 ENDIF()
 
 ################
+## CMake target export
+#########################
+include("CMakePackageConfigHelpers")
+
+install(
+    EXPORT "${PROJECT_NAME}-export"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}/"
+    FILE "${PROJECT_NAME}-targets.cmake"
+    NAMESPACE "${PROJECT_NAME}::")
+
+configure_package_config_file(
+    ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}-config.cmake.in ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake
+    INSTALL_DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}/")
+
+write_basic_package_version_file(
+    "${PROJECT_NAME}-version.cmake"
+    COMPATIBILITY SameMajorVersion
+    VERSION "${PROJECT_VERSION}")
+
+################
 ## Build an RPM.
 #########################
 set(CPACK_PACKAGE_VERSION ${LEXBOR_VERSION_STRING})
