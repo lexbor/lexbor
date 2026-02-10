@@ -373,7 +373,7 @@ write_basic_package_version_file(
     VERSION "${PROJECT_VERSION}")
 
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
-              "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-version.cmake"
+              "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake"
         DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}/")
 
 ################
