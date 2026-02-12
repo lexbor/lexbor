@@ -30,6 +30,9 @@ lxb_css_stylesheet_create(lxb_css_memory_t *memory)
             return NULL;
         }
     }
+    else {
+        (void) lxb_css_memory_ref_inc(memory);
+    }
 
     stylesheet = lexbor_mraw_calloc(memory->mraw, sizeof(lxb_css_stylesheet_t));
     if (stylesheet == NULL) {
@@ -49,7 +52,7 @@ lxb_css_stylesheet_destroy(lxb_css_stylesheet_t *sst, bool destroy_memory)
     }
 
     if (destroy_memory) {
-        (void) lxb_css_memory_destroy(sst->memory, true);
+        (void) lxb_css_memory_ref_dec_destroy(sst->memory);
         return NULL;
     }
 

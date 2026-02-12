@@ -424,6 +424,7 @@ void
 lxb_dom_document_stylesheet_destroy_all(lxb_dom_document_t *document,
                                         bool destroy_memory)
 {
+    bool is;
     size_t length;
     lxb_css_stylesheet_t *sst;
     lxb_dom_document_css_t *css = document->css;
@@ -432,8 +433,9 @@ lxb_dom_document_stylesheet_destroy_all(lxb_dom_document_t *document,
 
     for (size_t i = 0; i < length; i++) {
         sst = lexbor_array_pop(css->stylesheets);
+        is = destroy_memory && css->memory != sst->memory;
 
-        (void) lxb_css_stylesheet_destroy(sst, destroy_memory);
+        (void) lxb_css_stylesheet_destroy(sst, is);
     }
 }
 
