@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2019-2024 Alexander Borisov
+ * Copyright (C) 2019-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -336,6 +336,48 @@ TEST_BEGIN(encode_sequence)
 }
 TEST_END
 
+TEST_BEGIN(size_fix)
+{
+    lxb_status_t status;
+    lxb_encoding_encode_t encode;
+    lxb_char_t buffer[4096];
+
+    const lxb_codepoint_t *cps, *end;
+    const lxb_encoding_data_t *enc_data;
+    const lxb_char_t replacement[] = "?";
+
+    enc_data = lxb_encoding_data(LXB_ENCODING_ISO_2022_JP);
+    test_ne(enc_data, NULL);
+
+    status = lxb_encoding_encode_init(&encode, enc_data, buffer, sizeof(buffer));
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_encoding_encode_replace_set(&encode, replacement, 1);
+    test_eq(status, LXB_STATUS_OK);
+
+    lxb_codepoint_t codepoints[] = {
+        0x3042,  /* Hiragana A (あ) - in JIS0208 -> triggers state switch */
+        0x0400,  /* Cyrillic - NOT in JIS0208 -> stale size decrement */
+        0x0400,  /* Again -> further corruption */
+        0x0400,  /* Again -> underflow to SIZE_MAX-2 */
+    };
+
+    cps = codepoints;
+    end = codepoints + (sizeof(codepoints) / sizeof(codepoints[0]));
+
+    printf("Before encode: buffer_used = %zu\n", encode.buffer_used);
+
+    status = lxb_encoding_encode_iso_2022_jp(&encode, &cps, end);
+
+    printf("After encode:  buffer_used = %zu, status = %d\n",
+           encode.buffer_used, (int) status);
+
+    if (encode.buffer_used > sizeof(buffer)) {
+        TEST_FAILURE("encode.buffer_used > sizeof(buffer)");
+    }
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -354,6 +396,7 @@ main(int argc, const char * argv[])
     TEST_ADD(encode_map);
     TEST_ADD(encode_buffer_check);
     TEST_ADD(encode_sequence);
+    TEST_ADD(size_fix);
 
     TEST_RUN("lexbor/encoding/iso_2022_jp");
     TEST_RELEASE();

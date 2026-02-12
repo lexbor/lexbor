@@ -443,10 +443,10 @@ lxb_encoding_encode_iso_2022_jp(lxb_encoding_encode_t *ctx, const lxb_codepoint_
     unsigned state;
     lxb_codepoint_t cp;
 
-    size = 0;
     state = ctx->state;
 
     for (; *cps < end; (*cps)++) {
+        size = 0;
         cp = **cps;
 
     begin:
