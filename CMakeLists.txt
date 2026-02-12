@@ -371,7 +371,7 @@ configure_package_config_file(
 write_basic_package_version_file(
     "${PROJECT_NAME}-config-version.cmake"
     COMPATIBILITY SameMajorVersion
-    VERSION "${PROJECT_VERSION}")
+    VERSION "${LEXBOR_VERSION_STRING}")
 
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
               "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake"
