@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Alexander Borisov
+ * Copyright (C) 2018-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -14,8 +14,8 @@
 #ifndef LXB_TAG_CONST_H
 #define LXB_TAG_CONST_H
 
-#define LXB_TAG_CONST_VERSION "24CCD9902BAD024339EFD2FE19A98AB1"
-#define LXB_TAG_CONST_VERSION_24CCD9902BAD024339EFD2FE19A98AB1
+#define LXB_TAG_CONST_VERSION "A53A182A4948BBFD2F227CE07EF1977D"
+#define LXB_TAG_CONST_VERSION_A53A182A4948BBFD2F227CE07EF1977D
 
 
 typedef uintptr_t lxb_tag_id_t;

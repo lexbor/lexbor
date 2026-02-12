@@ -5,8 +5,8 @@
             "link": "",
             "sort": 0,
             "default": {
-                "interface": "HTMLUnknownElement",
-                "interface_type": "HTML"
+                "interface": "Element",
+                "interface_type": "DOM"
             }
         },
         "#ANY": {
@@ -14,8 +14,8 @@
             "link": "",
             "sort": 1,
             "default": {
-                "interface": "HTMLUnknownElement",
-                "interface_type": "HTML"
+                "interface": "Element",
+                "interface_type": "DOM"
             }
         },
         "HTML": {
@@ -68,6 +68,18 @@
         }
     },
     "data": {
+        "#UNDEF": {
+            "#text": {"cat": ["ORDINARY"], "interface": "Text", "interface_type": "DOM"},
+            "!--": {"cat": ["ORDINARY"], "to": "-EM-comment", "interface": "Comment", "interface_type": "DOM"},
+            "!doctype": {"cat": ["ORDINARY"], "to": "-EM-doctype", "sort": 4, "interface": "DocumentType", "interface_type": "DOM"},
+            "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"}
+        },
+        "#ANY": {
+            "#text": {"cat": ["ORDINARY"], "interface": "Text", "interface_type": "DOM"},
+            "!--": {"cat": ["ORDINARY"], "to": "-EM-comment", "interface": "Comment", "interface_type": "DOM"},
+            "!doctype": {"cat": ["ORDINARY"], "to": "-EM-doctype", "sort": 4, "interface": "DocumentType", "interface_type": "DOM"},
+            "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"}
+        },
         "HTML": {
             "#undef": {"cat": ["ORDINARY"], "sort": 0, "interface": "HTMLElement", "interface_type": "HTML"},
             "#end-of-file": {"cat": ["ORDINARY"], "sort": 1, "interface": "HTMLElement", "interface_type": "HTML"},
@@ -224,6 +236,8 @@
         "SVG": {
             "#text": {"cat": ["ORDINARY"], "interface": "Text", "interface_type": "DOM"},
             "!--": {"cat": ["ORDINARY"], "to": "-EM-comment", "interface": "Comment", "interface_type": "DOM"},
+            "!doctype": {"cat": ["ORDINARY"], "to": "-EM-doctype", "sort": 4, "interface": "DocumentType", "interface_type": "DOM"},
+            "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"},
             "svg": {"cat": ["ORDINARY"], "interface": "Element", "interface_type": "DOM"},
             "desc": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON"], "interface": "Element", "interface_type": "DOM"},
             "title": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON"], "interface": "Element", "interface_type": "DOM"},
@@ -269,6 +283,8 @@
         "MATH": {
             "#text": {"cat": ["ORDINARY"], "interface": "Text", "interface_type": "DOM"},
             "!--": {"cat": ["ORDINARY"], "to": "-EM-comment", "interface": "Comment", "interface_type": "DOM"},
+            "!doctype": {"cat": ["ORDINARY"], "to": "-EM-doctype", "sort": 4, "interface": "DocumentType", "interface_type": "DOM"},
+            "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"},
             "math": {"cat": ["ORDINARY"], "interface": "Element", "interface_type": "DOM"},
             "mi": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON"], "interface": "Element", "interface_type": "DOM"},
             "mo": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON"], "interface": "Element", "interface_type": "DOM"},
@@ -279,6 +295,24 @@
             "malignmark": {"cat": ["ORDINARY"], "interface": "Element", "interface_type": "DOM"},
             "mfenced": {"cat": ["ORDINARY"], "interface": "Element", "interface_type": "DOM"},
             "annotation-xml": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON"], "interface": "Element", "interface_type": "DOM"}
+        },
+        "XLINK": {
+            "#text": {"cat": ["ORDINARY"], "interface": "Text", "interface_type": "DOM"},
+            "!--": {"cat": ["ORDINARY"], "to": "-EM-comment", "interface": "Comment", "interface_type": "DOM"},
+            "!doctype": {"cat": ["ORDINARY"], "to": "-EM-doctype", "sort": 4, "interface": "DocumentType", "interface_type": "DOM"},
+            "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"}
+        },
+        "XML": {
+            "#text": {"cat": ["ORDINARY"], "interface": "Text", "interface_type": "DOM"},
+            "!--": {"cat": ["ORDINARY"], "to": "-EM-comment", "interface": "Comment", "interface_type": "DOM"},
+            "!doctype": {"cat": ["ORDINARY"], "to": "-EM-doctype", "sort": 4, "interface": "DocumentType", "interface_type": "DOM"},
+            "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"}
+        },
+        "XMLNS": {
+            "#text": {"cat": ["ORDINARY"], "interface": "Text", "interface_type": "DOM"},
+            "!--": {"cat": ["ORDINARY"], "to": "-EM-comment", "interface": "Comment", "interface_type": "DOM"},
+            "!doctype": {"cat": ["ORDINARY"], "to": "-EM-doctype", "sort": 4, "interface": "DocumentType", "interface_type": "DOM"},
+            "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"}
         }
     }
 }

@@ -5,7 +5,7 @@
 #
 
 import json
-import sys, re, os
+import sys, re, os, datetime
 import hashlib
 
 # Find and append run script run dir to module search path
@@ -197,16 +197,16 @@ class Tags:
             interface = ["        "]
             interface_del = ["        "]
 
-            for idx in range(0, len(entry["ns"]) - 1):
+            for idx in range(0, len(entry["ns"])):
                 if len(entry["ns"][idx]) == 0:
                     ns.append(self.cat_empty)
-                    ns.append(", ")
+                    ns.append(",") if idx != len(entry["ns"]) - 1 else None
                 else:
                     ns.append("\n            |".join(entry["ns"][idx]))
                     if len(entry["ns"][idx]) > 1 and idx % 2 != 1:
                         ns.append(",\n        ")
                     else:
-                        ns.append(",")
+                        ns.append(",") if idx != len(entry["ns"]) - 1 else None
 
                 func_name = "{}_wrapper".format(entry["interface"][idx])
                 func_name_del = "{}_wrapper".format(entry["interface_del"][idx])
@@ -219,11 +219,11 @@ class Tags:
                     functions_index[func_name_del] = 1
                     functions.append("lxb_inline void *\n{}(void *interface)\n{{\n    return {}(interface);\n}}\n".format(func_name_del, entry["interface_del"][idx]))
 
-                interface.append("({}) {},".format(self.creation_interface, func_name))
-                interface.append("\n        ")
+                interface.append("({}) {}".format(self.creation_interface, func_name))
+                interface.append(",\n        ") if idx != len(entry["ns"]) - 1 else None
 
-                interface_del.append("({}) {},".format(self.deletion_interface, func_name_del))
-                interface_del.append("\n        ")
+                interface_del.append("({}) {}".format(self.deletion_interface, func_name_del))
+                interface_del.append(",\n        ") if idx != len(entry["ns"]) - 1 else None
 
                 fixname[idx].append("/* {} */\n    ".format(entry["c_name"]))
 
@@ -234,16 +234,8 @@ class Tags:
 
                 fixname[idx].append("\n    ")
 
-                if idx % 2 == 1:
+                if idx % 2 == 1 and idx != len(entry["ns"]) - 1:
                     ns.append("\n        ")
-
-            if len(entry["ns"][-1]) == 0:
-                ns.append(self.cat_empty)
-            else:
-                ns.append("\n|".join(entry["ns"][-1]))
-
-            interface.append("({}) {}".format(self.creation_interface, func_name_create))
-            interface_del.append("({}) {}".format(self.deletion_interface, func_name_destroy))
 
             fixname[-1].append("/* {} */\n    ".format(entry["c_name"]))
     
@@ -337,6 +329,9 @@ class Tags:
 
     def ns_save(self, data, temp_file, save_to):
         lxb_temp = LXB.Temp(temp_file, save_to)
+        now = datetime.datetime.now()
+
+        lxb_temp.pattern_append("%%YEAR%%", str(now.year))
         lxb_temp.pattern_append("%%HASH%%", self.ns_hash)
         lxb_temp.pattern_append("%%BODY%%", "\n".join(data))
 
@@ -369,9 +364,10 @@ class Tags:
 
     def ns_shs_save(self, data, data_link, temp_file, save_to):
         lxb_temp = LXB.Temp(temp_file, save_to)
-
+        now = datetime.datetime.now()
         res, res_prefix = self.ns_data_create()
 
+        lxb_temp.pattern_append("%%YEAR%%", str(now.year))
         lxb_temp.pattern_append("%%CHECK_NS_VERSION%%", self.ns_hash_ifdef())
         lxb_temp.pattern_append("%%NS_DATA%%", ''.join(res))
         lxb_temp.pattern_append("%%NS_PREFIX_DATA%%", ''.join(res_prefix))
@@ -404,7 +400,9 @@ class Tags:
 
     def ns_test_create_and_save(self, temp_file, save_to):
         lxb_temp = LXB.Temp(temp_file, save_to)
+        now = datetime.datetime.now()
 
+        lxb_temp.pattern_append("%%YEAR%%", str(now.year))
         lxb_temp.pattern_append("%%TEST_NAMES%%", "\n".join(self.ns_test_name_create()))
 
         lxb_temp.build()
@@ -450,6 +448,9 @@ class Tags:
 
     def enum_save(self, data, temp_file, save_to):
         lxb_temp = LXB.Temp(temp_file, save_to)
+        now = datetime.datetime.now()
+
+        lxb_temp.pattern_append("%%YEAR%%", str(now.year))
         lxb_temp.pattern_append("%%HASH%%", self.enum_hash)
         lxb_temp.pattern_append("%%BODY%%", "\n".join(data))
 
@@ -473,6 +474,7 @@ class Tags:
         return self.shs.create(name)
 
     def shs_save(self, data, temp_file, save_to):
+        now = datetime.datetime.now()
         res_lower, res_upper = self.tag_data_create_default()
 
         res_lower = ''.join(res_lower)
@@ -480,6 +482,7 @@ class Tags:
 
         lxb_temp = LXB.Temp(temp_file, save_to)
 
+        lxb_temp.pattern_append("%%YEAR%%", str(now.year))
         lxb_temp.pattern_append("%%CHECK_TAG_VERSION%%", self.enum_hash_ifdef())
         lxb_temp.pattern_append("%%TAG_DATA%%", res_lower)
         lxb_temp.pattern_append("%%TAG_DATA_UPPER%%", res_upper)
@@ -499,10 +502,12 @@ class Tags:
 
     def shs_create_and_save_html(self, temp_file, save_to,
                                 temp_file_interface, save_to_interface):
+        now = datetime.datetime.now()
         data_list = self.tag_data_create_html()
 
         lxb_temp = LXB.Temp(temp_file, save_to)
 
+        lxb_temp.pattern_append("%%YEAR%%", str(now.year))
         lxb_temp.pattern_append("%%CHECK_TAG_VERSION%%", self.enum_hash_ifdef())
         lxb_temp.pattern_append("%%CHECK_NS_VERSION%%", self.ns_hash_ifdef())
         lxb_temp.pattern_append("%%TAG_DATA%%", ''.join(data_list[0]))
@@ -513,6 +518,7 @@ class Tags:
 
         lxb_temp = LXB.Temp(temp_file_interface, save_to_interface)
 
+        lxb_temp.pattern_append("%%YEAR%%", str(now.year))
         lxb_temp.pattern_append("%%CHECK_TAG_VERSION%%", self.enum_hash_ifdef())
         lxb_temp.pattern_append("%%CHECK_NS_VERSION%%", self.ns_hash_ifdef())
         lxb_temp.pattern_append("%%INCLUDES%%", '\n'.join(data_list[1]))
@@ -537,8 +543,10 @@ class Tags:
         return result
 
     def tag_test_create_and_save(self, temp_file, save_to):
+        now = datetime.datetime.now()
         lxb_temp = LXB.Temp(temp_file, save_to)
 
+        lxb_temp.pattern_append("%%YEAR%%", str(now.year))
         lxb_temp.pattern_append("%%TEST_NAMES%%", "\n".join(self.tag_test_name_create()))
 
         lxb_temp.build()
