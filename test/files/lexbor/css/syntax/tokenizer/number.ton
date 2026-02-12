@@ -1,5 +1,5 @@
 [
-    /* Test count: 92 */
+    /* Test count: 93 */
     /* 1 */
     {
         "data": "1",
@@ -682,6 +682,13 @@
         "data": "1e-2",
         "tokens": [
             {"type": "number", "value": "0.01", "length": 4},
+        ]
+    },
+    /* 93 */
+    {
+        "data": "1e999999999999999999999",
+        "tokens": [
+            {"type": "number", "value": "1.797693134862316e+308", "length": 23},
         ]
     }
 ]
