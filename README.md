@@ -64,6 +64,8 @@ Documentation: https://lexbor.com/modules/html/.
 * * [x] [StyleSheet Tree](https://github.com/lexbor/lexbor/tree/master/examples/lexbor/css) (aka CSSOM).
 * * [x] and so on.
 
+Documentation: https://lexbor.com/modules/css/.
+
 ### Selectors Module
 
 * Search for HTML elements using CSS selectors.
@@ -82,6 +84,8 @@ Documentation: https://lexbor.com/modules/encoding/.
 
 * Conformance with the [URL specification](https://url.spec.whatwg.org/)
 * Support [Unicode ToASCII](https://www.unicode.org/reports/tr46/#ToASCII)
+
+Documentation: https://lexbor.com/modules/url/.
 
 ### Punycode Module
 
