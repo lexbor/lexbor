@@ -1353,8 +1353,6 @@ lxb_html_tree_close_p_element(lxb_html_tree_t *tree, lxb_html_token_t *token)
                                                  true);
 }
 
-#include "lexbor/html/serialize.h"
-
 bool
 lxb_html_tree_adoption_agency_algorithm(lxb_html_tree_t *tree,
                                         lxb_html_token_t *token,
