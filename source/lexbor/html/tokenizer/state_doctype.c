@@ -526,6 +526,7 @@ lxb_html_tokenizer_state_doctype_after_name_public(lxb_html_tokenizer_t *tkz,
         lxb_html_tokenizer_error_add(tkz->parse_errors, data,
                                      LXB_HTML_TOKENIZER_ERROR_INCHSEAFDONA);
 
+        tkz->token->type |= LXB_HTML_TOKEN_TYPE_FORCE_QUIRKS;
         tkz->state = lxb_html_tokenizer_state_doctype_bogus;
 
         return data;
@@ -576,6 +577,7 @@ lxb_html_tokenizer_state_doctype_after_name_system(lxb_html_tokenizer_t *tkz,
         lxb_html_tokenizer_error_add(tkz->parse_errors, data,
                                      LXB_HTML_TOKENIZER_ERROR_INCHSEAFDONA);
 
+        tkz->token->type |= LXB_HTML_TOKEN_TYPE_FORCE_QUIRKS;
         tkz->state = lxb_html_tokenizer_state_doctype_bogus;
 
         return data;
@@ -796,6 +798,7 @@ lxb_html_tokenizer_state_doctype_public_identifier_double_quoted(lxb_html_tokeni
             /* U+003E GREATER-THAN SIGN (>) */
             case 0x3E:
                 tkz->state = lxb_html_tokenizer_state_data_before;
+                tkz->token->type |= LXB_HTML_TOKEN_TYPE_FORCE_QUIRKS;
 
                 lxb_html_tokenizer_error_add(tkz->parse_errors, data,
                                              LXB_HTML_TOKENIZER_ERROR_ABDOPUID);
@@ -911,6 +914,7 @@ lxb_html_tokenizer_state_doctype_public_identifier_single_quoted(lxb_html_tokeni
             /* U+003E GREATER-THAN SIGN (>) */
             case 0x3E:
                 tkz->state = lxb_html_tokenizer_state_data_before;
+                tkz->token->type |= LXB_HTML_TOKEN_TYPE_FORCE_QUIRKS;
 
                 lxb_html_tokenizer_error_add(tkz->parse_errors, data,
                                              LXB_HTML_TOKENIZER_ERROR_ABDOPUID);
@@ -1349,6 +1353,7 @@ lxb_html_tokenizer_state_doctype_system_identifier_double_quoted(lxb_html_tokeni
             /* U+003E GREATER-THAN SIGN (>) */
             case 0x3E:
                 tkz->state = lxb_html_tokenizer_state_data_before;
+                tkz->token->type |= LXB_HTML_TOKEN_TYPE_FORCE_QUIRKS;
 
                 lxb_html_tokenizer_error_add(tkz->parse_errors, data,
                                              LXB_HTML_TOKENIZER_ERROR_ABDOSYID);
@@ -1464,6 +1469,7 @@ lxb_html_tokenizer_state_doctype_system_identifier_single_quoted(lxb_html_tokeni
             /* U+003E GREATER-THAN SIGN (>) */
             case 0x3E:
                 tkz->state = lxb_html_tokenizer_state_data_before;
+                tkz->token->type |= LXB_HTML_TOKEN_TYPE_FORCE_QUIRKS;
 
                 lxb_html_tokenizer_error_add(tkz->parse_errors, data,
                                              LXB_HTML_TOKENIZER_ERROR_ABDOSYID);
