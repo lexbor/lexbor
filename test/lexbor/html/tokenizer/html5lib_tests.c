@@ -316,6 +316,8 @@ run_test_entry(test_ctx_t *ctx, unit_kv_value_t *test_obj)
             ok = false;
         }
 
+        lxb_html_tokenizer_tags_destroy(tkz);
+        lxb_html_tokenizer_attrs_destroy(tkz);
         lxb_html_tokenizer_destroy(tkz);
     }
     else {
@@ -343,6 +345,8 @@ run_test_entry(test_ctx_t *ctx, unit_kv_value_t *test_obj)
                 ok = false;
             }
 
+            lxb_html_tokenizer_tags_destroy(tkz);
+            lxb_html_tokenizer_attrs_destroy(tkz);
             lxb_html_tokenizer_destroy(tkz);
         }
     }
