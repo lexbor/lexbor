@@ -173,6 +173,8 @@ main(int argc, const char *argv[])
                                 |LEXBOR_FS_DIR_OPT_WITHOUT_HIDDEN,
                                 file_callback, &ctx);
 
+    unit_kv_destroy(ctx.kv, true);
+
     if (status != LXB_STATUS_OK) {
         TEST_PRINTLN("Failed to read directory: %s", argv[1]);
         return EXIT_FAILURE;
@@ -313,6 +315,8 @@ run_test_entry(test_ctx_t *ctx, unit_kv_value_t *test_obj)
         if (!is) {
             ok = false;
         }
+
+        lxb_html_tokenizer_destroy(tkz);
     }
     else {
         if (!unit_kv_is_array(states_val)) {
@@ -338,8 +342,9 @@ run_test_entry(test_ctx_t *ctx, unit_kv_value_t *test_obj)
             if (!is) {
                 ok = false;
             }
-        }
 
+            lxb_html_tokenizer_destroy(tkz);
+        }
     }
 
     return ok;
@@ -538,8 +543,6 @@ compare_token(unit_kv_t *kv, lxb_html_tokenizer_t *tkz, lxb_html_token_t *token,
         return false;
     }
 
-    const char *type_name = (const char *) type_str->data;
-
     if (unit_kv_is_null(arr->list[1])) {
         data_str = NULL;
     }
@@ -547,12 +550,23 @@ compare_token(unit_kv_t *kv, lxb_html_tokenizer_t *tkz, lxb_html_token_t *token,
         data_str = kv_str(kv, arr->list[1], "Token Data");
     }
 
-    if (data_str != NULL && double_escaped) {
-        double_unescape(tkz, data_str->data, data_str->length, &tmp_str);
+    want_data = NULL;
+    want_len = 0;
 
-        data_str->data = tmp_str.data;
-        data_str->length = tmp_str.length;
+    if (data_str != NULL) {
+        if (double_escaped) {
+            double_unescape(tkz, data_str->data, data_str->length, &tmp_str);
+
+            want_data = tmp_str.data;
+            want_len = (unsigned) tmp_str.length;
+        }
+        else {
+            want_data = data_str->data;
+            want_len = (unsigned) data_str->length;
+        }
     }
+
+    const char *type_name = (const char *) type_str->data;
 
     /* Character token */
     if (strcmp(type_name, "Character") == 0) {
@@ -562,15 +576,8 @@ compare_token(unit_kv_t *kv, lxb_html_tokenizer_t *tkz, lxb_html_token_t *token,
             return false;
         }
 
-        if (data_str == NULL) {
-            print_fail(kv, expected, "Character data is not a string");
-            return false;
-        }
-
-        have_len = token->text_end - token->text_start;
+        have_len = (unsigned) (token->text_end - token->text_start);
         have_data = token->text_start;
-        want_data = data_str->data;
-        want_len = data_str->length;
 
         match = (have_len == want_len
                  && memcmp(have_data, want_data, want_len) == 0);
@@ -594,15 +601,8 @@ compare_token(unit_kv_t *kv, lxb_html_tokenizer_t *tkz, lxb_html_token_t *token,
             return false;
         }
 
-        if (data_str == NULL) {
-            print_fail(kv, expected, "Comment data is not a string");
-            return false;
-        }
-
-        have_len = token->text_end - token->text_start;
+        have_len = (unsigned) (token->text_end - token->text_start);
         have_data = token->text_start;
-        want_data = data_str->data;
-        want_len = data_str->length;
 
         match = (have_len == want_len
                  && memcmp(have_data, want_data, want_len) == 0);
