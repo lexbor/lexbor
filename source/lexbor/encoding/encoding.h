@@ -27,9 +27,18 @@ extern "C" {
 LXB_API const lxb_encoding_data_t *
 lxb_encoding_data_by_pre_name(const lxb_char_t *name, size_t length);
 
+LXB_API lxb_encoding_t
+lxb_encoding_prescan_validate(const lxb_char_t *name, size_t length);
+
+LXB_API const lxb_encoding_data_t *
+lxb_encoding_data_prescan_validate(const lxb_char_t *name, size_t length);
+
 /*
  * To skip BOM.
  */
+LXB_API lxb_encoding_t
+lxb_encoding_bom_sniff(const lxb_char_t *begin, size_t length);
+
 LXB_API void
 lxb_encoding_utf_8_skip_bom(const lxb_char_t **begin, size_t *length);
 
