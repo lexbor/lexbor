@@ -369,7 +369,7 @@
             <html>
               <head>
               <body>
-                <svg:svg xml:base xml:lang xml:space xml:baaah definitionurl>
+                <svg:svg xml:base="" xml:lang="" xml:space="" xml:baaah="" definitionurl="">
         $DATA
     },
     /* Test number: 24 */
@@ -381,7 +381,7 @@
             <html>
               <head>
               <body>
-                <math:math definitionURL xlink:title xlink:show>
+                <math:math definitionURL="" xlink:title="" xlink:show="">
         $DATA
     },
     /* Test number: 25 */
@@ -393,7 +393,7 @@
             <html>
               <head>
               <body>
-                <math:math definitionURL>
+                <math:math definitionURL="">
         $DATA
     },
     /* Test number: 26 */
@@ -733,7 +733,7 @@
                           "ib"
                       <b>
                         "b"
-                  <option selected>
+                  <option selected="">
                     "x"
                     <i>
                       "i"

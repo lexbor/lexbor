@@ -175,7 +175,7 @@
             <html>
               <head>
               <body>
-                <div foo>
+                <div foo="">
                   <img>
                   <img>
         $DATA
@@ -202,7 +202,7 @@
             <html>
               <head>
               <body>
-                <rdar: problem 6869687>
+                <rdar: problem="" 6869687="">
         $DATA
     },
     /* Test number: 15 */
@@ -675,7 +675,7 @@
             <html>
               <head>
               <body>
-                <img <="" fail>
+                <img <="" fail="">
         $DATA
     },
     /* Test number: 46 */

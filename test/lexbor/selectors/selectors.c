@@ -88,7 +88,7 @@ static const lxb_test_entry_t selectors_list[] =
      "<div div=\"First\" class=\"Strong Massive\">"},
 
     {"[test = '']",
-     "<span test span=\"11\">\n"
+     "<span test=\"\" span=\"11\">\n"
      "<span test=\"\" span=\"12\">"},
 
     {"[class ~= 'massive']",
@@ -130,7 +130,7 @@ static const lxb_test_entry_t selectors_list[] =
      ""},
 
     {"[test |= '']",
-     "<span test span=\"11\">\n"
+     "<span test=\"\" span=\"11\">\n"
      "<span test=\"\" span=\"12\">"},
 
     {"[div ^= 'Fir']",
@@ -218,7 +218,7 @@ static const lxb_test_entry_t selectors_list[] =
      "<span span=\"9\">\n"
      "<a a=\"8\">\n"
      "<span span=\"10\">\n"
-     "<span test span=\"11\">\n"
+     "<span test=\"\" span=\"11\">\n"
      "<span test=\"\" span=\"12\">\n"
      "<main>\n"
      "<h2 h2=\"1\" class=\"mark\">\n"
@@ -239,7 +239,7 @@ static const lxb_test_entry_t selectors_list[] =
      "<span span=\"8\">\n"
      "<span span=\"9\">\n"
      "<span span=\"10\">\n"
-     "<span test span=\"11\">\n"
+     "<span test=\"\" span=\"11\">\n"
      "<span test=\"\" span=\"12\">"},
 
     {"div > span",
@@ -254,7 +254,7 @@ static const lxb_test_entry_t selectors_list[] =
      "<span span=\"6\">\n"
      "<span span=\"9\">\n"
      "<span span=\"10\">\n"
-     "<span test span=\"11\">\n"
+     "<span test=\"\" span=\"11\">\n"
      "<span test=\"\" span=\"12\">"},
 
     {"div > p > a",
@@ -274,7 +274,7 @@ static const lxb_test_entry_t selectors_list[] =
      "<span id=\"s5\" span=\"5\">\n"
      "<span span=\"9\">\n"
      "<span span=\"10\">\n"
-     "<span test span=\"11\">\n"
+     "<span test=\"\" span=\"11\">\n"
      "<span test=\"\" span=\"12\">"},
 
     {"p[p='2'] + p",
@@ -327,14 +327,14 @@ static const lxb_test_entry_t selectors_list[] =
      "<span span=\"6\">\n"
      "<span span=\"7\">\n"
      "<span span=\"8\">\n"
-     "<span test span=\"11\">"},
+     "<span test=\"\" span=\"11\">"},
 
     {"p[p='7'] > span:nth-child(2n+1)",
      "<span span=\"6\">\n"
-     "<span test span=\"11\">"},
+     "<span test=\"\" span=\"11\">"},
 
     {"p[p='7'] > span:nth-child(2n+1 of [test])",
-     "<span test span=\"11\">"},
+     "<span test=\"\" span=\"11\">"},
 
     {"p[p='7'] span:nth-last-child(2n+1)",
      "<span span=\"7\">\n"

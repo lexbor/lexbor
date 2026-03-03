@@ -18,7 +18,7 @@
         $DATA,
         "fragment": {"tag": "path", "ns": "svg"},
         "result": $DATA{ ,12}
-            <font color>
+            <font color="">
             "X"
         $DATA
     },

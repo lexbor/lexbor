@@ -806,7 +806,7 @@
               <head>
               <body>
                 "X"
-                <p x y z>
+                <p x="" y="" z="">
         $DATA
     },
     /* Test number: 60 */

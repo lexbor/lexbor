@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2022-2025 Alexander Borisov
+ * Copyright (C) 2022-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -42,7 +42,7 @@ TEST_BEGIN(fixed_svg_tags)
     static const lxb_char_t html[] = "<svg><a xlink:title>";
     static const size_t length = sizeof(html) - 1;
 
-    static const lxb_char_t res[] = "<svg><a xlink:title></a></svg>";
+    static const lxb_char_t res[] = "<svg><a xlink:title=\"\"></a></svg>";
     static const size_t res_length = sizeof(res) - 1;
 
     document = lxb_html_document_create();

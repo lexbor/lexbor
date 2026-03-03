@@ -790,6 +790,7 @@ lxb_html_serialize_attribute_cb(lxb_dom_attr_t *attr, bool has_raw,
 value:
 
     if (attr->value == NULL) {
+        lxb_html_serialize_send("=\"\"", 3, ctx);
         return LXB_STATUS_OK;
     }
 
