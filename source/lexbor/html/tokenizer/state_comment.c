@@ -143,8 +143,6 @@ lxb_html_tokenizer_state_comment_start_dash(lxb_html_tokenizer_t *tkz,
     /* EOF */
     else if (*data == 0x00) {
         if (tkz->is_eof) {
-            lxb_html_tokenizer_state_append_m(tkz, "-", 1);
-
             lxb_html_tokenizer_error_add(tkz->parse_errors, tkz->last,
                                          LXB_HTML_TOKENIZER_ERROR_EOINCO);
 
