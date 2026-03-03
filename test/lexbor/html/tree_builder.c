@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2025 Alexander Borisov
+ * Copyright (C) 2018-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -22,7 +22,7 @@ typedef struct {
 }
 fragment_entry_t;
 
-
+static size_t test_count = 0;
 static lexbor_hash_t *test_tags;
 
 
@@ -186,6 +186,8 @@ check_entries(unit_kv_t *kv, unit_kv_value_t *value, lxb_html_parser_t *parser)
         check_entry_chunk(kv, entries->list[i], parser);
 
         lxb_html_parser_destroy(parser);
+
+        test_count += 1;
     }
 }
 
@@ -520,6 +522,15 @@ main(int argc, const char * argv[])
     }
 
     lexbor_hash_destroy(test_tags, true);
+
+    /*
+     * If any of the tests fail, the program will terminate with detailed
+     * information about the test.
+     * If all tests pass, it will print the total number of tests, the number of
+     * passed tests, and the number of failed tests (which should be 0).
+     */
+    TEST_PRINTLN("\nResults: "LEXBOR_FORMAT_Z" total, "LEXBOR_FORMAT_Z" failed,"
+        " "LEXBOR_FORMAT_Z" passed", test_count, (size_t) 0, test_count);
 
     TEST_RELEASE();
 }
