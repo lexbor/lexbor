@@ -108,6 +108,10 @@ extern "C" {
 
 #define lxb_html_tokenizer_state_token_attr_add_m(tkz, attr, v_return)         \
     do {                                                                       \
+        if (!(tkz->opt & LXB_HTML_TOKENIZER_OPT_ATTR_KEEP_DUPLICATE)) {        \
+            lxb_html_tokenizer_attr_last_duplicate(tkz);                       \
+        }                                                                      \
+                                                                               \
         attr = lxb_html_token_attr_append(tkz->token, tkz->dobj_token_attr);   \
         if (attr == NULL) {                                                    \
             tkz->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;                  \
@@ -143,6 +147,14 @@ extern "C" {
     (tkz->token->attr_last->value_end = tkz->last)
 
 #define _lxb_html_tokenizer_state_token_done_m(tkz, v_end)                     \
+    if (!(tkz->opt & LXB_HTML_TOKENIZER_OPT_ATTR_KEEP_DUPLICATE)) {            \
+        lxb_html_tokenizer_attr_last_duplicate(tkz);                           \
+    }                                                                          \
+                                                                               \
+    if (tkz->token->type & LXB_HTML_TOKEN_TYPE_CLOSE) {                        \
+        lxb_html_tokenizer_validate_close_tag(tkz);                            \
+    }                                                                          \
+                                                                               \
     tkz->token = tkz->callback_token_done(tkz, tkz->token,                     \
                                           tkz->callback_token_ctx);            \
     if (tkz->token == NULL) {                                                  \
@@ -208,6 +220,11 @@ LXB_API const lxb_char_t *
 lxb_html_tokenizer_state_self_closing_start_tag(lxb_html_tokenizer_t *tkz,
                                                 const lxb_char_t *data,
                                                 const lxb_char_t *end);
+
+LXB_API const lxb_char_t *
+lxb_html_tokenizer_state_cdata_section_before(lxb_html_tokenizer_t *tkz,
+                                              const lxb_char_t *data,
+                                              const lxb_char_t *end);
 
 LXB_API const lxb_char_t *
 lxb_html_tokenizer_state_cr(lxb_html_tokenizer_t *tkz, const lxb_char_t *data,

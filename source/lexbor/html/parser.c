@@ -44,6 +44,8 @@ lxb_html_parser_init(lxb_html_parser_t *parser)
         return status;
     }
 
+    lxb_html_tokenizer_keep_duplicate_set(parser->tkz, true);
+
     /* Tree */
     parser->tree = lxb_html_tree_create();
     status = lxb_html_tree_init(parser->tree, parser->tkz);

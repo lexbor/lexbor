@@ -11,6 +11,7 @@
 #include "lexbor/html/interfaces/style_element.h"
 #include "lexbor/html/node.h"
 #include "lexbor/html/parser.h"
+#include "lexbor/html/tokenizer.h"
 
 #include "lexbor/tag/tag.h"
 
@@ -268,6 +269,7 @@ lxb_html_document_parser_prepare(lxb_html_document_t *document)
 {
     lxb_status_t status;
     lxb_dom_document_t *doc;
+    lxb_html_parser_t *parser;
 
     doc = lxb_dom_interface_document(document);
 
@@ -279,6 +281,10 @@ lxb_html_document_parser_prepare(lxb_html_document_t *document)
             lxb_html_parser_destroy(doc->parser);
             return status;
         }
+
+        parser = doc->parser;
+
+        lxb_html_tokenizer_keep_duplicate_set(parser->tkz, true);
     }
     else if (lxb_html_parser_state(doc->parser) != LXB_HTML_PARSER_STATE_BEGIN) {
         lxb_html_parser_clean(doc->parser);
