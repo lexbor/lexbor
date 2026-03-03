@@ -27,6 +27,7 @@ unless (@ARGV) {
 my $ALL = 0;
 my $EXPORT = 0;
 my $COMPARE;
+my $RECURSIVE = 0;
 my $PORT = "posix";
 my $LEXBOR_DIR = $FindBin::RealBin;
 my %OPTIONS;
@@ -51,6 +52,8 @@ GetOptions(
     'validate' => sub {$OPTIONS{"validate_dependencies"} = $OPT_INDEX++},
     'compare=s' => sub {$OPTIONS{"compare"} = $OPT_INDEX++; $COMPARE = $_[1] },
     'minimal-deps' => sub {$OPTIONS{"print_minimal_dependencies"} = $OPT_INDEX++},
+    'module-deps' => sub {$OPTIONS{"print_module_dependencies"} = $OPT_INDEX++},
+    'recursive' => \$RECURSIVE,
     'size-info' => sub {$OPTIONS{"print_size_info"} = $OPT_INDEX++},
     'versions' => sub {$OPTIONS{"print_versions"} = $OPT_INDEX++},
     'version' => sub {$OPTIONS{"print_lexbor_version"} = $OPT_INDEX++},
@@ -64,7 +67,7 @@ if (!@ARGV) {
 }
 
 # Create Single instance
-my $single = new Single($LEXBOR_DIR, \@ARGV, $ALL, $PORT, $EXPORT);
+my $single = new Single($LEXBOR_DIR, \@ARGV, $ALL, $PORT, $EXPORT, $RECURSIVE);
 
 foreach my $sub (sort { $OPTIONS{$a} <=> $OPTIONS{$b} } keys %OPTIONS) {
     if ($sub eq "compare") {
@@ -73,16 +76,16 @@ foreach my $sub (sort { $OPTIONS{$a} <=> $OPTIONS{$b} } keys %OPTIONS) {
         die "Please specify exactly 2 modules to compare (--compare=module1,module2)"
             unless @compare_mods == 2;
 
-        my $single_compare = new Single($LEXBOR_DIR, \@compare_mods, 0, $PORT, $EXPORT);
+        my $single_compare = new Single($LEXBOR_DIR, \@compare_mods, 0, $PORT, $EXPORT, $RECURSIVE);
         $single_compare->compare_modules($compare_mods[0], $compare_mods[1]);
 
         next;
     }
 
     if ($sub eq "reverse_dependencies") {
-        my $single_all = new Single($LEXBOR_DIR, [], 1, $PORT, $EXPORT);
+        my $single_all = new Single($LEXBOR_DIR, [], 1, $PORT, $EXPORT, $RECURSIVE);
         $single_all->print_reverse_dependencies(@ARGV ? \@ARGV : $single_all->original_modules());
-        
+
         next;
     }
 
@@ -108,7 +111,7 @@ foreach my $sub (sort { $OPTIONS{$a} <=> $OPTIONS{$b} } keys %OPTIONS) {
         next;
     }
 
-    $single->$sub(@ARGV ? \@ARGV : $single->original_modules());
+    $single->$sub(@ARGV ? \@ARGV : $single->modules());
 }
 
 exit 0 if scalar keys %OPTIONS;
@@ -211,6 +214,8 @@ sub help_message
     print "  --reverse-deps                Print reverse dependencies (which modules depend on specified ones)\n";
     print "  --size-info                   Print size information (lines of code, file counts)\n";
     print "  --minimal-deps                Show minimal set of dependencies\n";
+    print "  --module-deps                 Print dependencies for specified modules (space-separated, sorted)\n";
+    print "  --recursive                   With --module-deps: include recursive dependencies\n";
     print "  --versions                    Print version information for modules\n";
     print "  --version                     Print Lexbor version\n";
     print "\nValidation:\n";
@@ -232,7 +237,7 @@ use warnings FATAL => 'all';
 
 sub new
 {
-    my ($class, $lexbor_dir, $modules, $all, $port, $export_symbols) = @_;
+    my ($class, $lexbor_dir, $modules, $all, $port, $export_symbols, $recursive) = @_;
     my ($self, $dirpath, $cc, $original_modules, $port_path);
 
     $dirpath = catfile($lexbor_dir, "source", "lexbor");
@@ -261,8 +266,6 @@ sub new
     die "I can't find the directory with the port source code: $port"
         unless -d $port_path;
 
-    push @$modules, "ports/$port";
-
     # Remove duplicate modules
     my %seen;
     $modules = [grep { !$seen{$_}++ } @$modules];
@@ -290,7 +293,8 @@ sub new
         includes => {},
         resources => {},
         versions => {},
-        export_symbols => $export_symbols
+        export_symbols => $export_symbols,
+        recursive => $recursive
     };
 
     bless $self, $class;
@@ -381,7 +385,8 @@ sub resolve_c_recursive_dependencies
     $index->{$module} = 1;
 
     foreach my $c (@{$self->{modules_c}->{$module}}) {
-        my $sub_path = catfile($module, $c);
+        # Port files are already stored as paths relative to $self->{source}
+        my $sub_path = ($c =~ /^ports\//) ? $c : catfile($module, $c);
 
         next if exists $index_c->{$sub_path};
         $index_c->{$sub_path} = 1;
@@ -456,7 +461,8 @@ sub subpath_sources
     my $modules_c = $self->{modules_c};
 
     foreach my $c (@{$modules_c->{$module}}) {
-        push @$sources, catfile($module, $c);
+        # Port files are already stored as paths relative to $self->{source}
+        push @$sources, ($c =~ /^ports\//) ? $c : catfile($module, $c);
     }
 
     return $sources;
@@ -470,7 +476,8 @@ sub subpath_headers
     my $modules_h = $self->{modules_h};
 
     foreach my $c (@{$modules_h->{$module}}) {
-        push @$headers, catfile($module, $c);
+        # Port files are already stored as paths relative to $self->{source}
+        push @$headers, ($c =~ /^ports\//) ? $c : catfile($module, $c);
     }
 
     return $headers;
@@ -488,7 +495,10 @@ sub module_dependencies
     my $modules_c = $self->{modules_c};
 
     foreach my $h (@{$modules_h->{$module}}, @{$modules_c->{$module}}) {
-        my $full_path = catfile($self->{source}, $module, $h);
+        # Port files are stored with paths relative to $self->{source}
+        my $full_path = ($h =~ /^ports\//)
+            ? catfile($self->{source}, $h)
+            : catfile($self->{source}, $module, $h);
         my $deps = $self->source_dependencies($full_path);
 
         foreach my $dep (@$deps) {
@@ -497,7 +507,9 @@ sub module_dependencies
 
                 $internal->{$dep} = 1;
 
-                my $h_full = catfile($module, $h);
+                my $h_full = ($h =~ /^ports\//)
+                    ? $h
+                    : catfile($module, $h);
                 $index->{$h_full}->{$dep} = 1 if $h =~ /\.h$/;
 
                 my @entries = split /\//, $dep;
@@ -586,6 +598,25 @@ sub index_source
     }
 
     my ($headers, $code) = $self->walk($path);
+
+    # Add port-specific files for this module.
+    # Port files live in: ports/<port>/lexbor/<module>/
+    my $port_module_path = catfile($self->{source}, "ports", $self->{port},
+                                   "lexbor", $module);
+    if (-d $port_module_path) {
+        my ($port_headers, $port_code) = $self->walk($port_module_path);
+
+        # Store port file paths relative to $self->{source} (not to module dir)
+        my $port_prefix = catfile("ports", $self->{port}, "lexbor", $module);
+
+        foreach my $h (@$port_headers) {
+            push @$headers, catfile($port_prefix, $h);
+        }
+
+        foreach my $c (@$port_code) {
+            push @$code, catfile($port_prefix, $c);
+        }
+    }
 
     # Sort found files
     @$headers = sort { $a cmp $b } @$headers;
@@ -943,7 +974,9 @@ sub c_generate
 
     foreach my $idx (0..$#$source_files) {
         my $file_path = $source_files->[$idx];
+        my $path = catfile("source", "lexbor", $file_path);
 
+        push @res, "/* Source: $path */\n";
         push @res, @{$self->process_c_file($file_path, 2)};
 
         if ($idx != $#$source_files) {
@@ -1289,7 +1322,6 @@ sub print_reverse_dependencies
     # Print reverse dependencies for requested modules
     foreach my $idx (0..$#$modules) {
         my $module = $modules->[$idx];
-        next if $module =~ /^ports\//;
 
         print "\e[1;36m$module\e[0m is used by:\n";
 
@@ -1605,7 +1637,6 @@ sub print_versions
 
     foreach my $idx (0..$#$modules) {
         my $module = $modules->[$idx];
-        next if $module =~ /^ports\//;
 
         if (exists $versions->{$module}) {
             my $ver = $versions->{$module};
@@ -1670,6 +1701,25 @@ sub export_yaml
             print "      - ", catfile("lexbor", $s), "\n";
         }
     }
+}
+
+sub print_module_dependencies
+{
+    my ($self, $modules) = @_;
+    my (%names);
+
+    my $dependencies = $self->{dependencies};
+    my $attr = ($self->{recursive}) ? "modules_all" : "modules";
+
+    foreach my $module (@$modules) {
+        my $dep = $dependencies->{$module};
+
+        for my $m (@{$dep->{$attr}}) {
+            $names{$m} = 1;
+        }
+    }
+
+    print join(" ", sort keys %names) . "\n";
 }
 
 sub print_modules_dependencies
@@ -1800,7 +1850,6 @@ sub parse_all_versions
     my %versions;
 
     foreach my $module (@{$self->{modules}}) {
-        next if $module =~ /^ports\//;
         $versions{$module} = $self->parse_version($module);
     }
 
