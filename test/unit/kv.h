@@ -129,6 +129,8 @@ struct unit_kv {
 
     short              count;
     unsigned int       num;
+    unsigned int       high;
+    bool               is_surrogate;
 
     bool               num_negative;
     int64_t            num_digits;

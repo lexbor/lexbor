@@ -92,6 +92,14 @@ unit_kv_state_string_escape_u(unit_kv_t *kv,
                               const lxb_char_t *data, const lxb_char_t *end);
 
 static const lxb_char_t *
+unit_kv_state_string_escape_u_low(unit_kv_t *kv,
+                                  const lxb_char_t *data, const lxb_char_t *end);
+
+static const lxb_char_t *
+unit_kv_state_string_escape_u_low_u(unit_kv_t *kv,
+                                    const lxb_char_t *data, const lxb_char_t *end);
+
+static const lxb_char_t *
 unit_kv_state_string_escape_x(unit_kv_t *kv,
                               const lxb_char_t *data, const lxb_char_t *end);
 
@@ -868,6 +876,7 @@ unit_kv_state_string_escape(unit_kv_t *kv,
             kv->state = unit_kv_state_string_escape_u;
             kv->count = 4;
             kv->num = 0;
+            kv->is_surrogate = false;
 
             return (data + 1);
 
@@ -933,14 +942,50 @@ unit_kv_state_string_escape_u(unit_kv_t *kv,
         return data;
     }
 
+    kv->is_surrogate = false;
+
     while (data < end) {
         if (kv->count == 0) {
             lexbor_str_t *str = &kv->token->value.str;
 
-            if (kv->num <= 0x007F) {
+            if (kv->is_surrogate != true && kv->num <= 0x007F) {
                 lexbor_str_append_one(str, kv->mraw, kv->num);
             }
             else {
+                if (kv->is_surrogate) {
+                    if (kv->num >= 0xDC00 && kv->num <= 0xDFFF) {
+                        kv->num = 0x10000 + (((kv->high - 0xD800) << 10)
+                                            | (kv->num - 0xDC00));
+                    }
+                    else {
+                        kv->status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+                        return end;
+                    }
+                }
+                else if (kv->num >= 0xD800 && kv->num <= 0xDBFF) {
+                    kv->is_surrogate = true;
+                    kv->high = kv->num;
+                    kv->num = 0;
+                    kv->count = 4;
+
+                    if (data + 2 >= end) {
+                        kv->state = unit_kv_state_string_escape_u_low;
+                        return data;
+                    }
+
+                    if (data[0] != '\\' || data[1] != 'u') {
+                        kv->status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+                        return end;
+                    }
+
+                    data += 2;
+                    continue;
+                }
+                else if (kv->num >= 0xDC00 && kv->num <= 0xDFFF) {
+                    kv->status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+                    return end;
+                }
+
                 p = str->data;
                 length = lxb_encoding_encode_utf_8_length((lxb_codepoint_t) kv->num);
 
@@ -984,6 +1029,64 @@ unit_kv_state_string_escape_u(unit_kv_t *kv,
     }
 
     return data;
+}
+
+static const lxb_char_t *
+unit_kv_state_string_escape_u_low(unit_kv_t *kv,
+                                  const lxb_char_t *data, const lxb_char_t *end)
+{
+    /* EOF */
+    if (kv->is_eof && *data == 0x00) {
+        goto failed;
+    }
+
+    if (*data != '\\') {
+        goto failed;
+    }
+
+    data += 1;
+    if (data >= end) {
+        kv->state = unit_kv_state_string_escape_u_low_u;
+        return data;
+    }
+
+    if (*data != 'u') {
+        goto failed;
+    }
+
+    kv->state = unit_kv_state_string_escape_u;
+
+    return data + 1;
+
+failed:
+
+    kv->status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+
+    return end;
+}
+
+static const lxb_char_t *
+unit_kv_state_string_escape_u_low_u(unit_kv_t *kv,
+                                    const lxb_char_t *data, const lxb_char_t *end)
+{
+    /* EOF */
+    if (kv->is_eof && *data == 0x00) {
+        goto failed;
+    }
+
+    if (*data != 'u') {
+        goto failed;
+    }
+
+    kv->state = unit_kv_state_string_escape_u;
+
+    return data + 1;
+
+failed:
+
+    kv->status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+
+    return end;
 }
 
 static const lxb_char_t *
