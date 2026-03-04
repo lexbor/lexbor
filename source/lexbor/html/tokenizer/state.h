@@ -164,22 +164,31 @@ extern "C" {
         return v_end;                                                          \
     }
 
-#define lxb_html_tokenizer_state_token_done_m(tkz, v_end)                      \
+#define lxb_html_tokenizer_state_token_text_done_m(tkz, v_end)                 \
     do {                                                                       \
-        if (tkz->token->begin != tkz->token->end) {                            \
-            _lxb_html_tokenizer_state_token_done_m(tkz, v_end)                 \
+        if (tkz->token->text_start != tkz->token->text_end) {                  \
+            _lxb_html_tokenizer_state_token_done_m(tkz, v_end);                \
         }                                                                      \
         lxb_html_token_clean(tkz->token);                                      \
         tkz->pos = tkz->start;                                                 \
     }                                                                          \
     while (0)
 
-#define lxb_html_tokenizer_state_token_done_wo_check_m(tkz, v_end)             \
+#define lxb_html_tokenizer_state_token_done_m(tkz, v_end)                      \
     do {                                                                       \
         _lxb_html_tokenizer_state_token_done_m(tkz, v_end)                     \
         lxb_html_token_clean(tkz->token);                                      \
+        tkz->pos = tkz->start;                                                 \
     }                                                                          \
     while (0)
+
+/*
+ * This macro is alias; it serves to ensure that when reading the code,
+ * we clearly understand where checks are not necessary, i.e., we are 100% sure
+ * that the token has been collected and is ready to be sent.
+ */
+#define lxb_html_tokenizer_state_token_done_wo_check_m(tkz, v_end)             \
+    lxb_html_tokenizer_state_token_done_m(tkz, v_end)
 
 #define lxb_html_tokenizer_state_set_text(tkz)                                 \
     do {                                                                       \
@@ -190,7 +199,7 @@ extern "C" {
 
 #define lxb_html_tokenizer_state_token_emit_text_not_empty_m(tkz, v_end)       \
     do {                                                                       \
-        if (tkz->token->begin != tkz->token->end) {                            \
+        if (tkz->start != tkz->pos) {                                          \
             tkz->token->tag_id = LXB_TAG__TEXT;                                \
                                                                                \
             lxb_html_tokenizer_state_set_text(tkz);                            \

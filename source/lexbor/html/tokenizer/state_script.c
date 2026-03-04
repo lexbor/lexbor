@@ -202,7 +202,7 @@ lxb_html_tokenizer_state_script_data(lxb_html_tokenizer_t *tkz,
                     tkz->token->tag_id = LXB_TAG__TEXT;
 
                     lxb_html_tokenizer_state_set_text(tkz);
-                    lxb_html_tokenizer_state_token_done_m(tkz, end);
+                    lxb_html_tokenizer_state_token_text_done_m(tkz, end);
 
                     return end;
                 }
@@ -346,7 +346,7 @@ lxb_html_tokenizer_state_script_data_end_tag_name(lxb_html_tokenizer_t *tkz,
                 tkz->pos = &tkz->start[tkz->entity_start];
 
                 lxb_html_tokenizer_state_set_text(tkz);
-                lxb_html_tokenizer_state_token_done_m(tkz, end);
+                lxb_html_tokenizer_state_token_text_done_m(tkz, end);
 
                 /* Init close token */
                 tkz->token->tag_id = tkz->tmp_tag_id;
@@ -390,7 +390,7 @@ done:
     tkz->pos = &tkz->start[tkz->entity_start];
 
     lxb_html_tokenizer_state_set_text(tkz);
-    lxb_html_tokenizer_state_token_done_m(tkz, end);
+    lxb_html_tokenizer_state_token_text_done_m(tkz, end);
 
     /* Init close token */
     tkz->token->tag_id = tkz->tmp_tag_id;
@@ -516,7 +516,7 @@ lxb_html_tokenizer_state_script_data_escaped(lxb_html_tokenizer_t *tkz,
 
                     lxb_html_tokenizer_state_set_text(tkz);
                     lxb_html_tokenizer_state_token_set_end_eof(tkz);
-                    lxb_html_tokenizer_state_token_done_m(tkz, end);
+                    lxb_html_tokenizer_state_token_text_done_m(tkz, end);
 
                     return end;
                 }
@@ -580,7 +580,7 @@ lxb_html_tokenizer_state_script_data_escaped_dash(lxb_html_tokenizer_t *tkz,
 
                 lxb_html_tokenizer_state_set_text(tkz);
                 lxb_html_tokenizer_state_token_set_end_eof(tkz);
-                lxb_html_tokenizer_state_token_done_m(tkz, end);
+                lxb_html_tokenizer_state_token_text_done_m(tkz, end);
 
                 return end;
             }
@@ -757,7 +757,7 @@ lxb_html_tokenizer_state_script_data_escaped_end_tag_name(
                 tkz->pos = &tkz->start[tkz->entity_start];
 
                 lxb_html_tokenizer_state_set_text(tkz);
-                lxb_html_tokenizer_state_token_done_m(tkz, end);
+                lxb_html_tokenizer_state_token_text_done_m(tkz, end);
 
                 /* Init close token */
                 tkz->token->tag_id = tkz->tmp_tag_id;
@@ -801,7 +801,7 @@ done:
     tkz->pos = &tkz->start[tkz->entity_start];
 
     lxb_html_tokenizer_state_set_text(tkz);
-    lxb_html_tokenizer_state_token_done_m(tkz, end);
+    lxb_html_tokenizer_state_token_text_done_m(tkz, end);
 
     /* Init close token */
     tkz->token->tag_id = tkz->tmp_tag_id;
@@ -946,7 +946,7 @@ lxb_html_tokenizer_state_script_data_double_escaped(lxb_html_tokenizer_t *tkz,
 
                     lxb_html_tokenizer_state_set_text(tkz);
                     lxb_html_tokenizer_state_token_set_end_eof(tkz);
-                    lxb_html_tokenizer_state_token_done_m(tkz, end);
+                    lxb_html_tokenizer_state_token_text_done_m(tkz, end);
 
                     return end;
                 }
@@ -1010,7 +1010,7 @@ lxb_html_tokenizer_state_script_data_double_escaped_dash(lxb_html_tokenizer_t *t
 
                 lxb_html_tokenizer_state_set_text(tkz);
                 lxb_html_tokenizer_state_token_set_end_eof(tkz);
-                lxb_html_tokenizer_state_token_done_m(tkz, end);
+                lxb_html_tokenizer_state_token_text_done_m(tkz, end);
 
                 return end;
             }
@@ -1076,7 +1076,7 @@ lxb_html_tokenizer_state_script_data_double_escaped_dash_dash(
 
                 lxb_html_tokenizer_state_set_text(tkz);
                 lxb_html_tokenizer_state_token_set_end_eof(tkz);
-                lxb_html_tokenizer_state_token_done_m(tkz, end);
+                lxb_html_tokenizer_state_token_text_done_m(tkz, end);
 
                 return end;
             }

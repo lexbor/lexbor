@@ -277,7 +277,7 @@ lxb_html_tokenizer_state_data(lxb_html_tokenizer_t *tkz,
                         lxb_html_tokenizer_state_token_set_end_eof(tkz);
                     }
 
-                    if (tkz->token->begin != tkz->token->end) {
+                    if (tkz->pos != tkz->start) {
                         tkz->token->tag_id = LXB_TAG__TEXT;
 
                         lxb_html_tokenizer_state_append_data_m(tkz, data);
@@ -376,7 +376,7 @@ lxb_html_tokenizer_state_plaintext(lxb_html_tokenizer_t *tkz,
                     }
 
                     lxb_html_tokenizer_state_set_text(tkz);
-                    lxb_html_tokenizer_state_token_done_m(tkz, end);
+                    lxb_html_tokenizer_state_token_text_done_m(tkz, end);
 
                     return end;
                 }
@@ -1538,6 +1538,8 @@ lxb_html_tokenizer_state_markup_declaration_doctype(lxb_html_tokenizer_t *tkz,
         return data;
     }
 
+    lxb_html_tokenizer_state_append_m(tkz, data, (end - data));
+
     tkz->markup = pos;
 
     return end;
@@ -1664,7 +1666,7 @@ lxb_html_tokenizer_state_cdata_section(lxb_html_tokenizer_t *tkz,
                     }
 
                     lxb_html_tokenizer_state_set_text(tkz);
-                    lxb_html_tokenizer_state_token_done_m(tkz, end);
+                    lxb_html_tokenizer_state_token_text_done_m(tkz, end);
 
                     return end;
                 }
@@ -1729,7 +1731,7 @@ lxb_html_tokenizer_state_cdata_section_end(lxb_html_tokenizer_t *tkz,
         tkz->state = lxb_html_tokenizer_state_data_before;
 
         lxb_html_tokenizer_state_set_text(tkz);
-        lxb_html_tokenizer_state_token_done_m(tkz, end);
+        lxb_html_tokenizer_state_token_text_done_m(tkz, end);
 
         return (data + 1);
     }
