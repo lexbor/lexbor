@@ -1,5 +1,5 @@
 [
-    /* Test count: 18 */
+    /* Test count: 19 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -256,6 +256,20 @@
             <html>
               <head>
                 <noscript>
+              <body>
+        $DATA
+    },
+    /* Test number: 19 */
+    {
+        "data": $DATA{ ,12}
+            <head><noscript></noscript><link>
+        $DATA,
+        "scripting": false,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <noscript>
+                <link>
               <body>
         $DATA
     },
