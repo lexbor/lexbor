@@ -49,7 +49,7 @@ say_yes=${say_yes=""}
 builddir=${builddir=build}
 base="liblexbor-$version"
 archive="$base.tar.gz"
-files="CMakeLists.txt config.cmake feature.cmake README.md INSTALL.md NOTICE LICENSE source version"
+files="CMakeLists.txt config.cmake feature.cmake lexbor-config.cmake.in README.md INSTALL.md NOTICE LICENSE source version"
 lib_extension=so
 
 if [[ -z $version ]]; then

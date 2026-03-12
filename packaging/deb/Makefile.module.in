@@ -6,7 +6,7 @@ debuild/%%MODULE%%/debian:
 debuild/lib%%LIBNAME%%_%%MODULE_VERSION%%.orig.tar.gz: debuild/%%MODULE%%/debian
 	cd ../.. && tar -czf packaging/deb/debuild/%%MODULE%%.tar.gz \\
 		LICENSE NOTICE version CHANGELOG.md README.md CMakeLists.txt \\
-		config.cmake feature.cmake %%FOR_COPY%%
+		config.cmake feature.cmake lexbor-config.cmake.in %%FOR_COPY%%
 	mv debuild/%%MODULE%%.tar.gz debuild/lib%%LIBNAME%%_%%MODULE_VERSION%%.orig.tar.gz
 	cd debuild/%%MODULE%% && tar zxf ../lib%%LIBNAME%%_%%MODULE_VERSION%%.orig.tar.gz
 

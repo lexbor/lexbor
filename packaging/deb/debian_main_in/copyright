@@ -8,7 +8,7 @@ Copyright: 2018-%%YEAR%% Alexander Borisov
 License: Apache-2.0
 
 Files: CHANGELOG.md README.md NOTICE version 
-       CMakeLists.txt config.cmake feature.cmake
+       CMakeLists.txt config.cmake feature.cmake lexbor-config.cmake.in
 Copyright: 2018-%%YEAR%% Alexander Borisov
 License: Apache-2.0
 
