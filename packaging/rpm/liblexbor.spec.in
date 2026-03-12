@@ -63,6 +63,7 @@ rm -rf %{buildroot}
 %{_libdir}/%{name}.%{lib_ext}
 %{_libdir}/%{name}_static.a
 %{_includedir}/*
+%{_libdir}/cmake/lexbor/
 
 # Modules
 %%MODULES_SPECS%%

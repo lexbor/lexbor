@@ -1,3 +1,4 @@
 usr/lib/lib%%LIBNAME%%*.a usr/lib/%%ARCH%%
 usr/lib/lib%%LIBNAME%%*.so usr/lib/%%ARCH%%
+usr/lib/cmake/lexbor/* usr/lib/%%ARCH%%/cmake/lexbor/
 %%INCLUDES%%
