@@ -1234,8 +1234,8 @@ lxb_selectors_state_after_nth_child(lxb_selectors_t *selectors,
     current = selectors->current;
 
     if (current->index == 0) {
-        selectors->state = lxb_selectors_state_not_found;
         selectors->current = selectors->current->parent;
+        lxb_selectors_switch_to_not_found(selectors, selectors->current);
 
         return selectors->current->entry;
     }
