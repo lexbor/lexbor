@@ -199,7 +199,7 @@
             "samp": {"cat": ["ORDINARY"], "interface": "HTMLElement", "interface_type": "HTML"},
             "script": {"cat": ["SPECIAL"], "interface": "HTMLScriptElement", "interface_type": "HTML"},
             "section": {"cat": ["SPECIAL"], "interface": "HTMLElement", "interface_type": "HTML"},
-            "select": {"cat": ["SPECIAL"], "interface": "HTMLSelectElement", "interface_type": "HTML"},
+            "select": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON"], "interface": "HTMLSelectElement", "interface_type": "HTML"},
             "selectedcontent": {"cat": ["ORDINARY"], "interface": "HTMLSelectedContentElement", "interface_type": "HTML"},
             "search": {"cat": ["SPECIAL"], "interface": "HTMLSearchElement", "interface_type": "HTML"},
             "slot": {"cat": ["ORDINARY"], "interface": "HTMLSlotElement", "interface_type": "HTML"},
