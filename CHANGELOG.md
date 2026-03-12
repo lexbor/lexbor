@@ -2,6 +2,46 @@
 
 ## [Unreleased]
 
+## [2.7.0] - 2026-03-12
+
+### Added
+- Added amalgamation support.
+- Encoding: added prescan validation and BOM sniffing functions.
+- HTML: added lxb_html_encoding_prescan() function.
+- HTML: added scope categories to `<select>` element per specification.
+- HTML: added descriptions for Tree Builder and Tokenizer errors.
+- DOM: added lxb_dom_node_type() function.
+- Build: added -DLEXBOR_TEST_AMALGAMATION.
+- Test::HTML: added chunks tests for html5lib tests.
+- Test::HTML: added more html5lib tests.
+- Benchmarks::HTML: added a benchmark for HTML parsing.
+- CMake: install target for use in other projects.
+- Test: added support surrogate pairs for KV parser.
+
+### Fixed
+- HTML: fixed parsing `<noscript>` element with scripting disabled.
+- HTML: fixed script end tag parsing for custom tag names.
+- HTML: fixed dash on EOF in comment start dash state.
+- HTML: fixed potential null pointer dereference.
+- HTML: serialize NULL attribute values as empty string.
+- HTML: sets DOCTYPE token force-quirks flag on parse errors.
+- HTML/Tag/NS: fixed interface constructors for non-HTML namespaces.
+- Encoding: fixed buffer_used underflow in ISO-2022-JP encoder.
+- CSS::Syntax: fixed integer overflow when parsing number exponent.
+- CSS::Syntax: fixed undef token instead of URL token.
+- Style: fixed use-after-free when destroying multiple stylesheets.
+- Selectors: fixed returning state if not found in nth-child().
+- URL: fixed "heap-buffer-overflow" for scheme is "file".
+- URL: fixed "use-after-poison" for an empty path entry.
+- URL: the cloning function does not copy the type for IPv4 and IPv6.
+- Punycode: fixed heap-buffer-overflow in encoding data.
+
+### Changed
+- HTML: improve tokenizer spec compliance for parse error reporting.
+- HTML: simplification of token emit in the tokenizer.
+- CSS: bring syntax parsing into compliance with the specification.
+- All resources moved to extern declarations.
+
 ## [2.6.0] - 2025-11-10
 
 ### Added
