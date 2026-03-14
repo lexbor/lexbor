@@ -1651,21 +1651,28 @@ sub export_json
 {
     my ($self, $modules) = @_;
 
+    my $recursive = $self->{recursive};
+    my $dependencies = $self->{dependencies};
+    my $mod_attr = $recursive ? "modules_all" : "modules";
+    my $src_attr = $recursive ? "source_all" : "source";
+
     print "{\n";
     print "  \"modules\": [\n";
-
-    my $dependencies = $self->{dependencies};
 
     foreach my $idx (0..$#$modules) {
         my $module = $modules->[$idx];
         my $dep = $dependencies->{$module};
         next unless $dep;
 
+        my $headers = $recursive
+            ? $self->collect_recursive_headers($module)
+            : $dep->{headers};
+
         print "    {\n";
         print "      \"name\": \"$module\",\n";
-        print "      \"dependencies\": [" . join(", ", map { '"'. $_ .'"' } @{$dep->{modules}}) . "],\n";
-        print "      \"headers\": [" . join(", ", map { '"'. catfile("lexbor", $_) .'"' } @{$dep->{headers}}) . "],\n";
-        print "      \"sources\": [" . join(", ", map { '"'. catfile("lexbor", $_) .'"' } @{$dep->{source}}) . "]\n";
+        print "      \"dependencies\": [" . join(", ", map { '"'. $_ .'"' } @{$dep->{$mod_attr}}) . "],\n";
+        print "      \"headers\": [" . join(", ", map { '"'. catfile("lexbor", $_) .'"' } @$headers) . "],\n";
+        print "      \"sources\": [" . join(", ", map { '"'. catfile("lexbor", $_) .'"' } @{$dep->{$src_attr}}) . "]\n";
         print "    }";
         print "," if $idx != $#$modules;
         print "\n";
@@ -1679,28 +1686,64 @@ sub export_yaml
 {
     my ($self, $modules) = @_;
 
-    print "modules:\n";
-
+    my $recursive = $self->{recursive};
     my $dependencies = $self->{dependencies};
+    my $mod_attr = $recursive ? "modules_all" : "modules";
+    my $src_attr = $recursive ? "source_all" : "source";
+
+    print "modules:\n";
 
     foreach my $module (@$modules) {
         my $dep = $dependencies->{$module};
         next unless $dep;
 
+        my $headers = $recursive
+            ? $self->collect_recursive_headers($module)
+            : $dep->{headers};
+
         print "  - name: $module\n";
         print "    dependencies:\n";
-        foreach my $d (@{$dep->{modules}}) {
+        foreach my $d (@{$dep->{$mod_attr}}) {
             print "      - $d\n";
         }
         print "    headers:\n";
-        foreach my $h (@{$dep->{headers}}) {
+        foreach my $h (@$headers) {
             print "      - ", catfile("lexbor", $h), "\n";
         }
         print "    sources:\n";
-        foreach my $s (@{$dep->{source}}) {
+        foreach my $s (@{$dep->{$src_attr}}) {
             print "      - ", catfile("lexbor", $s), "\n";
         }
     }
+}
+
+sub collect_recursive_headers
+{
+    my ($self, $module) = @_;
+
+    my $dependencies = $self->{dependencies};
+    my $dep = $dependencies->{$module};
+    my %seen;
+    my @headers;
+
+    foreach my $h (@{$dep->{headers}}) {
+        unless ($seen{$h}++) {
+            push @headers, $h;
+        }
+    }
+
+    foreach my $dep_module (@{$dep->{modules_all}}) {
+        my $dep_dep = $dependencies->{$dep_module};
+        next unless $dep_dep;
+
+        foreach my $h (@{$dep_dep->{headers}}) {
+            unless ($seen{$h}++) {
+                push @headers, $h;
+            }
+        }
+    }
+
+    return [sort @headers];
 }
 
 sub print_module_dependencies
