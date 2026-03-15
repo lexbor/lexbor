@@ -28,6 +28,12 @@ MODULES=$($SCRIPT --modules)
 CFLAGS=${CFLAGS:="-Wall -Werror -pedantic -pipe -std=c99 -fPIC"}
 CC=${CC:-gcc}
 
+# Link math library on Linux
+LDFLAGS=""
+if [ "$(uname -s)" = "Linux" ]; then
+    LDFLAGS="-lm"
+fi
+
 echo "Modules to process:"
 echo "$MODULES"
 
@@ -66,7 +72,7 @@ for MOD in $MODULES; do
 
         # Compile the test file
         # Include current dir for ${MOD}.h and code/ for _base.h
-        if $CC $CFLAGS -I. -Icode "$TEST_FILE" -o "$TEST_BIN"; then
+        if $CC $CFLAGS -I. -Icode "$TEST_FILE" -o "$TEST_BIN" $LDFLAGS; then
              echo "Test compilation successful."
 
              # Run the test

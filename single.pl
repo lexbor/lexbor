@@ -28,7 +28,7 @@ my $ALL = 0;
 my $EXPORT = 0;
 my $COMPARE;
 my $RECURSIVE = 0;
-my $PORT = "posix";
+my $PORT = "all";
 my $LEXBOR_DIR = $FindBin::RealBin;
 my %OPTIONS;
 my $OPT_INDEX = 1;
@@ -66,8 +66,25 @@ if (!@ARGV) {
     $ALL = 1;
 }
 
+# Parse port list (supports comma-separated values and "all")
+my @PORTS;
+if ($PORT eq "all") {
+    my $ports_dir = catfile($LEXBOR_DIR, "source", "lexbor", "ports");
+    opendir my $dh, $ports_dir or die "Cannot open ports directory: $ports_dir: $!";
+    while (my $sub = readdir $dh) {
+        next if $sub =~ /^\./;
+        next unless -d catfile($ports_dir, $sub);
+        push @PORTS, $sub;
+    }
+    closedir $dh;
+    die "No ports found in $ports_dir" unless @PORTS;
+}
+else {
+    @PORTS = split /,/, $PORT;
+}
+
 # Create Single instance
-my $single = new Single($LEXBOR_DIR, \@ARGV, $ALL, $PORT, $EXPORT, $RECURSIVE);
+my $single = new Single($LEXBOR_DIR, \@ARGV, $ALL, \@PORTS, $EXPORT, $RECURSIVE);
 
 foreach my $sub (sort { $OPTIONS{$a} <=> $OPTIONS{$b} } keys %OPTIONS) {
     if ($sub eq "compare") {
@@ -76,14 +93,14 @@ foreach my $sub (sort { $OPTIONS{$a} <=> $OPTIONS{$b} } keys %OPTIONS) {
         die "Please specify exactly 2 modules to compare (--compare=module1,module2)"
             unless @compare_mods == 2;
 
-        my $single_compare = new Single($LEXBOR_DIR, \@compare_mods, 0, $PORT, $EXPORT, $RECURSIVE);
+        my $single_compare = new Single($LEXBOR_DIR, \@compare_mods, 0, \@PORTS, $EXPORT, $RECURSIVE);
         $single_compare->compare_modules($compare_mods[0], $compare_mods[1]);
 
         next;
     }
 
-    if ($sub eq "reverse_dependencies") {
-        my $single_all = new Single($LEXBOR_DIR, [], 1, $PORT, $EXPORT, $RECURSIVE);
+    if ($sub eq "print_reverse_dependencies") {
+        my $single_all = new Single($LEXBOR_DIR, [], 1, \@PORTS, $EXPORT, $RECURSIVE);
         $single_all->print_reverse_dependencies(@ARGV ? \@ARGV : $single_all->original_modules());
 
         next;
@@ -237,8 +254,8 @@ use warnings FATAL => 'all';
 
 sub new
 {
-    my ($class, $lexbor_dir, $modules, $all, $port, $export_symbols, $recursive) = @_;
-    my ($self, $dirpath, $cc, $original_modules, $port_path);
+    my ($class, $lexbor_dir, $modules, $all, $ports, $export_symbols, $recursive) = @_;
+    my ($self, $dirpath, $cc, $original_modules);
 
     $dirpath = catfile($lexbor_dir, "source", "lexbor");
     die "I can't find the directory with the lexbor source code: $dirpath."
@@ -258,13 +275,36 @@ sub new
         closedir $dh;
     }
 
-    $port //= "posix";
+    # Handle ports: accept arrayref or string (backward compat)
+    if (ref $ports eq 'ARRAY') {
+        $ports = [@$ports];
+    }
+    else {
+        $ports = [$ports // "posix"];
+    }
+
     $dirpath = catfile($lexbor_dir, "source", "lexbor");
     $original_modules = [@$modules];
-    $port_path = catfile($dirpath, "ports", $port);
 
-    die "I can't find the directory with the port source code: $port"
-        unless -d $port_path;
+    # Validate all ports exist and read their configs
+    my %port_configs;
+    foreach my $port (@$ports) {
+        my $port_path = catfile($dirpath, "ports", $port);
+        die "I can't find the directory with the port source code: $port"
+            unless -d $port_path;
+
+        $port_configs{$port} = read_port_config($port_path, $port);
+    }
+
+    my $multi_port = (scalar @$ports > 1);
+
+    # Sort ports: ports with condition first, fallback last
+    my @sorted_ports = sort {
+        my $a_fb = $port_configs{$a}->{fallback} ? 1 : 0;
+        my $b_fb = $port_configs{$b}->{fallback} ? 1 : 0;
+        $a_fb <=> $b_fb || $a cmp $b;
+    } @$ports;
+    $ports = \@sorted_ports;
 
     # Remove duplicate modules
     my %seen;
@@ -280,7 +320,11 @@ sub new
     $self = {
         lexbor => $lexbor_dir,
         source => $dirpath,
-        port => $port,
+        ports => $ports,
+        port => $ports->[0],       # backward compat: first port
+        port_configs => \%port_configs,
+        multi_port => $multi_port,
+        port_files => {},          # { port_name => { module => { headers => [], code => [] } } }
         modules => $modules,
         modules_h => {},
         modules_c => {},
@@ -313,6 +357,51 @@ sub new
     $self->{versions} = $self->parse_all_versions();
 
     return $self;
+}
+
+sub read_port_config
+{
+    my ($port_path, $port_name) = @_;
+    my %config;
+
+    # Keys that support multiple values
+    my %multi_keys = (define => 1, ifndef => 1);
+
+    my $conf_file = catfile($port_path, "port.conf");
+    if (-f $conf_file) {
+        open my $fh, "<:encoding(UTF-8)", $conf_file
+            or die "Cannot open port config ($conf_file): $!";
+
+        while (my $line = <$fh>) {
+            $line =~ s/^\s+|\s+$//g;
+            next if $line eq "" || $line =~ /^#/;
+
+            if ($line =~ /^(\w+)\s*=\s*(.+)$/) {
+                my ($key, $val) = ($1, $2);
+
+                if ($multi_keys{$key}) {
+                    $config{$key} //= [];
+                    push @{$config{$key}}, $val;
+                }
+                else {
+                    $config{$key} = $val;
+                }
+            }
+        }
+
+        close $fh;
+    }
+    else {
+        # No config file — treat as fallback
+        $config{fallback} = "true";
+    }
+
+    # Normalize fallback to boolean
+    if (exists $config{fallback}) {
+        $config{fallback} = ($config{fallback} =~ /^(true|1|yes)$/i) ? 1 : 0;
+    }
+
+    return \%config;
 }
 
 sub resolve_dependencies
@@ -494,6 +583,7 @@ sub module_dependencies
     my $modules_h = $self->{modules_h};
     my $modules_c = $self->{modules_c};
 
+    # Scan main (non-port) files
     foreach my $h (@{$modules_h->{$module}}, @{$modules_c->{$module}}) {
         # Port files are stored with paths relative to $self->{source}
         my $full_path = ($h =~ /^ports\//)
@@ -519,6 +609,40 @@ sub module_dependencies
             }
             else {
                 $other->{$dep} = 1;
+            }
+        }
+    }
+
+    # In multi-port mode, also scan port-specific files for dependencies (union)
+    # but do NOT add their external includes to $other — those stay inside
+    # the port .c files which are wrapped in #if/#else guards.
+    if ($self->{multi_port}) {
+        foreach my $port (@{$self->{ports}}) {
+            my $pf = $self->{port_files}->{$port};
+            next unless $pf && $pf->{$module};
+
+            my @port_all = (@{$pf->{$module}->{headers}}, @{$pf->{$module}->{code}});
+
+            foreach my $h (@port_all) {
+                my $full_path = catfile($self->{source}, $h);
+                my $deps = $self->source_dependencies($full_path);
+
+                foreach my $dep (@$deps) {
+                    if ($dep =~ /^lexbor\//) {
+                        $dep =~ s/^lexbor\///;
+
+                        $internal->{$dep} = 1;
+
+                        $index->{$h}->{$dep} = 1 if $h =~ /\.h$/;
+
+                        my @entries = split /\//, $dep;
+                        my $dep_module = defined $entries[0] ? $entries[0] : "";
+                        $dep_modules->{$dep_module} = 1
+                            if $dep_module ne $module;
+                    }
+                    # Skip external includes from port files — they remain
+                    # in the port source code under #if/#else guards.
+                }
             }
         }
     }
@@ -601,20 +725,38 @@ sub index_source
 
     # Add port-specific files for this module.
     # Port files live in: ports/<port>/lexbor/<module>/
-    my $port_module_path = catfile($self->{source}, "ports", $self->{port},
-                                   "lexbor", $module);
-    if (-d $port_module_path) {
+    foreach my $port (@{$self->{ports}}) {
+        my $port_module_path = catfile($self->{source}, "ports", $port,
+                                       "lexbor", $module);
+        next unless -d $port_module_path;
+
         my ($port_headers, $port_code) = $self->walk($port_module_path);
+        my $port_prefix = catfile("ports", $port, "lexbor", $module);
 
-        # Store port file paths relative to $self->{source} (not to module dir)
-        my $port_prefix = catfile("ports", $self->{port}, "lexbor", $module);
+        if ($self->{multi_port}) {
+            # Multi-port: store port files separately
+            $self->{port_files}->{$port} //= {};
+            $self->{port_files}->{$port}->{$module} //= { headers => [], code => [] };
 
-        foreach my $h (@$port_headers) {
-            push @$headers, catfile($port_prefix, $h);
+            foreach my $h (@$port_headers) {
+                push @{$self->{port_files}->{$port}->{$module}->{headers}},
+                     catfile($port_prefix, $h);
+            }
+
+            foreach my $c (@$port_code) {
+                push @{$self->{port_files}->{$port}->{$module}->{code}},
+                     catfile($port_prefix, $c);
+            }
         }
+        else {
+            # Single port: mix into main arrays (backward compat)
+            foreach my $h (@$port_headers) {
+                push @$headers, catfile($port_prefix, $h);
+            }
 
-        foreach my $c (@$port_code) {
-            push @$code, catfile($port_prefix, $c);
+            foreach my $c (@$port_code) {
+                push @$code, catfile($port_prefix, $c);
+            }
         }
     }
 
@@ -721,6 +863,35 @@ sub compile_sources
 
     $sources = [grep { defined $_ } @$sources];
 
+    # In multi-port mode, compile port-specific sources separately
+    if ($self->{multi_port}) {
+        my %port_compiled;
+
+        foreach my $port (@{$self->{ports}}) {
+            my $pf = $self->{port_files}->{$port};
+            next unless $pf;
+
+            my (@port_headers, @port_sources);
+
+            foreach my $module (@{$self->{modules}}) {
+                next unless $pf->{$module};
+
+                push @port_headers, @{$pf->{$module}->{headers}};
+                push @port_sources, @{$pf->{$module}->{code}};
+            }
+
+            @port_sources = sort { $a cmp $b } @port_sources;
+            @port_headers = sort { $a cmp $b } @port_headers;
+
+            $port_compiled{$port} = {
+                headers => \@port_headers,
+                sources => \@port_sources
+            };
+        }
+
+        $self->{port_compiled} = \%port_compiled;
+    }
+
     return ($headers, $sources, $includes, \@resources);
 }
 
@@ -816,6 +987,12 @@ sub h_generate
         if ($idx != $#$headers_files) {
             push @res, "";
         }
+    }
+
+    # In multi-port mode, append port-specific headers with #if/#else guards
+    if ($self->{multi_port} && $self->{port_compiled}) {
+        my @port_res = $self->generate_port_section("headers", "Header");
+        push @res, "", @port_res if @port_res;
     }
 
     return \@res;
@@ -984,7 +1161,88 @@ sub c_generate
         }
     }
 
+    # In multi-port mode, append port-specific sources with #if/#else guards
+    if ($self->{multi_port} && $self->{port_compiled}) {
+        my @port_res = $self->generate_port_section("sources", "Source");
+        push @res, "", @port_res if @port_res;
+    }
+
     return \@res;
+}
+
+sub generate_port_section
+{
+    my ($self, $file_type, $comment_prefix) = @_;
+    my @res;
+
+    # file_type: "headers" or "sources"
+    # comment_prefix: "Header" or "Source"
+    my $is_header = ($file_type eq "headers");
+    my $ports = $self->{ports};
+    my $port_configs = $self->{port_configs};
+    my $port_compiled = $self->{port_compiled};
+
+    # Check if there are any port files at all
+    my $has_files = 0;
+    foreach my $port (@$ports) {
+        if ($port_compiled->{$port} && @{$port_compiled->{$port}->{$file_type}}) {
+            $has_files = 1;
+            last;
+        }
+    }
+    return () unless $has_files;
+
+    my $guard_idx = 0;
+
+    foreach my $port (@$ports) {
+        my $pc = $port_configs->{$port};
+        my $files = $port_compiled->{$port} ? $port_compiled->{$port}->{$file_type} : [];
+        next unless @$files;
+
+        # Emit preprocessor guard
+        if ($pc->{fallback}) {
+            if ($guard_idx > 0) {
+                push @res, "";
+                push @res, "#else /* Port: $port (fallback) */";
+            }
+            # If fallback is the only port (shouldn't happen in multi_port), no guard
+        }
+        else {
+            my $condition = $pc->{condition};
+            if ($guard_idx == 0) {
+                push @res, "#if $condition /* Port: $port */";
+            }
+            else {
+                push @res, "";
+                push @res, "#elif $condition /* Port: $port */";
+            }
+        }
+
+        $guard_idx++;
+
+        # Emit files for this port
+        foreach my $idx (0..$#$files) {
+            my $file_path = $files->[$idx];
+            my $path = catfile("source", "lexbor", $file_path);
+
+            push @res, "";
+            push @res, "/* $comment_prefix: $path */\n";
+
+            if ($is_header) {
+                push @res, @{$self->process_h_file($file_path, 2)};
+            }
+            else {
+                push @res, @{$self->process_c_file($file_path, 2)};
+            }
+        }
+    }
+
+    if ($guard_idx > 0) {
+        push @res, "";
+        push @res, "#endif";
+    }
+
+    return @res;
 }
 
 sub process_c_file
@@ -1276,8 +1534,21 @@ sub print_statistics
         print "  Direct dependencies:    $direct_count\n";
         print "  Recursive dependencies: $recursive_count\n";
         print "  Used by modules:        " . ($usage_count{$module} // 0) . "\n";
-        print "  Header files:           " . scalar(@{$dep->{headers}}) . "\n";
-        print "  Source files:           " . scalar(@{$dep->{source}}) . "\n";
+        my $h_count = scalar(@{$dep->{headers}});
+        my $s_count = scalar(@{$dep->{source}});
+
+        # Add port file counts in multi-port mode
+        if ($self->{multi_port} && $self->{port_files}) {
+            foreach my $port (@{$self->{ports}}) {
+                my $pf = $self->{port_files}->{$port};
+                next unless $pf && $pf->{$module};
+                $h_count += scalar(@{$pf->{$module}->{headers}});
+                $s_count += scalar(@{$pf->{$module}->{code}});
+            }
+        }
+
+        print "  Header files:           $h_count\n";
+        print "  Source files:           $s_count\n";
         print "\n";
     }
 
@@ -1605,6 +1876,87 @@ sub print_size_info
     print "\e[1;32mTotal source lines:\e[0m " . $self->format_number($total_sources_lines) . "\n";
     print "\e[1;32mTotal files:\e[0m " . $self->format_number($total_headers + $total_sources) . "\n";
     print "\e[1;32mTotal lines:\e[0m " . $self->format_number($total_headers_lines + $total_sources_lines) . "\n";
+
+    # Show port-specific file info
+    # Include port files from requested modules and all their recursive dependencies
+    my %all_modules;
+    foreach my $module (@$modules) {
+        $all_modules{$module} = 1;
+        my $dep = $dependencies->{$module};
+        next unless $dep;
+        $all_modules{$_} = 1 foreach @{$dep->{modules_all}};
+    }
+
+    if ($self->{multi_port} && $self->{port_files}) {
+        # Multi-port: port files stored separately
+        print "\n";
+        foreach my $port (@{$self->{ports}}) {
+            my $pf = $self->{port_files}->{$port};
+            next unless $pf;
+
+            my ($ph_count, $ps_count, $ph_lines, $ps_lines) = (0, 0, 0, 0);
+
+            foreach my $module (keys %all_modules) {
+                next unless $pf->{$module};
+
+                foreach my $h (@{$pf->{$module}->{headers}}) {
+                    $ph_count++;
+                    my $path = catfile($self->{source}, $h);
+                    $ph_lines += $self->count_lines($path) if -f $path;
+                }
+
+                foreach my $c (@{$pf->{$module}->{code}}) {
+                    $ps_count++;
+                    my $path = catfile($self->{source}, $c);
+                    $ps_lines += $self->count_lines($path) if -f $path;
+                }
+            }
+
+            my $pc = $self->{port_configs}->{$port};
+            my $cond = $pc->{fallback} ? "fallback" : $pc->{condition};
+
+            print "\e[1;32mPort $port ($cond):\e[0m\n";
+            print "  Header files: " . $self->format_number($ph_count) . " (" . $self->format_number($ph_lines) . " lines)\n";
+            print "  Source files: " . $self->format_number($ps_count) . " (" . $self->format_number($ps_lines) . " lines)\n";
+        }
+    }
+    else {
+        # Single port: port files are mixed in, count them from source_all
+        my $port = $self->{ports}->[0];
+        my ($ph_count, $ps_count, $ph_lines, $ps_lines) = (0, 0, 0, 0);
+
+        foreach my $module (keys %all_modules) {
+            my $dep = $dependencies->{$module};
+            next unless $dep;
+
+            foreach my $s (@{$dep->{source}}) {
+                if ($s =~ /^ports\//) {
+                    if ($s =~ /\.h$/) { $ph_count++; }
+                    else { $ps_count++; }
+                    my $path = catfile($self->{source}, $s);
+                    if ($s =~ /\.h$/) { $ph_lines += $self->count_lines($path) if -f $path; }
+                    else { $ps_lines += $self->count_lines($path) if -f $path; }
+                }
+            }
+
+            foreach my $h (@{$dep->{headers}}) {
+                if ($h =~ /^ports\//) {
+                    $ph_count++;
+                    my $path = catfile($self->{source}, $h);
+                    $ph_lines += $self->count_lines($path) if -f $path;
+                }
+            }
+        }
+
+        if ($ph_count > 0 || $ps_count > 0) {
+            my $pc = $self->{port_configs}->{$port};
+            my $cond = $pc->{fallback} ? "fallback" : $pc->{condition};
+
+            print "\n\e[1;32mPort $port ($cond):\e[0m\n";
+            print "  Header files: " . $self->format_number($ph_count) . " (" . $self->format_number($ph_lines) . " lines)\n";
+            print "  Source files: " . $self->format_number($ps_count) . " (" . $self->format_number($ps_lines) . " lines)\n";
+        }
+    }
 }
 
 sub count_lines
@@ -1678,7 +2030,58 @@ sub export_json
         print "\n";
     }
 
-    print "  ]\n";
+    # Add port-specific sources in multi-port mode
+    # Include port files from requested modules and all their recursive dependencies
+    if ($self->{multi_port} && $self->{port_files}) {
+        my %all_modules;
+        foreach my $module (@$modules) {
+            $all_modules{$module} = 1;
+            my $dep = $dependencies->{$module};
+            next unless $dep;
+            $all_modules{$_} = 1 foreach @{$dep->{$mod_attr}};
+        }
+
+        print "  ],\n";
+        print "  \"port_sources\": {\n";
+
+        my $ports = $self->{ports};
+        foreach my $pidx (0..$#$ports) {
+            my $port = $ports->[$pidx];
+            my $pf = $self->{port_files}->{$port};
+            my $pc = $self->{port_configs}->{$port};
+            my $cond = $pc->{fallback} ? "fallback" : $pc->{condition};
+
+            print "    \"$port\": {\n";
+            print "      \"condition\": \"$cond\",\n";
+            print "      \"files\": [\n";
+
+            my @all_port_files;
+            if ($pf) {
+                foreach my $module (sort keys %all_modules) {
+                    next unless $pf->{$module};
+                    push @all_port_files, @{$pf->{$module}->{headers}};
+                    push @all_port_files, @{$pf->{$module}->{code}};
+                }
+            }
+
+            foreach my $fidx (0..$#all_port_files) {
+                print "        \"" . catfile("lexbor", $all_port_files[$fidx]) . "\"";
+                print "," if $fidx != $#all_port_files;
+                print "\n";
+            }
+
+            print "      ]\n";
+            print "    }";
+            print "," if $pidx != $#$ports;
+            print "\n";
+        }
+
+        print "  }\n";
+    }
+    else {
+        print "  ]\n";
+    }
+
     print "}\n";
 }
 
@@ -1713,6 +2116,39 @@ sub export_yaml
         print "    sources:\n";
         foreach my $s (@{$dep->{$src_attr}}) {
             print "      - ", catfile("lexbor", $s), "\n";
+        }
+    }
+
+    # Add port-specific sources in multi-port mode
+    # Include port files from requested modules and all their recursive dependencies
+    if ($self->{multi_port} && $self->{port_files}) {
+        my %all_modules;
+        foreach my $module (@$modules) {
+            $all_modules{$module} = 1;
+            my $dep = $dependencies->{$module};
+            next unless $dep;
+            $all_modules{$_} = 1 foreach @{$dep->{$mod_attr}};
+        }
+
+        print "port_sources:\n";
+
+        foreach my $port (@{$self->{ports}}) {
+            my $pf = $self->{port_files}->{$port};
+            my $pc = $self->{port_configs}->{$port};
+            my $cond = $pc->{fallback} ? "fallback" : $pc->{condition};
+
+            print "  $port:\n";
+            print "    condition: \"$cond\"\n";
+            print "    files:\n";
+
+            if ($pf) {
+                foreach my $module (sort keys %all_modules) {
+                    next unless $pf->{$module};
+                    foreach my $f (@{$pf->{$module}->{headers}}, @{$pf->{$module}->{code}}) {
+                        print "      - ", catfile("lexbor", $f), "\n";
+                    }
+                }
+            }
         }
     }
 }
@@ -1834,6 +2270,35 @@ sub print_dependencies
     foreach my $m (@{$dep->{modules_all}}) {
         print "$witspace    $m\n";
     }
+
+    # Show port-specific files in multi-port mode
+    # Include port files from this module and all its recursive dependencies
+    if ($self->{multi_port} && $self->{port_files}) {
+        my @all_modules = ($module, @{$dep->{modules_all}});
+
+        foreach my $port (@{$self->{ports}}) {
+            my $pf = $self->{port_files}->{$port};
+            next unless $pf;
+
+            my @port_files;
+            foreach my $m (@all_modules) {
+                next unless $pf->{$m};
+                push @port_files, @{$pf->{$m}->{headers}};
+                push @port_files, @{$pf->{$m}->{code}};
+            }
+
+            next unless @port_files;
+
+            my $pc = $self->{port_configs}->{$port};
+            my $cond = $pc->{fallback} ? "fallback" : $pc->{condition};
+
+            print "$witspace"."Port files ($port, $cond):\n";
+
+            foreach my $f (@port_files) {
+                print "$witspace    $f\n";
+            }
+        }
+    }
 }
 
 sub defines
@@ -1844,19 +2309,83 @@ sub defines
     push @defines, "#define LEXBOR_BUILDING_STATIC";
     push @defines, "#define LEXBOR_STATIC" unless $self->{export_symbols};
 
-    if ($self->{port} eq "posix") {
-        push @defines, "#define _POSIX_C_SOURCE 199309L";
+    if ($self->{multi_port}) {
+        # Multi-port: wrap port-specific defines in #if/#else guards
+        # First, check which ports actually have defines
+        my @ports_with_defines;
+        foreach my $port (@{$self->{ports}}) {
+            my $pc = $self->{port_configs}->{$port};
+            my @pd = $self->port_defines($pc);
+            push @ports_with_defines, $port if @pd;
+        }
 
-        push @defines, "#ifndef _DEFAULT_SOURCE";
-        push @defines, "#define _DEFAULT_SOURCE";
-        push @defines, "#endif";
+        if (@ports_with_defines > 1) {
+            # Multiple ports with defines — use #if/#else guards
+            my $guard_idx = 0;
 
-        push @defines, "#ifndef _BSD_SOURCE";
-        push @defines, "#define _BSD_SOURCE";
-        push @defines, "#endif";
+            foreach my $port (@{$self->{ports}}) {
+                my $pc = $self->{port_configs}->{$port};
+                my @port_defines = $self->port_defines($pc);
+                next unless @port_defines;
+
+                if ($pc->{fallback}) {
+                    push @defines, "";
+                    push @defines, "#else /* Port: $port */";
+                }
+                elsif ($guard_idx == 0) {
+                    push @defines, "";
+                    push @defines, "#if $pc->{condition} /* Port: $port */";
+                }
+                else {
+                    push @defines, "";
+                    push @defines, "#elif $pc->{condition} /* Port: $port */";
+                }
+
+                $guard_idx++;
+                push @defines, @port_defines;
+            }
+
+            push @defines, "";
+            push @defines, "#endif";
+        }
+        elsif (@ports_with_defines == 1) {
+            # Only one port has defines — emit without guards
+            my $port = $ports_with_defines[0];
+            my $pc = $self->{port_configs}->{$port};
+            push @defines, $self->port_defines($pc);
+        }
+    }
+    else {
+        # Single port
+        my $pc = $self->{port_configs}->{$self->{port}};
+        push @defines, $self->port_defines($pc);
     }
 
     return \@defines;
+}
+
+sub port_defines
+{
+    my ($self, $pc) = @_;
+    my @res;
+
+    # "define = NAME VALUE" -> #define NAME VALUE
+    if ($pc->{define}) {
+        foreach my $d (@{$pc->{define}}) {
+            push @res, "#define $d";
+        }
+    }
+
+    # "ifndef = NAME" -> #ifndef NAME / #define NAME / #endif
+    if ($pc->{ifndef}) {
+        foreach my $d (@{$pc->{ifndef}}) {
+            push @res, "#ifndef $d";
+            push @res, "#define $d";
+            push @res, "#endif";
+        }
+    }
+
+    return @res;
 }
 
 sub print_lexbor_version
