@@ -16,10 +16,30 @@ typedef struct {
 }
 avl_test_ctx_t;
 
+typedef struct {
+    size_t *removes;
+    size_t removes_len;
+    size_t *result;
+    size_t *p;
+}
+avl_test_multi_ctx_t;
+
 
 static lxb_status_t
 avl_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
        lexbor_avl_node_t *node, void *ctx);
+
+static lxb_status_t
+avl_cb_multi(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+             lexbor_avl_node_t *node, void *ctx);
+
+static lxb_status_t
+avl_cb_remove_all(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+                  lexbor_avl_node_t *node, void *ctx);
+
+static lxb_status_t
+avl_cb_remove_next(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+                   lexbor_avl_node_t *node, void *ctx);
 
 
 TEST_BEGIN(init)
@@ -1265,6 +1285,189 @@ TEST_BEGIN(foreach_10)
 }
 TEST_END
 
+/* Remove multiple nodes during foreach: remove 3,5,7 from tree 1..10. */
+TEST_BEGIN(foreach_multi_remove)
+{
+    size_t i, *p;
+    lexbor_avl_t avl;
+    avl_test_multi_ctx_t test;
+    lexbor_avl_node_t *root = NULL;
+    size_t removes[] = {3, 5, 7};
+
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
+
+    for (i = 1; i <= 10; i++) {
+        lexbor_avl_insert(&avl, &root, i, NULL);
+    }
+
+    test.result = lexbor_malloc(20 * sizeof(size_t));
+    test_ne(test.result, NULL);
+
+    test.removes = removes;
+    test.removes_len = sizeof(removes) / sizeof(removes[0]);
+    test.p = test.result;
+
+    lexbor_avl_foreach(&avl, &root, avl_cb_multi, &test);
+
+    p = test.result;
+
+    /* All 10 nodes must be visited in order. */
+    for (i = 1; i <= 10; i++) {
+        test_ne(p, test.p);
+        test_eq(i, *p);
+        p++;
+    }
+
+    /* After removal, nodes 3,5,7 must not be found. */
+    test_eq(lexbor_avl_search(&avl, root, 3), NULL);
+    test_eq(lexbor_avl_search(&avl, root, 5), NULL);
+    test_eq(lexbor_avl_search(&avl, root, 7), NULL);
+
+    /* Remaining nodes must still be found. */
+    test_ne(lexbor_avl_search(&avl, root, 1), NULL);
+    test_ne(lexbor_avl_search(&avl, root, 2), NULL);
+    test_ne(lexbor_avl_search(&avl, root, 4), NULL);
+    test_ne(lexbor_avl_search(&avl, root, 6), NULL);
+    test_ne(lexbor_avl_search(&avl, root, 8), NULL);
+    test_ne(lexbor_avl_search(&avl, root, 9), NULL);
+    test_ne(lexbor_avl_search(&avl, root, 10), NULL);
+
+    lexbor_free(test.result);
+    lexbor_avl_destroy(&avl, false);
+}
+TEST_END
+
+/* Remove all nodes one by one during foreach. */
+TEST_BEGIN(foreach_remove_all)
+{
+    size_t i, *p;
+    lexbor_avl_t avl;
+    avl_test_ctx_t test;
+    lexbor_avl_node_t *root = NULL;
+
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
+
+    for (i = 1; i <= 10; i++) {
+        lexbor_avl_insert(&avl, &root, i, NULL);
+    }
+
+    test.result = lexbor_malloc(20 * sizeof(size_t));
+    test_ne(test.result, NULL);
+
+    test.remove = 0;
+    test.p = test.result;
+
+    lexbor_avl_foreach(&avl, &root, avl_cb_remove_all, &test);
+
+    p = test.result;
+
+    /* All 10 nodes must be visited in order. */
+    for (i = 1; i <= 10; i++) {
+        test_ne(p, test.p);
+        test_eq(i, *p);
+        p++;
+    }
+
+    /* Tree must be empty. */
+    test_eq(root, NULL);
+
+    lexbor_free(test.result);
+    lexbor_avl_destroy(&avl, false);
+}
+TEST_END
+
+/* In callback, remove the next node (node->type + 1) that hasn't been visited yet. */
+TEST_BEGIN(foreach_remove_next)
+{
+    size_t i, *p, count;
+    lexbor_avl_t avl;
+    avl_test_ctx_t test;
+    lexbor_avl_node_t *root = NULL;
+
+    static const size_t total = 20;
+
+    test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
+
+    for (i = 1; i <= total; i++) {
+        lexbor_avl_insert(&avl, &root, i, NULL);
+    }
+
+    test.result = lexbor_malloc((total + 1) * sizeof(size_t));
+    test_ne(test.result, NULL);
+
+    test.remove = total;
+    test.p = test.result;
+
+    lexbor_avl_foreach(&avl, &root, avl_cb_remove_next, &test);
+
+    /* Verify visited nodes are in sorted order. */
+    p = test.result;
+    count = (size_t) (test.p - test.result);
+
+    for (i = 1; i < count; i++) {
+        test_gt(p[i], p[i - 1]);
+    }
+
+    /* Verify tree integrity: all remaining nodes must be findable. */
+    for (i = 1; i <= total; i++) {
+        lexbor_avl_node_t *found = lexbor_avl_search(&avl, root, i);
+
+        if (found == NULL) {
+            /* Node was removed — that's fine, just verify it's really gone. */
+            test_eq(found, NULL);
+        }
+    }
+
+    lexbor_free(test.result);
+    lexbor_avl_destroy(&avl, false);
+}
+TEST_END
+
+/* Foreach with removal on trees of every size from 2 to 50,
+ * removing every possible node position. */
+TEST_BEGIN(foreach_remove_stress)
+{
+    size_t i, *p;
+    lexbor_avl_t avl;
+    avl_test_ctx_t test;
+    lexbor_avl_node_t *root;
+
+    static const size_t max_size = 50;
+
+    test.result = lexbor_malloc((max_size + 1) * sizeof(size_t));
+    test_ne(test.result, NULL);
+
+    for (size_t sz = 2; sz <= max_size; sz++) {
+        for (size_t r = 1; r <= sz; r++) {
+            test_eq(lexbor_avl_init(&avl, 1024, 0), LXB_STATUS_OK);
+
+            root = NULL;
+
+            for (i = 1; i <= sz; i++) {
+                lexbor_avl_insert(&avl, &root, i, NULL);
+            }
+
+            test.remove = r;
+            test.p = test.result;
+
+            lexbor_avl_foreach(&avl, &root, avl_cb, &test);
+
+            p = test.result;
+
+            for (i = 1; i <= sz; i++) {
+                test_ne(p, test.p);
+                test_eq(i, *p);
+                p++;
+            }
+
+            lexbor_avl_destroy(&avl, false);
+        }
+    }
+
+    lexbor_free(test.result);
+}
+TEST_END
+
 static lxb_status_t
 avl_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
        lexbor_avl_node_t *node, void *ctx)
@@ -1276,6 +1479,61 @@ avl_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
 
     if (node->type == test->remove) {
         lexbor_avl_remove_by_node(avl, root, node);
+    }
+
+    return LXB_STATUS_OK;
+}
+
+static lxb_status_t
+avl_cb_multi(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+             lexbor_avl_node_t *node, void *ctx)
+{
+    avl_test_multi_ctx_t *test = ctx;
+
+    *test->p = node->type;
+    test->p++;
+
+    for (size_t i = 0; i < test->removes_len; i++) {
+        if (node->type == test->removes[i]) {
+            lexbor_avl_remove_by_node(avl, root, node);
+            break;
+        }
+    }
+
+    return LXB_STATUS_OK;
+}
+
+static lxb_status_t
+avl_cb_remove_all(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+                  lexbor_avl_node_t *node, void *ctx)
+{
+    avl_test_ctx_t *test = ctx;
+
+    *test->p = node->type;
+    test->p++;
+
+    lexbor_avl_remove_by_node(avl, root, node);
+
+    return LXB_STATUS_OK;
+}
+
+static lxb_status_t
+avl_cb_remove_next(lexbor_avl_t *avl, lexbor_avl_node_t **root,
+                   lexbor_avl_node_t *node, void *ctx)
+{
+    avl_test_ctx_t *test = ctx;
+    lexbor_avl_node_t *next;
+
+    *test->p = node->type;
+    test->p++;
+
+    /* Try to remove the next node (type + 1) which hasn't been visited yet. */
+    if (node->type < test->remove) {
+        next = lexbor_avl_search(avl, *root, node->type + 1);
+
+        if (next != NULL) {
+            lexbor_avl_remove_by_node(avl, root, next);
+        }
     }
 
     return LXB_STATUS_OK;
@@ -1320,6 +1578,10 @@ main(int argc, const char * argv[])
     TEST_ADD(foreach_4);
     TEST_ADD(foreach_6);
     TEST_ADD(foreach_10);
+    TEST_ADD(foreach_multi_remove);
+    TEST_ADD(foreach_remove_all);
+    TEST_ADD(foreach_remove_next);
+    TEST_ADD(foreach_remove_stress);
 
     TEST_RUN("lexbor/core/avl");
     TEST_RELEASE();

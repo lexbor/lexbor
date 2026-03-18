@@ -451,106 +451,63 @@ lexbor_avl_search(lexbor_avl_t *avl, lexbor_avl_node_t *node, size_t type)
     return NULL;
 }
 
+lxb_inline lexbor_avl_node_t *
+lexbor_avl_search_ge(lexbor_avl_node_t *root, size_t type)
+{
+    lexbor_avl_node_t *result = NULL;
+
+    while (root != NULL) {
+        if (type == root->type) {
+            return root;
+        }
+        else if (type < root->type) {
+            result = root;
+            root = root->left;
+        }
+        else {
+            root = root->right;
+        }
+    }
+
+    return result;
+}
+
 lxb_status_t
 lexbor_avl_foreach(lexbor_avl_t *avl, lexbor_avl_node_t **scope,
                    lexbor_avl_node_f cb, void *ctx)
 {
+    size_t next_type;
     lxb_status_t status;
-    int state = 0;
-    bool from_right = false;
-    lexbor_avl_node_t *node, *parent, *root;
+    lexbor_avl_node_t *node;
 
     if (scope == NULL || *scope == NULL) {
         return LXB_STATUS_ERROR_WRONG_ARGS;
     }
 
+    /* Find the leftmost (smallest) node. */
+
     node = *scope;
-    root = node;
 
     while (node->left != NULL) {
         node = node->left;
     }
 
-    do {
-        parent = node->parent;
+    while (node != NULL) {
+        next_type = node->type + 1;
 
-        if (!from_right) {
-            if (node == root) {
-                state = 2;
-            }
-            else {
-                state = parent->left == node;
-            }
-
-            status = cb(avl, scope, node, ctx);
-            if (status != LXB_STATUS_OK) {
-                return status;
-            }
-
-            if (state == 2) {
-                if (*scope != root) {
-                    root = *scope;
-
-                    if (root == NULL) {
-                        return LXB_STATUS_OK;
-                    }
-                    else if (avl->last_right == root) {
-                        node = root;
-                    }
-                    else {
-                        node = root;
-                        continue;
-                    }
-                }
-            }
-            else if (parent->left != node && parent->right != node) {
-                if (state) {
-                    if (parent->left != NULL && parent->left->right != NULL) {
-                        node = parent->left;
-                    }
-                    else {
-                        node = parent;
-                        continue;
-                    }
-                }
-                else {
-                    if (parent->right != NULL) {
-                        node = parent->right;
-
-                        if (node != avl->last_right) {
-                            continue;
-                        }
-                    }
-                    else {
-                        node = parent;
-                    }
-                }
-            }
+        status = cb(avl, scope, node, ctx);
+        if (status != LXB_STATUS_OK) {
+            return status;
         }
 
-        if (node->right != NULL && !from_right) {
-            node = node->right;
-
-            while (node->left != NULL) {
-                node = node->left;
-            }
-
-            continue;
-        }
-
-        if (parent == root->parent) {
+        if (*scope == NULL) {
             return LXB_STATUS_OK;
         }
-        else if (node == parent->left) {
-            from_right = false;
-        }
-        else {
-            from_right = true;
-        }
 
-        node = parent;
+        node = lexbor_avl_search_ge(*scope, next_type);
     }
-    while (true);
+
+    return LXB_STATUS_OK;
 }
 
 void
