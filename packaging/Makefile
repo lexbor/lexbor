@@ -2,7 +2,7 @@
 
 include ../version
 
-ARCH?=x86_64
+ARCH?=$(shell uname -m)
 RELEASE?=1
 VERSION?=$(LEXBOR_VERSION)
 

@@ -522,8 +522,6 @@ ENDMACRO()
 
 MACRO(CREATE_RPM_SPEC_FILE)
     set(modules_specs "")
-    set(req_modules "")
-    set(req_modules_devel "")
 
     FOREACH(module ${LEXBOR_MODULES})
         set(libname "${PROJECT_NAME}-${module}")
@@ -531,12 +529,6 @@ MACRO(CREATE_RPM_SPEC_FILE)
         MAKE_RPM_SPEC(${module} ${libname} module_spec)
 
         set(modules_specs "${modules_specs}${module_spec}\n")
-
-        GET_MODULE_VERSION(major minor patch version_string
-                        "${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${module})
-
-        set(req_modules "${req_modules}Requires: lib${libname} = %{epoch}:${version_string}-%{release}\n")
-        set(req_modules_devel "${req_modules_devel}Requires: lib${libname}-devel = %{epoch}:${version_string}-%{release}\n")
     ENDFOREACH()
 
     STRING(STRIP ${modules_specs} modules_specs)
@@ -549,20 +541,21 @@ MACRO(CREATE_RPM_SPEC_FILE)
     file(READ "${CMAKE_CURRENT_SOURCE_DIR}/packaging/rpm/liblexbor.spec.in"
         rpm_spec_in)
 
-    STRING(REGEX REPLACE "%%REQUIRES%%" "${req_modules}" rpm_spec_in ${rpm_spec_in})
-    STRING(REGEX REPLACE "%%REQUIRES_DEVEL%%" "${req_modules_devel}" rpm_spec_in ${rpm_spec_in})
     STRING(REGEX REPLACE "%%MODULES_SPECS%%" "${modules_specs}" rpm_spec_in ${rpm_spec_in})
     STRING(REGEX REPLACE "%%MODULES_NAMES%%" "${modules_names}" rpm_spec_in ${rpm_spec_in})
+
+    # Generate changelog entry from version
+    string(TIMESTAMP rpm_date "%a %b %d %Y")
+    set(rpm_changelog "* ${rpm_date} Alexander Borisov <borisov@lexbor.com> - ${LEXBOR_VERSION_STRING}-1\n- Release ${LEXBOR_VERSION_STRING}. See https://github.com/lexbor/lexbor/blob/master/CHANGELOG.md")
+    STRING(REGEX REPLACE "%%CHANGELOG%%" "${rpm_changelog}" rpm_spec_in ${rpm_spec_in})
 
     file(WRITE "${CMAKE_CURRENT_SOURCE_DIR}/packaging/rpm/liblexbor.spec"
         "${rpm_spec_in}")
 
     unset(modules_specs)
-    unset(req_modules)
-    unset(req_modules_devel)
 ENDMACRO()
 
-MACRO(CREATE_DEB_DIRS with_inc module libname arch debian_in_dir debian_dir)
+MACRO(CREATE_DEB_DIRS with_inc module libname soversion arch debian_in_dir debian_dir)
     file(READ "${debian_in_dir}/dirs" dirs)
     file(READ "${debian_in_dir}/dev.dirs" dev_dirs)
     file(READ "${debian_in_dir}/install" inst)
@@ -588,9 +581,9 @@ MACRO(CREATE_DEB_DIRS with_inc module libname arch debian_in_dir debian_dir)
         STRING(REGEX REPLACE "%%INCLUDES%%" "" dev_inst "${dev_inst}")
     ENDIF()
 
-    file(WRITE "${debian_dir}/lib${libname}.dirs" "${dirs}")
+    file(WRITE "${debian_dir}/lib${libname}${soversion}.dirs" "${dirs}")
     file(WRITE "${debian_dir}/lib${libname}-dev.dirs" "${dev_dirs}")
-    file(WRITE "${debian_dir}/lib${libname}.install" "${inst}")
+    file(WRITE "${debian_dir}/lib${libname}${soversion}.install" "${inst}")
     file(WRITE "${debian_dir}/lib${libname}-dev.install" "${dev_inst}")
 
     unset(dirs)
@@ -683,15 +676,11 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN_MAIN arch codename curdate)
 
     # changelog
     file(READ "${debian_in_dir}/changelog" data)
-    STRING(REGEX REPLACE "%%LIBNAME%%" "${PROJECT_NAME}" data "${data}")
     STRING(REGEX REPLACE "%%VERSION%%" "${LEXBOR_VERSION_STRING}" data "${data}")
     STRING(REGEX REPLACE "%%DISTRO%%" "${LEXBOR_MAKE_DISTRO_NUM}" data "${data}")
     STRING(REGEX REPLACE "%%CODENAME%%" "${codename}" data "${data}")
     STRING(REGEX REPLACE "%%DATE%%" "${curdate}" data "${data}")
     file(WRITE "${debian_dir}/changelog" "${data}")
-
-    # compat
-    file(COPY "${debian_in_dir}/compat" DESTINATION "${debian_dir}")
 
     # docs
     file(COPY "${debian_in_dir}/docs" DESTINATION "${debian_dir}")
@@ -704,6 +693,7 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN_MAIN arch codename curdate)
 
     # control
     file(READ "${debian_in_dir}/control" data)
+    STRING(REGEX REPLACE "%%SOVERSION%%" "${LEXBOR_VERSION_MAJOR}" data "${data}")
     STRING(REGEX REPLACE "%%VERSION_DISTRO%%" "${LEXBOR_VERSION_STRING}-${LEXBOR_MAKE_DISTRO_NUM}~${codename}" data "${data}")
 
     # control -- sort modules
@@ -718,8 +708,6 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN_MAIN arch codename curdate)
     ENDIF()
 
     # control -- replace and save
-    STRING(REGEX REPLACE "%%NAME%%" "${module}" data "${data}")
-    STRING(REGEX REPLACE "%%LIBNAME%%" "${PROJECT_NAME}" data "${data}")
     STRING(REGEX REPLACE "%%MODULES_NAMES%%" "${modules_names}" data ${data})
 
     file(WRITE "${debian_dir}/control" "${data}")
@@ -741,7 +729,7 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN_MAIN arch codename curdate)
     file(WRITE "${debian_dir}/copyright" "${data}")
 
     # dirs and install
-    CREATE_DEB_DIRS(TRUE "" ${PROJECT_NAME} "${arch}" "${debian_in_dir}" "${debian_dir}")
+    CREATE_DEB_DIRS(TRUE "" ${PROJECT_NAME} "${LEXBOR_VERSION_MAJOR}" "${arch}" "${debian_in_dir}" "${debian_dir}")
 ENDMACRO()
 
 MACRO(PACKAGE_DEB_CREATE_DEBIAN arch codename curdate)
@@ -775,9 +763,6 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN arch codename curdate)
         STRING(REGEX REPLACE "%%DATE%%" "${curdate}" data "${data}")
         file(WRITE "${debian_dir}/changelog" "${data}")
 
-        # compat
-        file(COPY "${debian_in_dir}/compat" DESTINATION "${debian_dir}")
-
         # docs
         file(COPY "${debian_in_dir}/docs" DESTINATION "${debian_dir}")
 
@@ -794,8 +779,7 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN arch codename curdate)
         set(version_distro "${version_string}-${LEXBOR_MAKE_DISTRO_NUM}~${codename}")
     
         set(requires "\${misc:Depends}, \${shlibs:Depends}")
-        set(requires_devel "\${misc:Depends}")
-        set(requires_devel "lib${libname} (= ${version_distro})")
+        set(requires_devel "\${misc:Depends}, lib${libname}${major} (= ${version_distro})")
 
         FOREACH(dep ${deps})
             IF("${dep}" STREQUAL "")
@@ -808,7 +792,7 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN arch codename curdate)
             set(dep_version_distro "${dep_version_string}-${LEXBOR_MAKE_DISTRO_NUM}~${codename}")
 
             set(dep_libname "${PROJECT_NAME}-${dep}")
-            LIST(APPEND requires "lib${dep_libname} (= ${dep_version_distro})")
+            LIST(APPEND requires "lib${dep_libname}${dep_major} (= ${dep_version_distro})")
             LIST(APPEND requires_devel "lib${dep_libname}-dev (= ${dep_version_distro})")
         ENDFOREACH()
 
@@ -832,6 +816,7 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN arch codename curdate)
         ENDIF()
 
         # control -- replace and save
+        STRING(REGEX REPLACE "%%SOVERSION%%" "${major}" data "${data}")
         STRING(REGEX REPLACE "%%NAME%%" "${module}" data "${data}")
         STRING(REGEX REPLACE "%%LIBNAME%%" "${libname}" data "${data}")
         STRING(REGEX REPLACE "%%DEPENDS%%" "${requires}" data ${data})
@@ -867,7 +852,7 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN arch codename curdate)
         file(WRITE "${debian_dir}/copyright" "${data}")
 
         # dirs and install
-        CREATE_DEB_DIRS(TRUE ${module} ${libname} "${arch}" "${debian_in_dir}"
+        CREATE_DEB_DIRS(TRUE ${module} ${libname} "${major}" "${arch}" "${debian_in_dir}"
                         "${debian_dir}")
     ENDFOREACH()
 

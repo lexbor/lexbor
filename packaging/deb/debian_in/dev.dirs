@@ -1,3 +1,2 @@
 usr/lib/%%ARCH%%
-usr/lib/%%ARCH%%/cmake/lexbor
 %%INCLUDES%%
