@@ -5,6 +5,10 @@
         "data": $DATA{ ,12}
             <svg><tr><td><title><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 21, "id": "Unexpected <tr> tag"},
+            {"line": 1, "col": 25, "id": "Unexpected EOF"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <svg:svg>
@@ -18,6 +22,11 @@
         "data": $DATA{ ,12}
             <svg><tr><td><title><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 1, "id": "Unexpected <svg> tag"},
+            {"line": 1, "col": 21, "id": "Unexpected <tr> tag"},
+            {"line": 1, "col": 25, "id": "Unexpected EOF"}
+        ],
         "fragment": {"tag": "tr", "ns": "html"},
         "result": $DATA{ ,12}
             <svg:svg>
@@ -31,6 +40,11 @@
         "data": $DATA{ ,12}
             <svg><thead><title><tbody>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 1, "id": "Unexpected <svg> tag"},
+            {"line": 1, "col": 20, "id": "Unexpected <tbody> tag"},
+            {"line": 1, "col": 27, "id": "Unexpected EOF"}
+        ],
         "fragment": {"tag": "thead", "ns": "html"},
         "result": $DATA{ ,12}
             <svg:svg>
@@ -43,6 +57,11 @@
         "data": $DATA{ ,12}
             <svg><tfoot><title><tbody>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 1, "id": "Unexpected <svg> tag"},
+            {"line": 1, "col": 20, "id": "Unexpected <tbody> tag"},
+            {"line": 1, "col": 27, "id": "Unexpected EOF"}
+        ],
         "fragment": {"tag": "tfoot", "ns": "html"},
         "result": $DATA{ ,12}
             <svg:svg>
@@ -55,6 +74,11 @@
         "data": $DATA{ ,12}
             <svg><tbody><title><tfoot>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 1, "id": "Unexpected <svg> tag"},
+            {"line": 1, "col": 20, "id": "Unexpected <tfoot> tag"},
+            {"line": 1, "col": 27, "id": "Unexpected EOF"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <svg:svg>
@@ -67,6 +91,11 @@
         "data": $DATA{ ,12}
             <svg><tbody><title></table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 1, "id": "Unexpected <svg> tag"},
+            {"line": 1, "col": 20, "id": "Unexpected </table> tag"},
+            {"line": 1, "col": 28, "id": "Unexpected EOF"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <svg:svg>
@@ -79,6 +108,11 @@
         "data": $DATA{ ,12}
             <svg><thead><title></table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 1, "id": "Unexpected <svg> tag"},
+            {"line": 1, "col": 20, "id": "Unexpected </table> tag"},
+            {"line": 1, "col": 28, "id": "Unexpected EOF"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <svg:svg>
@@ -91,6 +125,11 @@
         "data": $DATA{ ,12}
             <svg><tfoot><title></table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 1, "id": "Unexpected <svg> tag"},
+            {"line": 1, "col": 20, "id": "Unexpected </table> tag"},
+            {"line": 1, "col": 28, "id": "Unexpected EOF"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <svg:svg>

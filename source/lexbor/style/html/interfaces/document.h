@@ -15,22 +15,13 @@ extern "C" {
 
 
 LXB_API lxb_status_t
-lxb_html_document_style_cb(lxb_html_tree_t *tree, lxb_dom_node_t *node);
-
-LXB_API lxb_status_t
-lxb_html_document_script_cb(lxb_html_tree_t *tree, lxb_dom_node_t *node);
-
-LXB_API lxb_status_t
 lxb_html_document_done_cb(lxb_html_document_t *document);
 
+LXB_API void
+lxb_html_document_style_mutation_init(lxb_html_document_t *document);
 
-/*
- * Callbacks
- */
-static const lxb_html_document_parse_cb_t lxb_html_parse_cb = {
-    .script = lxb_html_document_script_cb,
-    .style = lxb_html_document_style_cb
-};
+LXB_API void
+lxb_html_document_style_mutation_erase(lxb_html_document_t *document);
 
 
 /*
@@ -39,9 +30,6 @@ static const lxb_html_document_parse_cb_t lxb_html_parse_cb = {
 lxb_inline lxb_status_t
 lxb_html_document_css_init(lxb_html_document_t *document, bool init_events)
 {
-    lxb_html_document_parse_cb_set(document, &lxb_html_parse_cb);
-    lxb_html_document_done_set(document, lxb_html_document_done_cb);
-
     return lxb_dom_document_css_init(lxb_dom_interface_document(document),
                                      init_events);
 }
@@ -55,8 +43,6 @@ lxb_html_document_css_clean(lxb_dom_document_t *document)
 lxb_inline void
 lxb_html_document_css_destroy(lxb_html_document_t *document)
 {
-    lxb_html_document_parse_cb_set(document, NULL);
-    lxb_html_document_done_set(document, NULL);
     lxb_dom_document_css_destroy(lxb_dom_interface_document(document));
 }
 

@@ -19,6 +19,9 @@
         "data": $DATA{ ,12}
             <!doctype html><table><title>X</title></table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 29, "id": "unexpected-start-tag-implies-table-voodoo"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -34,6 +37,9 @@
         "data": $DATA{ ,12}
             <!doctype html><head></head><title>X</title>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 35, "id": "unexpected-start-tag-out-of-my-head"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -48,6 +54,9 @@
         "data": $DATA{ ,12}
             <!doctype html></head><title>X</title>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 29, "id": "unexpected-start-tag-out-of-my-head"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -62,6 +71,9 @@
         "data": $DATA{ ,12}
             <!doctype html></head><base>X
         $DATA,
+        "errors": [
+            {"line": 1, "col": 28, "id": "unexpected-start-tag-out-of-my-head"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -76,6 +88,9 @@
         "data": $DATA{ ,12}
             <!doctype html></head><basefont>X
         $DATA,
+        "errors": [
+            {"line": 1, "col": 32, "id": "unexpected-start-tag-out-of-my-head"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -90,6 +105,9 @@
         "data": $DATA{ ,12}
             <!doctype html></head><bgsound>X
         $DATA,
+        "errors": [
+            {"line": 1, "col": 31, "id": "unexpected-start-tag-out-of-my-head"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -104,6 +122,9 @@
         "data": $DATA{ ,12}
             <!doctype html><table><meta></table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 28, "id": "unexpected-start-tag-implies-table-voodoo"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -118,6 +139,10 @@
         "data": $DATA{ ,12}
             <!doctype html><table>X<tr><td><table> <meta></table></table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "unexpected text in table"},
+            {"line": 1, "col": 45, "id": "unexpected-start-tag-implies-table-voodoo"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -242,6 +267,9 @@
         "data": $DATA{ ,12}
             <!doctype html><select><input>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "1:32: ERROR: Premature end of file. Currently open tags: html, body, select."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -257,6 +285,9 @@
         "data": $DATA{ ,12}
             <!doctype html><select><select>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "1:24: ERROR: Start tag 'select' isn't allowed here. Currently open tags: html, body, select."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -271,6 +302,9 @@
         "data": $DATA{ ,12}
             <!doctype html><table><input type=hidDEN></table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 41, "id": "unexpected-hidden-input-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -285,6 +319,10 @@
         "data": $DATA{ ,12}
             <!doctype html><table>X<input type=hidDEN></table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 23, "id": "foster-parenting-character"},
+            {"line": 1, "col": 42, "id": "unexpected-hidden-input-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -300,6 +338,9 @@
         "data": $DATA{ ,12}
             <!doctype html><table>  <input type=hidDEN></table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 43, "id": "unexpected-hidden-input-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -315,6 +356,9 @@
         "data": $DATA{ ,12}
             <!doctype html><table>  <input type='hidDEN'></table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 45, "id": "unexpected-hidden-input-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -330,6 +374,10 @@
         "data": $DATA{ ,12}
             <!doctype html><table><input type=" hidden"><input type=hidDEN></table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 44, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 63, "id": "unexpected-hidden-input-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -345,6 +393,11 @@
         "data": $DATA{ ,12}
             <!doctype html><table><select>X<tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 35, "id": "unexpected-table-element-start-tag-in-select-in-table"},
+            {"line": 1, "col": 35, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -400,6 +453,9 @@
         "data": $DATA{ ,12}
             <body>X</body></body>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 21, "id": "unexpected-end-tag-after-body"}
+        ],
         "fragment": {"tag": "html", "ns": "html"},
         "result": $DATA{ ,12}
             <head>
@@ -412,6 +468,11 @@
         "data": $DATA{ ,12}
             <div><p>a</x> b
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 13, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 15, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -426,6 +487,9 @@
         "data": $DATA{ ,12}
             <table><tr><td><code></code> </table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -443,6 +507,14 @@
         "data": $DATA{ ,12}
             <table><b><tr><td>aaa</td></tr>bbb</table>ccc
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 10, "id": "foster-parenting-start-tag"},
+            {"line": 1, "col": 32, "id": "foster-parenting-character"},
+            {"line": 1, "col": 33, "id": "foster-parenting-character"},
+            {"line": 1, "col": 34, "id": "foster-parenting-character"},
+            {"line": 1, "col": 45, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -464,6 +536,13 @@
         "data": $DATA{ ,12}
             A<table><tr> B</tr> B</table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 1, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 13, "id": "foster-parenting-character"},
+            {"line": 1, "col": 14, "id": "foster-parenting-character"},
+            {"line": 1, "col": 20, "id": "foster-parenting-character"},
+            {"line": 1, "col": 21, "id": "foster-parenting-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -479,6 +558,14 @@
         "data": $DATA{ ,12}
             A<table><tr> B</tr> </em>C</table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 1, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 13, "id": "foster-parenting-character"},
+            {"line": 1, "col": 14, "id": "foster-parenting-character"},
+            {"line": 1, "col": 25, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 25, "id": "unexpected-end-tag-in-special-element"},
+            {"line": 1, "col": 26, "id": "foster-parenting-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -495,6 +582,10 @@
         "data": $DATA{ ,12}
             <select><keygen>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "1:1: ERROR: Expected a doctype token"},
+            {"line": 0, "col": 0, "id": "1:17: ERROR: Premature end of file. Currently open tags: html, body, select."}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>

@@ -5,6 +5,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<address>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 39, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -39,6 +42,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<article>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 39, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -73,6 +79,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<aside>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 37, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -107,6 +116,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<blockquote>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 42, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -141,6 +153,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<center>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 38, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -175,6 +190,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<details>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 39, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -209,6 +227,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<dialog>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 38, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -243,6 +264,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<dir>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 35, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -277,6 +301,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<div>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 35, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -311,6 +338,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<dl>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 34, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -345,6 +375,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<fieldset>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 40, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -379,6 +412,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<figcaption>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 42, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -413,6 +449,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<figure>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 38, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -447,6 +486,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<footer>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 38, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -481,6 +523,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<header>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 38, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -515,6 +560,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<hgroup>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 38, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -549,6 +597,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<listing>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 39, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -583,6 +634,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<menu>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 36, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -617,6 +671,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<nav>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 35, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -651,6 +708,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<ol>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 34, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -685,6 +745,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<pre>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 35, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -719,6 +782,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<section>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 39, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -753,6 +819,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<summary>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 39, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -787,6 +856,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<ul>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 34, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>

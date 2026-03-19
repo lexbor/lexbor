@@ -5,6 +5,10 @@
         "data": $DATA{ ,12}
             <math><tr><td><mo><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 22, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 23, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <math:math>
@@ -18,6 +22,11 @@
         "data": $DATA{ ,12}
             <math><tr><td><mo><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "foster-parenting-start-tag"},
+            {"line": 1, "col": 22, "id": "expected-tr-in-table-scope"},
+            {"line": 1, "col": 23, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "tr", "ns": "html"},
         "result": $DATA{ ,12}
             <math:math>
@@ -31,6 +40,11 @@
         "data": $DATA{ ,12}
             <math><thead><mo><tbody>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "foster-parenting-start-tag"},
+            {"line": 1, "col": 24, "id": "expected-table-part-in-table-scope"},
+            {"line": 1, "col": 25, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "thead", "ns": "html"},
         "result": $DATA{ ,12}
             <math:math>
@@ -43,6 +57,11 @@
         "data": $DATA{ ,12}
             <math><tfoot><mo><tbody>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "foster-parenting-start-tag"},
+            {"line": 1, "col": 24, "id": "expected-table-part-in-table-scope"},
+            {"line": 1, "col": 25, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "tfoot", "ns": "html"},
         "result": $DATA{ ,12}
             <math:math>
@@ -55,6 +74,11 @@
         "data": $DATA{ ,12}
             <math><tbody><mo><tfoot>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "foster-parenting-start-tag"},
+            {"line": 1, "col": 24, "id": "expected-table-part-in-table-scope"},
+            {"line": 1, "col": 25, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <math:math>
@@ -67,6 +91,11 @@
         "data": $DATA{ ,12}
             <math><tbody><mo></table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "foster-parenting-start-tag"},
+            {"line": 1, "col": 25, "id": "unexpected-end-tag-in-math"},
+            {"line": 1, "col": 26, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <math:math>
@@ -79,6 +108,11 @@
         "data": $DATA{ ,12}
             <math><thead><mo></table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "foster-parenting-start-tag"},
+            {"line": 1, "col": 25, "id": "unexpected-end-tag-in-math"},
+            {"line": 1, "col": 26, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <math:math>
@@ -91,6 +125,11 @@
         "data": $DATA{ ,12}
             <math><tfoot><mo></table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "foster-parenting-start-tag"},
+            {"line": 1, "col": 25, "id": "unexpected-end-tag-in-math"},
+            {"line": 1, "col": 26, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <math:math>

@@ -61,17 +61,71 @@ lxb_html_style_element_remove(lxb_html_style_element_t *element)
 }
 
 lxb_status_t
-lxb_html_style_element_cb(lxb_html_style_element_t *element)
+lxb_html_style_element_pop_open_elements(lxb_dom_node_t *node)
 {
     lxb_status_t status;
-    lxb_dom_document_t *doc;
+    lxb_html_style_element_t *style;
+    lxb_html_document_t *document;
 
-    status = lxb_html_style_element_parse(element);
+    /* Only HTML namespaces. */
+
+    style = lxb_html_interface_style(node);
+    document = lxb_html_interface_document(node->owner_document);
+
+    status = lxb_html_style_element_parse(style);
     if (status != LXB_STATUS_OK) {
         return status;
     }
 
-    doc = lxb_dom_interface_node(element)->owner_document;
+    return lxb_html_document_stylesheet_add(document, style->stylesheet);
+}
 
-    return lxb_dom_document_stylesheet_add(doc, element->stylesheet);
+lxb_status_t
+lxb_html_style_element_insert_steps(lxb_dom_node_t *inserted_node)
+{
+    lxb_status_t status;
+    lxb_html_style_element_t *style;
+
+    if (inserted_node->ns == LXB_NS_HTML) {
+        style = lxb_html_interface_style(inserted_node);
+
+        status = lxb_html_style_element_parse(style);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+
+        if (style->stylesheet == NULL) {
+            return LXB_STATUS_OK;
+        }
+
+        status = lxb_dom_document_stylesheet_attach(inserted_node->owner_document,
+                                                    style->stylesheet);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+    }
+
+    return lxb_style_html_element_inserted_steps(inserted_node);
+}
+
+lxb_status_t
+lxb_html_style_element_remove_steps(lxb_dom_node_t *removed_node,
+                                    lxb_dom_node_t *old_parent)
+{
+    lxb_status_t status;
+
+    if (removed_node->ns == LXB_NS_HTML) {
+        status = lxb_html_style_element_remove(lxb_html_interface_style(removed_node));
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+    }
+
+    return lxb_style_html_element_removed_steps(removed_node, old_parent);
+}
+
+lxb_status_t
+lxb_html_style_element_destroy_steps(lxb_dom_node_t *node)
+{
+    return lxb_style_html_element_destroy_steps(node);
 }

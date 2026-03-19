@@ -5,6 +5,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><body><foo>A
         $DATA,
+        "errors": [
+            {"line": 1, "col": 27, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -89,6 +92,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><body><col>A
         $DATA,
+        "errors": [
+            {"line": 1, "col": 26, "id": "unexpected-start-tag-ignored"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -102,6 +108,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><body><command>A
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -130,6 +139,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><body><frame>A
         $DATA,
+        "errors": [
+            {"line": 1, "col": 28, "id": "unexpected-start-tag-ignored"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -199,6 +211,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><keygen>A</keygen>B
         $DATA,
+        "errors": [
+            {"line": 0, "col": 33, "id": "Stray end tag “keygen”."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -213,6 +228,10 @@
         "data": $DATA{ ,12}
             </keygen>A
         $DATA,
+        "errors": [
+            {"line": 0, "col": 9, "id": "End tag seen without seeing a doctype first. Expected “<!DOCTYPE html>”."},
+            {"line": 0, "col": 9, "id": "Stray end tag “keygen”."}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -225,6 +244,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html></keygen>A
         $DATA,
+        "errors": [
+            {"line": 0, "col": 24, "id": "Stray end tag “keygen”."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -238,6 +260,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><head></keygen>A
         $DATA,
+        "errors": [
+            {"line": 0, "col": 30, "id": "Stray end tag “keygen”."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -251,6 +276,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><head></head></keygen>A
         $DATA,
+        "errors": [
+            {"line": 0, "col": 30, "id": "Stray end tag “keygen”."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -264,6 +292,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><body></keygen>A
         $DATA,
+        "errors": [
+            {"line": 0, "col": 30, "id": "Stray end tag “keygen”."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>

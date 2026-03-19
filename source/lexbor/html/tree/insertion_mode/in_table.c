@@ -209,7 +209,11 @@ lxb_html_tree_insertion_mode_in_table_table(lxb_html_tree_t *tree,
         return true;
     }
 
-    lxb_html_tree_open_elements_pop_until_node(tree, node, true);
+    tree->status = lxb_html_tree_open_elements_pop_until_node(tree, node, true);
+    if (tree->status != LXB_STATUS_OK) {
+        return lxb_html_tree_process_abort(tree);
+    }
+
     lxb_html_tree_reset_insertion_mode_appropriately(tree);
 
     return false;
@@ -229,7 +233,11 @@ lxb_html_tree_insertion_mode_in_table_table_closed(lxb_html_tree_t *tree,
         return true;
     }
 
-    lxb_html_tree_open_elements_pop_until_node(tree, node, true);
+    tree->status = lxb_html_tree_open_elements_pop_until_node(tree, node, true);
+    if (tree->status != LXB_STATUS_OK) {
+        return lxb_html_tree_process_abort(tree);
+    }
+
     lxb_html_tree_reset_insertion_mode_appropriately(tree);
 
     return true;
@@ -294,9 +302,11 @@ have_hidden:
         return lxb_html_tree_process_abort(tree);
     }
 
-    lxb_html_tree_open_elements_pop_until_node(tree,
-                                               lxb_dom_interface_node(element),
-                                               true);
+    tree->status = lxb_html_tree_open_elements_pop_until_node(tree,
+                                        lxb_dom_interface_node(element), true);
+    if (tree->status != LXB_STATUS_OK) {
+        return lxb_html_tree_process_abort(tree);
+    }
 
     lxb_html_tree_acknowledge_token_self_closing(tree, token);
 
@@ -331,9 +341,12 @@ lxb_html_tree_insertion_mode_in_table_form(lxb_html_tree_t *tree,
 
     tree->form = lxb_html_interface_form(element);
 
-    lxb_html_tree_open_elements_pop_until_node(tree,
-                                               lxb_dom_interface_node(element),
-                                               true);
+    tree->status = lxb_html_tree_open_elements_pop_until_node(tree,
+                                        lxb_dom_interface_node(element), true);
+    if (tree->status != LXB_STATUS_OK) {
+        return lxb_html_tree_process_abort(tree);
+    }
+
     return true;
 }
 

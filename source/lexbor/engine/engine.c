@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2024-2025 Alexander Borisov
+ * Copyright (C) 2024-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -39,7 +39,7 @@ lxb_engine_init(lxb_engine_t *engine)
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
 
-    status = lxb_html_document_css_init(engine->document, true);
+    status = lxb_style_init(engine->document);
     if (status != LXB_STATUS_OK) {
         return status;
     }
@@ -57,7 +57,7 @@ lxb_engine_destroy(lxb_engine_t *engine)
     }
 
     if (engine->document != NULL) {
-        lxb_html_document_css_destroy(engine->document);
+        lxb_style_destroy(engine->document);
         engine->document = lxb_html_document_destroy(engine->document);
     }
 

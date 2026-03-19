@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2025 Alexander Borisov
+ * Copyright (C) 2018-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -16,6 +16,7 @@ extern "C" {
 
 #include "lexbor/dom/interface.h"
 #include "lexbor/dom/interfaces/node.h"
+#include "lexbor/dom/interfaces/element.h"
 
 
 typedef enum {
@@ -32,46 +33,67 @@ typedef enum {
 }
 lxb_dom_document_dtype_t;
 
+typedef uint32_t lxb_dom_document_opt_t;
+
+enum lxb_dom_document_opt {
+    LXB_DOM_DOCUMENT_OPT_UNDEF     = 0x00,
+    LXB_DOM_DOCUMENT_OPT_WO_EVENTS = 1 << 0
+};
+
 typedef struct lxb_dom_document_css lxb_dom_document_css_t;
 
+/* 4.2.3. Mutation algorithms. */
 typedef struct {
-    lxb_dom_node_cb_insert_f    insert;
-    lxb_dom_node_cb_remove_f    remove;
-    lxb_dom_node_cb_destroy_f   destroy;
-    lxb_dom_node_cb_set_value_f set_value;
+    lxb_dom_node_cb_insertion_f        inserted;
+    lxb_dom_node_cb_removing_f         removed;
+    lxb_dom_node_cb_moving_f           moved;
+    lxb_dom_node_cb_destroy_f          destroy;
+    lxb_dom_node_cb_children_changed_f children_changed;
+    lxb_dom_node_cb_post_connection_f  connected;
 }
-lxb_dom_document_node_cb_t;
+lxb_dom_document_mutation_cb_t;
+
+typedef struct {
+    lxb_dom_element_attr_change_f change;
+    lxb_dom_element_attr_change_f append;
+    lxb_dom_element_attr_change_f remove;
+    lxb_dom_element_attr_change_f replace;
+}
+lxb_dom_document_attr_mutation_cb_t;
 
 struct lxb_dom_document {
-    lxb_dom_node_t                    node;
+    lxb_dom_node_t                            node;
 
-    lxb_dom_document_cmode_t          compat_mode;
-    lxb_dom_document_dtype_t          type;
+    lxb_dom_document_cmode_t                  compat_mode;
+    lxb_dom_document_dtype_t                  type;
 
-    lxb_dom_document_type_t           *doctype;
-    lxb_dom_element_t                 *element;
+    lxb_dom_document_type_t                   *doctype;
+    lxb_dom_element_t                         *element;
 
-    lxb_dom_interface_create_f        create_interface;
-    lxb_dom_interface_clone_f         clone_interface;
-    lxb_dom_interface_destroy_f       destroy_interface;
+    lxb_dom_interface_create_f                create_interface;
+    lxb_dom_interface_clone_f                 clone_interface;
+    lxb_dom_interface_destroy_f               destroy_interface;
 
-    const lxb_dom_document_node_cb_t  *node_cb;
+    const lxb_dom_document_mutation_cb_t      *mutation;
+    const lxb_dom_document_attr_mutation_cb_t *attr_mutation;
 
-    lexbor_mraw_t                     *mraw;
-    lexbor_mraw_t                     *text;
-    lexbor_hash_t                     *tags;
-    lexbor_hash_t                     *attrs;
-    lexbor_hash_t                     *prefix;
-    lexbor_hash_t                     *ns;
-    void                              *parser;
-    void                              *user;
+    lexbor_mraw_t                             *mraw;
+    lexbor_mraw_t                             *text;
+    lexbor_hash_t                             *tags;
+    lexbor_hash_t                             *attrs;
+    lexbor_hash_t                             *prefix;
+    lexbor_hash_t                             *ns;
+    void                                      *parser;
+    void                                      *user;
 
-    lxb_dom_document_css_t            *css;
+    lxb_dom_document_css_t                    *css;
 
-    bool                              tags_inherited;
-    bool                              ns_inherited;
+    lxb_dom_document_opt_t                    options;
 
-    bool                              scripting;
+    bool                                      tags_inherited;
+    bool                                      ns_inherited;
+
+    bool                                      scripting;
 };
 
 
@@ -126,6 +148,12 @@ lxb_dom_document_clean(lxb_dom_document_t *document);
 
 LXB_API lxb_dom_document_t *
 lxb_dom_document_destroy(lxb_dom_document_t *document);
+
+LXB_API void
+lxb_dom_document_mutation_init(lxb_dom_document_t *document);
+
+LXB_API void
+lxb_dom_document_mutation_erase(lxb_dom_document_t *document);
 
 LXB_API void
 lxb_dom_document_attach_doctype(lxb_dom_document_t *document,
@@ -245,6 +273,19 @@ lxb_dom_document_is_original(lxb_dom_document_t *document)
     return lxb_dom_interface_node(document)->owner_document == document;
 }
 
+lxb_inline void
+lxb_dom_document_opt_set(lxb_dom_document_t *document,
+                         lxb_dom_document_opt_t opt)
+{
+    document->options = opt;
+}
+
+lxb_inline lxb_dom_document_opt_t
+lxb_dom_document_opt(lxb_dom_document_t *document)
+{
+    return document->options;
+}
+
 /*
  * No inline functions for ABI.
  */
@@ -279,6 +320,14 @@ lxb_dom_document_scripting_noi(lxb_dom_document_t *document);
 LXB_API void
 lxb_dom_document_scripting_set_noi(lxb_dom_document_t *document,
                                    bool scripting);
+
+LXB_API void
+lxb_dom_document_opt_set_noi(lxb_dom_document_t *document,
+                              lxb_dom_document_opt_t opt);
+
+LXB_API lxb_dom_document_opt_t
+lxb_dom_document_opt_noi(lxb_dom_document_t *document);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

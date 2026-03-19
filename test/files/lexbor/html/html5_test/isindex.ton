@@ -5,6 +5,10 @@
         "data": $DATA{ ,12}
             <isindex>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 9, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 9, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -17,6 +21,10 @@
         "data": $DATA{ ,12}
             <isindex name="A" action="B" prompt="C" foo="D">
         $DATA,
+        "errors": [
+            {"line": 1, "col": 48, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 48, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -29,6 +37,10 @@
         "data": $DATA{ ,12}
             <form><isindex>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 15, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>

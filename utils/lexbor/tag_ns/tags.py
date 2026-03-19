@@ -47,9 +47,12 @@ class Tags:
 
         enum = {}
         enum_list = []
-        
+
         ns_shs_list = []
         ns_shs_link_list = []
+
+        # modules defaults
+        self.modules = self.tags.get("modules", {})
 
         # namespace
         self.ns = self.tags["namespaces"]
@@ -436,11 +439,19 @@ class Tags:
 
     def enum_create(self):
         result = []
+        begin_inserted = False
 
         frmt_enum = LXB.FormatEnum("{}_id_enum_t".format(self.tag_prefix))
 
         for idx in range(0, len(self.enum_list)):
-            frmt_enum.append(self.enum_list[idx]["c_name"], "0x{0:04x}".format(idx))
+            c_name = self.enum_list[idx]["c_name"]
+
+            if not begin_inserted and not c_name.startswith("LXB_TAG__"):
+                frmt_enum.append(None, "    /* Intentionally has the same value as the first tag below. Marks the beginning of real tags. */")
+                frmt_enum.append("LXB_TAG__BEGIN", "0x{0:04x}".format(idx))
+                begin_inserted = True
+
+            frmt_enum.append(c_name, "0x{0:04x}".format(idx))
 
         frmt_enum.append(self.tag_last_entry_name, "0x{0:04x}".format(idx + 1))
 
@@ -557,6 +568,223 @@ class Tags:
     def shs_stat(self, shs):
        return "Max deep {}; Used {} of {}".format(shs.max, shs.used, shs.table_size)
 
+    def _get_steps_for_tag(self, tag_name, module="html"):
+        data = self.tags["data"]
+
+        html_steps = None
+        module_steps = None
+
+        for ns in ["HTML", "#UNDEF", "#ANY"]:
+            if ns in data and tag_name in data[ns]:
+                tag_data = data[ns][tag_name]
+
+                if "html" in tag_data and "steps" in tag_data["html"]:
+                    html_steps = tag_data["html"]["steps"]
+
+                if module != "html" and module in tag_data and "steps" in tag_data[module]:
+                    module_steps = tag_data[module]["steps"]
+
+                break
+
+        if module == "html":
+            return html_steps
+
+        # Layer 1: module defaults
+        module_defaults = None
+        if module in self.modules and "steps" in self.modules[module]:
+            module_defaults = self.modules[module]["steps"]
+
+        if module_defaults is None and html_steps is None and module_steps is None:
+            return None
+
+        # Inherit: module defaults -> html per-tag -> module per-tag
+        result = {}
+
+        if module_defaults is not None:
+            result.update(module_defaults)
+
+        if html_steps is not None:
+            result.update(html_steps)
+
+        if module_steps is not None:
+            result.update(module_steps)
+
+        return result if len(result) > 0 else None
+
+    def _get_attr_steps_for_tag(self, tag_name, module="html"):
+        data = self.tags["data"]
+
+        html_attr_steps = None
+        module_attr_steps = None
+
+        for ns in ["HTML", "#UNDEF", "#ANY"]:
+            if ns in data and tag_name in data[ns]:
+                tag_data = data[ns][tag_name]
+
+                if "html" in tag_data and "attr_steps" in tag_data["html"]:
+                    html_attr_steps = tag_data["html"]["attr_steps"]
+
+                if module != "html" and module in tag_data and "attr_steps" in tag_data[module]:
+                    module_attr_steps = tag_data[module]["attr_steps"]
+
+                break
+
+        if module == "html":
+            return html_attr_steps
+
+        # Layer 1: module defaults
+        module_defaults = None
+        if module in self.modules and "attr_steps" in self.modules[module]:
+            module_defaults = self.modules[module]["attr_steps"]
+
+        if module_defaults is None and html_attr_steps is None and module_attr_steps is None:
+            return None
+
+        # Inherit: module defaults -> html per-tag -> module per-tag
+        result = {}
+
+        if module_defaults is not None:
+            result.update(module_defaults)
+
+        if html_attr_steps is not None:
+            result.update(html_attr_steps)
+
+        if module_attr_steps is not None:
+            result.update(module_attr_steps)
+
+        return result if len(result) > 0 else None
+
+    def element_steps_create(self, module="html"):
+        res_name = "lxb_{}_element_steps_res_default".format(module)
+
+        steps = LXB.Res("lxb_dom_document_mutation_cb_t",
+                         res_name, False, self.tag_last_entry_name)
+
+        for entry in self.enum_list:
+            tag_name = entry["name"]
+            step_data = self._get_steps_for_tag(tag_name, module)
+
+            steps.append("/* {} */".format(entry["c_name"]), True)
+
+            if step_data is None:
+                steps.append("{.inserted = NULL, .removed = NULL, .moved = NULL, "
+                              ".destroy = NULL, .children_changed = NULL, .connected = NULL}")
+            else:
+                insert_fn = step_data.get("inserted", "NULL")
+                remove_fn = step_data.get("removed", "NULL")
+                move_fn = step_data.get("moved", "NULL")
+                destroy_fn = step_data.get("destroy", "NULL")
+                children_changed_fn = step_data.get("children_changed", "NULL")
+                connected_fn = step_data.get("connected", "NULL")
+
+                steps.append("{{.inserted = {}, .removed = {}, .moved = {}, "
+                             ".destroy = {}, .children_changed = {}, .connected = {}}}".format(
+                                insert_fn, remove_fn, move_fn, destroy_fn, children_changed_fn, connected_fn
+                            ))
+
+        return steps.create(1, True)
+
+    def attribute_steps_create(self, module="html"):
+        res_name = "lxb_{}_attribute_steps_res_default".format(module)
+
+        res = LXB.Res("lxb_dom_document_attr_mutation_cb_t",
+                       res_name, False, self.tag_last_entry_name)
+
+        for entry in self.enum_list:
+            tag_name = entry["name"]
+            step_data = self._get_attr_steps_for_tag(tag_name, module)
+
+            res.append("/* {} */".format(entry["c_name"]), True)
+
+            if step_data is None:
+                res.append("{.change = NULL, .append = NULL, .remove = NULL, .replace = NULL}")
+            else:
+                change_fn = step_data.get("change", "NULL")
+                append_fn = step_data.get("append", "NULL")
+                remove_fn = step_data.get("remove", "NULL")
+                replace_fn = step_data.get("replace", "NULL")
+
+                res.append("{{.change = {}, .append = {}, .remove = {}, .replace = {}}}".format(
+                    change_fn, append_fn, remove_fn, replace_fn
+                ))
+
+        return res.create(1, True)
+
+    def open_elements_pop_create(self, module="html"):
+        res_name = "lxb_{}_tree_open_elements_pop_res".format(module)
+
+        res = LXB.Res("lxb_html_document_open_elements_pop_f",
+                       res_name, False, self.tag_last_entry_name)
+
+        for entry in self.enum_list:
+            tag_name = entry["name"]
+            step_data = self._get_steps_for_tag(tag_name, module)
+
+            res.append("/* {} */".format(entry["c_name"]), True)
+
+            if step_data is None or "pop" not in step_data:
+                res.append("NULL")
+            else:
+                res.append(step_data["pop"])
+
+        return res.create(1, True)
+
+    def element_steps_create_and_save(self, module="html", temp_file="", save_to=""):
+        now = datetime.datetime.now()
+
+        element_steps = self.element_steps_create(module)
+        header_guard = "LXB_{}_ELEMENT_STEPS_RES_H".format(module.upper())
+
+        lxb_temp = LXB.Temp(temp_file, save_to)
+
+        lxb_temp.pattern_append("%%YEAR%%", str(now.year))
+        lxb_temp.pattern_append("%%CHECK_TAG_VERSION%%", self.enum_hash_ifdef())
+        lxb_temp.pattern_append("%%HEADER_GUARD%%", header_guard)
+        lxb_temp.pattern_append("%%ELEMENT_STEPS%%", ''.join(element_steps))
+
+        lxb_temp.build()
+        lxb_temp.save()
+
+        print("Save to {}".format(save_to))
+        print("Done")
+
+    def attribute_steps_create_and_save(self, module="html", temp_file="", save_to=""):
+        now = datetime.datetime.now()
+
+        attribute_steps = self.attribute_steps_create(module)
+        header_guard = "LXB_{}_ATTRIBUTE_STEPS_RES_H".format(module.upper())
+
+        lxb_temp = LXB.Temp(temp_file, save_to)
+
+        lxb_temp.pattern_append("%%YEAR%%", str(now.year))
+        lxb_temp.pattern_append("%%CHECK_TAG_VERSION%%", self.enum_hash_ifdef())
+        lxb_temp.pattern_append("%%HEADER_GUARD%%", header_guard)
+        lxb_temp.pattern_append("%%ATTRIBUTE_STEPS%%", ''.join(attribute_steps))
+
+        lxb_temp.build()
+        lxb_temp.save()
+
+        print("Save to {}".format(save_to))
+        print("Done")
+
+    def open_elements_pop_create_and_save(self, module="html", temp_file="", save_to=""):
+        now = datetime.datetime.now()
+        data = self.open_elements_pop_create(module)
+        header_guard = "LXB_{}_OPEN_ELEMENTS_RES_H".format(module.upper())
+
+        lxb_temp = LXB.Temp(temp_file, save_to)
+
+        lxb_temp.pattern_append("%%YEAR%%", str(now.year))
+        lxb_temp.pattern_append("%%CHECK_TAG_VERSION%%", self.enum_hash_ifdef())
+        lxb_temp.pattern_append("%%HEADER_GUARD%%", header_guard)
+        lxb_temp.pattern_append("%%OPEN_ELEMENTS_POP%%", ''.join(data))
+
+        lxb_temp.build()
+        lxb_temp.save()
+
+        print("Save to {}".format(save_to))
+        print("Done")
+
 if __name__ == "__main__":
     tags = Tags("data/tags.json", "data/interfaces.json")
 
@@ -567,5 +795,14 @@ if __name__ == "__main__":
     tags.shs_create_and_save_default("lxb_tag_res_shs_data_default", "tmp/tag_res.h", "../../../source/lexbor/tag/res.h")
     tags.shs_create_and_save_html("tmp/html_tag_res.h", "../../../source/lexbor/html/tag_res.h",
                                   "tmp/html_interface_res.h", "../../../source/lexbor/html/interface_res.h")
+
+    tags.element_steps_create_and_save("html", "tmp/html_element_steps_res.h", "../../../source/lexbor/html/element_steps_res.h")
+    tags.attribute_steps_create_and_save("html", "tmp/html_attribute_steps_res.h", "../../../source/lexbor/html/attribute_steps_res.h")
+    tags.element_steps_create_and_save("style", "tmp/html_element_steps_res.h", "../../../source/lexbor/style/element_steps_res.h")
+    tags.attribute_steps_create_and_save("style", "tmp/html_attribute_steps_res.h", "../../../source/lexbor/style/attribute_steps_res.h")
+
+    tags.open_elements_pop_create_and_save("html", "tmp/open_elements_res.h", "../../../source/lexbor/html/tree/open_elements_res.h")
+    tags.open_elements_pop_create_and_save("style", "tmp/open_elements_res.h", "../../../source/lexbor/style/tree/open_elements_res.h")
+
     tags.ns_test_create_and_save("tmp/test/ns_res.c", "../../../test/lexbor/ns/res.c")
     tags.tag_test_create_and_save("tmp/test/tag_res.c", "../../../test/lexbor/tag/res.c")

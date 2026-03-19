@@ -5,6 +5,10 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><button>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 34, "id": "unexpected-start-tag-implies-end-tag"},
+            {"line": 1, "col": 34, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -20,6 +24,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><address>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 35, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -35,6 +42,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><article>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 36, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -50,6 +60,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><aside>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 34, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -65,6 +78,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><blockquote>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 38, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -80,6 +96,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><center>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 35, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -95,6 +114,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><details>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 36, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -110,6 +132,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><dialog>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 35, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -125,6 +150,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><dir>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 32, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -140,6 +168,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 32, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -155,6 +186,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><dl>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 31, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -170,6 +204,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><fieldset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 37, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -185,6 +222,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><figcaption>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 39, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -200,6 +240,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><figure>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 35, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -215,6 +258,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><footer>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 35, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -230,6 +276,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><header>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 35, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -245,6 +294,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><hgroup>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 35, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -260,6 +312,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><main>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 33, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -275,6 +330,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><menu>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 32, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -290,6 +348,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><nav>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 32, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -305,6 +366,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><ol>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 31, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -320,6 +384,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><p>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 29, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -335,6 +402,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><search>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 35, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -350,6 +420,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><section>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 36, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -365,6 +438,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><summary>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 36, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -380,6 +456,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><ul>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -395,6 +474,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><h1>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -410,6 +492,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><h6>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -425,6 +510,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><listing>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 35, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -440,6 +528,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><pre>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 31, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -455,6 +546,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><form>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 32, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -470,6 +564,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><li>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -485,6 +582,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><dd>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -500,6 +600,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><dt>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -515,6 +618,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><plaintext>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 37, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -530,6 +636,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 33, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -545,6 +654,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><hr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -560,6 +672,10 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button><xmp>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 31, "id": "expected-named-closing-tag-but-got-eof"},
+            {"line": 1, "col": 31, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -575,6 +691,10 @@
         "data": $DATA{ ,12}
             <!doctype html><p><button></p>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 30, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -605,6 +725,9 @@
         "data": $DATA{ ,12}
             <!doctype html><address><button></address>a
         $DATA,
+        "errors": [
+            {"line": 1, "col": 42, "id": "end-tag-too-early"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -620,6 +743,12 @@
         "data": $DATA{ ,12}
             <p><table></p>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 14, "id": "unexpected-end-tag-implies-table-voodoo"},
+            {"line": 1, "col": 14, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 14, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -634,6 +763,9 @@
         "data": $DATA{ ,12}
             <!doctype html><svg>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 20, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -647,6 +779,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><figcaption>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -661,6 +796,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p><summary>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 27, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -675,6 +813,10 @@
         "data": $DATA{ ,12}
             <!doctype html><form><table><form>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 34, "id": "unexpected-form-in-table"},
+            {"line": 1, "col": 34, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -689,6 +831,11 @@
         "data": $DATA{ ,12}
             <!doctype html><table><form><form>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 28, "id": "unexpected-form-in-table"},
+            {"line": 1, "col": 34, "id": "unexpected-form-in-table"},
+            {"line": 1, "col": 34, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -703,6 +850,10 @@
         "data": $DATA{ ,12}
             <!doctype html><table><form></table><form>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 28, "id": "unexpected-form-in-table"},
+            {"line": 1, "col": 42, "id": "unexpected-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -717,6 +868,9 @@
         "data": $DATA{ ,12}
             <!doctype html><svg><foreignObject><p>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 38, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -732,6 +886,9 @@
         "data": $DATA{ ,12}
             <!doctype html><svg><title>abc
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -747,6 +904,10 @@
         "data": $DATA{ ,12}
             <option><span><option>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 8, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 22, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -761,6 +922,9 @@
         "data": $DATA{ ,12}
             <option><option>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 8, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -774,6 +938,11 @@
         "data": $DATA{ ,12}
             <math><annotation-xml><div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 27, "id": "unexpected-html-element-in-foreign-content"},
+            {"line": 1, "col": 27, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -788,6 +957,11 @@
         "data": $DATA{ ,12}
             <math><annotation-xml encoding="application/svg+xml"><div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 58, "id": "unexpected-html-element-in-foreign-content"},
+            {"line": 1, "col": 58, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -802,6 +976,10 @@
         "data": $DATA{ ,12}
             <math><annotation-xml encoding="application/xhtml+xml"><div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 60, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -816,6 +994,10 @@
         "data": $DATA{ ,12}
             <math><annotation-xml encoding="aPPlication/xhtmL+xMl"><div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 60, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -830,6 +1012,10 @@
         "data": $DATA{ ,12}
             <math><annotation-xml encoding="text/html"><div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 48, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -844,6 +1030,10 @@
         "data": $DATA{ ,12}
             <math><annotation-xml encoding="Text/htmL"><div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 48, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -858,6 +1048,11 @@
         "data": $DATA{ ,12}
             <math><annotation-xml encoding=" text/html "><div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 50, "id": "unexpected-html-element-in-foreign-content"},
+            {"line": 1, "col": 50, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -872,6 +1067,10 @@
         "data": $DATA{ ,12}
             <math><annotation-xml> </annotation-xml>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 40, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -886,6 +1085,10 @@
         "data": $DATA{ ,12}
             <math><annotation-xml>c</annotation-xml>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 40, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -900,6 +1103,10 @@
         "data": $DATA{ ,12}
             <math><annotation-xml><!--foo-->
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 32, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -914,6 +1121,12 @@
         "data": $DATA{ ,12}
             <math><annotation-xml></svg>x
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 28, "id": "unexpected-end-tag-in-math"},
+            {"line": 1, "col": 28, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 29, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -928,6 +1141,10 @@
         "data": $DATA{ ,12}
             <math><annotation-xml><svg>x
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 28, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>

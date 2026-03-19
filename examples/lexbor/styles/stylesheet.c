@@ -49,7 +49,7 @@ main(int argc, const char *argv[])
 
     /* Init CSS. */
 
-    status = lxb_html_document_css_init(doc, true);
+    status = lxb_style_init(doc);
     if (status != LXB_STATUS_OK) {
         FAILED("Failed to CSS initialization");
     }
@@ -134,7 +134,7 @@ main(int argc, const char *argv[])
     (void) lxb_dom_collection_destroy(&collection, false);
     (void) lxb_css_stylesheet_destroy(sst, true);
     (void) lxb_css_parser_destroy(parser, true);
-    (void) lxb_html_document_css_destroy(doc);
+    (void) lxb_style_destroy(doc);
     (void) lxb_html_document_destroy(doc);
 
     return EXIT_SUCCESS;

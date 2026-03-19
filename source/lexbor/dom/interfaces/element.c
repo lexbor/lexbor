@@ -6,6 +6,7 @@
 
 #include "lexbor/dom/interfaces/element.h"
 #include "lexbor/dom/interfaces/attr.h"
+#include "lexbor/dom/interfaces/document.h"
 #include "lexbor/tag/tag.h"
 #include "lexbor/ns/ns.h"
 
@@ -289,7 +290,10 @@ lxb_dom_element_set_attribute(lxb_dom_element_t *element,
         return lxb_dom_attr_interface_destroy(attr);
     }
 
-    lxb_dom_element_attr_append(element, attr);
+    status = lxb_dom_element_attr_append(element, attr);
+    if (status != LXB_STATUS_OK) {
+        return lxb_dom_attr_interface_destroy(attr);
+    }
 
     return attr;
 }
@@ -345,6 +349,8 @@ lxb_dom_element_has_attribute(lxb_dom_element_t *element,
 lxb_status_t
 lxb_dom_element_attr_append(lxb_dom_element_t *element, lxb_dom_attr_t *attr)
 {
+    size_t value_len;
+    const lxb_char_t *value;
     lxb_dom_attr_t *exist;
     lxb_dom_document_t *doc = lxb_dom_interface_node(element)->owner_document;
 
@@ -385,8 +391,20 @@ done:
 
     attr->owner = element;
 
-    if (doc->node_cb->insert != NULL) {
-        doc->node_cb->insert(lxb_dom_interface_node(attr));
+    if (!(lxb_dom_document_opt(doc) & LXB_DOM_DOCUMENT_OPT_WO_EVENTS)
+        && doc->attr_mutation->append != NULL)
+    {
+        value = NULL;
+        value_len = 0;
+
+        if (attr->value != NULL && attr->value->data != NULL) {
+            value = attr->value->data;
+            value_len = attr->value->length;
+        }
+
+        return doc->attr_mutation->append(element, attr->node.local_name,
+                                          NULL, 0, value, value_len,
+                                          LXB_NS__UNDEF);
     }
 
     return LXB_STATUS_OK;

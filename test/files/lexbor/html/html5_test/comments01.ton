@@ -5,6 +5,9 @@
         "data": $DATA{ ,12}
             FOO<!-- BAR -->BAZ
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -19,6 +22,11 @@
         "data": $DATA{ ,12}
             FOO<!-- BAR --!>BAZ
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 15, "id": "unexpected-bang-after-double-dash-in-comment"},
+            {"line": 1, "col": 16, "id": "incorrectly-closed-comment"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -33,6 +41,11 @@
         "data": $DATA{ ,12}
             FOO<!-- BAR --! >BAZ
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 21, "id": "eof-in-comment"},
+            {"line": 1, "col": 21, "id": "eof-in-comment"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -47,6 +60,11 @@
             FOO<!-- BAR --!
             >BAZ
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 2, "col": 5, "id": "eof-in-comment"},
+            {"line": 2, "col": 5, "id": "eof-in-comment"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -61,6 +79,11 @@
         "data": $DATA{ ,12}
             FOO<!-- BAR --   >BAZ
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 21, "id": "eof-in-comment"},
+            {"line": 1, "col": 22, "id": "eof-in-comment"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -74,6 +97,9 @@
         "data": $DATA{ ,12}
             FOO<!-- BAR -- <QUX> -- MUX -->BAZ
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -88,6 +114,11 @@
         "data": $DATA{ ,12}
             FOO<!-- BAR -- <QUX> -- MUX --!>BAZ
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 31, "id": "unexpected-bang-after-double-dash-in-comment"},
+            {"line": 1, "col": 32, "id": "incorrectly-closed-comment"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -102,6 +133,11 @@
         "data": $DATA{ ,12}
             FOO<!-- BAR -- <QUX> -- MUX -- >BAZ
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 35, "id": "eof-in-comment"},
+            {"line": 1, "col": 36, "id": "eof-in-comment"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -115,6 +151,9 @@
         "data": $DATA{ ,12}
             FOO<!---->BAZ
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -129,6 +168,11 @@
         "data": $DATA{ ,12}
             FOO<!--->BAZ
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 9, "id": "incorrect-comment"},
+            {"line": 1, "col": 9, "id": "abrupt-closing-of-empty-comment"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -143,6 +187,11 @@
         "data": $DATA{ ,12}
             FOO<!-->BAZ
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 8, "id": "incorrect-comment"},
+            {"line": 1, "col": 8, "id": "abrupt-closing-of-empty-comment"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -157,6 +206,11 @@
         "data": $DATA{ ,12}
             <?xml version="1.0">Hi
         $DATA,
+        "errors": [
+            {"line": 1, "col": 1, "id": "expected-tag-name-but-got-question-mark"},
+            {"line": 1, "col": 22, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 2, "id": "unexpected-question-mark-instead-of-tag-name"}
+        ],
         "result": $DATA{ ,12}
             <!-- ?xml version="1.0" -->
             <html>
@@ -170,6 +224,11 @@
         "data": $DATA{ ,12}
             <?xml version="1.0">
         $DATA,
+        "errors": [
+            {"line": 1, "col": 1, "id": "expected-tag-name-but-got-question-mark"},
+            {"line": 1, "col": 20, "id": "expected-doctype-but-got-eof"},
+            {"line": 1, "col": 2, "id": "unexpected-question-mark-instead-of-tag-name"}
+        ],
         "result": $DATA{ ,12}
             <!-- ?xml version="1.0" -->
             <html>
@@ -182,6 +241,11 @@
         "data": $DATA{ ,12}
             <?xml version
         $DATA,
+        "errors": [
+            {"line": 1, "col": 1, "id": "expected-tag-name-but-got-question-mark"},
+            {"line": 1, "col": 13, "id": "expected-doctype-but-got-eof"},
+            {"line": 1, "col": 2, "id": "unexpected-question-mark-instead-of-tag-name"}
+        ],
         "result": $DATA{ ,12}
             <!-- ?xml version -->
             <html>
@@ -194,6 +258,9 @@
         "data": $DATA{ ,12}
             FOO<!----->BAZ
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -208,6 +275,9 @@
         "data": $DATA{ ,12}
             <html><!-- comment --><title>Comment before head</title>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <!--  comment  -->

@@ -14,7 +14,7 @@ extern "C" {
 #include "lexbor/core/str.h"
 #include "lexbor/core/avl.h"
 
-#include "lexbor/dom/interfaces/document.h"
+
 #include "lexbor/dom/interfaces/node.h"
 #include "lexbor/dom/collection.h"
 #include "lexbor/dom/interfaces/attr.h"
@@ -29,6 +29,29 @@ typedef enum {
     LXB_DOM_ELEMENT_CUSTOM_STATE_CUSTOM         = 0x03
 }
 lxb_dom_element_custom_state_t;
+
+/*
+ * Element condition flags for lazy style cleanup.
+ *
+ * DIRTY_STYLE: set on an element (and all its descendants) when it is removed
+ * from the DOM tree. Instead of immediately walking the style AVL tree and
+ * freeing every stylesheet-originated declaration, we just mark the element
+ * dirty and defer cleanup. When styles are later accessed or a new stylesheet
+ * is applied, the dirty flag tells the code to discard stale stylesheet entries
+ * lazily, keeping only inline style="..." declarations (sp_s == 1).
+ */
+typedef enum {
+    LXB_DOM_ELEMENT_CONDITION_OK          = 0x00,
+    LXB_DOM_ELEMENT_CONDITION_DIRTY_STYLE = 1 << 0
+}
+lxb_dom_element_condition_t;
+
+typedef lxb_status_t
+(*lxb_dom_element_attr_change_f)(lxb_dom_element_t *element,
+                                 lxb_dom_attr_id_t local_name,
+                                 const lxb_char_t *old_value, size_t old_len,
+                                 const lxb_char_t *value, size_t value_len,
+                                 lxb_ns_id_t ns);
 
 struct lxb_dom_element {
     lxb_dom_node_t                 node;
@@ -52,6 +75,7 @@ struct lxb_dom_element {
     lexbor_avl_node_t              *style;
     void                           *list;  /* lxb_css_rule_declaration_list_t */
 
+    lxb_dom_element_condition_t    condition;
     lxb_dom_element_custom_state_t custom_state;
 };
 

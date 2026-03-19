@@ -27,12 +27,6 @@ lxb_html_style_element_interface_create(lxb_html_document_t *document);
 LXB_API lxb_html_style_element_t *
 lxb_html_style_element_interface_destroy(lxb_html_style_element_t *style_element);
 
-LXB_API lxb_status_t
-lxb_html_style_element_parse(lxb_html_style_element_t *element);
-
-LXB_API lxb_status_t
-lxb_html_element_style_remove(lxb_html_style_element_t *style);
-
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -5,6 +5,10 @@
         "data": $DATA{ ,12}
             <plaintext></plaintext>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 11, "id": "Start tag seen without seeing a doctype first. Expected “<!DOCTYPE html>”."},
+            {"line": 0, "col": 23, "id": "End of file seen and there were open elements."}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -18,6 +22,9 @@
         "data": $DATA{ ,12}
             <!doctype html><plaintext></plaintext>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 38, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -32,6 +39,9 @@
         "data": $DATA{ ,12}
             <!doctype html><html><plaintext></plaintext>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 44, "id": "End of file seen and there were open elements."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -46,6 +56,9 @@
         "data": $DATA{ ,12}
             <!doctype html><head><plaintext></plaintext>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 44, "id": "End of file seen and there were open elements."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -60,6 +73,10 @@
         "data": $DATA{ ,12}
             <!doctype html><html><noscript><plaintext></plaintext>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 42, "id": "Bad start tag in “plaintext” in “head”."},
+            {"line": 0, "col": 54, "id": "End of file seen and there were open elements."}
+        ],
         "scripting": false,
         "result": $DATA{ ,12}
             <!DOCTYPE html>
@@ -76,6 +93,9 @@
         "data": $DATA{ ,12}
             <!doctype html></head><plaintext></plaintext>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 45, "id": "End of file seen and there were open elements."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -90,6 +110,9 @@
         "data": $DATA{ ,12}
             <!doctype html><body><plaintext></plaintext>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 44, "id": "End of file seen and there were open elements."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -104,6 +127,22 @@
         "data": $DATA{ ,12}
             <!doctype html><table><plaintext></plaintext>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 33, "id": "foster-parenting-start-tag"},
+            {"line": 1, "col": 46, "id": "foster-parenting-character"},
+            {"line": 1, "col": 46, "id": "foster-parenting-character"},
+            {"line": 1, "col": 46, "id": "foster-parenting-character"},
+            {"line": 1, "col": 46, "id": "foster-parenting-character"},
+            {"line": 1, "col": 46, "id": "foster-parenting-character"},
+            {"line": 1, "col": 46, "id": "foster-parenting-character"},
+            {"line": 1, "col": 46, "id": "foster-parenting-character"},
+            {"line": 1, "col": 46, "id": "foster-parenting-character"},
+            {"line": 1, "col": 46, "id": "foster-parenting-character"},
+            {"line": 1, "col": 46, "id": "foster-parenting-character"},
+            {"line": 1, "col": 46, "id": "foster-parenting-character"},
+            {"line": 1, "col": 46, "id": "foster-parenting-character"},
+            {"line": 1, "col": 46, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -119,6 +158,22 @@
         "data": $DATA{ ,12}
             <!doctype html><table><tbody><plaintext></plaintext>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 40, "id": "foster-parenting-start-tag"},
+            {"line": 1, "col": 53, "id": "foster-parenting-character"},
+            {"line": 1, "col": 53, "id": "foster-parenting-character"},
+            {"line": 1, "col": 53, "id": "foster-parenting-character"},
+            {"line": 1, "col": 53, "id": "foster-parenting-character"},
+            {"line": 1, "col": 53, "id": "foster-parenting-character"},
+            {"line": 1, "col": 53, "id": "foster-parenting-character"},
+            {"line": 1, "col": 53, "id": "foster-parenting-character"},
+            {"line": 1, "col": 53, "id": "foster-parenting-character"},
+            {"line": 1, "col": 53, "id": "foster-parenting-character"},
+            {"line": 1, "col": 53, "id": "foster-parenting-character"},
+            {"line": 1, "col": 53, "id": "foster-parenting-character"},
+            {"line": 1, "col": 53, "id": "foster-parenting-character"},
+            {"line": 1, "col": 53, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -135,6 +190,22 @@
         "data": $DATA{ ,12}
             <!doctype html><table><tbody><tr><plaintext></plaintext>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 44, "id": "foster-parenting-start-tag"},
+            {"line": 1, "col": 57, "id": "foster-parenting-character"},
+            {"line": 1, "col": 57, "id": "foster-parenting-character"},
+            {"line": 1, "col": 57, "id": "foster-parenting-character"},
+            {"line": 1, "col": 57, "id": "foster-parenting-character"},
+            {"line": 1, "col": 57, "id": "foster-parenting-character"},
+            {"line": 1, "col": 57, "id": "foster-parenting-character"},
+            {"line": 1, "col": 57, "id": "foster-parenting-character"},
+            {"line": 1, "col": 57, "id": "foster-parenting-character"},
+            {"line": 1, "col": 57, "id": "foster-parenting-character"},
+            {"line": 1, "col": 57, "id": "foster-parenting-character"},
+            {"line": 1, "col": 57, "id": "foster-parenting-character"},
+            {"line": 1, "col": 57, "id": "foster-parenting-character"},
+            {"line": 1, "col": 57, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -152,6 +223,10 @@
         "data": $DATA{ ,12}
             <!doctype html><table><td><plaintext></plaintext>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 26, "id": "unexpected-cell-in-table-body"},
+            {"line": 1, "col": 49, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -170,6 +245,9 @@
         "data": $DATA{ ,12}
             <!doctype html><table><caption><plaintext></plaintext>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 54, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -186,6 +264,22 @@
         "data": $DATA{ ,12}
             <!doctype html><table><colgroup><plaintext></plaintext>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 43, "id": "foster-parenting-start-tag"},
+            {"line": 1, "col": 56, "id": "foster-parenting-character"},
+            {"line": 1, "col": 56, "id": "foster-parenting-character"},
+            {"line": 1, "col": 56, "id": "foster-parenting-character"},
+            {"line": 1, "col": 56, "id": "foster-parenting-character"},
+            {"line": 1, "col": 56, "id": "foster-parenting-character"},
+            {"line": 1, "col": 56, "id": "foster-parenting-character"},
+            {"line": 1, "col": 56, "id": "foster-parenting-character"},
+            {"line": 1, "col": 56, "id": "foster-parenting-character"},
+            {"line": 1, "col": 56, "id": "foster-parenting-character"},
+            {"line": 1, "col": 56, "id": "foster-parenting-character"},
+            {"line": 1, "col": 56, "id": "foster-parenting-character"},
+            {"line": 1, "col": 56, "id": "foster-parenting-character"},
+            {"line": 0, "col": 55, "id": "End of file seen and there were open elements."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -202,6 +296,9 @@
         "data": $DATA{ ,12}
             <!doctype html><select><plaintext></plaintext>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "1:48: ERROR: Premature end of file. Currently open tags: html, body, select, plaintext."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -217,6 +314,22 @@
         "data": $DATA{ ,12}
             <!doctype html><table><select><plaintext>a<caption>b
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "1:23: ERROR: Start tag 'select' isn't allowed here. Currently open tags: html, body, table."},
+            {"line": 0, "col": 0, "id": "1:31: ERROR: Start tag 'plaintext' isn't allowed here. Currently open tags: html, body, table, select."},
+            {"line": 0, "col": 0, "id": "1:42: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:43: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:44: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:45: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:46: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:47: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:48: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:49: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:50: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:51: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:52: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:53: ERROR: Premature end of file. Currently open tags: html, body, table, select, plaintext."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -233,6 +346,9 @@
         "data": $DATA{ ,12}
             <!doctype html><template><plaintext>a</template>b
         $DATA,
+        "errors": [
+            {"line": 0, "col": 49, "id": "End of file seen and there were open elements."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -249,6 +365,10 @@
         "data": $DATA{ ,12}
             <!doctype html><body></body><plaintext></plaintext>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 39, "id": "Stray start tag “plaintext”."},
+            {"line": 0, "col": 51, "id": "End of file seen and there were open elements."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -263,6 +383,11 @@
         "data": $DATA{ ,12}
             <!doctype html><frameset><plaintext></plaintext>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 36, "id": "Stray start tag “plaintext”."},
+            {"line": 0, "col": 48, "id": "Stray end tag “plaintext”."},
+            {"line": 0, "col": 48, "id": "End of file seen and there were open elements."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -275,6 +400,10 @@
         "data": $DATA{ ,12}
             <!doctype html><frameset></frameset><plaintext></plaintext>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 47, "id": "Stray start tag “plaintext”."},
+            {"line": 0, "col": 59, "id": "Stray end tag “plaintext”."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -287,6 +416,10 @@
         "data": $DATA{ ,12}
             <!doctype html><body></body></html><plaintext></plaintext>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 46, "id": "Stray start tag “plaintext”."},
+            {"line": 0, "col": 58, "id": "End of file seen and there were open elements."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -301,6 +434,10 @@
         "data": $DATA{ ,12}
             <!doctype html><frameset></frameset></html><plaintext></plaintext>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 54, "id": "Stray start tag “plaintext”."},
+            {"line": 0, "col": 66, "id": "Stray end tag “plaintext”."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -313,6 +450,9 @@
         "data": $DATA{ ,12}
             <!doctype html><svg><plaintext>a</plaintext>b
         $DATA,
+        "errors": [
+            {"line": 0, "col": 45, "id": "End of file seen and there were open elements."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -329,6 +469,9 @@
         "data": $DATA{ ,12}
             <!doctype html><svg><title><plaintext>a</plaintext>b
         $DATA,
+        "errors": [
+            {"line": 0, "col": 52, "id": "End of file seen and there were open elements."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -345,6 +488,12 @@
         "data": $DATA{ ,12}
             <!doctype html><table><tr><style></script></style>abc
         $DATA,
+        "errors": [
+            {"line": 1, "col": 51, "id": "foster-parenting-character"},
+            {"line": 1, "col": 52, "id": "foster-parenting-character"},
+            {"line": 1, "col": 53, "id": "foster-parenting-character"},
+            {"line": 1, "col": 53, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -363,6 +512,12 @@
         "data": $DATA{ ,12}
             <!doctype html><table><tr><script></style></script>abc
         $DATA,
+        "errors": [
+            {"line": 1, "col": 52, "id": "foster-parenting-character"},
+            {"line": 1, "col": 53, "id": "foster-parenting-character"},
+            {"line": 1, "col": 54, "id": "foster-parenting-character"},
+            {"line": 1, "col": 54, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -381,6 +536,9 @@
         "data": $DATA{ ,12}
             <!doctype html><table><caption><style></script></style>abc
         $DATA,
+        "errors": [
+            {"line": 1, "col": 58, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -398,6 +556,10 @@
         "data": $DATA{ ,12}
             <!doctype html><table><td><style></script></style>abc
         $DATA,
+        "errors": [
+            {"line": 1, "col": 26, "id": "unexpected-cell-in-table-body"},
+            {"line": 1, "col": 53, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -417,6 +579,9 @@
         "data": $DATA{ ,12}
             <!doctype html><select><script></style></script>abc
         $DATA,
+        "errors": [
+            {"line": 1, "col": 51, "id": "eof-in-select"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -433,6 +598,13 @@
         "data": $DATA{ ,12}
             <!doctype html><table><select><script></style></script>abc
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "1:23: ERROR: Start tag 'select' isn't allowed here. Currently open tags: html, body, table."},
+            {"line": 0, "col": 0, "id": "1:56: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:57: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:58: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:59: ERROR: Premature end of file. Currently open tags: html, body, table, select."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -450,6 +622,13 @@
         "data": $DATA{ ,12}
             <!doctype html><table><tr><select><script></style></script>abc
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "1:27: ERROR: Start tag 'select' isn't allowed here. Currently open tags: html, body, table, tbody, tr."},
+            {"line": 0, "col": 0, "id": "1:60: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:61: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:62: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:63: ERROR: Premature end of file. Currently open tags: html, body, table, tbody, tr, select."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -469,6 +648,9 @@
         "data": $DATA{ ,12}
             <!doctype html><frameset></frameset><noframes>abc
         $DATA,
+        "errors": [
+            {"line": 1, "col": 49, "id": "expected-named-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -498,6 +680,9 @@
         "data": $DATA{ ,12}
             <!doctype html><frameset></frameset></html><noframes>abc
         $DATA,
+        "errors": [
+            {"line": 1, "col": 56, "id": "expected-named-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -527,6 +712,9 @@
         "data": $DATA{ ,12}
             <!doctype html><table><tr></tbody><tfoot>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 41, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -543,6 +731,10 @@
         "data": $DATA{ ,12}
             <!doctype html><table><td><svg></svg>abc<td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 26, "id": "unexpected-cell-in-table-body"},
+            {"line": 1, "col": 44, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>

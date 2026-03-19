@@ -88,18 +88,22 @@ LXB_API void
 lxb_dom_element_style_remove_by_id(lxb_dom_element_t *element, uintptr_t id);
 
 LXB_API lxb_style_node_t *
-lxb_dom_element_style_remove_all_not(lxb_dom_document_t *doc,
-                                     lexbor_avl_node_t **root,
+lxb_dom_element_style_remove_all_not(lxb_dom_element_t *element,
                                      lxb_style_node_t *style, bool bs);
 
 LXB_API lxb_style_node_t *
-lxb_dom_element_style_remove_all(lxb_dom_document_t *doc,
-                                 lexbor_avl_node_t **root,
+lxb_dom_element_style_remove_all(lxb_dom_element_t *element,
                                  lxb_style_node_t *style);
 
+/*
+ * Removes all stylesheet-originated (non-inline) CSS declarations from
+ * an element's computed style tree.
+ */
+LXB_API lxb_status_t
+lxb_dom_element_style_remove_non_inline(lxb_dom_element_t *element);
+
 LXB_API lxb_style_node_t *
-lxb_dom_element_style_remove_by_list(lxb_dom_document_t *doc,
-                                     lexbor_avl_node_t **root,
+lxb_dom_element_style_remove_by_list(lxb_dom_element_t *element,
                                      lxb_style_node_t *style,
                                      lxb_css_rule_declaration_list_t *list);
 

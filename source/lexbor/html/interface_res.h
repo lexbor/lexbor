@@ -1055,7 +1055,7 @@ lxb_html_video_element_interface_destroy_wrapper(void *interface)
 }
 
 
-static  lxb_dom_interface_constructor_f lxb_html_interface_res_constructors[LXB_TAG__LAST_ENTRY][LXB_NS__LAST_ENTRY] = 
+static lxb_dom_interface_constructor_f lxb_html_interface_res_constructors[LXB_TAG__LAST_ENTRY][LXB_NS__LAST_ENTRY] = 
 {
     /* LXB_TAG__UNDEF */
     {
@@ -3237,7 +3237,7 @@ static  lxb_dom_interface_constructor_f lxb_html_interface_res_constructors[LXB_
     }
 };
 
-static  lxb_dom_interface_destructor_f lxb_html_interface_res_destructor[LXB_TAG__LAST_ENTRY][LXB_NS__LAST_ENTRY] = 
+static lxb_dom_interface_destructor_f lxb_html_interface_res_destructor[LXB_TAG__LAST_ENTRY][LXB_NS__LAST_ENTRY] = 
 {
     /* LXB_TAG__UNDEF */
     {

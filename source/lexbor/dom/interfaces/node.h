@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021 Alexander Borisov
+ * Copyright (C) 2018-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -20,6 +20,10 @@ extern "C" {
 typedef lexbor_action_t
 (*lxb_dom_node_simple_walker_f)(lxb_dom_node_t *node, void *ctx);
 
+typedef lxb_status_t
+(*lxb_dom_node_descendants_f)(lxb_dom_node_t *node, void *ctx);
+
+
 /*
  * Callbacks for node events.
  */
@@ -33,13 +37,24 @@ typedef lexbor_action_t
  *     Can be called only when the attribute value is changed.
  */
 typedef lxb_status_t
-(*lxb_dom_node_cb_insert_f)(lxb_dom_node_t *node);
+(*lxb_dom_node_cb_insertion_f)(lxb_dom_node_t *inserted_node);
 
 typedef lxb_status_t
-(*lxb_dom_node_cb_remove_f)(lxb_dom_node_t *node);
+(*lxb_dom_node_cb_removing_f)(lxb_dom_node_t *removed_node,
+                              lxb_dom_node_t *old_parent);
+
+typedef lxb_status_t
+(*lxb_dom_node_cb_moving_f)(lxb_dom_node_t *moved_node,
+                            lxb_dom_node_t *old_parent);
 
 typedef lxb_status_t
 (*lxb_dom_node_cb_destroy_f)(lxb_dom_node_t *node);
+
+typedef lxb_status_t
+(*lxb_dom_node_cb_children_changed_f)(lxb_dom_node_t *parent);
+
+typedef lxb_status_t
+(*lxb_dom_node_cb_post_connection_f)(lxb_dom_node_t *connected_node);
 
 typedef lxb_status_t
 (*lxb_dom_node_cb_set_value_f)(lxb_dom_node_t *node,
@@ -295,6 +310,11 @@ lxb_dom_node_is_empty(const lxb_dom_node_t *root);
 LXB_API bool
 lxb_dom_node_host_including_inclusive_ancestor(const lxb_dom_node_t *node,
                                                const lxb_dom_node_t *parent);
+
+LXB_API lxb_status_t
+lxb_dom_node_shadow_including_descendants(lxb_dom_node_t *node,
+                                          lxb_dom_node_descendants_f walker_cb,
+                                          void *ctx);
 
 LXB_API lxb_dom_exception_code_t
 lxb_dom_node_adopt(lxb_dom_node_t *node);

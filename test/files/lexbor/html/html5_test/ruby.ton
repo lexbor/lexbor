@@ -5,6 +5,9 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rb>b<rb></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -21,6 +24,9 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rb>b<rt></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -37,6 +43,9 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rb>b<rtc></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -53,6 +62,9 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rb>b<rp></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -69,6 +81,10 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rb>b<span></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 31, "id": "unexpected-end-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -85,6 +101,9 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rt>b<rb></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -101,6 +120,9 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rt>b<rt></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -117,6 +139,9 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rt>b<rtc></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -133,6 +158,9 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rt>b<rp></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -149,6 +177,10 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rt>b<span></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 31, "id": "unexpected-end-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -165,6 +197,9 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rtc>b<rb></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -181,6 +216,9 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rtc>b<rt>c<rt>d</ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -200,6 +238,9 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rtc>b<rtc></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -216,6 +257,9 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rtc>b<rp></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -232,6 +276,10 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rtc>b<span></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 32, "id": "unexpected-end-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -248,6 +296,9 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rp>b<rb></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -264,6 +315,9 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rp>b<rt></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -280,6 +334,9 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rp>b<rtc></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -296,6 +353,9 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rp>b<rp></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -312,6 +372,10 @@
         "data": $DATA{ ,12}
             <html><ruby>a<rp>b<span></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 31, "id": "unexpected-end-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -328,6 +392,9 @@
         "data": $DATA{ ,12}
             <html><ruby><rtc><ruby>a<rb>b<rt></ruby></ruby></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>

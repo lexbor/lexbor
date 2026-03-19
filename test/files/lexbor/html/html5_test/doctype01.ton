@@ -31,6 +31,10 @@
         "data": $DATA{ ,12}
             <!DOCTYPEhtml>Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 9, "id": "need-space-after-doctype"},
+            {"line": 1, "col": 10, "id": "missing-whitespace-before-doctype-name"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -44,6 +48,11 @@
         "data": $DATA{ ,12}
             <!DOCTYPE>Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "expected-doctype-name-but-got-right-bracket"},
+            {"line": 1, "col": 10, "id": "unknown-doctype"},
+            {"line": 1, "col": 10, "id": "missing-doctype-name"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE >
             <html>
@@ -57,6 +66,11 @@
         "data": $DATA{ ,12}
             <!DOCTYPE >Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 11, "id": "expected-doctype-name-but-got-right-bracket"},
+            {"line": 1, "col": 11, "id": "unknown-doctype"},
+            {"line": 1, "col": 11, "id": "missing-doctype-name"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE >
             <html>
@@ -70,6 +84,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato>Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 17, "id": "unknown-doctype"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato>
             <html>
@@ -83,6 +100,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato >Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 18, "id": "unknown-doctype"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato>
             <html>
@@ -96,6 +116,11 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato taco>Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 17, "id": "expected-space-or-right-bracket-in-doctype"},
+            {"line": 1, "col": 22, "id": "unknown-doctype"},
+            {"line": 1, "col": 18, "id": "invalid-character-sequence-after-doctype-name"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato>
             <html>
@@ -109,6 +134,11 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato taco "ddd>Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 17, "id": "expected-space-or-right-bracket-in-doctype"},
+            {"line": 1, "col": 27, "id": "unknown-doctype"},
+            {"line": 1, "col": 18, "id": "invalid-character-sequence-after-doctype-name"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato>
             <html>
@@ -122,6 +152,11 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato sYstEM>Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 24, "id": "unexpected-char-in-doctype"},
+            {"line": 1, "col": 24, "id": "unknown-doctype"},
+            {"line": 1, "col": 24, "id": "missing-doctype-system-identifier"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato>
             <html>
@@ -135,6 +170,11 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato sYstEM    >Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 28, "id": "unexpected-char-in-doctype"},
+            {"line": 1, "col": 28, "id": "unknown-doctype"},
+            {"line": 1, "col": 28, "id": "missing-doctype-system-identifier"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato>
             <html>
@@ -148,6 +188,11 @@
         "data": $DATA{ ,12}
             <!DOCTYPE   potato       sYstEM  ggg>Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 34, "id": "unexpected-char-in-doctype"},
+            {"line": 1, "col": 37, "id": "unknown-doctype"},
+            {"line": 1, "col": 34, "id": "missing-quote-before-doctype-system-identifier"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato>
             <html>
@@ -161,6 +206,11 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato SYSTEM taco  >Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 25, "id": "unexpected-char-in-doctype"},
+            {"line": 1, "col": 31, "id": "unknown-doctype"},
+            {"line": 1, "col": 25, "id": "missing-quote-before-doctype-system-identifier"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato>
             <html>
@@ -174,6 +224,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato SYSTEM 'taco"'>Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 32, "id": "unknown-doctype"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato SYSTEM "taco"">
             <html>
@@ -187,6 +240,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato SYSTEM "taco">Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 31, "id": "unknown-doctype"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato SYSTEM "taco">
             <html>
@@ -200,6 +256,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato SYSTEM "tai'co">Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 33, "id": "unknown-doctype"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato SYSTEM "tai'co">
             <html>
@@ -213,6 +272,11 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato SYSTEMtaco "ddd">Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 24, "id": "unexpected-char-in-doctype"},
+            {"line": 1, "col": 34, "id": "unknown-doctype"},
+            {"line": 1, "col": 24, "id": "missing-quote-before-doctype-system-identifier"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato>
             <html>
@@ -226,6 +290,11 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato grass SYSTEM taco>Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 17, "id": "expected-space-or-right-bracket-in-doctype"},
+            {"line": 1, "col": 35, "id": "unknown-doctype"},
+            {"line": 1, "col": 18, "id": "invalid-character-sequence-after-doctype-name"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato>
             <html>
@@ -239,6 +308,11 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato pUbLIc>Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 24, "id": "unexpected-end-of-doctype"},
+            {"line": 1, "col": 24, "id": "unknown-doctype"},
+            {"line": 1, "col": 24, "id": "missing-doctype-public-identifier"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato>
             <html>
@@ -252,6 +326,11 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato pUbLIc >Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 25, "id": "unexpected-end-of-doctype"},
+            {"line": 1, "col": 25, "id": "unknown-doctype"},
+            {"line": 1, "col": 25, "id": "missing-doctype-public-identifier"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato>
             <html>
@@ -265,6 +344,11 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato pUbLIcgoof>Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 24, "id": "unexpected-char-in-doctype"},
+            {"line": 1, "col": 28, "id": "unknown-doctype"},
+            {"line": 1, "col": 24, "id": "missing-quote-before-doctype-public-identifier"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato>
             <html>
@@ -278,6 +362,11 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato PUBLIC goof>Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 25, "id": "unexpected-char-in-doctype"},
+            {"line": 1, "col": 29, "id": "unknown-doctype"},
+            {"line": 1, "col": 25, "id": "missing-quote-before-doctype-public-identifier"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato>
             <html>
@@ -291,6 +380,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato PUBLIC "go'of">Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 32, "id": "unknown-doctype"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato PUBLIC "go'of">
             <html>
@@ -304,6 +396,11 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato PUBLIC 'go'of'>Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 29, "id": "unexpected-char-in-doctype"},
+            {"line": 1, "col": 32, "id": "unknown-doctype"},
+            {"line": 1, "col": 29, "id": "missing-quote-before-doctype-system-identifier"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato PUBLIC "go">
             <html>
@@ -317,6 +414,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato PUBLIC 'go:hh   of' >Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 38, "id": "unknown-doctype"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato PUBLIC "go:hh   of">
             <html>
@@ -330,6 +430,11 @@
         "data": $DATA{ ,12}
             <!DOCTYPE potato PUBLIC "W3C-//dfdf" SYSTEM ggg>Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 38, "id": "unexpected-char-in-doctype"},
+            {"line": 1, "col": 48, "id": "unknown-doctype"},
+            {"line": 1, "col": 38, "id": "missing-quote-before-doctype-system-identifier"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE potato PUBLIC "W3C-//dfdf">
             <html>
@@ -344,6 +449,9 @@
             <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
                "http://www.w3.org/TR/html4/strict.dtd">Hello
         $DATA,
+        "errors": [
+            {"line": 2, "col": 43, "id": "unknown-doctype"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
             <html>
@@ -357,6 +465,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE ...>Hello
         $DATA,
+        "errors": [
+            {"line": 1, "col": 14, "id": "unknown-doctype"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE ...>
             <html>
@@ -371,6 +482,9 @@
             <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
         $DATA,
+        "errors": [
+            {"line": 2, "col": 58, "id": "unknown-doctype"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
             <html>
@@ -384,6 +498,9 @@
             <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
         $DATA,
+        "errors": [
+            {"line": 2, "col": 54, "id": "unknown-doctype"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
             <html>
@@ -398,6 +515,11 @@
             <!-- internal declarations -->
             ]>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 23, "id": "expected-space-or-right-bracket-in-doctype"},
+            {"line": 2, "col": 30, "id": "unknown-doctype"},
+            {"line": 1, "col": 24, "id": "invalid-character-sequence-after-doctype-name"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE root-element>
             <html>
@@ -413,6 +535,9 @@
               "-//WAPFORUM//DTD XHTML Mobile 1.0//EN"
                 "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
         $DATA,
+        "errors": [
+            {"line": 3, "col": 53, "id": "unknown-doctype"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
             <html>
@@ -425,6 +550,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE HTML SYSTEM "http://www.w3.org/DTD/HTML4-strict.dtd"><body><b>Mine!</b></body>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 63, "id": "unknown-doctype"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html SYSTEM "http://www.w3.org/DTD/HTML4-strict.dtd">
             <html>
@@ -439,6 +567,11 @@
         "data": $DATA{ ,12}
             <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN""http://www.w3.org/TR/html4/strict.dtd">
         $DATA,
+        "errors": [
+            {"line": 1, "col": 50, "id": "unexpected-char-in-doctype"},
+            {"line": 1, "col": 89, "id": "unknown-doctype"},
+            {"line": 1, "col": 50, "id": "missing-whitespace-between-doctype-public-and-system-identifiers"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
             <html>
@@ -451,6 +584,11 @@
         "data": $DATA{ ,12}
             <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"'http://www.w3.org/TR/html4/strict.dtd'>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 50, "id": "unexpected-char-in-doctype"},
+            {"line": 1, "col": 89, "id": "unknown-doctype"},
+            {"line": 1, "col": 50, "id": "missing-whitespace-between-doctype-public-and-system-identifiers"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
             <html>
@@ -463,6 +601,13 @@
         "data": $DATA{ ,12}
             <!DOCTYPE HTML PUBLIC"-//W3C//DTD HTML 4.01//EN"'http://www.w3.org/TR/html4/strict.dtd'>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 21, "id": "unexpected-char-in-doctype"},
+            {"line": 1, "col": 49, "id": "unexpected-char-in-doctype"},
+            {"line": 1, "col": 88, "id": "unknown-doctype"},
+            {"line": 1, "col": 22, "id": "missing-whitespace-after-doctype-public-keyword"},
+            {"line": 1, "col": 49, "id": "missing-whitespace-between-doctype-public-and-system-identifiers"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
             <html>
@@ -475,6 +620,13 @@
         "data": $DATA{ ,12}
             <!DOCTYPE HTML PUBLIC'-//W3C//DTD HTML 4.01//EN''http://www.w3.org/TR/html4/strict.dtd'>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 21, "id": "unexpected-char-in-doctype"},
+            {"line": 1, "col": 49, "id": "unexpected-char-in-doctype"},
+            {"line": 1, "col": 88, "id": "unknown-doctype"},
+            {"line": 1, "col": 22, "id": "missing-whitespace-after-doctype-public-keyword"},
+            {"line": 1, "col": 49, "id": "missing-whitespace-between-doctype-public-and-system-identifiers"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
             <html>

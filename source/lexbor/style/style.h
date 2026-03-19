@@ -26,6 +26,12 @@ LXB_API uintptr_t
 lxb_style_id_by_name(const lxb_dom_document_t *doc,
                      const lxb_char_t *name, size_t size);
 
+LXB_API lxb_status_t
+lxb_style_init(lxb_html_document_t *doc);
+
+LXB_API void
+lxb_style_destroy(lxb_html_document_t *doc);
+
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -5,6 +5,10 @@
         "data": $DATA{ ,12}
             <nobr>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 6, "id": "HTML start tag “nobr” in a foreign namespace context."},
+            {"line": 0, "col": 7, "id": "End of file seen and there were open elements."}
+        ],
         "fragment": {"tag": "path", "ns": "svg"},
         "result": $DATA{ ,12}
             <nobr>
@@ -16,6 +20,9 @@
         "data": $DATA{ ,12}
             <font color></font>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 12, "id": "HTML start tag “font” in a foreign namespace context."}
+        ],
         "fragment": {"tag": "path", "ns": "svg"},
         "result": $DATA{ ,12}
             <font color="">
@@ -38,6 +45,10 @@
         "data": $DATA{ ,12}
             <g></path>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 10, "id": "End tag “path” did not match the name of the current open element (“g”)."},
+            {"line": 0, "col": 11, "id": "End of file seen and there were open elements."}
+        ],
         "fragment": {"tag": "path", "ns": "svg"},
         "result": $DATA{ ,12}
             <svg:g>
@@ -49,6 +60,9 @@
         "data": $DATA{ ,12}
             </path>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "Stray end tag “path”."}
+        ],
         "fragment": {"tag": "path", "ns": "svg"},
         "result": $DATA{ ,12}
             "X"
@@ -59,6 +73,9 @@
         "data": $DATA{ ,12}
             </foreignObject>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "Stray end tag “foreignobject”."}
+        ],
         "fragment": {"tag": "foreignObject", "ns": "svg"},
         "result": $DATA{ ,12}
             "X"
@@ -69,6 +86,9 @@
         "data": $DATA{ ,12}
             </desc>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "Stray end tag “desc”."}
+        ],
         "fragment": {"tag": "desc", "ns": "svg"},
         "result": $DATA{ ,12}
             "X"
@@ -79,6 +99,9 @@
         "data": $DATA{ ,12}
             </title>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "Stray end tag “title”."}
+        ],
         "fragment": {"tag": "title", "ns": "svg"},
         "result": $DATA{ ,12}
             "X"
@@ -89,6 +112,9 @@
         "data": $DATA{ ,12}
             </svg>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "Stray end tag “svg”."}
+        ],
         "fragment": {"tag": "svg", "ns": "svg"},
         "result": $DATA{ ,12}
             "X"
@@ -99,6 +125,9 @@
         "data": $DATA{ ,12}
             </mfenced>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "Stray end tag “mfenced”."}
+        ],
         "fragment": {"tag": "mfenced", "ns": "math"},
         "result": $DATA{ ,12}
             "X"
@@ -109,6 +138,9 @@
         "data": $DATA{ ,12}
             </malignmark>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "Stray end tag “malignmark”."}
+        ],
         "fragment": {"tag": "malignmark", "ns": "math"},
         "result": $DATA{ ,12}
             "X"
@@ -119,6 +151,9 @@
         "data": $DATA{ ,12}
             </math>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "Stray end tag “math”."}
+        ],
         "fragment": {"tag": "math", "ns": "math"},
         "result": $DATA{ ,12}
             "X"
@@ -129,6 +164,9 @@
         "data": $DATA{ ,12}
             </annotation-xml>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "Stray end tag “annotation-xml”."}
+        ],
         "fragment": {"tag": "annotation-xml", "ns": "math"},
         "result": $DATA{ ,12}
             "X"
@@ -139,6 +177,9 @@
         "data": $DATA{ ,12}
             </mtext>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "Stray end tag “mtext”."}
+        ],
         "fragment": {"tag": "mtext", "ns": "math"},
         "result": $DATA{ ,12}
             "X"
@@ -149,6 +190,9 @@
         "data": $DATA{ ,12}
             </mi>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "Stray end tag “mi”."}
+        ],
         "fragment": {"tag": "mi", "ns": "math"},
         "result": $DATA{ ,12}
             "X"
@@ -159,6 +203,9 @@
         "data": $DATA{ ,12}
             </mo>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "Stray end tag “mo”."}
+        ],
         "fragment": {"tag": "mo", "ns": "math"},
         "result": $DATA{ ,12}
             "X"
@@ -169,6 +216,9 @@
         "data": $DATA{ ,12}
             </mn>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "Stray end tag “mn”."}
+        ],
         "fragment": {"tag": "mn", "ns": "math"},
         "result": $DATA{ ,12}
             "X"
@@ -179,6 +229,9 @@
         "data": $DATA{ ,12}
             </ms>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "Stray end tag “ms”."}
+        ],
         "fragment": {"tag": "ms", "ns": "math"},
         "result": $DATA{ ,12}
             "X"
@@ -189,6 +242,11 @@
         "data": $DATA{ ,12}
             <b></b><mglyph/><i></i><malignmark/><u></u><ms/>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 51, "id": "Self-closing syntax (“/>”) used on a non-void HTML element. Ignoring the slash and treating as a start tag."},
+            {"line": 0, "col": 52, "id": "End of file seen and there were open elements."},
+            {"line": 1, "col": 44, "id": "non-void-html-element-start-tag-with-trailing-solidus"}
+        ],
         "fragment": {"tag": "ms", "ns": "math"},
         "result": $DATA{ ,12}
             <b>
@@ -235,6 +293,11 @@
         "data": $DATA{ ,12}
             <b></b><mglyph/><i></i><malignmark/><u></u><mn/>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 51, "id": "Self-closing syntax (“/>”) used on a non-void HTML element. Ignoring the slash and treating as a start tag."},
+            {"line": 0, "col": 52, "id": "End of file seen and there were open elements."},
+            {"line": 1, "col": 44, "id": "non-void-html-element-start-tag-with-trailing-solidus"}
+        ],
         "fragment": {"tag": "mn", "ns": "math"},
         "result": $DATA{ ,12}
             <b>
@@ -281,6 +344,11 @@
         "data": $DATA{ ,12}
             <b></b><mglyph/><i></i><malignmark/><u></u><mo/>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 51, "id": "Self-closing syntax (“/>”) used on a non-void HTML element. Ignoring the slash and treating as a start tag."},
+            {"line": 0, "col": 52, "id": "End of file seen and there were open elements."},
+            {"line": 1, "col": 44, "id": "non-void-html-element-start-tag-with-trailing-solidus"}
+        ],
         "fragment": {"tag": "mo", "ns": "math"},
         "result": $DATA{ ,12}
             <b>
@@ -327,6 +395,11 @@
         "data": $DATA{ ,12}
             <b></b><mglyph/><i></i><malignmark/><u></u><mi/>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 51, "id": "Self-closing syntax (“/>”) used on a non-void HTML element. Ignoring the slash and treating as a start tag."},
+            {"line": 0, "col": 52, "id": "End of file seen and there were open elements."},
+            {"line": 1, "col": 44, "id": "non-void-html-element-start-tag-with-trailing-solidus"}
+        ],
         "fragment": {"tag": "mi", "ns": "math"},
         "result": $DATA{ ,12}
             <b>
@@ -373,6 +446,11 @@
         "data": $DATA{ ,12}
             <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 51, "id": "Self-closing syntax (“/>”) used on a non-void HTML element. Ignoring the slash and treating as a start tag."},
+            {"line": 0, "col": 52, "id": "End of file seen and there were open elements."},
+            {"line": 1, "col": 44, "id": "non-void-html-element-start-tag-with-trailing-solidus"}
+        ],
         "fragment": {"tag": "mtext", "ns": "math"},
         "result": $DATA{ ,12}
             <b>
@@ -419,6 +497,9 @@
         "data": $DATA{ ,12}
             <div></div>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "HTML start tag “div” in a foreign namespace context."}
+        ],
         "fragment": {"tag": "annotation-xml", "ns": "math"},
         "result": $DATA{ ,12}
             <div>
@@ -439,6 +520,9 @@
         "data": $DATA{ ,12}
             <div></div>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "HTML start tag “div” in a foreign namespace context."}
+        ],
         "fragment": {"tag": "math", "ns": "math"},
         "result": $DATA{ ,12}
             <div>
@@ -509,6 +593,9 @@
         "data": $DATA{ ,12}
             <div><h1>X</h1></div>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "HTML start tag “div” in a foreign namespace context."}
+        ],
         "fragment": {"tag": "svg", "ns": "svg"},
         "result": $DATA{ ,12}
             <div>
@@ -521,6 +608,9 @@
         "data": $DATA{ ,12}
             <div></div>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "HTML start tag “div” in a foreign namespace context."}
+        ],
         "fragment": {"tag": "svg", "ns": "svg"},
         "result": $DATA{ ,12}
             <div>
@@ -541,6 +631,9 @@
         "data": $DATA{ ,12}
             <plaintext><foo>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 16, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "desc", "ns": "svg"},
         "result": $DATA{ ,12}
             <plaintext>
@@ -552,6 +645,9 @@
         "data": $DATA{ ,12}
             <frameset>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 6, "id": "Stray start tag “frameset”."}
+        ],
         "fragment": {"tag": "desc", "ns": "svg"},
         "result": $DATA{ ,12}
             "X"
@@ -562,6 +658,9 @@
         "data": $DATA{ ,12}
             <head>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 6, "id": "Stray start tag “head”."}
+        ],
         "fragment": {"tag": "desc", "ns": "svg"},
         "result": $DATA{ ,12}
             "X"
@@ -572,6 +671,9 @@
         "data": $DATA{ ,12}
             <body>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 6, "id": "Stray start tag “body”."}
+        ],
         "fragment": {"tag": "desc", "ns": "svg"},
         "result": $DATA{ ,12}
             "X"
@@ -582,6 +684,9 @@
         "data": $DATA{ ,12}
             <html>X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 6, "id": "Stray start tag “html”."}
+        ],
         "fragment": {"tag": "desc", "ns": "svg"},
         "result": $DATA{ ,12}
             "X"
@@ -592,6 +697,9 @@
         "data": $DATA{ ,12}
             <html class="foo">X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 6, "id": "Stray start tag “html”."}
+        ],
         "fragment": {"tag": "desc", "ns": "svg"},
         "result": $DATA{ ,12}
             "X"
@@ -602,6 +710,9 @@
         "data": $DATA{ ,12}
             <body class="foo">X
         $DATA,
+        "errors": [
+            {"line": 0, "col": 6, "id": "Stray start tag “body”."}
+        ],
         "fragment": {"tag": "desc", "ns": "svg"},
         "result": $DATA{ ,12}
             "X"
@@ -612,6 +723,9 @@
         "data": $DATA{ ,12}
             <svg><p>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 8, "id": "HTML start tag “p” in a foreign namespace context."}
+        ],
         "fragment": {"tag": "div", "ns": "html"},
         "result": $DATA{ ,12}
             <svg:svg>
@@ -623,6 +737,9 @@
         "data": $DATA{ ,12}
             <p>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 3, "id": "HTML start tag “p” in a foreign namespace context."}
+        ],
         "fragment": {"tag": "svg", "ns": "svg"},
         "result": $DATA{ ,12}
             <p>
@@ -633,6 +750,11 @@
         "data": $DATA{ ,12}
             <svg></p><foo>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 9, "id": "HTML end tag “p” in a foreign namespace context."},
+            {"line": 1, "col": 6, "id": "Unexpected </p> from in body insertion mode"},
+            {"line": 1, "col": 15, "id": "Unexpected EOF"}
+        ],
         "fragment": {"tag": "div", "ns": "html"},
         "result": $DATA{ ,12}
             <svg:svg>
@@ -645,6 +767,11 @@
         "data": $DATA{ ,12}
             <svg></br><foo>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 10, "id": "HTML end tag “br” in a foreign namespace context."},
+            {"line": 1, "col": 6, "id": "Unexpected </br> from in body insertion mode"},
+            {"line": 1, "col": 16, "id": "Unexpected EOF"}
+        ],
         "fragment": {"tag": "div", "ns": "html"},
         "result": $DATA{ ,12}
             <svg:svg>
@@ -657,6 +784,11 @@
         "data": $DATA{ ,12}
             </p><foo>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 4, "id": "HTML end tag “p” in a foreign namespace context."},
+            {"line": 1, "col": 1, "id": "Unexpected </p> from in body insertion mode"},
+            {"line": 1, "col": 10, "id": "Unexpected EOF"}
+        ],
         "fragment": {"tag": "svg", "ns": "svg"},
         "result": $DATA{ ,12}
             <p>
@@ -668,6 +800,11 @@
         "data": $DATA{ ,12}
             </br><foo>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 5, "id": "HTML end tag “br” in a foreign namespace context."},
+            {"line": 1, "col": 1, "id": "Unexpected </br> from in body insertion mode"},
+            {"line": 1, "col": 11, "id": "Unexpected EOF"}
+        ],
         "fragment": {"tag": "svg", "ns": "svg"},
         "result": $DATA{ ,12}
             <br>
@@ -679,6 +816,11 @@
         "data": $DATA{ ,12}
             <body><foo>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 6, "id": "HTML start tag “body” in a foreign namespace context."},
+            {"line": 1, "col": 1, "id": "Unexpected <body> from in body insertion mode"},
+            {"line": 1, "col": 12, "id": "Unexpected EOF"}
+        ],
         "fragment": {"tag": "svg", "ns": "svg"},
         "result": $DATA{ ,12}
             <svg:foo>
@@ -689,6 +831,10 @@
         "data": $DATA{ ,12}
             <p><foo>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 3, "id": "HTML start tag “p” in a foreign namespace context."},
+            {"line": 1, "col": 9, "id": "Unexpected EOF"}
+        ],
         "fragment": {"tag": "svg", "ns": "svg"},
         "result": $DATA{ ,12}
             <p>
@@ -700,6 +846,10 @@
         "data": $DATA{ ,12}
             <p></p><foo>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 3, "id": "HTML start tag “p” in a foreign namespace context."},
+            {"line": 1, "col": 13, "id": "Unexpected EOF"}
+        ],
         "fragment": {"tag": "svg", "ns": "svg"},
         "result": $DATA{ ,12}
             <p>

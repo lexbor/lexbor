@@ -240,7 +240,7 @@ class Res:
         if self.prefix != '':
             prefix = self.prefix + ' '
 
-        result.append("{}{} {} {}{} = \n{{\n    ".format(prefix, ("const" if is_const else ""),
+        result.append("{}{}{} {}{} = \n{{\n    ".format(prefix, ("const " if is_const else ""),
             self.struct_name, self.name, ("".join(sizes) if len(sizes) != 0 else "")))
 
         for idx in range(0, len(data) - 1):

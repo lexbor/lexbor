@@ -5,6 +5,9 @@
         "data": $DATA{ ,12}
             <!doctype html></head> <head>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 29, "id": "unexpected-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -18,6 +21,10 @@
         "data": $DATA{ ,12}
             <!doctype html><form><div></form><div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 33, "id": "end-tag-too-early-ignored"},
+            {"line": 1, "col": 38, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -61,6 +68,11 @@
         "data": $DATA{ ,12}
             <!doctype>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "expected-doctype-name-but-got-right-bracket"},
+            {"line": 1, "col": 10, "id": "unknown-doctype"},
+            {"line": 1, "col": 10, "id": "missing-doctype-name"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE >
             <html>
@@ -73,6 +85,11 @@
         "data": $DATA{ ,12}
             <!---x
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "eof-in-comment"},
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-eof"},
+            {"line": 1, "col": 7, "id": "eof-in-comment"}
+        ],
         "result": $DATA{ ,12}
             <!-- -x -->
             <html>
@@ -86,6 +103,10 @@
             <body>
             <div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "unexpected-start-tag"},
+            {"line": 2, "col": 5, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "div", "ns": "html"},
         "result": $DATA{ ,12}
             "
@@ -99,6 +120,12 @@
             <frameset></frameset>
             foo
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 2, "col": 1, "id": "unexpected-char-after-frameset"},
+            {"line": 2, "col": 2, "id": "unexpected-char-after-frameset"},
+            {"line": 2, "col": 3, "id": "unexpected-char-after-frameset"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -113,6 +140,10 @@
             <frameset></frameset>
             <noframes>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 2, "col": 10, "id": "expected-named-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -128,6 +159,10 @@
             <frameset></frameset>
             <div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 2, "col": 5, "id": "unexpected-start-tag-after-frameset"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -142,6 +177,9 @@
             <frameset></frameset>
             </html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -156,6 +194,10 @@
             <frameset></frameset>
             </div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 2, "col": 6, "id": "unexpected-end-tag-after-frameset"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -169,6 +211,11 @@
         "data": $DATA{ ,12}
             <form><form>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 12, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 12, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -181,6 +228,11 @@
         "data": $DATA{ ,12}
             <button><button>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 8, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 16, "id": "unexpected-start-tag-implies-end-tag"},
+            {"line": 1, "col": 16, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -194,6 +246,11 @@
         "data": $DATA{ ,12}
             <table><tr><td></th>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 20, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 20, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -209,6 +266,11 @@
         "data": $DATA{ ,12}
             <table><caption><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 20, "id": "unexpected-cell-in-table-body"},
+            {"line": 1, "col": 20, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -225,6 +287,10 @@
         "data": $DATA{ ,12}
             <table><caption><div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 21, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -239,6 +305,10 @@
         "data": $DATA{ ,12}
             </caption><div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 15, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "caption", "ns": "html"},
         "result": $DATA{ ,12}
             <div>
@@ -249,6 +319,11 @@
         "data": $DATA{ ,12}
             <table><caption><div></caption>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 31, "id": "expected-one-end-tag-but-got-another"},
+            {"line": 1, "col": 31, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -263,6 +338,9 @@
         "data": $DATA{ ,12}
             <table><caption></table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -276,6 +354,10 @@
         "data": $DATA{ ,12}
             </table><div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 8, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 13, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "caption", "ns": "html"},
         "result": $DATA{ ,12}
             <div>
@@ -286,6 +368,20 @@
         "data": $DATA{ ,12}
             <table><caption></body></col></colgroup></html></tbody></td></tfoot></th></thead></tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 23, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 29, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 40, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 47, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 55, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 60, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 68, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 73, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 81, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 86, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 86, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -299,6 +395,10 @@
         "data": $DATA{ ,12}
             <table><caption><div></div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 27, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -313,6 +413,15 @@
         "data": $DATA{ ,12}
             <table><tr><td></body></caption></col></colgroup></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 22, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 32, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 38, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 49, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 56, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 56, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -328,6 +437,14 @@
         "data": $DATA{ ,12}
             </table></tbody></tfoot></thead></tr><div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 8, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 16, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 24, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 32, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 37, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 42, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <div>
@@ -338,6 +455,13 @@
         "data": $DATA{ ,12}
             <table><colgroup>foo
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 18, "id": "foster-parenting-character-in-table"},
+            {"line": 1, "col": 19, "id": "foster-parenting-character-in-table"},
+            {"line": 1, "col": 20, "id": "foster-parenting-character-in-table"},
+            {"line": 1, "col": 20, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -352,6 +476,11 @@
         "data": $DATA{ ,12}
             foo<col>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 1, "id": "unexpected-character-in-colgroup"},
+            {"line": 1, "col": 2, "id": "unexpected-character-in-colgroup"},
+            {"line": 1, "col": 3, "id": "unexpected-character-in-colgroup"}
+        ],
         "fragment": {"tag": "colgroup", "ns": "html"},
         "result": $DATA{ ,12}
             <col>
@@ -362,6 +491,11 @@
         "data": $DATA{ ,12}
             <table><colgroup></col>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 23, "id": "no-end-tag"},
+            {"line": 1, "col": 23, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -375,6 +509,11 @@
         "data": $DATA{ ,12}
             <frameset><div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 15, "id": "unexpected-start-tag-in-frameset"},
+            {"line": 1, "col": 15, "id": "eof-in-frameset"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -386,6 +525,9 @@
         "data": $DATA{ ,12}
             </frameset><frame>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 11, "id": "unexpected-frameset-in-frameset-innerhtml"}
+        ],
         "fragment": {"tag": "frameset", "ns": "html"},
         "result": $DATA{ ,12}
             <frame>
@@ -396,6 +538,11 @@
         "data": $DATA{ ,12}
             <frameset></div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 16, "id": "unexpected-end-tag-in-frameset"},
+            {"line": 1, "col": 16, "id": "eof-in-frameset"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -407,6 +554,10 @@
         "data": $DATA{ ,12}
             </body><div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "unexpected-close-tag"},
+            {"line": 1, "col": 12, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "body", "ns": "html"},
         "result": $DATA{ ,12}
             <div>
@@ -417,6 +568,11 @@
         "data": $DATA{ ,12}
             <table><tr><div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 16, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 16, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -432,6 +588,9 @@
         "data": $DATA{ ,12}
             </tr><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "unexpected-end-tag"}
+        ],
         "fragment": {"tag": "tr", "ns": "html"},
         "result": $DATA{ ,12}
             <td>
@@ -442,6 +601,11 @@
         "data": $DATA{ ,12}
             </tbody></tfoot></thead><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 8, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 16, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 24, "id": "unexpected-end-tag"}
+        ],
         "fragment": {"tag": "tr", "ns": "html"},
         "result": $DATA{ ,12}
             <td>
@@ -452,6 +616,11 @@
         "data": $DATA{ ,12}
             <table><tr><div><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 16, "id": "foster-parenting-start-tag"},
+            {"line": 1, "col": 20, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -468,6 +637,14 @@
         "data": $DATA{ ,12}
             <caption><col><colgroup><tbody><tfoot><thead><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 9, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 14, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 24, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 31, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 38, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 45, "id": "unexpected-start-tag"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <tr>
@@ -478,6 +655,11 @@
         "data": $DATA{ ,12}
             <table><tbody></thead>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 22, "id": "unexpected-end-tag-in-table-body"},
+            {"line": 1, "col": 22, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -491,6 +673,9 @@
         "data": $DATA{ ,12}
             </table><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 8, "id": "unexpected-end-tag"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <tr>
@@ -501,6 +686,18 @@
         "data": $DATA{ ,12}
             <table><tbody></body></caption></col></colgroup></html></td></th></tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 21, "id": "unexpected-end-tag-in-table-body"},
+            {"line": 1, "col": 31, "id": "unexpected-end-tag-in-table-body"},
+            {"line": 1, "col": 37, "id": "unexpected-end-tag-in-table-body"},
+            {"line": 1, "col": 48, "id": "unexpected-end-tag-in-table-body"},
+            {"line": 1, "col": 55, "id": "unexpected-end-tag-in-table-body"},
+            {"line": 1, "col": 60, "id": "unexpected-end-tag-in-table-body"},
+            {"line": 1, "col": 65, "id": "unexpected-end-tag-in-table-body"},
+            {"line": 1, "col": 70, "id": "unexpected-end-tag-in-table-body"},
+            {"line": 1, "col": 70, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -514,6 +711,12 @@
         "data": $DATA{ ,12}
             <table><tbody></div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 20, "id": "unexpected-end-tag-implies-table-voodoo"},
+            {"line": 1, "col": 20, "id": "end-tag-too-early"},
+            {"line": 1, "col": 20, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -527,6 +730,11 @@
         "data": $DATA{ ,12}
             <table><table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 14, "id": "unexpected-start-tag-implies-end-tag"},
+            {"line": 1, "col": 14, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -540,6 +748,21 @@
         "data": $DATA{ ,12}
             <table></body></caption></col></colgroup></html></tbody></td></tfoot></th></thead></tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 14, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 24, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 30, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 41, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 48, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 56, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 61, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 69, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 74, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 82, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 87, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 87, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -552,6 +775,9 @@
         "data": $DATA{ ,12}
             </table><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 8, "id": "unexpected-end-tag"}
+        ],
         "fragment": {"tag": "table", "ns": "html"},
         "result": $DATA{ ,12}
             <tbody>
@@ -563,6 +789,9 @@
         "data": $DATA{ ,12}
             <body></body></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 20, "id": "unexpected-end-tag-after-body-innerhtml"}
+        ],
         "fragment": {"tag": "html", "ns": "html"},
         "result": $DATA{ ,12}
             <head>
@@ -574,6 +803,9 @@
         "data": $DATA{ ,12}
             <html><frameset></frameset></html> 
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -586,6 +818,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"><html></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 50, "id": "doctype-has-public-identifier"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
             <html>
@@ -598,6 +833,10 @@
         "data": $DATA{ ,12}
             <param><frameset></frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 17, "id": "unexpected-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -609,6 +848,10 @@
         "data": $DATA{ ,12}
             <source><frameset></frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 8, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 18, "id": "unexpected-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -620,6 +863,10 @@
         "data": $DATA{ ,12}
             <track><frameset></frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 17, "id": "unexpected-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -631,6 +878,11 @@
         "data": $DATA{ ,12}
             </html><frameset></frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-end-tag"},
+            {"line": 1, "col": 17, "id": "expected-eof-but-got-start-tag"},
+            {"line": 1, "col": 17, "id": "unexpected-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -642,6 +894,11 @@
         "data": $DATA{ ,12}
             </body><frameset></frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-end-tag"},
+            {"line": 1, "col": 17, "id": "unexpected-start-tag-after-body"},
+            {"line": 1, "col": 17, "id": "unexpected-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>

@@ -6,6 +6,10 @@
             <b><p>Bold </b> Not bold</p>
             Also not bold.
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 15, "id": "adoption-agency-1.3"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -28,6 +32,14 @@
             <p>Italic and red. </i> Red.</font> I should not be red.</p>
             <b>Bold <i>Bold and italic</b> Only Italic </i> Plain
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 2, "col": 58, "id": "adoption-agency-1.3"},
+            {"line": 3, "col": 67, "id": "unexpected-end-tag"},
+            {"line": 4, "col": 23, "id": "adoption-agency-1.3"},
+            {"line": 4, "col": 35, "id": "adoption-agency-1.3"},
+            {"line": 5, "col": 30, "id": "adoption-agency-1.3"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -78,6 +90,13 @@
             <p>Second paragraph.</p></font>
             <b><p><i>Bold and Italic</b> Italic</p>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 2, "col": 38, "id": "unexpected-end-tag"},
+            {"line": 4, "col": 28, "id": "adoption-agency-1.3"},
+            {"line": 4, "col": 28, "id": "adoption-agency-1.3"},
+            {"line": 4, "col": 39, "id": "unexpected-end-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -113,6 +132,12 @@
             </dl>
             </html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 4, "col": 4, "id": "end-tag-too-early"},
+            {"line": 5, "col": 5, "id": "end-tag-too-early"},
+            {"line": 6, "col": 7, "id": "expected-one-end-tag-but-got-another"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -140,6 +165,12 @@
             <label><a><div>Hello<div>World</div></a></label>  
             </body></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 2, "col": 40, "id": "adoption-agency-1.3"},
+            {"line": 2, "col": 48, "id": "unexpected-end-tag"},
+            {"line": 3, "col": 7, "id": "expected-one-end-tag-but-got-another"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -162,6 +193,17 @@
         "data": $DATA{ ,12}
             <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 15, "id": "foster-parenting-start-tag"},
+            {"line": 1, "col": 16, "id": "foster-parenting-character"},
+            {"line": 1, "col": 22, "id": "foster-parenting-start-tag"},
+            {"line": 1, "col": 23, "id": "foster-parenting-character"},
+            {"line": 1, "col": 32, "id": "foster-parenting-end-tag"},
+            {"line": 1, "col": 32, "id": "end-tag-too-early"},
+            {"line": 1, "col": 33, "id": "foster-parenting-character"},
+            {"line": 1, "col": 38, "id": "foster-parenting-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -188,6 +230,39 @@
         "data": $DATA{ ,12}
             <table><tr><p><a><p>You should see this text.
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 14, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 17, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 20, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 20, "id": "closing-non-current-p-element"},
+            {"line": 1, "col": 21, "id": "foster-parenting-character"},
+            {"line": 1, "col": 22, "id": "foster-parenting-character"},
+            {"line": 1, "col": 23, "id": "foster-parenting-character"},
+            {"line": 1, "col": 24, "id": "foster-parenting-character"},
+            {"line": 1, "col": 25, "id": "foster-parenting-character"},
+            {"line": 1, "col": 26, "id": "foster-parenting-character"},
+            {"line": 1, "col": 27, "id": "foster-parenting-character"},
+            {"line": 1, "col": 28, "id": "foster-parenting-character"},
+            {"line": 1, "col": 29, "id": "foster-parenting-character"},
+            {"line": 1, "col": 30, "id": "foster-parenting-character"},
+            {"line": 1, "col": 31, "id": "foster-parenting-character"},
+            {"line": 1, "col": 32, "id": "foster-parenting-character"},
+            {"line": 1, "col": 33, "id": "foster-parenting-character"},
+            {"line": 1, "col": 34, "id": "foster-parenting-character"},
+            {"line": 1, "col": 35, "id": "foster-parenting-character"},
+            {"line": 1, "col": 36, "id": "foster-parenting-character"},
+            {"line": 1, "col": 37, "id": "foster-parenting-character"},
+            {"line": 1, "col": 38, "id": "foster-parenting-character"},
+            {"line": 1, "col": 39, "id": "foster-parenting-character"},
+            {"line": 1, "col": 40, "id": "foster-parenting-character"},
+            {"line": 1, "col": 41, "id": "foster-parenting-character"},
+            {"line": 1, "col": 42, "id": "foster-parenting-character"},
+            {"line": 1, "col": 43, "id": "foster-parenting-character"},
+            {"line": 1, "col": 44, "id": "foster-parenting-character"},
+            {"line": 1, "col": 45, "id": "foster-parenting-character"},
+            {"line": 1, "col": 45, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -214,6 +289,18 @@
             <a></font><font></a>
             This page contains an insanely badly-nested tag sequence.
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 3, "col": 8, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 3, "col": 16, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 4, "col": 6, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 4, "col": 6, "id": "unexpected character token in table (the newline)"},
+            {"line": 5, "col": 7, "id": "unexpected-start-tag-implies-end-tag"},
+            {"line": 6, "col": 4, "id": "unexpected p end tag"},
+            {"line": 7, "col": 10, "id": "adoption-agency-1.3"},
+            {"line": 7, "col": 20, "id": "adoption-agency-1.3"},
+            {"line": 8, "col": 57, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -261,6 +348,12 @@
             </body>
             </html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 3, "col": 56, "id": "adoption-agency-1.3"},
+            {"line": 4, "col": 58, "id": "adoption-agency-1.3"},
+            {"line": 5, "col": 7, "id": "expected-one-end-tag-but-got-another"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>

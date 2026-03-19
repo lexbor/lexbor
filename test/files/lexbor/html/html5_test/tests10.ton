@@ -18,6 +18,10 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><svg></svg><![CDATA[a]]>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,28) expected-dashes-or-doctype"},
+            {"line": 1, "col": 35, "id": "cdata-in-html-content"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -74,6 +78,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><body><table><svg></svg></table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,33) foster-parenting-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -88,6 +95,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><body><table><svg><g>foo</g></svg></table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,33) foster-parenting-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -104,6 +114,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><body><table><svg><g>foo</g><g>bar</g></svg></table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,33) foster-parenting-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -122,6 +135,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><body><table><tbody><svg><g>foo</g><g>bar</g></svg></tbody></table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,40) foster-parenting-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -141,6 +157,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><body><table><tbody><tr><svg><g>foo</g><g>bar</g></svg></tr></tbody></table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,44) foster-parenting-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -226,6 +245,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><body><table><caption><svg><g>foo</g><g>bar</g><p>baz</table><p>quux
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,65) unexpected-html-element-in-foreign-content"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -249,6 +271,10 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><body><table><caption><svg><g>foo</g><g>bar</g>baz</table><p>quux
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,73) unexpected-end-tag"},
+            {"line": 0, "col": 0, "id": "(1,73) expected-one-end-tag-but-got-another"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -271,6 +297,14 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><body><table><colgroup><svg><g>foo</g><g>bar</g><p>baz</table><p>quux
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,43) foster-parenting-start-tag svg"},
+            {"line": 0, "col": 0, "id": "(1,66) unexpected HTML-like start tag token in foreign content"},
+            {"line": 0, "col": 0, "id": "(1,66) foster-parenting-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,67) foster-parenting-character"},
+            {"line": 0, "col": 0, "id": "(1,68) foster-parenting-character"},
+            {"line": 0, "col": 0, "id": "(1,69) foster-parenting-character"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -294,6 +328,10 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><body><table><tr><td><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "1:70: ERROR: Start tag 'p' isn't allowed here. Currently open tags: html, body, table, tbody, tr, td, select, svg."},
+            {"line": 0, "col": 0, "id": "1:76: ERROR: End tag 'table' isn't allowed here. Currently open tags: html, body, table, tbody, tr, td, select."}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -320,6 +358,15 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><body><table><select><svg><g>foo</g><g>bar</g><p>baz</table><p>quux
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "1:29: ERROR: Start tag 'select' isn't allowed here. Currently open tags: html, body, table."},
+            {"line": 0, "col": 0, "id": "1:37: ERROR: Start tag 'svg' isn't allowed here. Currently open tags: html, body, table, select."},
+            {"line": 0, "col": 0, "id": "1:62: ERROR: Start tag 'p' isn't allowed here. Currently open tags: html, body, table, select, svg."},
+            {"line": 0, "col": 0, "id": "1:62: ERROR: Start tag 'p' isn't allowed here. Currently open tags: html, body, table, select."},
+            {"line": 0, "col": 0, "id": "1:65: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:66: ERROR: Character tokens aren't legal here"},
+            {"line": 0, "col": 0, "id": "1:67: ERROR: Character tokens aren't legal here"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -343,6 +390,10 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><body></body></html><svg><g>foo</g><g>bar</g><p>baz
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,40) expected-eof-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,63) unexpected-html-element-in-foreign-content"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -362,6 +413,10 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,33) unexpected-start-tag-after-body"},
+            {"line": 0, "col": 0, "id": "(1,56) unexpected-html-element-in-foreign-content"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -381,6 +436,16 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><frameset><svg><g></g><g></g><p><span>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,30) unexpected-start-tag-in-frameset"},
+            {"line": 0, "col": 0, "id": "(1,33) unexpected-start-tag-in-frameset"},
+            {"line": 0, "col": 0, "id": "(1,37) unexpected-end-tag-in-frameset"},
+            {"line": 0, "col": 0, "id": "(1,40) unexpected-start-tag-in-frameset"},
+            {"line": 0, "col": 0, "id": "(1,44) unexpected-end-tag-in-frameset"},
+            {"line": 0, "col": 0, "id": "(1,47) unexpected-start-tag-in-frameset"},
+            {"line": 0, "col": 0, "id": "(1,53) unexpected-start-tag-in-frameset"},
+            {"line": 0, "col": 0, "id": "(1,53) eof-in-frameset"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -393,6 +458,15 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><frameset></frameset><svg><g></g><g></g><p><span>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,41) unexpected-start-tag-after-frameset"},
+            {"line": 0, "col": 0, "id": "(1,44) unexpected-start-tag-after-frameset"},
+            {"line": 0, "col": 0, "id": "(1,48) unexpected-end-tag-after-frameset"},
+            {"line": 0, "col": 0, "id": "(1,51) unexpected-start-tag-after-frameset"},
+            {"line": 0, "col": 0, "id": "(1,55) unexpected-end-tag-after-frameset"},
+            {"line": 0, "col": 0, "id": "(1,58) unexpected-start-tag-after-frameset"},
+            {"line": 0, "col": 0, "id": "(1,64) unexpected-start-tag-after-frameset"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -461,6 +535,12 @@
         "data": $DATA{ ,12}
             <svg></path>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,5) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,12) unexpected-end-tag"},
+            {"line": 0, "col": 0, "id": "(1,12) unexpected-end-tag"},
+            {"line": 0, "col": 0, "id": "(1,12) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -473,6 +553,11 @@
         "data": $DATA{ ,12}
             <div><svg></div>a
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,5) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,16) unexpected-end-tag"},
+            {"line": 0, "col": 0, "id": "(1,16) end-tag-too-early"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -487,6 +572,11 @@
         "data": $DATA{ ,12}
             <div><svg><path></div>a
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,5) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,22) unexpected-end-tag"},
+            {"line": 0, "col": 0, "id": "(1,22) end-tag-too-early"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -502,6 +592,11 @@
         "data": $DATA{ ,12}
             <div><svg><path></svg><path>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,5) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,22) unexpected-end-tag"},
+            {"line": 0, "col": 0, "id": "(1,28) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -517,6 +612,12 @@
         "data": $DATA{ ,12}
             <div><svg><path><foreignObject><math></div>a
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,5) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,43) unexpected-end-tag"},
+            {"line": 0, "col": 0, "id": "(1,43) end-tag-too-early"},
+            {"line": 0, "col": 0, "id": "(1,44) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -534,6 +635,11 @@
         "data": $DATA{ ,12}
             <div><svg><path><foreignObject><p></div>a
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,5) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,40) end-tag-too-early"},
+            {"line": 0, "col": 0, "id": "(1,41) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -551,6 +657,10 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><svg><desc><div><svg><ul>a
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,40) unexpected-html-element-in-foreign-content"},
+            {"line": 0, "col": 0, "id": "(1,41) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -569,6 +679,10 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><svg><desc><svg><ul>a
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,35) unexpected-html-element-in-foreign-content"},
+            {"line": 0, "col": 0, "id": "(1,36) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -586,6 +700,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><p><svg><desc><p>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,32) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -602,6 +719,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><p><svg><title><p>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,33) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -618,6 +738,11 @@
         "data": $DATA{ ,12}
             <div><svg><path><foreignObject><p></foreignObject><p>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,5) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,50) unexpected-end-tag"},
+            {"line": 0, "col": 0, "id": "(1,53) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -635,6 +760,10 @@
         "data": $DATA{ ,12}
             <math><mi><div><object><div><span></span></div></object></div></mi><mi>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,6) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,71) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -653,6 +782,10 @@
         "data": $DATA{ ,12}
             <math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,6) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,83) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -671,6 +804,10 @@
         "data": $DATA{ ,12}
             <svg><script></script><path>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,5) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,28) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -685,6 +822,11 @@
         "data": $DATA{ ,12}
             <table><svg></svg><tr>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,7) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,12) unexpected-start-tag-implies-table-voodoo"},
+            {"line": 0, "col": 0, "id": "(1,22) eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -700,6 +842,10 @@
         "data": $DATA{ ,12}
             <math><mi><mglyph>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,6) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,18) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -714,6 +860,10 @@
         "data": $DATA{ ,12}
             <math><mi><malignmark>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,6) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,22) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -728,6 +878,10 @@
         "data": $DATA{ ,12}
             <math><mo><mglyph>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,6) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,18) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -742,6 +896,10 @@
         "data": $DATA{ ,12}
             <math><mo><malignmark>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,6) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,22) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -756,6 +914,10 @@
         "data": $DATA{ ,12}
             <math><mn><mglyph>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,6) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,18) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -770,6 +932,10 @@
         "data": $DATA{ ,12}
             <math><mn><malignmark>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,6) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,22) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -784,6 +950,10 @@
         "data": $DATA{ ,12}
             <math><ms><mglyph>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,6) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,18) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -798,6 +968,10 @@
         "data": $DATA{ ,12}
             <math><ms><malignmark>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,6) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,22) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -812,6 +986,10 @@
         "data": $DATA{ ,12}
             <math><mtext><mglyph>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,6) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,21) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -826,6 +1004,10 @@
         "data": $DATA{ ,12}
             <math><mtext><malignmark>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,6) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,25) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -840,6 +1022,10 @@
         "data": $DATA{ ,12}
             <math><annotation-xml><svg></svg></annotation-xml><mi>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,6) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,54) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -855,6 +1041,10 @@
         "data": $DATA{ ,12}
             <math><annotation-xml><svg><foreignObject><div><math><mi></mi></math><span></span></div></foreignObject><path></path></svg></annotation-xml><mi>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,6) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,144) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -876,6 +1066,10 @@
         "data": $DATA{ ,12}
             <math><annotation-xml><svg><foreignObject><math><mi><svg></svg></mi><mo></mo></math><span></span></foreignObject><path></path></svg></annotation-xml><mi>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1,6) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1,153) expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>

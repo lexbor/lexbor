@@ -118,17 +118,36 @@ typedef uint32_t lxb_css_selector_specificity_t;
 #define LXB_CSS_SELECTOR_SPECIFICITY_MASK                                     \
     ((((uint32_t) 1 << (32 - 9)) - 1) << (9))
 
+/*
+ * CSS Selector Specificity field accessors.
+ *
+ * Specificity is packed into a single uint32_t:
+ *   bits [31..28] — i: !important flag (1 = declaration is !important)
+ *   bit  [27]     — s: style attribute flag (1 = from element's style="...")
+ *   bits [26..18] — a: count of ID selectors
+ *   bits [17..9]  — b: count of class selectors, attribute selectors,
+ *                       and pseudo-classes
+ *   bits [8..0]   — c: count of type selectors and pseudo-elements
+ *
+ * Per CSS cascade order: !important > style attribute > (a, b, c).
+ */
+
+/* Extract the !important flag (bits 31..28). */
 #define lxb_css_selector_sp_i(sp)  ((sp) >> 28)
 
+/* Extract the style attribute flag (bit 27). */
 #define lxb_css_selector_sp_s(sp)                                             \
     (((sp) >> 27) & ~((((uint32_t) 1 << 31) - 1) << (1)))
 
+/* Extract the ID selector count — component "a" (bits 26..18). */
 #define lxb_css_selector_sp_a(sp)                                             \
     (((sp) >> 18) & ~LXB_CSS_SELECTOR_SPECIFICITY_MASK)
 
+/* Extract the class/attribute/pseudo-class count — component "b" (bits 17..9). */
 #define lxb_css_selector_sp_b(sp)                                             \
     (((sp) >> 9) & ~LXB_CSS_SELECTOR_SPECIFICITY_MASK)
 
+/* Extract the type/pseudo-element count — component "c" (bits 8..0). */
 #define lxb_css_selector_sp_c(sp)                                             \
     ((sp) & ~LXB_CSS_SELECTOR_SPECIFICITY_MASK)
 

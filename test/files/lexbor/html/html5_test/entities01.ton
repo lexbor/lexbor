@@ -5,6 +5,9 @@
         "data": $DATA{ ,12}
             FOO&gt;BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -17,6 +20,11 @@
         "data": $DATA{ ,12}
             FOO&gtBAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 6, "id": "named-entity-without-semicolon"},
+            {"line": 1, "col": 7, "id": "missing-semicolon-after-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -29,6 +37,11 @@
         "data": $DATA{ ,12}
             FOO&gt BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 6, "id": "named-entity-without-semicolon"},
+            {"line": 1, "col": 7, "id": "missing-semicolon-after-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -41,6 +54,9 @@
         "data": $DATA{ ,12}
             FOO&gt;;;BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -53,6 +69,11 @@
         "data": $DATA{ ,12}
             I'm &notit; I tell you
         $DATA,
+        "errors": [
+            {"line": 1, "col": 4, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 9, "id": "named-entity-without-semicolon"},
+            {"line": 1, "col": 9, "id": "missing-semicolon-after-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -65,6 +86,9 @@
         "data": $DATA{ ,12}
             I'm &notin; I tell you
         $DATA,
+        "errors": [
+            {"line": 1, "col": 4, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -77,6 +101,11 @@
         "data": $DATA{ ,12}
             &ammmp;
         $DATA,
+        "errors": [
+            {"line": 1, "col": 1, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 7, "id": "unknown-named-character-reference"},
+            {"line": 1, "col": 7, "id": "unknown-named-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -89,6 +118,11 @@
         "data": $DATA{ ,12}
             &ammmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmp;
         $DATA,
+        "errors": [
+            {"line": 1, "col": 1, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 950, "id": "unknown-named-character-reference"},
+            {"line": 1, "col": 950, "id": "unknown-named-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -101,6 +135,9 @@
         "data": $DATA{ ,12}
             FOO& BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -113,6 +150,10 @@
         "data": $DATA{ ,12}
             FOO&<BAR>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 9, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -126,6 +167,9 @@
         "data": $DATA{ ,12}
             FOO&&&&gt;BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -138,6 +182,9 @@
         "data": $DATA{ ,12}
             FOO&#41;BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -150,6 +197,9 @@
         "data": $DATA{ ,12}
             FOO&#x41;BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -162,6 +212,9 @@
         "data": $DATA{ ,12}
             FOO&#X41;BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -174,6 +227,11 @@
         "data": $DATA{ ,12}
             FOO&#BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 5, "id": "expected-numeric-entity"},
+            {"line": 1, "col": 6, "id": "absence-of-digits-in-numeric-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -186,6 +244,11 @@
         "data": $DATA{ ,12}
             FOO&#ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 5, "id": "expected-numeric-entity"},
+            {"line": 1, "col": 6, "id": "absence-of-digits-in-numeric-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -198,6 +261,11 @@
         "data": $DATA{ ,12}
             FOO&#xBAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 7, "id": "expected-numeric-entity"},
+            {"line": 1, "col": 9, "id": "missing-semicolon-after-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -210,6 +278,11 @@
         "data": $DATA{ ,12}
             FOO&#xZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 6, "id": "expected-numeric-entity"},
+            {"line": 1, "col": 7, "id": "absence-of-digits-in-numeric-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -222,6 +295,11 @@
         "data": $DATA{ ,12}
             FOO&#XZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 6, "id": "expected-numeric-entity"},
+            {"line": 1, "col": 7, "id": "absence-of-digits-in-numeric-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -234,6 +312,11 @@
         "data": $DATA{ ,12}
             FOO&#41BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 7, "id": "numeric-entity-without-semicolon"},
+            {"line": 1, "col": 8, "id": "missing-semicolon-after-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -246,6 +329,11 @@
         "data": $DATA{ ,12}
             FOO&#x41BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 10, "id": "numeric-entity-without-semicolon"},
+            {"line": 1, "col": 11, "id": "missing-semicolon-after-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -258,6 +346,11 @@
         "data": $DATA{ ,12}
             FOO&#x41ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 8, "id": "numeric-entity-without-semicolon"},
+            {"line": 1, "col": 9, "id": "missing-semicolon-after-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -270,6 +363,11 @@
         "data": $DATA{ ,12}
             FOO&#x0000;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "null-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -282,6 +380,9 @@
         "data": $DATA{ ,12}
             FOO&#x0078;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -294,6 +395,9 @@
         "data": $DATA{ ,12}
             FOO&#x0079;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -306,6 +410,11 @@
         "data": $DATA{ ,12}
             FOO&#x0080;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -318,6 +427,11 @@
         "data": $DATA{ ,12}
             FOO&#x0081;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -330,6 +444,11 @@
         "data": $DATA{ ,12}
             FOO&#x0082;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -342,6 +461,11 @@
         "data": $DATA{ ,12}
             FOO&#x0083;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -354,6 +478,11 @@
         "data": $DATA{ ,12}
             FOO&#x0084;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -366,6 +495,11 @@
         "data": $DATA{ ,12}
             FOO&#x0085;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -378,6 +512,11 @@
         "data": $DATA{ ,12}
             FOO&#x0086;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -390,6 +529,11 @@
         "data": $DATA{ ,12}
             FOO&#x0087;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -402,6 +546,11 @@
         "data": $DATA{ ,12}
             FOO&#x0088;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -414,6 +563,11 @@
         "data": $DATA{ ,12}
             FOO&#x0089;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -426,6 +580,11 @@
         "data": $DATA{ ,12}
             FOO&#x008A;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -438,6 +597,11 @@
         "data": $DATA{ ,12}
             FOO&#x008B;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -450,6 +614,11 @@
         "data": $DATA{ ,12}
             FOO&#x008C;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -462,6 +631,11 @@
         "data": $DATA{ ,12}
             FOO&#x008D;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -474,6 +648,11 @@
         "data": $DATA{ ,12}
             FOO&#x008E;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -486,6 +665,11 @@
         "data": $DATA{ ,12}
             FOO&#x008F;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -498,6 +682,11 @@
         "data": $DATA{ ,12}
             FOO&#x0090;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -510,6 +699,11 @@
         "data": $DATA{ ,12}
             FOO&#x0091;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -522,6 +716,11 @@
         "data": $DATA{ ,12}
             FOO&#x0092;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -534,6 +733,11 @@
         "data": $DATA{ ,12}
             FOO&#x0093;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -546,6 +750,11 @@
         "data": $DATA{ ,12}
             FOO&#x0094;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -558,6 +767,11 @@
         "data": $DATA{ ,12}
             FOO&#x0095;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -570,6 +784,11 @@
         "data": $DATA{ ,12}
             FOO&#x0096;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -582,6 +801,11 @@
         "data": $DATA{ ,12}
             FOO&#x0097;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -594,6 +818,11 @@
         "data": $DATA{ ,12}
             FOO&#x0098;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -606,6 +835,11 @@
         "data": $DATA{ ,12}
             FOO&#x0099;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -618,6 +852,11 @@
         "data": $DATA{ ,12}
             FOO&#x009A;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -630,6 +869,11 @@
         "data": $DATA{ ,12}
             FOO&#x009B;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -642,6 +886,11 @@
         "data": $DATA{ ,12}
             FOO&#x009C;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -654,6 +903,11 @@
         "data": $DATA{ ,12}
             FOO&#x009D;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -666,6 +920,11 @@
         "data": $DATA{ ,12}
             FOO&#x009E;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -678,6 +937,11 @@
         "data": $DATA{ ,12}
             FOO&#x009F;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -690,6 +954,9 @@
         "data": $DATA{ ,12}
             FOO&#x00A0;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -702,6 +969,9 @@
         "data": $DATA{ ,12}
             FOO&#xD7FF;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -714,6 +984,11 @@
         "data": $DATA{ ,12}
             FOO&#xD800;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "surrogate-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -726,6 +1001,11 @@
         "data": $DATA{ ,12}
             FOO&#xD801;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "surrogate-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -738,6 +1018,11 @@
         "data": $DATA{ ,12}
             FOO&#xDFFE;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "surrogate-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -750,6 +1035,11 @@
         "data": $DATA{ ,12}
             FOO&#xDFFF;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "surrogate-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -762,6 +1052,9 @@
         "data": $DATA{ ,12}
             FOO&#xE000;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -774,6 +1067,11 @@
         "data": $DATA{ ,12}
             FOO&#x10FFFE;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 13, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 14, "id": "noncharacter-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -786,6 +1084,9 @@
         "data": $DATA{ ,12}
             FOO&#x1087D4;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -798,6 +1099,11 @@
         "data": $DATA{ ,12}
             FOO&#x10FFFF;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 13, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 14, "id": "noncharacter-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -810,6 +1116,11 @@
         "data": $DATA{ ,12}
             FOO&#x110000;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 13, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 14, "id": "character-reference-outside-unicode-range"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -822,6 +1133,11 @@
         "data": $DATA{ ,12}
             FOO&#xFFFFFF;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 13, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 14, "id": "character-reference-outside-unicode-range"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -834,6 +1150,13 @@
         "data": $DATA{ ,12}
             FOO&#11111111111
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 13, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 13, "id": "eof-in-numeric-entity"},
+            {"line": 1, "col": 17, "id": "missing-semicolon-after-character-reference"},
+            {"line": 1, "col": 17, "id": "character-reference-outside-unicode-range"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -846,6 +1169,13 @@
         "data": $DATA{ ,12}
             FOO&#1111111111
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 13, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 13, "id": "eof-in-numeric-entity"},
+            {"line": 1, "col": 16, "id": "missing-semicolon-after-character-reference"},
+            {"line": 1, "col": 16, "id": "character-reference-outside-unicode-range"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -858,6 +1188,13 @@
         "data": $DATA{ ,12}
             FOO&#111111111111
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 13, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 13, "id": "eof-in-numeric-entity"},
+            {"line": 1, "col": 18, "id": "missing-semicolon-after-character-reference"},
+            {"line": 1, "col": 18, "id": "character-reference-outside-unicode-range"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -870,6 +1207,13 @@
         "data": $DATA{ ,12}
             FOO&#11111111111ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 16, "id": "numeric-entity-without-semicolon"},
+            {"line": 1, "col": 16, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 17, "id": "missing-semicolon-after-character-reference"},
+            {"line": 1, "col": 17, "id": "character-reference-outside-unicode-range"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -882,6 +1226,13 @@
         "data": $DATA{ ,12}
             FOO&#1111111111ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 15, "id": "numeric-entity-without-semicolon"},
+            {"line": 1, "col": 15, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 16, "id": "missing-semicolon-after-character-reference"},
+            {"line": 1, "col": 16, "id": "character-reference-outside-unicode-range"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -894,6 +1245,13 @@
         "data": $DATA{ ,12}
             FOO&#111111111111ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 17, "id": "numeric-entity-without-semicolon"},
+            {"line": 1, "col": 17, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 18, "id": "missing-semicolon-after-character-reference"},
+            {"line": 1, "col": 18, "id": "character-reference-outside-unicode-range"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>

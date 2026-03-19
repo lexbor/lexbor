@@ -5,6 +5,9 @@
         "data": $DATA{ ,12}
             <!doctype html><p>foo<main>bar<p>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 36, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -39,6 +42,10 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html>xxx<svg><x><g><a><main><b>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "* (1,42) unexpected HTML-like start tag token in foreign content"},
+            {"line": 0, "col": 0, "id": "* (1,42) unexpected end of file"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>

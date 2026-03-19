@@ -1,11 +1,10 @@
 /*
- * Copyright (C) 2025 Alexander Borisov
+ * Copyright (C) 2025-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
 
 #include "lexbor/style/dom/interfaces/document.h"
-#include "lexbor/style/event.h"
 #include "lexbor/style/dom/interfaces/element.h"
 
 
@@ -20,15 +19,6 @@ static const lexbor_hash_insert_t  lxb_style_dom_document_css_customs_in = {
     .hash = lexbor_hash_make_id
 };
 
-static const lxb_dom_document_node_cb_t lxb_style_dom_document_node_cbs =
-{
-    .insert = lxb_style_event_insert,
-    .remove = lxb_style_event_remove,
-    .destroy = lxb_style_event_destroy,
-    .set_value = lxb_style_event_set_value
-};
-
-
 typedef struct {
     lexbor_hash_entry_t entry;
     uintptr_t           id;
@@ -36,7 +26,7 @@ typedef struct {
 lxb_dom_document_css_custom_entry_t;
 
 typedef struct {
-    lxb_dom_document_t              *doc;
+    lxb_dom_element_t               *element;
     lxb_css_rule_declaration_list_t *list;
 }
 lxb_dom_document_remove_ctx_t;
@@ -66,6 +56,8 @@ lxb_dom_document_css_init(lxb_dom_document_t *document, bool init_events)
 {
     lxb_status_t status;
     lxb_dom_document_css_t *css = document->css;
+
+    (void) init_events; /* Deprecated. */
 
     if (css != NULL) {
         return LXB_STATUS_OK;
@@ -127,10 +119,6 @@ lxb_dom_document_css_init(lxb_dom_document_t *document, bool init_events)
     status = lxb_dom_document_css_customs_init(document);
     if (status != LXB_STATUS_OK) {
         goto failed;
-    }
-
-    if (init_events) {
-        document->node_cb = &lxb_style_dom_document_node_cbs;
     }
 
     return LXB_STATUS_OK;
@@ -478,7 +466,7 @@ lxb_dom_document_style_remove_by_rule_cb(lxb_dom_node_t *node,
 
     doc = node->owner_document;
 
-    context.doc = doc;
+    context.element = el;
     context.list = style->declarations;
 
     return lexbor_avl_foreach(doc->css->styles, &el->style,
@@ -490,10 +478,13 @@ lxb_dom_document_style_remove_avl_cb(lexbor_avl_t *avl,
                                      lexbor_avl_node_t **root,
                                      lexbor_avl_node_t *node, void *ctx)
 {
-    lxb_dom_document_remove_ctx_t *context = ctx;
-    lxb_style_node_t *style = (lxb_style_node_t *) node;
+    lxb_dom_element_t *element;
+    lxb_dom_document_remove_ctx_t *context;
 
-    lxb_dom_element_style_remove_by_list(context->doc, root, style,
+    context = ctx;
+    element = context->element;
+
+    lxb_dom_element_style_remove_by_list(element, (lxb_style_node_t *) node,
                                          context->list);
     return LXB_STATUS_OK;
 }

@@ -23,6 +23,8 @@ lxb_inline bool
 lxb_html_tree_insertion_mode_foreign_content_anything_else_closed(lxb_html_tree_t *tree,
                                                                   lxb_html_token_t *token)
 {
+    unsigned status;
+
     if (tree->open_elements->length == 0) {
         return tree->mode(tree, token);
     }
@@ -36,10 +38,12 @@ lxb_html_tree_insertion_mode_foreign_content_anything_else_closed(lxb_html_tree_
                                   LXB_HTML_RULES_ERROR_UNELINOPELST);
     }
 
+    status = LXB_STATUS_OK;
+
     while (idx != 0) {
         if (list[idx]->local_name == token->tag_id) {
-            lxb_html_tree_open_elements_pop_until_node(tree, list[idx], true);
-
+            status |= (unsigned) lxb_html_tree_open_elements_pop_until_node(tree,
+                                                                list[idx], true);
             return true;
         }
 
@@ -48,6 +52,11 @@ lxb_html_tree_insertion_mode_foreign_content_anything_else_closed(lxb_html_tree_
         if (list[idx]->ns == LXB_NS_HTML) {
             break;
         }
+    }
+
+    if (status != LXB_STATUS_OK) {
+        tree->status = LXB_STATUS_ERROR;
+        return lxb_html_tree_process_abort(tree);
     }
 
     return tree->mode(tree, token);

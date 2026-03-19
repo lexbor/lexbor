@@ -38,6 +38,8 @@ typedef struct {
     lxb_html_parser_state_t state;
     lxb_status_t            status;
 
+    lxb_dom_document_opt_t  dom_opt;
+
     size_t                  ref_count;
 }
 lxb_html_parser_t;
@@ -140,6 +142,19 @@ lxb_html_parser_scripting_set(lxb_html_parser_t *parser, bool scripting)
     lxb_html_tree_scripting_set(parser->tree, scripting);
 }
 
+lxb_inline lxb_dom_document_opt_t
+lxb_html_parser_dom_opt(lxb_html_parser_t *parser)
+{
+    return parser->dom_opt;
+}
+
+lxb_inline void
+lxb_html_parser_dom_opt_set(lxb_html_parser_t *parser,
+                            lxb_dom_document_opt_t opt)
+{
+    parser->dom_opt = opt;
+}
+
 
 /*
  * No inline functions for ABI.
@@ -161,6 +176,13 @@ lxb_html_parser_scripting_noi(lxb_html_parser_t *parser);
 
 LXB_API void
 lxb_html_parser_scripting_set_noi(lxb_html_parser_t *parser, bool scripting);
+
+LXB_API lxb_dom_document_opt_t
+lxb_html_parser_dom_opt_noi(lxb_html_parser_t *parser);
+
+LXB_API void
+lxb_html_parser_dom_opt_set_noi(lxb_html_parser_t *parser,
+                                 lxb_dom_document_opt_t opt);
 
 
 #ifdef __cplusplus

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021 Alexander Borisov
+ * Copyright (C) 2018-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -14,9 +14,18 @@
 #include "lexbor/dom/interfaces/processing_instruction.h"
 
 
-static const lxb_dom_document_node_cb_t lxb_dom_document_node_cbs =
+static const lxb_dom_document_mutation_cb_t lxb_dom_document_mutation_cbs =
 {
-    .insert = NULL, .remove = NULL, .destroy = NULL, .set_value = NULL
+    .inserted = NULL, .removed = NULL, .moved = NULL,.destroy = NULL,
+    .children_changed = NULL, .connected = NULL
+};
+
+static const lxb_dom_document_attr_mutation_cb_t lxb_dom_document_attr_mutation_cbs =
+{
+    .change = NULL,
+    .append = NULL,
+    .remove = NULL,
+    .replace = NULL
 };
 
 
@@ -93,8 +102,6 @@ lxb_dom_document_init(lxb_dom_document_t *document, lxb_dom_document_t *owner,
     document->clone_interface = clone_interface;
     document->destroy_interface = destroy_interface;
 
-    document->node_cb = &lxb_dom_document_node_cbs;
-
     node = lxb_dom_interface_node(document);
 
     node->type = LXB_DOM_NODE_TYPE_DOCUMENT;
@@ -113,6 +120,9 @@ lxb_dom_document_init(lxb_dom_document_t *document, lxb_dom_document_t *owner,
         document->scripting = owner->scripting;
         document->compat_mode = owner->compat_mode;
         document->css = owner->css;
+        document->mutation = owner->mutation;
+        document->attr_mutation = owner->attr_mutation;
+        document->options = owner->options;
 
         document->tags_inherited = true;
         document->ns_inherited = true;
@@ -123,6 +133,9 @@ lxb_dom_document_init(lxb_dom_document_t *document, lxb_dom_document_t *owner,
     }
 
     document->css = NULL;
+    document->mutation = &lxb_dom_document_mutation_cbs;
+    document->attr_mutation = &lxb_dom_document_attr_mutation_cbs;
+    document->options = LXB_DOM_DOCUMENT_OPT_UNDEF;
 
     /* For nodes */
     document->mraw = lexbor_mraw_create();
@@ -225,6 +238,20 @@ lxb_dom_document_destroy(lxb_dom_document_t *document)
     lexbor_hash_destroy(document->prefix, true);
 
     return lexbor_free(document);
+}
+
+void
+lxb_dom_document_mutation_init(lxb_dom_document_t *document)
+{
+    document->mutation = &lxb_dom_document_mutation_cbs;
+    document->attr_mutation = &lxb_dom_document_attr_mutation_cbs;
+}
+
+void
+lxb_dom_document_mutation_erase(lxb_dom_document_t *document)
+{
+    document->mutation = &lxb_dom_document_mutation_cbs;
+    document->attr_mutation = &lxb_dom_document_attr_mutation_cbs;
 }
 
 void
@@ -486,7 +513,7 @@ lxb_dom_document_import_node(lxb_dom_document_t *doc, lxb_dom_node_t *node,
 void
 lxb_dom_document_set_default_node_cb(lxb_dom_document_t *document)
 {
-    document->node_cb = &lxb_dom_document_node_cbs;
+    document->mutation = &lxb_dom_document_mutation_cbs;
 }
 
 
@@ -550,4 +577,17 @@ lxb_dom_document_scripting_set_noi(lxb_dom_document_t *document,
                                    bool scripting)
 {
     lxb_dom_document_scripting_set(document, scripting);
+}
+
+void
+lxb_dom_document_opt_set_noi(lxb_dom_document_t *document,
+                              lxb_dom_document_opt_t opt)
+{
+    lxb_dom_document_opt_set(document, opt);
+}
+
+lxb_dom_document_opt_t
+lxb_dom_document_opt_noi(lxb_dom_document_t *document)
+{
+    return lxb_dom_document_opt(document);
 }

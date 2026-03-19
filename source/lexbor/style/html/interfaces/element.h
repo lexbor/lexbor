@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Alexander Borisov
+ * Copyright (C) 2025-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -13,6 +13,83 @@ extern "C" {
 
 #include "lexbor/style/dom/interfaces/element.h"
 
+
+typedef struct {
+    lxb_dom_element_t  *element;
+    bool               all;
+}
+lxb_style_html_steps_ctx_t;
+
+
+/* Element steps. */
+LXB_API lxb_status_t
+lxb_style_html_element_inserted_steps(lxb_dom_node_t *inserted_node);
+
+LXB_API lxb_status_t
+lxb_style_html_element_removed_steps(lxb_dom_node_t *removed_node,
+                                    lxb_dom_node_t *old_parent);
+
+LXB_API lxb_status_t
+lxb_style_html_element_moved_steps(lxb_dom_node_t *moved_node,
+                                   lxb_dom_node_t *old_parent);
+
+LXB_API lxb_status_t
+lxb_style_html_element_destroy_steps(lxb_dom_node_t *node);
+
+LXB_API lxb_status_t
+lxb_style_html_element_children_changed_steps(lxb_dom_node_t *parent);
+
+LXB_API lxb_status_t
+lxb_style_html_element_connected_steps(lxb_dom_node_t *connected_node);
+
+/* Unknown Element steps. */
+LXB_API lxb_status_t
+lxb_style_html_element_inserted_unknown_steps(lxb_dom_node_t *inserted_node);
+
+LXB_API lxb_status_t
+lxb_style_html_element_removed_unknown_steps(lxb_dom_node_t *removed_node,
+                                             lxb_dom_node_t *old_parent);
+
+LXB_API lxb_status_t
+lxb_style_html_element_moved_unknown_steps(lxb_dom_node_t *moved_node,
+                                           lxb_dom_node_t *old_parent);
+
+LXB_API lxb_status_t
+lxb_style_html_element_destroy_unknown_steps(lxb_dom_node_t *node);
+
+LXB_API lxb_status_t
+lxb_style_html_element_children_changed_unknown_steps(lxb_dom_node_t *parent);
+
+LXB_API lxb_status_t
+lxb_style_html_element_connected_unknown_steps(lxb_dom_node_t *connected_node);
+
+LXB_API lxb_status_t
+lxb_style_html_element_attr_change(lxb_dom_element_t *element,
+                                   lxb_dom_attr_id_t local_name,
+                                   const lxb_char_t *old_value, size_t old_len,
+                                   const lxb_char_t *value, size_t value_len,
+                                   lxb_ns_id_t ns);
+
+LXB_API lxb_status_t
+lxb_style_html_element_attr_append(lxb_dom_element_t *element,
+                                   lxb_dom_attr_id_t local_name,
+                                   const lxb_char_t *old_value, size_t old_len,
+                                   const lxb_char_t *value, size_t value_len,
+                                   lxb_ns_id_t ns);
+
+LXB_API lxb_status_t
+lxb_style_html_element_attr_remove(lxb_dom_element_t *element,
+                                   lxb_dom_attr_id_t local_name,
+                                   const lxb_char_t *old_value, size_t old_len,
+                                   const lxb_char_t *value, size_t value_len,
+                                   lxb_ns_id_t ns);
+
+LXB_API lxb_status_t
+lxb_style_html_element_attr_replace(lxb_dom_element_t *element,
+                                    lxb_dom_attr_id_t local_name,
+                                    const lxb_char_t *old_value, size_t old_len,
+                                    const lxb_char_t *value, size_t value_len,
+                                    lxb_ns_id_t ns);
 
 /*
  * Inline functions

@@ -54,7 +54,7 @@ TEST_BEGIN(styles)
 
     /* Init all CSS objects and momory for Document. */
 
-    status = lxb_html_document_css_init(document, true);
+    status = lxb_style_init(document);
     test_eq(status, LXB_STATUS_OK);
 
     /* Parse HTML. */
@@ -167,7 +167,7 @@ TEST_BEGIN(styles)
     (void) lxb_dom_collection_destroy(collection, true);
     (void) lxb_css_stylesheet_destroy(sst, true);
     (void) lxb_css_parser_destroy(parser, true);
-    (void) lxb_html_document_css_destroy(document);
+    (void) lxb_style_destroy(document);
     (void) lxb_html_document_destroy(document);
 
     return EXIT_SUCCESS;
@@ -188,7 +188,7 @@ TEST_BEGIN(destroy_element_with_inline_style)
     document = lxb_html_document_create();
     test_ne(document, NULL);
 
-    status = lxb_html_document_css_init(document, true);
+    status = lxb_style_init(document);
     test_eq(status, LXB_STATUS_OK);
 
     element = lxb_html_document_create_element(document, div_str.data,
@@ -202,7 +202,7 @@ TEST_BEGIN(destroy_element_with_inline_style)
 
     lxb_dom_document_destroy_interface(lxb_dom_interface_node(element));
 
-    (void) lxb_html_document_css_destroy(document);
+    (void) lxb_style_destroy(document);
     (void) lxb_html_document_destroy(document);
 }
 TEST_END
@@ -221,7 +221,7 @@ TEST_BEGIN(destroy_elements)
     document = lxb_html_document_create();
     test_ne(document, NULL);
 
-    status = lxb_html_document_css_init(document, true);
+    status = lxb_style_init(document);
     test_eq(status, LXB_STATUS_OK);
 
     /* Create container div. */
@@ -272,7 +272,7 @@ TEST_BEGIN(destroy_elements)
 
     /* Destroy all. */
     lxb_dom_node_destroy(lxb_dom_interface_node(document->body));
-    lxb_dom_document_css_destroy(lxb_dom_interface_document(document));
+    lxb_style_destroy(document);
     lxb_html_document_destroy(document);
 }
 TEST_END

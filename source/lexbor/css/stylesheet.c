@@ -96,7 +96,8 @@ lxb_css_stylesheet_parse(lxb_css_stylesheet_t *sst, lxb_css_parser_t *parser,
                                            data, length);
 
     if (parser->selectors == &selectors) {
-        parser->selectors = lxb_css_selectors_destroy(&selectors, false);
+        lxb_css_selectors_destroy(&selectors, false);
+        parser->selectors = NULL;
     }
 
     if (list == NULL) {

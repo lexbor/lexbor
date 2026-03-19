@@ -20,43 +20,45 @@ LXB_API void
 lxb_html_tree_open_elements_remove_by_node(lxb_html_tree_t *tree,
                                            lxb_dom_node_t *node);
 
-void
+LXB_API lxb_status_t
 lxb_html_tree_open_elements_pop_until_tag_id(lxb_html_tree_t *tree,
                                              lxb_tag_id_t tag_id,
                                              lxb_ns_id_t ns,
                                              bool exclude);
 
-void
+LXB_API lxb_status_t
 lxb_html_tree_open_elements_pop_until_h123456(lxb_html_tree_t *tree);
 
-void
+LXB_API lxb_status_t
 lxb_html_tree_open_elements_pop_until_td_th(lxb_html_tree_t *tree);
 
-void
+LXB_API lxb_status_t
 lxb_html_tree_open_elements_pop_until_node(lxb_html_tree_t *tree,
                                            lxb_dom_node_t *node,
                                            bool exclude);
 
-void
-lxb_html_tree_open_elements_pop_until(lxb_html_tree_t *tree, size_t idx,
-                                      bool exclude);
+LXB_API lxb_status_t
+lxb_html_tree_open_elements_pop_all(lxb_html_tree_t *tree);
 
-bool
+LXB_API lxb_dom_node_t *
+lxb_html_tree_open_elements_pop(lxb_html_tree_t *tree);
+
+LXB_API bool
 lxb_html_tree_open_elements_find_by_node(lxb_html_tree_t *tree,
                                          lxb_dom_node_t *node,
                                          size_t *return_pos);
 
-bool
+LXB_API bool
 lxb_html_tree_open_elements_find_by_node_reverse(lxb_html_tree_t *tree,
                                                  lxb_dom_node_t *node,
                                                  size_t *return_pos);
 
-lxb_dom_node_t *
+LXB_API lxb_dom_node_t *
 lxb_html_tree_open_elements_find(lxb_html_tree_t *tree,
                                  lxb_tag_id_t tag_id, lxb_ns_id_t ns,
                                  size_t *return_index);
 
-lxb_dom_node_t *
+LXB_API lxb_dom_node_t *
 lxb_html_tree_open_elements_find_reverse(lxb_html_tree_t *tree,
                                          lxb_tag_id_t tag_id, lxb_ns_id_t ns,
                                          size_t *return_index);
@@ -81,12 +83,6 @@ lxb_inline lxb_status_t
 lxb_html_tree_open_elements_push(lxb_html_tree_t *tree, lxb_dom_node_t *node)
 {
     return lexbor_array_push(tree->open_elements, node);
-}
-
-lxb_inline lxb_dom_node_t *
-lxb_html_tree_open_elements_pop(lxb_html_tree_t *tree)
-{
-    return (lxb_dom_node_t *) lexbor_array_pop(tree->open_elements);
 }
 
 lxb_inline lxb_status_t

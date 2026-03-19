@@ -5,6 +5,9 @@
         "data": $DATA{ ,12}
             FOO<script>'Hello'</script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -20,6 +23,9 @@
         "data": $DATA{ ,12}
             FOO<script></script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -34,6 +40,9 @@
         "data": $DATA{ ,12}
             FOO<script></script >BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -48,6 +57,11 @@
         "data": $DATA{ ,12}
             FOO<script></script/>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 21, "id": "self-closing-flag-on-end-tag"},
+            {"line": 1, "col": 21, "id": "end-tag-with-trailing-solidus"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -62,6 +76,11 @@
         "data": $DATA{ ,12}
             FOO<script></script/ >BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 20, "id": "unexpected-character-after-solidus-in-tag"},
+            {"line": 1, "col": 21, "id": "unexpected-solidus-in-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -76,6 +95,10 @@
         "data": $DATA{ ,12}
             FOO<script type="text/plain"></scriptx>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 42, "id": "expected-named-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -90,6 +113,11 @@
         "data": $DATA{ ,12}
             FOO<script></script foo=">" dd>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 31, "id": "attributes-in-end-tag"},
+            {"line": 1, "col": 31, "id": "end-tag-with-attributes"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -104,6 +132,9 @@
         "data": $DATA{ ,12}
             FOO<script>'<'</script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -119,6 +150,9 @@
         "data": $DATA{ ,12}
             FOO<script>'<!'</script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -134,6 +168,9 @@
         "data": $DATA{ ,12}
             FOO<script>'<!-'</script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -149,6 +186,9 @@
         "data": $DATA{ ,12}
             FOO<script>'<!--'</script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -164,6 +204,9 @@
         "data": $DATA{ ,12}
             FOO<script>'<!---'</script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -179,6 +222,9 @@
         "data": $DATA{ ,12}
             FOO<script>'<!-->'</script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -194,6 +240,9 @@
         "data": $DATA{ ,12}
             FOO<script>'<!-- potato'</script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -209,6 +258,9 @@
         "data": $DATA{ ,12}
             FOO<script>'<!-- <sCrIpt'</script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -224,6 +276,12 @@
         "data": $DATA{ ,12}
             FOO<script type="text/plain">'<!-- <sCrIpt>'</script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 56, "id": "expected-script-data-but-got-eof"},
+            {"line": 1, "col": 56, "id": "expected-named-closing-tag-but-got-eof"},
+            {"line": 1, "col": 57, "id": "eof-in-script-html-comment-like-text"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -238,6 +296,12 @@
         "data": $DATA{ ,12}
             FOO<script type="text/plain">'<!-- <sCrIpt> -'</script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 58, "id": "expected-script-data-but-got-eof"},
+            {"line": 1, "col": 58, "id": "expected-named-closing-tag-but-got-eof"},
+            {"line": 1, "col": 59, "id": "eof-in-script-html-comment-like-text"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -252,6 +316,12 @@
         "data": $DATA{ ,12}
             FOO<script type="text/plain">'<!-- <sCrIpt> --'</script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 59, "id": "expected-script-data-but-got-eof"},
+            {"line": 1, "col": 59, "id": "expected-named-closing-tag-but-got-eof"},
+            {"line": 1, "col": 60, "id": "eof-in-script-html-comment-like-text"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -266,6 +336,9 @@
         "data": $DATA{ ,12}
             FOO<script>'<!-- <sCrIpt> -->'</script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -281,6 +354,12 @@
         "data": $DATA{ ,12}
             FOO<script type="text/plain">'<!-- <sCrIpt> --!>'</script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 61, "id": "expected-script-data-but-got-eof"},
+            {"line": 1, "col": 61, "id": "expected-named-closing-tag-but-got-eof"},
+            {"line": 1, "col": 62, "id": "eof-in-script-html-comment-like-text"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -295,6 +374,12 @@
         "data": $DATA{ ,12}
             FOO<script type="text/plain">'<!-- <sCrIpt> -- >'</script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 61, "id": "expected-script-data-but-got-eof"},
+            {"line": 1, "col": 61, "id": "expected-named-closing-tag-but-got-eof"},
+            {"line": 1, "col": 62, "id": "eof-in-script-html-comment-like-text"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -309,6 +394,12 @@
         "data": $DATA{ ,12}
             FOO<script type="text/plain">'<!-- <sCrIpt '</script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 56, "id": "expected-script-data-but-got-eof"},
+            {"line": 1, "col": 56, "id": "expected-named-closing-tag-but-got-eof"},
+            {"line": 1, "col": 57, "id": "eof-in-script-html-comment-like-text"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -323,6 +414,12 @@
         "data": $DATA{ ,12}
             FOO<script type="text/plain">'<!-- <sCrIpt/'</script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 56, "id": "expected-script-data-but-got-eof"},
+            {"line": 1, "col": 56, "id": "expected-named-closing-tag-but-got-eof"},
+            {"line": 1, "col": 57, "id": "eof-in-script-html-comment-like-text"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -337,6 +434,9 @@
         "data": $DATA{ ,12}
             FOO<script type="text/plain">'<!-- <sCrIpt\'</script>BAR
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -352,6 +452,9 @@
         "data": $DATA{ ,12}
             FOO<script type="text/plain">'<!-- <sCrIpt/'</script>BAR</script>QUX
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -367,6 +470,9 @@
         "data": $DATA{ ,12}
             FOO<script><!--<script>-></script>--></script>QUX
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>

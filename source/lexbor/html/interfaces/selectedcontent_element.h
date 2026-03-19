@@ -17,6 +17,7 @@ extern "C" {
 
 struct lxb_html_selectedcontent_element {
     lxb_html_element_t element;
+    bool               disabled;
 };
 
 
@@ -29,6 +30,13 @@ lxb_html_selectedcontent_element_interface_destroy(lxb_html_selectedcontent_elem
 LXB_API lxb_dom_exception_code_t
 lxb_html_selectedcontent_clone_option(lxb_html_selectedcontent_element_t *sc,
                                       lxb_html_option_element_t *option);
+
+LXB_API lxb_status_t
+lxb_html_selectedcontent_insert_steps(lxb_dom_node_t *inserted_node);
+
+LXB_API lxb_status_t
+lxb_html_selectedcontent_remove_steps(lxb_dom_node_t *removed_node,
+                                      lxb_dom_node_t *old_parent);
 
 #ifdef __cplusplus
 } /* extern "C" */

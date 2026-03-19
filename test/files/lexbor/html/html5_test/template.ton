@@ -5,6 +5,9 @@
         "data": $DATA{ ,12}
             <body><template>Hello</template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -19,6 +22,9 @@
         "data": $DATA{ ,12}
             <template>Hello</template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -33,6 +39,9 @@
         "data": $DATA{ ,12}
             <template></template><div></div>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -46,6 +55,9 @@
         "data": $DATA{ ,12}
             <html><template>Hello</template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -60,6 +72,9 @@
         "data": $DATA{ ,12}
             <head><template><div></div></template></head>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -74,6 +89,11 @@
         "data": $DATA{ ,12}
             <div><template><div><span></template><b>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "* (1,6) missing DOCTYPE"},
+            {"line": 0, "col": 0, "id": "* (1,38) mismatched template end tag"},
+            {"line": 0, "col": 0, "id": "* (1,41) unexpected end of file"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -91,6 +111,12 @@
         "data": $DATA{ ,12}
             <div><template></div>Hello
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "* (1,6) missing DOCTYPE"},
+            {"line": 0, "col": 0, "id": "* (1,22) unexpected token in template"},
+            {"line": 0, "col": 0, "id": "* (1,27) unexpected end of file in template"},
+            {"line": 0, "col": 0, "id": "* (1,27) unexpected end of file"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -106,6 +132,10 @@
         "data": $DATA{ ,12}
             <div></template></div>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "* (1,6) missing DOCTYPE"},
+            {"line": 0, "col": 0, "id": "* (1,17) unexpected template end tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -118,6 +148,9 @@
         "data": $DATA{ ,12}
             <table><template></template></table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -131,6 +164,12 @@
         "data": $DATA{ ,12}
             <table><template></template></div>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "* (1,8) missing DOCTYPE"},
+            {"line": 0, "col": 0, "id": "* (1,35) unexpected token in table - foster parenting"},
+            {"line": 0, "col": 0, "id": "* (1,35) unexpected end tag"},
+            {"line": 0, "col": 0, "id": "* (1,35) unexpected end of file"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -144,6 +183,12 @@
         "data": $DATA{ ,12}
             <table><div><template></template></div>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "* (1,8) missing DOCTYPE"},
+            {"line": 0, "col": 0, "id": "* (1,13) unexpected token in table - foster parenting"},
+            {"line": 0, "col": 0, "id": "* (1,40) unexpected token in table - foster parenting"},
+            {"line": 0, "col": 0, "id": "* (1,40) unexpected end of file"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -158,6 +203,12 @@
         "data": $DATA{ ,12}
             <table><template></template><div></div>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad div in table"},
+            {"line": 0, "col": 0, "id": "bad /div in table"},
+            {"line": 0, "col": 0, "id": "eof in table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -172,6 +223,9 @@
         "data": $DATA{ ,12}
             <table>   <template></template></table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -186,6 +240,10 @@
         "data": $DATA{ ,12}
             <table><tbody><template></template></tbody>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -200,6 +258,11 @@
         "data": $DATA{ ,12}
             <table><tbody><template></tbody></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad /tbody"},
+            {"line": 0, "col": 0, "id": "eof in table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -214,6 +277,9 @@
         "data": $DATA{ ,12}
             <table><tbody><template></template></tbody></table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -228,6 +294,10 @@
         "data": $DATA{ ,12}
             <table><thead><template></template></thead>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -242,6 +312,10 @@
         "data": $DATA{ ,12}
             <table><tfoot><template></template></tfoot>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -256,6 +330,9 @@
         "data": $DATA{ ,12}
             <select><template></template></select>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -269,6 +346,9 @@
         "data": $DATA{ ,12}
             <select><template><option></option></template></select>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -284,6 +364,10 @@
         "data": $DATA{ ,12}
             <template><option></option></select><option></option></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad /select"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -299,6 +383,9 @@
         "data": $DATA{ ,12}
             <select><template></template><option></select>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -313,6 +400,9 @@
         "data": $DATA{ ,12}
             <select><option><template></template></select>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -327,6 +417,11 @@
         "data": $DATA{ ,12}
             <select><template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in template"},
+            {"line": 0, "col": 0, "id": "eof in select"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -340,6 +435,11 @@
         "data": $DATA{ ,12}
             <select><option></option><template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in template"},
+            {"line": 0, "col": 0, "id": "eof in select"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -354,6 +454,11 @@
         "data": $DATA{ ,12}
             <select><option></option><template><option>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in template"},
+            {"line": 0, "col": 0, "id": "eof in select"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -370,6 +475,9 @@
         "data": $DATA{ ,12}
             <table><thead><template><td></template></table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "* (1,8) missing DOCTYPE"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -386,6 +494,9 @@
         "data": $DATA{ ,12}
             <table><template><thead></template></table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -401,6 +512,11 @@
         "data": $DATA{ ,12}
             <body><table><template><td></tr><div></template></table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad </tr>"},
+            {"line": 0, "col": 0, "id": "missing </div>"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -417,6 +533,10 @@
         "data": $DATA{ ,12}
             <table><template><thead></template></thead></table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad /thead after /template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -432,6 +552,9 @@
         "data": $DATA{ ,12}
             <table><thead><template><tr></template></table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -448,6 +571,9 @@
         "data": $DATA{ ,12}
             <table><template><tr></template></table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -463,6 +589,11 @@
         "data": $DATA{ ,12}
             <table><tr><template><td>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in template"},
+            {"line": 0, "col": 0, "id": "eof in table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -480,6 +611,9 @@
         "data": $DATA{ ,12}
             <table><template><tr><template><td></template></tr></template></table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -498,6 +632,9 @@
         "data": $DATA{ ,12}
             <table><template><tr><template><td></td></template></tr></template></table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -516,6 +653,10 @@
         "data": $DATA{ ,12}
             <table><template><td></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -531,6 +672,9 @@
         "data": $DATA{ ,12}
             <body><template><td></td></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -545,6 +689,9 @@
         "data": $DATA{ ,12}
             <body><template><template><tr></tr></template><td></td></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -562,6 +709,11 @@
         "data": $DATA{ ,12}
             <table><colgroup><template><col>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in template"},
+            {"line": 0, "col": 0, "id": "eof in table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -578,6 +730,12 @@
         "data": $DATA{ ,12}
             <frameset><template><frame></frame></template></frameset>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "* (1,11) missing DOCTYPE"},
+            {"line": 0, "col": 0, "id": "* (1,21) unexpected start tag token"},
+            {"line": 0, "col": 0, "id": "* (1,36) unexpected end tag token"},
+            {"line": 0, "col": 0, "id": "* (1,47) unexpected end tag token"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -590,6 +748,14 @@
         "data": $DATA{ ,12}
             <template><frame></frame></frameset><frame></frame></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "* (1,11) missing DOCTYPE"},
+            {"line": 0, "col": 0, "id": "* (1,18) unexpected start tag"},
+            {"line": 0, "col": 0, "id": "* (1,26) unexpected end tag"},
+            {"line": 0, "col": 0, "id": "* (1,37) unexpected end tag"},
+            {"line": 0, "col": 0, "id": "* (1,44) unexpected start tag"},
+            {"line": 0, "col": 0, "id": "* (1,52) unexpected end tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -602,6 +768,10 @@
         "data": $DATA{ ,12}
             <template><div><frameset><span></span></div><span></span></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad frameset"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -618,6 +788,10 @@
         "data": $DATA{ ,12}
             <body><template><div><frameset><span></span></div><span></span></template></body>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad frameset"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -634,6 +808,9 @@
         "data": $DATA{ ,12}
             <body><template><script>var i = 1;</script><td></td></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -650,6 +827,11 @@
         "data": $DATA{ ,12}
             <body><template><tr><div></div></tr></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "foster-parented div"},
+            {"line": 0, "col": 0, "id": "foster-parented /div"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -665,6 +847,10 @@
         "data": $DATA{ ,12}
             <body><template><tr></tr><td></td></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "unexpected <td>"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -681,6 +867,10 @@
         "data": $DATA{ ,12}
             <body><template><td></td></tr><td></td></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad </tr>"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -696,6 +886,10 @@
         "data": $DATA{ ,12}
             <body><template><td></td><tbody><td></td></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad <tbody>"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -711,6 +905,11 @@
         "data": $DATA{ ,12}
             <body><template><td></td><caption></caption><td></td></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "* (1,7) missing DOCTYPE"},
+            {"line": 0, "col": 0, "id": "* (1,35) unexpected start tag in table row"},
+            {"line": 0, "col": 0, "id": "* (1,45) unexpected end tag in table row"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -726,6 +925,11 @@
         "data": $DATA{ ,12}
             <body><template><td></td><colgroup></caption><td></td></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "* (1,7) missing DOCTYPE"},
+            {"line": 0, "col": 0, "id": "* (1,36) unexpected start tag in table row"},
+            {"line": 0, "col": 0, "id": "* (1,46) unexpected end tag in table row"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -741,6 +945,10 @@
         "data": $DATA{ ,12}
             <body><template><td></td></table><td></td></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad </table>"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -756,6 +964,10 @@
         "data": $DATA{ ,12}
             <body><template><tr></tr><tbody><tr></tr></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad <tbody>"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -771,6 +983,10 @@
         "data": $DATA{ ,12}
             <body><template><tr></tr><caption><tr></tr></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad <caption>"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -786,6 +1002,10 @@
         "data": $DATA{ ,12}
             <body><template><tr></tr></table><tr></tr></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad </table>"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -801,6 +1021,9 @@
         "data": $DATA{ ,12}
             <body><template><thead></thead><caption></caption><tbody></tbody></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -817,6 +1040,10 @@
         "data": $DATA{ ,12}
             <body><template><thead></thead></table><tbody></tbody></template></body>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad </table>"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -832,6 +1059,11 @@
         "data": $DATA{ ,12}
             <body><template><div><tr></tr></div></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad tr"},
+            {"line": 0, "col": 0, "id": "bad /tr"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -846,6 +1078,9 @@
         "data": $DATA{ ,12}
             <body><template><em>Hello</em></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -861,6 +1096,9 @@
         "data": $DATA{ ,12}
             <body><template><!--comment--></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -875,6 +1113,9 @@
         "data": $DATA{ ,12}
             <body><template><style></style><td></td></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -890,6 +1131,9 @@
         "data": $DATA{ ,12}
             <body><template><meta><td></td></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -905,6 +1149,9 @@
         "data": $DATA{ ,12}
             <body><template><link><td></td></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -920,6 +1167,10 @@
         "data": $DATA{ ,12}
             <body><table><colgroup><template><col></col></template></colgroup></table></body>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad /col"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -936,6 +1187,11 @@
         "data": $DATA{ ,12}
             <body a=b><template><div></div><body c=d><div></div></body></template></body>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad <body>"},
+            {"line": 0, "col": 0, "id": "bad </body>"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -951,6 +1207,11 @@
         "data": $DATA{ ,12}
             <html a=b><template><div><html b=c><span></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad <html>"},
+            {"line": 0, "col": 0, "id": "missing end tags in template"}
+        ],
         "result": $DATA{ ,12}
             <html a="b">
               <head>
@@ -966,6 +1227,12 @@
         "data": $DATA{ ,12}
             <html a=b><template><col></col><html b=c><col></col></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad /col"},
+            {"line": 0, "col": 0, "id": "bad html"},
+            {"line": 0, "col": 0, "id": "bad /col"}
+        ],
         "result": $DATA{ ,12}
             <html a="b">
               <head>
@@ -981,6 +1248,14 @@
         "data": $DATA{ ,12}
             <html a=b><template><frame></frame><html b=c><frame></frame></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad frame"},
+            {"line": 0, "col": 0, "id": "bad /frame"},
+            {"line": 0, "col": 0, "id": "bad html"},
+            {"line": 0, "col": 0, "id": "bad frame"},
+            {"line": 0, "col": 0, "id": "bad /frame"}
+        ],
         "result": $DATA{ ,12}
             <html a="b">
               <head>
@@ -993,6 +1268,10 @@
         "data": $DATA{ ,12}
             <body><template><tr></tr><template></template><td></td></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "unexpected <td>"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1010,6 +1289,9 @@
         "data": $DATA{ ,12}
             <body><template><thead></thead><template><tr></tr></template><tr></tr><tfoot></tfoot></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1030,6 +1312,10 @@
         "data": $DATA{ ,12}
             <body><template><template><b><template></template></template>text</template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "missing </b>"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1048,6 +1334,11 @@
         "data": $DATA{ ,12}
             <body><template><col><colgroup>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad colgroup"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1062,6 +1353,11 @@
         "data": $DATA{ ,12}
             <body><template><col></colgroup>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bogus /colgroup"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1076,6 +1372,10 @@
         "data": $DATA{ ,12}
             <body><template><col><colgroup></template></body>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad colgroup"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1090,6 +1390,11 @@
         "data": $DATA{ ,12}
             <body><template><col><div>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "* (1,7) missing DOCTYPE"},
+            {"line": 0, "col": 0, "id": "* (1,27) unexpected token"},
+            {"line": 0, "col": 0, "id": "* (1,27) unexpected end of file in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1104,6 +1409,11 @@
         "data": $DATA{ ,12}
             <body><template><col></div>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad /div"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1118,6 +1428,15 @@
         "data": $DATA{ ,12}
             <body><template><col>Hello
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 1, "col": 27, "id": "foster-parenting-character"},
+            {"line": 1, "col": 27, "id": "foster-parenting-character"},
+            {"line": 1, "col": 27, "id": "foster-parenting-character"},
+            {"line": 1, "col": 27, "id": "foster-parenting-character"},
+            {"line": 1, "col": 27, "id": "foster-parenting-character"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1132,6 +1451,11 @@
         "data": $DATA{ ,12}
             <body><template><i><menu>Foo</i>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "missing /menu"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1149,6 +1473,13 @@
         "data": $DATA{ ,12}
             <body><template></div><div>Foo</div><template></template><tr></tr>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bogus /div"},
+            {"line": 0, "col": 0, "id": "bogus tr"},
+            {"line": 0, "col": 0, "id": "bogus /tr"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1165,6 +1496,11 @@
         "data": $DATA{ ,12}
             <body><div><template></div><tr><td>Foo</td></tr></template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "* (1,7) missing DOCTYPE"},
+            {"line": 0, "col": 0, "id": "* (1,28) unexpected token in template"},
+            {"line": 0, "col": 0, "id": "* (1,60) unexpected end of file"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1182,6 +1518,11 @@
         "data": $DATA{ ,12}
             <template></figcaption><sub><table></table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad /figcaption"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1197,6 +1538,11 @@
         "data": $DATA{ ,12}
             <template><template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in template"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1211,6 +1557,10 @@
         "data": $DATA{ ,12}
             <template><div>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1225,6 +1575,11 @@
         "data": $DATA{ ,12}
             <template><template><div>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in template"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1241,6 +1596,11 @@
         "data": $DATA{ ,12}
             <template><template><table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in template"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1257,6 +1617,11 @@
         "data": $DATA{ ,12}
             <template><template><tbody>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in template"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1273,6 +1638,11 @@
         "data": $DATA{ ,12}
             <template><template><tr>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in template"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1289,6 +1659,11 @@
         "data": $DATA{ ,12}
             <template><template><td>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in template"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1305,6 +1680,11 @@
         "data": $DATA{ ,12}
             <template><template><caption>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in template"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1321,6 +1701,11 @@
         "data": $DATA{ ,12}
             <template><template><colgroup>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in template"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1337,6 +1722,11 @@
         "data": $DATA{ ,12}
             <template><template><col>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in template"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1353,6 +1743,12 @@
         "data": $DATA{ ,12}
             <template><template><tbody><select>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "* (1,11) missing DOCTYPE"},
+            {"line": 0, "col": 0, "id": "* (1,36) unexpected token in table - foster parenting"},
+            {"line": 0, "col": 0, "id": "* (1,36) unexpected end of file in template"},
+            {"line": 0, "col": 0, "id": "* (1,36) unexpected end of file in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1370,6 +1766,14 @@
         "data": $DATA{ ,12}
             <template><template><table>Foo
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "foster-parenting text F"},
+            {"line": 0, "col": 0, "id": "foster-parenting text o"},
+            {"line": 0, "col": 0, "id": "foster-parenting text o"},
+            {"line": 0, "col": 0, "id": "eof"},
+            {"line": 0, "col": 0, "id": "eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1387,6 +1791,12 @@
         "data": $DATA{ ,12}
             <template><template><frame>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad tag"},
+            {"line": 0, "col": 0, "id": "eof"},
+            {"line": 0, "col": 0, "id": "eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1401,6 +1811,12 @@
         "data": $DATA{ ,12}
             <template><template><script>var i
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in script"},
+            {"line": 0, "col": 0, "id": "eof in template"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1418,6 +1834,12 @@
         "data": $DATA{ ,12}
             <template><template><style>var i
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in style"},
+            {"line": 0, "col": 0, "id": "eof in template"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1435,6 +1857,11 @@
         "data": $DATA{ ,12}
             <template><table></template><body><span>Foo
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "missing /table"},
+            {"line": 0, "col": 0, "id": "bad eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1451,6 +1878,10 @@
         "data": $DATA{ ,12}
             <template><td></template><body><span>Foo
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1467,6 +1898,11 @@
         "data": $DATA{ ,12}
             <template><object></template><body><span>Foo
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "missing /object"},
+            {"line": 0, "col": 0, "id": "bad eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1483,6 +1919,10 @@
         "data": $DATA{ ,12}
             <template><svg><template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "eof in template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1498,6 +1938,11 @@
         "data": $DATA{ ,12}
             <template><svg><foo><template><foreignObject><div></template><div>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "ugly template closure"},
+            {"line": 0, "col": 0, "id": "bad eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1517,6 +1962,12 @@
         "data": $DATA{ ,12}
             <dummy><template><span></dummy>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "bad end tag </dummy>"},
+            {"line": 0, "col": 0, "id": "eof in template"},
+            {"line": 0, "col": 0, "id": "eof in dummy"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1532,6 +1983,10 @@
         "data": $DATA{ ,12}
             <body><table><tr><td><select><template>Foo</template><caption>A</table>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 1, "col": 62, "id": "unexpected-caption-in-select-in-table"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1553,6 +2008,11 @@
         "data": $DATA{ ,12}
             <body></body><template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 1, "col": 23, "id": "template-after-body"},
+            {"line": 1, "col": 24, "id": "eof-in-template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1565,6 +2025,11 @@
         "data": $DATA{ ,12}
             <head></head><template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 1, "col": 23, "id": "template-after-head"},
+            {"line": 1, "col": 24, "id": "eof-in-template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1577,6 +2042,10 @@
         "data": $DATA{ ,12}
             <head></head><template>Foo</template>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 1, "col": 23, "id": "template-after-head"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1591,6 +2060,11 @@
         "data": $DATA{ ,12}
             <html><head></head><template></template><head>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no doctype"},
+            {"line": 0, "col": 0, "id": "template-after-head"},
+            {"line": 0, "col": 0, "id": "head-after-head"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1603,6 +2077,12 @@
         "data": $DATA{ ,12}
             <!DOCTYPE HTML><dummy><table><template><table><template><table><script>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "eof script"},
+            {"line": 0, "col": 0, "id": "eof template"},
+            {"line": 0, "col": 0, "id": "eof template"},
+            {"line": 0, "col": 0, "id": "eof table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -1624,6 +2104,13 @@
         "data": $DATA{ ,12}
             <template><a><table><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 23, "id": "foster-parenting-start-tag"},
+            {"line": 1, "col": 23, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 23, "id": "formatting-element-not-in-scope"},
+            {"line": 1, "col": 24, "id": "eof-in-template"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -1693,6 +2180,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE HTML><template><tr><td>cell</td></tr>a</template>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 59, "id": "foster-parenting-character"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>

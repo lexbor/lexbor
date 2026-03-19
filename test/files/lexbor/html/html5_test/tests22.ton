@@ -5,6 +5,11 @@
         "data": $DATA{ ,12}
             <a><b><big><em><strong><div>X</a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 33, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 33, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -27,6 +32,18 @@
         "data": $DATA{ ,12}
             <a><b><div id=1><div id=2><div id=3><div id=4><div id=5><div id=6><div id=7><div id=8>A</a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 91, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 91, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 91, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 91, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 91, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 91, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 91, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 91, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 91, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -58,6 +75,18 @@
         "data": $DATA{ ,12}
             <a><b><div id=1><div id=2><div id=3><div id=4><div id=5><div id=6><div id=7><div id=8><div id=9>A</a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 101, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 101, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 101, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 101, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 101, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 101, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 101, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 101, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 101, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -90,6 +119,18 @@
         "data": $DATA{ ,12}
             <a><b><div id=1><div id=2><div id=3><div id=4><div id=5><div id=6><div id=7><div id=8><div id=9><div id=10>A</a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 112, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 112, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 112, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 112, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 112, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 112, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 112, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 112, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 112, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -123,6 +164,11 @@
         "data": $DATA{ ,12}
             <cite><b><cite><i><cite><i><cite><i><div>X</b>TEST
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 46, "id": "adoption-agency-1.3"},
+            {"line": 1, "col": 50, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>

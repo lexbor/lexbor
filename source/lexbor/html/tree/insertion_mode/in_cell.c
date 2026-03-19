@@ -9,9 +9,10 @@
 #include "lexbor/html/tree/active_formatting.h"
 
 
-static void
+static lxb_status_t
 lxb_html_tree_close_cell(lxb_html_tree_t *tree, lxb_html_token_t *token)
 {
+    lxb_status_t status;
     lxb_dom_node_t *node;
 
     lxb_html_tree_generate_implied_end_tags(tree, LXB_TAG__UNDEF,
@@ -26,10 +27,16 @@ lxb_html_tree_close_cell(lxb_html_tree_t *tree, lxb_html_token_t *token)
                                   LXB_HTML_RULES_ERROR_MIELINOPELST);
     }
 
-    lxb_html_tree_open_elements_pop_until_td_th(tree);
+    status = lxb_html_tree_open_elements_pop_until_td_th(tree);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
     lxb_html_tree_active_formatting_up_to_last_marker(tree);
 
     tree->mode = lxb_html_tree_insertion_mode_in_row;
+
+    return LXB_STATUS_OK;
 }
 
 /*
@@ -59,8 +66,11 @@ lxb_html_tree_insertion_mode_in_cell_tdth_closed(lxb_html_tree_t *tree,
                                   LXB_HTML_RULES_ERROR_MIELINOPELST);
     }
 
-    lxb_html_tree_open_elements_pop_until_tag_id(tree, token->tag_id,
-                                                 LXB_NS_HTML, true);
+    tree->status = lxb_html_tree_open_elements_pop_until_tag_id(tree,
+                                            token->tag_id, LXB_NS_HTML, true);
+    if (tree->status != LXB_STATUS_OK) {
+        return lxb_html_tree_process_abort(tree);
+    }
 
     lxb_html_tree_active_formatting_up_to_last_marker(tree);
 
@@ -85,7 +95,10 @@ lxb_html_tree_insertion_mode_in_cell_ct(lxb_html_tree_t *tree,
         return true;
     }
 
-    lxb_html_tree_close_cell(tree, token);
+    tree->status = lxb_html_tree_close_cell(tree, token);
+    if (tree->status != LXB_STATUS_OK) {
+        return lxb_html_tree_process_abort(tree);
+    }
 
     return false;
 }
@@ -119,7 +132,10 @@ lxb_html_tree_insertion_mode_in_cell_t_closed(lxb_html_tree_t *tree,
         return true;
     }
 
-    lxb_html_tree_close_cell(tree, token);
+    tree->status = lxb_html_tree_close_cell(tree, token);
+    if (tree->status != LXB_STATUS_OK) {
+        return lxb_html_tree_process_abort(tree);
+    }
 
     return false;
 }

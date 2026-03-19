@@ -5,30 +5,29 @@
  */
 
 #include "lexbor/style/html/interfaces/document.h"
+#include "lexbor/style/html/interfaces/style_element.h"
+#include "lexbor/style/tree/open_elements_res.h"
 #include "lexbor/style/style.h"
+#include "lexbor/style/element_steps.h"
+#include "lexbor/style/attribute_steps.h"
 
 
-lxb_status_t
-lxb_html_document_script_cb(lxb_html_tree_t *tree, lxb_dom_node_t *node)
-{
-    return LXB_STATUS_OK;
-}
+static const lxb_dom_document_mutation_cb_t lxb_style_document_mutation = {
+    .inserted         = lxb_style_element_steps_insertion,
+    .removed          = lxb_style_element_steps_removing,
+    .moved            = lxb_style_element_steps_moving,
+    .destroy          = lxb_style_element_steps_destroy,
+    .children_changed = lxb_style_element_steps_children_changed,
+    .connected        = lxb_style_element_steps_post_connection
+};
 
-lxb_status_t
-lxb_html_document_style_cb(lxb_html_tree_t *tree, lxb_dom_node_t *node)
-{
-    lxb_status_t status;
-    lxb_html_style_element_t *style;
+static const lxb_dom_document_attr_mutation_cb_t lxb_style_document_attr_mutation = {
+    .change = lxb_style_attribute_steps_change,
+    .append = lxb_style_attribute_steps_append,
+    .remove = lxb_style_attribute_steps_remove,
+    .replace = lxb_style_attribute_steps_replace
+};
 
-    style = lxb_html_interface_style(node);
-
-    status = lxb_html_style_element_parse(style);
-    if (status != LXB_STATUS_OK) {
-        return status;
-    }
-
-    return lxb_html_document_stylesheet_add(tree->document, style->stylesheet);
-}
 
 lxb_status_t
 lxb_html_document_done_cb(lxb_html_document_t *document)
@@ -56,6 +55,20 @@ lxb_html_document_done_cb(lxb_html_document_t *document)
     }
 
     return LXB_STATUS_OK;
+}
+
+void
+lxb_html_document_style_mutation_init(lxb_html_document_t *document)
+{
+    document->dom_document.mutation = &lxb_style_document_mutation;
+    document->dom_document.attr_mutation = &lxb_style_document_attr_mutation;
+    document->open_pop = lxb_style_tree_open_elements_pop_res;
+}
+
+void
+lxb_html_document_style_mutation_erase(lxb_html_document_t *document)
+{
+    lxb_html_document_mutation_init(document);
 }
 
 /*

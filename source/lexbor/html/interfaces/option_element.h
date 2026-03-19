@@ -17,6 +17,7 @@ extern "C" {
 
 struct lxb_html_option_element {
     lxb_html_element_t element;
+    bool               selectedness;
 };
 
 
@@ -33,6 +34,35 @@ lxb_html_option_maybe_clone_to_selectedcontent(lxb_html_option_element_t *option
 LXB_API bool
 lxb_html_option_element_selectedness(lxb_html_option_element_t *option);
 
+LXB_API bool
+lxb_html_option_is_disabled(lxb_html_option_element_t *option);
+
+LXB_API lxb_dom_exception_code_t
+lxb_html_option_update_nearest_ancestor_select(lxb_html_option_element_t *option);
+
+LXB_API lxb_status_t
+lxb_html_option_element_pop_open_elements(lxb_dom_node_t *node);
+
+LXB_API lxb_status_t
+lxb_html_option_element_insert_steps(lxb_dom_node_t *inserted_node);
+
+LXB_API lxb_status_t
+lxb_html_option_element_remove_steps(lxb_dom_node_t *removed_node,
+                                     lxb_dom_node_t *old_parent);
+
+LXB_API lxb_status_t
+lxb_html_option_attr_steps_change(lxb_dom_element_t *element,
+                                  lxb_dom_attr_id_t name,
+                                  const lxb_char_t *old_value, size_t old_len,
+                                  const lxb_char_t *value, size_t value_len,
+                                  lxb_ns_id_t ns);
+
+LXB_API lxb_status_t
+lxb_html_option_attr_steps_remove(lxb_dom_element_t *element,
+                                  lxb_dom_attr_id_t name,
+                                  const lxb_char_t *old_value, size_t old_len,
+                                  const lxb_char_t *value, size_t value_len,
+                                  lxb_ns_id_t ns);
 
 #ifdef __cplusplus
 } /* extern "C" */

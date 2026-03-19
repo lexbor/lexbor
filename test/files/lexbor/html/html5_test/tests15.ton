@@ -5,6 +5,10 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><p><b><i><u></p> <p>X
         $DATA,
+        "errors": [
+            {"line": 1, "col": 31, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 36, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -28,6 +32,11 @@
             <p><b><i><u></p>
             <p>X
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 16, "id": "unexpected-end-tag"},
+            {"line": 2, "col": 4, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -50,6 +59,10 @@
         "data": $DATA{ ,12}
             <!doctype html></html> <head>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 29, "id": "expected-eof-but-got-start-tag"},
+            {"line": 1, "col": 29, "id": "unexpected-start-tag-ignored"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -63,6 +76,9 @@
         "data": $DATA{ ,12}
             <!doctype html></body><meta>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 28, "id": "unexpected-start-tag-after-body"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -76,6 +92,9 @@
         "data": $DATA{ ,12}
             <html></html><!-- foo -->
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -88,6 +107,9 @@
         "data": $DATA{ ,12}
             <!doctype html></body><title>X</title>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 29, "id": "unexpected-start-tag-after-body"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -102,6 +124,11 @@
         "data": $DATA{ ,12}
             <!doctype html><table> X<meta></table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 23, "id": "foster-parenting-character"},
+            {"line": 1, "col": 24, "id": "foster-parenting-character"},
+            {"line": 1, "col": 30, "id": "foster-parenting-start-character"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -117,6 +144,10 @@
         "data": $DATA{ ,12}
             <!doctype html><table> x</table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 23, "id": "foster-parenting-character"},
+            {"line": 1, "col": 24, "id": "foster-parenting-character"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -131,6 +162,11 @@
         "data": $DATA{ ,12}
             <!doctype html><table> x </table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 23, "id": "foster-parenting-character"},
+            {"line": 1, "col": 24, "id": "foster-parenting-character"},
+            {"line": 1, "col": 25, "id": "foster-parenting-character"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -145,6 +181,10 @@
         "data": $DATA{ ,12}
             <!doctype html><table><tr> x</table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 27, "id": "foster-parenting-character"},
+            {"line": 1, "col": 28, "id": "foster-parenting-character"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -161,6 +201,9 @@
         "data": $DATA{ ,12}
             <!doctype html><table>X<style> <tr>x </style> </table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 23, "id": "foster-parenting-character"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -178,6 +221,13 @@
         "data": $DATA{ ,12}
             <!doctype html><div><table><a>foo</a> <tr><td>bar</td> </tr></table></div>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "foster-parenting-start-tag"},
+            {"line": 1, "col": 31, "id": "foster-parenting-character"},
+            {"line": 1, "col": 32, "id": "foster-parenting-character"},
+            {"line": 1, "col": 33, "id": "foster-parenting-character"},
+            {"line": 1, "col": 37, "id": "foster-parenting-end-tag"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -200,6 +250,15 @@
         "data": $DATA{ ,12}
             <frame></frame></frame><frameset><frame><frameset><frame></frameset><noframes></frameset><noframes>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 7, "id": "unexpected-start-tag-ignored"},
+            {"line": 1, "col": 15, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 23, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 33, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 99, "id": "expected-named-closing-tag-but-got-eof"},
+            {"line": 1, "col": 99, "id": "eof-in-frameset"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -216,6 +275,10 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><object></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "expected-body-in-scope"},
+            {"line": 1, "col": 30, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>

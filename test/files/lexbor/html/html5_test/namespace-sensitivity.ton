@@ -5,6 +5,14 @@
         "data": $DATA{ ,12}
             <body><table><tr><td><svg><td><foreignObject><span></td>Foo
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 56, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 60, "id": "foster-parenting-character"},
+            {"line": 1, "col": 60, "id": "foster-parenting-character"},
+            {"line": 1, "col": 60, "id": "foster-parenting-character"},
+            {"line": 1, "col": 60, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>

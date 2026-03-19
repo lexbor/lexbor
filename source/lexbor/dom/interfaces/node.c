@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2022 Alexander Borisov
+ * Copyright (C) 2018-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -48,6 +48,10 @@ lxb_tag_append(lexbor_hash_t *hash, lxb_tag_id_t tag_id,
 
 LXB_API const lxb_ns_data_t *
 lxb_ns_append(lexbor_hash_t *hash, const lxb_char_t *link, size_t length);
+
+
+static lxb_status_t
+lxb_dom_node_shadow_including_walker(lxb_dom_node_t *node, void *ctx);
 
 static lexbor_action_t
 lxb_dom_node_by_tag_name_cb(lxb_dom_node_t *node, void *ctx);
@@ -135,10 +139,6 @@ lxb_dom_node_t *
 lxb_dom_node_interface_destroy(lxb_dom_node_t *node)
 {
     lxb_dom_document_t *doc = node->owner_document;
-
-    if (doc->node_cb->destroy != NULL) {
-        doc->node_cb->destroy(node);
-    }
 
     return lexbor_mraw_free(doc->mraw, node);
 }
@@ -390,10 +390,15 @@ lxb_dom_node_insert_child_wo_events(lxb_dom_node_t *to, lxb_dom_node_t *node)
 void
 lxb_dom_node_insert_child(lxb_dom_node_t *to, lxb_dom_node_t *node)
 {
+    lxb_dom_document_t *doc = node->owner_document;
+
     lxb_dom_node_insert_child_wo_events(to, node);
 
-    if (node->owner_document->node_cb->insert != NULL) {
-        node->owner_document->node_cb->insert(node);
+    if (!(lxb_dom_document_opt(doc) & LXB_DOM_DOCUMENT_OPT_WO_EVENTS)
+        && doc->mutation->inserted != NULL)
+    {
+        (void) lxb_dom_node_shadow_including_descendants(node,
+                                   lxb_dom_node_shadow_including_walker, doc);
     }
 }
 
@@ -419,10 +424,15 @@ lxb_dom_node_insert_before_wo_events(lxb_dom_node_t *to, lxb_dom_node_t *node)
 void
 lxb_dom_node_insert_before(lxb_dom_node_t *to, lxb_dom_node_t *node)
 {
+    lxb_dom_document_t *doc = node->owner_document;
+
     lxb_dom_node_insert_before_wo_events(to, node);
 
-    if (node->owner_document->node_cb->insert != NULL) {
-        node->owner_document->node_cb->insert(node);
+    if (!(lxb_dom_document_opt(doc) & LXB_DOM_DOCUMENT_OPT_WO_EVENTS)
+        && doc->mutation->inserted != NULL)
+    {
+        (void) lxb_dom_node_shadow_including_descendants(node,
+                                    lxb_dom_node_shadow_including_walker, doc);
     }
 }
 
@@ -447,10 +457,14 @@ lxb_dom_node_insert_after_wo_events(lxb_dom_node_t *to, lxb_dom_node_t *node)
 void
 lxb_dom_node_insert_after(lxb_dom_node_t *to, lxb_dom_node_t *node)
 {
+    lxb_dom_document_t *doc = node->owner_document;
+
     lxb_dom_node_insert_after_wo_events(to, node);
 
-    if (node->owner_document->node_cb->insert != NULL) {
-        node->owner_document->node_cb->insert(node);
+    if (!(lxb_dom_document_opt(doc) & LXB_DOM_DOCUMENT_OPT_WO_EVENTS)
+        && doc->mutation->inserted != NULL) {
+        (void) lxb_dom_node_shadow_including_descendants(node,
+                                    lxb_dom_node_shadow_including_walker, doc);
     }
 }
 
@@ -653,7 +667,9 @@ lxb_inline lxb_dom_exception_code_t
 lxb_dom_node_insert_node(lxb_dom_node_t *parent, lxb_dom_node_t *node,
                          lxb_dom_node_t *child, bool suppress_observers)
 {
+    lxb_status_t status;
     lxb_dom_exception_code_t code;
+    lxb_dom_document_t *doc = node->owner_document;
 
     code = lxb_dom_node_adopt(node);
     if (code != LXB_DOM_EXCEPTION_OK) {
@@ -665,6 +681,16 @@ lxb_dom_node_insert_node(lxb_dom_node_t *parent, lxb_dom_node_t *node,
     }
     else {
         lxb_dom_node_insert_before(child, node);
+    }
+
+    if (!(lxb_dom_document_opt(doc) & LXB_DOM_DOCUMENT_OPT_WO_EVENTS)
+        && doc->mutation->inserted != NULL)
+    {
+        status = lxb_dom_node_shadow_including_descendants(node,
+                                    lxb_dom_node_shadow_including_walker, doc);
+        return (status == LXB_STATUS_OK)
+                    ? LXB_DOM_EXCEPTION_OK
+                    : LXB_DOM_EXCEPTION_ERR;
     }
 
     return LXB_DOM_EXCEPTION_OK;
@@ -707,6 +733,14 @@ lxb_dom_node_insert(lxb_dom_node_t *parent, lxb_dom_node_t *node,
     /* TODO: Shadow and queue a tree mutation record. */
 
     return LXB_DOM_EXCEPTION_OK;
+}
+
+static lxb_status_t
+lxb_dom_node_shadow_including_walker(lxb_dom_node_t *node, void *ctx)
+{
+    lxb_dom_document_t *doc = ctx;
+
+    return doc->mutation->inserted(node);
 }
 
 lxb_dom_exception_code_t
@@ -850,11 +884,16 @@ lxb_dom_node_remove_wo_events(lxb_dom_node_t *node)
 void
 lxb_dom_node_remove(lxb_dom_node_t *node)
 {
-    if (node->owner_document->node_cb->remove != NULL) {
-        node->owner_document->node_cb->remove(node);
-    }
+    lxb_dom_node_t *parent = node->parent;
+    lxb_dom_document_t *doc = node->owner_document;
 
     lxb_dom_node_remove_wo_events(node);
+
+    if (!(lxb_dom_document_opt(doc) & LXB_DOM_DOCUMENT_OPT_WO_EVENTS)
+        && doc->mutation->removed != NULL)
+    {
+        doc->mutation->removed(node, parent);
+    }
 }
 
 lxb_status_t
@@ -1724,6 +1763,47 @@ lxb_dom_node_host_including_inclusive_ancestor(const lxb_dom_node_t *node,
     }
 
     return false;
+}
+
+/*
+ * https://dom.spec.whatwg.org/#concept-shadow-including-inclusive-descendant
+ * This function in not complite implementation of the algorithm, but it is
+ * enough for our needs. It is used to call mutation callback for all nodes
+ * in subtree their descendants.
+ *
+ * TODO: implement shadow root.
+ */
+lxb_status_t
+lxb_dom_node_shadow_including_descendants(lxb_dom_node_t *root,
+                                          lxb_dom_node_descendants_f walker,
+                                          void *ctx)
+{
+    lxb_status_t status;
+    lxb_dom_node_t *node = root;
+
+    while (node != NULL) {
+        status = walker(node, ctx);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
+
+        if (node->first_child != NULL && status != LXB_STATUS_NEXT) {
+            node = node->first_child;
+        }
+        else {
+            while(node != root && node->next == NULL) {
+                node = node->parent;
+            }
+
+            if (node == root) {
+                break;
+            }
+
+            node = node->next;
+        }
+    }
+
+    return LXB_STATUS_OK;
 }
 
 lxb_dom_exception_code_t

@@ -30,7 +30,7 @@
 #error You need to include "lexbor/ns/const.h".
 #endif /* LXB_NS_CONST_VERSION */
 
-LXB_API  lxb_html_tag_category_t lxb_html_tag_res_cats[LXB_TAG__LAST_ENTRY][LXB_NS__LAST_ENTRY] = 
+LXB_API lxb_html_tag_category_t lxb_html_tag_res_cats[LXB_TAG__LAST_ENTRY][LXB_NS__LAST_ENTRY] = 
 {
     /* LXB_TAG__UNDEF */
     {
@@ -1499,7 +1499,7 @@ LXB_API  lxb_html_tag_category_t lxb_html_tag_res_cats[LXB_TAG__LAST_ENTRY][LXB_
     }
 };
 
-LXB_API  lxb_html_tag_fixname_t lxb_html_tag_res_fixname_svg[LXB_TAG__LAST_ENTRY] = 
+LXB_API lxb_html_tag_fixname_t lxb_html_tag_res_fixname_svg[LXB_TAG__LAST_ENTRY] = 
 {
     /* LXB_TAG__UNDEF */
     {NULL, 0},

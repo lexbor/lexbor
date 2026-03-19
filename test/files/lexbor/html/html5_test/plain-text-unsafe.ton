@@ -5,6 +5,11 @@
         "data": $DATA{ ,12}
             FOO&#x000D;ZOO
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 11, "id": "illegal-codepoint-for-numeric-entity"},
+            {"line": 1, "col": 12, "id": "control-character-reference"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -17,6 +22,13 @@
         "data": $DATA{ ,12}
             <html>\0<frameset></frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 7, "id": "invalid-codepoint"},
+            {"line": 1, "col": 7, "id": "invalid-codepoint-in-body"},
+            {"line": 1, "col": 17, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 7, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -28,6 +40,13 @@
         "data": $DATA{ ,12}
             <html> \0 <frameset></frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 8, "id": "invalid-codepoint"},
+            {"line": 1, "col": 8, "id": "invalid-codepoint-in-body"},
+            {"line": 1, "col": 19, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 8, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -39,6 +58,14 @@
         "data": $DATA{ ,12}
             <html>a\0a<frameset></frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 8, "id": "invalid-codepoint"},
+            {"line": 1, "col": 8, "id": "invalid-codepoint-in-body"},
+            {"line": 1, "col": 19, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 30, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 8, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -51,6 +78,16 @@
         "data": $DATA{ ,12}
             <html>\0\0<frameset></frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 7, "id": "invalid-codepoint"},
+            {"line": 1, "col": 7, "id": "invalid-codepoint-in-body"},
+            {"line": 1, "col": 8, "id": "invalid-codepoint"},
+            {"line": 1, "col": 8, "id": "invalid-codepoint-in-body"},
+            {"line": 1, "col": 18, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 7, "id": "unexpected-null-character"},
+            {"line": 1, "col": 8, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -63,6 +100,13 @@
             <html>\0
             <frameset></frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 7, "id": "invalid-codepoint"},
+            {"line": 1, "col": 7, "id": "invalid-codepoint-in-body"},
+            {"line": 2, "col": 11, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 7, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -74,6 +118,13 @@
         "data": $DATA{ ,12}
             <html><select>\0
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 15, "id": "invalid-codepoint"},
+            {"line": 1, "col": 15, "id": "invalid-codepoint-in-select"},
+            {"line": 1, "col": 15, "id": "eof-in-select"},
+            {"line": 1, "col": 15, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -86,6 +137,12 @@
         "data": $DATA{ ,12}
             \0
         $DATA,
+        "errors": [
+            {"line": 1, "col": 1, "id": "invalid-codepoint"},
+            {"line": 1, "col": 1, "id": "expected-doctype-but-got-chars"},
+            {"line": 1, "col": 1, "id": "invalid-codepoint-in-body"},
+            {"line": 1, "col": 1, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -97,6 +154,12 @@
         "data": $DATA{ ,12}
             <body>\0
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 7, "id": "invalid-codepoint"},
+            {"line": 1, "col": 7, "id": "invalid-codepoint-in-body"},
+            {"line": 1, "col": 7, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -108,6 +171,16 @@
         "data": $DATA{ ,12}
             <plaintext>\0filler\0text\0
         $DATA,
+        "errors": [
+            {"line": 1, "col": 11, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 12, "id": "invalid-codepoint"},
+            {"line": 1, "col": 19, "id": "invalid-codepoint"},
+            {"line": 1, "col": 24, "id": "invalid-codepoint"},
+            {"line": 1, "col": 24, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 12, "id": "unexpected-null-character"},
+            {"line": 1, "col": 19, "id": "unexpected-null-character"},
+            {"line": 1, "col": 24, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -121,6 +194,13 @@
         "data": $DATA{ ,12}
             <svg><![CDATA[\0filler\0text\0]]>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 30, "id": "invalid-codepoint"},
+            {"line": 1, "col": 30, "id": "invalid-codepoint"},
+            {"line": 1, "col": 30, "id": "invalid-codepoint"},
+            {"line": 1, "col": 30, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -134,6 +214,13 @@
         "data": $DATA{ ,12}
             <body><!\0>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 8, "id": "expected-dashes-or-doctype"},
+            {"line": 1, "col": 9, "id": "unexpected-null-character"},
+            {"line": 1, "col": 9, "id": "incorrectly-opened-comment"},
+            {"line": 1, "col": 9, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -146,6 +233,15 @@
         "data": $DATA{ ,12}
             <body><!\0filler\0text>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 8, "id": "expected-dashes-or-doctype"},
+            {"line": 1, "col": 9, "id": "unexpected-null-character"},
+            {"line": 1, "col": 16, "id": "unexpected-null-character"},
+            {"line": 1, "col": 9, "id": "incorrectly-opened-comment"},
+            {"line": 1, "col": 9, "id": "unexpected-null-character"},
+            {"line": 1, "col": 16, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -158,6 +254,16 @@
         "data": $DATA{ ,12}
             <body><svg><foreignObject>\0filler\0text
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 27, "id": "invalid-codepoint"},
+            {"line": 1, "col": 27, "id": "invalid-codepoint-in-body"},
+            {"line": 1, "col": 34, "id": "invalid-codepoint"},
+            {"line": 1, "col": 34, "id": "invalid-codepoint-in-body"},
+            {"line": 1, "col": 38, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 27, "id": "unexpected-null-character"},
+            {"line": 1, "col": 34, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -172,6 +278,16 @@
         "data": $DATA{ ,12}
             <svg>\0filler\0text
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 6, "id": "invalid-codepoint"},
+            {"line": 1, "col": 6, "id": "invalid-codepoint-in-foreign-content"},
+            {"line": 1, "col": 13, "id": "invalid-codepoint"},
+            {"line": 1, "col": 13, "id": "invalid-codepoint-in-foreign-content"},
+            {"line": 1, "col": 17, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 6, "id": "unexpected-null-character"},
+            {"line": 1, "col": 13, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -185,6 +301,13 @@
         "data": $DATA{ ,12}
             <svg>\0<frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 6, "id": "invalid-codepoint"},
+            {"line": 1, "col": 6, "id": "invalid-codepoint-in-foreign-content"},
+            {"line": 1, "col": 16, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 6, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -199,6 +322,13 @@
         "data": $DATA{ ,12}
             <svg>\0 <frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 6, "id": "invalid-codepoint"},
+            {"line": 1, "col": 6, "id": "invalid-codepoint-in-foreign-content"},
+            {"line": 1, "col": 17, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 6, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -213,6 +343,13 @@
         "data": $DATA{ ,12}
             <svg>\0a<frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 6, "id": "invalid-codepoint"},
+            {"line": 1, "col": 6, "id": "invalid-codepoint-in-foreign-content"},
+            {"line": 1, "col": 17, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 6, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -227,6 +364,14 @@
         "data": $DATA{ ,12}
             <svg>\0</svg><frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 6, "id": "invalid-codepoint"},
+            {"line": 1, "col": 6, "id": "invalid-codepoint-in-foreign-content"},
+            {"line": 1, "col": 22, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 22, "id": "eof-in-frameset"},
+            {"line": 1, "col": 6, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -238,6 +383,14 @@
         "data": $DATA{ ,12}
             <svg>\0 </svg><frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 6, "id": "invalid-codepoint"},
+            {"line": 1, "col": 6, "id": "invalid-codepoint-in-foreign-content"},
+            {"line": 1, "col": 23, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 23, "id": "eof-in-frameset"},
+            {"line": 1, "col": 6, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -249,6 +402,13 @@
         "data": $DATA{ ,12}
             <svg>\0a</svg><frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 6, "id": "invalid-codepoint"},
+            {"line": 1, "col": 6, "id": "invalid-codepoint-in-foreign-content"},
+            {"line": 1, "col": 23, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 6, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -262,6 +422,11 @@
         "data": $DATA{ ,12}
             <svg><path></path></svg><frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 34, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 34, "id": "eof-in-frameset"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -273,6 +438,12 @@
         "data": $DATA{ ,12}
             <svg><p><frameset>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "(1, 5) expected-doctype-but-got-start-tag"},
+            {"line": 0, "col": 0, "id": "(1, 8) unexpected-html-element-in-foreign-content"},
+            {"line": 0, "col": 0, "id": "(1, 18) unexpected-start-tag"},
+            {"line": 0, "col": 0, "id": "(1, 18) eof-in-frameset"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -333,6 +504,12 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><table><tr><td><math><mtext>\0a
         $DATA,
+        "errors": [
+            {"line": 1, "col": 44, "id": "invalid-codepoint"},
+            {"line": 1, "col": 44, "id": "invalid-codepoint-in-body"},
+            {"line": 1, "col": 45, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 44, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -352,6 +529,12 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><table><tr><td><svg><foreignObject>\0a
         $DATA,
+        "errors": [
+            {"line": 1, "col": 51, "id": "invalid-codepoint"},
+            {"line": 1, "col": 51, "id": "invalid-codepoint-in-body"},
+            {"line": 1, "col": 52, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 51, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -371,6 +554,12 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><math><mi>a\0b
         $DATA,
+        "errors": [
+            {"line": 1, "col": 27, "id": "invalid-codepoint"},
+            {"line": 1, "col": 27, "id": "invalid-codepoint-in-body"},
+            {"line": 1, "col": 28, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 27, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -386,6 +575,12 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><math><mo>a\0b
         $DATA,
+        "errors": [
+            {"line": 1, "col": 27, "id": "invalid-codepoint"},
+            {"line": 1, "col": 27, "id": "invalid-codepoint-in-body"},
+            {"line": 1, "col": 28, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 27, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -401,6 +596,12 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><math><mn>a\0b
         $DATA,
+        "errors": [
+            {"line": 1, "col": 27, "id": "invalid-codepoint"},
+            {"line": 1, "col": 27, "id": "invalid-codepoint-in-body"},
+            {"line": 1, "col": 28, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 27, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -416,6 +617,12 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><math><ms>a\0b
         $DATA,
+        "errors": [
+            {"line": 1, "col": 27, "id": "invalid-codepoint"},
+            {"line": 1, "col": 27, "id": "invalid-codepoint-in-body"},
+            {"line": 1, "col": 28, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 27, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -431,6 +638,12 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><math><mtext>a\0b
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "invalid-codepoint"},
+            {"line": 1, "col": 30, "id": "invalid-codepoint-in-body"},
+            {"line": 1, "col": 31, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 30, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>

@@ -5,6 +5,11 @@
         "data": $DATA{ ,12}
             <input type="hidden"><frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 21, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 31, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 31, "id": "eof-in-frameset"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -16,6 +21,10 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><table><caption><svg>foo</table>bar
         $DATA,
+        "errors": [
+            {"line": 1, "col": 47, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 47, "id": "end-table-tag-in-caption"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -33,6 +42,12 @@
         "data": $DATA{ ,12}
             <table><tr><td><svg><desc><td></desc><circle>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 30, "id": "unexpected-cell-end-tag"},
+            {"line": 1, "col": 37, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 45, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>

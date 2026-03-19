@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018-2021 Alexander Borisov
+ * Copyright (C) 2018-2026 Alexander Borisov
  *
  * Author: Alexander Borisov <borisov@lexbor.com>
  */
@@ -19,7 +19,6 @@ extern "C" {
 #include "lexbor/dom/interface.h"
 #include "lexbor/dom/interfaces/node.h"
 #include "lexbor/dom/interfaces/attr_const.h"
-#include "lexbor/dom/interfaces/document.h"
 
 
 typedef struct {
@@ -101,25 +100,12 @@ lxb_dom_attr_data_by_qualified_name(lexbor_hash_t *hash,
 LXB_API const lxb_char_t *
 lxb_dom_attr_qualified_name(lxb_dom_attr_t *attr, size_t *len);
 
+LXB_API const lxb_char_t *
+lxb_dom_attr_local_name(lxb_dom_attr_t *attr, size_t *len);
 
 /*
  * Inline functions
  */
-lxb_inline const lxb_char_t *
-lxb_dom_attr_local_name(lxb_dom_attr_t *attr, size_t *len)
-{
-    const lxb_dom_attr_data_t *data;
-
-    data = lxb_dom_attr_data_by_id(attr->node.owner_document->attrs,
-                                   attr->node.local_name);
-
-    if (len != NULL) {
-        *len = data->entry.length;
-    }
-
-    return lexbor_hash_entry_str(&data->entry);
-}
-
 lxb_inline const lxb_char_t *
 lxb_dom_attr_value(lxb_dom_attr_t *attr, size_t *len)
 {

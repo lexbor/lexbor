@@ -1337,7 +1337,7 @@ lxb_html_tree_check_scope_element(lxb_html_tree_t *tree)
     return false;
 }
 
-void
+lxb_status_t
 lxb_html_tree_close_p_element(lxb_html_tree_t *tree, lxb_html_token_t *token)
 {
     lxb_html_tree_generate_implied_end_tags(tree, LXB_TAG_P, LXB_NS_HTML);
@@ -1349,8 +1349,8 @@ lxb_html_tree_close_p_element(lxb_html_tree_t *tree, lxb_html_token_t *token)
                                   LXB_HTML_RULES_ERROR_UNELINOPELST);
     }
 
-    lxb_html_tree_open_elements_pop_until_tag_id(tree, LXB_TAG_P, LXB_NS_HTML,
-                                                 true);
+    return lxb_html_tree_open_elements_pop_until_tag_id(tree, LXB_TAG_P,
+                                                        LXB_NS_HTML, true);
 }
 
 bool
@@ -1472,8 +1472,11 @@ lxb_html_tree_adoption_agency_algorithm(lxb_html_tree_t *tree,
 
         /* State 11 */
         if (furthest_block == NULL) {
-            lxb_html_tree_open_elements_pop_until_node(tree, formatting_element,
-                                                       true);
+            *status = lxb_html_tree_open_elements_pop_until_node(tree,
+                                                    formatting_element, true);
+            if (*status != LXB_STATUS_OK) {
+                return false;
+            }
 
             lxb_html_tree_active_formatting_remove_by_node(tree,
                                                            formatting_element);
@@ -1524,8 +1527,7 @@ lxb_html_tree_adoption_agency_algorithm(lxb_html_tree_t *tree,
             /* State 14.5 */
             if (inner_loop_counter > 3 && is) {
                 lxb_html_tree_active_formatting_remove_by_node(tree, node);
-
-                continue;
+                is = false;
             }
 
             /* State 14.6 */

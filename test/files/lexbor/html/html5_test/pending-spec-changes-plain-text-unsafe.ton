@@ -5,6 +5,29 @@
         "data": $DATA{ ,12}
             <body><table>\0filler\0text\0
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 14, "id": "invalid-codepoint"},
+            {"line": 1, "col": 14, "id": "invalid-codepoint-in-table-text"},
+            {"line": 1, "col": 21, "id": "invalid-codepoint"},
+            {"line": 1, "col": 21, "id": "invalid-codepoint-in-table-text"},
+            {"line": 1, "col": 26, "id": "invalid-codepoint"},
+            {"line": 1, "col": 26, "id": "invalid-codepoint-in-table-text"},
+            {"line": 1, "col": 26, "id": "foster-parenting-character-in-table"},
+            {"line": 1, "col": 26, "id": "foster-parenting-character-in-table"},
+            {"line": 1, "col": 26, "id": "foster-parenting-character-in-table"},
+            {"line": 1, "col": 26, "id": "foster-parenting-character-in-table"},
+            {"line": 1, "col": 26, "id": "foster-parenting-character-in-table"},
+            {"line": 1, "col": 26, "id": "foster-parenting-character-in-table"},
+            {"line": 1, "col": 26, "id": "foster-parenting-character-in-table"},
+            {"line": 1, "col": 26, "id": "foster-parenting-character-in-table"},
+            {"line": 1, "col": 26, "id": "foster-parenting-character-in-table"},
+            {"line": 1, "col": 26, "id": "foster-parenting-character-in-table"},
+            {"line": 1, "col": 26, "id": "eof-in-table"},
+            {"line": 1, "col": 14, "id": "unexpected-null-character"},
+            {"line": 1, "col": 21, "id": "unexpected-null-character"},
+            {"line": 1, "col": 26, "id": "unexpected-null-character"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>

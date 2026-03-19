@@ -6,6 +6,10 @@
             <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd"><p><table>
         $DATA,
+        "errors": [
+            {"line": 2, "col": 54, "id": "unknown-doctype"},
+            {"line": 2, "col": 64, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
             <html>
@@ -20,6 +24,10 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html SYSTEM "http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd"><p><table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 83, "id": "unknown-doctype"},
+            {"line": 1, "col": 93, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html SYSTEM "http://www.ibm.com/data/dtd/v11/ibmxhtml1-transitional.dtd">
             <html>
@@ -34,6 +42,10 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html PUBLIC "html"><p><table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "unknown-doctype"},
+            {"line": 1, "col": 39, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html PUBLIC "html">
             <html>
@@ -49,6 +61,10 @@
             <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN"
                "http://www.w3.org/TR/html4/strict.dtd"><p><table>
         $DATA,
+        "errors": [
+            {"line": 2, "col": 43, "id": "unknown-doctype"},
+            {"line": 2, "col": 53, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2//EN" "http://www.w3.org/TR/html4/strict.dtd">
             <html>

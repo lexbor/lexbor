@@ -43,7 +43,7 @@ TEST_BEGIN(styles)
 
     /* Init all CSS objects and momory for Document. */
 
-    status = lxb_html_document_css_init(document, true);
+    status = lxb_style_init(document);
     test_eq(status, LXB_STATUS_OK);
 
     /* Parse HTML. */
@@ -132,7 +132,7 @@ TEST_BEGIN(styles)
     (void) lxb_dom_collection_destroy(collection, true);
     (void) lxb_css_stylesheet_destroy(sst, true);
     (void) lxb_css_parser_destroy(parser, true);
-    (void) lxb_html_document_css_destroy(document);
+    (void) lxb_style_destroy(document);
     (void) lxb_html_document_destroy(document);
 
     return EXIT_SUCCESS;
@@ -156,7 +156,7 @@ TEST_BEGIN(bad_styles)
 
     /* Init all CSS objects and momory for Document. */
 
-    status = lxb_html_document_css_init(document, true);
+    status = lxb_style_init(document);
     test_eq(status, LXB_STATUS_OK);
 
     /* Parse HTML. */
@@ -166,7 +166,7 @@ TEST_BEGIN(bad_styles)
 
     /* Destroy resources. */
 
-    (void) lxb_html_document_css_destroy(document);
+    (void) lxb_style_destroy(document);
     (void) lxb_html_document_destroy(document);
 }
 TEST_END

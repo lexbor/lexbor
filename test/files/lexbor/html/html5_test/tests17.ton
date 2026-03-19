@@ -5,6 +5,10 @@
         "data": $DATA{ ,12}
             <!doctype html><table><tbody><select><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 42, "id": "premature-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -21,6 +25,10 @@
         "data": $DATA{ ,12}
             <!doctype html><table><tr><select><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 27, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 39, "id": "premature-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -38,6 +46,10 @@
         "data": $DATA{ ,12}
             <!doctype html><table><tr><td><select><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 42, "id": "unexpected-table-element-start-tag-in-select-in-table"},
+            {"line": 1, "col": 42, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -56,6 +68,10 @@
         "data": $DATA{ ,12}
             <!doctype html><table><tr><th><select><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 42, "id": "unexpected-table-element-start-tag-in-select-in-table"},
+            {"line": 1, "col": 42, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -74,6 +90,10 @@
         "data": $DATA{ ,12}
             <!doctype html><table><caption><select><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 43, "id": "unexpected-table-element-start-tag-in-select-in-table"},
+            {"line": 1, "col": 43, "id": "eof-in-table"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -91,6 +111,10 @@
         "data": $DATA{ ,12}
             <!doctype html><select><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 27, "id": "unexpected-start-tag-in-select"},
+            {"line": 1, "col": 27, "id": "eof-in-select"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -104,6 +128,10 @@
         "data": $DATA{ ,12}
             <!doctype html><select><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 27, "id": "unexpected-start-tag-in-select"},
+            {"line": 1, "col": 27, "id": "eof-in-select"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -117,6 +145,10 @@
         "data": $DATA{ ,12}
             <!doctype html><select><th>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 27, "id": "unexpected-start-tag-in-select"},
+            {"line": 1, "col": 27, "id": "eof-in-select"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -130,6 +162,10 @@
         "data": $DATA{ ,12}
             <!doctype html><select><tbody>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "unexpected-start-tag-in-select"},
+            {"line": 1, "col": 30, "id": "eof-in-select"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -143,6 +179,10 @@
         "data": $DATA{ ,12}
             <!doctype html><select><thead>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "unexpected-start-tag-in-select"},
+            {"line": 1, "col": 30, "id": "eof-in-select"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -156,6 +196,10 @@
         "data": $DATA{ ,12}
             <!doctype html><select><tfoot>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 30, "id": "unexpected-start-tag-in-select"},
+            {"line": 1, "col": 30, "id": "eof-in-select"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -169,6 +213,10 @@
         "data": $DATA{ ,12}
             <!doctype html><select><caption>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 32, "id": "unexpected-start-tag-in-select"},
+            {"line": 1, "col": 32, "id": "eof-in-select"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>

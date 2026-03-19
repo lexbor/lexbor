@@ -181,7 +181,33 @@
             "object": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON"], "interface": "HTMLObjectElement", "interface_type": "HTML"},
             "ol": {"cat": ["SPECIAL", "SCOPE_LIST_ITEM"], "interface": "HTMLOListElement", "interface_type": "HTML"},
             "optgroup": {"cat": ["ORDINARY"], "interface": "HTMLOptGroupElement", "interface_type": "HTML"},
-            "option": {"cat": ["ORDINARY"], "interface": "HTMLOptionElement", "interface_type": "HTML"},
+            "option": {"cat": ["ORDINARY"], "interface": "HTMLOptionElement", "interface_type": "HTML",
+                "html": {
+                    "steps": {
+                        "inserted": "lxb_html_option_element_insert_steps",
+                        "removed": "lxb_html_option_element_remove_steps",
+                        "moved": "NULL",
+                        "destroy": "NULL",
+                        "children_changed": "NULL",
+                        "connected": "NULL",
+                        "pop": "lxb_html_option_element_pop_open_elements"
+                    },
+                    "attr_steps": {
+                        "change": "lxb_html_option_attr_steps_change",
+                        "append": "lxb_html_option_attr_steps_change",
+                        "remove": "lxb_html_option_attr_steps_remove",
+                        "replace": "NULL"
+                    }
+                },
+                "style": {
+                    "attr_steps": {
+                        "change": "lxb_style_html_option_attr_change",
+                        "append": "lxb_style_html_option_attr_append",
+                        "remove": "lxb_style_html_option_attr_remove",
+                        "replace": "lxb_style_html_option_attr_replace"
+                    }
+                }
+            },
             "output": {"cat": ["ORDINARY"], "interface": "HTMLOutputElement", "interface_type": "HTML"},
             "p": {"cat": ["SPECIAL"], "interface": "HTMLParagraphElement", "interface_type": "HTML"},
             "param": {"cat": ["SPECIAL"], "interface": "HTMLParamElement", "interface_type": "HTML"},
@@ -209,7 +235,15 @@
             "spacer": {"cat": ["ORDINARY"], "interface": "HTMLUnknownElement", "interface_type": "HTML"},
             "strike": {"cat": ["FORMATTING"], "interface": "HTMLElement", "interface_type": "HTML"},
             "strong": {"cat": ["FORMATTING"], "interface": "HTMLElement", "interface_type": "HTML"},
-            "style": {"cat": ["SPECIAL"], "interface": "HTMLStyleElement", "interface_type": "HTML"},
+            "style": {"cat": ["SPECIAL"], "interface": "HTMLStyleElement", "interface_type": "HTML",
+                "style": {
+                    "steps": {
+                        "inserted": "lxb_html_style_element_insert_steps",
+                        "removed": "lxb_html_style_element_remove_steps",
+                        "destroy": "lxb_html_style_element_destroy_steps",
+                        "pop": "lxb_html_style_element_pop_open_elements"}
+                }
+            },
             "sub": {"cat": ["ORDINARY"], "interface": "HTMLElement", "interface_type": "HTML"},
             "summary": {"cat": ["SPECIAL"], "interface": "HTMLElement", "interface_type": "HTML"},
             "sup": {"cat": ["ORDINARY"], "interface": "HTMLElement", "interface_type": "HTML"},
@@ -313,6 +347,25 @@
             "!--": {"cat": ["ORDINARY"], "to": "-EM-comment", "interface": "Comment", "interface_type": "DOM"},
             "!doctype": {"cat": ["ORDINARY"], "to": "-EM-doctype", "sort": 4, "interface": "DocumentType", "interface_type": "DOM"},
             "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"}
+        }
+    },
+    "modules": {
+        "style": {
+            "steps": {
+                "inserted": "lxb_style_html_element_inserted_steps",
+                "removed": "lxb_style_html_element_removed_steps",
+                "moved": "lxb_style_html_element_moved_steps",
+                "destroy": "lxb_style_html_element_destroy_steps",
+                "children_changed": "lxb_style_html_element_children_changed_steps",
+                "connected": "lxb_style_html_element_connected_steps",
+                "pop": "NULL"
+            },
+            "attr_steps": {
+                "change": "lxb_style_html_element_attr_change",
+                "append": "lxb_style_html_element_attr_append",
+                "remove": "lxb_style_html_element_attr_remove",
+                "replace": "lxb_style_html_element_attr_replace"
+            }
         }
     }
 }

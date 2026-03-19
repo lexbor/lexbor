@@ -5,6 +5,10 @@
         "data": $DATA{ ,12}
             <body><span>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 12, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "body", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -15,6 +19,10 @@
         "data": $DATA{ ,12}
             <span><body>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 12, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 12, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "body", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -25,6 +33,10 @@
         "data": $DATA{ ,12}
             <span><body>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 12, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 12, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "div", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -35,6 +47,9 @@
         "data": $DATA{ ,12}
             <body><span>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 12, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "html", "ns": "html"},
         "result": $DATA{ ,12}
             <head>
@@ -47,6 +62,10 @@
         "data": $DATA{ ,12}
             <frameset><span>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 16, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "body", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -57,6 +76,10 @@
         "data": $DATA{ ,12}
             <span><frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 16, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 16, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "body", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -67,6 +90,10 @@
         "data": $DATA{ ,12}
             <span><frameset>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 16, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 16, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "div", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -77,6 +104,10 @@
         "data": $DATA{ ,12}
             <frameset><span>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 16, "id": "unexpected-start-tag-in-frameset"},
+            {"line": 1, "col": 16, "id": "eof-in-frameset"}
+        ],
         "fragment": {"tag": "html", "ns": "html"},
         "result": $DATA{ ,12}
             <head>
@@ -88,6 +119,9 @@
         "data": $DATA{ ,12}
             <table><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "unexpected-start-tag"}
+        ],
         "fragment": {"tag": "table", "ns": "html"},
         "result": $DATA{ ,12}
             <tbody>
@@ -99,6 +133,9 @@
         "data": $DATA{ ,12}
             </table><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 8, "id": "unexpected-end-tag"}
+        ],
         "fragment": {"tag": "table", "ns": "html"},
         "result": $DATA{ ,12}
             <tbody>
@@ -110,6 +147,10 @@
         "data": $DATA{ ,12}
             <a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 3, "id": "eof-in-table"}
+        ],
         "fragment": {"tag": "table", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -120,6 +161,10 @@
         "data": $DATA{ ,12}
             <a><caption>a
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 13, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "table", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -132,6 +177,10 @@
         "data": $DATA{ ,12}
             <a><colgroup><col>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "foster-parenting-start-token"},
+            {"line": 1, "col": 18, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "table", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -144,6 +193,9 @@
         "data": $DATA{ ,12}
             <a><tbody><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "foster-parenting-start-tag"}
+        ],
         "fragment": {"tag": "table", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -156,6 +208,9 @@
         "data": $DATA{ ,12}
             <a><tfoot><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "foster-parenting-start-tag"}
+        ],
         "fragment": {"tag": "table", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -168,6 +223,9 @@
         "data": $DATA{ ,12}
             <a><thead><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "foster-parenting-start-tag"}
+        ],
         "fragment": {"tag": "table", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -180,6 +238,9 @@
         "data": $DATA{ ,12}
             <a><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "foster-parenting-start-tag"}
+        ],
         "fragment": {"tag": "table", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -192,6 +253,10 @@
         "data": $DATA{ ,12}
             <a><th>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 7, "id": "unexpected-cell-in-table-body"}
+        ],
         "fragment": {"tag": "table", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -205,6 +270,10 @@
         "data": $DATA{ ,12}
             <a><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 7, "id": "unexpected-cell-in-table-body"}
+        ],
         "fragment": {"tag": "table", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -218,6 +287,9 @@
         "data": $DATA{ ,12}
             <table></table><tbody>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 22, "id": "unexpected-start-tag"}
+        ],
         "fragment": {"tag": "caption", "ns": "html"},
         "result": $DATA{ ,12}
             <table>
@@ -228,6 +300,10 @@
         "data": $DATA{ ,12}
             </table><span>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 8, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 14, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "caption", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -238,6 +314,10 @@
         "data": $DATA{ ,12}
             <span></table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 14, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 14, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "caption", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -248,6 +328,10 @@
         "data": $DATA{ ,12}
             </caption><span>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 16, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "caption", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -258,6 +342,10 @@
         "data": $DATA{ ,12}
             <span></caption><span>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 16, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 22, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "caption", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -269,6 +357,10 @@
         "data": $DATA{ ,12}
             <span><caption><span>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 15, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 21, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "caption", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -280,6 +372,10 @@
         "data": $DATA{ ,12}
             <span><col><span>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 11, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 17, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "caption", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -291,6 +387,10 @@
         "data": $DATA{ ,12}
             <span><colgroup><span>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 16, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 22, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "caption", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -302,6 +402,10 @@
         "data": $DATA{ ,12}
             <span><html><span>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 12, "id": "non-html-root"},
+            {"line": 1, "col": 18, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "caption", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -313,6 +417,10 @@
         "data": $DATA{ ,12}
             <span><tbody><span>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 13, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 19, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "caption", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -324,6 +432,10 @@
         "data": $DATA{ ,12}
             <span><td><span>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 16, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "caption", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -335,6 +447,10 @@
         "data": $DATA{ ,12}
             <span><tfoot><span>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 13, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 19, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "caption", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -346,6 +462,10 @@
         "data": $DATA{ ,12}
             <span><thead><span>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 13, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 19, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "caption", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -357,6 +477,10 @@
         "data": $DATA{ ,12}
             <span><th><span>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 16, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "caption", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -368,6 +492,10 @@
         "data": $DATA{ ,12}
             <span><tr><span>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "unexpected-start-tag"},
+            {"line": 1, "col": 16, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "caption", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -379,6 +507,10 @@
         "data": $DATA{ ,12}
             <span></table><span>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 14, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 20, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "caption", "ns": "html"},
         "result": $DATA{ ,12}
             <span>
@@ -390,6 +522,9 @@
         "data": $DATA{ ,12}
             </colgroup><col>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 11, "id": "XXX-undefined-error"}
+        ],
         "fragment": {"tag": "colgroup", "ns": "html"},
         "result": $DATA{ ,12}
             <col>
@@ -400,6 +535,9 @@
         "data": $DATA{ ,12}
             <a><col>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "XXX-undefined-error"}
+        ],
         "fragment": {"tag": "colgroup", "ns": "html"},
         "result": $DATA{ ,12}
             <col>
@@ -410,6 +548,11 @@
         "data": $DATA{ ,12}
             <caption><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 9, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 12, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 12, "id": "eof-in-table"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -420,6 +563,11 @@
         "data": $DATA{ ,12}
             <col><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 8, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 8, "id": "eof-in-table"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -430,6 +578,11 @@
         "data": $DATA{ ,12}
             <colgroup><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 13, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 13, "id": "eof-in-table"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -440,6 +593,11 @@
         "data": $DATA{ ,12}
             <tbody><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 10, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 10, "id": "eof-in-table"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -450,6 +608,11 @@
         "data": $DATA{ ,12}
             <tfoot><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 10, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 10, "id": "eof-in-table"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -460,6 +623,11 @@
         "data": $DATA{ ,12}
             <thead><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 10, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 10, "id": "eof-in-table"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -470,6 +638,11 @@
         "data": $DATA{ ,12}
             </table><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 8, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 11, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 11, "id": "eof-in-table"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -480,6 +653,9 @@
         "data": $DATA{ ,12}
             <a><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "unexpected-start-tag-implies-table-voodoo"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -491,6 +667,10 @@
         "data": $DATA{ ,12}
             <a><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 7, "id": "unexpected-cell-in-table-body"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -503,6 +683,11 @@
         "data": $DATA{ ,12}
             <td><table><tbody><a><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 4, "id": "unexpected-cell-in-table-body"},
+            {"line": 1, "col": 21, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 25, "id": "eof-in-table"}
+        ],
         "fragment": {"tag": "tbody", "ns": "html"},
         "result": $DATA{ ,12}
             <tr>
@@ -518,6 +703,9 @@
         "data": $DATA{ ,12}
             </tr><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "XXX-undefined-error"}
+        ],
         "fragment": {"tag": "tr", "ns": "html"},
         "result": $DATA{ ,12}
             <td>
@@ -528,6 +716,10 @@
         "data": $DATA{ ,12}
             <td><table><a><tr></tr><tr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 14, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 27, "id": "eof-in-table"}
+        ],
         "fragment": {"tag": "tr", "ns": "html"},
         "result": $DATA{ ,12}
             <td>
@@ -543,6 +735,9 @@
         "data": $DATA{ ,12}
             <caption><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 9, "id": "XXX-undefined-error"}
+        ],
         "fragment": {"tag": "tr", "ns": "html"},
         "result": $DATA{ ,12}
             <td>
@@ -553,6 +748,9 @@
         "data": $DATA{ ,12}
             <col><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "XXX-undefined-error"}
+        ],
         "fragment": {"tag": "tr", "ns": "html"},
         "result": $DATA{ ,12}
             <td>
@@ -563,6 +761,9 @@
         "data": $DATA{ ,12}
             <colgroup><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "XXX-undefined-error"}
+        ],
         "fragment": {"tag": "tr", "ns": "html"},
         "result": $DATA{ ,12}
             <td>
@@ -573,6 +774,9 @@
         "data": $DATA{ ,12}
             <tbody><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "XXX-undefined-error"}
+        ],
         "fragment": {"tag": "tr", "ns": "html"},
         "result": $DATA{ ,12}
             <td>
@@ -583,6 +787,9 @@
         "data": $DATA{ ,12}
             <tfoot><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "XXX-undefined-error"}
+        ],
         "fragment": {"tag": "tr", "ns": "html"},
         "result": $DATA{ ,12}
             <td>
@@ -593,6 +800,9 @@
         "data": $DATA{ ,12}
             <thead><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "XXX-undefined-error"}
+        ],
         "fragment": {"tag": "tr", "ns": "html"},
         "result": $DATA{ ,12}
             <td>
@@ -603,6 +813,9 @@
         "data": $DATA{ ,12}
             <tr><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 4, "id": "XXX-undefined-error"}
+        ],
         "fragment": {"tag": "tr", "ns": "html"},
         "result": $DATA{ ,12}
             <td>
@@ -613,6 +826,9 @@
         "data": $DATA{ ,12}
             </table><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 8, "id": "XXX-undefined-error"}
+        ],
         "fragment": {"tag": "tr", "ns": "html"},
         "result": $DATA{ ,12}
             <td>
@@ -635,6 +851,10 @@
         "data": $DATA{ ,12}
             <caption><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 9, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 12, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -645,6 +865,10 @@
         "data": $DATA{ ,12}
             <col><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 8, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -655,6 +879,10 @@
         "data": $DATA{ ,12}
             <colgroup><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 13, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -665,6 +893,10 @@
         "data": $DATA{ ,12}
             <tbody><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 10, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -675,6 +907,10 @@
         "data": $DATA{ ,12}
             <tfoot><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 10, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -685,6 +921,10 @@
         "data": $DATA{ ,12}
             <th><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 4, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 7, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -695,6 +935,10 @@
         "data": $DATA{ ,12}
             <thead><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 10, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -705,6 +949,10 @@
         "data": $DATA{ ,12}
             <tr><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 4, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 7, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -715,6 +963,10 @@
         "data": $DATA{ ,12}
             </table><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 8, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 11, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -725,6 +977,10 @@
         "data": $DATA{ ,12}
             </tbody><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 8, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 11, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -735,6 +991,10 @@
         "data": $DATA{ ,12}
             </td><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 8, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -745,6 +1005,10 @@
         "data": $DATA{ ,12}
             </tfoot><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 8, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 11, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -755,6 +1019,10 @@
         "data": $DATA{ ,12}
             </thead><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 8, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 11, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -765,6 +1033,10 @@
         "data": $DATA{ ,12}
             </th><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 8, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -775,6 +1047,10 @@
         "data": $DATA{ ,12}
             </tr><a>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "XXX-undefined-error"},
+            {"line": 1, "col": 8, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <a>
@@ -785,6 +1061,10 @@
         "data": $DATA{ ,12}
             <table><td><td>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 11, "id": "unexpected-cell-in-table-body"},
+            {"line": 1, "col": 15, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "fragment": {"tag": "td", "ns": "html"},
         "result": $DATA{ ,12}
             <table>
@@ -799,6 +1079,9 @@
         "data": $DATA{ ,12}
             </select><option>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 9, "id": "XXX-undefined-error"}
+        ],
         "fragment": {"tag": "select", "ns": "html"},
         "result": $DATA{ ,12}
             <option>
@@ -830,6 +1113,9 @@
         "data": $DATA{ ,12}
             <textarea><option>
         $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "1:19: ERROR: Premature end of file. Currently open tags: html, textarea."}
+        ],
         "fragment": {"tag": "select", "ns": "html"},
         "result": $DATA{ ,12}
             <textarea>
@@ -841,6 +1127,9 @@
         "data": $DATA{ ,12}
             </html><!--abc-->
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "unexpected-end-tag-after-body-innerhtml"}
+        ],
         "fragment": {"tag": "html", "ns": "html"},
         "result": $DATA{ ,12}
             <head>
@@ -853,6 +1142,9 @@
         "data": $DATA{ ,12}
             </frameset><frame>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 11, "id": "unexpected-frameset-in-frameset-innerhtml"}
+        ],
         "fragment": {"tag": "frameset", "ns": "html"},
         "result": $DATA{ ,12}
             <frame>

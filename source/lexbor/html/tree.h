@@ -205,7 +205,7 @@ lxb_html_tree_element_in_scope_option_optgroup(lxb_html_tree_t *tree);
 LXB_API bool
 lxb_html_tree_check_scope_element(lxb_html_tree_t *tree);
 
-LXB_API void
+LXB_API lxb_status_t
 lxb_html_tree_close_p_element(lxb_html_tree_t *tree, lxb_html_token_t *token);
 
 LXB_API bool
@@ -321,7 +321,7 @@ lxb_html_tree_insert_node(lxb_dom_node_t *to, lxb_dom_node_t *node,
         return;
     }
 
-    lxb_dom_node_insert_child_wo_events(to, node);
+    lxb_dom_node_insert_child(to, node);
 }
 
 /* TODO: if we not need to save parse errors?! */

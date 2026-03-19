@@ -210,16 +210,8 @@ lxb_status_t
 lxb_dom_attr_set_value(lxb_dom_attr_t *attr,
                        const lxb_char_t *value, size_t value_len)
 {
-    lxb_status_t status;
+    lexbor_str_t old_value, *new_value;
     lxb_dom_document_t *doc = lxb_dom_interface_node(attr)->owner_document;
-
-    if (doc->node_cb->set_value != NULL) {
-        status = doc->node_cb->set_value(lxb_dom_interface_node(attr),
-                                         value, value_len);
-        if (status != LXB_STATUS_OK) {
-            return status;
-        }
-    }
 
     if (attr->value == NULL) {
         attr->value = lexbor_mraw_calloc(doc->mraw, sizeof(lexbor_str_t));
@@ -228,29 +220,31 @@ lxb_dom_attr_set_value(lxb_dom_attr_t *attr,
         }
     }
 
-    if (attr->value->data == NULL) {
-        lexbor_str_init(attr->value, doc->text, value_len);
-        if (attr->value->data == NULL) {
-            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-        }
-    }
-    else {
-        attr->value->length = 0;
+    old_value = *attr->value;
+    new_value = attr->value;
 
-        if (lexbor_str_size(attr->value) <= value_len) {
-            const lxb_char_t *tmp;
-
-            tmp = lexbor_str_realloc(attr->value, doc->text, (value_len + 1));
-            if (tmp == NULL) {
-                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-            }
-        }
+    lexbor_str_init(new_value, doc->text, value_len);
+    if (new_value->data == NULL) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
 
-    memcpy(attr->value->data, value, sizeof(lxb_char_t) * value_len);
+    memcpy(new_value->data, value, sizeof(lxb_char_t) * value_len);
 
-    attr->value->data[value_len] = 0x00;
-    attr->value->length = value_len;
+    new_value->data[value_len] = 0x00;
+    new_value->length = value_len;
+
+    if (!(lxb_dom_document_opt(doc) & LXB_DOM_DOCUMENT_OPT_WO_EVENTS)
+        && doc->attr_mutation->change != NULL && attr->owner != NULL)
+    {
+        return doc->attr_mutation->change(attr->owner, attr->node.local_name,
+                                          old_value.data, old_value.length,
+                                          new_value->data, new_value->length,
+                                          LXB_NS__UNDEF);
+    }
+
+    if (old_value.data != NULL) {
+        lexbor_mraw_free(doc->text, old_value.data);
+    }
 
     return LXB_STATUS_OK;
 }
@@ -329,12 +323,20 @@ lxb_dom_attr_compare(lxb_dom_attr_t *first, lxb_dom_attr_t *second)
 void
 lxb_dom_attr_remove(lxb_dom_attr_t *attr)
 {
-    lxb_dom_element_t *element = attr->owner;
-    lxb_dom_document_t *doc = lxb_dom_interface_node(attr)->owner_document;
+    size_t old_value_len;
+    const lxb_char_t *old_value;
+    lxb_dom_element_t *element;
+    lxb_dom_document_t *doc;
 
-    if (doc->node_cb->remove != NULL) {
-        doc->node_cb->remove(lxb_dom_interface_node(attr));
+    element = attr->owner;
+    if (element == NULL) {
+        return;
     }
+
+    doc = lxb_dom_interface_node(attr)->owner_document;
+
+    old_value = NULL;
+    old_value_len = 0;
 
     if (element->attr_id == attr) {
         element->attr_id = NULL;
@@ -360,6 +362,19 @@ lxb_dom_attr_remove(lxb_dom_attr_t *attr)
     attr->next = NULL;
     attr->prev = NULL;
     attr->owner = NULL;
+
+    if (!(lxb_dom_document_opt(doc) & LXB_DOM_DOCUMENT_OPT_WO_EVENTS)
+        && doc->attr_mutation->remove != NULL)
+    {
+        if (attr->value != NULL && attr->value->data != NULL) {
+            old_value = attr->value->data;
+            old_value_len = attr->value->length;
+        }
+
+        doc->attr_mutation->remove(element, attr->node.local_name,
+                                   old_value, old_value_len, NULL, 0,
+                                   LXB_NS__UNDEF);
+    }
 }
 
 lxb_dom_attr_data_t *
@@ -480,6 +495,21 @@ lxb_dom_attr_qualified_name(lxb_dom_attr_t *attr, size_t *len)
         data = lxb_dom_attr_data_by_id(attr->node.owner_document->attrs,
                                        attr->node.local_name);
     }
+
+    if (len != NULL) {
+        *len = data->entry.length;
+    }
+
+    return lexbor_hash_entry_str(&data->entry);
+}
+
+const lxb_char_t *
+lxb_dom_attr_local_name(lxb_dom_attr_t *attr, size_t *len)
+{
+    const lxb_dom_attr_data_t *data;
+
+    data = lxb_dom_attr_data_by_id(attr->node.owner_document->attrs,
+                                   attr->node.local_name);
 
     if (len != NULL) {
         *len = data->entry.length;

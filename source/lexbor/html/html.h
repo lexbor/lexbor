@@ -30,6 +30,7 @@
 #include "lexbor/html/token_attr.h"
 #include "lexbor/html/token.h"
 #include "lexbor/html/serialize.h"
+#include "lexbor/html/common.h"
 #include "lexbor/html/interfaces/video_element.h"
 #include "lexbor/html/interfaces/data_list_element.h"
 #include "lexbor/html/interfaces/picture_element.h"

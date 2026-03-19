@@ -32,6 +32,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><html><html abc:def=gh><xyz:abc></xyz:abc>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 38, "id": "non-html-root"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html abc:def="gh">
@@ -45,6 +48,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><html xml:lang=bar><html xml:lang=foo>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 53, "id": "non-html-root"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html xml:lang="bar">
@@ -69,6 +75,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><html 123=456><html 789=012>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 43, "id": "non-html-root"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html 123="456" 789="012">

@@ -5,6 +5,10 @@
         "data": $DATA{ ,12}
             <head></head><style></style>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 20, "id": "unexpected-start-tag-out-of-my-head"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -17,6 +21,10 @@
         "data": $DATA{ ,12}
             <head></head><script></script>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 21, "id": "unexpected-start-tag-out-of-my-head"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -29,6 +37,11 @@
         "data": $DATA{ ,12}
             <head></head><!-- --><style></style><!-- --><script></script>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 28, "id": "unexpected-start-tag-out-of-my-head"},
+            {"line": 1, "col": 52, "id": "unexpected-start-tag-out-of-my-head"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -44,6 +57,9 @@
         "data": $DATA{ ,12}
             <head></head><!-- -->x<style></style><!-- --><script></script>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -158,6 +174,9 @@
             <!DOCTYPE html><html><head></head><body><pre>x<div>
             y</pre></body></html>
         $DATA,
+        "errors": [
+            {"line": 2, "col": 7, "id": "end-tag-too-early"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -190,6 +209,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><HTML><META><HEAD></HEAD></HTML>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 33, "id": "two-heads-are-not-better-than-one"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -203,6 +225,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><HTML><HEAD><head></HEAD></HTML>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 33, "id": "two-heads-are-not-better-than-one"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -215,6 +240,10 @@
         "data": $DATA{ ,12}
             <textarea>foo<span>bar</span><i>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 10, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 35, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -228,6 +257,10 @@
         "data": $DATA{ ,12}
             <title>foo<span>bar</em><i>baz
         $DATA,
+        "errors": [
+            {"line": 1, "col": 7, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 30, "id": "expected-named-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -287,6 +320,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><html><head></head><body><ul><li><div><p><li></ul></body></html>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 60, "id": "end-tag-too-early"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -304,6 +340,11 @@
         "data": $DATA{ ,12}
             <!doctype html><nobr><nobr><nobr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 27, "id": "unexpected-start-tag-implies-end-tag"},
+            {"line": 1, "col": 33, "id": "unexpected-start-tag-implies-end-tag"},
+            {"line": 1, "col": 33, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -319,6 +360,10 @@
         "data": $DATA{ ,12}
             <!doctype html><nobr><nobr></nobr><nobr>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 27, "id": "unexpected-start-tag-implies-end-tag"},
+            {"line": 1, "col": 40, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -348,6 +393,9 @@
         "data": $DATA{ ,12}
             <p><table></table>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-start-tag"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>

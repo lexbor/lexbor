@@ -5,6 +5,10 @@
         "data": $DATA{ ,12}
             <svg><![CDATA[foo]]>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 20, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -18,6 +22,10 @@
         "data": $DATA{ ,12}
             <math><![CDATA[foo]]>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 21, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -31,6 +39,12 @@
         "data": $DATA{ ,12}
             <div><![CDATA[foo]]>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 7, "id": "expected-dashes-or-doctype"},
+            {"line": 1, "col": 20, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 14, "id": "cdata-in-html-content"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -44,6 +58,12 @@
         "data": $DATA{ ,12}
             <svg><![CDATA[foo
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 18, "id": "eof-in-cdata"},
+            {"line": 1, "col": 17, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 18, "id": "eof-in-cdata"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -57,6 +77,12 @@
         "data": $DATA{ ,12}
             <svg><![CDATA[
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 15, "id": "eof-in-cdata"},
+            {"line": 1, "col": 14, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 15, "id": "eof-in-cdata"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -69,6 +95,10 @@
         "data": $DATA{ ,12}
             <svg><![CDATA[]]>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 17, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -81,6 +111,10 @@
         "data": $DATA{ ,12}
             <svg><![CDATA[]] >]]>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 21, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -94,6 +128,12 @@
         "data": $DATA{ ,12}
             <svg><![CDATA[]]
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 17, "id": "eof-in-cdata"},
+            {"line": 1, "col": 16, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 17, "id": "eof-in-cdata"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -107,6 +147,12 @@
         "data": $DATA{ ,12}
             <svg><![CDATA[]
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 16, "id": "eof-in-cdata"},
+            {"line": 1, "col": 15, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 16, "id": "eof-in-cdata"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -120,6 +166,12 @@
         "data": $DATA{ ,12}
             <svg><![CDATA[]>a
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 16, "id": "eof-in-cdata"},
+            {"line": 1, "col": 17, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 18, "id": "eof-in-cdata"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -133,6 +185,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><svg><![CDATA[foo]]]>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 36, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -147,6 +202,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><svg><![CDATA[foo]]]]>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 37, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -161,6 +219,9 @@
         "data": $DATA{ ,12}
             <!DOCTYPE html><svg><![CDATA[foo]]]]]>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 38, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <!DOCTYPE html>
             <html>
@@ -175,6 +236,12 @@
         "data": $DATA{ ,12}
             <svg><foreignObject><div><![CDATA[foo]]>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 27, "id": "expected-dashes-or-doctype"},
+            {"line": 1, "col": 40, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 34, "id": "cdata-in-html-content"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -190,6 +257,10 @@
         "data": $DATA{ ,12}
             <svg><![CDATA[<svg>]]>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 22, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -203,6 +274,10 @@
         "data": $DATA{ ,12}
             <svg><![CDATA[</svg>a]]>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 24, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -216,6 +291,12 @@
         "data": $DATA{ ,12}
             <svg><![CDATA[<svg>a
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 21, "id": "eof-in-cdata"},
+            {"line": 1, "col": 20, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 21, "id": "eof-in-cdata"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -229,6 +310,12 @@
         "data": $DATA{ ,12}
             <svg><![CDATA[</svg>a
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 22, "id": "eof-in-cdata"},
+            {"line": 1, "col": 21, "id": "expected-closing-tag-but-got-eof"},
+            {"line": 1, "col": 22, "id": "eof-in-cdata"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -242,6 +329,10 @@
         "data": $DATA{ ,12}
             <svg><![CDATA[<svg>]]><path>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 28, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -256,6 +347,12 @@
         "data": $DATA{ ,12}
             <svg><![CDATA[<svg>]]></path>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 29, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 29, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 29, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -269,6 +366,10 @@
         "data": $DATA{ ,12}
             <svg><![CDATA[<svg>]]><!--path-->
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 33, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -283,6 +384,10 @@
         "data": $DATA{ ,12}
             <svg><![CDATA[<svg>]]>path
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 26, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -296,6 +401,10 @@
         "data": $DATA{ ,12}
             <svg><![CDATA[<!--svg-->]]>
         $DATA,
+        "errors": [
+            {"line": 1, "col": 5, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 27, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>

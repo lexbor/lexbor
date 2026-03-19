@@ -5,6 +5,11 @@
         "data": $DATA{ ,12}
             <p><font size=4><font color=red><font size=4><font size=4><font size=4><font size=4><font size=4><font color=red><p>X
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 116, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 117, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -32,6 +37,11 @@
         "data": $DATA{ ,12}
             <p><font size=4><font size=4><font size=4><font size=4><p>X
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 58, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 59, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -53,6 +63,11 @@
         "data": $DATA{ ,12}
             <p><font size=4><font size=4><font size=4><font size="5"><font size=4><p>X
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 73, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 74, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -76,6 +91,11 @@
         "data": $DATA{ ,12}
             <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 68, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 69, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
@@ -98,6 +118,12 @@
         "data": $DATA{ ,12}
             <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
         $DATA,
+        "errors": [
+            {"line": 1, "col": 3, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 64, "id": "end-tag-too-early"},
+            {"line": 1, "col": 67, "id": "unexpected-end-tag"},
+            {"line": 1, "col": 68, "id": "expected-closing-tag-but-got-eof"}
+        ],
         "result": $DATA{ ,12}
             <html>
               <head>
