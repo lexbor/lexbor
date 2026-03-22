@@ -19,7 +19,7 @@ extern "C" {
  * Inline functions
  */
 lxb_inline bool
-lxb_html_node_is_void(lxb_dom_node_t *node)
+lxb_html_node_is_void(const lxb_dom_node_t *node)
 {
     if (node->ns != LXB_NS_HTML) {
         return false;

@@ -539,7 +539,7 @@ lxb_dom_element_compare(lxb_dom_element_t *first, lxb_dom_element_t *second)
 }
 
 lxb_dom_attr_t *
-lxb_dom_element_attr_is_exist(lxb_dom_element_t *element,
+lxb_dom_element_attr_is_exist(const lxb_dom_element_t *element,
                               const lxb_char_t *qualified_name, size_t length)
 {
     const lxb_dom_attr_data_t *data;
@@ -678,7 +678,7 @@ lxb_dom_elements_by_attr_contain(lxb_dom_element_t *root,
 }
 
 const lxb_char_t *
-lxb_dom_element_qualified_name(lxb_dom_element_t *element, size_t *len)
+lxb_dom_element_qualified_name(const lxb_dom_element_t *element, size_t *len)
 {
     const lxb_tag_data_t *data;
 

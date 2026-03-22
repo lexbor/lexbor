@@ -70,7 +70,7 @@ lxb_dom_document_type_valid_name(const lxb_char_t *ame, size_t name_len);
  * Inline functions
  */
 lxb_inline const lxb_char_t *
-lxb_dom_document_type_name(lxb_dom_document_type_t *doc_type, size_t *len)
+lxb_dom_document_type_name(const lxb_dom_document_type_t *doc_type, size_t *len)
 {
     const lxb_dom_attr_data_t *data;
 

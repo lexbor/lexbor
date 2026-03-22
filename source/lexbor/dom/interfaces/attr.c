@@ -483,7 +483,7 @@ lxb_dom_attr_data_by_qualified_name(lexbor_hash_t *hash,
 }
 
 const lxb_char_t *
-lxb_dom_attr_qualified_name(lxb_dom_attr_t *attr, size_t *len)
+lxb_dom_attr_qualified_name(const lxb_dom_attr_t *attr, size_t *len)
 {
     const lxb_dom_attr_data_t *data;
 
@@ -504,7 +504,7 @@ lxb_dom_attr_qualified_name(lxb_dom_attr_t *attr, size_t *len)
 }
 
 const lxb_char_t *
-lxb_dom_attr_local_name(lxb_dom_attr_t *attr, size_t *len)
+lxb_dom_attr_local_name(const lxb_dom_attr_t *attr, size_t *len)
 {
     const lxb_dom_attr_data_t *data;
 
