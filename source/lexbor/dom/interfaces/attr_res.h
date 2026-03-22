@@ -94,7 +94,9 @@ static const lxb_dom_attr_data_t lxb_dom_attr_res_data_default[LXB_DOM_ATTR__LAS
     {{.u.short_str = "type", .length = 4, .next = NULL},
      LXB_DOM_ATTR_TYPE, 1, true},
     {{.u.short_str = "width", .length = 5, .next = NULL},
-     LXB_DOM_ATTR_WIDTH, 1, true}
+     LXB_DOM_ATTR_WIDTH, 1, true},
+    {{.u.short_str = "xmlns", .length = 5, .next = NULL},
+     LXB_DOM_ATTR_XMLNS, 1, true}
 };
 
 static const lexbor_shs_entry_t lxb_dom_attr_res_shs_data[40] = 
@@ -121,23 +123,23 @@ static const lexbor_shs_entry_t lxb_dom_attr_res_shs_data[40] =
     {"size", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_SIZE], 4, 16}, 
     {"style", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_STYLE], 5, 0}, 
     {"class", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_CLASS], 5, 17}, 
+    {"xmlns", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_XMLNS], 5, 0}, 
     {"width", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_WIDTH], 5, 0}, 
-    {"height", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_HEIGHT], 6, 0}, 
     {"focus", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_FOCUS], 5, 18}, 
     {"public", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_PUBLIC], 6, 0}, 
-    {"content", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_CONTENT], 7, 0}, 
-    {"is", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_IS], 2, 0}, 
+    {"height", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_HEIGHT], 6, 0}, 
+    {"is", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_IS], 2, 22}, 
     {"type", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_TYPE], 4, 0}, 
     {"title", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_TITLE], 5, 0}, 
-    {"multiple", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_MULTIPLE], 8, 0}, 
+    {"content", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_CONTENT], 7, 0}, 
     {"for", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_FOR], 3, 0}, 
-    {"face", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_FACE], 4, 22}, 
-    {"alt", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_ALT], 3, 23}, 
+    {"face", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_FACE], 4, 23}, 
+    {"alt", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_ALT], 3, 26}, 
     {"dir", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_DIR], 3, 0}, 
-    {"charset", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_CHARSET], 7, 26}, 
+    {"charset", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_CHARSET], 7, 30}, 
     {"maxlength", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_MAXLENGTH], 9, 0}, 
-    {NULL, NULL, 0, 0}, 
-    {"checked", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_CHECKED], 7, 30}, 
+    {"multiple", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_MULTIPLE], 8, 0}, 
+    {"checked", (void *) &lxb_dom_attr_res_data_default[LXB_DOM_ATTR_CHECKED], 7, 37}, 
     {NULL, NULL, 0, 0}
 };
 

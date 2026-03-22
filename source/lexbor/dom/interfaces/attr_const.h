@@ -55,7 +55,8 @@ typedef enum {
     LXB_DOM_ATTR_TITLE       = 0x0022,
     LXB_DOM_ATTR_TYPE        = 0x0023,
     LXB_DOM_ATTR_WIDTH       = 0x0024,
-    LXB_DOM_ATTR__LAST_ENTRY = 0x0025
+    LXB_DOM_ATTR_XMLNS       = 0x0025,
+    LXB_DOM_ATTR__LAST_ENTRY = 0x0026
 }
 lxb_dom_attr_id_enum_t;
 

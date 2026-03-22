@@ -1,0 +1,167 @@
+[
+    /* Test count: 25 */
+
+    /* Test number: 1 */
+    {
+        "data": "<div id=\"x\"></div>",
+        "result": "<div id=\"x\"></div>"
+    },
+
+    /* Test number: 2 */
+    {
+        "data": "<div id=\"x\" class=\"y\" title=\"z\"></div>",
+        "result": "<div id=\"x\" class=\"y\" title=\"z\"></div>"
+    },
+
+    /* Test number: 3 */
+    {
+        "data": "<div hidden=\"\"></div>",
+        "result": "<div hidden=\"\"></div>"
+    },
+
+    /* Test number: 4 */
+    {
+        "data": "<input disabled=\"\" checked=\"\" readonly=\"\">",
+        "result": "<input disabled=\"\" checked=\"\" readonly=\"\">"
+    },
+
+    /* Test number: 5 */
+    {
+        "data": "<div data-x=\"1\" data-y-z=\"2\" data-abc-def-ghi=\"3\"></div>",
+        "result": "<div data-x=\"1\" data-y-z=\"2\" data-abc-def-ghi=\"3\"></div>"
+    },
+
+    /* Test number: 6 */
+    {
+        "data": "<div title=\"a&amp;b\"></div>",
+        "result": "<div title=\"a&amp;b\"></div>"
+    },
+
+    /* Test number: 7 */
+    {
+        "data": "<div title=\"a&lt;b\"></div>",
+        "result": "<div title=\"a&lt;b\"></div>"
+    },
+
+    /* Test number: 8 */
+    {
+        "data": "<div title=\"a&gt;b\"></div>",
+        "result": "<div title=\"a&gt;b\"></div>"
+    },
+
+    /* Test number: 9 */
+    {
+        "data": "<div title=\"a&quot;b\"></div>",
+        "result": "<div title=\"a&quot;b\"></div>"
+    },
+
+    /* Test number: 10 */
+    {
+        "data": "<div title=\"a\u00A0b\"></div>",
+        "result": "<div title=\"a&nbsp;b\"></div>"
+    },
+
+    /* Test number: 11 */
+    {
+        "data": "<div title=\"&amp;&lt;&gt;&quot;\"></div>",
+        "result": "<div title=\"&amp;&lt;&gt;&quot;\"></div>"
+    },
+
+    /* Test number: 12 */
+    {
+        "data": "<div title=\"&amp;hello&amp;\"></div>",
+        "result": "<div title=\"&amp;hello&amp;\"></div>"
+    },
+
+    /* Test number: 13 */
+    {
+        "data": "<div title=\"&amp;\"></div>",
+        "result": "<div title=\"&amp;\"></div>"
+    },
+
+    /* Test number: 14 */
+    {
+        "data": "<div title=\"a&amp;b\"></div>",
+        "options": ["Raw"],
+        "result": "<div title=\"a&b\"></div>"
+    },
+
+    /* Test number: 15 */
+    {
+        "data": "<div title=\"&amp;&lt;&gt;&quot;\"></div>",
+        "options": ["Raw"],
+        "result": "<div title=\"&<>\"\"></div>"
+    },
+
+    /* Test number: 16 */
+    {
+        "data": "<div title=\"a\u00A0b\"></div>",
+        "options": ["Raw"],
+        "result": "<div title=\"a\u00A0b\"></div>"
+    },
+
+    /* Test number: 17 */
+    {
+        "data": "<use xlink:href=\"#icon\"></use>",
+        "fragment": {"tag": "svg", "ns": "svg"},
+        "result": "<use xlink:href=\"#icon\"></use>"
+    },
+
+    /* Test number: 18 */
+    {
+        "data": "<text xml:lang=\"en\">hello</text>",
+        "fragment": {"tag": "svg", "ns": "svg"},
+        "result": "<text xml:lang=\"en\">hello</text>"
+    },
+
+    /* Test number: 19 */
+    {
+        "data": "<div id=\"x\" class=\"y\">text</div>",
+        "options": ["Pretty"],
+        "result": $DATA{ ,8}
+        <div id="x" class="y">
+         "text"
+        </div>
+        $DATA
+    },
+
+    /* Test number: 20 */
+    {
+        "data": "<img src=\"a.png\" alt=\"img\">",
+        "options": ["Pretty"],
+        "result": $DATA{ ,8}
+        <img src="a.png" alt="img">
+        $DATA
+    },
+
+    /* Test number: 21 */
+    {
+        "data": "<div title=\"abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789\"></div>",
+        "result": "<div title=\"abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789\"></div>"
+    },
+
+    /* Test number: 22 */
+    {
+        "data": "<input type=\"text\" name=\"q\" value=\"search\" placeholder=\"...\" maxlength=\"100\" size=\"20\" autofocus=\"\">",
+        "result": "<input type=\"text\" name=\"q\" value=\"search\" placeholder=\"...\" maxlength=\"100\" size=\"20\" autofocus=\"\">"
+    },
+
+    /* Test number: 23 */
+    {
+        "data": "<div title=\"hello world foo bar\"></div>",
+        "result": "<div title=\"hello world foo bar\"></div>"
+    },
+
+    /* Test number: 24 */
+    {
+        "data": "<div title=\"   \"></div>",
+        "result": "<div title=\"   \"></div>"
+    },
+
+    /* Test number: 25 */
+    {
+        "data": "<!DOCTYPE html><html><head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"></head><body></body></html>",
+        "from_document": true,
+        "result": "<!DOCTYPE html><html><head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"></head><body></body></html>"
+    }
+]

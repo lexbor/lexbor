@@ -1,0 +1,277 @@
+[
+    /* Test count: 37 */
+
+    /* Test number: 1 */
+    {
+        "data": "<div>Hello</div>",
+        "result": "<div>Hello</div>"
+    },
+
+    /* Test number: 2 */
+    {
+        "data": "<p>a &amp; b &lt; c &gt; d</p>",
+        "result": "<p>a &amp; b &lt; c &gt; d</p>"
+    },
+
+    /* Test number: 3 */
+    {
+        "data": "<div class=\"a&amp;b\" title=\"a &quot;b&quot; c\"></div>",
+        "result": "<div class=\"a&amp;b\" title=\"a &quot;b&quot; c\"></div>"
+    },
+
+    /* Test number: 4 */
+    {
+        "data": "<div><br><hr><img src=\"x.png\"><input type=\"text\"></div>",
+        "result": "<div><br><hr><img src=\"x.png\"><input type=\"text\"></div>"
+    },
+
+    /* Test number: 5 */
+    {
+        "data": "<div><p><span>deep</span></p></div>",
+        "result": "<div><p><span>deep</span></p></div>"
+    },
+
+    /* Test number: 6 */
+    {
+        "data": "<div><!-- hello --></div>",
+        "result": "<div><!-- hello --></div>"
+    },
+
+    /* Test number: 7 */
+    {
+        "data": "<!DOCTYPE html><html><head></head><body></body></html>",
+        "result": "<!DOCTYPE html><html><head></head><body></body></html>",
+        "from_document": true
+    },
+
+    /* Test number: 8 */
+    {
+        "data": "<div><style>.a { color: red; }</style></div>",
+        "result": "<div><style>.a { color: red; }</style></div>"
+    },
+
+    /* Test number: 9 */
+    {
+        "data": "<div><script>var x = 1 < 2 && true;</script></div>",
+        "result": "<div><script>var x = 1 < 2 && true;</script></div>"
+    },
+
+    /* Test number: 10 */
+    {
+        "data": "<div><template><p>tmpl</p></template></div>",
+        "result": "<div><template><p>tmpl</p></template></div>"
+    },
+
+    /* Test number: 11 */
+    {
+        "data": "<svg><rect width=\"100\" height=\"50\"></rect></svg>",
+        "result": "<svg><rect width=\"100\" height=\"50\"></rect></svg>"
+    },
+
+    /* Test number: 12 */
+    {
+        "data": "<div><b>x</b></div>",
+        "result": "<div><b>x</b></div>"
+    },
+
+    /* Test number: 13 */
+    {
+        "data": "<b>x</b><i>y</i>",
+        "result": "<b>x</b><i>y</i>",
+    },
+
+    /* Test number: 14 */
+    {
+        "data": "<span>   </span>",
+        "options": ["Skip whitespace nodes"],
+        "result": "<span></span>"
+    },
+
+    /* Test number: 15 */
+    {
+        "data": "<b>bold</b>",
+        "options": ["Skip whitespace nodes"],
+        "result": "<b>bold</b>"
+    },
+
+    /* Test number: 16 */
+    {
+        "data": "<div><!-- comment -->text</div>",
+        "options": ["Skip comments"],
+        "result": "<div>text</div>"
+    },
+
+    /* Test number: 17 */
+    {
+        "data": "<pre>L1\nL2\nL3</pre>",
+        "options": ["Replace newline"],
+        "result": "<pre>L1 L2 L3</pre>"
+    },
+
+    /* Test number: 18 */
+    {
+        "data": "<div><script>var x = 1;\nvar y = 2;</script></div>",
+        "options": ["Replace newline"],
+        "result": "<div><script>var x = 1; var y = 2;</script></div>"
+    },
+
+    /* Test number: 19 */
+    {
+        "data": "<p>a &amp; b</p>",
+        "options": ["Raw"],
+        "result": "<p>a & b</p>"
+    },
+
+    /* Test number: 20 */
+    {
+        "data": "<div class=\"a&amp;b\"></div>",
+        "options": ["Raw"],
+        "result": "<div class=\"a&b\"></div>"
+    },
+
+    /* Test number: 21 */
+    {
+        "data": "<b>text</b>",
+        "options": ["Pretty", "Without closing"],
+        "result": $DATA{ ,8}
+        <b>
+         "text"
+        $DATA
+    },
+
+    /* Test number: 22 */
+    {
+        "data": "<div><br></div>",
+        "options": ["Pretty", "Without closing"],
+        "result": $DATA{ ,8}
+        <div>
+         <br>
+        $DATA
+    },
+
+    /* Test number: 23 */
+    {
+        "data": "<svg><rect width=\"10\" height=\"5\"></rect></svg>",
+        "options": ["Tag with namespace"],
+        "result": "<svg:svg><svg:rect width=\"10\" height=\"5\"></svg:rect></svg:svg>"
+    },
+
+    /* Test number: 24 */
+    {
+        "data": "<div><br></div>",
+        "options": ["Tag with namespace"],
+        "result": "<div><br></div>"
+    },
+
+    /* Test number: 25 */
+    {
+        "data": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head></head><body></body></html>",
+        "options": ["Full doctype"],
+        "result": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head></head><body></body></html>",
+        "from_document": true
+    },
+
+    /* Test number: 26 */
+    {
+        "data": "<!DOCTYPE html><html><head></head><body></body></html>",
+        "options": ["Full doctype"],
+        "result": "<!DOCTYPE html><html><head></head><body></body></html>",
+        "from_document": true
+    },
+
+    /* Test number: 27 */
+    {
+        "data": "<b>text</b>",
+        "options": ["Pretty"],
+        "result": $DATA{ ,12}
+            <b>
+             "text"
+            </b>
+        $DATA
+    },
+
+    /* Test number: 28 */
+    {
+        "data": "<b>text</b>",
+        "options": ["Pretty"],
+        "indent": "--",
+        "result": $DATA{ ,12}
+            <b>
+            --"text"
+            </b>
+        $DATA
+    },
+
+    /* Test number: 29 */
+    {
+        "data": "<div><p>hello</p></div>",
+        "options": ["Pretty"],
+        "result": $DATA{ ,12}
+            <div>
+             <p>
+              "hello"
+             </p>
+            </div>
+        $DATA
+    },
+
+    /* Test number: 30 */
+    {
+        "data": "<div><!-- c -->  <b>x</b>  </div>",
+        "options": ["Skip whitespace nodes", "Skip comments"],
+        "result": "<div><b>x</b></div>"
+    },
+
+    /* Test number: 31 */
+    {
+        "data": "<pre>L1\nL2\nL3</pre>",
+        "options": ["Raw", "Replace newline"],
+        "result": "<pre>L1 L2 L3</pre>"
+    },
+
+    /* Test number: 32 */
+    {
+        "data": "<div><!-- c -->  <b>x</b>  </div>",
+        "options": ["Pretty", "Skip whitespace nodes", "Skip comments"],
+        "result": $DATA{ ,12}
+            <div>
+             <b>
+              "x"
+             </b>
+            </div>
+        $DATA
+    },
+
+    /* Test number: 33 */
+    {
+        "data": "",
+        "result": ""
+    },
+
+    /* Test number: 34 */
+    {
+        "data": "<input type=\"text\" name=\"q\" value=\"a&amp;b\" disabled=\"\">",
+        "result": "<input type=\"text\" name=\"q\" value=\"a&amp;b\" disabled=\"\">"
+    },
+
+    /* Test number: 35 */
+    {
+        "data": "<div><div><div><div><span>deep</span></div></div></div></div>",
+        "result": "<div><div><div><div><span>deep</span></div></div></div></div>"
+    },
+
+    /* Test number: 36 */
+    {
+        "data": "<rect width=\"10\"></rect>",
+        "fragment": {"tag": "svg", "ns": "svg"},
+        "result": "<rect width=\"10\"></rect>"
+    },
+
+    /* Test number: 37 */
+    {
+        "data": "<rect width=\"10\"></rect>",
+        "fragment": {"tag": "svg", "ns": "svg"},
+        "options": ["Tag with namespace"],
+        "result": "<svg:rect width=\"10\"></svg:rect>"
+    }
+]

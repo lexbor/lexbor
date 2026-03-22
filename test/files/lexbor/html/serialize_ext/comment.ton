@@ -1,0 +1,218 @@
+[
+    /* Test count: 27 */
+
+    /* Test number: 1 */
+    {
+        "data": "<div><!-- hello --></div>",
+        "result": "<div><!-- hello --></div>"
+    },
+
+    /* Test number: 2 */
+    {
+        "data": "<div><!----></div>",
+        "result": "<div><!----></div>"
+    },
+
+    /* Test number: 3 */
+    {
+        "data": "<div><!-- --></div>",
+        "result": "<div><!-- --></div>"
+    },
+
+    /* Test number: 4 */
+    {
+        "data": "<div><!-- <div> & \"quote\" --></div>",
+        "result": "<div><!-- <div> & \"quote\" --></div>"
+    },
+
+    /* Test number: 5 */
+    {
+        "data": "<div><!-- a > b --></div>",
+        "result": "<div><!-- a > b --></div>"
+    },
+
+    /* Test number: 6 */
+    {
+        "data": "<div><!-- line1\nline2 --></div>",
+        "result": "<div><!-- line1\nline2 --></div>"
+    },
+
+    /* Test number: 7 */
+    {
+        "data": "x<!-- top level -->",
+        "result": "x<!-- top level -->"
+    },
+
+    /* Test number: 8 */
+    {
+        "data": "<div><!-- a --><!-- b --><!-- c --></div>",
+        "result": "<div><!-- a --><!-- b --><!-- c --></div>"
+    },
+
+    /* Test number: 9 */
+    {
+        "data": "<div><!-- before -->text<!-- after --></div>",
+        "result": "<div><!-- before -->text<!-- after --></div>"
+    },
+
+    /* Test number: 10 */
+    {
+        "data": "<div><!-- This is a very long comment that goes on and on and on and contains lots of text to test serialization of lengthy comment nodes --></div>",
+        "result": "<div><!-- This is a very long comment that goes on and on and on and contains lots of text to test serialization of lengthy comment nodes --></div>"
+    },
+
+    /* Test number: 11 */
+    {
+        "data": "<div><!-- removed --></div>",
+        "options": ["Skip comments"],
+        "result": "<div></div>"
+    },
+
+    /* Test number: 12 */
+    {
+        "data": "<div><!-- x --><b>y</b></div>",
+        "options": ["Skip comments"],
+        "result": "<div><b>y</b></div>"
+    },
+
+    /* Test number: 13 */
+    {
+        "data": "<div><!-- a --><!-- b --><span>text</span><!-- c --></div>",
+        "options": ["Skip comments"],
+        "result": "<div><span>text</span></div>"
+    },
+
+    /* Test number: 14 */
+    {
+        "data": "<div><!-- only comment --></div>",
+        "options": ["Skip comments"],
+        "result": "<div></div>"
+    },
+
+    /* Test number: 15 */
+    {
+        "data": "<div>before<!-- mid -->after</div>",
+        "options": ["Skip comments"],
+        "result": "<div>beforeafter</div>"
+    },
+
+    /* Test number: 16 */
+    {
+        "data": "<div>  <!-- comment -->  <b>x</b>  <!-- comment2 -->  </div>",
+        "options": ["Skip comments", "Skip whitespace nodes"],
+        "result": "<div><b>x</b></div>"
+    },
+
+    /* Test number: 17 */
+    {
+        "data": "<div><!-- top --></div><div>content</div>",
+        "options": ["Skip comments"],
+        "result": "<div></div><div>content</div>"
+    },
+
+    /* Test number: 18 */
+    {
+        "data": "<div><!-- 1 -->text<!-- 2 --></div>",
+        "options": ["Skip comments"],
+        "result": "<div>text</div>"
+    },
+
+    /* Test number: 19 */
+    {
+        "data": "<div><!-- hello --></div>",
+        "options": ["Pretty"],
+        "result": $DATA{ ,8}
+        <div>
+         <!-- hello -->
+        </div>
+        $DATA
+    },
+
+    /* Test number: 20 */
+    {
+        "data": "<div><p><!-- nested --></p></div>",
+        "options": ["Pretty"],
+        "result": $DATA{ ,8}
+        <div>
+         <p>
+          <!-- nested -->
+         </p>
+        </div>
+        $DATA
+    },
+
+    /* Test number: 21 */
+    {
+        "data": "<div><!-- c --><b>x</b></div>",
+        "options": ["Pretty"],
+        "result": $DATA{ ,8}
+        <div>
+         <!-- c -->
+         <b>
+          "x"
+         </b>
+        </div>
+        $DATA
+    },
+
+    /* Test number: 22 */
+    {
+        "data": "<div><!-- c --><b>x</b></div>",
+        "options": ["Pretty", "Skip comments"],
+        "result": $DATA{ ,8}
+        <div>
+         <b>
+          "x"
+         </b>
+        </div>
+        $DATA
+    },
+
+    /* Test number: 23 */
+    {
+        "data": "<div><!----></div>",
+        "options": ["Pretty"],
+        "result": $DATA{ ,8}
+        <div>
+         <!---->
+        </div>
+        $DATA
+    },
+
+    /* Test number: 24 */
+    {
+        "data": "<div><!-- a --><!-- b --></div>",
+        "options": ["Pretty"],
+        "result": $DATA{ ,8}
+        <div>
+         <!-- a -->
+         <!-- b -->
+        </div>
+        $DATA
+    },
+
+    /* Test number: 25 */
+    {
+        "data": "<div><!-- c --></div>",
+        "options": ["Pretty"],
+        "indent": "..",
+        "result": $DATA{ ,8}
+        <div>
+        ..<!-- c -->
+        </div>
+        $DATA
+    },
+
+    /* Test number: 26 */
+    {
+        "data": "<div><!-- L1 --><p><!-- L2 --><span><!-- L3 --></span></p></div>",
+        "result": "<div><!-- L1 --><p><!-- L2 --><span><!-- L3 --></span></p></div>"
+    },
+
+    /* Test number: 27 */
+    {
+        "data": "<div><!-- a --><p><!-- b --></p></div>",
+        "options": ["Skip comments"],
+        "result": "<div><p></p></div>"
+    }
+]

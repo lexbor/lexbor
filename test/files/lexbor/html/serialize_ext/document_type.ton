@@ -1,0 +1,180 @@
+[
+    /* Test count: 18 */
+
+    /* Test number: 1 */
+    {
+        "data": "<!DOCTYPE html><html><head></head><body></body></html>",
+        "from_document": true,
+        "result": "<!DOCTYPE html><html><head></head><body></body></html>"
+    },
+
+    /* Test number: 2 */
+    {
+        "data": "<!DOCTYPE html><html><head></head><body><p>text</p></body></html>",
+        "from_document": true,
+        "result": "<!DOCTYPE html><html><head></head><body><p>text</p></body></html>"
+    },
+
+    /* Test number: 3 */
+    {
+        "data": "<!DOCTYPE html><html><head></head><body></body></html>",
+        "options": ["Full doctype"],
+        "from_document": true,
+        "result": "<!DOCTYPE html><html><head></head><body></body></html>"
+    },
+
+    /* Test number: 4 */
+    {
+        "data": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head></head><body></body></html>",
+        "options": ["Full doctype"],
+        "from_document": true,
+        "result": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head></head><body></body></html>"
+    },
+
+    /* Test number: 5 */
+    {
+        "data": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html><head></head><body></body></html>",
+        "options": ["Full doctype"],
+        "from_document": true,
+        "result": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\"><html><head></head><body></body></html>"
+    },
+
+    /* Test number: 6 */
+    {
+        "data": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\"><html><head></head><body></body></html>",
+        "options": ["Full doctype"],
+        "from_document": true,
+        "result": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\"><html><head></head><body></body></html>"
+    },
+
+    /* Test number: 7 */
+    {
+        "data": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\"><html><head></head><body></body></html>",
+        "options": ["Full doctype"],
+        "from_document": true,
+        "result": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\"><html><head></head><body></body></html>"
+    },
+
+    /* Test number: 8 */
+    {
+        "data": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\" \"http://www.w3.org/TR/html4/frameset.dtd\"><html><head></head><body></body></html>",
+        "options": ["Full doctype"],
+        "from_document": true,
+        "result": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Frameset//EN\" \"http://www.w3.org/TR/html4/frameset.dtd\"><html><head></head><body></body></html>"
+    },
+
+    /* Test number: 9 */
+    {
+        "data": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0//EN\"><html><head></head><body></body></html>",
+        "options": ["Full doctype"],
+        "from_document": true,
+        "result": "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.0//EN\"><html><head></head><body></body></html>"
+    },
+
+    /* Test number: 10 */
+    {
+        "data": "<!DOCTYPE html SYSTEM \"about:legacy-compat\"><html><head></head><body></body></html>",
+        "options": ["Full doctype"],
+        "from_document": true,
+        "result": "<!DOCTYPE html SYSTEM \"about:legacy-compat\"><html><head></head><body></body></html>"
+    },
+
+    /* Test number: 11 */
+    {
+        "data": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head></head><body></body></html>",
+        "from_document": true,
+        "result": "<!DOCTYPE html><html><head></head><body></body></html>"
+    },
+
+    /* Test number: 12 */
+    {
+        "data": "<!DOCTYPE html SYSTEM \"about:legacy-compat\"><html><head></head><body></body></html>",
+        "from_document": true,
+        "result": "<!DOCTYPE html><html><head></head><body></body></html>"
+    },
+
+    /* Test number: 13 */
+    {
+        "data": "<!DOCTYPE html><html><head></head><body><p>x</p></body></html>",
+        "options": ["Pretty"],
+        "from_document": true,
+        "result": $DATA{ ,8}
+        <!DOCTYPE html>
+        <html>
+         <head>
+         </head>
+         <body>
+          <p>
+           "x"
+          </p>
+         </body>
+        </html>
+        $DATA
+    },
+
+    /* Test number: 14 */
+    {
+        "data": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\"><html><head></head><body></body></html>",
+        "options": ["Pretty", "Full doctype"],
+        "from_document": true,
+        "result": $DATA{ ,8}
+        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+        <html>
+         <head>
+         </head>
+         <body>
+         </body>
+        </html>
+        $DATA
+    },
+
+    /* Test number: 15 */
+    {
+        "data": "<!DOCTYPE html><html><head></head><body></body></html>",
+        "options": ["Pretty", "Full doctype"],
+        "from_document": true,
+        "result": $DATA{ ,8}
+        <!DOCTYPE html>
+        <html>
+         <head>
+         </head>
+         <body>
+         </body>
+        </html>
+        $DATA
+    },
+
+    /* Test number: 16 */
+    {
+        "data": "<!DOCTYPE html><html><head></head><body><div>x</div></body></html>",
+        "options": ["Pretty"],
+        "from_document": true,
+        "indent": "--",
+        "result": $DATA{ ,8}
+        <!DOCTYPE html>
+        <html>
+        --<head>
+        --</head>
+        --<body>
+        ----<div>
+        ------"x"
+        ----</div>
+        --</body>
+        </html>
+        $DATA
+    },
+
+    /* Test number: 17 */
+    {
+        "data": "<html><head></head><body><p>no doctype</p></body></html>",
+        "from_document": true,
+        "result": "<html><head></head><body><p>no doctype</p></body></html>"
+    },
+
+    /* Test number: 18 */
+    {
+        "data": "<!DOCTYPE html><html><head></head><body></body></html>",
+        "from_document": true,
+        "result": "<!DOCTYPE html><html><head></head><body></body></html>"
+    }
+]

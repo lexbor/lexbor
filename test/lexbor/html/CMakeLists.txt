@@ -21,6 +21,7 @@ set(tokenizer_tokens_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/html/tokenizer")
 set(tree_builder_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/html/html5_test")
 set(tokenizer_html5lib_tests_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/html/html5lib_tokenizer")
 set(encoding_html5lib_tests_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/html/html5lib_encoding")
+set(serialize_ext_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/html/serialize_ext")
 
 ################
 ## Create tests

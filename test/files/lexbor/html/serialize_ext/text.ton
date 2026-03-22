@@ -1,0 +1,308 @@
+[
+    /* Test count: 44 */
+
+    /* Test number: 1 */
+    {
+        "data": "<p>hello</p>",
+        "result": "<p>hello</p>"
+    },
+
+    /* Test number: 2 */
+    {
+        "data": "<p>hello world</p>",
+        "result": "<p>hello world</p>"
+    },
+
+    /* Test number: 3 */
+    {
+        "data": "just text",
+        "result": "just text"
+    },
+
+    /* Test number: 4 */
+    {
+        "data": "<p>a &amp; b</p>",
+        "result": "<p>a &amp; b</p>"
+    },
+
+    /* Test number: 5 */
+    {
+        "data": "<p>a &lt; b</p>",
+        "result": "<p>a &lt; b</p>"
+    },
+
+    /* Test number: 6 */
+    {
+        "data": "<p>a &gt; b</p>",
+        "result": "<p>a &gt; b</p>"
+    },
+
+    /* Test number: 7 */
+    {
+        "data": "<p>a\u00A0b</p>",
+        "result": "<p>a&nbsp;b</p>"
+    },
+
+    /* Test number: 8 */
+    {
+        "data": "<p>&amp; &lt; &gt;</p>",
+        "result": "<p>&amp; &lt; &gt;</p>"
+    },
+
+    /* Test number: 9 */
+    {
+        "data": "<p>&amp;&lt;&gt;</p>",
+        "result": "<p>&amp;&lt;&gt;</p>"
+    },
+
+    /* Test number: 10 */
+    {
+        "data": "<p>\u00A0hello\u00A0</p>",
+        "result": "<p>&nbsp;hello&nbsp;</p>"
+    },
+
+    /* Test number: 11 */
+    {
+        "data": "<p>\u00A0\u00A0\u00A0</p>",
+        "result": "<p>&nbsp;&nbsp;&nbsp;</p>"
+    },
+
+    /* Test number: 12 */
+    {
+        "data": "<p>a &amp; b</p>",
+        "options": ["Raw"],
+        "result": "<p>a & b</p>"
+    },
+
+    /* Test number: 13 */
+    {
+        "data": "<p>&amp; &lt; &gt;</p>",
+        "options": ["Raw"],
+        "result": "<p>& < ></p>"
+    },
+
+    /* Test number: 14 */
+    {
+        "data": "<p>a\u00A0b</p>",
+        "options": ["Raw"],
+        "result": "<p>a\u00A0b</p>"
+    },
+
+    /* Test number: 15 */
+    {
+        "data": "<div>   </div>",
+        "options": ["Skip whitespace nodes"],
+        "result": "<div></div>"
+    },
+
+    /* Test number: 16 */
+    {
+        "data": "<div>  x  </div>",
+        "options": ["Skip whitespace nodes"],
+        "result": "<div>  x  </div>"
+    },
+
+    /* Test number: 17 */
+    {
+        "data": "<div> <b>x</b> <i>y</i> </div>",
+        "options": ["Skip whitespace nodes"],
+        "result": "<div><b>x</b><i>y</i></div>"
+    },
+
+    /* Test number: 18 */
+    {
+        "data": "<div>\t</div>",
+        "options": ["Skip whitespace nodes"],
+        "result": "<div></div>"
+    },
+
+    /* Test number: 19 */
+    {
+        "data": "<div>\n</div>",
+        "options": ["Skip whitespace nodes"],
+        "result": "<div></div>"
+    },
+
+    /* Test number: 20 */
+    {
+        "data": "<div> \t\n </div>",
+        "options": ["Skip whitespace nodes"],
+        "result": "<div></div>"
+    },
+
+    /* Test number: 21 */
+    {
+        "data": "<div>\nx\n</div>",
+        "options": ["Skip whitespace nodes"],
+        "result": "<div>\nx\n</div>"
+    },
+
+    /* Test number: 22 */
+    {
+        "data": "<p>line1\nline2</p>",
+        "options": ["Replace newline"],
+        "result": "<p>line1 line2</p>"
+    },
+
+    /* Test number: 23 */
+    {
+        "data": "<p>line1\rline2</p>",
+        "options": ["Replace newline"],
+        "result": "<p>line1 line2</p>"
+    },
+
+    /* Test number: 24 */
+    {
+        "data": "<p>a\nb\nc\nd</p>",
+        "options": ["Replace newline"],
+        "result": "<p>a b c d</p>"
+    },
+
+    /* Test number: 25 */
+    {
+        "data": "<p>\nhello\n</p>",
+        "options": ["Replace newline"],
+        "result": "<p> hello </p>"
+    },
+
+    /* Test number: 26 */
+    {
+        "data": "<p>a &amp; b\nc</p>",
+        "options": ["Replace newline"],
+        "result": "<p>a &amp; b c</p>"
+    },
+
+    /* Test number: 27 */
+    {
+        "data": "<p>a &amp; b\nc</p>",
+        "options": ["Raw", "Replace newline"],
+        "result": "<p>a & b c</p>"
+    },
+
+    /* Test number: 28 */
+    {
+        "data": "<div><script>var x = 1 < 2 && 3 > 0;</script></div>",
+        "result": "<div><script>var x = 1 < 2 && 3 > 0;</script></div>"
+    },
+
+    /* Test number: 29 */
+    {
+        "data": "<div><style>.a > .b { color: red; }</style></div>",
+        "result": "<div><style>.a > .b { color: red; }</style></div>"
+    },
+
+    /* Test number: 30 */
+    {
+        "data": "<xmp><div>not parsed</div></xmp>",
+        "result": "<xmp><div>not parsed</div></xmp>"
+    },
+
+    /* Test number: 31 */
+    {
+        "data": "<iframe>content &amp; stuff</iframe>",
+        "result": "<iframe>content &amp; stuff</iframe>"
+    },
+
+    /* Test number: 32 */
+    {
+        "data": "<noembed><a href=\"x\">link</a></noembed>",
+        "result": "<noembed><a href=\"x\">link</a></noembed>"
+    },
+
+    /* Test number: 33 */
+    {
+        "data": "<div><noframes><body>old</body></noframes></div>",
+        "result": "<div><noframes><body>old</body></noframes></div>"
+    },
+
+    /* Test number: 34 */
+    {
+        "data": "<div><script>var x = 1;\nvar y = 2;</script></div>",
+        "options": ["Replace newline"],
+        "result": "<div><script>var x = 1; var y = 2;</script></div>"
+    },
+
+    /* Test number: 35 */
+    {
+        "data": "<div><style>.a {\n  color: red;\n}</style></div>",
+        "options": ["Replace newline"],
+        "result": "<div><style>.a {   color: red; }</style></div>"
+    },
+
+    /* Test number: 36 */
+    {
+        "data": "<p>hello</p>",
+        "options": ["Pretty"],
+        "result": $DATA{ ,8}
+        <p>
+         "hello"
+        </p>
+        $DATA
+    },
+
+    /* Test number: 37 */
+    {
+        "data": "<div> <b>x</b> </div>",
+        "options": ["Pretty", "Skip whitespace nodes"],
+        "result": $DATA{ ,8}
+        <div>
+         <b>
+          "x"
+         </b>
+        </div>
+        $DATA
+    },
+
+    /* Test number: 38 */
+    {
+        "data": "<p>a &amp; b</p>",
+        "options": ["Pretty"],
+        "result": $DATA{ ,8}
+        <p>
+         "a &amp; b"
+        </p>
+        $DATA
+    },
+
+    /* Test number: 39 */
+    {
+        "data": "<p>a &amp; b</p>",
+        "options": ["Pretty", "Raw"],
+        "result": $DATA{ ,8}
+        <p>
+         "a & b"
+        </p>
+        $DATA
+    },
+
+    /* Test number: 40 */
+    {
+        "data": "<div></div>",
+        "result": "<div></div>"
+    },
+
+    /* Test number: 41 */
+    {
+        "data": "<p>   </p>",
+        "options": ["Skip whitespace nodes"],
+        "result": "<p></p>"
+    },
+
+    /* Test number: 42 */
+    {
+        "data": "<p>\u00C2</p>",
+        "result": "<p>\u00C2</p>"
+    },
+
+    /* Test number: 43 */
+    {
+        "data": "<b>a</b>middle<i>b</i>",
+        "result": "<b>a</b>middle<i>b</i>"
+    },
+
+    /* Test number: 44 */
+    {
+        "data": "<p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>",
+        "result": "<p>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>"
+    }
+]

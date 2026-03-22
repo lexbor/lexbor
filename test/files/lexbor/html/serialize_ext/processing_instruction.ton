@@ -1,0 +1,45 @@
+[
+    /* Test count: 5 */
+
+    /*
+     * Processing Instruction nodes cannot be created by the HTML5 parser.
+     * Per the WHATWG HTML spec, "<?...>" in HTML is parsed as a comment.
+     * These tests verify that behavior.
+     */
+
+    /* Test number: 1 */
+    {
+        "data": "<div><?xml version=\"1.0\"?></div>",
+        "result": "<div><!--?xml version=\"1.0\"?--></div>"
+    },
+
+    /* Test number: 2 */
+    {
+        "data": "<div><?php echo 'hello'; ?></div>",
+        "result": "<div><!--?php echo 'hello'; ?--></div>"
+    },
+
+    /* Test number: 3 */
+    {
+        "data": "<div><?xml version=\"1.0\"?><b>x</b></div>",
+        "options": ["Skip comments"],
+        "result": "<div><b>x</b></div>"
+    },
+
+    /* Test number: 4 */
+    {
+        "data": "<div><?xml version=\"1.0\"?></div>",
+        "options": ["Pretty"],
+        "result": $DATA{ ,8}
+        <div>
+         <!--?xml version="1.0"?-->
+        </div>
+        $DATA
+    },
+
+    /* Test number: 5 */
+    {
+        "data": "<div><?xml version=\"1.0\"?><?php echo 1; ?></div>",
+        "result": "<div><!--?xml version=\"1.0\"?--><!--?php echo 1; ?--></div>"
+    }
+]

@@ -1,0 +1,392 @@
+[
+    /* Test count: 48 */
+
+    /* Test number: 1 */
+    {
+        "data": "<div></div>",
+        "result": "<div></div>"
+    },
+
+    /* Test number: 2 */
+    {
+        "data": "<span></span>",
+        "result": "<span></span>"
+    },
+
+    /* Test number: 3 */
+    {
+        "data": "<div/>",
+        "result": "<div></div>"
+    },
+
+    /* Test number: 4 */
+    {
+        "data": "<br>",
+        "result": "<br>"
+    },
+
+    /* Test number: 5 */
+    {
+        "data": "<hr>",
+        "result": "<hr>"
+    },
+
+    /* Test number: 6 */
+    {
+        "data": "<img src=\"x.png\">",
+        "result": "<img src=\"x.png\">"
+    },
+
+    /* Test number: 7 */
+    {
+        "data": "<input type=\"text\">",
+        "result": "<input type=\"text\">"
+    },
+
+    /* Test number: 8 */
+    {
+        "data": "<area shape=\"rect\">",
+        "result": "<area shape=\"rect\">"
+    },
+
+    /* Test number: 9 */
+    {
+        "data": "<!DOCTYPE html><html><head></head><body><table><colgroup><col></colgroup></table></body></html>",
+        "from_document": true,
+        "result": "<!DOCTYPE html><html><head></head><body><table><colgroup><col></colgroup></table></body></html>"
+    },
+
+    /* Test number: 10 */
+    {
+        "data": "<embed type=\"text/plain\">",
+        "result": "<embed type=\"text/plain\">"
+    },
+
+    /* Test number: 11 */
+    {
+        "data": "<video><source src=\"a.mp3\"></video>",
+        "result": "<video><source src=\"a.mp3\"></video>"
+    },
+
+    /* Test number: 12 */
+    {
+        "data": "<video><track src=\"t.vtt\"></video>",
+        "result": "<video><track src=\"t.vtt\"></video>"
+    },
+
+    /* Test number: 13 */
+    {
+        "data": "<wbr>",
+        "result": "<wbr>"
+    },
+
+    /* Test number: 14 */
+    {
+        "data": "<div><br><hr><wbr><br></div>",
+        "result": "<div><br><hr><wbr><br></div>"
+    },
+
+    /* Test number: 15 */
+    {
+        "data": "<img src=\"a.png\" alt=\"\" width=\"100\" height=\"50\">",
+        "result": "<img src=\"a.png\" alt=\"\" width=\"100\" height=\"50\">"
+    },
+
+    /* Test number: 16 */
+    {
+        "data": "<div><section><article><main><aside><nav><header><footer>x</footer></header></nav></aside></main></article></section></div>",
+        "result": "<div><section><article><main><aside><nav><header><footer>x</footer></header></nav></aside></main></article></section></div>"
+    },
+
+    /* Test number: 17 */
+    {
+        "data": "<a href=\"#\">a</a><b>b</b><i>i</i><u>u</u><s>s</s>",
+        "result": "<a href=\"#\">a</a><b>b</b><i>i</i><u>u</u><s>s</s>"
+    },
+
+    /* Test number: 18 */
+    {
+        "data": "<div>before<span>middle</span>after</div>",
+        "result": "<div>before<span>middle</span>after</div>"
+    },
+
+    /* Test number: 19 */
+    {
+        "data": "<svg><circle r=\"5\"></circle></svg>",
+        "result": "<svg><circle r=\"5\"></circle></svg>"
+    },
+
+    /* Test number: 20 */
+    {
+        "data": "<svg><circle r=\"5\"></circle><rect width=\"10\" height=\"5\"></rect></svg>",
+        "options": ["Tag with namespace"],
+        "result": "<svg:svg><svg:circle r=\"5\"></svg:circle><svg:rect width=\"10\" height=\"5\"></svg:rect></svg:svg>"
+    },
+
+    /* Test number: 21 */
+    {
+        "data": "<math><mn>42</mn><mo>+</mo><mi>x</mi></math>",
+        "result": "<math><mn>42</mn><mo>+</mo><mi>x</mi></math>"
+    },
+
+    /* Test number: 22 */
+    {
+        "data": "<math><mn>1</mn></math>",
+        "options": ["Tag with namespace"],
+        "result": "<math:math><math:mn>1</math:mn></math:math>"
+    },
+
+    /* Test number: 23 */
+    {
+        "data": "<div><svg><rect width=\"10\"></rect></svg></div>",
+        "options": ["Tag with namespace"],
+        "result": "<div><svg:svg><svg:rect width=\"10\"></svg:rect></svg:svg></div>"
+    },
+
+    /* Test number: 24 */
+    {
+        "data": "<div><p>text</p></div>",
+        "options": ["Tag with namespace"],
+        "result": "<div><p>text</p></div>"
+    },
+
+    /* Test number: 25 */
+    {
+        "data": "<template><p>tmpl</p></template>",
+        "from_document": true,
+        "result": "<html><head><template><p>tmpl</p></template></head><body></body></html>"
+    },
+
+    /* Test number: 26 */
+    {
+        "data": "<template></template>",
+        "from_document": true,
+        "result": "<html><head><template></template></head><body></body></html>"
+    },
+
+    /* Test number: 27 */
+    {
+        "data": "<template><template><div>inner</div></template></template>",
+        "from_document": true,
+        "result": "<html><head><template><template><div>inner</div></template></template></head><body></body></html>"
+    },
+
+    /* Test number: 28 */
+    {
+        "data": "<template><h1>title</h1><p>body</p></template>",
+        "from_document": true,
+        "result": "<html><head><template><h1>title</h1><p>body</p></template></head><body></body></html>"
+    },
+
+    /* Test number: 29 */
+    {
+        "data": "<circle r=\"5\"></circle>",
+        "fragment": {"tag": "svg", "ns": "svg"},
+        "result": "<circle r=\"5\"></circle>"
+    },
+
+    /* Test number: 30 */
+    {
+        "data": "<circle r=\"5\"></circle><rect width=\"10\"></rect>",
+        "fragment": {"tag": "svg", "ns": "svg"},
+        "options": ["Tag with namespace"],
+        "result": "<svg:circle r=\"5\"></svg:circle><svg:rect width=\"10\"></svg:rect>"
+    },
+
+    /* Test number: 31 */
+    {
+        "data": "<mn>1</mn><mo>+</mo><mn>2</mn>",
+        "fragment": {"tag": "math", "ns": "math"},
+        "result": "<mn>1</mn><mo>+</mo><mn>2</mn>"
+    },
+
+    /* Test number: 32 */
+    {
+        "data": "<mn>1</mn>",
+        "fragment": {"tag": "math", "ns": "math"},
+        "options": ["Tag with namespace"],
+        "result": "<math:mn>1</math:mn>"
+    },
+
+    /* Test number: 33 */
+    {
+        "data": "<p>hello</p>",
+        "fragment": {"tag": "div", "ns": "html"},
+        "result": "<p>hello</p>"
+    },
+
+    /* Test number: 34 */
+    {
+        "data": "<div><span>text</span></div>",
+        "options": ["Without closing"],
+        "result": "<div><span>text"
+    },
+
+    /* Test number: 35 */
+    {
+        "data": "<div><br><hr></div>",
+        "options": ["Without closing"],
+        "result": "<div><br><hr>"
+    },
+
+    /* Test number: 36 */
+    {
+        "data": "<ul><li>a</li><li>b</li></ul>",
+        "options": ["Without closing"],
+        "result": "<ul><li>a<li>b"
+    },
+
+    /* Test number: 37 */
+    {
+        "data": "<div>text</div>",
+        "options": ["Pretty"],
+        "result": $DATA{ ,8}
+        <div>
+         "text"
+        </div>
+        $DATA
+    },
+
+    /* Test number: 38 */
+    {
+        "data": "<div><p><span>deep</span></p></div>",
+        "options": ["Pretty"],
+        "result": $DATA{ ,8}
+        <div>
+         <p>
+          <span>
+           "deep"
+          </span>
+         </p>
+        </div>
+        $DATA
+    },
+
+    /* Test number: 39 */
+    {
+        "data": "<div><br></div>",
+        "options": ["Pretty"],
+        "result": $DATA{ ,8}
+        <div>
+         <br>
+        </div>
+        $DATA
+    },
+
+    /* Test number: 40 */
+    {
+        "data": "<b>x</b><i>y</i>",
+        "options": ["Pretty"],
+        "result": $DATA{ ,8}
+        <b>
+         "x"
+        </b>
+        <i>
+         "y"
+        </i>
+        $DATA
+    },
+
+    /* Test number: 41 */
+    {
+        "data": "<div><p>text</p></div>",
+        "options": ["Pretty"],
+        "indent": ">>",
+        "result": $DATA{ ,8}
+        <div>
+        >><p>
+        >>>>"text"
+        >></p>
+        </div>
+        $DATA
+    },
+
+    /* Test number: 42 */
+    {
+        "data": "<div><p>text</p></div>",
+        "options": ["Pretty"],
+        "indent": "\t",
+        "result": $DATA{ ,8}
+        <div>
+        \t<p>
+        \t\t"text"
+        \t</p>
+        </div>
+        $DATA
+    },
+
+    /* Test number: 43 */
+    {
+        "data": "<div><p>text</p></div>",
+        "options": ["Pretty", "Without closing"],
+        "result": $DATA{ ,8}
+        <div>
+         <p>
+          "text"
+        $DATA
+    },
+
+    /* Test number: 44 */
+    {
+        "data": "<svg><rect width=\"10\"></rect></svg>",
+        "options": ["Pretty", "Tag with namespace"],
+        "result": $DATA{ ,8}
+        <svg:svg>
+         <svg:rect width="10">
+         </svg:rect>
+        </svg:svg>
+        $DATA
+    },
+
+    /* Test number: 45 */
+    {
+        "data": "<template><p>tmpl</p></template>",
+        "options": ["Pretty"],
+        "from_document": true,
+        "result": $DATA{ ,8}
+        <html>
+         <head>
+          <template>
+           <#document-fragment>
+            <p>
+             "tmpl"
+            </p>
+          </template>
+         </head>
+         <body>
+         </body>
+        </html>
+        $DATA
+    },
+
+    /* Test number: 46 */
+    {
+        "data": "<!DOCTYPE html><html><head></head><body><div>x</div></body></html>",
+        "options": ["Pretty"],
+        "from_document": true,
+        "result": $DATA{ ,8}
+        <!DOCTYPE html>
+        <html>
+         <head>
+         </head>
+         <body>
+          <div>
+           "x"
+          </div>
+         </body>
+        </html>
+        $DATA
+    },
+
+    /* Test number: 47 */
+    {
+        "data": "<my-element>content</my-element>",
+        "result": "<my-element>content</my-element>"
+    },
+
+    /* Test number: 48 */
+    {
+        "data": "<div id=\"a\" class=\"b\" title=\"c\" lang=\"en\" dir=\"ltr\" tabindex=\"0\" role=\"button\"></div>",
+        "result": "<div id=\"a\" class=\"b\" title=\"c\" lang=\"en\" dir=\"ltr\" tabindex=\"0\" role=\"button\"></div>"
+    }
+]
