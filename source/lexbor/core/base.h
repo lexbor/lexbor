@@ -70,7 +70,8 @@ typedef enum {
     LXB_STATUS_STOPPED,
     LXB_STATUS_NEXT,
     LXB_STATUS_STOP,
-    LXB_STATUS_WARNING
+    LXB_STATUS_WARNING,
+    LXB_STATUS_SKIPPED
 }
 lexbor_status_t;
 
