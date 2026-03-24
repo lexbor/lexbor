@@ -378,6 +378,22 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
         DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}/")
 
 ################
+## pkg-config configuration
+#########################
+find_package(PkgConfig)
+if (PKG_CONFIG_FOUND)
+  configure_file(
+    "${PROJECT_SOURCE_DIR}/lexbor.pc.in"
+    "${PROJECT_BINARY_DIR}/lexbor.pc"
+    @ONLY
+  )
+  install(
+    FILES "${PROJECT_BINARY_DIR}/lexbor.pc"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig"
+  )
+endif()
+
+################
 ## Build an RPM.
 #########################
 set(CPACK_PACKAGE_VERSION ${LEXBOR_VERSION_STRING})
