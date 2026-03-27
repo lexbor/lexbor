@@ -455,6 +455,72 @@ MACRO(APPEND_TESTS name_prefix sources)
     ENDFOREACH()
 ENDMACRO()
 
+MACRO(WASM_BUILD_LIST name_prefix sources)
+    FOREACH(src ${sources})
+        get_filename_component(barename ${src} NAME_WE)
+        get_filename_component(build_dir ${src} DIRECTORY)
+
+        STRING(REGEX REPLACE "^${LEXBOR_DIR_ROOT}" "" build_dir ${build_dir})
+        STRING(REGEX REPLACE "^/+" "" build_dir ${build_dir})
+        STRING(REGEX REPLACE "/+" "_" build_exe ${build_dir})
+
+        set(exe_name "${name_prefix}${build_exe}_${barename}")
+
+        add_executable(${exe_name} ${src})
+
+        set_target_properties(${exe_name} PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${build_dir}"
+            OUTPUT_NAME "${barename}"
+            SUFFIX ".js"
+        )
+
+        target_link_libraries(${exe_name} ${WASM_DEPS_LIB_NAMES})
+
+        target_link_options(${exe_name} PRIVATE
+            "SHELL:-s EXPORTED_FUNCTIONS=[_malloc,_free]"
+            "SHELL:-s EXPORTED_RUNTIME_METHODS=[ccall,cwrap,stringToUTF8,UTF8ToString,lengthBytesUTF8]"
+            "SHELL:-s ALLOW_MEMORY_GROWTH=1"
+            # "SHELL:-fsanitize=address"
+            # "SHELL:-s ASSERTIONS=2"
+            # "SHELL:-s SAFE_HEAP=1"
+            # "SHELL:-s STACK_OVERFLOW_CHECK=2"
+            # "SHELL:-g"
+        )
+
+        IF(Python3_FOUND AND WASM_CONSTANTS_HEADERS)
+            set(_wasm_const_args
+                "lexbor/core/base.h:lexbor_status_t:STATUS"
+                ${WASM_CONSTANTS_HEADERS}
+            )
+
+            set(_wasm_const_js
+                "${CMAKE_BINARY_DIR}/${build_dir}/${barename}_constants.js")
+            set(_wasm_const_target "${exe_name}_constants")
+
+            add_custom_command(
+                OUTPUT "${_wasm_const_js}"
+                COMMAND ${Python3_EXECUTABLE} "${WASM_GEN_SCRIPT}"
+                        "${CMAKE_SOURCE_DIR}/source" "${_wasm_const_js}"
+                        ${_wasm_const_args}
+                DEPENDS "${WASM_GEN_SCRIPT}"
+                COMMENT "Generating WASM constants for ${exe_name}"
+            )
+
+            add_custom_target(${_wasm_const_target}
+                              DEPENDS "${_wasm_const_js}")
+            add_dependencies(${exe_name} ${_wasm_const_target})
+
+            target_link_options(${exe_name} PRIVATE
+                "SHELL:--pre-js ${_wasm_const_js}"
+            )
+        ENDIF()
+
+        install(FILES "${CMAKE_BINARY_DIR}/${build_dir}/${barename}.js"
+                      "${CMAKE_BINARY_DIR}/${build_dir}/${barename}.wasm"
+                DESTINATION "${LEXBOR_WASM_INSTALL_DIR}/${build_dir}")
+    ENDFOREACH()
+ENDMACRO()
+
 MACRO(FIND_AND_APPEND_SUB_DIRS npath skip_error)
     FILE(GLOB children ${npath}/ ${npath}/*)
 

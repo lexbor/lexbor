@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>lexbor WASM Engine</title>
+    <style>
+        body {
+            font-family: monospace;
+            margin: 40px;
+            max-width: 960px;
+        }
+        textarea {
+            width: 100%;
+            font-family: monospace;
+            font-size: 14px;
+            tab-size: 4;
+            box-sizing: border-box;
+        }
+        input[type="text"] {
+            font-family: monospace;
+            font-size: 14px;
+            padding: 6px 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 16px;
+            overflow: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            min-height: 20px;
+        }
+        button {
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-right: 8px;
+        }
+        .controls {
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .serialize-opts {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            font-size: 13px;
+        }
+        label {
+            cursor: pointer;
+            user-select: none;
+        }
+        #status {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .status-ok { background: #d4edda; color: #155724; }
+        .status-err { background: #f8d7da; color: #721c24; }
+        .status-info { background: #e2e3e5; color: #383d41; }
+        #log {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 16px;
+            font-size: 13px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        #log .err { color: #f48771; }
+        #log .ok { color: #89d185; }
+        .selector-row {
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .match-count {
+            font-size: 13px;
+            color: #666;
+            white-space: nowrap;
+        }
+        h3 { margin-bottom: 8px; }
+        .highlight { background: #c8f7c5; border-radius: 2px; }
+        .highlight-block { background: #fff9c4; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h2>lexbor WASM Engine</h2>
+
+    <textarea id="input" rows="8">&lt;div class="container"&gt;
+  &lt;h1 id="title"&gt;Hello&lt;/h1&gt;
+  &lt;p class="text"&gt;First paragraph&lt;/p&gt;
+  &lt;p class="text"&gt;Second paragraph&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Item 1&lt;/li&gt;
+    &lt;li&gt;Item 2&lt;/li&gt;
+    &lt;li&gt;Item 3&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;noscript&gt;Enable JS&lt;/noscript&gt;
+&lt;/div&gt;</textarea>
+
+    <div class="controls">
+        <button id="btn-parse" onclick="doParse()" disabled>Parse</button>
+        <button id="btn-destroy" onclick="doDestroy()" disabled>Destroy</button>
+        <label><input type="checkbox" id="chk-scripting"> Scripting</label>
+        <label>
+            Opt:
+            <select id="sel-opt"></select>
+        </label>
+        <span id="status" class="status-info">Loading WASM...</span>
+    </div>
+
+    <h3>Serialized output:</h3>
+    <div class="serialize-opts">
+        <label><input type="checkbox" id="chk-pretty" checked onchange="reserialize()"> Pretty Print</label>
+        <label><input type="checkbox" id="chk-skip-ws" onchange="reserialize()"> Skip whitespace</label>
+        <label><input type="checkbox" id="chk-skip-comment" onchange="reserialize()"> Skip comments</label>
+        <label><input type="checkbox" id="chk-replace-nl" onchange="reserialize()"> Replace newline</label>
+        <label><input type="checkbox" id="chk-raw" onchange="reserialize()"> Raw</label>
+        <label><input type="checkbox" id="chk-no-closing" onchange="reserialize()"> Without closing</label>
+        <label><input type="checkbox" id="chk-tag-ns" onchange="reserialize()"> Tag with NS</label>
+        <label><input type="checkbox" id="chk-full-doctype" onchange="reserialize()"> Full DOCTYPE</label>
+        <label>
+            Indent:
+            <select id="sel-indent" onchange="reserialize()">
+                <option value="1">1</option>
+                <option value="2" selected>2</option>
+                <option value="4">4</option>
+                <option value="8">8</option>
+            </select>
+        </label>
+    </div>
+    <pre id="output"></pre>
+
+    <h3>CSS Selector:</h3>
+    <div class="selector-row">
+        <input type="text" id="selector-input" placeholder="e.g. div.container p, ul > li:first-child" disabled>
+        <span class="match-count" id="match-count"></span>
+    </div>
+
+    <h3>Log:</h3>
+    <pre id="log"></pre>
+
+    <script>
+        var api = {};
+        var doc = 0;
+        var parsed = false;
+        var selectorTimer = null;
+
+        function log(msg, cls) {
+            var el = document.getElementById('log');
+            var line = document.createElement('span');
+            line.className = cls || '';
+            line.textContent = '[' + new Date().toLocaleTimeString() + '] ' + msg + '\n';
+            el.appendChild(line);
+            el.scrollTop = el.scrollHeight;
+        }
+
+        function setStatus(msg, cls) {
+            var el = document.getElementById('status');
+            el.textContent = msg;
+            el.className = cls;
+        }
+
+        function updateButtons() {
+            document.getElementById('btn-parse').disabled = !doc;
+            document.getElementById('btn-destroy').disabled = !doc;
+            document.getElementById('selector-input').disabled = !parsed;
+        }
+
+        function populateOpts() {
+            var sel = document.getElementById('sel-opt');
+            sel.innerHTML = '';
+
+            var opts = [];
+
+            if (typeof Module !== 'undefined' && Module.LEXBOR) {
+                var keys = Object.keys(Module.LEXBOR);
+                for (var i = 0; i < keys.length; i++) {
+                    if (keys[i].indexOf('OPT_') === 0) {
+                        opts.push({name: keys[i], value: Module.LEXBOR[keys[i]]});
+                    }
+                }
+            }
+
+            if (opts.length === 0) {
+                opts.push({name: 'OPT_UNDEF', value: 0});
+                opts.push({name: 'OPT_WO_EVENTS', value: 1});
+            }
+
+            for (var i = 0; i < opts.length; i++) {
+                var o = document.createElement('option');
+                o.value = opts[i].value;
+                o.textContent = opts[i].name + ' (0x' + opts[i].value.toString(16).toUpperCase().padStart(2, '0') + ')';
+                sel.appendChild(o);
+            }
+        }
+
+        /*
+         * Build serialize_ext option bitmask.
+         * Bit values match lxb_html_serialize_ext_opt enum.
+         */
+        function getSerializeOpt() {
+            var opt = 0;
+            if (document.getElementById('chk-skip-ws').checked)      opt |= 0x01;
+            if (document.getElementById('chk-skip-comment').checked) opt |= 0x02;
+            if (document.getElementById('chk-replace-nl').checked)   opt |= 0x04;
+            if (document.getElementById('chk-raw').checked)          opt |= 0x08;
+            if (document.getElementById('chk-no-closing').checked)   opt |= 0x10;
+            if (document.getElementById('chk-tag-ns').checked)       opt |= 0x20;
+            if (document.getElementById('chk-full-doctype').checked) opt |= 0x40;
+            if (document.getElementById('chk-pretty').checked)       opt |= 0x80;
+            return opt;
+        }
+
+        function syncSerializeMode() {
+            var opt = getSerializeOpt();
+            var indent = parseInt(document.getElementById('sel-indent').value);
+            api.serializeModeSet(opt, indent);
+        }
+
+        function reserialize() {
+            if (!parsed || !doc) return;
+
+            syncSerializeMode();
+
+            /* Serialize once — output is HTML with <span id="n{id}"> wrappers */
+            var html = api.serialize(doc);
+            document.getElementById('output').innerHTML = html;
+
+            log('Serialized ' + html.length + ' bytes', 'ok');
+
+            /* Re-apply selector highlighting */
+            doSelectorHighlight();
+        }
+
+        function doSelectorHighlight() {
+            var input = document.getElementById('selector-input').value.trim();
+            var outputEl = document.getElementById('output');
+            var countEl = document.getElementById('match-count');
+
+            /* Clear previous highlights */
+            var highlighted = outputEl.querySelectorAll('.highlight, .highlight-block');
+            for (var i = 0; i < highlighted.length; i++) {
+                highlighted[i].classList.remove('highlight');
+                highlighted[i].classList.remove('highlight-block');
+            }
+
+            if (!input) {
+                countEl.textContent = '';
+                return;
+            }
+
+            /* Get matched node IDs from WASM */
+            var idsStr = api.queryIds(doc, input, input.length);
+
+            if (!idsStr) {
+                countEl.textContent = '0 matches';
+                log('Selector "' + input + '": no matches', '');
+                return;
+            }
+
+            var ids = idsStr.split(',');
+            countEl.textContent = ids.length + ' match' + (ids.length !== 1 ? 'es' : '');
+
+            /* Highlight matched nodes — tags (green) + block (pale yellow) */
+            for (var i = 0; i < ids.length; i++) {
+                var span = document.getElementById('n' + ids[i]);
+                if (span) span.classList.add('highlight');
+
+                var closeSpan = document.getElementById('n' + ids[i] + 'c');
+                if (closeSpan) closeSpan.classList.add('highlight');
+
+                var blockSpan = document.getElementById('b' + ids[i]);
+                if (blockSpan) blockSpan.classList.add('highlight-block');
+            }
+
+            log('Selector "' + input + '": ' + ids.length + ' match(es)', 'ok');
+        }
+
+        var Module = {
+            onRuntimeInitialized: function() {
+                api.create = Module.cwrap('lexbor_document_create', 'number', []);
+                api.destroy = Module.cwrap('lexbor_document_destroy', null, ['number']);
+                api.optSet = Module.cwrap('lexbor_document_opt_set', null, ['number', 'number']);
+                api.optGet = Module.cwrap('lexbor_document_opt_get', 'number', ['number']);
+                api.scriptingSet = Module.cwrap('lexbor_document_scripting_set', 'number', ['number', 'number']);
+                api.parse = Module.cwrap('lexbor_document_parse', 'number', ['number', 'string', 'number']);
+                api.serializeModeSet = Module.cwrap('lexbor_serialize_mode_set', null, ['number', 'number']);
+                api.serialize = Module.cwrap('lexbor_document_serialize', 'string', ['number']);
+                api.queryIds = Module.cwrap('lexbor_document_query_ids', 'string', ['number', 'string', 'number']);
+                api.queryCount = Module.cwrap('lexbor_document_query_count', 'number', ['number', 'string', 'number']);
+
+                populateOpts();
+                log('WASM initialized', 'ok');
+
+                doCreate();
+            }
+        };
+    </script>
+    <script src="lexbor.js"></script>
+    <script>
+        function doCreate() {
+            if (doc) {
+                log('Document already exists (ptr=' + doc + '), destroy first', 'err');
+                return;
+            }
+
+            doc = api.create();
+
+            if (!doc) {
+                log('Failed to create document', 'err');
+                setStatus('Error: create failed', 'status-err');
+                return;
+            }
+
+            log('Document created (ptr=' + doc + ')', 'ok');
+            setStatus('Ready', 'status-ok');
+            updateButtons();
+        }
+
+        function doDestroy() {
+            if (!doc) {
+                log('No document to destroy', 'err');
+                return;
+            }
+
+            api.destroy(doc);
+            log('Document destroyed (ptr=' + doc + ')', 'ok');
+            doc = 0;
+            parsed = false;
+            document.getElementById('output').innerHTML = '';
+            document.getElementById('match-count').textContent = '';
+            updateButtons();
+
+            doCreate();
+        }
+
+        function doParse() {
+            if (!doc) {
+                log('No document, create one first', 'err');
+                return;
+            }
+
+            var html = document.getElementById('input').value;
+            var scripting = document.getElementById('chk-scripting').checked;
+            var opt = parseInt(document.getElementById('sel-opt').value);
+
+            api.destroy(doc);
+            doc = api.create();
+
+            if (!doc) {
+                log('Failed to re-create document', 'err');
+                setStatus('Error: create failed', 'status-err');
+                parsed = false;
+                updateButtons();
+                return;
+            }
+
+            api.optSet(doc, opt);
+            log('Set opt=' + opt, '');
+
+            var status = api.scriptingSet(doc, scripting ? 1 : 0);
+            if (status !== 0) {
+                log('scripting_set failed: status=' + status, 'err');
+                setStatus('Error: scripting_set (status=' + status + ')', 'status-err');
+                return;
+            }
+            log('Set scripting=' + scripting, '');
+
+            status = api.parse(doc, html, html.length);
+            if (status !== 0) {
+                log('Parse failed: status=' + status, 'err');
+                setStatus('Error: parse (status=' + status + ')', 'status-err');
+                parsed = false;
+                updateButtons();
+                return;
+            }
+            log('Parsed ' + html.length + ' bytes', 'ok');
+
+            parsed = true;
+            updateButtons();
+
+            setStatus('OK', 'status-ok');
+
+            reserialize();
+        }
+
+        document.getElementById('selector-input').addEventListener('input', function() {
+            if (selectorTimer) {
+                clearTimeout(selectorTimer);
+            }
+            selectorTimer = setTimeout(function() {
+                if (!parsed || !doc) return;
+                doSelectorHighlight();
+            }, 150);
+        });
+    </script>
+</body>
+</html>
