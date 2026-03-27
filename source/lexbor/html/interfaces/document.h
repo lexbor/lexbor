@@ -189,9 +189,21 @@ lxb_html_document_dom_opt_set(lxb_html_document_t *document,
 }
 
 lxb_inline lxb_dom_document_opt_t
-lxb_html_document_dom_opt(lxb_html_document_t *document)
+lxb_html_document_dom_opt(const lxb_html_document_t *document)
 {
     return document->dom_document.options;
+}
+
+lxb_inline void
+lxb_html_document_scripting_set(lxb_html_document_t *document, bool scripting)
+{
+    document->dom_document.scripting = scripting;
+}
+
+lxb_inline bool
+lxb_html_document_scripting(lxb_html_document_t *document)
+{
+    return document->dom_document.scripting;
 }
 
 lxb_inline lexbor_hash_t *
