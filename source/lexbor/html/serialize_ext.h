@@ -116,12 +116,9 @@ enum lxb_html_serialize_ext_opt {
 };
 
 typedef lxb_status_t
-(*lxb_html_serialize_ext_node_cb_f)(const lxb_dom_node_t *node,
-                                    void *ctx);
-typedef lxb_status_t
-(*lxb_html_serialize_ext_edge_cb_f)(const lxb_dom_node_t *node,
-                                    const lxb_char_t *data, size_t len,
-                                    void *ctx, bool is_close);
+(*lxb_html_serialize_ext_boundary_cb_f)(const lxb_dom_node_t *node,
+                                        const lxb_char_t *data, size_t len,
+                                        void *ctx, size_t level, bool is_close);
 typedef lxb_status_t
 (*lxb_html_serialize_ext_name_cb_f)(const lxb_dom_node_t *node,
                                     const lxb_char_t *data, size_t len,
@@ -136,7 +133,8 @@ typedef lxb_status_t
                                     const lxb_char_t *data, size_t len,
                                     void *ctx);
 typedef lxb_status_t
-(*lxb_html_serialize_ext_cb_f)(const lxb_char_t *data, size_t len, void *ctx);
+(*lxb_html_serialize_ext_indent_cb_f)(const lxb_char_t *data, size_t len,
+                                      void *ctx, size_t level);
 
 typedef struct {
     /*
@@ -144,22 +142,14 @@ typedef struct {
      * It can be called multiple times.
      * This callback for print indent.
      */
-    lxb_html_serialize_ext_cb_f        indent;
+    lxb_html_serialize_ext_indent_cb_f   indent;
     /*
      * Called once before the element begins. Before <tag...>.
      * This callback must print the "<" character.
      * For closing tag, the callback will be called with is_close = true,
      * and it must print the "</" characters.
      */
-    lxb_html_serialize_ext_edge_cb_f   before;
-    /*
-     * Called once after the element ends. After <tag...>.
-     * This callback must print the ">" character.
-     * For closing tag, the callback will be called with is_close = true,
-     * and it must print the ">" character.
-     */
-    lxb_html_serialize_ext_edge_cb_f   after;
-
+    lxb_html_serialize_ext_boundary_cb_f begin;
     /*
      * Called once for the namespace prefix of the element.
      * This callback must print the namespace prefix followed by ":" character.
@@ -169,14 +159,21 @@ typedef struct {
      * Only for LXB_HTML_SERIALIZE_EXT_OPT_TAG_WITH_NS option.
      * if namespace prefix is not present, this callback will not be called.
      */
-    lxb_html_serialize_ext_name_cb_f   ns;
+    lxb_html_serialize_ext_name_cb_f     ns;
     /*
      * Called once for the tag name.
      * This callback must print the tag name.
      * For closing tag, the callback will be called with is_close = true,
      * and it must print the tag name.
      */
-    lxb_html_serialize_ext_name_cb_f   name;
+    lxb_html_serialize_ext_name_cb_f     name;
+    /*
+     * Called once after the element ends. After <tag...>.
+     * This callback must print the ">" character.
+     * For closing tag, the callback will be called with is_close = true,
+     * and it must print the ">" character.
+     */
+    lxb_html_serialize_ext_boundary_cb_f end;
 }
 lxb_html_serialize_ext_node_t;
 
@@ -227,20 +224,20 @@ typedef struct {
      * It can be called multiple times.
      * This callback for print indent.
      */
-    lxb_html_serialize_ext_cb_f      indent;
+    lxb_html_serialize_ext_indent_cb_f   indent;
     /*
      * Called once before the text node begins.
      */
-    lxb_html_serialize_ext_node_cb_f before;
+    lxb_html_serialize_ext_boundary_cb_f begin;
     /*
      * Called for the text node data. It can be called multiple times.
      * This callback must print the text node data.
      */
-    lxb_html_serialize_ext_text_cb_f text;
+    lxb_html_serialize_ext_text_cb_f     text;
     /*
      * Called once after the text node ends.
      */
-    lxb_html_serialize_ext_node_cb_f after;
+    lxb_html_serialize_ext_boundary_cb_f end;
 }
 lxb_html_serialize_ext_text_t;
 
@@ -250,19 +247,19 @@ typedef struct {
      * It can be called multiple times.
      * This callback for print indent.
      */
-    lxb_html_serialize_ext_cb_f      indent;
+    lxb_html_serialize_ext_indent_cb_f   indent;
     /*
      * Called once with "<!--" string.
      */
-    lxb_html_serialize_ext_text_cb_f begin;
+    lxb_html_serialize_ext_boundary_cb_f begin;
     /*
      * Called for the comment data. It can be called multiple times.
      */
-    lxb_html_serialize_ext_text_cb_f text;
+    lxb_html_serialize_ext_text_cb_f     text;
     /*
      * Called once with "-->" string.
      */
-    lxb_html_serialize_ext_text_cb_f end;
+    lxb_html_serialize_ext_boundary_cb_f end;
 }
 lxb_html_serialize_ext_comment_t;
 
@@ -272,30 +269,30 @@ typedef struct {
      * It can be called multiple times.
      * This callback for print indent.
      */
-    lxb_html_serialize_ext_cb_f      indent;
+    lxb_html_serialize_ext_indent_cb_f   indent;
     /*
      * Called once with "<?" string.
      */
-    lxb_html_serialize_ext_text_cb_f begin;
+    lxb_html_serialize_ext_boundary_cb_f begin;
     /*
      * Called for the processing instruction target.
      * It can be called multiple times.
      */
-    lxb_html_serialize_ext_text_cb_f target;
+    lxb_html_serialize_ext_text_cb_f     target;
     /*
      * Called once with " " string.
      * Called after "target" and before "text".
      */
-    lxb_html_serialize_ext_text_cb_f middle;
+    lxb_html_serialize_ext_text_cb_f     middle;
     /*
      * Called for the processing instruction data.
      * It can be called multiple times.
      */
-    lxb_html_serialize_ext_text_cb_f text;
+    lxb_html_serialize_ext_text_cb_f     text;
     /*
      * Called once with ">" string.
      */
-    lxb_html_serialize_ext_text_cb_f end;
+    lxb_html_serialize_ext_boundary_cb_f end;
 }
 lxb_html_serialize_ext_processing_instruction_t;
 
@@ -305,37 +302,37 @@ typedef struct {
      * It can be called multiple times.
      * This callback for print indent.
      */
-    lxb_html_serialize_ext_cb_f      indent;
+    lxb_html_serialize_ext_indent_cb_f   indent;
     /*
      * Called once with "<!DOCTYPE" string.
      */
-    lxb_html_serialize_ext_text_cb_f begin;
+    lxb_html_serialize_ext_boundary_cb_f begin;
     /*
      * Called once for the document type name.
      */
-    lxb_html_serialize_ext_text_cb_f name;
+    lxb_html_serialize_ext_text_cb_f     name;
     /*
      * Called once for the document type public identifier.
      * User must print 'PUBLIC "' string before the public identifier value,
      * and '"' character after the public identifier value.
      */
-    lxb_html_serialize_ext_text_cb_f text_public;
+    lxb_html_serialize_ext_text_cb_f     text_public;
     /*
      * Called once for the document type system identifier.
      * User must print 'SYSTEM "' string before the system identifier value,
      * and '"' character after the system identifier value.
      */
-    lxb_html_serialize_ext_text_cb_f text_system;
+    lxb_html_serialize_ext_text_cb_f     text_system;
     /*
      * Called once with ">" string.
      */
-    lxb_html_serialize_ext_text_cb_f end;
+    lxb_html_serialize_ext_boundary_cb_f end;
     /*
      * Called for whitespace before name, public identifier,
      * and system identifier.
      * This callback must print a single space character.
      */
-    lxb_html_serialize_ext_text_cb_f ws;
+    lxb_html_serialize_ext_text_cb_f     ws;
 
 }
 lxb_html_serialize_ext_document_type_t;
@@ -383,7 +380,7 @@ typedef struct {
      * Called for newline character.
      * Only for LXB_HTML_SERIALIZE_EXT_OPT_PRETTY option.
      */
-    lxb_html_serialize_ext_cb_f                           newline;
+    lxb_html_serialize_ext_indent_cb_f                    newline;
 }
 lxb_html_serialize_ext_t;
 
