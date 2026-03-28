@@ -227,6 +227,16 @@ The `liblexbor-html` library already contains all the pointers to the required d
 
 You can create a binding or wrapper for the `lexbor` and place the link here!
 
+## AI Policy
+
+Lexbor draws a clear line between its core library and the surrounding ecosystem.
+
+**Core library** — all source code that compiles into the distributable binary — is written entirely by humans. This is an engineering choice, not an ideological one. Lexbor is a performance-critical, standards-compliant C library where every line of code must reflect a decision its author fully understands and can defend. We use AI tools in other areas of the project and see their value clearly; the core is simply not the right place for them.
+
+AI-assisted tools are welcome and actively used for bindings, WASM builds, benchmarks, documentation, examples, tests, and other supporting work. This section is one such example — it was drafted with AI and reviewed by a human. The em dashes are a giveaway.
+
+**For contributors:** pull requests targeting core library code are expected to be human-authored. The contributor — not an AI model — performed the reasoning, made the design choices, and wrote the code. The code you submit is yours, and you can speak to the intent and correctness of every line. We are not interested in policing workflows, but if a pull request reads like AI did the thinking, it will likely be rejected.
+
 ## Documentation
 
 Available on [lexbor.com](https://lexbor.com) in [Documentation](https://lexbor.com/documentation/) section.
