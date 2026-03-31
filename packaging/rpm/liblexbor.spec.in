@@ -29,7 +29,7 @@ Modules:
 
 %build
 export CFLAGS='%{optflags}'
-%cmake -DCMAKE_BUILD_TYPE=RELEASE -DLEXBOR_BUILD_SEPARATELY=ON \
+%cmake -DCMAKE_BUILD_TYPE=RELEASE \
        -DLEXBOR_BUILD_STATIC=ON -DLEXBOR_BUILD_SHARED=ON
 %cmake_build
 

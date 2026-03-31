@@ -194,33 +194,33 @@ ENDIF()
 set(LEXBOR_LIB_NAME "${PROJECT_NAME}")
 set(LEXBOR_LIB_NAME_STATIC "${LEXBOR_LIB_NAME}_static")
 
-## Get all source files from modules
-FOREACH(module ${LEXBOR_MODULES})
-    GET_MODULE_RESURSES(headers sources "${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${module})
-    LIST(APPEND LEXBOR_SOURCES ${sources})
-ENDFOREACH()
-
-## First, need to add target for shared and static library
-IF(LEXBOR_BUILD_SHARED)
-    add_library(${LEXBOR_LIB_NAME} SHARED ${LEXBOR_SOURCES})
-    target_include_directories(${LEXBOR_LIB_NAME} PUBLIC $<BUILD_INTERFACE:${LEXBOR_SOURCE}>
-                                                         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-    target_compile_definitions(${LEXBOR_LIB_NAME} PRIVATE "LEXBOR_BUILDING")
-ENDIF()
-
-IF(LEXBOR_BUILD_STATIC)
-    add_library(${LEXBOR_LIB_NAME_STATIC} STATIC ${LEXBOR_SOURCES})
-    target_include_directories(${LEXBOR_LIB_NAME_STATIC} PUBLIC $<BUILD_INTERFACE:${LEXBOR_SOURCE}>
-                                                                $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-    set_target_properties(${LEXBOR_LIB_NAME_STATIC} PROPERTIES OUTPUT_NAME ${LEXBOR_LIB_NAME_STATIC})
-    set_target_properties(${LEXBOR_LIB_NAME_STATIC} PROPERTIES
-        COMPILE_PDB_NAME "${LEXBOR_LIB_NAME_STATIC}"
-        COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
-    target_compile_definitions(${LEXBOR_LIB_NAME_STATIC} PUBLIC "LEXBOR_STATIC")
-ENDIF()
-
-## Load configurations from all modules. Print modules name and version.
 IF(NOT LEXBOR_BUILD_SEPARATELY)
+    ## Get all source files from modules
+    FOREACH(module ${LEXBOR_MODULES})
+        GET_MODULE_RESURSES(headers sources "${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${module})
+        LIST(APPEND LEXBOR_SOURCES ${sources})
+    ENDFOREACH()
+
+    ## First, need to add target for shared and static library
+    IF(LEXBOR_BUILD_SHARED)
+        add_library(${LEXBOR_LIB_NAME} SHARED ${LEXBOR_SOURCES})
+        target_include_directories(${LEXBOR_LIB_NAME} PUBLIC $<BUILD_INTERFACE:${LEXBOR_SOURCE}>
+                                                             $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+        target_compile_definitions(${LEXBOR_LIB_NAME} PRIVATE "LEXBOR_BUILDING")
+    ENDIF()
+
+    IF(LEXBOR_BUILD_STATIC)
+        add_library(${LEXBOR_LIB_NAME_STATIC} STATIC ${LEXBOR_SOURCES})
+        target_include_directories(${LEXBOR_LIB_NAME_STATIC} PUBLIC $<BUILD_INTERFACE:${LEXBOR_SOURCE}>
+                                                                    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+        set_target_properties(${LEXBOR_LIB_NAME_STATIC} PROPERTIES OUTPUT_NAME ${LEXBOR_LIB_NAME_STATIC})
+        set_target_properties(${LEXBOR_LIB_NAME_STATIC} PROPERTIES
+            COMPILE_PDB_NAME "${LEXBOR_LIB_NAME_STATIC}"
+            COMPILE_PDB_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
+        target_compile_definitions(${LEXBOR_LIB_NAME_STATIC} PUBLIC "LEXBOR_STATIC")
+    ENDIF()
+
+    ## Load configurations from all modules. Print modules name and version.
     FOREACH(module ${LEXBOR_MODULES})
         IF(LEXBOR_INSTALL_HEADERS)
             INSTALL_MODULE_HEADERS("${LEXBOR_SOURCE}" "${PROJECT_NAME}" ${module})
@@ -233,17 +233,17 @@ IF(NOT LEXBOR_BUILD_SEPARATELY)
 
         MODULE_PRINT(${module} ${version_string} "${module_deps}")
     ENDFOREACH()
-ENDIF()
 
-## Create dynamic/static library
-IF(LEXBOR_BUILD_SHARED)
-    ADD_MODULE_LIBRARY(SHARED ${LEXBOR_LIB_NAME} ${LEXBOR_VERSION_STRING}
-                       ${LEXBOR_VERSION_MAJOR})
-ENDIF()
+    ## Create dynamic/static library
+    IF(LEXBOR_BUILD_SHARED)
+        ADD_MODULE_LIBRARY(SHARED ${LEXBOR_LIB_NAME} ${LEXBOR_VERSION_STRING}
+                           ${LEXBOR_VERSION_MAJOR})
+    ENDIF()
 
-IF(LEXBOR_BUILD_STATIC)
-    ADD_MODULE_LIBRARY(STATIC ${LEXBOR_LIB_NAME_STATIC} ${LEXBOR_VERSION_STRING}
-                       ${LEXBOR_VERSION_MAJOR})
+    IF(LEXBOR_BUILD_STATIC)
+        ADD_MODULE_LIBRARY(STATIC ${LEXBOR_LIB_NAME_STATIC} ${LEXBOR_VERSION_STRING}
+                           ${LEXBOR_VERSION_MAJOR})
+    ENDIF()
 ENDIF()
 
 ################
