@@ -2,6 +2,31 @@
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-03-31
+
+### Added
+- Added WASM support.
+- HTML: added extended serialization API (`serialize_ext`).
+- HTML: added scripting getter/setter; `const` for `dom_opt` getter.
+- HTML: added `<selectedcontent>` element with spec-compliant disabled-state tracking.
+- Style: new `lxb_style_init()`/`lxb_style_destroy()` API replacing `lxb_html_document_css_init()`.
+- DOM: new per-tag mutation dispatch tables — `mutation` (inserted, removed, moved, destroy, children_changed, connected) and `attr_mutation` (change, append, remove, replace) — replacing the old monolithic `node_cb`.
+- DOM: added `LXB_DOM_DOCUMENT_OPT_WO_EVENTS` flag to suppress all mutation callbacks for plain parsing without overhead.
+- DOM: added `LXB_DOM_ELEMENT_CONDITION_DIRTY_STYLE` for lazy style cleanup.
+- Core: added new status `LXB_STATUS_SKIPPED`.
+- Added support for pkg-config (`lexbor.pc`).
+- Amalgamation: added cross-platform port support.
+- Added `const` to certain function arguments across the API.
+
+### Changed
+- **Breaking**: Style: replaced custom event system (`lxb_style_event_*`) with spec-compliant WHATWG DOM steps (`element_steps`, `attribute_steps`) using per-tag dispatch tables generated at build time.
+- **Breaking**: DOM: `document.node_cb` replaced by `mutation` and `attr_mutation` callback tables.
+- HTML: `open_elements` pop functions now return `lxb_status_t` and invoke per-tag callbacks.
+- HTML: `parse_cb` mechanism removed; `<style>` parsing now happens through the pop callback in the Style module.
+- HTML: `<option>` now tracks selectedness as a stored boolean field; insertion/removal steps update the nearest ancestor `<select>`.
+- HTML: `<select>` implements the full WHATWG selectedness-setting algorithm, display size computation, and list-of-options tree walk.
+- Packaging: updated DEB/RPM packaging for current distro standards.
+
 ## [2.7.0] - 2026-03-12
 
 ### Added
