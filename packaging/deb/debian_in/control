@@ -6,7 +6,7 @@ Standards-Version: 4.6.2
 Vcs-Git: https://github.com/lexbor/lexbor.git
 Vcs-Browser: https://github.com/lexbor/lexbor
 Homepage: https://lexbor.com
-Build-Depends: debhelper-compat (= 13),
+Build-Depends: debhelper-compat (>= 12),
                cmake (>= 3.0)
 
 Package: lib%%LIBNAME%%%%SOVERSION%%
