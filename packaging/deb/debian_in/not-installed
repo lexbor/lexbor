@@ -1,0 +1,4 @@
+usr/lib/${DEB_HOST_MULTIARCH}/*
+usr/include/lexbor/*
+usr/include/lexbor/*/*
+usr/include/lexbor/*/*/*
