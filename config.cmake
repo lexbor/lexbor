@@ -347,11 +347,18 @@ MACRO(ADD_MODULE_LIBRARY type libname version_string major)
     set_target_properties(${libname} PROPERTIES OUTPUT_NAME ${libname})
     set_target_properties(${libname} PROPERTIES VERSION ${version_string} SOVERSION ${major})
 
-    install(TARGETS ${libname}
-            EXPORT "${PROJECT_NAME}-export"
-            RUNTIME DESTINATION "${LEXBOR_INSTALL_DLL_EXE_DIR}"
-            ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-            LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+    IF(LEXBOR_BUILD_SEPARATELY)
+        install(TARGETS ${libname}
+                RUNTIME DESTINATION "${LEXBOR_INSTALL_DLL_EXE_DIR}"
+                ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+                LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+    ELSE()
+        install(TARGETS ${libname}
+                EXPORT "${PROJECT_NAME}-export"
+                RUNTIME DESTINATION "${LEXBOR_INSTALL_DLL_EXE_DIR}"
+                ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+                LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+    ENDIF()
 ENDMACRO()
 
 MACRO(INSTALL_MODULE_HEADERS header_path pname module)
