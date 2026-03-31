@@ -31,10 +31,10 @@ Modules:
 export CFLAGS='%{optflags}'
 %cmake -DCMAKE_BUILD_TYPE=RELEASE \
        -DLEXBOR_BUILD_STATIC=ON -DLEXBOR_BUILD_SHARED=ON -DLEXBOR_BUILD_SEPARATELY=ON
-make %{?_smp_mflags}
+cmake --build "%{__cmake_builddir}" %{?_smp_mflags}
 
 %install
-%make_install
+DESTDIR=%{buildroot} cmake --install "%{__cmake_builddir}"
 
 %ldconfig_scriptlets
 
