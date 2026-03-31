@@ -920,6 +920,9 @@ MACRO(PACKAGE_DEB_CREATE_DEBIAN arch codename curdate)
         # dirs and install
         CREATE_DEB_DIRS(TRUE ${module} ${libname} "${major}" "${arch}" "${debian_in_dir}"
                         "${debian_dir}")
+
+        # not-installed: ignore dependency artifacts left in debian/tmp
+        file(COPY "${debian_in_dir}/not-installed" DESTINATION "${debian_dir}")
     ENDFOREACH()
 
     unset(requires)
