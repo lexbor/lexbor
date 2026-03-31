@@ -399,7 +399,7 @@ ENDIF()
 ################
 ## CMake target export
 #########################
-IF(NOT LEXBOR_BUILD_WASM)
+IF(NOT LEXBOR_BUILD_WASM AND NOT LEXBOR_BUILD_SEPARATELY)
     include("CMakePackageConfigHelpers")
 
     install(
@@ -421,20 +421,20 @@ IF(NOT LEXBOR_BUILD_WASM)
     install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
                   "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake"
             DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}/")
-ENDIF()
 
 ################
 ## pkg-config configuration
 #########################
-configure_file(
-  "${PROJECT_SOURCE_DIR}/lexbor.pc.in"
-  "${PROJECT_BINARY_DIR}/lexbor.pc"
-  @ONLY
-)
-install(
-  FILES "${PROJECT_BINARY_DIR}/lexbor.pc"
-  DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig"
-)
+    configure_file(
+      "${PROJECT_SOURCE_DIR}/lexbor.pc.in"
+      "${PROJECT_BINARY_DIR}/lexbor.pc"
+      @ONLY
+    )
+    install(
+      FILES "${PROJECT_BINARY_DIR}/lexbor.pc"
+      DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig"
+    )
+ENDIF()
 
 ################
 ## Build an RPM.
