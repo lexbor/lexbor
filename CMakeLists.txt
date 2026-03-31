@@ -399,7 +399,7 @@ ENDIF()
 ################
 ## CMake target export
 #########################
-IF(NOT LEXBOR_BUILD_WASM AND NOT LEXBOR_BUILD_SEPARATELY)
+IF(NOT LEXBOR_BUILD_WASM)
     include("CMakePackageConfigHelpers")
 
     install(
