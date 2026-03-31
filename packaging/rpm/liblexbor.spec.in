@@ -52,6 +52,7 @@ export CFLAGS='%{optflags}'
 %{_libdir}/%{name}_static.a
 %{_includedir}/*
 %{_libdir}/cmake/lexbor/
+%{_libdir}/pkgconfig/lexbor.pc
 
 # Modules
 %%MODULES_SPECS%%
