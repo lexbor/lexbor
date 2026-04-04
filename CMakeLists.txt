@@ -203,6 +203,12 @@ ENDFOREACH()
 ## First, need to add target for shared and static library
 IF(LEXBOR_BUILD_SHARED)
     add_library(${LEXBOR_LIB_NAME} SHARED ${LEXBOR_SOURCES})
+    if(UNIX)
+        set_target_properties(${LEXBOR_LIB_NAME} PROPERTIES SOVERSION 1)
+    endif()
+    if ((WIN32) AND (CMAKE_VERSION VERSION_GREATER_EQUAL "3.27"))
+        set_target_properties(${LEXBOR_LIB_NAME} PROPERTIES DLL_NAME_WITH_SOVERSION 1)
+    endif()
     target_include_directories(${LEXBOR_LIB_NAME} PUBLIC $<BUILD_INTERFACE:${LEXBOR_SOURCE}>
                                                          $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
     target_compile_definitions(${LEXBOR_LIB_NAME} PRIVATE "LEXBOR_BUILDING")
