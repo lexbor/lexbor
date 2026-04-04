@@ -1,0 +1,19 @@
+name: Release
+on:
+  release:
+    types: [published]
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Create source archive
+        run: |
+          export $(cat version)
+          git archive -o lexbor-$LEXBOR_VERSION.tar v$LEXBOR_VERSION ':(exclude).gitignore' ':(exclude).github' ':(exclude).travis.yml'
+          xz -9 lexbor-$LEXBOR_VERSION.tar
+      - name: Upload to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: lexbor-$LEXBOR_VERSION.tar.xz
