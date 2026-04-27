@@ -167,7 +167,7 @@ MACRO(INCLUDE_MODULE_CONFIG pname module module_dir)
 
         IF(EXISTS "${conf_path}")
             set(CURRENT_LIB_NAME "${PROJECT_NAME}-${module}")
-            set(CURRENT_LIB_NAME_STATIC "${PROJECT_NAME}-${module}-static")
+            set(CURRENT_LIB_NAME_STATIC "${PROJECT_NAME}-${module}_static")
 
             include("${conf_path}")
         ENDIF()

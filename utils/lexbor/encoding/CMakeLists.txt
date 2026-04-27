@@ -29,4 +29,10 @@ file(GLOB UTILS_LEXBOR_ENCODING_SOURCES "*.c")
 ################
 ## Create Utils
 #########################
-EXECUTABLE_LIST("utils_encoding_" "${UTILS_LEXBOR_ENCODING_SOURCES}" ${LEXBOR_LIB_NAME})
+IF(LEXBOR_BUILD_SHARED)
+    EXECUTABLE_LIST("utils_encoding_" "${UTILS_LEXBOR_ENCODING_SOURCES}" ${LEXBOR_LIB_NAME})
+ELSEIF(LEXBOR_BUILD_STATIC)
+    EXECUTABLE_LIST("utils_encoding_" "${UTILS_LEXBOR_ENCODING_SOURCES}" ${LEXBOR_LIB_NAME_STATIC})
+ELSE()
+    message(FATAL_ERROR "Requires static or dynamic Lexbor library")
+ENDIF()
