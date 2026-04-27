@@ -215,6 +215,7 @@ The `liblexbor-html` library already contains all the pointers to the required d
 
 ## External Bindings and Wrappers
 
+* [Elixir](https://github.com/dashbitco/lazy_html) Fast HTML parsing and querying. Default HTML engine in Phoenix LiveViewTest (since LiveView 1.1).
 * [Elixir](https://git.pleroma.social/pleroma/elixir-libraries/fast_html) binding for the HTML module (since 2.0 version)
 * [Erlang](https://hex.pm/packages/lexbor_erl) Fast HTML5 Parser with CSS selectors and DOM manipulation (since 2.6.0 version)
 * [Crystal](https://github.com/kostya/lexbor) Fast HTML5 Parser with CSS selectors for Crystal language
