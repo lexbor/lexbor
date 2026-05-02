@@ -1,0 +1,53 @@
+# SPDX-FileCopyrightText: Alexander Borisov
+# SPDX-FileContributor: Vincent Torri <vincent.torri@gmail.com>
+# SPDX-License-Identifier: Apache-2.0
+
+name: msys2
+
+on:
+  push:
+    branches:
+      - master
+      - '[0-9]+.[0-9]+'
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize, reopened]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      matrix:
+        include:
+          - { sys: mingw32, cc: gcc, runs-on: 'windows-latest' }
+          - { sys: mingw64, cc: gcc, runs-on: 'windows-latest' }
+          - { sys: ucrt64, cc: gcc, runs-on: 'windows-latest' }
+          - { sys: clang64, cc: clang, runs-on: 'windows-latest' }
+          - { sys: clangarm64, cc: clang, runs-on: 'windows-11-arm' }
+    name: ${{ matrix.sys }}
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+    - name: 'Checkout'
+      uses: actions/checkout@master
+    - name: 'Setup msys2'
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: ${{ matrix.sys }}
+        update: true
+        install: >-
+          git
+        pacboy: >-
+          toolchain:p
+          cmake:p
+    - name: 'Configure CMake'
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DLEXBOR_BUILD_EXAMPLES=ON -DLEXBOR_BUILD_TESTS=ON -DLEXBOR_BUILD_UTILS=ON
+    - name: 'Build'
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+#    - name: 'Tests'
+#      working-directory: ${{github.workspace}}/build
+#      run: ctest -C ${{env.BUILD_TYPE}}
