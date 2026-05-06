@@ -522,7 +522,7 @@ lxb_html_serialize_document_type_full_cb(lxb_dom_document_type_t *doctype,
                                          lxb_html_serialize_opt_t opt,
                                          lxb_html_serialize_cb_f cb, void *ctx)
 {
-    bool have_sys;
+    bool have_pub, have_sys;
     size_t length;
     const lxb_char_t *name;
     lxb_status_t status;
@@ -536,38 +536,54 @@ lxb_html_serialize_document_type_full_cb(lxb_dom_document_type_t *doctype,
         lxb_html_serialize_send(name, length, ctx);
     }
 
-    have_sys = doctype->system_id.data != NULL
-                    && doctype->system_id.length != 0;
+    have_pub = doctype->public_id.length != 0;
+    have_sys = doctype->system_id.length != 0;
 
-    if (doctype->public_id.data != NULL && doctype->public_id.length != 0) {
-        if ((opt & LXB_HTML_SERIALIZE_OPT_HTML5TEST) == 0) {
-            lxb_html_serialize_send(" PUBLIC", 7, ctx);
+    if (opt & LXB_HTML_SERIALIZE_OPT_HTML5TEST) {
+        /*
+         * html5lib-tests format: when either PUBLIC or SYSTEM identifier
+         * is present, emit both slots. A missing identifier is shown as "".
+         */
+        if (have_pub || have_sys) {
+            lxb_html_serialize_send(" \"", 2, ctx);
+
+            if (have_pub) {
+                lxb_html_serialize_send(doctype->public_id.data,
+                                        doctype->public_id.length, ctx);
+            }
+
+            lxb_html_serialize_send("\" \"", 3, ctx);
+
+            if (have_sys) {
+                lxb_html_serialize_send(doctype->system_id.data,
+                                        doctype->system_id.length, ctx);
+            }
+
+            lxb_html_serialize_send("\"", 1, ctx);
+        }
+    }
+    else {
+        if (have_pub) {
+            lxb_html_serialize_send(" PUBLIC \"", 9, ctx);
+
+            lxb_html_serialize_send(doctype->public_id.data,
+                                    doctype->public_id.length, ctx);
+
+            lxb_html_serialize_send("\"", 1, ctx);
         }
 
-        lxb_html_serialize_send(" \"", 2, ctx);
+        if (have_sys) {
+            if (!have_pub) {
+                lxb_html_serialize_send(" SYSTEM", 7, ctx);
+            }
 
-        lxb_html_serialize_send(doctype->public_id.data,
-                                doctype->public_id.length, ctx);
+            lxb_html_serialize_send(" \"", 2, ctx);
 
-        lxb_html_serialize_send("\"", 1, ctx);
-    }
-    else if (opt & LXB_HTML_SERIALIZE_OPT_HTML5TEST && have_sys) {
-        lxb_html_serialize_send(" \"\"", 3, ctx);
-    }
+            lxb_html_serialize_send(doctype->system_id.data,
+                                    doctype->system_id.length, ctx);
 
-    if (have_sys) {
-        if (doctype->public_id.length == 0
-            && (opt & LXB_HTML_SERIALIZE_OPT_HTML5TEST) == 0)
-        {
-            lxb_html_serialize_send(" SYSTEM", 7, ctx);
+            lxb_html_serialize_send("\"", 1, ctx);
         }
-
-        lxb_html_serialize_send(" \"", 2, ctx);
-
-        lxb_html_serialize_send(doctype->system_id.data,
-                                doctype->system_id.length, ctx);
-
-        lxb_html_serialize_send("\"", 1, ctx);
     }
 
     lxb_html_serialize_send(">", 1, ctx);
