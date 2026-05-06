@@ -1399,7 +1399,25 @@ lxb_html_serialize_attr_name_build(const lxb_dom_attr_t *attr,
             goto done;
 
         case LXB_NS__UNDEF:
+            if (length > cap) {
+                return 0;
+            }
+
+            memcpy(buf, str, length);
+            return length;
+
         default:
+            if (attr->qualified_name != 0) {
+                data = lxb_dom_attr_data_by_id(attr->node.owner_document->attrs,
+                                               attr->qualified_name);
+                if (data == NULL) {
+                    return 0;
+                }
+
+                str = lexbor_hash_entry_str(&data->entry);
+                length = data->entry.length;
+            }
+
             if (length > cap) {
                 return 0;
             }
@@ -1455,7 +1473,19 @@ lxb_html_serialize_attr_name_size(const lxb_dom_attr_t *attr)
             return str_xlink.length + length;
 
         case LXB_NS__UNDEF:
+            return length;
+
         default:
+            if (attr->qualified_name != 0) {
+                data = lxb_dom_attr_data_by_id(attr->node.owner_document->attrs,
+                                               attr->qualified_name);
+                if (data == NULL) {
+                    return 0;
+                }
+
+                length = data->entry.length;
+            }
+
             return length;
     }
 }
