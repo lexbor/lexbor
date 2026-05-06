@@ -45,7 +45,7 @@ jobs:
           toolchain:p
           cmake:p
     - name: 'Configure CMake'
-      run: cmake -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DLEXBOR_BUILD_EXAMPLES=ON -DLEXBOR_BUILD_TESTS=ON -DLEXBOR_BUILD_UTILS=ON
+      run: cmake -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DLEXBOR_BUILD_EXAMPLES=ON -DLEXBOR_BUILD_TESTS=ON -DLEXBOR_BUILD_UTILS=ON -DLEXBOR_C_FLAGS='-D__USE_MINGW_ANSI_STDIO=0'
     - name: 'Build'
       run: cmake --build build --config ${{env.BUILD_TYPE}}
     - name: 'Tests'
