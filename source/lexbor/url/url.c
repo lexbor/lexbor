@@ -488,30 +488,30 @@ lxb_url_scheme_length = sizeof(lxb_url_scheme_res) / sizeof(lxb_url_scheme_data_
 #define LXB_URL_SBUF_REALLOC(sbuf, sbuf_begin, sbuf_end, sbuffer, last)       \
     do {                                                                      \
         size_t new_len, offset, lst;                                          \
-        lxb_char_t *tmp;                                                      \
+        lxb_char_t *_tmp;                                                     \
                                                                               \
         lst = (last) - (sbuf_begin);                                          \
         offset = (sbuf) - (sbuf_begin);                                       \
         new_len = offset << 1;                                                \
                                                                               \
         if ((sbuf_begin) == (sbuffer)) {                                      \
-            tmp = lexbor_malloc(new_len);                                     \
-            if (tmp == NULL) {                                                \
+            _tmp = lexbor_malloc(new_len);                                    \
+            if (_tmp == NULL) {                                               \
                 return NULL;                                                  \
             }                                                                 \
         }                                                                     \
         else {                                                                \
-            tmp = lexbor_realloc((sbuf_begin), new_len);                      \
-            if (tmp == NULL) {                                                \
+            _tmp = lexbor_realloc((sbuf_begin), new_len);                     \
+            if (_tmp == NULL) {                                               \
                 lexbor_free(sbuf_begin);                                      \
                 return NULL;                                                  \
             }                                                                 \
         }                                                                     \
                                                                               \
-        (sbuf) = tmp + offset;                                                \
+        (sbuf) = _tmp + offset;                                               \
         (last) = sbuf + lst;                                                  \
-        (sbuf_begin) = tmp;                                                   \
-        (sbuf_end) = tmp + new_len;                                           \
+        (sbuf_begin) = _tmp;                                                  \
+        (sbuf_end) = _tmp + new_len;                                          \
     }                                                                         \
     while (false)
 

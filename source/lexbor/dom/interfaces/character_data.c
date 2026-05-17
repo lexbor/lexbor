@@ -98,11 +98,10 @@ lxb_dom_character_data_replace(lxb_dom_character_data_t *ch_data,
         }
     }
     else if (lexbor_str_size(&ch_data->data) < len) {
-        const lxb_char_t *data;
-
-        data = lexbor_str_realloc(&ch_data->data,
-                                  ch_data->node.owner_document->text, (len + 1));
-        if (data == NULL) {
+        if (lexbor_str_realloc(&ch_data->data,
+                               ch_data->node.owner_document->text,
+                               (len + 1)) == NULL)
+        {
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         }
     }

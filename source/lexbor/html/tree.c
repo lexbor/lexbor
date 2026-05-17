@@ -1493,7 +1493,6 @@ lxb_html_tree_adoption_agency_algorithm(lxb_html_tree_t *tree,
         size_t bookmark = formatting_index;
 
         /* State 14 */
-        lxb_dom_node_t *node;
         lxb_dom_node_t *last = furthest_block;
         size_t node_idx = furthest_block_idx;
 

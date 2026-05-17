@@ -21,46 +21,46 @@
 #define lxb_html_serialize_ext_boundary_send(cb, node, data, len, ctx,         \
                                              level, is_close)                  \
     do {                                                                       \
-        lxb_status_t status = (cb)((node), (data), (len), (ctx),               \
-                                   (level), (is_close));                       \
-        if (status != LXB_STATUS_OK) {                                         \
-            return status;                                                     \
+        lxb_status_t _status = (cb)((node), (data), (len), (ctx),              \
+                                    (level), (is_close));                      \
+        if (_status != LXB_STATUS_OK) {                                        \
+            return _status;                                                    \
         }                                                                      \
     }                                                                          \
     while (0)
 
 #define lxb_html_serialize_ext_name_send(cb, node, data, len, ctx, is_close)   \
     do {                                                                       \
-        lxb_status_t status = (cb)((node), (data), (len), (ctx), (is_close));  \
-        if (status != LXB_STATUS_OK) {                                         \
-            return status;                                                     \
+        lxb_status_t _status = (cb)((node), (data), (len), (ctx), (is_close)); \
+        if (_status != LXB_STATUS_OK) {                                        \
+            return _status;                                                    \
         }                                                                      \
     }                                                                          \
     while (0)
 
 #define lxb_html_serialize_ext_attr_send(cb, node, attr, data, len, ctx)       \
     do {                                                                       \
-        lxb_status_t status = (cb)((node), (attr), (data), (len), (ctx));      \
-        if (status != LXB_STATUS_OK) {                                         \
-            return status;                                                     \
+        lxb_status_t _status = (cb)((node), (attr), (data), (len), (ctx));     \
+        if (_status != LXB_STATUS_OK) {                                        \
+            return _status;                                                    \
         }                                                                      \
     }                                                                          \
     while (0)
 
 #define lxb_html_serialize_ext_text_send(cb, node, data, len, ctx)             \
     do {                                                                       \
-        lxb_status_t status = (cb)((node), (data), (len), (ctx));              \
-        if (status != LXB_STATUS_OK) {                                         \
-            return status;                                                     \
+        lxb_status_t _status = (cb)((node), (data), (len), (ctx));             \
+        if (_status != LXB_STATUS_OK) {                                        \
+            return _status;                                                    \
         }                                                                      \
     }                                                                          \
     while (0)
 
 #define lxb_html_serialize_ext_send(cb, data, len, ctx)                        \
     do {                                                                       \
-        lxb_status_t status = (cb)((data), (len), (ctx));                      \
-        if (status != LXB_STATUS_OK) {                                         \
-            return status;                                                     \
+        lxb_status_t _status = (cb)((data), (len), (ctx));                     \
+        if (_status != LXB_STATUS_OK) {                                        \
+            return _status;                                                    \
         }                                                                      \
     }                                                                          \
     while (0)
@@ -68,11 +68,11 @@
 #define lxb_html_serialize_ext_indent_send(cb, ctx, indent, level, opt)        \
     do {                                                                       \
         if ((opt) & LXB_HTML_SERIALIZE_EXT_OPT_PRETTY) {                       \
-            lxb_status_t status = lxb_html_serialize_ext_indent((cb), (ctx),   \
-                                                                (indent),      \
-                                                                (level));      \
-            if (status != LXB_STATUS_OK) {                                     \
-                return status;                                                 \
+            lxb_status_t _status = lxb_html_serialize_ext_indent((cb), (ctx),  \
+                                                                 (indent),     \
+                                                                 (level));     \
+            if (_status != LXB_STATUS_OK) {                                    \
+                return _status;                                                \
             }                                                                  \
         }                                                                      \
     }                                                                          \
@@ -80,11 +80,11 @@
 
 #define lxb_html_serialize_ext_newline_send(cb, ctx, level)                    \
     do {                                                                       \
-        lxb_status_t status = (cb)((lxb_html_serialize_ext_nl_str.data),       \
-                                   (lxb_html_serialize_ext_nl_str.length),     \
-                                   (ctx), (level));                            \
-        if (status != LXB_STATUS_OK) {                                         \
-            return status;                                                     \
+        lxb_status_t _status = (cb)((lxb_html_serialize_ext_nl_str.data),      \
+                                    (lxb_html_serialize_ext_nl_str.length),    \
+                                    (ctx), (level));                           \
+        if (_status != LXB_STATUS_OK) {                                        \
+            return _status;                                                    \
         }                                                                      \
     }                                                                          \
     while (0)

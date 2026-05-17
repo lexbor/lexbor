@@ -492,7 +492,6 @@ lxb_css_syntax_state_string(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_toke
 {
     lxb_char_t mark;
     const lxb_char_t *begin;
-    lxb_codepoint_t cp;
 
     mark = *data++;
     begin = data;
@@ -562,6 +561,7 @@ lxb_css_syntax_state_string(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_toke
                             begin = data;
                         }
                         else {
+                            lxb_codepoint_t cp;
                             cp = lxb_css_syntax_state_decode_utf_8_up_80(&data, end);
 
                             if (cp == LXB_CSS_SYNTAX_ERROR_CODEPOINT) {

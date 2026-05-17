@@ -59,14 +59,14 @@ extern "C" {
 
 #define lxb_html_tokenizer_state_set_name_m(tkz)                               \
     do {                                                                       \
-        lxb_dom_attr_data_t *data;                                             \
-        data = lxb_dom_attr_local_name_append(tkz->attrs, tkz->start,          \
-                                              tkz->pos - tkz->start);          \
-        if (data == NULL) {                                                    \
+        lxb_dom_attr_data_t *_attr_data;                                       \
+        _attr_data = lxb_dom_attr_local_name_append(tkz->attrs, tkz->start,    \
+                                                    tkz->pos - tkz->start);    \
+        if (_attr_data == NULL) {                                              \
             tkz->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;                  \
             return end;                                                        \
         }                                                                      \
-        tkz->token->attr_last->name = data;                                    \
+        tkz->token->attr_last->name = _attr_data;                              \
     }                                                                          \
     while (0)
 
