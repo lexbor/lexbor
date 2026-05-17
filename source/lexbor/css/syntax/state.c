@@ -226,9 +226,19 @@ lxb_inline lxb_status_t
 lxb_css_syntax_string_realloc(lxb_css_syntax_tokenizer_t *tkz, size_t upto)
 {
     size_t len = tkz->pos - tkz->start;
-    size_t size = (tkz->end - tkz->start) + upto;
+    size_t cur = (size_t) (tkz->end - tkz->start);
+    size_t size;
+    lxb_char_t *tmp;
 
-    lxb_char_t *tmp = lexbor_realloc(tkz->start, size);
+    /* Overflow guard: (end - start) + upto. */
+    if (cur > SIZE_MAX - upto) {
+        tkz->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        return tkz->status;
+    }
+
+    size = cur + upto;
+
+    tmp = lexbor_realloc(tkz->start, size);
     if (tmp == NULL) {
         tkz->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         return tkz->status;
@@ -246,6 +256,12 @@ lxb_css_syntax_string_append(lxb_css_syntax_tokenizer_t *tkz,
                              const lxb_char_t *data, size_t length)
 {
     if ((size_t) (tkz->end - tkz->pos) <= length) {
+        /* Overflow guard: length + 1024 below. */
+        if (length > SIZE_MAX - 1024) {
+            tkz->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            return tkz->status;
+        }
+
         if (lxb_css_syntax_string_realloc(tkz, length + 1024) != LXB_STATUS_OK) {
             return tkz->status;
         }

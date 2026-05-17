@@ -1563,6 +1563,11 @@ lxb_html_serialize_pretty_attributes_sorted(lxb_dom_element_t *element,
     }
 
     if (count > sizeof(stack_entries) / sizeof(stack_entries[0])) {
+        /* Overflow guard: attacker-controlled attribute count. */
+        if (count > SIZE_MAX / sizeof(lxb_html_serialize_attr_entry_t)) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+
         entries = lexbor_malloc(count * sizeof(lxb_html_serialize_attr_entry_t));
         if (entries == NULL) {
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;

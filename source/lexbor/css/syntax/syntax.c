@@ -328,7 +328,19 @@ lxb_css_syntax_stack_expand(lxb_css_parser_t *parser, size_t count)
 
     cur_len = parser->rules - parser->rules_begin;
 
+    /* Overflow guard: cur_len + count + 1024, then * sizeof(...). */
+    if (count > SIZE_MAX - 1024
+        || cur_len > SIZE_MAX - (count + 1024))
+    {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
     length = cur_len + count + 1024;
+
+    if (length > SIZE_MAX / sizeof(lxb_css_syntax_rule_t)) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
     size = length * sizeof(lxb_css_syntax_rule_t);
 
     p = lexbor_realloc(parser->rules_begin, size);

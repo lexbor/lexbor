@@ -113,11 +113,22 @@ lxb_unicode_idna_realloc(lxb_codepoint_t *buf, const lxb_codepoint_t *buffer,
                          lxb_codepoint_t **buf_p, lxb_codepoint_t **buf_end,
                          size_t len)
 {
-    size_t nlen;
+    size_t nlen, cur;
     lxb_codepoint_t *tmp;
 
-    nlen = ((*buf_end - buf) * 4) + len;
- 
+    cur = (size_t) (*buf_end - buf);
+
+    /* Guard against size_t overflow: cur*4 + len, then * sizeof(...). */
+    if (cur > SIZE_MAX / 4 || (cur * 4) > SIZE_MAX - len) {
+        return NULL;
+    }
+
+    nlen = (cur * 4) + len;
+
+    if (nlen > SIZE_MAX / sizeof(lxb_codepoint_t)) {
+        return NULL;
+    }
+
     if (buf == buffer) {
         tmp = lexbor_malloc(nlen * sizeof(lxb_codepoint_t));
         if (tmp == NULL) {
@@ -454,7 +465,17 @@ lxb_unicode_idna_ascii_puny_cb(const lxb_char_t *data, size_t length, void *ctx,
     static const lexbor_str_t prefix = lexbor_str("xn--");
 
     if (asc->p + length + 6 > asc->end) {
-        nlen = ((asc->end - asc->buf) * 4) + length + 6;
+        size_t cur = (size_t) (asc->end - asc->buf);
+
+        /* Overflow guard: cur*4 + length + 6. */
+        if (cur > SIZE_MAX / 4
+            || length > SIZE_MAX - 6
+            || (cur * 4) > SIZE_MAX - (length + 6))
+        {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+
+        nlen = (cur * 4) + length + 6;
 
         if (asc->buf == asc->buffer) {
             tmp = lexbor_malloc(nlen);
@@ -511,6 +532,12 @@ lxb_unicode_idna_validity_criteria_h(const void *data, size_t length,
     lxb_unicode_idna_type_t type;
 
     p = data;
+
+    /* Guard against size_t overflow when is_cp is true. */
+    if (is_cp && length > SIZE_MAX / sizeof(lxb_codepoint_t)) {
+        return false;
+    }
+
     len = length * ((is_cp) ? sizeof(lxb_codepoint_t) : 1);
     end = (const lxb_char_t *) data + len;
 
@@ -540,7 +567,7 @@ lxb_unicode_idna_validity_criteria_h(const void *data, size_t length,
             }
 
             if (length >= 1) {
-                if (p[0] == 0x002D || p[-1] == 0x002D) {
+                if (p[0] == 0x002D || p[length - 1] == 0x002D) {
                     return false;
                 }
             }
@@ -707,7 +734,17 @@ lxb_unicode_idna_to_unicode_cb(const lxb_codepoint_t *part, size_t len,
     }
 
     if (asc->p + length + 2 > asc->end) {
-        nlen = ((asc->end - asc->buf) * 4) + length + 2;
+        size_t cur = (size_t) (asc->end - asc->buf);
+
+        /* Overflow guard: cur*4 + length + 2. */
+        if (cur > SIZE_MAX / 4
+            || length > SIZE_MAX - 2
+            || (cur * 4) > SIZE_MAX - (length + 2))
+        {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+
+        nlen = (cur * 4) + length + 2;
 
         if (asc->buf == asc->buffer) {
             tmp = lexbor_malloc(nlen);

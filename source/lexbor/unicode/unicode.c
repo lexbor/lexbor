@@ -275,8 +275,25 @@ lxb_unicode_check_buf(lxb_unicode_normalizer_t *uc, lxb_unicode_buffer_t **p,
     static const size_t buf_length = 1024;
 
     if (*p + length >= *end) {
+        size_t cur = (size_t) (uc->end - uc->buf);
+
         len = *p - uc->buf;
-        new_len = (uc->end - uc->buf) + buf_length + length;
+
+        /* Overflow guard: cur + buf_length + length, then * sizeof(...). */
+        if (cur > SIZE_MAX - buf_length
+            || (cur + buf_length) > SIZE_MAX - length)
+        {
+            *p = NULL;
+            return;
+        }
+
+        new_len = cur + buf_length + length;
+
+        if (new_len > SIZE_MAX / sizeof(lxb_unicode_buffer_t)) {
+            *p = NULL;
+            return;
+        }
+
         starter_len = (uc->starter != NULL) ? uc->starter - uc->buf : 0;
 
         buf = lexbor_realloc(uc->buf, new_len * sizeof(lxb_unicode_buffer_t));

@@ -35,6 +35,12 @@ lexbor_shs_entry_get_static(const lexbor_shs_entry_t *root,
                             const lxb_char_t *key, size_t key_len)
 {
     const lexbor_shs_entry_t *entry;
+
+    /* Guard: key[size - 1] would read out-of-bounds when size == 0. */
+    if (key_len == 0) {
+        return NULL;
+    }
+
     entry = root + lexbor_shs_make_id_m(key, key_len, root->key_len);
 
     while (entry->key != NULL)
@@ -64,6 +70,12 @@ lexbor_shs_entry_get_lower_static(const lexbor_shs_entry_t *root,
                                   const lxb_char_t *key, size_t key_len)
 {
     const lexbor_shs_entry_t *entry;
+
+    /* Guard: key[size - 1] would read out-of-bounds when size == 0. */
+    if (key_len == 0) {
+        return NULL;
+    }
+
     entry = root + lexbor_shs_make_id_lower_m(key, key_len, root->key_len);
 
     while (entry->key != NULL)
@@ -93,6 +105,12 @@ lexbor_shs_entry_get_upper_static(const lexbor_shs_entry_t *root,
                                   const lxb_char_t *key, size_t key_len)
 {
     const lexbor_shs_entry_t *entry;
+
+    /* Guard: key[size - 1] would read out-of-bounds when size == 0. */
+    if (key_len == 0) {
+        return NULL;
+    }
+
     entry = root + lexbor_shs_make_id_upper_m(key, key_len, root->key_len);
 
     while (entry->key != NULL)

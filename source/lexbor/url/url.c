@@ -492,6 +492,15 @@ lxb_url_scheme_length = sizeof(lxb_url_scheme_res) / sizeof(lxb_url_scheme_data_
                                                                               \
         lst = (last) - (sbuf_begin);                                          \
         offset = (sbuf) - (sbuf_begin);                                       \
+                                                                              \
+        /* Overflow guard: offset << 1 wraps when offset > SIZE_MAX/2. */     \
+        if (offset > (SIZE_MAX >> 1)) {                                       \
+            if ((sbuf_begin) != (sbuffer)) {                                  \
+                lexbor_free(sbuf_begin);                                      \
+            }                                                                 \
+            return NULL;                                                      \
+        }                                                                     \
+                                                                              \
         new_len = offset << 1;                                                \
                                                                               \
         if ((sbuf_begin) == (sbuffer)) {                                      \
@@ -3084,6 +3093,10 @@ oh_my:
     status = lxb_url_log_append(parser, p,
                                 LXB_URL_ERROR_TYPE_INVALID_URL_UNIT);
     if (status != LXB_STATUS_OK) {
+        return NULL;
+    }
+
+    if (*length == SIZE_MAX) {
         return NULL;
     }
 

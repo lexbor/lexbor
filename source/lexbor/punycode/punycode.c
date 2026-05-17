@@ -29,8 +29,18 @@ lxb_punycode_encode_realloc(lxb_char_t *p, lxb_char_t **buf,
                             const lxb_char_t **end, const lxb_char_t *buffer)
 {
     size_t cur_size = *end - *buf;
-    size_t nsize = cur_size * 2;
+    size_t nsize;
     lxb_char_t *tmp;
+
+    /* Overflow guard: cur_size * 2. */
+    if (cur_size > SIZE_MAX / 2) {
+        if (*buf != buffer) {
+            lexbor_free(*buf);
+        }
+        return NULL;
+    }
+
+    nsize = cur_size * 2;
 
     if (*buf == buffer) {
         tmp = lexbor_malloc(nsize);
@@ -59,8 +69,20 @@ lxb_punycode_decode_realloc(lxb_codepoint_t *p, lxb_codepoint_t **buf,
                             const lxb_codepoint_t *buffer)
 {
     size_t cur_size = *end - *buf;
-    size_t nsize = cur_size * 2;
+    size_t nsize;
     lxb_codepoint_t *tmp;
+
+    /* Overflow guard: cur_size * 2, then * sizeof(lxb_codepoint_t). */
+    if (cur_size > SIZE_MAX / 2
+        || (cur_size * 2) > SIZE_MAX / sizeof(lxb_codepoint_t))
+    {
+        if (*buf != buffer) {
+            lexbor_free(*buf);
+        }
+        return NULL;
+    }
+
+    nsize = cur_size * 2;
 
     if (*buf == buffer) {
         tmp = lexbor_malloc(nsize * sizeof(lxb_codepoint_t));
@@ -284,6 +306,11 @@ lxb_punycode_encode(const lxb_char_t *data, size_t length,
         cps = input;
     }
     else {
+        /* Overflow guard: cp_length * sizeof(lxb_codepoint_t). */
+        if (cp_length > SIZE_MAX / sizeof(lxb_codepoint_t)) {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
+
         cps = lexbor_malloc(cp_length * sizeof(lxb_codepoint_t));
         if (cps == NULL) {
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
