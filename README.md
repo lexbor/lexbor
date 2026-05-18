@@ -39,6 +39,7 @@ https://lexbor.com/modules/.
 - **[SerpApi](https://serpapi.com/)** — uses Lexbor in production for HTML parsing at scale
 - **[Selectolax](https://github.com/rushter/selectolax)** — popular Python library for fast web scraping
 - **[Nokolexbor](https://github.com/serpapi/nokolexbor)** — high-performance Nokogiri alternative for Ruby
+- **[Nordstjernen](https://github.com/nordstjernen-web/nordstjernen)** - Web browser written entirely in C
 
 [More bindings](#external-bindings-and-wrappers) available for Elixir, Crystal, D, Julia, Erlang.
 
