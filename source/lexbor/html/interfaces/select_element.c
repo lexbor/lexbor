@@ -72,6 +72,10 @@ lxb_html_select_selectedness_display_size(lxb_html_select_element_t *el)
 
     value = size->value;
 
+    if (value == NULL) {
+        goto default_size;
+    }
+
     status = lxb_html_common_parsing_nonneg_integer(value->data, value->length,
                                                     &len);
     if (status != LXB_STATUS_OK || len < 0) {
