@@ -310,7 +310,7 @@ lxb_html_tokenizer_temp_append_data(lxb_html_tokenizer_t *tkz,
 {
     size_t size = data - tkz->begin;
 
-    if ((tkz->pos + size) > tkz->end) {
+    if (size > (size_t)(tkz->end - tkz->pos)) {
         if(lxb_html_tokenizer_temp_realloc(tkz, size)) {
             return tkz->status;
         }
@@ -325,7 +325,7 @@ lxb_inline lxb_status_t
 lxb_html_tokenizer_temp_append(lxb_html_tokenizer_t *tkz,
                                const lxb_char_t *data, size_t size)
 {
-    if ((tkz->pos + size) > tkz->end) {
+    if (size > (size_t)(tkz->end - tkz->pos)) {
         if(lxb_html_tokenizer_temp_realloc(tkz, size)) {
             return tkz->status;
         }
