@@ -1691,7 +1691,7 @@ lxb_html_tree_insertion_mode_in_body_rprt(lxb_html_tree_t *tree,
     node = lxb_html_tree_current_node(tree);
 
     if (lxb_html_tree_node_is(node, LXB_TAG_RTC) == false
-        || lxb_html_tree_node_is(node, LXB_TAG_RUBY) == false)
+        && lxb_html_tree_node_is(node, LXB_TAG_RUBY) == false)
     {
         lxb_html_tree_parse_error(tree, token,
                                   LXB_HTML_RULES_ERROR_MIELINOPELST);
