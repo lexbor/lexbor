@@ -149,7 +149,6 @@ TEST_BEGIN(ruby_rp_rt)
     lxb_status_t status;
     lxb_html_parser_t *parser;
     lexbor_array_obj_t *arr;
-    lxb_html_tree_error_t *err;
     lxb_html_document_t *document;
 
     static const lxb_char_t html[] = "<!DOCTYPE html><ruby><rp></rp><rt></rt></ruby>";
@@ -180,7 +179,6 @@ TEST_BEGIN(rp_rt)
     lxb_status_t status;
     lxb_html_parser_t *parser;
     lexbor_array_obj_t *arr;
-    lxb_html_tree_error_t *err;
     lxb_html_document_t *document;
 
     static const lxb_char_t html[] = "<!DOCTYPE html><rp></rp><rt></rt>";
