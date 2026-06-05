@@ -120,6 +120,42 @@ TEST_BEGIN(url_file_change_hostname)
 }
 TEST_END
 
+TEST_BEGIN(url_search_params_append_after_tail_token)
+{
+    lxb_status_t status;
+    lexbor_mraw_t *mraw;
+    lxb_url_search_params_t *sp;
+    lxb_url_search_entry_t *entry;
+    lexbor_str_t str;
+
+    static const lexbor_str_t input = lexbor_str("abc");
+
+    mraw = lexbor_mraw_create();
+    status = lexbor_mraw_init(mraw, 1024);
+    test_eq(status, LXB_STATUS_OK);
+
+    sp = lxb_url_search_params_init(mraw, input.data, input.length);
+    test_ne(sp, NULL);
+
+    entry = lxb_url_search_params_append(sp, (const lxb_char_t *) "k", 1,
+                                             (const lxb_char_t *) "v", 1);
+    test_ne(entry, NULL);
+
+    str.length = 0;
+    str.data = lexbor_malloc(1024);
+    test_ne(str.data, NULL);
+
+    status = lxb_url_search_params_serialize(sp, callback, &str);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_eq_str(str.data, "abc=&k=v");
+
+    lexbor_free(str.data);
+    lxb_url_search_params_destroy(sp);
+    lexbor_mraw_destroy(mraw, true);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -128,6 +164,7 @@ main(int argc, const char * argv[])
     TEST_ADD(url_clone);
     TEST_ADD(url_path_mem_error);
     TEST_ADD(url_file_change_hostname);
+    TEST_ADD(url_search_params_append_after_tail_token);
 
     TEST_RUN("lexbor/url/other");
     TEST_RELEASE();

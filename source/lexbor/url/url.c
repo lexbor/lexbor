@@ -5080,6 +5080,8 @@ lxb_url_search_params_parse(lxb_url_search_params_t *search_params,
             return status;
         }
 
+        last = entry;
+
         lexbor_str_init(&entry->value, mraw, 0);
         if (entry->value.data == NULL) {
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
