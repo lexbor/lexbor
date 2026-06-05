@@ -156,6 +156,39 @@ TEST_BEGIN(url_search_params_append_after_tail_token)
 }
 TEST_END
 
+TEST_BEGIN(url_path_slow_path_grow)
+{
+    size_t i;
+    lxb_status_t status;
+    lxb_url_t *url;
+    lexbor_mraw_t mraw;
+    lxb_url_parser_t parser;
+    lxb_char_t input[3 + 9 + 2000];
+
+    memcpy(input, "http://a/", 9);
+    memset(input + 9, '^', 2000);
+
+    status = lexbor_mraw_init(&mraw, 8192);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_url_parser_init(&parser, &mraw);
+    test_eq(status, LXB_STATUS_OK);
+
+    url = lxb_url_parse(&parser, NULL, input, 9 + 2000);
+    test_ne(url, NULL);
+
+    test_eq(url->path.str.length, (size_t) (1 + 2000));
+    test_eq(url->path.str.data[0], (lxb_char_t) '/');
+
+    for (i = 1; i < url->path.str.length; i++) {
+        test_eq(url->path.str.data[i], (lxb_char_t) '^');
+    }
+
+    lxb_url_parser_destroy(&parser, false);
+    lexbor_mraw_destroy(&mraw, false);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -165,6 +198,7 @@ main(int argc, const char * argv[])
     TEST_ADD(url_path_mem_error);
     TEST_ADD(url_file_change_hostname);
     TEST_ADD(url_search_params_append_after_tail_token);
+    TEST_ADD(url_path_slow_path_grow);
 
     TEST_RUN("lexbor/url/other");
     TEST_RELEASE();
