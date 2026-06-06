@@ -1310,7 +1310,9 @@ lxb_selectors_match(lxb_selectors_t *selectors, lxb_selectors_entry_t *entry,
             }
 
             return lxb_selectors_match_class(element->attr_class->value,
-                                             &entry->selector->name, true);
+                                             &entry->selector->name,
+                                             node->owner_document->compat_mode
+                                             == LXB_DOM_DOCUMENT_CMODE_QUIRKS);
 
         case LXB_CSS_SELECTOR_TYPE_ATTRIBUTE:
             return lxb_selectors_match_attribute(entry->selector, node, entry);
@@ -1368,8 +1370,15 @@ lxb_selectors_match_id(const lxb_css_selector_t *selector, lxb_dom_node_t *node)
     trg = element->attr_id->value;
     src = &selector->name;
 
-    return trg->length == src->length
-           && lexbor_str_data_ncasecmp(trg->data, src->data, src->length);
+    if (trg->length != src->length) {
+        return false;
+    }
+
+    if (node->owner_document->compat_mode == LXB_DOM_DOCUMENT_CMODE_QUIRKS) {
+        return lexbor_str_data_ncasecmp(trg->data, src->data, src->length);
+    }
+
+    return lexbor_str_data_ncmp(trg->data, src->data, src->length);
 }
 
 static bool
