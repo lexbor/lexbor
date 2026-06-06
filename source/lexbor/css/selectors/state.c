@@ -1138,6 +1138,9 @@ lxb_css_selectors_state_element_ns(lxb_css_parser_t *parser,
         return lxb_css_selectors_state_ns(parser, selector);
     }
 
+    selector->name.data[0] = '\0';
+    selector->name.length = 0;
+
     lxb_css_syntax_parser_consume(parser);
 
     return lxb_css_selectors_state_ns_ident(parser, selector);
