@@ -59,12 +59,12 @@ static const lxb_test_entry_t selectors_list[] =
      lxb_css_selectors_parse},
 
     {"|div",
-     "*|div",
+     "|div",
      "",
      lxb_css_selectors_parse},
 
     {"* |div",
-     "* *|div",
+     "* |div",
      "",
      lxb_css_selectors_parse},
 
@@ -74,7 +74,7 @@ static const lxb_test_entry_t selectors_list[] =
      lxb_css_selectors_parse},
 
     {"html |div",
-     "html *|div",
+     "html |div",
      "",
      lxb_css_selectors_parse},
 
