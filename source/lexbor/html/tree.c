@@ -462,8 +462,8 @@ lxb_html_tree_append_attributes(lxb_html_tree_t *tree,
     doc = lxb_html_interface_document(element->node.owner_document);
 
     while (token_attr != NULL) {
-        attr = lxb_dom_element_attr_by_local_name_data(element,
-                                                       token_attr->name);
+        attr = lxb_dom_element_attr_by_local_name_ns_data(element,
+                                                          token_attr->name, ns);
         if (attr != NULL) {
             token_attr = token_attr->next;
             continue;

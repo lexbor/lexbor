@@ -1,0 +1,98 @@
+[
+    /* Test count: 5 */
+
+    /*
+     * Regression for https://github.com/lexbor/lexbor/issues/372
+     *
+     * Adjusting a foreign attribute (e.g. "xlink:href") rewrites its local
+     * name to "href". The duplicate check must take the namespace into account,
+     * otherwise a following unqualified "href" is wrongly dropped. The result
+     * must not depend on the source order of the attributes.
+     */
+
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <svg xlink:href="qual" href="plain">
+        $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no-doctype"},
+            {"line": 0, "col": 0, "id": "eof-in-svg"}
+        ],
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <svg:svg xlink:href="qual" href="plain">
+        $DATA
+    },
+
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <svg href="plain" xlink:href="qual">
+        $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no-doctype"},
+            {"line": 0, "col": 0, "id": "eof-in-svg"}
+        ],
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <svg:svg href="plain" xlink:href="qual">
+        $DATA
+    },
+
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <svg xlink:href="a" xlink:href="b">
+        $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no-doctype"},
+            {"line": 0, "col": 0, "id": "duplicate-attribute"},
+            {"line": 0, "col": 0, "id": "eof-in-svg"}
+        ],
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <svg:svg xlink:href="a">
+        $DATA
+    },
+
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <math xlink:href="q" href="p">
+        $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no-doctype"},
+            {"line": 0, "col": 0, "id": "eof-in-math"}
+        ],
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <math:math xlink:href="q" href="p">
+        $DATA
+    },
+
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
+            <div id="a" id="b" class="c">
+        $DATA,
+        "errors": [
+            {"line": 0, "col": 0, "id": "no-doctype"},
+            {"line": 0, "col": 0, "id": "duplicate-attribute"}
+        ],
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <div id="a" class="c">
+        $DATA
+    }
+]

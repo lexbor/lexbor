@@ -475,6 +475,27 @@ lxb_dom_element_attr_by_local_name_data(lxb_dom_element_t *element,
 }
 
 lxb_dom_attr_t *
+lxb_dom_element_attr_by_local_name_ns_data(lxb_dom_element_t *element,
+                                           const lxb_dom_attr_data_t *data,
+                                           lxb_ns_id_t ns)
+{
+    lxb_dom_attr_t *attr = element->first_attr;
+
+    while (attr != NULL) {
+        if ((attr->node.local_name == data->attr_id
+             && attr->node.ns == ns)
+            || attr->qualified_name == data->attr_id)
+        {
+            return attr;
+        }
+
+        attr = attr->next;
+    }
+
+    return NULL;
+}
+
+lxb_dom_attr_t *
 lxb_dom_element_attr_by_id(lxb_dom_element_t *element,
                            lxb_dom_attr_id_t attr_id)
 {
