@@ -1,0 +1,82 @@
+[
+    /* Test count: 5 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <h2><math><mi>x</h2>k
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <h2>
+                  <math:math>
+                    <math:mi>
+                      "xk"
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <h2><math><annotation-xml encoding="text/html"><k>x</h2>k
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <h2>
+                  <math:math>
+                    <math:annotation-xml encoding="text/html">
+                      <k>
+                        "xk"
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <h2><svg><foreignObject><k>x</h2>k
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <h2>
+                  <svg:svg>
+                    <svg:foreignObject>
+                      <k>
+                        "xk"
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <h2><svg><desc><k>x</h2>k
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <h2>
+                  <svg:svg>
+                    <svg:desc>
+                      <k>
+                        "xk"
+        $DATA
+    },
+    /* Test number: 5 */
+    {
+        "data": $DATA{ ,12}
+            <h2><svg><title><k>x</h2>k
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <h2>
+                  <svg:svg>
+                    <svg:title>
+                      <k>
+                        "xk"
+        $DATA
+    }
+]
