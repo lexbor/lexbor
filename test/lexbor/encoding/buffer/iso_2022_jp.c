@@ -190,6 +190,104 @@ TEST_BEGIN(decode_prepend)
 }
 TEST_END
 
+TEST_BEGIN(decode_buffer_check_escape_dollar)
+{
+    lxb_status_t status;
+    const lxb_encoding_data_t *enc_data;
+    lxb_encoding_decode_t dectx;
+    const lxb_char_t *data;
+    lxb_codepoint_t resume[4];
+    lxb_codepoint_t rp_cp = LXB_ENCODING_REPLACEMENT_CODEPOINT;
+
+    static const lxb_char_t invalid_escape[] = {0x1B, 0x24, 0x32};
+
+    struct {
+        lxb_codepoint_t out[1];
+        lxb_codepoint_t canary;
+    } storage = {{0}, 0xA5A5A5A5};
+
+    enc_data = lxb_encoding_data(LXB_ENCODING_ISO_2022_JP);
+    test_ne(enc_data, NULL);
+
+    data = invalid_escape;
+
+    status = lxb_encoding_decode_init(&dectx, enc_data, storage.out, 1);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_encoding_decode_replace_set(&dectx,
+          LXB_ENCODING_REPLACEMENT_BUFFER, LXB_ENCODING_REPLACEMENT_BUFFER_LEN);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = enc_data->decode(&dectx, &data,
+                              invalid_escape + sizeof(invalid_escape));
+    test_eq(status, LXB_STATUS_SMALL_BUFFER);
+    test_eq_size(lxb_encoding_decode_buf_used(&dectx), 1);
+    test_eq(storage.out[0], rp_cp);
+    test_eq(storage.canary, 0xA5A5A5A5);
+    test_eq_size((size_t) (data - invalid_escape), 2);
+
+    memset(resume, 0, sizeof(resume));
+    lxb_encoding_decode_buf_set(&dectx, resume,
+                                sizeof(resume) / sizeof(lxb_codepoint_t));
+
+    status = enc_data->decode(&dectx, &data,
+                              invalid_escape + sizeof(invalid_escape));
+    test_eq(status, LXB_STATUS_OK);
+    test_eq_size(lxb_encoding_decode_buf_used(&dectx), 2);
+    test_eq(resume[0], 0x24);
+    test_eq(resume[1], 0x32);
+}
+TEST_END
+
+TEST_BEGIN(decode_buffer_check_escape_paren)
+{
+    lxb_status_t status;
+    const lxb_encoding_data_t *enc_data;
+    lxb_encoding_decode_t dectx;
+    const lxb_char_t *data;
+    lxb_codepoint_t resume[4];
+    lxb_codepoint_t rp_cp = LXB_ENCODING_REPLACEMENT_CODEPOINT;
+
+    static const lxb_char_t invalid_escape[] = {0x1B, 0x28, 0x32};
+
+    struct {
+        lxb_codepoint_t out[1];
+        lxb_codepoint_t canary;
+    } storage = {{0}, 0xA5A5A5A5};
+
+    enc_data = lxb_encoding_data(LXB_ENCODING_ISO_2022_JP);
+    test_ne(enc_data, NULL);
+
+    data = invalid_escape;
+
+    status = lxb_encoding_decode_init(&dectx, enc_data, storage.out, 1);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_encoding_decode_replace_set(&dectx,
+          LXB_ENCODING_REPLACEMENT_BUFFER, LXB_ENCODING_REPLACEMENT_BUFFER_LEN);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = enc_data->decode(&dectx, &data,
+                              invalid_escape + sizeof(invalid_escape));
+    test_eq(status, LXB_STATUS_SMALL_BUFFER);
+    test_eq_size(lxb_encoding_decode_buf_used(&dectx), 1);
+    test_eq(storage.out[0], rp_cp);
+    test_eq(storage.canary, 0xA5A5A5A5);
+    test_eq_size((size_t) (data - invalid_escape), 2);
+
+    memset(resume, 0, sizeof(resume));
+    lxb_encoding_decode_buf_set(&dectx, resume,
+                                sizeof(resume) / sizeof(lxb_codepoint_t));
+
+    status = enc_data->decode(&dectx, &data,
+                              invalid_escape + sizeof(invalid_escape));
+    test_eq(status, LXB_STATUS_OK);
+    test_eq_size(lxb_encoding_decode_buf_used(&dectx), 2);
+    test_eq(resume[0], 0x28);
+    test_eq(resume[1], 0x32);
+}
+TEST_END
+
 TEST_BEGIN(decode_map)
 {
     size_t line;
@@ -392,6 +490,8 @@ main(int argc, const char * argv[])
 
     TEST_ADD(decode);
     TEST_ADD(decode_prepend);
+    TEST_ADD(decode_buffer_check_escape_dollar);
+    TEST_ADD(decode_buffer_check_escape_paren);
     TEST_ADD(decode_map);
     TEST_ADD(encode_map);
     TEST_ADD(encode_buffer_check);
