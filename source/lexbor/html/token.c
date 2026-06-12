@@ -192,6 +192,7 @@ lxb_html_token_data_skip_ws_begin(lxb_html_token_t *token)
              */
             case 0x09:
             case 0x0A:
+            case 0x0C:
             case 0x0D:
             case 0x20:
                 break;
