@@ -1,0 +1,56 @@
+[
+    /* Test count: 4 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <html><head></head>\f<body>a
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              "\f"
+              <body>
+                "a"
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            \fa
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                "a"
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <head>\fa</head><body>b
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                "\f"
+              <body>
+                "ab"
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <table><colgroup>\f<col>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <table>
+                  <colgroup>
+                    "\f"
+                    <col>
+        $DATA
+    }
+]
