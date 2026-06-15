@@ -129,8 +129,33 @@ static const lxb_test_entry_t selectors_list[] =
      lxb_css_selectors_parse},
 
     {"[refs=link I]",
+     "[refs=\"link\"i]",
      "",
-     "Syntax error. Selectors. Unexpected token: I",
+     lxb_css_selectors_parse},
+
+    {"[refs=link S]",
+     "[refs=\"link\"s]",
+     "",
+     lxb_css_selectors_parse},
+
+    {"[refs=link insensitive]",
+     "",
+     "Syntax error. Selectors. Unexpected token: insensitive",
+     lxb_css_selectors_parse},
+
+    {"[refs=link iZZZ]",
+     "",
+     "Syntax error. Selectors. Unexpected token: iZZZ",
+     lxb_css_selectors_parse},
+
+    {"[refs=link sensitive]",
+     "",
+     "Syntax error. Selectors. Unexpected token: sensitive",
+     lxb_css_selectors_parse},
+
+    {"[refs=link Sensitive]",
+     "",
+     "Syntax error. Selectors. Unexpected token: Sensitive",
      lxb_css_selectors_parse},
 
     {"[refs=0%]",
