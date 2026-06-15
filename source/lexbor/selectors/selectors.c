@@ -1498,8 +1498,8 @@ lxb_selectors_match_attribute(const lxb_css_selector_t *selector,
             break;
 
         default:
-            ins = lxb_selectors_match_attribute_html_case_insensitive(
-                node, dom_attr->node.local_name);
+            ins = lxb_selectors_match_attribute_html_case_insensitive(node,
+                                                                       entry->id);
             break;
     }
 
@@ -1607,6 +1607,14 @@ lxb_selectors_match_attribute_html_case_insensitive(lxb_dom_node_t *node,
         return false;
     }
 
+    /*
+     * Attributes whose values are matched ASCII case-insensitively per HTML's
+     * "Case-sensitivity of selectors" are split across two checks. The ones
+     * below have predefined LXB_DOM_ATTR_* ids, so they are handled here as a
+     * fast path that avoids the hash lookup. The remaining listed attributes
+     * have no predefined id and are matched by name in the helper below; the
+     * two sets are disjoint and together cover the full HTML list.
+     */
     switch (attr_id) {
         case LXB_DOM_ATTR_CHARSET:
         case LXB_DOM_ATTR_CHECKED:
