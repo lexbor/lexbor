@@ -5,14 +5,7 @@
 
 
 my $range = [
-    [0x00F8, 0x037D],
-    [0x037F, 0x1FFF],
-    [0x2070, 0x218F],
-    [0x2C00, 0x2FEF],
-    [0x3001, 0xDFFF],
-    [0xF900, 0xFDCF],
-    [0xFDF0, 0xFFFD],
-    [0x10000, 0x10FFFF]
+    [0x0080, 0x10FFFF]
 ];
 
 my $func = branch_function($range);
@@ -43,7 +36,7 @@ sub branch {
 	# IF state
 	if ($idx <= $from) {
 		if ($idx == 0 && $entry->[0] != 0) {
-			push @result, sprintf("%sif (cp >= 0x%04X && cp < 0x%04X) {",
+			push @result, sprintf("%sif (cp >= 0x%04X && cp <= 0x%04X) {",
 								  $space, $entry->[0], $entry->[1]);
 		}
         else {
