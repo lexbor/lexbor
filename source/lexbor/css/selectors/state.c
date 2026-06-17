@@ -1338,14 +1338,20 @@ string_or_ident:
         goto failed;
     }
 
+    if (lxb_css_syntax_token_string(token)->length != 1) {
+        goto failed;
+    }
+
     modifier = *lxb_css_syntax_token_string(token)->data;
 
     switch (modifier) {
         case 'i':
+        case 'I':
             attribute->modifier = LXB_CSS_SELECTOR_MODIFIER_I;
             break;
 
         case 's':
+        case 'S':
             attribute->modifier = LXB_CSS_SELECTOR_MODIFIER_S;
             break;
 
