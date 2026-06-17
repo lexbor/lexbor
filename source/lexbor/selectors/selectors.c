@@ -99,10 +99,6 @@ lxb_selectors_match_attribute_html_case_insensitive(lxb_dom_node_t *node,
                                                    lxb_dom_attr_id_t attr_id);
 
 static bool
-lxb_selectors_match_attribute_html_case_insensitive_by_name(const lxb_char_t *name,
-                                                           size_t length);
-
-static bool
 lxb_selectors_pseudo_class(const lxb_css_selector_t *selector,
                            const lxb_dom_node_t *node);
 
@@ -1599,115 +1595,64 @@ static bool
 lxb_selectors_match_attribute_html_case_insensitive(lxb_dom_node_t *node,
                                                    lxb_dom_attr_id_t attr_id)
 {
-    const lxb_dom_attr_data_t *data;
-
     if (node->ns != LXB_NS_HTML
         || node->owner_document->type != LXB_DOM_DOCUMENT_DTYPE_HTML)
     {
         return false;
     }
 
-    /*
-     * Attributes whose values are matched ASCII case-insensitively per HTML's
-     * "Case-sensitivity of selectors" are split across two checks. The ones
-     * below have predefined LXB_DOM_ATTR_* ids, so they are handled here as a
-     * fast path that avoids the hash lookup. The remaining listed attributes
-     * have no predefined id and are matched by name in the helper below; the
-     * two sets are disjoint and together cover the full HTML list.
-     */
     switch (attr_id) {
+        case LXB_DOM_ATTR_ACCEPT:
+        case LXB_DOM_ATTR_ACCEPT_CHARSET:
+        case LXB_DOM_ATTR_ALIGN:
+        case LXB_DOM_ATTR_ALINK:
+        case LXB_DOM_ATTR_AXIS:
+        case LXB_DOM_ATTR_BGCOLOR:
         case LXB_DOM_ATTR_CHARSET:
         case LXB_DOM_ATTR_CHECKED:
+        case LXB_DOM_ATTR_CLEAR:
+        case LXB_DOM_ATTR_CODETYPE:
         case LXB_DOM_ATTR_COLOR:
+        case LXB_DOM_ATTR_COMPACT:
+        case LXB_DOM_ATTR_DECLARE:
+        case LXB_DOM_ATTR_DEFER:
         case LXB_DOM_ATTR_DIR:
+        case LXB_DOM_ATTR_DIRECTION:
         case LXB_DOM_ATTR_DISABLED:
+        case LXB_DOM_ATTR_ENCTYPE:
         case LXB_DOM_ATTR_FACE:
+        case LXB_DOM_ATTR_FRAME:
+        case LXB_DOM_ATTR_HREFLANG:
         case LXB_DOM_ATTR_HTTP_EQUIV:
+        case LXB_DOM_ATTR_LANG:
+        case LXB_DOM_ATTR_LANGUAGE:
+        case LXB_DOM_ATTR_LINK:
+        case LXB_DOM_ATTR_MEDIA:
+        case LXB_DOM_ATTR_METHOD:
         case LXB_DOM_ATTR_MULTIPLE:
+        case LXB_DOM_ATTR_NOHREF:
+        case LXB_DOM_ATTR_NORESIZE:
+        case LXB_DOM_ATTR_NOSHADE:
+        case LXB_DOM_ATTR_NOWRAP:
         case LXB_DOM_ATTR_READONLY:
+        case LXB_DOM_ATTR_REL:
+        case LXB_DOM_ATTR_REV:
+        case LXB_DOM_ATTR_RULES:
+        case LXB_DOM_ATTR_SCOPE:
+        case LXB_DOM_ATTR_SCROLLING:
         case LXB_DOM_ATTR_SELECTED:
+        case LXB_DOM_ATTR_SHAPE:
+        case LXB_DOM_ATTR_TARGET:
+        case LXB_DOM_ATTR_TEXT:
         case LXB_DOM_ATTR_TYPE:
+        case LXB_DOM_ATTR_VALIGN:
+        case LXB_DOM_ATTR_VALUETYPE:
+        case LXB_DOM_ATTR_VLINK:
             return true;
-
-        default:
-            break;
-    }
-
-    data = lxb_dom_attr_data_by_id(node->owner_document->attrs, attr_id);
-    if (data == NULL) {
-        return false;
-    }
-
-    return lxb_selectors_match_attribute_html_case_insensitive_by_name(
-        lexbor_hash_entry_str(&data->entry), data->entry.length);
-}
-
-static bool
-lxb_selectors_match_attribute_html_case_insensitive_by_name(const lxb_char_t *name,
-                                                           size_t length)
-{
-#define LXB_SELECTORS_ATTR_CMP(_name)                                           \
-    (length == (sizeof(_name) - 1)                                              \
-     && lexbor_str_data_ncmp(name, (const lxb_char_t *) _name,                  \
-                             sizeof(_name) - 1))
-
-    switch (length) {
-        case 3:
-            return LXB_SELECTORS_ATTR_CMP("rel")
-                   || LXB_SELECTORS_ATTR_CMP("rev");
-
-        case 4:
-            return LXB_SELECTORS_ATTR_CMP("axis")
-                   || LXB_SELECTORS_ATTR_CMP("lang")
-                   || LXB_SELECTORS_ATTR_CMP("link")
-                   || LXB_SELECTORS_ATTR_CMP("text");
-
-        case 5:
-            return LXB_SELECTORS_ATTR_CMP("align")
-                   || LXB_SELECTORS_ATTR_CMP("alink")
-                   || LXB_SELECTORS_ATTR_CMP("clear")
-                   || LXB_SELECTORS_ATTR_CMP("defer")
-                   || LXB_SELECTORS_ATTR_CMP("frame")
-                   || LXB_SELECTORS_ATTR_CMP("media")
-                   || LXB_SELECTORS_ATTR_CMP("rules")
-                   || LXB_SELECTORS_ATTR_CMP("scope")
-                   || LXB_SELECTORS_ATTR_CMP("shape")
-                   || LXB_SELECTORS_ATTR_CMP("vlink");
-
-        case 6:
-            return LXB_SELECTORS_ATTR_CMP("accept")
-                   || LXB_SELECTORS_ATTR_CMP("method")
-                   || LXB_SELECTORS_ATTR_CMP("nohref")
-                   || LXB_SELECTORS_ATTR_CMP("nowrap")
-                   || LXB_SELECTORS_ATTR_CMP("target")
-                   || LXB_SELECTORS_ATTR_CMP("valign");
-
-        case 7:
-            return LXB_SELECTORS_ATTR_CMP("bgcolor")
-                   || LXB_SELECTORS_ATTR_CMP("compact")
-                   || LXB_SELECTORS_ATTR_CMP("declare")
-                   || LXB_SELECTORS_ATTR_CMP("enctype")
-                   || LXB_SELECTORS_ATTR_CMP("noshade");
-
-        case 8:
-            return LXB_SELECTORS_ATTR_CMP("codetype")
-                   || LXB_SELECTORS_ATTR_CMP("hreflang")
-                   || LXB_SELECTORS_ATTR_CMP("language")
-                   || LXB_SELECTORS_ATTR_CMP("noresize");
-
-        case 9:
-            return LXB_SELECTORS_ATTR_CMP("direction")
-                   || LXB_SELECTORS_ATTR_CMP("scrolling")
-                   || LXB_SELECTORS_ATTR_CMP("valuetype");
-
-        case 14:
-            return LXB_SELECTORS_ATTR_CMP("accept-charset");
 
         default:
             return false;
     }
-
-#undef LXB_SELECTORS_ATTR_CMP
 }
 
 static bool
