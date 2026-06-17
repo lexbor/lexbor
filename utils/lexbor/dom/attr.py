@@ -15,11 +15,16 @@ sys.path.append("{}/../lexbor/".format(ABS_PATH))
 import LXB
 
 attributes_name = [
-    "id", "class", "dir", "width", "height", "pool", "href", "alt", "disabled", "src",
-    "style", "title", "checked", "maxlength", "content", "http-equiv", "scheme",
-    "charset", "is", "for", "slot", "html", "system", "public", "type", "color",
-    "face", "size", "active", "selected", "focus", "hover", "required", "placeholder",
-    "readonly", "multiple", "xmlns"
+    "accept", "accept-charset", "active", "align", "alink", "alt", "axis",
+    "bgcolor", "charset", "checked", "class", "clear", "codetype", "color",
+    "compact", "content", "declare", "defer", "dir", "direction", "disabled",
+    "enctype", "face", "focus", "for", "frame", "height", "href", "hreflang",
+    "hover", "html", "http-equiv", "id", "is", "lang", "language", "link",
+    "maxlength", "media", "method", "multiple", "nohref", "noresize", "noshade",
+    "nowrap", "placeholder", "pool", "public", "readonly", "rel", "required",
+    "rev", "rules", "scheme", "scope", "scrolling", "selected", "shape", "size",
+    "slot", "src", "style", "system", "target", "text", "title", "type",
+    "valign", "valuetype", "vlink", "width", "xmlns"
 ]
 
 
