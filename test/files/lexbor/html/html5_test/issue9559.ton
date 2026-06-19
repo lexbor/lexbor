@@ -1,0 +1,46 @@
+[
+    /* Test count: 3 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <nobr><table><marquee></table></nobr><b>X
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <nobr>
+                  <marquee>
+                  <table>
+                <b>
+                  "X"
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <nobr><table><object></table><nobr>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <nobr>
+                  <object>
+                  <table>
+                <nobr>
+        $DATA
+    },
+    {
+        "data": $DATA{ ,12}
+            <nobr><nobr>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <nobr>
+                <nobr>
+        $DATA
+    }
+]

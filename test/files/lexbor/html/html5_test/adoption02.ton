@@ -1,5 +1,5 @@
 [
-    /* Test count: 2 */
+    /* Test count: 3 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -48,6 +48,28 @@
                   <address>
                     <a>
                     <a>
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <nobr><table><marquee></table><nobr>
+        $DATA,
+        "errors": [
+            {"line": 1, "col": 6, "id": "expected-doctype-but-got-start-tag"},
+            {"line": 1, "col": 22, "id": "unexpected-start-tag-implies-table-voodoo"},
+            {"line": 1, "col": 30, "id": "end-tag-too-early-named"},
+            {"line": 1, "col": 36, "id": "unexpected-start-tag-implies-end-tag"},
+            {"line": 1, "col": 36, "id": "expected-closing-tag-but-got-eof"}
+        ],
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <nobr>
+                  <marquee>
+                  <table>
+                <nobr>
         $DATA
     },
 ]
