@@ -128,6 +128,31 @@ static const lxb_test_entry_t selectors_list[] =
      "",
      lxb_css_selectors_parse},
 
+    {"[refs",
+     "[refs]",
+     "Syntax error. Selectors. End Of File in attribute selector",
+     lxb_css_selectors_parse},
+
+    {"[refs=link",
+     "[refs=\"link\"]",
+     "Syntax error. Selectors. End Of File in attribute selector",
+     lxb_css_selectors_parse},
+
+    {"[refs='a b",
+     "[refs=\"a b\"]",
+     "Syntax error. Selectors. End Of File in attribute selector",
+     lxb_css_selectors_parse},
+
+    {"[refs=link i",
+     "[refs=\"link\"i]",
+     "Syntax error. Selectors. End Of File in attribute selector",
+     lxb_css_selectors_parse},
+
+    {"div[refs",
+     "div[refs]",
+     "Syntax error. Selectors. End Of File in attribute selector",
+     lxb_css_selectors_parse},
+
     {"[refs=link I]",
      "[refs=\"link\"i]",
      "",
@@ -181,6 +206,21 @@ static const lxb_test_entry_t selectors_list[] =
     {"[refs=0%]",
      "",
      "Syntax error. Selectors. Unexpected token: 0%",
+     lxb_css_selectors_parse},
+
+    {"[",
+     "",
+     "Syntax error. Selectors. Unexpected token: END-OF-FILE",
+     lxb_css_selectors_parse},
+
+    {"[refs=",
+     "",
+     "Syntax error. Selectors. Unexpected token: END-OF-FILE",
+     lxb_css_selectors_parse},
+
+    {"[refs~",
+     "",
+     "Syntax error. Selectors. Unexpected token: END-OF-FILE",
      lxb_css_selectors_parse},
 
     {"[refs i]",

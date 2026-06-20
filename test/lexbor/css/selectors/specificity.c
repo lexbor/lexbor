@@ -63,6 +63,14 @@ static const test_data_t lxb_data[] = {
         .a = 0, .b = 1, .c = 0
     },
     {
+        .selector = lexbor_str("[a=b"),
+        .a = 0, .b = 1, .c = 0
+    },
+    {
+        .selector = lexbor_str("tag[a"),
+        .a = 0, .b = 1, .c = 1
+    },
+    {
         .selector = lexbor_str("#id tag :is(#item, .class)"),
         .a = 2, .b = 0, .c = 1
     },
