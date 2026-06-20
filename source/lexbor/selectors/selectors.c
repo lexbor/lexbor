@@ -1391,7 +1391,7 @@ lxb_selectors_match_class(const lexbor_str_t *target, const lexbor_str_t *src,
 {
     lxb_char_t chr;
 
-    if (target->length < src->length) {
+    if (src->length == 0 || target->length < src->length) {
         return false;
     }
 
