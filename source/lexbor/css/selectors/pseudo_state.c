@@ -229,6 +229,7 @@ again:
 
     str->data = lexbor_mraw_alloc(parser->memory->mraw, length + 1);
     if (str->data == NULL) {
+        lexbor_mraw_free(parser->memory->mraw, contains);
         return lxb_css_parser_memory_fail(parser);
     }
 
@@ -286,6 +287,8 @@ failed:
 
     lexbor_mraw_free(parser->memory->mraw, contains->str.data);
     lexbor_mraw_free(parser->memory->mraw, contains);
+
+    selector->u.pseudo.data = NULL;
 
     lxb_css_parser_unexpected_data(parser, token);
     return lxb_css_parser_failed(parser);
