@@ -977,6 +977,64 @@ TEST_BEGIN(match_id_class_case)
 }
 TEST_END
 
+TEST_BEGIN(match_non_ascii_ident_class)
+{
+    size_t count;
+    lxb_status_t status;
+    lxb_dom_node_t *node;
+    lxb_selectors_t *selectors;
+    lxb_css_parser_t *parser;
+    lxb_css_selector_list_t *list;
+    lxb_html_document_t *document;
+
+    static const lxb_char_t html[] =
+        "<!DOCTYPE html>"
+        "<i class='\xC3\x9C" "ber'></i>"
+        "<i class='a\xC2\xB7" "b'></i>"
+        "<i class='\xCD\xBD" "x'></i>";
+
+    static const test_case_selector_count_t cases[] = {
+        {".\xC3\x9C" "ber", 1},
+        {".a\xC2\xB7" "b", 1},
+        {".\xCD\xBD" "x", 1}
+    };
+
+    size_t cases_length = sizeof(cases) / sizeof(test_case_selector_count_t);
+
+    document = lxb_html_document_create();
+    status = lxb_html_document_parse(document, html, sizeof(html) - 1);
+    test_eq(status, LXB_STATUS_OK);
+
+    parser = lxb_css_parser_create();
+    status = lxb_css_parser_init(parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    selectors = lxb_selectors_create();
+    status = lxb_selectors_init(selectors);
+    test_eq(status, LXB_STATUS_OK);
+
+    node = lxb_dom_interface_node(lxb_html_document_body_element(document));
+
+    for (size_t i = 0; i < cases_length; i++) {
+        list = lxb_css_selectors_parse(parser, (const lxb_char_t *) cases[i].sel,
+                                       strlen(cases[i].sel));
+        test_ne(list, NULL);
+
+        count = 0;
+        status = lxb_selectors_find(selectors, node, list,
+                                    find_callback_count, &count);
+        test_eq(status, LXB_STATUS_OK);
+        test_eq(count, cases[i].expected);
+
+        lxb_css_parser_erase(parser);
+    }
+
+    (void) lxb_html_document_destroy(document);
+    (void) lxb_css_parser_destroy(parser, true);
+    (void) lxb_selectors_destroy(selectors, true);
+}
+TEST_END
+
 TEST_BEGIN(match_attribute_include_empty)
 {
     size_t count;
@@ -1187,6 +1245,7 @@ main(int argc, const char * argv[])
     TEST_ADD(match_root_document);
     TEST_ADD(match_first);
     TEST_ADD(match_id_class_case);
+    TEST_ADD(match_non_ascii_ident_class);
     TEST_ADD(match_attribute_include_empty);
     TEST_ADD(match_eof_attribute_selector);
     TEST_ADD(match_html_case_insensitive_attributes);

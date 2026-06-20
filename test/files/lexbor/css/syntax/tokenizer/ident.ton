@@ -1,5 +1,5 @@
 [
-    /* Test count: 34 */
+    /* Test count: 43 */
     /* 1 */
     {
         "data": "godofwar",
@@ -204,26 +204,99 @@
     },
     /* 29 */
     {
+        "data": "·",
+        "tokens": [
+            {"type": "ident", "value": "·", "length": 2}
+        ]
+    },
+    /* 30 */
+    {
+        "data": "À",
+        "tokens": [
+            {"type": "ident", "value": "À", "length": 2}
+        ]
+    },
+    /* 31 */
+    {
+        "data": "Ö",
+        "tokens": [
+            {"type": "ident", "value": "Ö", "length": 2}
+        ]
+    },
+    /* 32 */
+    {
+        "data": "Ø",
+        "tokens": [
+            {"type": "ident", "value": "Ø", "length": 2}
+        ]
+    },
+    /* 33 */
+    {
+        "data": "ö",
+        "tokens": [
+            {"type": "ident", "value": "ö", "length": 2}
+        ]
+    },
+    /* 34 */
+    {
+        "data": "ø",
+        "tokens": [
+            {"type": "ident", "value": "ø", "length": 2}
+        ]
+    },
+    /* 35 */
+    {
+        "data": "ͽ",
+        "tokens": [
+            {"type": "ident", "value": "ͽ", "length": 2}
+        ]
+    },
+    /* 36 */
+    {
+        "data": "×x",
+        "tokens": [
+            {"type": "delim", "value": "×", "length": 2},
+            {"type": "ident", "value": "x", "length": 1}
+        ]
+    },
+    /* 37 */
+    {
+        "data": "÷x",
+        "tokens": [
+            {"type": "delim", "value": "÷", "length": 2},
+            {"type": "ident", "value": "x", "length": 1}
+        ]
+    },
+    /* 38 */
+    {
+        "data": ";x",
+        "tokens": [
+            {"type": "delim", "value": ";", "length": 2},
+            {"type": "ident", "value": "x", "length": 1}
+        ]
+    },
+    /* 39 */
+    {
         "data": "\0",
         "tokens": [
             {"type": "ident", "value": "�", "length": 1}
         ]
     },
-    /* 31 */
+    /* 40 */
     {
         "data": "Mass\0Effect",
         "tokens": [
             {"type": "ident", "value": "Mass�Effect", "length": 11}
         ]
     },
-    /* 32 */
+    /* 41 */
     {
         "data": "Mass_Effect\0",
         "tokens": [
             {"type": "ident", "value": "Mass_Effect�", "length": 12}
         ]
     },
-    /* 33 */
+    /* 42 */
     {
         "data": "Mass\\\fEffect",
         "tokens": [
@@ -233,7 +306,7 @@
             {"type": "ident", "value": "Effect", "length": 6}
         ]
     },
-    /* 34 */
+    /* 43 */
     {
         "data": "Mass\fEffect",
         "tokens": [

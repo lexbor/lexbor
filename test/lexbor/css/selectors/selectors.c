@@ -33,6 +33,36 @@ static const lxb_test_entry_t selectors_list[] =
      "",
      lxb_css_selectors_parse},
 
+    {".\xC3\x9C" "ber",
+     ".\xC3\x9C" "ber",
+     "",
+     lxb_css_selectors_parse},
+
+    {".a\xC2\xB7" "b",
+     ".a\xC2\xB7" "b",
+     "",
+     lxb_css_selectors_parse},
+
+    {".\xCD\xBD" "x",
+     ".\xCD\xBD" "x",
+     "",
+     lxb_css_selectors_parse},
+
+    {".\xC3\xB7" "x",
+     "",
+     "Syntax error. Selectors. Unexpected token: \xC3\xB7",
+     lxb_css_selectors_parse},
+
+    {".\xCD\xBE" "x",
+     "",
+     "Syntax error. Selectors. Unexpected token: \xCD\xBE",
+     lxb_css_selectors_parse},
+
+    {".;x",
+     "",
+     "Syntax error. Selectors. Unexpected token: ;",
+     lxb_css_selectors_parse},
+
     {" .super ",
      ".super",
      "",
