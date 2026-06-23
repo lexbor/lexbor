@@ -1,0 +1,70 @@
+[
+    /* Test count: 4 */
+    /* Test number: 1 */
+    {
+        "data": $DATA{ ,12}
+            <a>A<div>B<a>C
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <a>
+                  "A"
+                <div>
+                  <a>
+                    "B"
+                  <a>
+                    "C"
+        $DATA
+    },
+    /* Test number: 2 */
+    {
+        "data": $DATA{ ,12}
+            <a><table><marquee></table><a>X
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <a>
+                  <marquee>
+                  <table>
+                  <a>
+                    "X"
+        $DATA
+    },
+    /* Test number: 3 */
+    {
+        "data": $DATA{ ,12}
+            <a><table><object></table><a>X
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <a>
+                  <object>
+                  <table>
+                  <a>
+                    "X"
+        $DATA
+    },
+    /* Test number: 4 */
+    {
+        "data": $DATA{ ,12}
+            <a><p><a></a></p><a>X
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <a>
+                <p>
+                  <a>
+                  <a>
+                <a>
+                  "X"
+        $DATA
+    },
+]
