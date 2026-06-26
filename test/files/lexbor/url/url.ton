@@ -1,5 +1,5 @@
 [
-    /* Test count: 7 */
+    /* Test count: 8 */
     /* 1 */
     {
         "url": "https://user:pass@lexbor.com:450/docs/lexbor/?search=lxb_status_t#version",
@@ -73,6 +73,12 @@
         "host": "",
         "path": "",
         "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 8 */
+    {
+        "url": "scheme://:433",
+        "failed": true,
         "encoding": "utf-8"
     }
 ]

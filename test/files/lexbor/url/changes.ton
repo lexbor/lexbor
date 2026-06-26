@@ -1,5 +1,5 @@
 [
-    /* Test count: 1 */
+    /* Test count: 47 */
     /* 1 */
     {
         "url": "https://user:pass@lexbor.com/docs/html/path?x=y&a=b#best-fragment",
@@ -983,8 +983,52 @@
     },
     /* 45 */
     {
+        "url": "scheme://",
+        "done": "scheme://",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": "user",
+            "password": "pass",
+            "host": null,
+            "hostname": null,
+            "port": "433",
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "scheme",
+        "host": "",
+        "path": "",
+        "failed": false
+    },
+    /* 46 */
+    {
+        "url": "scheme://host",
+        "done": "scheme://host:433",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": "433",
+            "pathname": null,
+            "search": null,
+            "hash": null
+        },
+        "scheme": "scheme",
+        "host": "host",
+        "port": 433,
+        "has_port": true,
+        "path": "",
+        "failed": false
+    },
+    /* 47 */
+    {
         "url": "https://example.com:432",
-        "done": "https://example.com:432",
+        "done": "https://example.com:432/",
         "change": {
             "href": null,
             "protocol": null,
@@ -999,7 +1043,9 @@
         },
         "scheme": "https",
         "host": "example.com",
-        "port": "432",
+        "port": 432,
+        "has_port": true,
+        "path": "/",
         "failed": true
     }
 ]
