@@ -1312,22 +1312,48 @@ lxb_css_syntax_parser_declarations_validate(lxb_css_parser_t *parser,
                                             const lxb_css_syntax_token_t *token,
                                             lxb_css_syntax_rule_t *rule)
 {
-    if (token->type != LXB_CSS_SYNTAX_TOKEN_IDENT
-        || !lxb_css_syntax_tokenizer_lookup_colon(parser->tkz))
-    {
-        rule->phase = lxb_css_syntax_parser_declarations_drop;
-        rule->state = rule->cbx.cb->failed;
-        rule->begin = token->offset;
-        rule->context_old = rule->context;
-        rule->context = NULL;
-        rule->failed = true;
+begin:
 
-        parser->offset.value_end = 0;
+    switch (token->type) {
+        case LXB_CSS_SYNTAX_TOKEN_IDENT:
+            if (lxb_css_syntax_tokenizer_lookup_colon(parser->tkz)) {
+                return lxb_css_syntax_parser_declarations_begin(parser, token, rule);
+            }
 
-        return lxb_css_syntax_token_parser_do_phase_again(parser);
+            break;
+
+        case LXB_CSS_SYNTAX_TOKEN_WHITESPACE:
+        case LXB_CSS_SYNTAX_TOKEN_SEMICOLON:
+            lxb_css_syntax_token_consume(parser->tkz);
+
+            token = lxb_css_syntax_token(parser->tkz);
+            if (token == NULL) {
+                return lxb_css_syntax_parser_failed(parser,
+                                                    parser->tkz->status);
+            }
+
+            goto begin;
+
+        case LXB_CSS_SYNTAX_TOKEN__EOF:
+            rule->phase = lxb_css_syntax_parser_declarations_end;
+            rule->context_old = rule->context;
+
+            return lxb_css_syntax_token_parser_do_phase_again(parser);
+
+        default:
+            break;
     }
 
-    return lxb_css_syntax_parser_declarations_begin(parser, token, rule);
+    rule->phase = lxb_css_syntax_parser_declarations_drop;
+    rule->state = rule->cbx.cb->failed;
+    rule->begin = token->offset;
+    rule->context_old = rule->context;
+    rule->context = NULL;
+    rule->failed = true;
+
+    parser->offset.value_end = 0;
+
+    return lxb_css_syntax_token_parser_do_phase_again(parser);
 }
 
 /*

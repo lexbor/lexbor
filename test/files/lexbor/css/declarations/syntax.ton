@@ -1,5 +1,5 @@
 [
-    /* Test count: 26 */
+    /* Test count: 31 */
     /* 1 */
     {
         "data": "name: value",
@@ -185,5 +185,39 @@
         "results": [
             {"type": "undef", "name": "text-decoration", "value": "hsl(20 blah err", "important": false},
         ]
+    },
+    /* 27 */
+    {
+        "data": " width: 1px",
+        "results": [
+            {"type": "property", "name": "width", "value": "1px", "important": false}
+        ]
+    },
+    /* 28 */
+    {
+        "data": "\t\n width: 1px",
+        "results": [
+            {"type": "property", "name": "width", "value": "1px", "important": false}
+        ]
+    },
+    /* 29 */
+    {
+        "data": "; ; width: 1px",
+        "results": [
+            {"type": "property", "name": "width", "value": "1px", "important": false}
+        ]
+    },
+    /* 30 */
+    {
+        "data": " width: 1px; height: 2px",
+        "results": [
+            {"type": "property", "name": "width", "value": "1px", "important": false},
+            {"type": "property", "name": "height", "value": "2px", "important": false}
+        ]
+    },
+    /* 31 */
+    {
+        "data": " ; ; ",
+        "results": []
     }
 ]
