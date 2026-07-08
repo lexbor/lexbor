@@ -67,21 +67,13 @@
     }
 
 #define LXB_CSS_SYNTAX_UTF_8_UP_80_BLOCK(tkz, begin, data, end)               \
+        const lxb_char_t *_bad = data;                                        \
         lxb_codepoint_t cp = lxb_css_syntax_state_decode_utf_8_up_80(&data,   \
                                                                      end);    \
                                                                               \
         if (cp == LXB_CSS_SYNTAX_ERROR_CODEPOINT) {                           \
-            lxb_css_syntax_buffer_append_m(tkz, begin, data - begin);         \
-            /* U+FFFD REPLACEMENT CHARACTER */                                \
-            lxb_css_syntax_buffer_append_m(tkz, "\uFFFD",                     \
-                                           lxb_css_syntax_replacement_length);\
-            data += 1;                                                        \
-            begin = data;                                                     \
-        }                                                                     \
-        /* Surrogate U+D800 to U+DFFF. */                                     \
-        else if (cp >= 0xD800 && cp <= 0xDFFF) {                              \
-            lxb_css_syntax_buffer_append_m(tkz, begin,                        \
-                                           (data - begin) - 3);               \
+            /* Flush the run before the ill-formed sequence, then U+FFFD. */  \
+            lxb_css_syntax_buffer_append_m(tkz, begin, _bad - begin);         \
             /* U+FFFD REPLACEMENT CHARACTER */                                \
             lxb_css_syntax_buffer_append_m(tkz, "\uFFFD",                     \
                                            lxb_css_syntax_replacement_length);\
@@ -580,14 +572,6 @@ lxb_css_syntax_state_string(lxb_css_syntax_tokenizer_t *tkz, lxb_css_syntax_toke
                             cp = lxb_css_syntax_state_decode_utf_8_up_80(&data, end);
 
                             if (cp == LXB_CSS_SYNTAX_ERROR_CODEPOINT) {
-                                /* U+FFFD REPLACEMENT CHARACTER */
-                                lxb_css_syntax_buffer_append_m(tkz, "\uFFFD",
-                                                               lxb_css_syntax_replacement_length);
-                                data += 1;
-                                begin = data;
-                            }
-                            /* Surrogate U+D800 to U+DFFF. */
-                            else if (cp >= 0xD800 && cp <= 0xDFFF) {
                                 /* U+FFFD REPLACEMENT CHARACTER */
                                 lxb_css_syntax_buffer_append_m(tkz, "\uFFFD",
                                                                lxb_css_syntax_replacement_length);
@@ -1785,98 +1769,61 @@ static lxb_codepoint_t
 lxb_css_syntax_state_decode_utf_8_up_80(const lxb_char_t **data,
                                         const lxb_char_t *end)
 {
-    lxb_char_t ch;
+    lxb_char_t ch, lower, upper;
+    unsigned needed;
     const lxb_char_t *p;
     lxb_codepoint_t cp;
 
+    /*
+     * WHATWG UTF-8 decoder: https://encoding.spec.whatwg.org/#utf-8-decoder
+     */
+
     p = *data;
-    ch = *p;
+    ch = *p++;
 
     if (ch <= 0xDF) {
-        if (ch < 0xC2 || p + 1 >= end) {
+        if (ch < 0xC2) {
+            *data = p;
             return LXB_CSS_SYNTAX_ERROR_CODEPOINT;
         }
 
+        needed = 1;
+        lower = 0x80;
+        upper = 0xBF;
         cp = ch & 0x1F;
-
-        if (p[1] < 0x80 || p[1] > 0xBF) {
-            return LXB_CSS_SYNTAX_ERROR_CODEPOINT;
-        }
-
-        cp = (cp << 6) | (p[1] & 0x3F);
-
-        *data += 2;
     }
-    else if (ch < 0xF0) {
+    else if (ch <= 0xEF) {
+        needed = 2;
+        lower = (ch == 0xE0) ? 0xA0 : 0x80;
+        upper = (ch == 0xED) ? 0x9F : 0xBF;
         cp = ch & 0x0F;
-
-        if (p + 2 >= end) {
-            return LXB_CSS_SYNTAX_ERROR_CODEPOINT;
-        }
-
-        if (ch == 0xE0) {
-            if (p[1] < 0xA0 || p[1] > 0xBF) {
-                return LXB_CSS_SYNTAX_ERROR_CODEPOINT;
-            }
-        }
-
-        /*
-         * We returning surrogate pair!
-         */
-/*
-        else if (ch == 0xED) {
-            if (p[1] < 0x80 || p[1] > 0x9F) {
-                return LXB_CSS_SYNTAX_ERROR_CODEPOINT;
-            }
-        }
- */
-        else if (p[1] < 0x80 || p[1] > 0xBF) {
-            return LXB_CSS_SYNTAX_ERROR_CODEPOINT;
-        }
-
-        if (p[2] < 0x80 || p[2] > 0xBF) {
-            return LXB_CSS_SYNTAX_ERROR_CODEPOINT;
-        }
-
-        cp = (cp << 6) | (p[1] & 0x3F);
-        cp = (cp << 6) | (p[2] & 0x3F);
-
-        *data += 3;
     }
-    else if (ch < 0xF5) {
+    else if (ch <= 0xF4) {
+        needed = 3;
+        lower = (ch == 0xF0) ? 0x90 : 0x80;
+        upper = (ch == 0xF4) ? 0x8F : 0xBF;
         cp = ch & 0x07;
-
-        if (p + 3 >= end) {
-            return LXB_CSS_SYNTAX_ERROR_CODEPOINT;
-        }
-
-        if (ch == 0xF0) {
-            if (p[1] < 0x90 || p[1] > 0xBF) {
-                return LXB_CSS_SYNTAX_ERROR_CODEPOINT;
-            }
-        }
-        else if (ch == 0xF4) {
-            if (p[1] < 0x80 || p[1] > 0x8F) {
-                return LXB_CSS_SYNTAX_ERROR_CODEPOINT;
-            }
-        }
-        else if (p[1] < 0x80 || p[1] > 0xBF) {
-            return LXB_CSS_SYNTAX_ERROR_CODEPOINT;
-        }
-
-        if ((p[2] < 0x80 || p[2] > 0xBF) || (p[3] < 0x80 || p[3] > 0xBF)) {
-            return LXB_CSS_SYNTAX_ERROR_CODEPOINT;
-        }
-
-        cp = (cp << 6) | (p[1] & 0x3F);
-        cp = (cp << 6) | (p[2] & 0x3F);
-        cp = (cp << 6) | (p[3] & 0x3F);
-
-        *data += 4;
     }
     else {
+        /* 0xF5..0xFF: an invalid lead byte. */
+        *data = p;
         return LXB_CSS_SYNTAX_ERROR_CODEPOINT;
     }
+
+    do {
+        if (p >= end || *p < lower || *p > upper) {
+            *data = p;
+            return LXB_CSS_SYNTAX_ERROR_CODEPOINT;
+        }
+
+        cp = (cp << 6) | (*p++ & 0x3F);
+
+        lower = 0x80;
+        upper = 0xBF;
+    }
+    while (--needed != 0);
+
+    *data = p;
 
     return cp;
 }
