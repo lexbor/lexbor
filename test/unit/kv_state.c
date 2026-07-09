@@ -880,6 +880,15 @@ unit_kv_state_string_escape(unit_kv_t *kv,
 
             return (data + 1);
 
+        /* U+0055 LATIN CAPITAL LETTER U (U) */
+        case 0x55:
+            kv->state = unit_kv_state_string_escape_u;
+            kv->count = 8;
+            kv->num = 0;
+            kv->is_surrogate = false;
+
+            return (data + 1);
+
         /* U+0078 LATIN SMALL LETTER X (x) */
         case 0x78:
             kv->state = unit_kv_state_string_escape_x;
