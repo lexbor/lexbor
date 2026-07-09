@@ -177,5 +177,29 @@
             {"type": "delim", "value": "\\", "length": 1},
             {"type": "whitespace", "value": "\n", "length": 1}
         ]
+    },
+    /* 25 */
+    {
+        "data": "#µ",
+        "tokens": [
+            {"type": "delim", "value": "#", "length": 1},
+            {"type": "delim", "value": "µ", "length": 2}
+        ]
+    },
+    /* 26 */
+    {
+        "data": "#aµb",
+        "tokens": [
+            {"type": "hash", "value": "#a", "length": 2},
+            {"type": "delim", "value": "µ", "length": 2},
+            {"type": "ident", "value": "b", "length": 1}
+        ]
+    },
+    /* 27 */
+    {
+        "data": "#\\µb",
+        "tokens": [
+            {"type": "hash", "value": "#µb", "length": 5}
+        ]
     }
 ]

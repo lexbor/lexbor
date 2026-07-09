@@ -225,5 +225,12 @@
         "tokens": [
             {"type": "url", "value": "url(1)", "length": 6}
         ]
+    },
+    /* 30 */
+    {
+        "data": "url(a\\é)",
+        "tokens": [
+            {"type": "url", "value": "url(aé)", "length": 9}
+        ]
     }
 ]
