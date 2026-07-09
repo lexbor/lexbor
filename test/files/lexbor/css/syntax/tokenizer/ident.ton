@@ -1,5 +1,5 @@
 [
-    /* Test count: 43 */
+    /* Test count: 80 */
     /* 1 */
     {
         "data": "godofwar",
@@ -335,6 +335,276 @@
         "tokens": [
             {"type": "ident", "value": "a", "length": 1},
             {"type": "delim", "value": "µ", "length": 2},
+            {"type": "ident", "value": "b", "length": 1}
+        ]
+    },
+    /* 47 */
+    {
+        "data": "\u037Fa\u037F",
+        "tokens": [
+            {"type": "ident", "value": "\u037Fa\u037F", "length": 5}
+        ]
+    },
+    /* 48 */
+    {
+        "data": "\u1FFFa\u1FFF",
+        "tokens": [
+            {"type": "ident", "value": "\u1FFFa\u1FFF", "length": 7}
+        ]
+    },
+    /* 49 */
+    {
+        "data": "\u200Ca\u200C",
+        "tokens": [
+            {"type": "ident", "value": "\u200Ca\u200C", "length": 7}
+        ]
+    },
+    /* 50 */
+    {
+        "data": "\u200Da\u200D",
+        "tokens": [
+            {"type": "ident", "value": "\u200Da\u200D", "length": 7}
+        ]
+    },
+    /* 51 */
+    {
+        "data": "\u203Fa\u203F",
+        "tokens": [
+            {"type": "ident", "value": "\u203Fa\u203F", "length": 7}
+        ]
+    },
+    /* 52 */
+    {
+        "data": "\u2040a\u2040",
+        "tokens": [
+            {"type": "ident", "value": "\u2040a\u2040", "length": 7}
+        ]
+    },
+    /* 53 */
+    {
+        "data": "\u2070a\u2070",
+        "tokens": [
+            {"type": "ident", "value": "\u2070a\u2070", "length": 7}
+        ]
+    },
+    /* 54 */
+    {
+        "data": "\u218Fa\u218F",
+        "tokens": [
+            {"type": "ident", "value": "\u218Fa\u218F", "length": 7}
+        ]
+    },
+    /* 55 */
+    {
+        "data": "\u2C00a\u2C00",
+        "tokens": [
+            {"type": "ident", "value": "\u2C00a\u2C00", "length": 7}
+        ]
+    },
+    /* 56 */
+    {
+        "data": "\u2FEFa\u2FEF",
+        "tokens": [
+            {"type": "ident", "value": "\u2FEFa\u2FEF", "length": 7}
+        ]
+    },
+    /* 57 */
+    {
+        "data": "\u3001a\u3001",
+        "tokens": [
+            {"type": "ident", "value": "\u3001a\u3001", "length": 7}
+        ]
+    },
+    /* 58 */
+    {
+        "data": "\uD7FFa\uD7FF",
+        "tokens": [
+            {"type": "ident", "value": "\uD7FFa\uD7FF", "length": 7}
+        ]
+    },
+    /* 59 */
+    {
+        "data": "\uF900a\uF900",
+        "tokens": [
+            {"type": "ident", "value": "\uF900a\uF900", "length": 7}
+        ]
+    },
+    /* 60 */
+    {
+        "data": "\uFDCFa\uFDCF",
+        "tokens": [
+            {"type": "ident", "value": "\uFDCFa\uFDCF", "length": 7}
+        ]
+    },
+    /* 61 */
+    {
+        "data": "\uFDF0a\uFDF0",
+        "tokens": [
+            {"type": "ident", "value": "\uFDF0a\uFDF0", "length": 7}
+        ]
+    },
+    /* 62 */
+    {
+        "data": "\uFFFDa\uFFFD",
+        "tokens": [
+            {"type": "ident", "value": "\uFFFDa\uFFFD", "length": 7}
+        ]
+    },
+    /* 63: U+10000 */
+    {
+        "data": "\U00010000a\U00010000",
+        "tokens": [
+            {"type": "ident", "value": "\U00010000a\U00010000", "length": 9}
+        ]
+    },
+    /* 64: U+10FFFF */
+    {
+        "data": "\U0010FFFFa\U0010FFFF",
+        "tokens": [
+            {"type": "ident", "value": "\U0010FFFFa\U0010FFFF", "length": 9}
+        ]
+    },
+    /* 65 */
+    {
+        "data": "a\u037Eb",
+        "tokens": [
+            {"type": "ident", "value": "a", "length": 1},
+            {"type": "delim", "value": "\u037E", "length": 2},
+            {"type": "ident", "value": "b", "length": 1}
+        ]
+    },
+    /* 66 */
+    {
+        "data": "a\u2000b",
+        "tokens": [
+            {"type": "ident", "value": "a", "length": 1},
+            {"type": "delim", "value": "\u2000", "length": 3},
+            {"type": "ident", "value": "b", "length": 1}
+        ]
+    },
+    /* 67 */
+    {
+        "data": "a\u200Bb",
+        "tokens": [
+            {"type": "ident", "value": "a", "length": 1},
+            {"type": "delim", "value": "\u200B", "length": 3},
+            {"type": "ident", "value": "b", "length": 1}
+        ]
+    },
+    /* 68 */
+    {
+        "data": "a\u203Eb",
+        "tokens": [
+            {"type": "ident", "value": "a", "length": 1},
+            {"type": "delim", "value": "\u203E", "length": 3},
+            {"type": "ident", "value": "b", "length": 1}
+        ]
+    },
+    /* 69 */
+    {
+        "data": "a\u2041b",
+        "tokens": [
+            {"type": "ident", "value": "a", "length": 1},
+            {"type": "delim", "value": "\u2041", "length": 3},
+            {"type": "ident", "value": "b", "length": 1}
+        ]
+    },
+    /* 70 */
+    {
+        "data": "a\u206Fb",
+        "tokens": [
+            {"type": "ident", "value": "a", "length": 1},
+            {"type": "delim", "value": "\u206F", "length": 3},
+            {"type": "ident", "value": "b", "length": 1}
+        ]
+    },
+    /* 71 */
+    {
+        "data": "a\u2190b",
+        "tokens": [
+            {"type": "ident", "value": "a", "length": 1},
+            {"type": "delim", "value": "\u2190", "length": 3},
+            {"type": "ident", "value": "b", "length": 1}
+        ]
+    },
+    /* 72 */
+    {
+        "data": "a\u2BFFb",
+        "tokens": [
+            {"type": "ident", "value": "a", "length": 1},
+            {"type": "delim", "value": "\u2BFF", "length": 3},
+            {"type": "ident", "value": "b", "length": 1}
+        ]
+    },
+    /* 73 */
+    {
+        "data": "a\u2FF0b",
+        "tokens": [
+            {"type": "ident", "value": "a", "length": 1},
+            {"type": "delim", "value": "\u2FF0", "length": 3},
+            {"type": "ident", "value": "b", "length": 1}
+        ]
+    },
+    /* 74 */
+    {
+        "data": "a\u3000b",
+        "tokens": [
+            {"type": "ident", "value": "a", "length": 1},
+            {"type": "delim", "value": "\u3000", "length": 3},
+            {"type": "ident", "value": "b", "length": 1}
+        ]
+    },
+    /* 75 */
+    {
+        "data": "a\uE000b",
+        "tokens": [
+            {"type": "ident", "value": "a", "length": 1},
+            {"type": "delim", "value": "\uE000", "length": 3},
+            {"type": "ident", "value": "b", "length": 1}
+        ]
+    },
+    /* 76 */
+    {
+        "data": "a\uF8FFb",
+        "tokens": [
+            {"type": "ident", "value": "a", "length": 1},
+            {"type": "delim", "value": "\uF8FF", "length": 3},
+            {"type": "ident", "value": "b", "length": 1}
+        ]
+    },
+    /* 77 */
+    {
+        "data": "a\uFDD0b",
+        "tokens": [
+            {"type": "ident", "value": "a", "length": 1},
+            {"type": "delim", "value": "\uFDD0", "length": 3},
+            {"type": "ident", "value": "b", "length": 1}
+        ]
+    },
+    /* 78 */
+    {
+        "data": "a\uFDEFb",
+        "tokens": [
+            {"type": "ident", "value": "a", "length": 1},
+            {"type": "delim", "value": "\uFDEF", "length": 3},
+            {"type": "ident", "value": "b", "length": 1}
+        ]
+    },
+    /* 79 */
+    {
+        "data": "a\uFFFEb",
+        "tokens": [
+            {"type": "ident", "value": "a", "length": 1},
+            {"type": "delim", "value": "\uFFFE", "length": 3},
+            {"type": "ident", "value": "b", "length": 1}
+        ]
+    },
+    /* 80 */
+    {
+        "data": "a\uFFFFb",
+        "tokens": [
+            {"type": "ident", "value": "a", "length": 1},
+            {"type": "delim", "value": "\uFFFF", "length": 3},
             {"type": "ident", "value": "b", "length": 1}
         ]
     }

@@ -1,5 +1,5 @@
 [
-    /* Test count: 1 */
+    /* Test count: 20 */
     /* 1 */
     {
         "data": "wor\x9Fld",
@@ -130,6 +130,13 @@
         "data": "wor\xE0\x80ld",
         "tokens": [
             {"type": "ident", "value": "wor\uFFFD\uFFFDld", "length": 7}
+        ]
+    },
+    /* 20 */
+    {
+        "data": "\xED\xA0\x80ld",
+        "tokens": [
+            {"type": "ident", "value": "\uFFFD\uFFFD\uFFFDld", "length": 5}
         ]
     }
 ]
