@@ -1,5 +1,5 @@
 [
-    /* Test count: 45 */
+    /* Test count: 46 */
     /* 1 */
     {
         "url": "https://lexbor.com/ФЯ/docs",
@@ -455,6 +455,16 @@
         "host": "lexbor.com",
         "path": "/%D0%A4%D0%AF/my/.x",
         "path_length": 3,
+        "failed": false
+    }
+    /* 46 */
+    {
+        "url": "https://example.com/^",
+        "done": "https://example.com/%5E",
+        "scheme": "https",
+        "host": "example.com",
+        "path": "/%5E",
+        "path_length": 1,
         "failed": false
     }
 ]

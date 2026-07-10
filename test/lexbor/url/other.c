@@ -166,7 +166,7 @@ TEST_BEGIN(url_path_slow_path_grow)
     lxb_char_t input[3 + 9 + 2000];
 
     memcpy(input, "http://a/", 9);
-    memset(input + 9, '^', 2000);
+    memset(input + 9, '|', 2000);
 
     status = lexbor_mraw_init(&mraw, 8192);
     test_eq(status, LXB_STATUS_OK);
@@ -181,7 +181,7 @@ TEST_BEGIN(url_path_slow_path_grow)
     test_eq(url->path.str.data[0], (lxb_char_t) '/');
 
     for (i = 1; i < url->path.str.length; i++) {
-        test_eq(url->path.str.data[i], (lxb_char_t) '^');
+        test_eq(url->path.str.data[i], (lxb_char_t) '|');
     }
 
     lxb_url_parser_destroy(&parser, false);
