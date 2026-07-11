@@ -326,6 +326,10 @@ lxb_dom_document_stylesheet_remove(lxb_dom_document_t *document,
     lxb_css_rule_list_t *list;
     lxb_css_stylesheet_t *sst_in;
 
+    if (sst == NULL) {
+        return LXB_STATUS_OK;
+    }
+
     rule = sst->root;
 
     if (rule->type != LXB_CSS_RULE_LIST) {

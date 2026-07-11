@@ -171,6 +171,65 @@ TEST_BEGIN(bad_styles)
 }
 TEST_END
 
+TEST_BEGIN(empty_style_remove)
+{
+    lxb_status_t status;
+    lxb_html_element_t *style;
+    lxb_html_document_t *document;
+    lxb_dom_collection_t *collection;
+
+    /* HTML Data. */
+
+    static const lexbor_str_t html = lexbor_str("<html><head>"
+                                                "<style></style>"
+                                                "</head><body></body></html>");
+
+    /* Other Data. */
+
+    static const lexbor_str_t style_str = lexbor_str("style");
+
+    /* Create HTML Document. */
+
+    document = lxb_html_document_create();
+    test_ne(document, NULL);
+
+    /* Init all CSS objects and momory for Document. */
+
+    status = lxb_style_init(document);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_html_document_stylesheet_remove(document, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Parse HTML. */
+
+    status = lxb_html_document_parse(document, html.data, html.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* Find HTML nodes by CSS Selectors. */
+
+    collection = lxb_dom_collection_make(lxb_dom_interface_document(document),
+                                         16);
+    test_ne(collection, NULL);
+
+    status = lxb_dom_node_by_tag_name(lxb_dom_interface_node(document),
+                                      collection, style_str.data,
+                                      style_str.length);
+    test_eq(status, LXB_STATUS_OK);
+    test_eq(lxb_dom_collection_length(collection), 1);
+
+    style = lxb_html_interface_element(lxb_dom_collection_node(collection, 0));
+
+    lxb_html_element_remove(style);
+
+    /* Destroy resources. */
+
+    (void) lxb_dom_collection_destroy(collection, true);
+    (void) lxb_style_destroy(document);
+    (void) lxb_html_document_destroy(document);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -178,6 +237,7 @@ main(int argc, const char * argv[])
 
     TEST_ADD(styles);
     TEST_ADD(bad_styles);
+    TEST_ADD(empty_style_remove);
 
     TEST_RUN("lexbor/style/style_tag");
     TEST_RELEASE();
