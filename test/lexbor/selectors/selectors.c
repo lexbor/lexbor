@@ -922,6 +922,7 @@ TEST_BEGIN(match_id_class_case)
     lxb_dom_node_t *node;
     lxb_selectors_t *selectors;
     lxb_css_parser_t *parser;
+    lxb_css_memory_t *memory;
     lxb_css_selector_list_t *list;
     lxb_html_document_t *document;
     lxb_dom_document_t *dom_document;
@@ -944,9 +945,15 @@ TEST_BEGIN(match_id_class_case)
     status = lxb_html_document_parse(document, html, sizeof(html) - 1);
     test_eq(status, LXB_STATUS_OK);
 
+    memory = lxb_css_memory_create();
+    status = lxb_css_memory_init(memory, 128);
+    test_eq(status, LXB_STATUS_OK);
+
     parser = lxb_css_parser_create();
     status = lxb_css_parser_init(parser, NULL);
     test_eq(status, LXB_STATUS_OK);
+
+    lxb_css_parser_memory_set(parser, memory);
 
     selectors = lxb_selectors_create();
     status = lxb_selectors_init(selectors);
@@ -971,6 +978,7 @@ TEST_BEGIN(match_id_class_case)
         lxb_css_parser_erase(parser);
     }
 
+    (void) lxb_css_memory_destroy(memory, true);
     (void) lxb_html_document_destroy(document);
     (void) lxb_css_parser_destroy(parser, true);
     (void) lxb_selectors_destroy(selectors, true);
@@ -984,6 +992,7 @@ TEST_BEGIN(match_non_ascii_ident_class)
     lxb_dom_node_t *node;
     lxb_selectors_t *selectors;
     lxb_css_parser_t *parser;
+    lxb_css_memory_t *memory;
     lxb_css_selector_list_t *list;
     lxb_html_document_t *document;
 
@@ -1005,9 +1014,15 @@ TEST_BEGIN(match_non_ascii_ident_class)
     status = lxb_html_document_parse(document, html, sizeof(html) - 1);
     test_eq(status, LXB_STATUS_OK);
 
+    memory = lxb_css_memory_create();
+    status = lxb_css_memory_init(memory, 128);
+    test_eq(status, LXB_STATUS_OK);
+
     parser = lxb_css_parser_create();
     status = lxb_css_parser_init(parser, NULL);
     test_eq(status, LXB_STATUS_OK);
+
+    lxb_css_parser_memory_set(parser, memory);
 
     selectors = lxb_selectors_create();
     status = lxb_selectors_init(selectors);
@@ -1029,6 +1044,7 @@ TEST_BEGIN(match_non_ascii_ident_class)
         lxb_css_parser_erase(parser);
     }
 
+    (void) lxb_css_memory_destroy(memory, true);
     (void) lxb_html_document_destroy(document);
     (void) lxb_css_parser_destroy(parser, true);
     (void) lxb_selectors_destroy(selectors, true);
@@ -1042,6 +1058,7 @@ TEST_BEGIN(match_attribute_include_empty)
     lxb_dom_node_t *node;
     lxb_selectors_t *selectors;
     lxb_css_parser_t *parser;
+    lxb_css_memory_t *memory;
     lxb_css_selector_list_t *list;
     lxb_html_document_t *document;
 
@@ -1067,9 +1084,15 @@ TEST_BEGIN(match_attribute_include_empty)
     size_t cases_length = sizeof(cases)
                           / sizeof(test_case_html_selector_count_t);
 
+    memory = lxb_css_memory_create();
+    status = lxb_css_memory_init(memory, 128);
+    test_eq(status, LXB_STATUS_OK);
+
     parser = lxb_css_parser_create();
     status = lxb_css_parser_init(parser, NULL);
     test_eq(status, LXB_STATUS_OK);
+
+    lxb_css_parser_memory_set(parser, memory);
 
     selectors = lxb_selectors_create();
     status = lxb_selectors_init(selectors);
@@ -1099,6 +1122,7 @@ TEST_BEGIN(match_attribute_include_empty)
         lxb_html_document_destroy(document);
     }
 
+    (void) lxb_css_memory_destroy(memory, true);
     (void) lxb_css_parser_destroy(parser, true);
     (void) lxb_selectors_destroy(selectors, true);
 }
@@ -1111,6 +1135,7 @@ TEST_BEGIN(match_eof_attribute_selector)
     lxb_dom_node_t *node;
     lxb_selectors_t *selectors;
     lxb_css_parser_t *parser;
+    lxb_css_memory_t *memory;
     lxb_css_selector_list_t *list;
     lxb_html_document_t *document;
 
@@ -1128,9 +1153,15 @@ TEST_BEGIN(match_eof_attribute_selector)
     size_t cases_length = sizeof(cases)
                           / sizeof(test_case_html_selector_count_t);
 
+    memory = lxb_css_memory_create();
+    status = lxb_css_memory_init(memory, 128);
+    test_eq(status, LXB_STATUS_OK);
+
     parser = lxb_css_parser_create();
     status = lxb_css_parser_init(parser, NULL);
     test_eq(status, LXB_STATUS_OK);
+
+    lxb_css_parser_memory_set(parser, memory);
 
     selectors = lxb_selectors_create();
     status = lxb_selectors_init(selectors);
@@ -1160,6 +1191,7 @@ TEST_BEGIN(match_eof_attribute_selector)
         lxb_html_document_destroy(document);
     }
 
+    (void) lxb_css_memory_destroy(memory, true);
     (void) lxb_css_parser_destroy(parser, true);
     (void) lxb_selectors_destroy(selectors, true);
 }
@@ -1172,6 +1204,7 @@ TEST_BEGIN(match_html_case_insensitive_attributes)
     lxb_dom_node_t *node;
     lxb_selectors_t *selectors;
     lxb_css_parser_t *parser;
+    lxb_css_memory_t *memory;
     lxb_css_selector_list_t *list;
     lxb_html_document_t *document;
 
@@ -1204,9 +1237,15 @@ TEST_BEGIN(match_html_case_insensitive_attributes)
     status = lxb_html_document_parse(document, html, sizeof(html) - 1);
     test_eq(status, LXB_STATUS_OK);
 
+    memory = lxb_css_memory_create();
+    status = lxb_css_memory_init(memory, 128);
+    test_eq(status, LXB_STATUS_OK);
+
     parser = lxb_css_parser_create();
     status = lxb_css_parser_init(parser, NULL);
     test_eq(status, LXB_STATUS_OK);
+
+    lxb_css_parser_memory_set(parser, memory);
 
     selectors = lxb_selectors_create();
     status = lxb_selectors_init(selectors);
@@ -1228,6 +1267,7 @@ TEST_BEGIN(match_html_case_insensitive_attributes)
         lxb_css_parser_erase(parser);
     }
 
+    (void) lxb_css_memory_destroy(memory, true);
     (void) lxb_html_document_destroy(document);
     (void) lxb_css_parser_destroy(parser, true);
     (void) lxb_selectors_destroy(selectors, true);

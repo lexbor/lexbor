@@ -76,6 +76,10 @@ unit_kv_clean(unit_kv_t *kv)
 {
     kv->status = LXB_STATUS_OK;
 
+    if (kv->bad_token != NULL) {
+        kv->bad_token = lexbor_free(kv->bad_token);
+    }
+
     if (kv->filename != NULL) {
         kv->filename = lexbor_free(kv->filename);
 
@@ -108,6 +112,10 @@ unit_kv_destroy(unit_kv_t *kv, bool self_destroy)
         return NULL;
     }
 
+    if (kv->bad_token != NULL) {
+        kv->bad_token = lexbor_free(kv->bad_token);
+    }
+
     if (kv->filename != NULL) {
         kv->filename = lexbor_free(kv->filename);
 
@@ -136,6 +144,10 @@ unit_kv_parse(unit_kv_t *kv, const lxb_char_t *data, size_t size)
     kv->token = lexbor_calloc(1, sizeof(unit_kv_token_t));
     if (kv->token == NULL) {
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    if (kv->bad_token != NULL) {
+        kv->bad_token = lexbor_free(kv->bad_token);
     }
 
     if (kv->filename != NULL) {

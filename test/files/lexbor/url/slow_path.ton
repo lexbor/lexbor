@@ -456,7 +456,7 @@
         "path": "/%D0%A4%D0%AF/my/.x",
         "path_length": 3,
         "failed": false
-    }
+    },
     /* 46 */
     {
         "url": "https://example.com/^",

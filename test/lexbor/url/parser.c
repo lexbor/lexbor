@@ -146,6 +146,10 @@ main(int argc, const char *argv[])
         TEST_PRINTLN("Failed to read directory: %s", dir_path);
     }
 
+    if (ctx.status != LXB_STATUS_OK) {
+        ctx.err_count += 1;
+    }
+
     lxb_url_parser_memory_destroy(ctx.parser);
     lxb_url_parser_destroy(ctx.parser, true);
 
@@ -178,6 +182,8 @@ file_callback(const lxb_char_t *fullpath, size_t fullpath_len,
     }
 
     context = ctx;
+
+    printf("Test: %.*s\n\n", (int) fullpath_len, (const char *) fullpath);
 
     status = unit_kv_parse_file(context->kv, (const lxb_char_t *) fullpath);
     if (status != LXB_STATUS_OK) {
