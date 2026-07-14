@@ -183,19 +183,15 @@
     { "code": "invalid-first-character-of-tag-name", "line": 1, "col": 3 }
 ]},
 
-{"description":"Simili processing instruction",
+{"description":"Normal Processing Instruction",
 "input":"<?namespace>",
-"output":[["Comment", "?namespace"]],
-"errors":[
-    { "code": "unexpected-question-mark-instead-of-tag-name", "line": 1, "col": 2 }
-]},
+"output":[["ProcessingInstruction", "namespace"]],
+"errors":[]},
 
-{"description":"A bogus comment stops at >, even if preceded by two dashes",
+{"description":"Processing Instruction with trailing dashes",
 "input":"<?foo-->",
-"output":[["Comment", "?foo--"]],
-"errors":[
-    { "code": "unexpected-question-mark-instead-of-tag-name", "line": 1, "col": 2 }
-]},
+"output":[["ProcessingInstruction", "foo--"]],
+"errors":[]},
 
 {"description":"Unescaped <",
 "input":"foo < bar",

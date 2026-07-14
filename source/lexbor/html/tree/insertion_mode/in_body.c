@@ -165,6 +165,20 @@ lxb_html_tree_insertion_mode_in_body_comment(lxb_html_tree_t *tree,
 }
 
 lxb_inline bool
+lxb_html_tree_insertion_mode_in_body_processing_instruction(lxb_html_tree_t *tree,
+                                                            lxb_html_token_t *token)
+{
+    lxb_dom_processing_instruction_t *pi;
+
+    pi = lxb_html_tree_insert_processing_instruction(tree, token, NULL);
+    if (pi == NULL) {
+        return lxb_html_tree_process_abort(tree);
+    }
+
+    return true;
+}
+
+lxb_inline bool
 lxb_html_tree_insertion_mode_in_body_doctype(lxb_html_tree_t *tree,
                                              lxb_html_token_t *token)
 {
@@ -1964,6 +1978,10 @@ lxb_html_tree_insertion_mode_in_body(lxb_html_tree_t *tree,
 
         case LXB_TAG__EM_COMMENT:
             return lxb_html_tree_insertion_mode_in_body_comment(tree, token);
+
+        case LXB_TAG__PROCESSINGINSTRUCTION:
+            return lxb_html_tree_insertion_mode_in_body_processing_instruction(tree,
+                                                                               token);
 
         case LXB_TAG__EM_DOCTYPE:
             return lxb_html_tree_insertion_mode_in_body_doctype(tree, token);

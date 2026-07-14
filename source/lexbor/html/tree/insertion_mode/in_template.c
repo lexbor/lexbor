@@ -150,6 +150,7 @@ lxb_html_tree_insertion_mode_in_template(lxb_html_tree_t *tree,
     switch (token->tag_id) {
         case LXB_TAG__TEXT:
         case LXB_TAG__EM_COMMENT:
+        case LXB_TAG__PROCESSINGINSTRUCTION:
         case LXB_TAG__EM_DOCTYPE:
             return lxb_html_tree_insertion_mode_in_body(tree, token);
 

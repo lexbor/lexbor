@@ -747,7 +747,6 @@
             {"line": 1, "col": 2, "id": "unexpected-question-mark-instead-of-tag-name"}
         ],
         "result": $DATA{ ,12}
-            <!-- ? -->
             <html>
               <head>
               <body>
@@ -815,7 +814,7 @@
             {"line": 1, "col": 2, "id": "unexpected-question-mark-instead-of-tag-name"}
         ],
         "result": $DATA{ ,12}
-            <!-- ?COMMENT? -->
+            <?COMMENT ?>
             <html>
               <head>
               <body>
@@ -866,7 +865,7 @@
             {"line": 1, "col": 2, "id": "unexpected-question-mark-instead-of-tag-name"}
         ],
         "result": $DATA{ ,12}
-            <!-- ?COM--MENT? -->
+            <?COM--MENT ?>
             <html>
               <head>
               <body>

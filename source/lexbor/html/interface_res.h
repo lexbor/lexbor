@@ -15,9 +15,9 @@
 #define LXB_HTML_INTERFACE_RES_H
 
 #ifdef LXB_TAG_CONST_VERSION
-#ifndef LXB_TAG_CONST_VERSION_5AB3094FB370521074947DC082575715
+#ifndef LXB_TAG_CONST_VERSION_4854565E379CD1A4AEEBF3C904ABEB65
 #error Mismatched tags version! See "lexbor/tag/const.h".
-#endif /* LXB_TAG_CONST_VERSION_5AB3094FB370521074947DC082575715 */
+#endif /* LXB_TAG_CONST_VERSION_4854565E379CD1A4AEEBF3C904ABEB65 */
 #else
 #error You need to include "lexbor/tag/const.h".
 #endif /* LXB_TAG_CONST_VERSION */
@@ -200,6 +200,18 @@ lxb_inline void *
 lxb_dom_document_type_interface_destroy_wrapper(void *interface)
 {
     return lxb_dom_document_type_interface_destroy(interface);
+}
+
+lxb_inline void *
+lxb_dom_processing_instruction_interface_create_wrapper(void *interface)
+{
+    return lxb_dom_processing_instruction_interface_create(interface);
+}
+
+lxb_inline void *
+lxb_dom_processing_instruction_interface_destroy_wrapper(void *interface)
+{
+    return lxb_dom_processing_instruction_interface_destroy(interface);
 }
 
 lxb_inline void *
@@ -1122,6 +1134,17 @@ static lxb_dom_interface_constructor_f lxb_html_interface_res_constructors[LXB_T
         (lxb_dom_interface_constructor_f) lxb_dom_document_type_interface_create_wrapper,
         (lxb_dom_interface_constructor_f) lxb_dom_document_type_interface_create_wrapper,
         (lxb_dom_interface_constructor_f) lxb_dom_document_type_interface_create_wrapper
+    },
+    /* LXB_TAG__PROCESSINGINSTRUCTION */
+    {
+        (lxb_dom_interface_constructor_f) lxb_dom_processing_instruction_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_dom_processing_instruction_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_dom_processing_instruction_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_dom_processing_instruction_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_dom_processing_instruction_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_dom_processing_instruction_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_dom_processing_instruction_interface_create_wrapper,
+        (lxb_dom_interface_constructor_f) lxb_dom_processing_instruction_interface_create_wrapper
     },
     /* LXB_TAG_A */
     {
@@ -3304,6 +3327,17 @@ static lxb_dom_interface_destructor_f lxb_html_interface_res_destructor[LXB_TAG_
         (lxb_dom_interface_destructor_f) lxb_dom_document_type_interface_destroy_wrapper,
         (lxb_dom_interface_destructor_f) lxb_dom_document_type_interface_destroy_wrapper,
         (lxb_dom_interface_destructor_f) lxb_dom_document_type_interface_destroy_wrapper
+    },
+    /* LXB_TAG__PROCESSINGINSTRUCTION */
+    {
+        (lxb_dom_interface_destructor_f) lxb_dom_processing_instruction_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_dom_processing_instruction_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_dom_processing_instruction_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_dom_processing_instruction_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_dom_processing_instruction_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_dom_processing_instruction_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_dom_processing_instruction_interface_destroy_wrapper,
+        (lxb_dom_interface_destructor_f) lxb_dom_processing_instruction_interface_destroy_wrapper
     },
     /* LXB_TAG_A */
     {

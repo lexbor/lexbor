@@ -47,6 +47,7 @@ lxb_html_tree_insertion_mode_in_head_noscript_open(lxb_html_tree_t *tree,
             return lxb_html_tree_insertion_mode_in_body(tree, token);
 
         case LXB_TAG__EM_COMMENT:
+        case LXB_TAG__PROCESSINGINSTRUCTION:
         case LXB_TAG_BASEFONT:
         case LXB_TAG_BGSOUND:
         case LXB_TAG_LINK:

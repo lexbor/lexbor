@@ -83,7 +83,11 @@ lxb_html_tokenizer_error_to_string(lxb_html_tokenizer_error_id_t id,
         lexbor_str("unexpected null character"),
         lexbor_str("unexpected question mark instead of tag name"),
         lexbor_str("unexpected solidus in tag"),
-        lexbor_str("unknown named character reference")
+        lexbor_str("unknown named character reference"),
+        lexbor_str("eof in processing instruction"),
+        lexbor_str("invalid first character of processing instruction target"),
+        lexbor_str("disallowed processing instruction target"),
+        lexbor_str("invalid processing instruction target")
     };
 
     if (id >= (sizeof(errors) / sizeof(lexbor_str_t))) {

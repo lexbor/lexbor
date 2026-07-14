@@ -15,9 +15,9 @@
 #define LXB_HTML_ELEMENT_STEPS_RES_H
 
 #ifdef LXB_TAG_CONST_VERSION
-#ifndef LXB_TAG_CONST_VERSION_5AB3094FB370521074947DC082575715
+#ifndef LXB_TAG_CONST_VERSION_4854565E379CD1A4AEEBF3C904ABEB65
 #error Mismatched tags version! See "lexbor/tag/const.h".
-#endif /* LXB_TAG_CONST_VERSION_5AB3094FB370521074947DC082575715 */
+#endif /* LXB_TAG_CONST_VERSION_4854565E379CD1A4AEEBF3C904ABEB65 */
 #else
 #error You need to include "lexbor/tag/const.h".
 #endif /* LXB_TAG_CONST_VERSION */
@@ -35,6 +35,8 @@ static const lxb_dom_document_mutation_cb_t lxb_html_element_steps_res_default[L
     /* LXB_TAG__EM_COMMENT */
     {.inserted = NULL, .removed = NULL, .moved = NULL, .destroy = NULL, .children_changed = NULL, .connected = NULL},
     /* LXB_TAG__EM_DOCTYPE */
+    {.inserted = NULL, .removed = NULL, .moved = NULL, .destroy = NULL, .children_changed = NULL, .connected = NULL},
+    /* LXB_TAG__PROCESSINGINSTRUCTION */
     {.inserted = NULL, .removed = NULL, .moved = NULL, .destroy = NULL, .children_changed = NULL, .connected = NULL},
     /* LXB_TAG_A */
     {.inserted = NULL, .removed = NULL, .moved = NULL, .destroy = NULL, .children_changed = NULL, .connected = NULL},

@@ -186,7 +186,7 @@
             {"line": 1, "col": 2, "id": "unexpected-question-mark-instead-of-tag-name"}
         ],
         "result": $DATA{ ,12}
-            <!-- ?import namespace="foo" implementation="#bar" -->
+            <?import namespace="foo" implementation="#bar"?>
             <html>
               <head>
               <body>

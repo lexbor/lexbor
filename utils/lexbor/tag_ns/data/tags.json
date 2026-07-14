@@ -72,13 +72,15 @@
             "#text": {"cat": ["ORDINARY"], "interface": "Text", "interface_type": "DOM"},
             "!--": {"cat": ["ORDINARY"], "to": "-EM-comment", "interface": "Comment", "interface_type": "DOM"},
             "!doctype": {"cat": ["ORDINARY"], "to": "-EM-doctype", "sort": 4, "interface": "DocumentType", "interface_type": "DOM"},
-            "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"}
+            "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"},
+            "?ProcessingInstruction": {"cat": ["ORDINARY"], "sort": 5, "interface": "ProcessingInstruction", "interface_type": "DOM"}
         },
         "#ANY": {
             "#text": {"cat": ["ORDINARY"], "interface": "Text", "interface_type": "DOM"},
             "!--": {"cat": ["ORDINARY"], "to": "-EM-comment", "interface": "Comment", "interface_type": "DOM"},
             "!doctype": {"cat": ["ORDINARY"], "to": "-EM-doctype", "sort": 4, "interface": "DocumentType", "interface_type": "DOM"},
-            "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"}
+            "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"},
+            "?ProcessingInstruction": {"cat": ["ORDINARY"], "sort": 5, "interface": "ProcessingInstruction", "interface_type": "DOM"}
         },
         "HTML": {
             "#undef": {"cat": ["ORDINARY"], "sort": 0, "interface": "HTMLElement", "interface_type": "HTML"},
@@ -89,6 +91,8 @@
 
             "!--": {"cat": ["ORDINARY"], "to": "-EM-comment", "sort": 4, "interface": "Comment", "interface_type": "DOM"},
             "!doctype": {"cat": ["ORDINARY"], "to": "-EM-doctype", "sort": 4, "interface": "DocumentType", "interface_type": "DOM"},
+
+            "?ProcessingInstruction": {"cat": ["ORDINARY"], "sort": 5, "interface": "ProcessingInstruction", "interface_type": "DOM"},
 
             "a": {"cat": ["FORMATTING"], "interface": "HTMLAnchorElement", "interface_type": "HTML"},
             "abbr": {"cat": ["ORDINARY"], "interface": "HTMLElement", "interface_type": "HTML"},
@@ -272,6 +276,7 @@
             "!--": {"cat": ["ORDINARY"], "to": "-EM-comment", "interface": "Comment", "interface_type": "DOM"},
             "!doctype": {"cat": ["ORDINARY"], "to": "-EM-doctype", "sort": 4, "interface": "DocumentType", "interface_type": "DOM"},
             "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"},
+            "?ProcessingInstruction": {"cat": ["ORDINARY"], "sort": 5, "interface": "ProcessingInstruction", "interface_type": "DOM"},
             "svg": {"cat": ["ORDINARY"], "interface": "Element", "interface_type": "DOM"},
             "desc": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON"], "interface": "Element", "interface_type": "DOM"},
             "title": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON"], "interface": "Element", "interface_type": "DOM"},
@@ -319,6 +324,7 @@
             "!--": {"cat": ["ORDINARY"], "to": "-EM-comment", "interface": "Comment", "interface_type": "DOM"},
             "!doctype": {"cat": ["ORDINARY"], "to": "-EM-doctype", "sort": 4, "interface": "DocumentType", "interface_type": "DOM"},
             "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"},
+            "?ProcessingInstruction": {"cat": ["ORDINARY"], "sort": 5, "interface": "ProcessingInstruction", "interface_type": "DOM"},
             "math": {"cat": ["ORDINARY"], "interface": "Element", "interface_type": "DOM"},
             "mi": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON"], "interface": "Element", "interface_type": "DOM"},
             "mo": {"cat": ["SPECIAL", "SCOPE", "SCOPE_LIST_ITEM", "SCOPE_BUTTON"], "interface": "Element", "interface_type": "DOM"},
@@ -334,19 +340,22 @@
             "#text": {"cat": ["ORDINARY"], "interface": "Text", "interface_type": "DOM"},
             "!--": {"cat": ["ORDINARY"], "to": "-EM-comment", "interface": "Comment", "interface_type": "DOM"},
             "!doctype": {"cat": ["ORDINARY"], "to": "-EM-doctype", "sort": 4, "interface": "DocumentType", "interface_type": "DOM"},
-            "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"}
+            "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"},
+            "?ProcessingInstruction": {"cat": ["ORDINARY"], "sort": 5, "interface": "ProcessingInstruction", "interface_type": "DOM"}
         },
         "XML": {
             "#text": {"cat": ["ORDINARY"], "interface": "Text", "interface_type": "DOM"},
             "!--": {"cat": ["ORDINARY"], "to": "-EM-comment", "interface": "Comment", "interface_type": "DOM"},
             "!doctype": {"cat": ["ORDINARY"], "to": "-EM-doctype", "sort": 4, "interface": "DocumentType", "interface_type": "DOM"},
-            "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"}
+            "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"},
+            "?ProcessingInstruction": {"cat": ["ORDINARY"], "sort": 5, "interface": "ProcessingInstruction", "interface_type": "DOM"}
         },
         "XMLNS": {
             "#text": {"cat": ["ORDINARY"], "interface": "Text", "interface_type": "DOM"},
             "!--": {"cat": ["ORDINARY"], "to": "-EM-comment", "interface": "Comment", "interface_type": "DOM"},
             "!doctype": {"cat": ["ORDINARY"], "to": "-EM-doctype", "sort": 4, "interface": "DocumentType", "interface_type": "DOM"},
-            "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"}
+            "#document": {"cat": ["ORDINARY"], "sort": 3, "interface": "Document", "interface_type": "DOM"},
+            "?ProcessingInstruction": {"cat": ["ORDINARY"], "sort": 5, "interface": "ProcessingInstruction", "interface_type": "DOM"}
         }
     },
     "modules": {

@@ -1118,7 +1118,7 @@ lxb_html_serialize_ext_processing_instruction_cb_h(const lxb_dom_processing_inst
     const lxb_dom_node_t *node = lxb_dom_interface_node(pi);
 
     static const lexbor_str_t pi_start_str = lexbor_str("<?");
-    static const lexbor_str_t pi_end_str = lexbor_str(">");
+    static const lexbor_str_t pi_end_str = lexbor_str("?>");
 
     lxb_html_serialize_ext_indent_send(cb->indent, ctx, indent, level, opt);
 

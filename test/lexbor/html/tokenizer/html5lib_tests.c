@@ -82,6 +82,10 @@ static const error_map_entry_t error_map[] = {
     {"unexpected-question-mark-instead-of-tag-name",           LXB_HTML_TOKENIZER_ERROR_UNQUMAINOFTANA},
     {"unexpected-solidus-in-tag",                              LXB_HTML_TOKENIZER_ERROR_UNSOINTA},
     {"unknown-named-character-reference",                      LXB_HTML_TOKENIZER_ERROR_UNNACHRE},
+    {"eof-in-processing-instruction",                          LXB_HTML_TOKENIZER_ERROR_EOINPRIN},
+    {"invalid-first-character-of-processing-instruction-target", LXB_HTML_TOKENIZER_ERROR_INFICHOFPRINTA},
+    {"disallowed-processing-instruction-target",               LXB_HTML_TOKENIZER_ERROR_DIPRINTA},
+    {"invalid-processing-instruction-target",                  LXB_HTML_TOKENIZER_ERROR_INPRINTA},
     {NULL, 0}
 };
 
@@ -627,6 +631,32 @@ compare_token(unit_kv_t *kv, lxb_html_tokenizer_t *tkz, lxb_html_token_t *token,
 
         if (!match) {
             print_fail(kv, expected, "Comment data mismatch.\n"
+                       "    Have (%u bytes): %.*s\n"
+                       "    Want (%u bytes): %.*s",
+                       have_len, (int) have_len, have_data,
+                       want_len, (int) want_len, want_data);
+        }
+
+        return match;
+    }
+
+    /* ProcessingInstruction token */
+    if (strcmp(type_name, "ProcessingInstruction") == 0) {
+        if (token->tag_id != LXB_TAG__PROCESSINGINSTRUCTION) {
+            print_fail(kv, expected, "Expected ProcessingInstruction token, "
+                                     "got tag_id=%d",
+                       (int) token->tag_id);
+            return false;
+        }
+
+        have_len = (unsigned) (token->text_end - token->text_start);
+        have_data = token->text_start;
+
+        match = (have_len == want_len
+                 && memcmp(have_data, want_data, want_len) == 0);
+
+        if (!match) {
+            print_fail(kv, expected, "ProcessingInstruction data mismatch.\n"
                        "    Have (%u bytes): %.*s\n"
                        "    Want (%u bytes): %.*s",
                        have_len, (int) have_len, have_data,

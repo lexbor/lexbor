@@ -490,7 +490,7 @@ lxb_html_serialize_processing_instruction_cb(lxb_dom_processing_instruction_t *p
     lxb_html_serialize_send(pi->target.data, pi->target.length, ctx);
     lxb_html_serialize_send(" ", 1, ctx);
     lxb_html_serialize_send(data->data, data->length, ctx);
-    lxb_html_serialize_send(">", 1, ctx);
+    lxb_html_serialize_send("?>", 2, ctx);
 
     return LXB_STATUS_OK;
 }

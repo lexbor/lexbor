@@ -317,7 +317,7 @@ class SHS:
         if self.prefix != '':
             prefix = self.prefix + ' '
 
-        result.append("{}const lexbor_shs_entry_t {}[{}] = \n{{\n    ".format(prefix, data_name, self.idx + 1))
+        result.append("{}const lexbor_shs_entry_t {}[{}] =\n{{\n    ".format(prefix, data_name, self.idx + 1))
 
         for key in range(0, self.idx):
             if key not in lst:
@@ -327,10 +327,10 @@ class SHS:
                 result.append("{{{}, {}, {}, {}}}".format(key_val, lst[key][1],
                                                               lst[key][2], lst[key][3]))
 
-            result.append(", ")
-
             if int(key) % rate == rate_dn:
-                result.append("\n    ")
+                result.append(",\n    ")
+            else:
+                result.append(", ")
 
         key = self.idx
 

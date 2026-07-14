@@ -5,7 +5,7 @@
             "input":"<?\u000d",
             "output":[["Comment", "?\u000a"]],
             "errors":[
-                { "code": "unexpected-question-mark-instead-of-tag-name", "line": 1, "col": 2 }
+                { "code": "invalid-first-character-of-processing-instruction-target", "line": 1, "col": 2 }
             ]
         },
         {
@@ -13,7 +13,7 @@
             "input":"<?\u000d\u000a",
             "output":[["Comment", "?\u000a"]],
             "errors":[
-                { "code": "unexpected-question-mark-instead-of-tag-name", "line": 1, "col": 2 }
+                { "code": "invalid-first-character-of-processing-instruction-target", "line": 1, "col": 2 }
             ]
         },
         {
@@ -21,7 +21,7 @@
             "input":"<?\u000d\u000a\u000a",
             "output":[["Comment", "?\u000a\u000a"]],
             "errors":[
-                { "code": "unexpected-question-mark-instead-of-tag-name", "line": 1, "col": 2 }
+                { "code": "invalid-first-character-of-processing-instruction-target", "line": 1, "col": 2 }
             ]
         },
         {

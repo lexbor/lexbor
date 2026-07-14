@@ -116,6 +116,14 @@ typedef enum {
     LXB_HTML_TOKENIZER_ERROR_UNSOINTA,
     /* unknown-named-character-reference */
     LXB_HTML_TOKENIZER_ERROR_UNNACHRE,
+    /* eof-in-processing-instruction */
+    LXB_HTML_TOKENIZER_ERROR_EOINPRIN,
+    /* invalid-first-character-of-processing-instruction-target */
+    LXB_HTML_TOKENIZER_ERROR_INFICHOFPRINTA,
+    /* disallowed-processing-instruction-target */
+    LXB_HTML_TOKENIZER_ERROR_DIPRINTA,
+    /* invalid-processing-instruction-target */
+    LXB_HTML_TOKENIZER_ERROR_INPRINTA,
 
     LXB_HTML_TOKENIZER_ERROR_LAST_ENTRY
 }

@@ -90,7 +90,9 @@ class Tags:
                     enum_name = "{}_{}".format(self.tag_prefix.upper(),
                                                convert_to_c(data[ns][tag]["to"]).upper())
 
-                shs[tag] = {"key": tag}
+                # Lowercase SHS keys are required by
+                # lexbor_shs_entry_get_lower_static().
+                shs[tag] = {"key": tag.lower(), "name": tag}
 
                 if enum_name not in enum:
                     enum[enum_name] = {"ns": [], "name": tag, "c_name": enum_name, "interface": [], "interface_del": [], "fixname": []}
@@ -548,8 +550,16 @@ class Tags:
         result = []
 
         for entry in self.shs_list:
-            result.append("    entry = lxb_tag_data_by_name(tags, (const lxb_char_t *) \"{}\", {});".format(entry["key"], len(entry["key"])))
-            result.append("    test_ne(entry, NULL); test_eq_u_str(lexbor_hash_entry_str(&entry->entry), (const lxb_char_t *) \"{}\");".format(entry["key"]))
+            names = [entry["name"]]
+
+            if entry["key"] != entry["name"]:
+                for name in (entry["key"], entry["name"].upper()):
+                    if name not in names:
+                        names.append(name)
+
+            for name in names:
+                result.append("    entry = lxb_tag_data_by_name(tags, (const lxb_char_t *) \"{}\", {});".format(name, len(name)))
+                result.append("    test_ne(entry, NULL); test_eq_u_str(lexbor_hash_entry_str(&entry->entry), (const lxb_char_t *) \"{}\");".format(entry["name"]))
 
         return result
 
