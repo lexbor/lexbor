@@ -16,6 +16,9 @@ cmake_minimum_required(VERSION 2.8.12...3.27)
 #    LEXBOR_BUILD_TESTS                  default: OFF; Build tests
 #    LEXBOR_BUILD_TESTS_CPP              default: OFF; Build C++ tests.
 #                                         Used with LEXBOR_BUILD_TESTS
+#    LEXBOR_ENABLE_TEST_HTML_WPT         default: OFF; Enable WPT HTML tree
+#                                         construction tests. Used with
+#                                         LEXBOR_BUILD_TESTS
 #    LEXBOR_TEST_AMALGAMATION            default: OFF; Testing all modules to create a single header file.
 #                                         Used with LEXBOR_BUILD_TESTS
 #    LEXBOR_BUILD_BENCHMARKS             default: OFF; Build benchmarks.
@@ -56,6 +59,7 @@ option(LEXBOR_BUILD_WASM "Build WASM modules (requires Emscripten)" OFF)
 option(LEXBOR_BUILD_EXAMPLES "Build examples" OFF)
 option(LEXBOR_BUILD_TESTS "Build tests" OFF)
 option(LEXBOR_BUILD_TESTS_CPP "Build C++ tests" OFF)
+option(LEXBOR_ENABLE_TEST_HTML_WPT "Enable WPT HTML tree construction tests" OFF)
 option(LEXBOR_TEST_AMALGAMATION "Testing all modules to create a single header file" OFF)
 option(LEXBOR_BUILD_UTILS "Build utils" OFF)
 option(LEXBOR_BUILD_BENCHMARKS "Build with benchmarks" OFF)
@@ -376,6 +380,10 @@ ENDIF()
 ################
 ## Tests
 #########################
+IF(LEXBOR_ENABLE_TEST_HTML_WPT AND NOT LEXBOR_BUILD_TESTS)
+    message(FATAL_ERROR "LEXBOR_ENABLE_TEST_HTML_WPT requires LEXBOR_BUILD_TESTS=ON.")
+ENDIF()
+
 IF(LEXBOR_BUILD_TESTS)
     enable_testing()
     add_subdirectory(test)
