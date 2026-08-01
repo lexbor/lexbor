@@ -15,10 +15,13 @@ extern "C" {
 #include "lexbor/core/mem.h"
 #include "lexbor/core/array.h"
 
+typedef struct lexbor_dobject_free_list_node {
+    struct lexbor_dobject_free_list_node * next;
+} lexbor_dobject_free_list_node_t;
 
 typedef struct {
     lexbor_mem_t   *mem;
-    lexbor_array_t *cache;
+    lexbor_dobject_free_list_node_t *freelist;
 
     size_t         allocated;
     size_t         struct_size;
@@ -66,7 +69,17 @@ lexbor_dobject_allocated(lexbor_dobject_t *dobject)
 lxb_inline size_t
 lexbor_dobject_cache_length(lexbor_dobject_t *dobject)
 {
-    return lexbor_array_length(dobject->cache);
+    // I am assuming this function is not performance critical
+    // It used to be O(1) but now is O(n) in the length of the free-list
+
+    size_t free_count = 0;
+    lexbor_dobject_free_list_node_t *current_node = dobject->freelist;
+    while (current_node != NULL) {
+        free_count++;
+        current_node = current_node->next;
+    }
+
+    return free_count;
 }
 
 /*

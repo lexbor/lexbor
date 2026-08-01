@@ -32,6 +32,11 @@ lexbor_dobject_init(lexbor_dobject_t *dobject,
         return LXB_STATUS_ERROR_WRONG_ARGS;
     }
 
+    if (struct_size < sizeof(lexbor_dobject_free_list_node_t)) {
+        // raise struct size ensure there is enough room for the pointers in the free list
+        struct_size = sizeof(lexbor_dobject_free_list_node_t);
+    }
+
     /* Set params */
     dobject->allocated = 0UL;
     dobject->struct_size = struct_size;
@@ -50,12 +55,8 @@ lexbor_dobject_init(lexbor_dobject_t *dobject,
                               dobject->mem->chunk->size);
 #endif
 
-    /* Array */
-    dobject->cache = lexbor_array_create();
-
-    status = lexbor_array_init(dobject->cache, chunk_size);
-    if (status)
-        return status;
+    /* Setting up the free-list */
+    dobject->freelist = NULL;
 
     return LXB_STATUS_OK;
 }
@@ -67,7 +68,7 @@ lexbor_dobject_clean(lexbor_dobject_t *dobject)
         dobject->allocated = 0UL;
 
         lexbor_mem_clean(dobject->mem);
-        lexbor_array_clean(dobject->cache);
+        dobject->freelist = NULL;
     }
 }
 
@@ -78,7 +79,6 @@ lexbor_dobject_destroy(lexbor_dobject_t *dobject, bool destroy_self)
         return NULL;
 
     dobject->mem = lexbor_mem_destroy(dobject->mem, true);
-    dobject->cache = lexbor_array_destroy(dobject->cache, true);
 
     if (destroy_self == true) {
         return lexbor_free(dobject);
@@ -92,17 +92,17 @@ lexbor_dobject_alloc(lexbor_dobject_t *dobject)
 {
     void *data;
 
-    if (lexbor_array_length(dobject->cache) != 0) {
+    if (dobject->freelist != NULL) {
         dobject->allocated++;
+        
+        // pop the first node from the free list
+        data = dobject->freelist;
+        dobject->freelist = dobject->freelist->next;
 
 #if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
-        data = lexbor_array_pop(dobject->cache);
         ASAN_UNPOISON_MEMORY_REGION(data, dobject->struct_size);
-
-        return data;
-#else
-        return lexbor_array_pop(dobject->cache);
 #endif
+        return data;
     }
 
     data = lexbor_mem_alloc(dobject->mem, dobject->struct_size);
@@ -142,12 +142,13 @@ lexbor_dobject_free(lexbor_dobject_t *dobject, void *data)
     ASAN_POISON_MEMORY_REGION(data, dobject->struct_size);
 #endif
 
-    if (lexbor_array_push(dobject->cache, data) == LXB_STATUS_OK) {
-        dobject->allocated--;
-        return NULL;
-    }
+    // insert newly freed object slot to the head of the free list
+    dobject->allocated--;
+    lexbor_dobject_free_list_node_t *new_node = (lexbor_dobject_free_list_node_t *)data;
+    new_node->next = dobject->freelist;
+    dobject->freelist = new_node;
 
-    return data;
+    return NULL;
 }
 
 void *
