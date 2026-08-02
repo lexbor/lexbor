@@ -116,21 +116,14 @@ TEST_BEGIN(obj_alloc_free_alloc)
     lexbor_dobject_init(&dobj, 128, sizeof(test_data_t));
 
     test_data_t *data = lexbor_dobject_alloc(&dobj);
-
-    data->a = 159753UL;
-    data->b = 'L';
-    data->c = 12;
-
     lexbor_dobject_free(&dobj, data);
 
     test_eq_size(lexbor_dobject_allocated(&dobj), 0UL);
     test_eq_size(lexbor_dobject_cache_length(&dobj), 1UL);
 
-    data = lexbor_dobject_alloc(&dobj);
+    test_data_t *new_data = lexbor_dobject_alloc(&dobj);
 
-    test_eq_size(data->a, 159753UL);
-    test_eq_char(data->b, 'L');
-    test_eq_int(data->c, 12);
+    test_eq_type((void*)new_data, (void*)data, "%p", !=);
 
     lexbor_dobject_destroy(&dobj, false);
 }

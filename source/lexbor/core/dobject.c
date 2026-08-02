@@ -94,14 +94,15 @@ lexbor_dobject_alloc(lexbor_dobject_t *dobject)
 
     if (dobject->freelist != NULL) {
         dobject->allocated++;
-        
+
         // pop the first node from the free list
         data = dobject->freelist;
-        dobject->freelist = dobject->freelist->next;
 
 #if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+        // unpoision the (re)allocated region
         ASAN_UNPOISON_MEMORY_REGION(data, dobject->struct_size);
 #endif
+        dobject->freelist = dobject->freelist->next;
         return data;
     }
 
@@ -138,15 +139,16 @@ lexbor_dobject_free(lexbor_dobject_t *dobject, void *data)
         return NULL;
     }
 
-#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
-    ASAN_POISON_MEMORY_REGION(data, dobject->struct_size);
-#endif
-
     // insert newly freed object slot to the head of the free list
     dobject->allocated--;
     lexbor_dobject_free_list_node_t *new_node = (lexbor_dobject_free_list_node_t *)data;
     new_node->next = dobject->freelist;
     dobject->freelist = new_node;
+
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+    // poison the freed region
+    ASAN_POISON_MEMORY_REGION(data, dobject->struct_size);
+#endif
 
     return NULL;
 }
