@@ -207,7 +207,7 @@ typedef lexbor_action_t
  *
  * @return LXB_STATUS_OK if successful, otherwise an error status value.
  */
-lxb_status_t
+LXB_API lxb_status_t
 lxb_url_ipv6_parse(lxb_url_parser_t *parser, const lxb_char_t *data,
                    const lxb_char_t *end, uint16_t *ipv6);
 
