@@ -81,6 +81,20 @@ typedef enum {
 }
 lxb_url_state_t;
 
+typedef enum {
+    LXB_URL_MAP_UNDEF         = 0x00,
+    LXB_URL_MAP_C0            = 0x01,
+    LXB_URL_MAP_FRAGMENT      = 0x02,
+    LXB_URL_MAP_QUERY         = 0x04,
+    LXB_URL_MAP_SPECIAL_QUERY = 0x08,
+    LXB_URL_MAP_PATH          = 0x10,
+    LXB_URL_MAP_USERINFO      = 0x20,
+    LXB_URL_MAP_COMPONENT     = 0x40,
+    LXB_URL_MAP_X_WWW_FORM    = 0x80,
+    LXB_URL_MAP_ALL           = 0xff
+}
+lxb_url_map_type_t;
+
 /*
  * New values can only be added downwards.
  * Before LXB_URL_SCHEMEL_TYPE__LAST_ENTRY.
@@ -279,6 +293,55 @@ lxb_url_parser_destroy(lxb_url_parser_t *parser, bool destroy_self);
  */
 LXB_API void
 lxb_url_parser_memory_destroy(lxb_url_parser_t *parser);
+
+/*
+ * Returns the default percent-encoding map.
+ *
+ * @return uint8_t *.
+ */
+LXB_API const uint8_t *lxb_url_get_percent_encoding_map(void);
+
+/*
+ * Percent-encodes the input data according to the specified url_map and
+ * percent-encoding set, writing the result into the output buffer.
+ *
+ * @param[in]  lxb_char_t *. Not NULL.
+ * @param[in]  const lxb_char_t *. Not NULL.
+ * @param[out] lexbor_str_t *. Not NULL.
+ * @param[in]  lexbor_mraw_t *. Not NULL.
+ * @param[in]  lxb_url_map_type_t.
+ * @param[in]  bool. If true, U+0020 SPACE is encoded as '+' instead of '%20'.
+ * @param[in]  const uint8_t *. Not NULL.
+ *
+ * @return LXB_STATUS_OK on success, or an error status code on allocation failure.
+ */
+LXB_API lxb_status_t
+lxb_url_percent_encode_after_utf_8_ex(const lxb_char_t *data,
+                                      const lxb_char_t *end, lexbor_str_t *str,
+                                      lexbor_mraw_t *mraw,
+                                      lxb_url_map_type_t enmap,
+                                      bool space_as_plus,
+                                      const uint8_t *url_map);
+
+/*
+ * Percent-encodes the input data according to the default percent-encoding map and
+ * the specified percent-encoding set, writing the result into the output buffer.
+ *
+ * @param[in]  lxb_char_t *. Not NULL.
+ * @param[in]  const lxb_char_t *. Not NULL.
+ * @param[out] lexbor_str_t *. Not NULL.
+ * @param[in]  lexbor_mraw_t *. Not NULL.
+ * @param[in]  lxb_url_map_type_t.
+ * @param[in]  bool. If true, U+0020 SPACE is encoded as '+' instead of '%20'.
+ *
+ * @return LXB_STATUS_OK on success, or an error status code on allocation failure.
+ */
+LXB_API lxb_status_t
+lxb_url_percent_encode_after_utf_8(const lxb_char_t *data,
+                                   const lxb_char_t *end, lexbor_str_t *str,
+                                   lexbor_mraw_t *mraw,
+                                   lxb_url_map_type_t enmap,
+                                   bool space_as_plus);
 
 /*
  * URL parser.

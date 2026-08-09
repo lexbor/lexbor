@@ -28,20 +28,6 @@
 
 
 typedef enum {
-    LXB_URL_MAP_UNDEF         = 0x00,
-    LXB_URL_MAP_C0            = 0x01,
-    LXB_URL_MAP_FRAGMENT      = 0x02,
-    LXB_URL_MAP_QUERY         = 0x04,
-    LXB_URL_MAP_SPECIAL_QUERY = 0x08,
-    LXB_URL_MAP_PATH          = 0x10,
-    LXB_URL_MAP_USERINFO      = 0x20,
-    LXB_URL_MAP_COMPONENT     = 0x40,
-    LXB_URL_MAP_X_WWW_FORM    = 0x80,
-    LXB_URL_MAP_ALL           = 0xff
-}
-lxb_url_map_type_t;
-
-typedef enum {
     LXB_URL_HOST_OPT_UNDEF       = 0 << 0,
     LXB_URL_HOST_OPT_NOT_SPECIAL = 1 << 0,
     LXB_URL_HOST_OPT_DECODE      = 1 << 1,
@@ -567,13 +553,6 @@ lxb_url_percent_encode_after_encoding(const lxb_char_t *data,
                                       const lxb_encoding_data_t *encoding,
                                       lxb_url_map_type_t enmap,
                                       bool space_as_plus);
-
-static lxb_status_t
-lxb_url_percent_encode_after_utf_8(const lxb_char_t *data,
-                                   const lxb_char_t *end, lexbor_str_t *str,
-                                   lexbor_mraw_t *mraw,
-                                   lxb_url_map_type_t enmap,
-                                   bool space_as_plus);
 
 static lxb_status_t
 lxb_url_host_parse(lxb_url_parser_t *parser, const lxb_char_t *data,
@@ -3161,6 +3140,10 @@ lxb_url_scheme_find(const lxb_char_t *data, size_t length)
     return &lxb_url_scheme_res[LXB_URL_SCHEMEL_TYPE__UNKNOWN];
 }
 
+const uint8_t *lxb_url_get_percent_encoding_map(void) {
+    return lxb_url_map;
+}
+
 static lxb_status_t
 lxb_url_percent_encode_after_encoding(const lxb_char_t *data,
                                       const lxb_char_t *end, lexbor_str_t *str,
@@ -3280,12 +3263,13 @@ lxb_url_percent_encode_after_encoding(const lxb_char_t *data,
     return LXB_STATUS_OK;
 }
 
-static lxb_status_t
-lxb_url_percent_encode_after_utf_8(const lxb_char_t *data,
-                                   const lxb_char_t *end, lexbor_str_t *str,
-                                   lexbor_mraw_t *mraw,
-                                   lxb_url_map_type_t enmap,
-                                   bool space_as_plus)
+lxb_status_t
+lxb_url_percent_encode_after_utf_8_ex(const lxb_char_t *data,
+                                      const lxb_char_t *end, lexbor_str_t *str,
+                                      lexbor_mraw_t *mraw,
+                                      lxb_url_map_type_t enmap,
+                                      bool space_as_plus,
+                                      const uint8_t *url_map)
 {
     size_t length;
     lxb_status_t status;
@@ -3298,7 +3282,7 @@ lxb_url_percent_encode_after_utf_8(const lxb_char_t *data,
     /* Only valid for UTF-8. */
 
     while (p < end) {
-        if (lxb_url_map[*p++] & enmap) {
+        if (url_map[*p++] & enmap) {
             length += 2;
         }
     }
@@ -3317,7 +3301,7 @@ lxb_url_percent_encode_after_utf_8(const lxb_char_t *data,
         if (space_as_plus && c == ' ') {
             *pd++ = '+';
         }
-        else if (lxb_url_map[c] & enmap) {
+        else if (url_map[c] & enmap) {
             *pd++ = '%';
             *pd++ = lexbor_str_res_char_to_two_hex_value[c][0];
             *pd++ = lexbor_str_res_char_to_two_hex_value[c][1];
@@ -3333,6 +3317,16 @@ lxb_url_percent_encode_after_utf_8(const lxb_char_t *data,
     str->length += pd - &str->data[str->length];
 
     return LXB_STATUS_OK;
+}
+
+lxb_status_t
+lxb_url_percent_encode_after_utf_8(const lxb_char_t *data,
+                                   const lxb_char_t *end, lexbor_str_t *str,
+                                   lexbor_mraw_t *mraw,
+                                   lxb_url_map_type_t enmap,
+                                   bool space_as_plus)
+{
+    return lxb_url_percent_encode_after_utf_8_ex(data, end, str, mraw, enmap, space_as_plus, lxb_url_map);
 }
 
 static lxb_status_t
