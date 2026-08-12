@@ -3752,6 +3752,46 @@ lxb_url_is_ipv4(lxb_url_parser_t *parser, const lxb_char_t *data,
     return status != LXB_STATUS_ERROR;
 }
 
+lxb_status_t
+lxb_url_parse_host_ipv6(lxb_url_parser_t *parser, const lxb_char_t *data,
+                        size_t length, uint16_t *ipv6)
+{
+    lxb_status_t status;
+    lxb_url_parser_t self_parser;
+
+    if (parser == NULL) {
+        parser = &self_parser;
+
+        parser->log = NULL;
+        parser->idna = NULL;
+        parser->buffer = NULL;
+    }
+
+    if (data < data + length && *data == '[') {
+        if (data[length - 1] != ']') {
+            (void) lxb_url_log_append(parser, &data[length - 1],
+                                      LXB_URL_ERROR_TYPE_IPV6_UNCLOSED);
+
+            status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+
+            goto done;
+        }
+
+        data += 1;
+        length -= 2;
+    }
+
+    status = lxb_url_ipv6_parse(parser, data, data + length, ipv6);
+
+done:
+
+    if (parser == &self_parser) {
+        lxb_url_parser_destroy(parser, false);
+    }
+
+    return status;
+}
+
 static lxb_status_t
 lxb_url_ipv6_parse(lxb_url_parser_t *parser, const lxb_char_t *data,
                    const lxb_char_t *end, uint16_t *ipv6)
@@ -3762,6 +3802,8 @@ lxb_url_ipv6_parse(lxb_url_parser_t *parser, const lxb_char_t *data,
     lxb_status_t status;
     const lxb_char_t *p;
     lxb_url_error_type_t err_type;
+
+    memset(ipv6, 0x00, sizeof(uint16_t) * 8);
 
     piece = ipv6;
     compress = NULL;

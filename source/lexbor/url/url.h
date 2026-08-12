@@ -322,6 +322,32 @@ lxb_url_parse_basic(lxb_url_parser_t *parser, lxb_url_t *url,
                     lxb_url_state_t override_state, lxb_encoding_t encoding);
 
 /*
+ * IPv6 parser.
+ *
+ * This function is an implementation of IPv6 parsing according to the WHATWG
+ * specification.
+ * https://url.spec.whatwg.org/#concept-ipv6-parser
+ *
+ * The address can be passed both with and without the surrounding square
+ * brackets: "::1" and "[::1]" give the same result. If the opening bracket is
+ * present, the closing one is required.
+ *
+ * The output buffer is zeroed by the function, there is no need to prepare it.
+ * Use the lxb_url_serialize_host_ipv6() function to serialize the result.
+ *
+ * @param[in] lxb_url_parser_t *. Can be NULL.
+ * @param[in] Pointer to the beginning of the data. Not NULL.
+ * @param[in] Length of the data. Can be 0.
+ * @param[out] Buffer for eight (uint16_t[8]) IPv6 pieces. Not NULL. The value
+ * is meaningful only if LXB_STATUS_OK is returned.
+ *
+ * @return LXB_STATUS_OK if successful, otherwise an error status value.
+ */
+LXB_API lxb_status_t
+lxb_url_parse_host_ipv6(lxb_url_parser_t *parser, const lxb_char_t *data,
+                        size_t length, uint16_t *ipv6);
+
+/*
  * Erase URL.
  *
  * Frees all internal memory occupied by the URL object, but does not destroy
