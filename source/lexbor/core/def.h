@@ -12,7 +12,7 @@
 
 /* Format */
 #ifdef _WIN32
-    #define LEXBOR_FORMAT_Z "%Iu"
+    #define LEXBOR_FORMAT_Z "%hzu"
 #else
     #define LEXBOR_FORMAT_Z "%zu"
 #endif
