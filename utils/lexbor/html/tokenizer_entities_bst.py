@@ -62,7 +62,7 @@ def entities_bst_create_layer(name, entry, index):
 
 def entities_bst_create(index):
     bst = {}
-    bst[0] = ["\0", 0, 0, 0, "NULL"]
+    bst[0] = ["\0", 0, 0, 0, '""']
 
     begin = 1
     idx = end = entities_bst_create_tree(index, bst, begin)
@@ -114,7 +114,7 @@ def entities_bst_create_tree(index, bst, idx):
         assert len(index[ split[0] ]['values']) < 2, 'Double values'
 
         if len(index[ split[0] ]['values']) == 0:
-            value = "NULL"
+            value = '""'
         else:
             value = '"{}"'.format(toHex(index[ split[0] ]['values'][0]['characters']))
 
