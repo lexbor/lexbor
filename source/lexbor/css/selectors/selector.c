@@ -36,6 +36,9 @@ static void
 lxb_css_selector_destroy_attribute(lxb_css_selector_t *selector,
                                    lxb_css_memory_t *mem);
 static void
+lxb_css_selector_destroy_pseudo(lxb_css_selector_t *selector,
+                                lxb_css_memory_t *mem);
+static void
 lxb_css_selector_destroy_pseudo_class_function(lxb_css_selector_t *selector,
                                                lxb_css_memory_t *mem);
 static void
@@ -85,9 +88,9 @@ static const lxb_css_selector_destroy_f
     lxb_css_selector_destroy_id,
     lxb_css_selector_destroy_id,
     lxb_css_selector_destroy_attribute,
-    lxb_css_selector_destroy_undef,
+    lxb_css_selector_destroy_pseudo,
     lxb_css_selector_destroy_pseudo_class_function,
-    lxb_css_selector_destroy_undef,
+    lxb_css_selector_destroy_pseudo,
     lxb_css_selector_destroy_pseudo_element_function
 };
 
@@ -283,10 +286,20 @@ lxb_css_selector_destroy_attribute(lxb_css_selector_t *selector,
 }
 
 static void
+lxb_css_selector_destroy_pseudo(lxb_css_selector_t *selector,
+                                lxb_css_memory_t *mem)
+{
+    if (selector->name.data != NULL) {
+        lexbor_mraw_free(mem->mraw, selector->name.data);
+    }
+}
+
+static void
 lxb_css_selector_destroy_pseudo_class_function(lxb_css_selector_t *selector,
                                                lxb_css_memory_t *mem)
 {
     lxb_css_selector_anb_of_t *anbof;
+    lxb_css_selector_contains_t *contains;
     lxb_css_selector_pseudo_t *pseudo;
 
     pseudo = &selector->u.pseudo;
@@ -327,16 +340,30 @@ lxb_css_selector_destroy_pseudo_class_function(lxb_css_selector_t *selector,
             lxb_css_selector_list_destroy_chain(pseudo->data);
             break;
 
+        case LXB_CSS_SELECTOR_PSEUDO_CLASS_FUNCTION_LEXBOR_CONTAINS:
+            contains = pseudo->data;
+
+            if (contains != NULL) {
+                if (contains->str.data != NULL) {
+                    lexbor_mraw_free(mem->mraw, contains->str.data);
+                }
+
+                lexbor_mraw_free(mem->mraw, contains);
+            }
+            break;
+
         default:
             break;
     }
+
+    lxb_css_selector_destroy_pseudo(selector, mem);
 }
 
 static void
 lxb_css_selector_destroy_pseudo_element_function(lxb_css_selector_t *selector,
                                                  lxb_css_memory_t *mem)
 {
-
+    lxb_css_selector_destroy_pseudo(selector, mem);
 }
 
 lxb_status_t
