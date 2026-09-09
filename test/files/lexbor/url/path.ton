@@ -1,5 +1,5 @@
 [
-    /* Test count: 50 */
+    /* Test count: 52 */
     /* 1 */
     {
         "url": "https://lexbor.com/docs",
@@ -505,6 +505,26 @@
         "host": "lexbor.com",
         "path": "/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/%22/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c/a/b/c",
         "path_length": 2043,
+        "failed": false
+    },
+    /* 51 */
+    {
+        "url": "foo:abc  ?x",
+        "done": "foo:abc %20?x",
+        "scheme": "foo",
+        "host": "",
+        "path": "abc %20",
+        "query": "x",
+        "failed": false
+    },
+    /* 52 */
+    {
+        "url": "foo:abc  #x",
+        "done": "foo:abc %20#x",
+        "scheme": "foo",
+        "host": "",
+        "path": "abc %20",
+        "fragment": "x",
         "failed": false
     }
 ]
