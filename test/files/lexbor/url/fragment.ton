@@ -1,5 +1,5 @@
 [
-    /* Test count: 4 */
+    /* Test count: 9 */
     /* 1 */
     {
         "url": "https://lexbor.com/#install",
@@ -41,6 +41,61 @@
         "host": "lexbor.com",
         "path": "/",
         "fragment": "%D0%81",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 5 */
+    {
+        "url": "https://lexbor.com/..#install",
+        "done": "https://lexbor.com/#install",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "fragment": "install",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 6 */
+    {
+        "url": "https://lexbor.com/.#install",
+        "done": "https://lexbor.com/#install",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "fragment": "install",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 7 */
+    {
+        "url": "https://lexbor.com/a/..#install",
+        "done": "https://lexbor.com/#install",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "fragment": "install",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 8 */
+    {
+        "url": "https://lexbor.com/%2e%2e#install",
+        "done": "https://lexbor.com/#install",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "fragment": "install",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 9 */
+    {
+        "url": "https://lexbor.com/a/../b#install",
+        "done": "https://lexbor.com/b#install",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/b",
+        "fragment": "install",
         "failed": false,
         "encoding": "utf-8"
     }
