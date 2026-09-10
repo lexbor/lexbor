@@ -97,7 +97,7 @@ lxb_dom_character_data_replace(lxb_dom_character_data_t *ch_data,
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         }
     }
-    else if (lexbor_str_size(&ch_data->data) < len) {
+    else if (lexbor_str_size(&ch_data->data) <= len) {
         const lxb_char_t *data;
 
         data = lexbor_str_realloc(&ch_data->data,
