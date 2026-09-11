@@ -114,12 +114,12 @@ ENDIF()
 ################
 ## RPATH
 #########################
+include(GNUInstallDirs)
+
 IF(APPLE)
     set(CMAKE_MACOSX_RPATH ON)
 
     set(CMAKE_INSTALL_NAME_DIR ${CMAKE_INSTALL_FULL_LIBDIR})
-ELSEIF(UNIX)
-    include(GNUInstallDirs)
 ENDIF()
 
 ################
