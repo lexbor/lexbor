@@ -102,8 +102,6 @@ set(LEXBOR_DIR_ROOT "${CMAKE_CURRENT_SOURCE_DIR}" CACHE STRING "")
 
 set(LEXBOR_VERSION_FILEPATH "${CMAKE_CURRENT_SOURCE_DIR}/version" CACHE STRING "")
 
-set(LEXBOR_INSTALL_DLL_EXE_DIR "bin")
-
 ################
 ## Policy
 #########################
@@ -112,21 +110,12 @@ IF(CMAKE_VERSION VERSION_GREATER "3.1" OR CMAKE_VERSION VERSION_EQUAL "3.1")
 ENDIF()
 
 ################
-## RPATH
+## Install directories and RPATH
 #########################
 include(GNUInstallDirs)
 
 IF(APPLE)
     set(CMAKE_MACOSX_RPATH ON)
-
-    set(CMAKE_INSTALL_NAME_DIR ${CMAKE_INSTALL_FULL_LIBDIR})
-ENDIF()
-
-################
-## lib param
-#########################
-IF(NOT DEFINED CMAKE_INSTALL_LIBDIR)
-    set(CMAKE_INSTALL_LIBDIR "lib")
 ENDIF()
 
 ################
@@ -441,6 +430,14 @@ IF(NOT LEXBOR_BUILD_WASM)
 ################
 ## pkg-config configuration
 #########################
+    FOREACH(dir LIBDIR INCLUDEDIR)
+        IF(IS_ABSOLUTE "${CMAKE_INSTALL_${dir}}")
+            set(LEXBOR_PC_${dir} "${CMAKE_INSTALL_${dir}}")
+        ELSE()
+            set(LEXBOR_PC_${dir} "\${prefix}/${CMAKE_INSTALL_${dir}}")
+        ENDIF()
+    ENDFOREACH()
+
     configure_file(
       "${PROJECT_SOURCE_DIR}/lexbor.pc.in"
       "${PROJECT_BINARY_DIR}/lexbor.pc"
