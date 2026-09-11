@@ -4977,7 +4977,7 @@ lxb_status_t
 lxb_url_serialize_fragment(const lxb_url_t *url,
                            lexbor_serialize_cb_f cb, void *ctx)
 {
-    if (url->query.data != NULL) {
+    if (url->fragment.data != NULL) {
         return cb(url->fragment.data, url->fragment.length, ctx);
     }
 
