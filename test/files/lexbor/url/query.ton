@@ -1,5 +1,5 @@
 [
-    /* Test count: 11 */
+    /* Test count: 13 */
     /* 1 */
     {
         "url": "https://lexbor.com/?abc=xyz",
@@ -131,5 +131,16 @@
         "query": "",
         "failed": false,
         "encoding": "utf-8"
-    }
+    },
+    /* 13 */
+    {
+        "url": "https://lexbor.com/..?abc=xyz",
+        "done": "https://lexbor.com/?abc=xyz",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "abc=xyz",
+        "failed": false,
+        "encoding": "utf-8"
+    },
 ]
