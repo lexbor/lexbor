@@ -1,5 +1,5 @@
 [
-    /* Test count: 52 */
+    /* Test count: 56 */
     /* 1 */
     {
         "url": "https://lexbor.com/docs",
@@ -525,6 +525,52 @@
         "host": "",
         "path": "abc %20",
         "fragment": "x",
+        "failed": false
+    },
+    /* 53 */
+    {
+        "url": ".?q#f",
+        "base": "https://example.com/a/b",
+        "done": "https://example.com/a/?q#f",
+        "scheme": "https",
+        "host": "example.com",
+        "path": "/a/",
+        "query": "q",
+        "fragment": "f",
+        "failed": false
+    },
+    /* 54 */
+    {
+        "url": "%2e?#",
+        "base": "https://example.com/a/b",
+        "done": "https://example.com/a/?#",
+        "scheme": "https",
+        "host": "example.com",
+        "path": "/a/",
+        "query": "",
+        "fragment": "",
+        "failed": false
+    },
+    /* 55 */
+    {
+        "url": "..#f",
+        "base": "https://example.com/a/b",
+        "done": "https://example.com/#f",
+        "scheme": "https",
+        "host": "example.com",
+        "path": "/",
+        "fragment": "f",
+        "failed": false
+    },
+    /* 56 */
+    {
+        "url": ".%2E?",
+        "base": "https://example.com/a/b",
+        "done": "https://example.com/?",
+        "scheme": "https",
+        "host": "example.com",
+        "path": "/",
+        "query": "",
         "failed": false
     }
 ]

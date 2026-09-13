@@ -2893,8 +2893,15 @@ lxb_url_path_try_dot(lxb_url_t *url, const lxb_char_t **begin,
     }
 
     if (p < end) {
-        *start = p;
-        *begin = p + 1;
+        if (bqs && (*p == '?' || *p == '#')) {
+            /* Let the caller process the delimiter after consuming the dot segment. */
+            *start = p - 1;
+            *begin = p;
+        }
+        else {
+            *start = p;
+            *begin = p + 1;
+        }
         *last = *begin;
     }
     else {
