@@ -1410,19 +1410,26 @@ TEST_BEGIN(duplicate_content_ignored)
 }
 TEST_END
 
-/* content + charset: both pushed to result. prescan returns entry[0] (content's). */
 TEST_BEGIN(content_then_charset)
 {
     lxb_status_t status;
 
-    /* http-equiv -> got_pragma. content pushes "koi8-r" (need_pragma=0x02).
-       charset pushes "utf-8" (need_pragma=0x01). After loop, need_pragma=0x01,
-       nothing popped. Result has [0]="koi8-r", [1]="utf-8".
-       prescan takes entry[0]. */
     status = prescan_check_str(
         "<meta http-equiv=\"content-type\" "
         "content=\"text/html; charset=koi8-r\" charset=utf-8>",
-        "koi8-r");
+        "utf-8");
+    test_eq(status, LXB_STATUS_OK);
+}
+TEST_END
+
+TEST_BEGIN(charset_prefix_not_matched)
+{
+    lxb_status_t status;
+
+    status = prescan_check_str("<meta charset1=utf-7>", NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = prescan_check_str("<meta charsett=utf-8>", NULL);
     test_eq(status, LXB_STATUS_OK);
 }
 TEST_END
@@ -1670,6 +1677,7 @@ main(int argc, const char * argv[])
     TEST_ADD(meta_fifth_char_boundary);
     TEST_ADD(duplicate_content_ignored);
     TEST_ADD(content_then_charset);
+    TEST_ADD(charset_prefix_not_matched);
     TEST_ADD(all_whitespace);
     TEST_ADD(gt_without_lt);
     TEST_ADD(skip_name_reaches_end);

@@ -387,8 +387,10 @@ lxb_html_encoding_meta(lxb_html_encoding_t *em,
             continue;
         }
 
-        if (lexbor_str_data_ncasecmp((lxb_char_t *) "content", name, 7)) {
-            if (have_content == false) {
+        if (len == 7
+            && lexbor_str_data_ncasecmp((lxb_char_t *) "content", name, 7))
+        {
+            if (have_content == false && need_pragma != 0x01) {
 
                 name = lxb_html_encoding_content(value, value_end, &name_end);
                 if (name == NULL) {
@@ -410,7 +412,14 @@ lxb_html_encoding_meta(lxb_html_encoding_t *em,
             continue;
         }
 
-        if (lexbor_str_data_ncasecmp((lxb_char_t *) "charset", name, 7)) {
+        if (len == 7
+            && lexbor_str_data_ncasecmp((lxb_char_t *) "charset", name, 7))
+        {
+            if (have_content) {
+                lexbor_array_obj_pop(&em->result);
+                have_content = false;
+            }
+
             attr = lexbor_array_obj_push(&em->result);
             if (attr == NULL) {
                 return NULL;
