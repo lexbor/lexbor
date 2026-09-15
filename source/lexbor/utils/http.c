@@ -54,6 +54,17 @@ lxb_utils_http_split_field(lxb_utils_http_t *http, const lexbor_str_t *str)
         return LXB_STATUS_OK;
     }
 
+    for (p = field->name.data; p < field->name.data + field->name.length; p++) {
+        if (*p < 0x20 && *p != '\t') {
+            http->error = "Wrong header field format.";
+
+            (void) lexbor_array_obj_pop(http->fields);
+
+            return LXB_STATUS_ABORTED;
+        }
+    }
+
+    p = field->name.data + field->name.length;
     p++;
     end = str->data + str->length;
 
@@ -76,6 +87,16 @@ lxb_utils_http_split_field(lxb_utils_http_t *http, const lexbor_str_t *str)
 
     field->value.data = p;
     field->value.length = end - p;
+
+    for (p = field->value.data; p < field->value.data + field->value.length; p++) {
+        if (*p < 0x20 && *p != '\t') {
+            http->error = "Wrong header field format.";
+
+            (void) lexbor_array_obj_pop(http->fields);
+
+            return LXB_STATUS_ABORTED;
+        }
+    }
 
     return LXB_STATUS_OK;
 }
@@ -525,7 +546,7 @@ lxb_utils_http_field_serialize(lxb_utils_http_t *http, lexbor_str_t *str,
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
 
-    data = lexbor_str_append_one(str, http->mraw, '\n');
+    data = lexbor_str_append(str, http->mraw, (lxb_char_t *) "\r\n", 2);
     if (data == NULL) {
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
