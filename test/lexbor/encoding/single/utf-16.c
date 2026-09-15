@@ -194,6 +194,48 @@ TEST_BEGIN(encode_buffer_check)
 }
 TEST_END
 
+TEST_BEGIN(encode_surrogate_and_range)
+{
+    int8_t size;
+    lxb_status_t status;
+    lxb_char_t out[8];
+    lxb_char_t *ref;
+    lxb_encoding_encode_t ctx = {0};
+    const lxb_encoding_data_t *enc_data;
+    const lxb_codepoint_t cps_surr[] = {0xD800};
+    const lxb_codepoint_t cps_hi[] = {0x110000};
+    const lxb_codepoint_t *p;
+
+    enc_data = lxb_encoding_data(LXB_ENCODING_UTF_16BE);
+    test_ne(enc_data, NULL);
+
+    memset(out, 0x00, sizeof(out));
+    ref = out;
+    size = enc_data->encode_single(&ctx, &ref, ref + 4, 0xD800);
+    test_eq(size, LXB_ENCODING_ENCODE_ERROR);
+
+    ref = out;
+    size = enc_data->encode_single(&ctx, &ref, ref + 4, 0xDFFF);
+    test_eq(size, LXB_ENCODING_ENCODE_ERROR);
+
+    ref = out;
+    size = enc_data->encode_single(&ctx, &ref, ref + 4, 0x110000);
+    test_eq(size, LXB_ENCODING_ENCODE_ERROR);
+
+    test_eq(lxb_encoding_encode_init(&ctx, enc_data, out, sizeof(out)),
+            LXB_STATUS_OK);
+    p = cps_surr;
+    status = enc_data->encode(&ctx, &p, cps_surr + 1);
+    test_eq(status, LXB_STATUS_ERROR);
+
+    test_eq(lxb_encoding_encode_init(&ctx, enc_data, out, sizeof(out)),
+            LXB_STATUS_OK);
+    p = cps_hi;
+    status = enc_data->encode(&ctx, &p, cps_hi + 1);
+    test_eq(status, LXB_STATUS_ERROR);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -210,6 +252,7 @@ main(int argc, const char * argv[])
     TEST_ADD(decode_le_prepend);
     TEST_ADD(encode);
     TEST_ADD(encode_buffer_check);
+    TEST_ADD(encode_surrogate_and_range);
 
     TEST_RUN("lexbor/encoding/utf_16");
     TEST_RELEASE();

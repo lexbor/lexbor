@@ -849,6 +849,11 @@ lxb_encoding_encode_utf_16(lxb_encoding_encode_t *ctx, bool is_be,
     for (; *cps < end; (*cps)++) {
         cp = **cps;
 
+        if ((cp >= 0xD800 && cp <= 0xDFFF) || cp >= 0x110000) {
+            LXB_ENCODING_ENCODE_ERROR(ctx);
+            continue;
+        }
+
         if (cp < 0x10000) {
             if ((ctx->buffer_used + 2) > ctx->buffer_length) {
                 return LXB_STATUS_SMALL_BUFFER;
@@ -1758,11 +1763,15 @@ lxb_inline int8_t
 lxb_encoding_encode_utf_16_single(lxb_encoding_encode_t *ctx, bool is_be,
                    lxb_char_t **data, const lxb_char_t *end, lxb_codepoint_t cp)
 {
-    if ((*data + 2) > end) {
-        return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+    if ((cp >= 0xD800 && cp <= 0xDFFF) || cp >= 0x110000) {
+        return LXB_ENCODING_ENCODE_ERROR;
     }
 
     if (cp < 0x10000) {
+        if ((*data + 2) > end) {
+            return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+        }
+
         lxb_encoding_encode_utf_16_write_single(is_be, data, cp);
 
         return 2;
