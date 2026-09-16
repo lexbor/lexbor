@@ -840,7 +840,7 @@ lxb_encoding_encode_utf_16_write(lxb_encoding_encode_t *ctx, bool is_be,
     ctx->buffer_out[ctx->buffer_used++] = cp >> 8;
 }
 
-lxb_inline int8_t
+lxb_inline lxb_status_t
 lxb_encoding_encode_utf_16(lxb_encoding_encode_t *ctx, bool is_be,
                         const lxb_codepoint_t **cps, const lxb_codepoint_t *end)
 {
@@ -848,6 +848,13 @@ lxb_encoding_encode_utf_16(lxb_encoding_encode_t *ctx, bool is_be,
 
     for (; *cps < end; (*cps)++) {
         cp = **cps;
+
+        if ((cp >= 0xD800 && cp <= 0xDFFF)
+            || cp > LXB_ENCODING_MAX_CODEPOINT)
+        {
+            LXB_ENCODING_ENCODE_ERROR(ctx);
+            continue;
+        }
 
         if (cp < 0x10000) {
             if ((ctx->buffer_used + 2) > ctx->buffer_length) {
@@ -1758,11 +1765,17 @@ lxb_inline int8_t
 lxb_encoding_encode_utf_16_single(lxb_encoding_encode_t *ctx, bool is_be,
                    lxb_char_t **data, const lxb_char_t *end, lxb_codepoint_t cp)
 {
-    if ((*data + 2) > end) {
-        return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+    if ((cp >= 0xD800 && cp <= 0xDFFF)
+        || cp > LXB_ENCODING_MAX_CODEPOINT)
+    {
+        return LXB_ENCODING_ENCODE_ERROR;
     }
 
     if (cp < 0x10000) {
+        if ((*data + 2) > end) {
+            return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+        }
+
         lxb_encoding_encode_utf_16_write_single(is_be, data, cp);
 
         return 2;
