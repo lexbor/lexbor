@@ -15,10 +15,17 @@ extern "C" {
 #include "lexbor/core/mem.h"
 #include "lexbor/core/array.h"
 
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+    #include <sanitizer/asan_interface.h>
+#endif
+
+typedef struct lexbor_dobject_free_list_node {
+    struct lexbor_dobject_free_list_node * next;
+} lexbor_dobject_free_list_node_t;
 
 typedef struct {
     lexbor_mem_t   *mem;
-    lexbor_array_t *cache;
+    lexbor_dobject_free_list_node_t *freelist;
 
     size_t         allocated;
     size_t         struct_size;
@@ -66,7 +73,24 @@ lexbor_dobject_allocated(lexbor_dobject_t *dobject)
 lxb_inline size_t
 lexbor_dobject_cache_length(lexbor_dobject_t *dobject)
 {
-    return lexbor_array_length(dobject->cache);
+    // I am assuming this function is not performance critical
+    // It used to be O(1) but now is O(n) in the length of the free-list
+
+    size_t free_count = 0;
+    lexbor_dobject_free_list_node_t *current_node = dobject->freelist;
+    while (current_node != NULL) {
+        free_count++;
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+        // unpoison and reposion the chunk only for the free-list walk
+        ASAN_UNPOISON_MEMORY_REGION(current_node, dobject->struct_size);
+#endif
+        current_node = current_node->next;
+#if defined(LEXBOR_HAVE_ADDRESS_SANITIZER)
+        ASAN_POISON_MEMORY_REGION(current_node, dobject->struct_size);
+#endif
+    }
+
+    return free_count;
 }
 
 /*
