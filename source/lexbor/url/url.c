@@ -2881,6 +2881,10 @@ lxb_url_path_try_dot(lxb_url_t *url, const lxb_char_t **begin,
         }
     }
 
+    if (((c == '?' || c == '#') && bqs)) {
+        p--;
+    }
+
     if (count == 0 || count > 2) {
         return LXB_STATUS_OK;
     }
