@@ -75,7 +75,9 @@ lexbor_conv_int64_to_data(int64_t num, lxb_char_t *buf, size_t len)
     }
 
     i = length;
-    buf[length] = '\0';
+    if (length < len) {
+        buf[length] = '\0';
+    }
 
     while (i != have_minus) {
         i -= 1;
@@ -318,7 +320,7 @@ lexbor_conv_dec_to_hex(uint32_t number, lxb_char_t *out, size_t length,
 
     map_str = (upper) ? map_str_u : map_str_l;
 
-    if(number != 0) {
+    if (number != 0) {
         tmp = number;
         len = 0;
 
@@ -326,8 +328,6 @@ lexbor_conv_dec_to_hex(uint32_t number, lxb_char_t *out, size_t length,
             len += 1;
             tmp /= 16;
         }
-
-        /* len = (size_t) floor(log10(labs((long) number))) + 1; */
     }
     else {
         if (length > 0) {
@@ -338,13 +338,18 @@ lexbor_conv_dec_to_hex(uint32_t number, lxb_char_t *out, size_t length,
         return 0;
     }
 
-    length = len - 1;
+    while (len > length) {
+        number /= 16;
+        len -= 1;
+    }
 
-    while (number != 0) {
+    tmp = (uint32_t) len;
+
+    while (tmp != 0) {
+        tmp -= 1;
         c = number % 16;
         number = number / 16;
-
-        out[ length-- ] = map_str[c];
+        out[tmp] = map_str[c];
     }
 
     return len;
