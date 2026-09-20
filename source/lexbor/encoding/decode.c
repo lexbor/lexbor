@@ -1986,6 +1986,10 @@ lxb_encoding_decode_big5_single(lxb_encoding_decode_t *ctx,
     uint32_t index;
     lxb_char_t lead, byte;
 
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (ctx->u.lead != 0x00) {
         if (ctx->second_codepoint != 0x00) {
             (*data)++;
@@ -2002,10 +2006,6 @@ lxb_encoding_decode_big5_single(lxb_encoding_decode_t *ctx,
         ctx->u.lead = 0x00;
 
         goto lead_state;
-    }
-
-    if (*data >= end) {
-        return LXB_ENCODING_DECODE_CONTINUE;
     }
 
     lead = *(*data)++;
@@ -2098,6 +2098,10 @@ lxb_encoding_decode_euc_jp_single(lxb_encoding_decode_t *ctx,
     bool is_jis0212;
     lxb_char_t byte, lead;
 
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (ctx->u.euc_jp.lead != 0x00) {
         lead = ctx->u.euc_jp.lead;
         byte = *(*data)++;
@@ -2112,10 +2116,6 @@ lxb_encoding_decode_euc_jp_single(lxb_encoding_decode_t *ctx,
         }
 
         goto lead_state;
-    }
-
-    if (*data >= end) {
-        return LXB_ENCODING_DECODE_CONTINUE;
     }
 
     lead = *(*data)++;
@@ -2209,15 +2209,15 @@ lxb_encoding_decode_euc_kr_single(lxb_encoding_decode_t *ctx,
 {
     lxb_char_t lead, byte;
 
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (ctx->u.lead != 0x00) {
         lead = (lxb_char_t) ctx->u.lead;
         ctx->u.lead = 0x00;
 
         goto lead_state;
-    }
-
-    if (*data >= end) {
-        return LXB_ENCODING_DECODE_CONTINUE;
     }
 
     lead = *(*data)++;
@@ -2297,6 +2297,10 @@ lxb_encoding_decode_iso_2022_jp_single(lxb_encoding_decode_t *ctx,
     lxb_char_t byte;
     lxb_encoding_ctx_2022_jp_t *iso = &ctx->u.iso_2022_jp;
 
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (iso->prepand != 0x00) {
         byte = iso->prepand;
         iso->prepand = 0x00;
@@ -2305,10 +2309,6 @@ lxb_encoding_decode_iso_2022_jp_single(lxb_encoding_decode_t *ctx,
     }
 
     do {
-        if (*data >= end) {
-            return LXB_ENCODING_DECODE_CONTINUE;
-        }
-
         byte = *(*data)++;
 
     prepand:
@@ -2722,15 +2722,15 @@ lxb_encoding_decode_shift_jis_single(lxb_encoding_decode_t *ctx,
 {
     lxb_char_t byte, lead;
 
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (ctx->u.lead != 0x00) {
         lead = (lxb_char_t) ctx->u.lead;
         ctx->u.lead = 0x00;
 
         goto lead_state;
-    }
-
-    if (*data >= end) {
-        return LXB_ENCODING_DECODE_CONTINUE;
     }
 
     lead = *(*data)++;
@@ -2814,6 +2814,10 @@ lxb_encoding_decode_utf_16_single(lxb_encoding_decode_t *ctx, bool is_be,
     unsigned lead;
     lxb_codepoint_t unit;
 
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (ctx->u.lead != 0x00) {
         lead = ctx->u.lead - 0x01;
         ctx->u.lead = 0x00;
@@ -2822,10 +2826,6 @@ lxb_encoding_decode_utf_16_single(lxb_encoding_decode_t *ctx, bool is_be,
     }
 
 pair_state:
-
-    if (*data >= end) {
-        return LXB_ENCODING_DECODE_CONTINUE;
-    }
 
     lead = *(*data)++;
 
@@ -2901,6 +2901,10 @@ lxb_encoding_decode_utf_8_single(lxb_encoding_decode_t *ctx,
     lxb_char_t ch;
     const lxb_char_t *p;
 
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (ctx->u.utf_8.need != 0) {
         needed = ctx->u.utf_8.need;
         ctx->u.utf_8.need = 0;
@@ -2912,10 +2916,6 @@ lxb_encoding_decode_utf_8_single(lxb_encoding_decode_t *ctx,
         }
 
         goto decode;
-    }
-
-    if (*data >= end) {
-        return LXB_ENCODING_DECODE_CONTINUE;
     }
 
     ch = *(*data)++;
@@ -3019,11 +3019,6 @@ lxb_encoding_decode_valid_utf_8_single(const lxb_char_t **data,
 
     if (*p < 0x80){
         /* 0xxxxxxx */
-
-        if (end - p < 1) {
-            *data = end;
-            return LXB_ENCODING_DECODE_ERROR;
-        }
 
         cp = (lxb_codepoint_t) *p;
 
@@ -3178,6 +3173,10 @@ lxb_encoding_decode_gb18030_single(lxb_encoding_decode_t *ctx,
     uint32_t pointer;
     lxb_char_t first, second, third, offset;
 
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     /* Make compiler happy */
     second = 0x00;
 
@@ -3216,10 +3215,6 @@ lxb_encoding_decode_gb18030_single(lxb_encoding_decode_t *ctx,
         }
 
         goto first_state;
-    }
-
-    if (*data >= end) {
-        return LXB_ENCODING_DECODE_CONTINUE;
     }
 
     first = *(*data)++;
