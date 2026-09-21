@@ -1,5 +1,5 @@
 [
-    /* Test count: 47 */
+    /* Test count: 48 */
     /* 1 */
     {
         "url": "https://user:pass@lexbor.com/docs/html/path?x=y&a=b#best-fragment",
@@ -1047,5 +1047,27 @@
         "has_port": true,
         "path": "/",
         "failed": true
+    },
+    /* 48 */
+    {
+        "url": "file:D:/c",
+        "base": "file:///C:/a/b",
+        "done": "file:///q",
+        "change": {
+            "href": null,
+            "protocol": null,
+            "username": null,
+            "password": null,
+            "host": null,
+            "hostname": null,
+            "port": null,
+            "pathname": "/q",
+            "search": null,
+            "hash": null
+        },
+        "scheme": "file",
+        "host": "",
+        "path": "/q",
+        "failed": false
     }
 ]
