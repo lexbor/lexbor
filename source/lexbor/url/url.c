@@ -2076,7 +2076,6 @@ again:
                 }
 
                 lxb_url_path_set_null(url);
-                url->path.opaque = true;
             }
         }
 
