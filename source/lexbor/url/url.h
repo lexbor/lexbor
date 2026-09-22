@@ -895,6 +895,51 @@ LXB_API bool
 lxb_url_is_special(const lxb_url_t *url);
 
 /*
+ * Reset the URL path to an empty list.
+ *
+ * Frees the path buffer using url->mraw, resets the segment count and clears
+ * the opaque flag. Does nothing if the path buffer is already NULL.
+ *
+ * @param[in, out] URL object. Not NULL.
+ */
+LXB_API void
+lxb_url_path_set_null(lxb_url_t *url);
+
+/*
+ * Set the host to the empty host.
+ *
+ * Frees any domain or opaque host buffer using mraw and sets the host type
+ * to LXB_URL_HOST_TYPE_EMPTY.
+ *
+ * @param[in, out] Host object. Not NULL.
+ * @param[in] Memory object associated with the host. Not NULL.
+ */
+LXB_API void
+lxb_url_host_set_empty(lxb_url_host_t *host, lexbor_mraw_t *mraw);
+
+/*
+ * Set the URL query to null.
+ *
+ * Frees the query buffer using url->mraw. Does nothing if the query
+ * is already null.
+ *
+ * @param[in, out] URL object. Not NULL.
+ */
+LXB_API void
+lxb_url_query_set_null(lxb_url_t *url);
+
+/*
+ * Set the URL fragment to null.
+ *
+ * Frees the fragment buffer using url->mraw. Does nothing if the
+ * fragment is already null.
+ *
+ * @param[in, out] URL object. Not NULL.
+ */
+LXB_API void
+lxb_url_fragment_set_null(lxb_url_t *url);
+
+/*
  * Inline functions.
  */
 
