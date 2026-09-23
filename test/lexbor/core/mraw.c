@@ -437,6 +437,8 @@ TEST_BEGIN(mraw_realloc_n_less)
     test_eq_size(mraw.cache->root->size, (128UL + lexbor_mraw_meta_size())
                  - (lexbor_mem_align(51) + lexbor_mraw_meta_size())
                  - lexbor_mraw_meta_size());
+    test_eq(mraw.cache->root->value,
+            one + lexbor_mem_align(51) + lexbor_mraw_meta_size());
 
     test_eq_size(mraw.mem->chunk_length, 1UL);
     test_eq_size(mraw.mem->chunk->size, 1024UL + lexbor_mraw_meta_size());
@@ -444,6 +446,108 @@ TEST_BEGIN(mraw_realloc_n_less)
                  + 256UL + lexbor_mraw_meta_size());
 
     test_eq(mraw.mem->chunk, mraw.mem->chunk_first);
+
+    lexbor_mraw_destroy(&mraw, false);
+}
+TEST_END
+
+TEST_BEGIN(mraw_realloc_n_less_keep_data)
+{
+    size_t i;
+    uint8_t *one, *two, *three, *four;
+    lexbor_mraw_t mraw = {0};
+
+    lexbor_mraw_init(&mraw, 1024);
+
+    /* Retained part is larger than the released one. */
+    one = lexbor_mraw_alloc(&mraw, 256);
+    test_ne(one, NULL);
+
+    two = lexbor_mraw_alloc(&mraw, 64);
+    test_ne(two, NULL);
+
+    memset(one, 0xAA, 256);
+    memset(two, 0xBB, 64);
+
+    three = lexbor_mraw_realloc(&mraw, one, 192);
+    test_eq(three, one);
+    test_eq_size(lexbor_mraw_data_size(one), 192UL);
+
+    for (i = 0; i < 192; i++) {
+        test_eq(one[i], 0xAA);
+    }
+
+    test_eq_size(mraw.cache->tree_length, 1UL);
+    test_eq_size(mraw.cache->root->size, 64UL - lexbor_mraw_meta_size());
+    test_eq(mraw.cache->root->value, one + 192 + lexbor_mraw_meta_size());
+
+    four = lexbor_mraw_alloc(&mraw, 64UL - lexbor_mraw_meta_size());
+    test_eq(four, one + 192 + lexbor_mraw_meta_size());
+
+    memset(four, 0xCC, 64UL - lexbor_mraw_meta_size());
+
+    for (i = 0; i < 192; i++) {
+        test_eq(one[i], 0xAA);
+    }
+
+    for (i = 0; i < 64; i++) {
+        test_eq(two[i], 0xBB);
+    }
+
+    test_eq_size(lexbor_mraw_data_size(one), 192UL);
+    test_eq_size(lexbor_mraw_data_size(two), 64UL);
+
+    lexbor_mraw_destroy(&mraw, false);
+}
+TEST_END
+
+TEST_BEGIN(mraw_realloc_n_less_keep_next)
+{
+    size_t i;
+    uint8_t *one, *two, *three, *four;
+    lexbor_mraw_t mraw = {0};
+
+    lexbor_mraw_init(&mraw, 1024);
+
+    /* Released part is larger than the retained one. */
+    one = lexbor_mraw_alloc(&mraw, 128);
+    test_ne(one, NULL);
+
+    two = lexbor_mraw_alloc(&mraw, 256);
+    test_ne(two, NULL);
+
+    memset(one, 0xAA, 128);
+    memset(two, 0xBB, 256);
+
+    three = lexbor_mraw_realloc(&mraw, one, 8);
+    test_eq(three, one);
+    test_eq_size(lexbor_mraw_data_size(one), 8UL);
+
+    for (i = 0; i < 256; i++) {
+        test_eq(two[i], 0xBB);
+    }
+
+    test_eq_size(mraw.cache->tree_length, 1UL);
+    test_eq_size(mraw.cache->root->size, 120UL - lexbor_mraw_meta_size());
+    test_eq(mraw.cache->root->value, one + 8 + lexbor_mraw_meta_size());
+
+    four = lexbor_mraw_alloc(&mraw, 120UL - lexbor_mraw_meta_size());
+    test_eq(four, one + 8 + lexbor_mraw_meta_size());
+    test_eq(four + lexbor_mraw_data_size(four),
+            two - lexbor_mraw_meta_size());
+
+    memset(four, 0xCC, 120UL - lexbor_mraw_meta_size());
+
+    for (i = 0; i < 8; i++) {
+        test_eq(one[i], 0xAA);
+    }
+
+    for (i = 0; i < 256; i++) {
+        test_eq(two[i], 0xBB);
+    }
+
+    test_eq_size(lexbor_mraw_data_size(one), 8UL);
+    test_eq_size(lexbor_mraw_data_size(two), 256UL);
 
     lexbor_mraw_destroy(&mraw, false);
 }
@@ -600,6 +704,8 @@ main(int argc, const char * argv[])
     TEST_ADD(mraw_realloc_n);
     TEST_ADD(mraw_realloc_n_0);
     TEST_ADD(mraw_realloc_n_less);
+    TEST_ADD(mraw_realloc_n_less_keep_data);
+    TEST_ADD(mraw_realloc_n_less_keep_next);
     TEST_ADD(mraw_realloc_n_great);
     TEST_ADD(mraw_calloc);
     TEST_ADD(mraw_free);
