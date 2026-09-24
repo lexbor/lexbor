@@ -400,6 +400,10 @@ lxb_url_percent_encode_utf_8(const lxb_char_t *data, size_t length,
  * hexadecimal digits. If a code point cannot be represented in the target
  * encoding, its percent-encoded numeric character reference is appended.
  *
+ * The output encoding of the target encoding is used: UTF-16BE, UTF-16LE and
+ * replacement are replaced with UTF-8, see
+ * https://encoding.spec.whatwg.org/#get-an-output-encoding
+ *
  * If encoding is UTF-8, no conversion is performed. If space_as_plus is true,
  * an encoded U+0020 SPACE is replaced with '+' before the map is checked.
  * The input is expected to be valid UTF-8; the function does not validate it.

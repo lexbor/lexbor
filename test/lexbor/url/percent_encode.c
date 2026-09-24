@@ -135,6 +135,33 @@ static const percent_encode_entry_t entries[] = {
         lexbor_str("")
     },
     {
+        lexbor_str("A caf\xC3\xA9 \xE2\x80\xBD"),
+        lexbor_str("A%20caf%C3%A9%20%E2%80%BD"),
+        LXB_ENCODING_REPLACEMENT,
+        LXB_URL_MAP_COMPONENT,
+        false,
+        NULL,
+        lexbor_str("")
+    },
+    {
+        lexbor_str("A caf\xC3\xA9 \xF0\x9F\x98\x80"),
+        lexbor_str("A%20caf%C3%A9%20%F0%9F%98%80"),
+        LXB_ENCODING_UTF_16LE,
+        LXB_URL_MAP_COMPONENT,
+        false,
+        NULL,
+        lexbor_str("")
+    },
+    {
+        lexbor_str("A caf\xC3\xA9"),
+        lexbor_str("A%20caf%C3%A9"),
+        LXB_ENCODING_UTF_16BE,
+        LXB_URL_MAP_COMPONENT,
+        false,
+        NULL,
+        lexbor_str("")
+    },
+    {
         lexbor_str("a b+c~"),
         lexbor_str("a+b%2Bc%7E"),
         LXB_ENCODING_UTF_8,

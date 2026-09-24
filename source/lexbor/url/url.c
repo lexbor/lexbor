@@ -1212,6 +1212,26 @@ lxb_url_encoding_init(const lxb_encoding_data_t *encoding,
     (void) lxb_encoding_encode_init_single(encode, encoding);
 }
 
+/*
+ * https://encoding.spec.whatwg.org/#get-an-output-encoding
+ */
+lxb_inline lxb_encoding_t
+lxb_url_output_encoding(lxb_encoding_t encoding)
+{
+    switch (encoding) {
+        case LXB_ENCODING_DEFAULT:
+        case LXB_ENCODING_AUTO:
+        case LXB_ENCODING_UNDEFINED:
+        case LXB_ENCODING_REPLACEMENT:
+        case LXB_ENCODING_UTF_16BE:
+        case LXB_ENCODING_UTF_16LE:
+            return LXB_ENCODING_UTF_8;
+
+        default:
+            return encoding;
+    }
+}
+
 static bool
 lxb_url_start_windows_drive_letter(const lxb_char_t *data,
                                    const lxb_char_t *end)
@@ -1356,12 +1376,7 @@ lxb_url_parse_basic_h(lxb_url_parser_t *parser, lxb_url_t *url,
         state = override_state;
     }
 
-    if (encoding <= LXB_ENCODING_UNDEFINED
-        || encoding == LXB_ENCODING_UTF_16BE
-        || encoding == LXB_ENCODING_UTF_16LE)
-    {
-        encoding = LXB_ENCODING_UTF_8;
-    }
+    encoding = lxb_url_output_encoding(encoding);
 
     enc = lxb_encoding_data(encoding);
     if (enc == NULL) {
@@ -3196,7 +3211,7 @@ lxb_url_percent_encode_after_encoding(const lxb_char_t *data,
     const lxb_char_t *buf_end = buf + sizeof(buffer);
     static const lexbor_str_t esc_str = lexbor_str("%26%23");
 
-    if (encoding->encoding == LXB_ENCODING_UTF_8) {
+    if (lxb_url_output_encoding(encoding->encoding) == LXB_ENCODING_UTF_8) {
         return lxb_url_percent_encode_after_utf_8(data, end, str, mraw,
                                                   url_map, enmap,
                                                   space_as_plus);
@@ -3232,13 +3247,14 @@ lxb_url_percent_encode_after_encoding(const lxb_char_t *data,
         len = encoding->encode_single(&encode, &buf, buf_end, cp);
 
         if (len < LXB_ENCODING_ENCODE_OK) {
-            size = lexbor_conv_int64_to_data((int64_t) cp, buf, buf_end - buf);
+            size = lexbor_conv_int64_to_data((int64_t) cp, buffer,
+                                             sizeof(buffer));
 
             if (lexbor_str_append(str, mraw, esc_str.data, esc_str.length) == NULL) {
                 return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
             }
 
-            if (lexbor_str_append(str, mraw, buf, size) == NULL) {
+            if (lexbor_str_append(str, mraw, buffer, size) == NULL) {
                 return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
             }
 
