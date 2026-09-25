@@ -32,10 +32,6 @@
             return EXIT_FAILURE;                                               \
         }                                                                      \
                                                                                \
-        if (*data > 0x9F) {                                                    \
-            break;                                                             \
-        }                                                                      \
-                                                                               \
         append_to_file(fc, ctx.buffer_out, ctx.buffer_used, _cp);              \
     }                                                                          \
     while (0)

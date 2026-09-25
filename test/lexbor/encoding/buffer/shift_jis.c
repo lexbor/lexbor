@@ -33,10 +33,6 @@ TEST_BEGIN(decode)
     test_buffer(test_decode_chunks, 1, rp_cp);
     test_buffer(test_decode_full, 1, rp_cp);
 
-    to_update_buffer("\xE1");
-    test_buffer(test_decode_chunks, 1, rp_cp);
-    test_buffer(test_decode_full, 1, rp_cp);
-
     to_update_buffer("\xA1");
     test_buffer(test_decode_chunks, 1, 0xFF61);
     test_buffer(test_decode_full, 1, 0xFF61);
@@ -46,6 +42,10 @@ TEST_BEGIN(decode)
     test_buffer(test_decode_full, 1, 0xFF9F);
 
     /* Range 0x81 to 0x9F, inclusive, or 0xE0 to 0xFC to lead */
+    to_update_buffer("\xE1");
+    test_buffer(test_decode_chunks, 1, LXB_TEST_ENCODING_CONTINUE_CODEPOINT);
+    test_buffer(test_decode_full, 1, LXB_TEST_ENCODING_CONTINUE_CODEPOINT);
+
     to_update_buffer("\x81");
     test_buffer(test_decode_chunks, 1, LXB_TEST_ENCODING_CONTINUE_CODEPOINT);
     test_buffer(test_decode_full, 1, LXB_TEST_ENCODING_CONTINUE_CODEPOINT);
@@ -69,6 +69,11 @@ TEST_BEGIN(decode)
     to_update_buffer("\x9F\xFC");
     test_buffer(test_decode_chunks, 1, 0x6ECC);
     test_buffer(test_decode_full, 1, 0x6ECC);
+
+    /* Check both endpoints and interior leads in the upper range. */
+    to_update_buffer("\xE0\x40\xE1\x40\xE3\x59\xFB\xFC\xFC\x40");
+    test_buffer(test_decode_chunks, 5, 0x6F3E, 0x74E0, 0x7DBA, 0x9AD9, 0x9ADC);
+    test_buffer(test_decode_full, 5, 0x6F3E, 0x74E0, 0x7DBA, 0x9AD9, 0x9ADC);
 
     to_update_buffer("\xFC\xFC");
     test_buffer(test_decode_chunks, 1, rp_cp);

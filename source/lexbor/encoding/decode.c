@@ -1137,7 +1137,7 @@ lxb_encoding_decode_shift_jis(lxb_encoding_decode_t *ctx,
         }
 
         if ((unsigned) (lead - 0x81) > (0x9F - 0x81)
-            && lead != 0xE0 && lead != 0xFC)
+            && (unsigned) (lead - 0xE0) > (0xFC - 0xE0))
         {
             LXB_ENCODING_DECODE_ERROR_BEGIN {
                 (*data)--;
@@ -2744,7 +2744,7 @@ lxb_encoding_decode_shift_jis_single(lxb_encoding_decode_t *ctx,
     }
 
     if ((unsigned) (lead - 0x81) > (0x9F - 0x81)
-        && lead != 0xE0 && lead != 0xFC)
+        && (unsigned) (lead - 0xE0) > (0xFC - 0xE0))
     {
         return LXB_ENCODING_DECODE_ERROR;
     }
