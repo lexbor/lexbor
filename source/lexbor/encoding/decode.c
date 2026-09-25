@@ -129,6 +129,7 @@
         const lxb_char_t *p = *data;                                           \
                                                                                \
         while (p < end) {                                                      \
+            LXB_ENCODING_DECODE_CHECK_OUT(ctx);                                \
             if (*p < 0x80) {                                                   \
                 LXB_ENCODING_DECODE_APPEND_P(ctx, *p++);                       \
             }                                                                  \
@@ -139,10 +140,10 @@
                         *data = p - 1;                                         \
                     }                                                          \
                     LXB_ENCODING_DECODE_ERROR_END();                           \
-                    continue;                                                  \
                 }                                                              \
-                                                                               \
-                LXB_ENCODING_DECODE_APPEND_P(ctx, ctx->codepoint);             \
+                else {                                                         \
+                    LXB_ENCODING_DECODE_APPEND_P(ctx, ctx->codepoint);         \
+                }                                                              \
             }                                                                  \
                                                                                \
             *data = p;                                                         \
