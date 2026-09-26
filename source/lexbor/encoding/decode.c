@@ -62,17 +62,6 @@
     }                                                                          \
     while (0)
 
-#define LXB_ENCODING_DECODE_APPEND_P(ctx, cp)                                  \
-    do {                                                                       \
-        if ((ctx)->buffer_used >= (ctx)->buffer_length) {                      \
-            *data = p;                                                         \
-            return LXB_STATUS_SMALL_BUFFER;                                    \
-        }                                                                      \
-                                                                               \
-        (ctx)->buffer_out[(ctx)->buffer_used++] = (cp);                        \
-    }                                                                          \
-    while (0)
-
 #define LXB_ENCODING_DECODE_CHECK_OUT(ctx)                                     \
     do {                                                                       \
         if ((ctx)->buffer_used >= (ctx)->buffer_length) {                      \
@@ -129,8 +118,9 @@
         const lxb_char_t *p = *data;                                           \
                                                                                \
         while (p < end) {                                                      \
+            LXB_ENCODING_DECODE_CHECK_OUT(ctx);                                \
             if (*p < 0x80) {                                                   \
-                LXB_ENCODING_DECODE_APPEND_P(ctx, *p++);                       \
+                ctx->buffer_out[ctx->buffer_used++] = *p++;                    \
             }                                                                  \
             else {                                                             \
                 ctx->codepoint = decode_map[(*p++) - 0x80].codepoint;          \
@@ -139,10 +129,10 @@
                         *data = p - 1;                                         \
                     }                                                          \
                     LXB_ENCODING_DECODE_ERROR_END();                           \
-                    continue;                                                  \
                 }                                                              \
-                                                                               \
-                LXB_ENCODING_DECODE_APPEND_P(ctx, ctx->codepoint);             \
+                else {                                                         \
+                    ctx->buffer_out[ctx->buffer_used++] = ctx->codepoint;      \
+                }                                                              \
             }                                                                  \
                                                                                \
             *data = p;                                                         \
