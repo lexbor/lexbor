@@ -16,7 +16,7 @@ extern "C" {
 
 
 #define LXB_ENCODING_VERSION_MAJOR 2
-#define LXB_ENCODING_VERSION_MINOR 3
+#define LXB_ENCODING_VERSION_MINOR 4
 #define LXB_ENCODING_VERSION_PATCH 0
 
 #define LXB_ENCODING_VERSION_STRING                                            \
@@ -178,6 +178,16 @@ typedef lxb_status_t
 (*lxb_encoding_decode_f)(lxb_encoding_decode_t *ctx,
                          const lxb_char_t **data, const lxb_char_t *end);
 
+/*
+ * Encodes one code point to (*data, end).
+ *
+ * Returns the number of bytes written and moves *data past them,
+ * LXB_ENCODING_ENCODE_SMALL_BUFFER if the result does not fit, or
+ * LXB_ENCODING_ENCODE_ERROR if the code point cannot be encoded.
+ *
+ * On SMALL_BUFFER and ERROR *data and the state
+ * are left unchanged, bytes in (*data, end) may be overwritten.
+ */
 typedef int8_t
 (*lxb_encoding_encode_single_f)(lxb_encoding_encode_t *ctx, lxb_char_t **data,
                                 const lxb_char_t *end, lxb_codepoint_t cp);

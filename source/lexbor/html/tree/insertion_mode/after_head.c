@@ -210,6 +210,7 @@ lxb_html_tree_insertion_mode_after_head_anything_else(lxb_html_tree_t *tree)
         return lxb_html_tree_process_abort(tree);
     }
 
+    tree->frameset_ok = true;
     tree->mode = lxb_html_tree_insertion_mode_in_body;
 
     return false;

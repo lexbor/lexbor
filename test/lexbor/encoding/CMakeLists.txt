@@ -19,14 +19,16 @@ set(buffer_big5_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/encoding/big5_map_dec
 set(buffer_euc_jp_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/encoding/euc_jp_map_decode.txt")
 set(buffer_euc_kr_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/encoding/euc_kr_map_decode.txt")
 set(buffer_iso_2022_jp_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/encoding/iso_2022_jp_map_decode.txt")
-set(buffer_shift_jis_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/encoding/shift_jis_map_decode.txt")
+set(buffer_shift_jis_arg
+    "${CMAKE_SOURCE_DIR}/test/files/lexbor/encoding/shift_jis_map_decode.txt"
+    "${CMAKE_SOURCE_DIR}/test/files/lexbor/encoding/shift_jis_map_encode.txt")
 set(buffer_gb18030_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/encoding/gb18030_map_decode.txt")
 
 set(single_big5_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/encoding/big5_map_decode.txt")
 set(single_euc_jp_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/encoding/euc_jp_map_decode.txt")
 set(single_euc_kr_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/encoding/euc_kr_map_decode.txt")
 set(single_iso_2022_jp_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/encoding/iso_2022_jp_map_decode.txt")
-set(single_shift_jis_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/encoding/shift_jis_map_decode.txt")
+set(single_shift_jis_arg ${buffer_shift_jis_arg})
 set(single_gb18030_arg "${CMAKE_SOURCE_DIR}/test/files/lexbor/encoding/gb18030_map_decode.txt")
 
 ################

@@ -62,17 +62,6 @@
     }                                                                          \
     while (0)
 
-#define LXB_ENCODING_DECODE_APPEND_P(ctx, cp)                                  \
-    do {                                                                       \
-        if ((ctx)->buffer_used >= (ctx)->buffer_length) {                      \
-            *data = p;                                                         \
-            return LXB_STATUS_SMALL_BUFFER;                                    \
-        }                                                                      \
-                                                                               \
-        (ctx)->buffer_out[(ctx)->buffer_used++] = (cp);                        \
-    }                                                                          \
-    while (0)
-
 #define LXB_ENCODING_DECODE_CHECK_OUT(ctx)                                     \
     do {                                                                       \
         if ((ctx)->buffer_used >= (ctx)->buffer_length) {                      \
@@ -129,8 +118,9 @@
         const lxb_char_t *p = *data;                                           \
                                                                                \
         while (p < end) {                                                      \
+            LXB_ENCODING_DECODE_CHECK_OUT(ctx);                                \
             if (*p < 0x80) {                                                   \
-                LXB_ENCODING_DECODE_APPEND_P(ctx, *p++);                       \
+                ctx->buffer_out[ctx->buffer_used++] = *p++;                    \
             }                                                                  \
             else {                                                             \
                 ctx->codepoint = decode_map[(*p++) - 0x80].codepoint;          \
@@ -139,10 +129,10 @@
                         *data = p - 1;                                         \
                     }                                                          \
                     LXB_ENCODING_DECODE_ERROR_END();                           \
-                    continue;                                                  \
                 }                                                              \
-                                                                               \
-                LXB_ENCODING_DECODE_APPEND_P(ctx, ctx->codepoint);             \
+                else {                                                         \
+                    ctx->buffer_out[ctx->buffer_used++] = ctx->codepoint;      \
+                }                                                              \
             }                                                                  \
                                                                                \
             *data = p;                                                         \
@@ -1137,7 +1127,7 @@ lxb_encoding_decode_shift_jis(lxb_encoding_decode_t *ctx,
         }
 
         if ((unsigned) (lead - 0x81) > (0x9F - 0x81)
-            && lead != 0xE0 && lead != 0xFC)
+            && (unsigned) (lead - 0xE0) > (0xFC - 0xE0))
         {
             LXB_ENCODING_DECODE_ERROR_BEGIN {
                 (*data)--;
@@ -1986,6 +1976,10 @@ lxb_encoding_decode_big5_single(lxb_encoding_decode_t *ctx,
     uint32_t index;
     lxb_char_t lead, byte;
 
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (ctx->u.lead != 0x00) {
         if (ctx->second_codepoint != 0x00) {
             (*data)++;
@@ -2094,6 +2088,10 @@ lxb_encoding_decode_euc_jp_single(lxb_encoding_decode_t *ctx,
     bool is_jis0212;
     lxb_char_t byte, lead;
 
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (ctx->u.euc_jp.lead != 0x00) {
         lead = ctx->u.euc_jp.lead;
         byte = *(*data)++;
@@ -2201,6 +2199,10 @@ lxb_encoding_decode_euc_kr_single(lxb_encoding_decode_t *ctx,
 {
     lxb_char_t lead, byte;
 
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (ctx->u.lead != 0x00) {
         lead = (lxb_char_t) ctx->u.lead;
         ctx->u.lead = 0x00;
@@ -2267,6 +2269,10 @@ lxb_codepoint_t
 lxb_encoding_decode_ibm866_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -2280,6 +2286,10 @@ lxb_encoding_decode_iso_2022_jp_single(lxb_encoding_decode_t *ctx,
 {
     lxb_char_t byte;
     lxb_encoding_ctx_2022_jp_t *iso = &ctx->u.iso_2022_jp;
+
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
 
     if (iso->prepand != 0x00) {
         byte = iso->prepand;
@@ -2475,6 +2485,10 @@ lxb_codepoint_t
 lxb_encoding_decode_iso_8859_10_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -2486,6 +2500,10 @@ lxb_codepoint_t
 lxb_encoding_decode_iso_8859_13_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -2497,6 +2515,10 @@ lxb_codepoint_t
 lxb_encoding_decode_iso_8859_14_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -2508,6 +2530,10 @@ lxb_codepoint_t
 lxb_encoding_decode_iso_8859_15_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -2519,6 +2545,10 @@ lxb_codepoint_t
 lxb_encoding_decode_iso_8859_16_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -2530,6 +2560,10 @@ lxb_codepoint_t
 lxb_encoding_decode_iso_8859_2_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -2541,6 +2575,10 @@ lxb_codepoint_t
 lxb_encoding_decode_iso_8859_3_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -2552,6 +2590,10 @@ lxb_codepoint_t
 lxb_encoding_decode_iso_8859_4_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -2563,6 +2605,10 @@ lxb_codepoint_t
 lxb_encoding_decode_iso_8859_5_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -2574,6 +2620,10 @@ lxb_codepoint_t
 lxb_encoding_decode_iso_8859_6_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -2585,6 +2635,10 @@ lxb_codepoint_t
 lxb_encoding_decode_iso_8859_7_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -2596,6 +2650,10 @@ lxb_codepoint_t
 lxb_encoding_decode_iso_8859_8_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -2607,6 +2665,10 @@ lxb_codepoint_t
 lxb_encoding_decode_iso_8859_8_i_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -2618,6 +2680,10 @@ lxb_codepoint_t
 lxb_encoding_decode_koi8_r_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -2629,6 +2695,10 @@ lxb_codepoint_t
 lxb_encoding_decode_koi8_u_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -2641,6 +2711,10 @@ lxb_encoding_decode_shift_jis_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
     lxb_char_t byte, lead;
+
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
 
     if (ctx->u.lead != 0x00) {
         lead = (lxb_char_t) ctx->u.lead;
@@ -2660,7 +2734,7 @@ lxb_encoding_decode_shift_jis_single(lxb_encoding_decode_t *ctx,
     }
 
     if ((unsigned) (lead - 0x81) > (0x9F - 0x81)
-        && lead != 0xE0 && lead != 0xFC)
+        && (unsigned) (lead - 0xE0) > (0xFC - 0xE0))
     {
         return LXB_ENCODING_DECODE_ERROR;
     }
@@ -2729,6 +2803,10 @@ lxb_encoding_decode_utf_16_single(lxb_encoding_decode_t *ctx, bool is_be,
 {
     unsigned lead;
     lxb_codepoint_t unit;
+
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
 
     if (ctx->u.lead != 0x00) {
         lead = ctx->u.lead - 0x01;
@@ -2812,6 +2890,10 @@ lxb_encoding_decode_utf_8_single(lxb_encoding_decode_t *ctx,
     unsigned needed;
     lxb_char_t ch;
     const lxb_char_t *p;
+
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
 
     if (ctx->u.utf_8.need != 0) {
         needed = ctx->u.utf_8.need;
@@ -2921,13 +3003,12 @@ lxb_encoding_decode_valid_utf_8_single(const lxb_char_t **data,
     lxb_codepoint_t cp;
     const lxb_char_t *p = *data;
 
+    if (p >= end) {
+        return LXB_ENCODING_DECODE_ERROR;
+    }
+
     if (*p < 0x80){
         /* 0xxxxxxx */
-
-        if (end - p < 1) {
-            *data = end;
-            return LXB_ENCODING_DECODE_ERROR;
-        }
 
         cp = (lxb_codepoint_t) *p;
 
@@ -3081,6 +3162,10 @@ lxb_encoding_decode_gb18030_single(lxb_encoding_decode_t *ctx,
 {
     uint32_t pointer;
     lxb_char_t first, second, third, offset;
+
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
 
     /* Make compiler happy */
     second = 0x00;
@@ -3236,6 +3321,10 @@ lxb_codepoint_t
 lxb_encoding_decode_macintosh_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -3254,6 +3343,10 @@ lxb_codepoint_t
 lxb_encoding_decode_windows_1250_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -3265,6 +3358,10 @@ lxb_codepoint_t
 lxb_encoding_decode_windows_1251_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -3276,6 +3373,10 @@ lxb_codepoint_t
 lxb_encoding_decode_windows_1252_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -3287,6 +3388,10 @@ lxb_codepoint_t
 lxb_encoding_decode_windows_1253_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -3298,6 +3403,10 @@ lxb_codepoint_t
 lxb_encoding_decode_windows_1254_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -3309,6 +3418,10 @@ lxb_codepoint_t
 lxb_encoding_decode_windows_1255_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -3320,6 +3433,10 @@ lxb_codepoint_t
 lxb_encoding_decode_windows_1256_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -3331,6 +3448,10 @@ lxb_codepoint_t
 lxb_encoding_decode_windows_1257_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -3342,6 +3463,10 @@ lxb_codepoint_t
 lxb_encoding_decode_windows_1258_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -3353,6 +3478,10 @@ lxb_codepoint_t
 lxb_encoding_decode_windows_874_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -3364,6 +3493,10 @@ lxb_codepoint_t
 lxb_encoding_decode_x_mac_cyrillic_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }
@@ -3375,6 +3508,10 @@ lxb_codepoint_t
 lxb_encoding_decode_x_user_defined_single(lxb_encoding_decode_t *ctx,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    if (*data >= end) {
+        return LXB_ENCODING_DECODE_CONTINUE;
+    }
+
     if (**data < 0x80) {
         return *(*data)++;
     }

@@ -1,5 +1,5 @@
 [
-    /* Test count: 112 */
+    /* Test count: 130 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -2194,6 +2194,256 @@
                         "cell"
                     "a"
               <body>
+        $DATA
+    },
+    /* Test number: 113 */
+    {
+        "data": $DATA{ ,12}
+            <head><template></template></head><p><frameset>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <template>
+              <frameset>
+        $DATA
+    },
+    /* Test number: 114 */
+    {
+        "data": $DATA{ ,12}
+            <template>x</template><p><frameset>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <template>
+                  #document-fragment
+                    "x"
+              <frameset>
+        $DATA
+    },
+    /* Test number: 115 */
+    {
+        "data": $DATA{ ,12}
+            <head></head><template></template><p><frameset>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <template>
+              <frameset>
+        $DATA
+    },
+    /* Test number: 116 */
+    {
+        "data": $DATA{ ,12}
+            <p><template></template><frameset>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <p>
+                  <template>
+        $DATA
+    },
+    /* Test number: 117 */
+    {
+        "data": $DATA{ ,12}
+            <p><template><frameset></template>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <p>
+                  <template>
+        $DATA
+    },
+    /* Test number: 118 */
+    {
+        "data": $DATA{ ,12}
+            <template></template>x<frameset>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <template>
+              <body>
+                "x"
+        $DATA
+    },
+    /* Test number: 119 */
+    {
+        "data": $DATA{ ,12}
+            <template></template><body><frameset>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <template>
+              <body>
+        $DATA
+    },
+    /* Test number: 120 */
+    {
+        "data": $DATA{ ,12}
+            <template><table><form></table></template>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <template>
+                  #document-fragment
+                    <table>
+                      <form>
+              <body>
+        $DATA
+    },
+    /* Test number: 121 */
+    {
+        "data": $DATA{ ,12}
+            <table><form></table>
+        $DATA,
+        "fragment": {"tag": "template", "ns": "html"},
+        "result": $DATA{ ,12}
+            <table>
+              <form>
+        $DATA
+    },
+    /* Test number: 122 */
+    {
+        "data": $DATA{ ,12}
+            <template><form><form><input></template>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <template>
+                  #document-fragment
+                    <form>
+                      <form>
+                        <input>
+              <body>
+        $DATA
+    },
+    /* Test number: 123 */
+    {
+        "data": $DATA{ ,12}
+            <form><form>
+        $DATA,
+        "fragment": {"tag": "template", "ns": "html"},
+        "result": $DATA{ ,12}
+            <form>
+              <form>
+        $DATA
+    },
+    /* Test number: 124 */
+    {
+        "data": $DATA{ ,12}
+            <template><form><template></template><form></template>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <template>
+                  #document-fragment
+                    <form>
+                      <template>
+                      <form>
+              <body>
+        $DATA
+    },
+    /* Test number: 125 */
+    {
+        "data": $DATA{ ,12}
+            <template><template><form></template><form></template>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <template>
+                  #document-fragment
+                    <template>
+                      #document-fragment
+                        <form>
+                    <form>
+              <body>
+        $DATA
+    },
+    /* Test number: 126 */
+    {
+        "data": $DATA{ ,12}
+            <form><template><form></template><form>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <form>
+                  <template>
+                    #document-fragment
+                      <form>
+        $DATA
+    },
+    /* Test number: 127 */
+    {
+        "data": $DATA{ ,12}
+            <br>BC<form>D<div>E</form>F</div>G
+        $DATA,
+        "fragment": {"tag": "template", "ns": "html"},
+        "result": $DATA{ ,12}
+            <br>
+            "BC"
+            <form>
+              "D"
+              <div>
+                "E"
+            "FG"
+        $DATA
+    },
+    /* Test number: 128 */
+    {
+        "data": $DATA{ ,12}
+            <form><template><table><form></table></template><form>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <form>
+                  <template>
+                    #document-fragment
+                      <table>
+                        <form>
+        $DATA
+    },
+    /* Test number: 129 */
+    {
+        "data": $DATA{ ,12}
+            <table><form></table><form>
+        $DATA,
+        "fragment": {"tag": "template", "ns": "html"},
+        "result": $DATA{ ,12}
+            <table>
+              <form>
+            <form>
+        $DATA
+    },
+    /* Test number: 130 */
+    {
+        "data": $DATA{ ,12}
+            <template><table><form></table></template><form>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <template>
+                  #document-fragment
+                    <table>
+                      <form>
+              <body>
+                <form>
         $DATA
     },
 ]

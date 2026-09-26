@@ -909,7 +909,7 @@ lxb_url_scheme_copy_special(const lxb_url_scheme_data_t *src,
     return lxb_url_str_copy(&src->name, &dst->name, dst_mraw);
 }
 
-static void
+void
 lxb_url_path_set_null(lxb_url_t *url)
 {
     if (url->path.str.data == NULL) {
@@ -1133,7 +1133,7 @@ lxb_url_host_destroy(lxb_url_host_t *host, lexbor_mraw_t *mraw)
     }
 }
 
-static void
+void
 lxb_url_host_set_empty(lxb_url_host_t *host, lexbor_mraw_t *mraw)
 {
     lxb_url_host_destroy(host, mraw);
@@ -1183,7 +1183,15 @@ lxb_url_port_set(lxb_url_t *url, uint16_t port)
     url->has_port = true;
 }
 
-static void
+void
+lxb_url_query_set_null(lxb_url_t *url)
+{
+    if (url->query.data != NULL) {
+        (void) lexbor_str_destroy(&url->query, url->mraw, false);
+    }
+}
+
+void
 lxb_url_fragment_set_null(lxb_url_t *url)
 {
     if (url->fragment.data != NULL) {
@@ -1202,6 +1210,26 @@ lxb_url_encoding_init(const lxb_encoding_data_t *encoding,
                       lxb_encoding_encode_t *encode)
 {
     (void) lxb_encoding_encode_init_single(encode, encoding);
+}
+
+/*
+ * https://encoding.spec.whatwg.org/#get-an-output-encoding
+ */
+lxb_inline lxb_encoding_t
+lxb_url_output_encoding(lxb_encoding_t encoding)
+{
+    switch (encoding) {
+        case LXB_ENCODING_DEFAULT:
+        case LXB_ENCODING_AUTO:
+        case LXB_ENCODING_UNDEFINED:
+        case LXB_ENCODING_REPLACEMENT:
+        case LXB_ENCODING_UTF_16BE:
+        case LXB_ENCODING_UTF_16LE:
+            return LXB_ENCODING_UTF_8;
+
+        default:
+            return encoding;
+    }
 }
 
 static bool
@@ -1348,12 +1376,7 @@ lxb_url_parse_basic_h(lxb_url_parser_t *parser, lxb_url_t *url,
         state = override_state;
     }
 
-    if (encoding <= LXB_ENCODING_UNDEFINED
-        || encoding == LXB_ENCODING_UTF_16BE
-        || encoding == LXB_ENCODING_UTF_16LE)
-    {
-        encoding = LXB_ENCODING_UTF_8;
-    }
+    encoding = lxb_url_output_encoding(encoding);
 
     enc = lxb_encoding_data(encoding);
     if (enc == NULL) {
@@ -2076,7 +2099,6 @@ again:
                 }
 
                 lxb_url_path_set_null(url);
-                url->path.opaque = true;
             }
         }
 
@@ -2325,6 +2347,17 @@ again:
                                                             LXB_URL_MAP_C0, false);
                 if (status != LXB_STATUS_OK) {
                     lxb_url_parse_return(orig_data, buf, status);
+                }
+
+                /* Encode only the space immediately before a query or fragment. */
+                if (p > begin && p[-1] == ' ') {
+                    tmp_str.length--;
+                    if (lexbor_str_append(&tmp_str, url->mraw,
+                                          (const lxb_char_t *) "%20", 3) == NULL)
+                    {
+                        lxb_url_parse_return(orig_data, buf,
+                                             LXB_STATUS_ERROR_MEMORY_ALLOCATION);
+                    }
                 }
 
                 status = lxb_url_path_list_push(url, &tmp_str);
@@ -3182,7 +3215,7 @@ lxb_url_percent_encode_after_encoding(const lxb_char_t *data,
     const lxb_char_t *buf_end = buf + sizeof(buffer);
     static const lexbor_str_t esc_str = lexbor_str("%26%23");
 
-    if (encoding->encoding == LXB_ENCODING_UTF_8) {
+    if (lxb_url_output_encoding(encoding->encoding) == LXB_ENCODING_UTF_8) {
         return lxb_url_percent_encode_after_utf_8(data, end, str, mraw,
                                                   url_map, enmap,
                                                   space_as_plus);
@@ -3218,13 +3251,14 @@ lxb_url_percent_encode_after_encoding(const lxb_char_t *data,
         len = encoding->encode_single(&encode, &buf, buf_end, cp);
 
         if (len < LXB_ENCODING_ENCODE_OK) {
-            size = lexbor_conv_int64_to_data((int64_t) cp, buf, buf_end - buf);
+            size = lexbor_conv_int64_to_data((int64_t) cp, buffer,
+                                             sizeof(buffer));
 
             if (lexbor_str_append(str, mraw, esc_str.data, esc_str.length) == NULL) {
                 return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
             }
 
-            if (lexbor_str_append(str, mraw, buf, size) == NULL) {
+            if (lexbor_str_append(str, mraw, buffer, size) == NULL) {
                 return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
             }
 
@@ -4970,7 +5004,7 @@ lxb_status_t
 lxb_url_serialize_fragment(const lxb_url_t *url,
                            lexbor_serialize_cb_f cb, void *ctx)
 {
-    if (url->query.data != NULL) {
+    if (url->fragment.data != NULL) {
         return cb(url->fragment.data, url->fragment.length, ctx);
     }
 

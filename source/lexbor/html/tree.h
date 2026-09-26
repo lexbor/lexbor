@@ -210,6 +210,9 @@ lxb_html_tree_element_in_scope_option_optgroup(lxb_html_tree_t *tree);
 LXB_API bool
 lxb_html_tree_check_scope_element(lxb_html_tree_t *tree);
 
+LXB_API bool
+lxb_html_tree_parsing_template_contents(lxb_html_tree_t *tree);
+
 LXB_API lxb_status_t
 lxb_html_tree_close_p_element(lxb_html_tree_t *tree, lxb_html_token_t *token);
 

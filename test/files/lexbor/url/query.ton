@@ -1,5 +1,5 @@
 [
-    /* Test count: 13 */
+    /* Test count: 15 */
     /* 1 */
     {
         "url": "https://lexbor.com/?abc=xyz",
@@ -132,7 +132,29 @@
         "failed": false,
         "encoding": "utf-8"
     },
-    /* 13 */
+    /* 13: the label maps to replacement, its output encoding is UTF-8 */
+    {
+        "url": "https://lexbor.com/?abc=é‽",
+        "done": "https://lexbor.com/?abc=%C3%A9%E2%80%BD",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "abc=%C3%A9%E2%80%BD",
+        "failed": false,
+        "encoding": "iso-2022-kr"
+    },
+    /* 14 */
+    {
+        "url": "https://lexbor.com/?abc=é‽",
+        "done": "https://lexbor.com/?abc=%C3%A9%E2%80%BD",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "abc=%C3%A9%E2%80%BD",
+        "failed": false,
+        "encoding": "UTF-16BE"
+    },
+    /* 15 */
     {
         "url": "https://lexbor.com/..?abc=xyz",
         "done": "https://lexbor.com/?abc=xyz",
@@ -142,5 +164,5 @@
         "query": "abc=xyz",
         "failed": false,
         "encoding": "utf-8"
-    },
+    }
 ]

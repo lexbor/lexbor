@@ -1379,6 +1379,21 @@ lxb_html_tree_check_scope_element(lxb_html_tree_t *tree)
     return false;
 }
 
+bool
+lxb_html_tree_parsing_template_contents(lxb_html_tree_t *tree)
+{
+    lxb_dom_node_t *node;
+
+    node = lxb_html_tree_open_elements_find_reverse(tree, LXB_TAG_TEMPLATE,
+                                                    LXB_NS_HTML, NULL);
+    if (node != NULL) {
+        return true;
+    }
+
+    return lxb_html_tree_is_fragment_element(tree, LXB_TAG_TEMPLATE,
+                                             LXB_NS_HTML);
+}
+
 lxb_status_t
 lxb_html_tree_close_p_element(lxb_html_tree_t *tree, lxb_html_token_t *token)
 {

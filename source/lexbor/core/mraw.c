@@ -352,8 +352,8 @@ lexbor_mraw_realloc(lexbor_mraw_t *mraw, void *data, size_t new_size)
         if (diff > lexbor_mraw_meta_size()) {
             memcpy(begin, &new_size, sizeof(size_t));
 
+            begin = &((uint8_t *) data)[new_size];
             new_size = diff - lexbor_mraw_meta_size();
-            begin = &((uint8_t *) data)[diff];
 
             lexbor_mraw_meta_set(begin, &new_size);
 

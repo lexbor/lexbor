@@ -349,7 +349,7 @@ MACRO(ADD_MODULE_LIBRARY type libname version_string major)
 
     install(TARGETS ${libname}
             EXPORT "${PROJECT_NAME}-export"
-            RUNTIME DESTINATION "${LEXBOR_INSTALL_DLL_EXE_DIR}"
+            RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
             ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
             LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}")
 ENDMACRO()
@@ -361,14 +361,14 @@ MACRO(INSTALL_MODULE_HEADERS header_path pname module)
         message(FATAL_ERROR "Install headers: \"${dir_search}\" in not a directory.")
     ENDIF()
 
-    install(DIRECTORY "${dir_search}" DESTINATION "include/${pname}"
+    install(DIRECTORY "${dir_search}" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${pname}"
             FILES_MATCHING PATTERN "*.h")
 
     file(GLOB header_dirs "${dir_search}/*")
 
     FOREACH(item ${header_dirs})
         IF(IS_DIRECTORY "${item}")
-            install(DIRECTORY "${item}" DESTINATION "include/${pname}/${module}"
+            install(DIRECTORY "${item}" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/${pname}/${module}"
                     FILES_MATCHING PATTERN "*.h")
         ENDIF()
     ENDFOREACH()
@@ -439,7 +439,7 @@ MACRO(APPEND_TESTS name_prefix sources)
 
         IF (NOT "${${arg_name}_arg}" STREQUAL "")
             add_test("${name_prefix}${arg_name}" "${CMAKE_BINARY_DIR}/${build_dir}/${barename}"
-                     "${${arg_name}_arg}")
+                     ${${arg_name}_arg})
         ELSE()
             add_test("${name_prefix}${arg_name}" "${CMAKE_BINARY_DIR}/${build_dir}/${barename}")
         ENDIF()
