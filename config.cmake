@@ -439,7 +439,7 @@ MACRO(APPEND_TESTS name_prefix sources)
 
         IF (NOT "${${arg_name}_arg}" STREQUAL "")
             add_test("${name_prefix}${arg_name}" "${CMAKE_BINARY_DIR}/${build_dir}/${barename}"
-                     "${${arg_name}_arg}")
+                     ${${arg_name}_arg})
         ELSE()
             add_test("${name_prefix}${arg_name}" "${CMAKE_BINARY_DIR}/${build_dir}/${barename}")
         ENDIF()

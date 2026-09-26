@@ -775,7 +775,19 @@ lxb_encoding_encode_shift_jis_index(lxb_codepoint_t cp)
 
     index = lxb_encoding_multi_jis0208_index(cp);
 
-    return ((index - 8272) > (8835 - 8272)) ? UINT16_MAX : index;
+    if ((unsigned) (index - 8272) > (8835 - 8272)) {
+        return index;
+    }
+
+    for (index = 10716; index < (sizeof(lxb_encoding_multi_jis0208_map)
+                                 / sizeof(lxb_codepoint_t)); index++)
+    {
+        if (lxb_encoding_multi_jis0208_map[index] == cp) {
+            return index;
+        }
+    }
+
+    return UINT16_MAX;
 }
 
 lxb_status_t
