@@ -9,7 +9,8 @@
 #include "encoding.h"
 
 
-static const char *lxb_filepath_test;
+static const char *lxb_filepath_decode;
+static const char *lxb_filepath_encode;
 
 
 TEST_BEGIN(decode)
@@ -75,6 +76,16 @@ TEST_BEGIN(decode)
     test_buffer(test_decode_chunks, 5, 0x6F3E, 0x74E0, 0x7DBA, 0x9AD9, 0x9ADC);
     test_buffer(test_decode_full, 5, 0x6F3E, 0x74E0, 0x7DBA, 0x9AD9, 0x9ADC);
 
+    /* NEC selected IBM extensions and IBM extensions, last index pointer. */
+    to_update_buffer("\xED\x40\xEE\xFC\xFA\x40\xFA\x54\xFC\x4B");
+    test_buffer(test_decode_chunks, 5, 0x7E8A, 0xFF02, 0x2170, 0xFFE2, 0x9ED1);
+    test_buffer(test_decode_full, 5, 0x7E8A, 0xFF02, 0x2170, 0xFFE2, 0x9ED1);
+
+    /* Pointers 8836 to 10715, inclusive, are mapped to Private Use Area. */
+    to_update_buffer("\xF0\x40\xF9\xFC");
+    test_buffer(test_decode_chunks, 2, 0xE000, 0xE757);
+    test_buffer(test_decode_full, 2, 0xE000, 0xE757);
+
     to_update_buffer("\xFC\xFC");
     test_buffer(test_decode_chunks, 1, rp_cp);
     test_buffer(test_decode_full, 1, rp_cp);
@@ -109,6 +120,20 @@ TEST_BEGIN(decode_prepend)
     to_update_buffer("\xFC\x7E\x41");
     test_buffer(test_decode_chunks, 3, rp_cp, 0x7E, 0x41);
     test_buffer(test_decode_full, 3, rp_cp, 0x7E, 0x41);
+
+    /* Valid lead, but pointer without code point in index. */
+    to_update_buffer("\xFC\x4C\x41");
+    test_buffer(test_decode_chunks, 3, rp_cp, 0x4C, 0x41);
+    test_buffer(test_decode_full, 3, rp_cp, 0x4C, 0x41);
+
+    to_update_buffer("\xEB\x40");
+    test_buffer(test_decode_chunks, 2, rp_cp, 0x40);
+    test_buffer(test_decode_full, 2, rp_cp, 0x40);
+
+    /* Not ASCII byte is not restored. */
+    to_update_buffer("\xEF\x80\x41");
+    test_buffer(test_decode_chunks, 2, rp_cp, 0x41);
+    test_buffer(test_decode_full, 2, rp_cp, 0x41);
 }
 TEST_END
 
@@ -120,7 +145,7 @@ TEST_BEGIN(decode_map)
 
     enc_data = lxb_encoding_data(LXB_ENCODING_SHIFT_JIS);
 
-    status = test_encoding_process_file(lxb_filepath_test,
+    status = test_encoding_process_file(lxb_filepath_decode,
                                         test_decode_process_file,
                                         (void *) enc_data, &line);
     if (status != LXB_STATUS_OK) {
@@ -137,7 +162,7 @@ TEST_BEGIN(encode_map)
 
     enc_data = lxb_encoding_data(LXB_ENCODING_SHIFT_JIS);
 
-    status = test_encoding_process_file(lxb_filepath_test,
+    status = test_encoding_process_file(lxb_filepath_encode,
                                         test_encode_process_file,
                                         (void *) enc_data, &line);
     if (status != LXB_STATUS_OK) {
@@ -181,6 +206,60 @@ TEST_BEGIN(encode)
 }
 TEST_END
 
+TEST_BEGIN(encode_index_pointer)
+{
+    size_t i;
+    lxb_status_t status;
+    lxb_char_t ch2[2];
+
+    lxb_codepoint_t cp;
+    const lxb_codepoint_t *cps;
+    lxb_encoding_encode_t enctx;
+    const lxb_encoding_data_t *enc_data;
+
+    static const struct {
+        lxb_codepoint_t cp;
+        lxb_char_t      data[2];
+    }
+    entries[] = {
+        /* Pointers 8272 to 8835, inclusive, are excluded. */
+        {0x7E8A, {0xFA, 0x5C}},
+        {0x2170, {0xFA, 0x40}},
+        {0xFF02, {0xFA, 0x57}},
+        {0xFA1F, {0xFB, 0x9D}},
+        {0x9ED1, {0xFC, 0x4B}},
+
+        /* Duplicates in IBM extensions, the first pointer is used. */
+        {0xFFE2, {0x81, 0xCA}},
+        {0x2252, {0x81, 0xE0}}
+    };
+
+    enc_data = lxb_encoding_data(LXB_ENCODING_SHIFT_JIS);
+
+    for (i = 0; i < sizeof(entries) / sizeof(entries[0]); i++) {
+        cp = entries[i].cp;
+        cps = &cp;
+
+        lxb_encoding_encode_init(&enctx, enc_data, ch2, sizeof(ch2));
+
+        status = enc_data->encode(&enctx, &cps, cps + 1);
+        test_eq(status, LXB_STATUS_OK);
+        test_eq(lxb_encoding_encode_buf_used(&enctx), 2);
+        test_eq(ch2[0], entries[i].data[0]);
+        test_eq(ch2[1], entries[i].data[1]);
+    }
+
+    /* Private Use Area is not in index. */
+    cp = 0xE000;
+    cps = &cp;
+
+    lxb_encoding_encode_init(&enctx, enc_data, ch2, sizeof(ch2));
+
+    status = enc_data->encode(&enctx, &cps, cps + 1);
+    test_eq(status, LXB_STATUS_ERROR);
+}
+TEST_END
+
 
 TEST_BEGIN(encode_buffer_check)
 {
@@ -214,12 +293,13 @@ TEST_END
 int
 main(int argc, const char * argv[])
 {
-    if (argc != 2) {
-        printf("Usage:\n\tshift_jis <filepath>\n");
+    if (argc != 3) {
+        printf("Usage:\n\tshift_jis <decode-filepath> <encode-filepath>\n");
         return EXIT_FAILURE;
     }
 
-    lxb_filepath_test = argv[1];
+    lxb_filepath_decode = argv[1];
+    lxb_filepath_encode = argv[2];
 
     TEST_INIT();
 
@@ -227,6 +307,7 @@ main(int argc, const char * argv[])
     TEST_ADD(decode_prepend);
     TEST_ADD(decode_map);
     TEST_ADD(encode);
+    TEST_ADD(encode_index_pointer);
     TEST_ADD(encode_map);
     TEST_ADD(encode_buffer_check);
 
