@@ -81,6 +81,165 @@ static const test_url_t test_urls[] =
             LXB_URL_ERROR_TYPE_INVALID_URL_UNIT,
             LXB_URL_ERROR_TYPE__LAST_ENTRY
         },
+    },
+    {
+        .source = (lxb_char_t *) "https://lexbor.com/%2/../x",
+        .result = (lxb_char_t *) "https://lexbor.com/x",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_URL_UNIT,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "https://lexbor.com/%2/..?q#f",
+        .result = (lxb_char_t *) "https://lexbor.com/?q#f",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_URL_UNIT,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "https://lexbor.com/%?q",
+        .result = (lxb_char_t *) "https://lexbor.com/%?q",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_URL_UNIT,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "https://lexbor.com/%#f",
+        .result = (lxb_char_t *) "https://lexbor.com/%#f",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_URL_UNIT,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "https://lexbor.com/%2\\..\\x",
+        .result = (lxb_char_t *) "https://lexbor.com/x",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_URL_UNIT,
+            LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS,
+            LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "https://lexbor.com/%\u00E9/../x",
+        .result = (lxb_char_t *) "https://lexbor.com/x",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_URL_UNIT,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "https://lexbor.com/%%/../x",
+        .result = (lxb_char_t *) "https://lexbor.com/x",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_URL_UNIT,
+            LXB_URL_ERROR_TYPE_INVALID_URL_UNIT,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "https://lexbor.com/.\\\\path",
+        .result = (lxb_char_t *) "https://lexbor.com//path",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS,
+            LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "https://lexbor.com/\u00E9/.\\\\path",
+        .result = (lxb_char_t *) "https://lexbor.com/%C3%A9//path",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS,
+            LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "https://lexbor.com/.\\path",
+        .result = (lxb_char_t *) "https://lexbor.com/path",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "https://lexbor.com/a/..\\path",
+        .result = (lxb_char_t *) "https://lexbor.com/path",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "https://lexbor.com/\u00E9/a/..\\path",
+        .result = (lxb_char_t *) "https://lexbor.com/%C3%A9/path",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "https://lexbor.com/a/%2e%2E\\\\b",
+        .result = (lxb_char_t *) "https://lexbor.com//b",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS,
+            LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "https://lexbor.com/\u00E9/%2e\\path",
+        .result = (lxb_char_t *) "https://lexbor.com/%C3%A9/path",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "https://lexbor.com/a/..\\",
+        .result = (lxb_char_t *) "https://lexbor.com/",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "https://lexbor.com/a/.\\?x",
+        .result = (lxb_char_t *) "https://lexbor.com/a/?x",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "https://lexbor.com/\\./y",
+        .result = (lxb_char_t *) "https://lexbor.com//y",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "file:///C:\\..\\x",
+        .result = (lxb_char_t *) "file:///C:/x",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS,
+            LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
+    },
+    {
+        .source = (lxb_char_t *) "foo://lexbor.com/.\\path",
+        .result = (lxb_char_t *) "foo://lexbor.com/.\\path",
+        .errors = (lxb_url_error_type_t[]) {
+            LXB_URL_ERROR_TYPE_INVALID_URL_UNIT,
+            LXB_URL_ERROR_TYPE__LAST_ENTRY
+        },
     }
 };
 

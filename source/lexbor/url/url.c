@@ -532,15 +532,15 @@ lxb_url_path_slow_path(lxb_url_parser_t *parser, lxb_url_t *url,
                        const lxb_char_t *data, const lxb_char_t *end, bool bqs);
 
 static lxb_status_t
-lxb_url_path_try_dot(lxb_url_t *url, const lxb_char_t **begin,
-                     const lxb_char_t **last, const lxb_char_t **start,
-                     const lxb_char_t *end, bool bqs);
+lxb_url_path_try_dot(lxb_url_parser_t *parser, lxb_url_t *url,
+                     const lxb_char_t **begin, const lxb_char_t **last,
+                     const lxb_char_t **start, const lxb_char_t *end, bool bqs);
 
 static const lxb_char_t *
-lxb_url_path_dot_count(lxb_url_t *url, const lxb_char_t *p,
-                       const lxb_char_t *end, const lxb_char_t *sbuf_begin,
-                       lxb_char_t **sbuf, lxb_char_t **last, size_t *path_count,
-                       bool bqs);
+lxb_url_path_dot_count(lxb_url_parser_t *parser, lxb_url_t *url,
+                       const lxb_char_t *p, const lxb_char_t *end,
+                       const lxb_char_t *sbuf_begin, lxb_char_t **sbuf,
+                       lxb_char_t **last, size_t *path_count, bool bqs);
 
 static void
 lxb_url_path_fix_windows_drive(lxb_url_t *url, lxb_char_t *sbuf,
@@ -976,23 +976,25 @@ lxb_url_path_shorten(lxb_url_t *url)
         }
     }
 
-    if (url->path.str.data != NULL) {
-        url->path.length -= 1;
-
-        begin = str->data;
-        p = begin + str->length;
-
-        while (p > begin) {
-            p -= 1;
-
-            if (*p == '/') {
-                *p = '\0';
-                break;
-            }
-        }
-
-        str->length = p - begin;
+    if (url->path.length == 0 || str->data == NULL) {
+        return;
     }
+
+    url->path.length -= 1;
+
+    begin = str->data;
+    p = begin + str->length;
+
+    while (p > begin) {
+        p -= 1;
+
+        if (*p == '/') {
+            *p = '\0';
+            break;
+        }
+    }
+
+    str->length = p - begin;
 }
 
 static lxb_status_t
@@ -2147,6 +2149,8 @@ again:
                     if (status != LXB_STATUS_OK) {
                         lxb_url_parse_return(orig_data, buf, status);
                     }
+
+                    url->path.length += 1;
                 }
             }
         }
@@ -2288,7 +2292,13 @@ again:
             && url->host.type == LXB_URL_HOST_TYPE__UNDEF)
         {
             status = lxb_url_path_append(url, mp_str.data, mp_str.length);
-            lxb_url_parse_return(orig_data, buf, status);
+            if (status != LXB_STATUS_OK) {
+                lxb_url_parse_return(orig_data, buf, status);
+            }
+
+            url->path.length += 1;
+
+            lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
         }
 
         lxb_url_parse_return(orig_data, buf, LXB_STATUS_OK);
@@ -2537,13 +2547,8 @@ lxb_url_path_fast_path(lxb_url_parser_t *parser, lxb_url_t *url,
                     || lexbor_str_res_map_hex[p[1]] == 0xff
                     || lexbor_str_res_map_hex[p[2]] == 0xff)
                 {
-                    status = lxb_url_log_append(parser, p,
-                                                LXB_URL_ERROR_TYPE_INVALID_URL_UNIT);
-                    if (status != LXB_STATUS_OK) {
-                        return NULL;
-                    }
-
-                    p = (end - p < 3) ? end - 1 : p + 2;
+                    /* Reprocess the segment without skipping delimiters. */
+                    goto slow;
                 }
                 else if (p[1] == '2' && (p[2] == 'e' || p[2] == 'E')
                          && (p == begin
@@ -2552,8 +2557,8 @@ lxb_url_path_fast_path(lxb_url_parser_t *parser, lxb_url_t *url,
                 {
                     url->path.length = count;
 
-                    status = lxb_url_path_try_dot(url, &begin, &last,
-                                                  &p, end, bqs);
+                    status = lxb_url_path_try_dot(parser, url, &begin,
+                                                  &last, &p, end, bqs);
                     if (status != LXB_STATUS_OK) {
                         return NULL;
                     }
@@ -2591,8 +2596,8 @@ lxb_url_path_fast_path(lxb_url_parser_t *parser, lxb_url_t *url,
                 {
                     url->path.length = count;
 
-                    status = lxb_url_path_try_dot(url, &begin, &last,
-                                                  &p, end, bqs);
+                    status = lxb_url_path_try_dot(parser, url, &begin,
+                                                  &last, &p, end, bqs);
                     if (status != LXB_STATUS_OK) {
                         return NULL;
                     }
@@ -2601,17 +2606,7 @@ lxb_url_path_fast_path(lxb_url_parser_t *parser, lxb_url_t *url,
                 }
             }
             else {
-                url->path.length = count;
-
-                if (last - 1 > begin) {
-                    status = lxb_url_path_append(url, begin,
-                                                 (last - 1) - begin);
-                    if (status != LXB_STATUS_OK) {
-                        return NULL;
-                    }
-                }
-
-                return lxb_url_path_slow_path(parser, url, last, end, bqs);
+                goto slow;
             }
         }
     }
@@ -2621,13 +2616,22 @@ lxb_url_path_fast_path(lxb_url_parser_t *parser, lxb_url_t *url,
         return NULL;
     }
 
-    if (count == 0 || p != begin) {
-        count += 1;
-    }
+    url->path.length = count + 1;
+
+    return p;
+
+slow:
 
     url->path.length = count;
 
-    return p;
+    if (last > begin) {
+        status = lxb_url_path_append(url, begin, (last - 1) - begin);
+        if (status != LXB_STATUS_OK) {
+            return NULL;
+        }
+    }
+
+    return lxb_url_path_slow_path(parser, url, last, end, bqs);
 }
 
 /*
@@ -2723,10 +2727,6 @@ lxb_url_path_slow_path(lxb_url_parser_t *parser, lxb_url_t *url,
 
             count += 1;
             last = sbuf;
-
-            if (p + 1 >= end) {
-                count += 1;
-            }
         }
         else if (c == '\\' && lxb_url_is_special(url)) {
             status = lxb_url_log_append(parser, p,
@@ -2744,16 +2744,8 @@ lxb_url_path_slow_path(lxb_url_parser_t *parser, lxb_url_t *url,
 
             count += 1;
             last = sbuf;
-
-            if (p + 1 >= end) {
-                count += 1;
-            }
         }
         else if ((c == '?' || c == '#') && bqs) {
-            lxb_url_path_fix_windows_drive(url, last, sbuf, count);
-
-            count += 1;
-            last = sbuf;
             break;
         }
         else if (lxb_url_map[c] & LXB_URL_MAP_PATH) {
@@ -2773,11 +2765,19 @@ lxb_url_path_slow_path(lxb_url_parser_t *parser, lxb_url_t *url,
         }
         else if (c == '.') {
             if (last == sbuf) {
-                tmp = lxb_url_path_dot_count(url, p, end, sbuf_begin,
+                tmp = lxb_url_path_dot_count(parser, url, p, end, sbuf_begin,
                                              &sbuf, &last, &count, bqs);
+                if (tmp == NULL) {
+                    goto failed;
+                }
 
                 if (tmp != p) {
-                    p = tmp + 1;
+                    /* Skip '/' or '\', but leave '?' and '#' to the loop. */
+                    if (tmp < end && *tmp != '?' && *tmp != '#') {
+                        tmp += 1;
+                    }
+
+                    p = tmp;
                     continue;
                 }
             }
@@ -2802,11 +2802,19 @@ lxb_url_path_slow_path(lxb_url_parser_t *parser, lxb_url_t *url,
             else if (p[1] == '2' && (p[2] == 'e' || p[2] == 'E')
                      && last == sbuf)
             {
-                tmp = lxb_url_path_dot_count(url, p, end, sbuf_begin,
+                tmp = lxb_url_path_dot_count(parser, url, p, end, sbuf_begin,
                                              &sbuf, &last, &count, bqs);
+                if (tmp == NULL) {
+                    goto failed;
+                }
 
                 if (tmp != p) {
-                    p = tmp + 1;
+                    /* Skip '/' or '\', but leave '?' and '#' to the loop. */
+                    if (tmp < end && *tmp != '?' && *tmp != '#') {
+                        tmp += 1;
+                    }
+
+                    p = tmp;
                     continue;
                 }
             }
@@ -2835,12 +2843,9 @@ lxb_url_path_slow_path(lxb_url_parser_t *parser, lxb_url_t *url,
         p += 1;
     }
 
-    if (count == 0 || last < sbuf) {
-        lxb_url_path_fix_windows_drive(url, last, sbuf, count);
-        count += 1;
-    }
+    lxb_url_path_fix_windows_drive(url, last, sbuf, count);
 
-    url->path.length = count;
+    url->path.length = count + 1;
 
     status = lxb_url_path_append_wo_slash(url, sbuf_begin, sbuf - sbuf_begin);
     if (status != LXB_STATUS_OK) {
@@ -2863,13 +2868,12 @@ failed:
 }
 
 static lxb_status_t
-lxb_url_path_try_dot(lxb_url_t *url, const lxb_char_t **begin,
-                     const lxb_char_t **last, const lxb_char_t **start,
-                     const lxb_char_t *end, bool bqs)
+lxb_url_path_try_dot(lxb_url_parser_t *parser, lxb_url_t *url,
+                     const lxb_char_t **begin, const lxb_char_t **last,
+                     const lxb_char_t **start, const lxb_char_t *end, bool bqs)
 {
     unsigned count;
     lxb_char_t c;
-    lexbor_str_t *str;
     lxb_status_t status;
     const lxb_char_t *p;
 
@@ -2914,40 +2918,54 @@ lxb_url_path_try_dot(lxb_url_t *url, const lxb_char_t **begin,
         }
     }
 
-    if (p < end) {
-        *start = p;
-        *begin = p + 1;
-        *last = *begin;
-    }
-    else {
-        *start = end - 1;
-        *begin = end;
-        *last = end;
-    }
-
     if (count == 2) {
         lxb_url_path_shorten(url);
     }
-    else if (count == 1) {
-        str = &url->path.str;
 
-        if (str->length > 0 && str->data[str->length - 1] == '/') {
-            str->length -= 1;
-            str->data[str->length] = '\0';
+    if (p >= end) {
+        /* The caller appends the trailing empty segment. */
+        *start = end - 1;
+        *begin = end;
+        *last = end;
+
+        return LXB_STATUS_OK;
+    }
+
+    if (*p == '?' || *p == '#') {
+        /* The caller's loop handles the delimiter and the empty segment. */
+        *start = p - 1;
+        *begin = p;
+        *last = p;
+
+        return LXB_STATUS_OK;
+    }
+
+    if (*p == '\\') {
+        status = lxb_url_log_append(parser, p,
+                                    LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS);
+        if (status != LXB_STATUS_OK) {
+            return status;
         }
     }
+
+    /* Skip '/' or '\'. */
+
+    *start = p;
+    *begin = p + 1;
+    *last = *begin;
 
     return LXB_STATUS_OK;
 }
 
 static const lxb_char_t *
-lxb_url_path_dot_count(lxb_url_t *url, const lxb_char_t *p,
-                       const lxb_char_t *end, const lxb_char_t *sbuf_begin,
-                       lxb_char_t **sbuf, lxb_char_t **last, size_t *path_count,
-                       bool bqs)
+lxb_url_path_dot_count(lxb_url_parser_t *parser, lxb_url_t *url,
+                       const lxb_char_t *p, const lxb_char_t *end,
+                       const lxb_char_t *sbuf_begin, lxb_char_t **sbuf,
+                       lxb_char_t **last, size_t *path_count, bool bqs)
 {
     unsigned count;
     lxb_char_t c, *last_p;
+    lxb_status_t status;
     const lxb_char_t *begin;
 
     count = 0;
@@ -2982,6 +3000,14 @@ lxb_url_path_dot_count(lxb_url_t *url, const lxb_char_t *p,
 
     if (count == 0 || count > 2) {
         return begin;
+    }
+
+    if (p < end && *p == '\\') {
+        status = lxb_url_log_append(parser, p,
+                                    LXB_URL_ERROR_TYPE_INVALID_REVERSE_SOLIDUS);
+        if (status != LXB_STATUS_OK) {
+            return NULL;
+        }
     }
 
     if (url->scheme.type == LXB_URL_SCHEMEL_TYPE_FILE
