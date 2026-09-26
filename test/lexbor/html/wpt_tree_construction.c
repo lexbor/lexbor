@@ -13,6 +13,10 @@
  * Parse errors are read and skipped for now.  The runner compares only the
  * serialized tree dump.  Each test is parsed both as one full input buffer and
  * byte-by-byte through the chunk parser.
+ *
+ * Tests from scripted_*.dat files (the "scripted" directory of html5lib-tests)
+ * run scripts that change the DOM during parsing.  Lexbor does not execute
+ * scripts, so these tests are skipped when scripting is enabled.
  */
 
 #include <stdio.h>
@@ -60,12 +64,6 @@ typedef enum {
 wpt_parse_mode_t;
 
 typedef struct {
-    const char *content;
-    const char *reason;
-}
-wpt_skip_content_t;
-
-typedef struct {
     lxb_tag_id_t tag_id;
     lxb_ns_id_t  ns;
 }
@@ -93,6 +91,7 @@ wpt_test_t;
 typedef struct {
     lexbor_hash_t *tags;
     bool           fatal_error;
+    bool           scripted;
     unsigned      files;
     unsigned      test_total[WPT_PARSE__LAST];
     unsigned      test_fail[WPT_PARSE__LAST];
@@ -101,13 +100,7 @@ typedef struct {
 wpt_ctx_t;
 
 
-static const wpt_skip_content_t wpt_js_required_content[] = {
-    {"document.write(", "document.write requires JS execution"},
-    {"document.writeln(", "document.writeln requires JS execution"},
-    {"document.getElementById(", "DOM mutation requires JS execution"},
-    {"document.getElementsByTagName(", "DOM mutation requires JS execution"},
-    {NULL, NULL}
-};
+static const char wpt_scripted_prefix[] = "scripted_";
 
 
 static lexbor_action_t
@@ -140,11 +133,8 @@ serialize_and_compare(const char *filepath, const wpt_test_t *test,
                       lxb_dom_node_t *root, bool scripting,
                       wpt_parse_mode_t mode);
 
-static const wpt_skip_content_t *
-wpt_test_requires_js(const wpt_test_t *test, bool scripting);
-
 static bool
-data_contains(const lxb_char_t *data, size_t len, const char *content);
+wpt_test_requires_js(const wpt_ctx_t *ctx, bool scripting);
 
 static const char *
 parse_mode_name(wpt_parse_mode_t mode);
@@ -269,6 +259,9 @@ file_callback(const lxb_char_t *fullpath, size_t fullpath_len,
     }
 
     wpt->files += 1;
+    wpt->scripted = filename_len > sizeof(wpt_scripted_prefix) - 1
+                    && strncmp((const char *) filename, wpt_scripted_prefix,
+                               sizeof(wpt_scripted_prefix) - 1) == 0;
 
     if (process_test_file(wpt, (const char *) fullpath) == false) {
         wpt->fatal_error = true;
@@ -474,7 +467,7 @@ run_test_with_mode(wpt_ctx_t *ctx, const char *filepath,
 
     ctx->test_total[mode]++;
 
-    if (wpt_test_requires_js(test, scripting) != NULL) {
+    if (wpt_test_requires_js(ctx, scripting)) {
         ctx->test_skip[mode]++;
         return true;
     }
@@ -658,49 +651,10 @@ serialize_and_compare(const char *filepath, const wpt_test_t *test,
     return false;
 }
 
-static const wpt_skip_content_t *
-wpt_test_requires_js(const wpt_test_t *test, bool scripting)
-{
-    const wpt_skip_content_t *skip;
-
-    if (scripting == false) {
-        return NULL;
-    }
-
-    for (skip = wpt_js_required_content; skip->content != NULL; skip++) {
-        if (data_contains(test->data, test->data_len, skip->content)) {
-            return skip;
-        }
-    }
-
-    return NULL;
-}
-
 static bool
-data_contains(const lxb_char_t *data, size_t len, const char *content)
+wpt_test_requires_js(const wpt_ctx_t *ctx, bool scripting)
 {
-    size_t i, content_len;
-
-    if (data == NULL || content == NULL) {
-        return false;
-    }
-
-    content_len = strlen(content);
-    if (content_len == 0) {
-        return true;
-    }
-
-    if (len < content_len) {
-        return false;
-    }
-
-    for (i = 0; i <= len - content_len; i++) {
-        if (memcmp(&data[i], content, content_len) == 0) {
-            return true;
-        }
-    }
-
-    return false;
+    return scripting && ctx->scripted;
 }
 
 static const char *

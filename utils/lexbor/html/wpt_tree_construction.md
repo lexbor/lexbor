@@ -34,6 +34,9 @@ The first CTest run may download WPT resources from GitHub.  In the CMake
 scenario, downloaded resources live under
 `<build-dir>/test/files/lexbor/html/wpt_tree_construction`.
 
+Tests from `scripted_*.dat` require JavaScript execution and are skipped when
+scripting is enabled.
+
 The C runner consumes the original WPT `.dat` files directly.  Downloaded WPT
 resources for direct script runs also live under
 `<build-dir>/test/files/lexbor/html/wpt_tree_construction` unless `--dest` is
