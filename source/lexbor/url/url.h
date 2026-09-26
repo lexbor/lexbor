@@ -179,6 +179,11 @@ lxb_url_t;
 typedef struct {
     lxb_url_t          *url;
     lexbor_mraw_t      *mraw;
+    /*
+     * Error contexts are owned, null-terminated copies of the suffix of the
+     * parsed input range. They remain valid until parser clean or destroy,
+     * even if entries are popped or the input and URL memory are freed.
+     */
     lexbor_plog_t      *log;
 
     lxb_unicode_idna_t *idna;
