@@ -1,5 +1,5 @@
 [
-    /* Test count: 112 */
+    /* Test count: 119 */
     /* Test number: 1 */
     {
         "data": $DATA{ ,12}
@@ -2193,6 +2193,95 @@
                       <td>
                         "cell"
                     "a"
+              <body>
+        $DATA
+    },
+    /* Test number: 113 */
+    {
+        "data": $DATA{ ,12}
+            <head><template></template></head><p><frameset>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <template>
+              <frameset>
+        $DATA
+    },
+    /* Test number: 114 */
+    {
+        "data": $DATA{ ,12}
+            <template>x</template><p><frameset>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <template>
+                  #document-fragment
+                    "x"
+              <frameset>
+        $DATA
+    },
+    /* Test number: 115 */
+    {
+        "data": $DATA{ ,12}
+            <head></head><template></template><p><frameset>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <template>
+              <frameset>
+        $DATA
+    },
+    /* Test number: 116 */
+    {
+        "data": $DATA{ ,12}
+            <p><template></template><frameset>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <p>
+                  <template>
+        $DATA
+    },
+    /* Test number: 117 */
+    {
+        "data": $DATA{ ,12}
+            <p><template><frameset></template>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+              <body>
+                <p>
+                  <template>
+        $DATA
+    },
+    /* Test number: 118 */
+    {
+        "data": $DATA{ ,12}
+            <template></template>x<frameset>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <template>
+              <body>
+                "x"
+        $DATA
+    },
+    /* Test number: 119 */
+    {
+        "data": $DATA{ ,12}
+            <template></template><body><frameset>
+        $DATA,
+        "result": $DATA{ ,12}
+            <html>
+              <head>
+                <template>
               <body>
         $DATA
     },
