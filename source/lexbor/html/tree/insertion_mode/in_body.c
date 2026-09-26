@@ -485,13 +485,13 @@ lxb_inline bool
 lxb_html_tree_insertion_mode_in_body_form(lxb_html_tree_t *tree,
                                           lxb_html_token_t *token)
 {
-    lxb_dom_node_t *node, *temp;
+    bool in_template;
+    lxb_dom_node_t *node;
     lxb_html_element_t *element;
 
-    temp = lxb_html_tree_open_elements_find_reverse(tree, LXB_TAG_TEMPLATE,
-                                                    LXB_NS_HTML, NULL);
+    in_template = lxb_html_tree_parsing_template_contents(tree);
 
-    if (tree->form != NULL && temp == NULL) {
+    if (tree->form != NULL && in_template == false) {
         lxb_html_tree_parse_error(tree, token, LXB_HTML_RULES_ERROR_UNTO);
 
         return true;
@@ -513,7 +513,7 @@ lxb_html_tree_insertion_mode_in_body_form(lxb_html_tree_t *tree,
         return lxb_html_tree_process_abort(tree);
     }
 
-    if (temp == NULL) {
+    if (in_template == false) {
         tree->form = lxb_html_interface_form(element);
     }
 
@@ -792,9 +792,7 @@ lxb_html_tree_insertion_mode_in_body_form_closed(lxb_html_tree_t *tree,
 {
     lxb_dom_node_t *node, *current;
 
-    node = lxb_html_tree_open_elements_find_reverse(tree, LXB_TAG_TEMPLATE,
-                                                    LXB_NS_HTML, NULL);
-    if (node == NULL) {
+    if (lxb_html_tree_parsing_template_contents(tree) == false) {
         node = lxb_dom_interface_node(tree->form);
 
         tree->form = NULL;
