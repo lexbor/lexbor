@@ -1,5 +1,5 @@
 [
-    /* Test count: 52 */
+    /* Test count: 71 */
     /* 1 */
     {
         "url": "https://lexbor.com/docs",
@@ -525,6 +525,192 @@
         "host": "",
         "path": "abc %20",
         "fragment": "x",
+        "failed": false
+    },
+    /* 53 */
+    {
+        "url": "https://lexbor.com/a/..?x",
+        "done": "https://lexbor.com/?x",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "query": "x",
+        "failed": false
+    },
+    /* 54 */
+    {
+        "url": "https://lexbor.com/a/.#x",
+        "done": "https://lexbor.com/a/#x",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/a/",
+        "fragment": "x",
+        "failed": false
+    },
+    /* 55 */
+    {
+        "url": "https://example.com/aaa/bbb/%2e%2e?query",
+        "done": "https://example.com/aaa/?query",
+        "scheme": "https",
+        "host": "example.com",
+        "path": "/aaa/",
+        "query": "query",
+        "failed": false
+    },
+    /* 56 */
+    {
+        "url": "https://lexbor.com/a/%2e#x",
+        "done": "https://lexbor.com/a/#x",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/a/",
+        "fragment": "x",
+        "failed": false
+    },
+    /* 57 */
+    {
+        "url": "https://lexbor.com/\u00E9/a/..?x",
+        "done": "https://lexbor.com/%C3%A9/?x",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/%C3%A9/",
+        "query": "x",
+        "failed": false
+    },
+    /* 58 */
+    {
+        "url": "https://lexbor.com/\u00E9/.#x",
+        "done": "https://lexbor.com/%C3%A9/#x",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/%C3%A9/",
+        "fragment": "x",
+        "failed": false
+    },
+    /* 59 */
+    {
+        "url": "https://lexbor.com/a/b/../.?q#f",
+        "done": "https://lexbor.com/a/?q#f",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/a/",
+        "query": "q",
+        "fragment": "f",
+        "failed": false
+    },
+    /* 60 */
+    {
+        "url": "https://lexbor.com//./c",
+        "done": "https://lexbor.com//c",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "//c",
+        "failed": false
+    },
+    /* 61 */
+    {
+        "url": "https://lexbor.com/a//./c",
+        "done": "https://lexbor.com/a//c",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/a//c",
+        "failed": false
+    },
+    /* 62 */
+    {
+        "url": "https://lexbor.com/.//\u00E9/../x",
+        "done": "https://lexbor.com//x",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "//x",
+        "failed": false
+    },
+    /* 63 */
+    {
+        "url": "https://lexbor.com//\u00E9",
+        "done": "https://lexbor.com//%C3%A9",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "//%C3%A9",
+        "failed": false
+    },
+    /* 64 */
+    {
+        "url": "https://lexbor.com/\\./y",
+        "done": "https://lexbor.com//y",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "//y",
+        "failed": false
+    },
+    /* 65 */
+    {
+        "url": "https://lexbor.com/a/b/../../../c/\u00E9/../../x",
+        "done": "https://lexbor.com/x",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/x",
+        "failed": false
+    },
+    /* 66 */
+    {
+        "url": "https://lexbor.com/.\\\\path",
+        "done": "https://lexbor.com//path",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "//path",
+        "failed": false
+    },
+    /* 67 */
+    {
+        "url": "..?x",
+        "base": "https://lexbor.com/b/c/",
+        "done": "https://lexbor.com/b/?x",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/b/",
+        "query": "x",
+        "failed": false
+    },
+    /* 68 */
+    {
+        "url": "..#f",
+        "base": "https://lexbor.com/b/c/d",
+        "done": "https://lexbor.com/b/#f",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/b/",
+        "fragment": "f",
+        "failed": false
+    },
+    /* 69 */
+    {
+        "url": "./x",
+        "base": "https://lexbor.com/b//",
+        "done": "https://lexbor.com/b//x",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/b//x",
+        "failed": false
+    },
+    /* 70 */
+    {
+        "url": "file:///C:/..?x",
+        "done": "file:///C:/?x",
+        "scheme": "file",
+        "host": "",
+        "path": "/C:/",
+        "query": "x",
+        "failed": false
+    },
+    /* 71 */
+    {
+        "url": "/..",
+        "base": "file:///C:/a/b",
+        "done": "file:///C:/",
+        "scheme": "file",
+        "host": "",
+        "path": "/C:/",
         "failed": false
     }
 ]

@@ -8,6 +8,15 @@
 #include <lexbor/url/url.h>
 
 
+typedef struct {
+    const char *base;
+    const char *input;
+    const char *path;
+    size_t     length;
+}
+test_path_length_t;
+
+
 lxb_status_t
 callback(const lxb_char_t *data, size_t len, void *ctx)
 {
@@ -189,6 +198,138 @@ TEST_BEGIN(url_path_slow_path_grow)
 }
 TEST_END
 
+TEST_BEGIN(url_path_length)
+{
+    size_t i, len;
+    lxb_status_t status;
+    lxb_url_t *url, *base;
+    lxb_url_parser_t parser;
+    const test_path_length_t *entry;
+
+    static const test_path_length_t entries[] = {
+        {NULL, "https://lexbor.com", "/", 1},
+        {NULL, "https://lexbor.com/", "/", 1},
+        {NULL, "https://lexbor.com/a", "/a", 1},
+        {NULL, "https://lexbor.com/a/", "/a/", 2},
+        {NULL, "https://lexbor.com//", "//", 2},
+        {NULL, "https://lexbor.com/a\\", "/a/", 2},
+        {NULL, "https://lexbor.com/a/.", "/a/", 2},
+        {NULL, "https://lexbor.com/a/./", "/a/", 2},
+        {NULL, "https://lexbor.com/a/..", "/", 1},
+        {NULL, "https://lexbor.com/a/../..", "/", 1},
+        {NULL, "https://lexbor.com/a/../../..?x", "/", 1},
+        {NULL, "https://lexbor.com/a/b/../../../c", "/c", 1},
+        {NULL, "https://lexbor.com/a/..?x", "/", 1},
+        {NULL, "https://lexbor.com/a/.#x", "/a/", 2},
+        {NULL, "https://lexbor.com//./c", "//c", 2},
+        {NULL, "https://lexbor.com//\u00E9", "//%C3%A9", 2},
+        {NULL, "https://lexbor.com/\u00E9/", "/%C3%A9/", 2},
+        {NULL, "https://lexbor.com/\u00E9/.", "/%C3%A9/", 2},
+        {NULL, "https://lexbor.com/\u00E9/a/..", "/%C3%A9/", 2},
+        {NULL, "https://lexbor.com/\u00E9/a/../..", "/", 1},
+        {NULL, "https://lexbor.com/\u00E9/a/..?x", "/%C3%A9/", 2},
+        {NULL, "https://lexbor.com/a/b/../../../c/\u00E9/../../x", "/x", 1},
+        {NULL, "https://lexbor.com/%2/../x", "/x", 1},
+        {NULL, "https://lexbor.com/%2/..#frag", "/", 1},
+        {NULL, "https://lexbor.com/a/%2/../../x", "/x", 1},
+        {NULL, "https://lexbor.com/%2/", "/%2/", 2},
+        {NULL, "https://lexbor.com/%?q", "/%", 1},
+        {NULL, "https://lexbor.com/%#f", "/%", 1},
+        {NULL, "https://lexbor.com//%2/../x", "//x", 2},
+        {NULL, "https://lexbor.com/\u00E9/%2/../x", "/%C3%A9/x", 2},
+        {NULL, "https://lexbor.com/.%/../x", "/x", 1},
+        {NULL, "file:///C:/..", "/C:/", 2},
+        {NULL, "file:///C:/%2/../..", "/C:/", 2},
+        {NULL, "file:///C:/a/../..", "/C:/", 2},
+        {NULL, "file:\\\\", "/", 1},
+        {NULL, "file:\\\\\\\\", "//", 2},
+        {"file:///C:/a/b", "/", "/C:/", 2},
+        {"file:///C:/a/b", "/..", "/C:/", 2},
+        {"https://lexbor.com/b/c/", ".", "/b/c/", 3},
+        {"https://lexbor.com/b/c/", "..", "/b/", 2},
+        {"https://lexbor.com/b/c/", "../../..", "/", 1},
+        {"https://lexbor.com/b//", "./x", "/b//x", 3},
+        {"https://lexbor.com/b/c/", "%2/../x", "/b/c/x", 3},
+        {"non-spec:/p", "..//path", "//path", 2}
+    };
+
+    status = lxb_url_parser_init(&parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    for (i = 0; i < sizeof(entries) / sizeof(test_path_length_t); i++) {
+        entry = &entries[i];
+        base = NULL;
+
+        if (entry->base != NULL) {
+            len = strlen(entry->base);
+
+            base = lxb_url_parse(&parser, NULL, (const lxb_char_t *) entry->base,
+                                 len);
+            test_ne(base, NULL);
+
+            lxb_url_parser_clean(&parser);
+        }
+
+        len = strlen(entry->input);
+
+        url = lxb_url_parse(&parser, base, (const lxb_char_t *) entry->input,
+                            len);
+        test_ne(url, NULL);
+
+        test_eq_str(url->path.str.data, entry->path);
+        test_eq_size(url->path.length, entry->length);
+
+        lxb_url_parser_clean(&parser);
+    }
+
+    lxb_url_parser_memory_destroy(&parser);
+    lxb_url_parser_destroy(&parser, false);
+}
+TEST_END
+
+TEST_BEGIN(url_pathname_invalid_percent)
+{
+    size_t i;
+    lxb_status_t status;
+    lxb_url_t *url;
+    lxb_url_parser_t parser;
+    const test_path_length_t *entry;
+
+    static const lexbor_str_t input = lexbor_str("https://lexbor.com/a?q#f");
+    static const test_path_length_t entries[] = {
+        {NULL, "/%2/../x", "/x", 1},
+        {NULL, "/a/%2/../../x", "/x", 1},
+        {NULL, "/%2/", "/%2/", 2},
+        {NULL, "/%2/..#frag", "/%2/..%23frag", 2},
+        {NULL, "/%2/..?query", "/%2/..%3Fquery", 2},
+        {NULL, "/%\u00E9/../x", "/x", 1}
+    };
+
+    status = lxb_url_parser_init(&parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    url = lxb_url_parse(&parser, NULL, input.data, input.length);
+    test_ne(url, NULL);
+
+    for (i = 0; i < sizeof(entries) / sizeof(test_path_length_t); i++) {
+        entry = &entries[i];
+        lxb_url_parser_clean(&parser);
+
+        status = lxb_url_api_pathname_set(url, &parser,
+                                          (const lxb_char_t *) entry->input,
+                                          strlen(entry->input));
+        test_eq(status, LXB_STATUS_OK);
+        test_eq_str(url->path.str.data, entry->path);
+        test_eq_size(url->path.length, entry->length);
+        test_eq_str(url->query.data, "q");
+        test_eq_str(url->fragment.data, "f");
+    }
+
+    lxb_url_parser_memory_destroy(&parser);
+    lxb_url_parser_destroy(&parser, false);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -199,6 +340,8 @@ main(int argc, const char * argv[])
     TEST_ADD(url_file_change_hostname);
     TEST_ADD(url_search_params_append_after_tail_token);
     TEST_ADD(url_path_slow_path_grow);
+    TEST_ADD(url_path_length);
+    TEST_ADD(url_pathname_invalid_percent);
 
     TEST_RUN("lexbor/url/other");
     TEST_RELEASE();
