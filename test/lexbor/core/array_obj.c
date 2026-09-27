@@ -16,6 +16,26 @@ typedef struct {
 test_struct_t;
 
 
+static size_t test_alloc_size;
+
+
+static void *
+test_malloc(size_t size)
+{
+    test_alloc_size = size;
+
+    return malloc(size);
+}
+
+static void *
+test_realloc(void *dst, size_t size)
+{
+    test_alloc_size = size;
+
+    return realloc(dst, size);
+}
+
+
 TEST_BEGIN(init)
 {
     lexbor_array_obj_t *array = lexbor_array_obj_create();
@@ -24,6 +44,27 @@ TEST_BEGIN(init)
     test_eq(status, LXB_STATUS_OK);
 
     lexbor_array_obj_destroy(array, true);
+}
+TEST_END
+
+TEST_BEGIN(init_alloc_size)
+{
+    lxb_status_t status;
+    lexbor_array_obj_t array;
+
+    test_alloc_size = 0;
+
+    status = lexbor_memory_setup(test_malloc, test_realloc, calloc, free);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lexbor_array_obj_init(&array, 32, sizeof(test_struct_t));
+
+    (void) lexbor_memory_setup(malloc, realloc, calloc, free);
+
+    test_eq(status, LXB_STATUS_OK);
+    test_eq_size(test_alloc_size, 32 * sizeof(test_struct_t));
+
+    lexbor_array_obj_destroy(&array, false);
 }
 TEST_END
 
@@ -222,6 +263,40 @@ TEST_BEGIN(delete)
 }
 TEST_END
 
+TEST_BEGIN(delete_moves_remaining_only)
+{
+    test_struct_t *entry;
+    lexbor_array_obj_t array;
+
+    lexbor_array_obj_init(&array, 32, sizeof(test_struct_t));
+
+    for (size_t i = 0; i < 12; i++) {
+        entry = lexbor_array_obj_push(&array);
+        entry->data = (char *) i;
+        entry->len = i;
+    }
+
+    /* Entries 10 and 11 stay in memory after the last entry. */
+    lexbor_array_obj_pop(&array);
+    lexbor_array_obj_pop(&array);
+
+    lexbor_array_obj_delete(&array, 0, 1);
+    test_eq_size(lexbor_array_obj_length(&array), 9UL);
+
+    for (size_t i = 0; i < 9; i++) {
+        entry = lexbor_array_obj_get(&array, i);
+        test_eq(entry->data, (void *) (i + 1));
+        test_eq_size(entry->len, i + 1);
+    }
+
+    entry = (test_struct_t *) (array.list + (10 * array.struct_size));
+    test_eq(entry->data, (void *) 10);
+    test_eq_size(entry->len, 10UL);
+
+    lexbor_array_obj_destroy(&array, false);
+}
+TEST_END
+
 TEST_BEGIN(delete_if_empty)
 {
     lexbor_array_obj_t array;
@@ -258,6 +333,29 @@ TEST_BEGIN(expand)
 }
 TEST_END
 
+TEST_BEGIN(expand_alloc_size)
+{
+    lxb_status_t status;
+    lexbor_array_obj_t array;
+
+    lexbor_array_obj_init(&array, 32, sizeof(test_struct_t));
+
+    test_alloc_size = 0;
+
+    status = lexbor_memory_setup(test_malloc, test_realloc, calloc, free);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_ne(lexbor_array_obj_expand(&array, 128), NULL);
+
+    (void) lexbor_memory_setup(malloc, realloc, calloc, free);
+
+    test_eq_size(lexbor_array_obj_size(&array), 128UL);
+    test_eq_size(test_alloc_size, 128 * sizeof(test_struct_t));
+
+    lexbor_array_obj_destroy(&array, false);
+}
+TEST_END
+
 TEST_BEGIN(destroy)
 {
     lexbor_array_obj_t *array = lexbor_array_obj_create();
@@ -289,6 +387,7 @@ main(int argc, const char * argv[])
     TEST_INIT();
 
     TEST_ADD(init);
+    TEST_ADD(init_alloc_size);
     TEST_ADD(init_null);
     TEST_ADD(init_stack);
     TEST_ADD(clean);
@@ -296,8 +395,10 @@ main(int argc, const char * argv[])
     TEST_ADD(pop);
     TEST_ADD(pop_if_empty);
     TEST_ADD(delete);
+    TEST_ADD(delete_moves_remaining_only);
     TEST_ADD(delete_if_empty);
     TEST_ADD(expand);
+    TEST_ADD(expand_alloc_size);
     TEST_ADD(destroy);
     TEST_ADD(destroy_stack);
 
