@@ -76,6 +76,11 @@ lxb_dom_character_data_interface_copy(lxb_dom_character_data_t *dst,
 
     dst->data.length = 0;
 
+    if (src->data.data == NULL) {
+        /* Interface factories use a NULL buffer for empty data. */
+        return LXB_STATUS_OK;
+    }
+
     if (lexbor_str_copy(&dst->data, &src->data,
                         lxb_dom_interface_node(dst)->owner_document->text) == NULL)
     {

@@ -28,6 +28,27 @@ lxb_dom_document_fragment_interface_create(lxb_dom_document_t *document)
 }
 
 lxb_dom_document_fragment_t *
+lxb_dom_document_fragment_interface_clone(lxb_dom_document_t *document,
+                                          const lxb_dom_document_fragment_t *fragment)
+{
+    lxb_dom_document_fragment_t *new;
+
+    new = lxb_dom_document_fragment_interface_create(document);
+    if (new == NULL) {
+        return NULL;
+    }
+
+    if (lxb_dom_node_interface_copy(&new->node, &fragment->node, false)
+        != LXB_STATUS_OK)
+    {
+        return lxb_dom_document_fragment_interface_destroy(new);
+    }
+
+    /* Do not retain the source host association. */
+    return new;
+}
+
+lxb_dom_document_fragment_t *
 lxb_dom_document_fragment_interface_destroy(lxb_dom_document_fragment_t *document_fragment)
 {
     (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(document_fragment));
