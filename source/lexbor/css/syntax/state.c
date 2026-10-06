@@ -1115,7 +1115,7 @@ lxb_css_syntax_state_consume_numeric(lxb_css_syntax_tokenizer_t *tkz,
 
     /* U+0030 DIGIT ZERO (0) and U+0039 DIGIT NINE (9) */
     do {
-        if (e_digit < INT_MAX / 10) {
+        if (e_digit < INT_MAX / 100) {
             e_digit = (*data - 0x30) + e_digit * 0x0A;
         }
 
