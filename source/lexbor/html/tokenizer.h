@@ -290,7 +290,18 @@ lxb_inline lxb_status_t
 lxb_html_tokenizer_temp_realloc(lxb_html_tokenizer_t *tkz, size_t size)
 {
     size_t length = tkz->pos - tkz->start;
-    size_t new_size = (tkz->end - tkz->start) + size + 4096;
+    size_t capacity = tkz->end - tkz->start;
+
+    if (capacity > SIZE_MAX - 4096 || size > SIZE_MAX - capacity - 4096) {
+        tkz->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        return tkz->status;
+    }
+
+    size_t new_size = capacity + size + 4096;
+
+    if (capacity <= SIZE_MAX / 2 && new_size < capacity * 2) {
+        new_size = capacity * 2;
+    }
 
     tkz->start = (lxb_char_t *)lexbor_realloc(tkz->start, new_size);
     if (tkz->start == NULL) {
