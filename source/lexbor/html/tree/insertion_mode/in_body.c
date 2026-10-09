@@ -59,7 +59,7 @@ bool
 lxb_html_tree_insertion_mode_in_body_skip_new_line_textarea(lxb_html_tree_t *tree,
                                                             lxb_html_token_t *token)
 {
-    tree->mode = tree->original_mode;
+    tree->mode = lxb_html_tree_insertion_mode_text;
 
     if (token->tag_id != LXB_TAG__TEXT) {
         return false;
