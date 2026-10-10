@@ -746,6 +746,23 @@ lxb_selectors_state_find(lxb_selectors_t *selectors,
     }
 
     if (node == NULL) {
+        /*
+         * The descendant combinator has no ancestors left to try.  Retries
+         * of the entries on the right only move them up or to preceding
+         * siblings, so they cannot give it an ancestor it has not tried:
+         * this selector does not match, go to the next one in the list.
+         *
+         * Not while :nth-child(An+B of S) counts siblings: it resumes S
+         * from the entry where it stopped for the previous sibling.
+         */
+        if (entry->combinator == LXB_CSS_SELECTOR_COMBINATOR_DESCENDANT
+            && (selectors->current->cb != lxb_selectors_cb_nth_ok
+                || selectors->current->index == 0))
+        {
+            return lxb_selectors_next_list(selectors,
+                                           selectors->current->first);
+        }
+
         selectors->state = lxb_selectors_state_not_found;
     }
     else {
