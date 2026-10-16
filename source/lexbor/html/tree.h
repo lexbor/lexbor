@@ -48,6 +48,15 @@ struct lxb_html_tree {
     lexbor_array_t                 *active_formatting;
     lexbor_array_obj_t             *template_insertion_modes;
 
+    /*
+     * For each entry of open_elements: whether the stack up to and including
+     * that entry has a p element in button scope.  Entries below p_scope_valid
+     * are up to date.
+     */
+    bool                           *p_scope;
+    size_t                         p_scope_size;
+    size_t                         p_scope_valid;
+
     lxb_html_tree_pending_table_t  pending_table;
 
     lexbor_array_obj_t             *parse_errors;

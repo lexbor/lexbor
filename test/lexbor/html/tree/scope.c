@@ -104,6 +104,88 @@ TEST_BEGIN(option_optgroup_scope)
 }
 TEST_END
 
+TEST_BEGIN(p_button_scope)
+{
+    lxb_html_tokenizer_t *tkz;
+    lxb_html_tree_t *tree = scope_tree_create(&tkz);
+
+    lxb_dom_node_t html = scope_node(LXB_TAG_HTML, LXB_NS_HTML);
+    lxb_dom_node_t p = scope_node(LXB_TAG_P, LXB_NS_HTML);
+    lxb_dom_node_t svg_p = scope_node(LXB_TAG_P, LXB_NS_SVG);
+    lxb_dom_node_t div = scope_node(LXB_TAG_DIV, LXB_NS_HTML);
+    lxb_dom_node_t button = scope_node(LXB_TAG_BUTTON, LXB_NS_HTML);
+    lxb_dom_node_t svg_button = scope_node(LXB_TAG_BUTTON, LXB_NS_SVG);
+    lxb_dom_node_t foreign_object = scope_node(LXB_TAG_FOREIGNOBJECT,
+                                               LXB_NS_SVG);
+
+    test_eq(lxb_html_tree_open_elements_push(tree, &html), LXB_STATUS_OK);
+    test_eq(lxb_html_tree_open_elements_push(tree, &div), LXB_STATUS_OK);
+    test_eq(lxb_html_tree_open_elements_push(tree, &div), LXB_STATUS_OK);
+    test_eq(lxb_html_tree_element_in_scope(tree, LXB_TAG_P, LXB_NS_HTML,
+                                           LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON),
+            NULL);
+
+    /* A p inserted below the current node. */
+    test_eq(lxb_html_tree_open_elements_insert_after(tree, &p, 0),
+            LXB_STATUS_OK);
+    test_eq(lxb_html_tree_element_in_scope(tree, LXB_TAG_P, LXB_NS_HTML,
+                                           LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON),
+            &p);
+
+    /* A button above the p hides it until the button is popped. */
+    test_eq(lxb_html_tree_open_elements_push(tree, &button), LXB_STATUS_OK);
+    test_eq(lxb_html_tree_open_elements_push(tree, &svg_button), LXB_STATUS_OK);
+    test_eq(lxb_html_tree_element_in_scope(tree, LXB_TAG_P, LXB_NS_HTML,
+                                           LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON),
+            NULL);
+
+    /* The test nodes have no owner document for the pop callbacks. */
+    lexbor_array_pop(tree->open_elements);
+    lexbor_array_pop(tree->open_elements);
+    test_eq(lxb_html_tree_element_in_scope(tree, LXB_TAG_P, LXB_NS_HTML,
+                                           LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON),
+            &p);
+
+    /* A button removed from below the current node. */
+    test_eq(lxb_html_tree_open_elements_push(tree, &button), LXB_STATUS_OK);
+    test_eq(lxb_html_tree_open_elements_push(tree, &div), LXB_STATUS_OK);
+    test_eq(lxb_html_tree_element_in_scope(tree, LXB_TAG_P, LXB_NS_HTML,
+                                           LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON),
+            NULL);
+
+    lxb_html_tree_open_elements_remove_by_node(tree, &button);
+    test_eq(lxb_html_tree_element_in_scope(tree, LXB_TAG_P, LXB_NS_HTML,
+                                           LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON),
+            &p);
+
+    lxb_html_tree_open_elements_remove_by_node(tree, &p);
+    test_eq(lxb_html_tree_element_in_scope(tree, LXB_TAG_P, LXB_NS_HTML,
+                                           LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON),
+            NULL);
+
+    /*
+     * Foreign elements: a p in SVG is not an HTML p, and foreignObject is a
+     * scope boundary.
+     */
+    lxb_html_tree_clean(tree);
+
+    test_eq(lxb_html_tree_open_elements_push(tree, &html), LXB_STATUS_OK);
+    test_eq(lxb_html_tree_open_elements_push(tree, &svg_p), LXB_STATUS_OK);
+    test_eq(lxb_html_tree_element_in_scope(tree, LXB_TAG_P, LXB_NS_HTML,
+                                           LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON),
+            NULL);
+
+    test_eq(lxb_html_tree_open_elements_push(tree, &p), LXB_STATUS_OK);
+    test_eq(lxb_html_tree_open_elements_push(tree, &foreign_object),
+            LXB_STATUS_OK);
+    test_eq(lxb_html_tree_element_in_scope(tree, LXB_TAG_P, LXB_NS_HTML,
+                                           LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON),
+            NULL);
+
+    scope_tree_destroy(tree, tkz);
+}
+TEST_END
+
 static lxb_html_tree_t *
 scope_tree_create(lxb_html_tokenizer_t **tkz)
 {
@@ -159,6 +241,7 @@ main(int argc, const char * argv[])
     TEST_ADD(tbody_thead_tfoot_scope);
     TEST_ADD(td_th_scope);
     TEST_ADD(option_optgroup_scope);
+    TEST_ADD(p_button_scope);
 
     TEST_RUN("lexbor/html/tree/scope");
     TEST_RELEASE();
