@@ -48,6 +48,8 @@ lxb_html_tree_open_elements_remove_by_node(lxb_html_tree_t *tree,
 
             tree->open_elements->length--;
 
+            lxb_html_tree_open_elements_changed_at(tree, len);
+
             break;
         }
     }
@@ -334,4 +336,55 @@ lxb_html_tree_open_elements_find_reverse(lxb_html_tree_t *tree,
     }
 
     return NULL;
+}
+
+bool
+lxb_html_tree_open_elements_p_in_button_scope(lxb_html_tree_t *tree)
+{
+    bool *p_scope;
+    bool in_scope;
+    size_t idx, size;
+    lxb_dom_node_t *node;
+
+    size_t len = tree->open_elements->length;
+    void **list = tree->open_elements->list;
+
+    if (len == 0) {
+        return false;
+    }
+
+    if (len > tree->p_scope_size) {
+        size = tree->open_elements->size;
+
+        p_scope = lexbor_realloc(tree->p_scope, sizeof(bool) * size);
+        if (p_scope == NULL) {
+            /* The caller falls back to walking the stack. */
+            return true;
+        }
+
+        tree->p_scope = p_scope;
+        tree->p_scope_size = size;
+    }
+
+    idx = (tree->p_scope_valid < len) ? tree->p_scope_valid : len;
+    in_scope = (idx != 0) ? tree->p_scope[idx - 1] : false;
+
+    for (; idx < len; idx++) {
+        node = list[idx];
+
+        if (node->local_name == LXB_TAG_P && node->ns == LXB_NS_HTML) {
+            in_scope = true;
+        }
+        else if (lxb_html_tag_is_category(node->local_name, node->ns,
+                                          LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON))
+        {
+            in_scope = false;
+        }
+
+        tree->p_scope[idx] = in_scope;
+    }
+
+    tree->p_scope_valid = len;
+
+    return in_scope;
 }
