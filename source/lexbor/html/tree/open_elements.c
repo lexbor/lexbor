@@ -353,6 +353,14 @@ lxb_html_tree_open_elements_p_in_button_scope(lxb_html_tree_t *tree)
         return false;
     }
 
+    idx = tree->p_scope_valid;
+
+    if (idx >= len) {
+        tree->p_scope_valid = len;
+
+        return tree->p_scope[len - 1];
+    }
+
     if (len > tree->p_scope_size) {
         size = tree->open_elements->size;
 
@@ -366,7 +374,6 @@ lxb_html_tree_open_elements_p_in_button_scope(lxb_html_tree_t *tree)
         tree->p_scope_size = size;
     }
 
-    idx = (tree->p_scope_valid < len) ? tree->p_scope_valid : len;
     in_scope = (idx != 0) ? tree->p_scope[idx - 1] : false;
 
     for (; idx < len; idx++) {

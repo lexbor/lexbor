@@ -71,10 +71,6 @@ lxb_html_tree_init(lxb_html_tree_t *tree, lxb_html_tokenizer_t *tkz)
         return status;
     }
 
-    tree->p_scope = NULL;
-    tree->p_scope_size = 0;
-    tree->p_scope_valid = 0;
-
     /* Stack of active formatting */
     tree->active_formatting = lexbor_array_create();
     status = lexbor_array_init(tree->active_formatting, 128);
@@ -123,6 +119,10 @@ lxb_html_tree_init(lxb_html_tree_t *tree, lxb_html_tokenizer_t *tkz)
 
     tree->ref_count = 1;
 
+    tree->p_scope = NULL;
+    tree->p_scope_size = 0;
+    tree->p_scope_valid = 0;
+
     lxb_html_tokenizer_callback_token_done_set(tkz,
                                                lxb_html_tree_token_callback,
                                                tree);
@@ -162,7 +162,6 @@ void
 lxb_html_tree_clean(lxb_html_tree_t *tree)
 {
     lexbor_array_clean(tree->open_elements);
-    tree->p_scope_valid = 0;
     lexbor_array_clean(tree->active_formatting);
     lexbor_array_obj_clean(tree->template_insertion_modes);
     lexbor_array_obj_clean(tree->pending_table.text_list);
@@ -180,6 +179,8 @@ lxb_html_tree_clean(lxb_html_tree_t *tree)
     tree->before_append_attr = NULL;
 
     tree->status = LXB_STATUS_OK;
+
+    tree->p_scope_valid = 0;
 }
 
 lxb_html_tree_t *
@@ -190,13 +191,13 @@ lxb_html_tree_destroy(lxb_html_tree_t *tree)
     }
 
     tree->open_elements = lexbor_array_destroy(tree->open_elements, true);
-    tree->p_scope = lexbor_free(tree->p_scope);
     tree->active_formatting = lexbor_array_destroy(tree->active_formatting,
                                                    true);
     tree->template_insertion_modes = lexbor_array_obj_destroy(tree->template_insertion_modes,
                                                               true);
     tree->pending_table.text_list = lexbor_array_obj_destroy(tree->pending_table.text_list,
                                                              true);
+    tree->p_scope = lexbor_free(tree->p_scope);
 
     tree->parse_errors = lexbor_array_obj_destroy(tree->parse_errors, true);
     tree->tkz_ref = lxb_html_tokenizer_unref(tree->tkz_ref);
