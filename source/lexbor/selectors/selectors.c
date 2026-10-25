@@ -752,8 +752,8 @@ lxb_selectors_state_find(lxb_selectors_t *selectors,
          * siblings, so they cannot give it an ancestor it has not tried:
          * this selector does not match, go to the next one in the list.
          *
-         * Not while :nth-child(An+B of S) counts siblings: it resumes S
-         * from the entry where it stopped for the previous sibling.
+         * Keep the existing retry path while :nth-child(An+B of S)
+         * counts siblings.
          */
         if (entry->combinator == LXB_CSS_SELECTOR_COMBINATOR_DESCENDANT
             && (selectors->current->cb != lxb_selectors_cb_nth_ok
@@ -1271,8 +1271,11 @@ lxb_selectors_state_after_nth_child(lxb_selectors_t *selectors,
                                                   current->index);
     }
 
+    entry = current->top;
     current->root = node;
-    current->entry->node = node;
+    current->entry = entry;
+    current->first = entry;
+    entry->node = node;
 
     selectors->state = lxb_selectors_state_find;
 
@@ -1297,6 +1300,8 @@ lxb_selectors_state_nth_child_found(lxb_selectors_t *selectors,
     }
 
     current->root = node;
+    current->entry = current->top;
+    current->first = current->top;
     current->entry->node = node;
 
     selectors->current = current;
