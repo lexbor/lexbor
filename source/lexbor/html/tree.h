@@ -63,6 +63,15 @@ struct lxb_html_tree {
     lxb_status_t                   status;
 
     size_t                         ref_count;
+
+    /*
+     * For each entry of open_elements: whether the stack up to and including
+     * that entry has a p element in button scope.  Entries below p_scope_valid
+     * are up to date.
+     */
+    bool                           *p_scope;
+    size_t                         p_scope_size;
+    size_t                         p_scope_valid;
 };
 
 typedef enum {

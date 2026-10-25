@@ -119,6 +119,10 @@ lxb_html_tree_init(lxb_html_tree_t *tree, lxb_html_tokenizer_t *tkz)
 
     tree->ref_count = 1;
 
+    tree->p_scope = NULL;
+    tree->p_scope_size = 0;
+    tree->p_scope_valid = 0;
+
     lxb_html_tokenizer_callback_token_done_set(tkz,
                                                lxb_html_tree_token_callback,
                                                tree);
@@ -175,6 +179,8 @@ lxb_html_tree_clean(lxb_html_tree_t *tree)
     tree->before_append_attr = NULL;
 
     tree->status = LXB_STATUS_OK;
+
+    tree->p_scope_valid = 0;
 }
 
 lxb_html_tree_t *
@@ -191,6 +197,7 @@ lxb_html_tree_destroy(lxb_html_tree_t *tree)
                                                               true);
     tree->pending_table.text_list = lexbor_array_obj_destroy(tree->pending_table.text_list,
                                                              true);
+    tree->p_scope = lexbor_free(tree->p_scope);
 
     tree->parse_errors = lexbor_array_obj_destroy(tree->parse_errors, true);
     tree->tkz_ref = lxb_html_tokenizer_unref(tree->tkz_ref);
@@ -1155,6 +1162,13 @@ lxb_html_tree_element_in_scope(lxb_html_tree_t *tree, lxb_tag_id_t tag_id,
     size_t idx = tree->open_elements->length;
     void **list = tree->open_elements->list;
 
+    if (tag_id == LXB_TAG_P && ns == LXB_NS_HTML
+        && ct == LXB_HTML_TAG_CATEGORY_SCOPE_BUTTON
+        && !lxb_html_tree_open_elements_p_in_button_scope(tree))
+    {
+        return NULL;
+    }
+
     while (idx != 0) {
         idx--;
         node = list[idx];
@@ -1612,6 +1626,8 @@ lxb_html_tree_adoption_agency_algorithm(lxb_html_tree_t *tree,
 
             afe_list[afe_node_idx] = node;
             oel_list[node_idx] = node;
+
+            lxb_html_tree_open_elements_changed_at(tree, node_idx);
 
             /* State 14.8 */
             if (last == furthest_block) {

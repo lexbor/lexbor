@@ -63,6 +63,9 @@ lxb_html_tree_open_elements_find_reverse(lxb_html_tree_t *tree,
                                          lxb_tag_id_t tag_id, lxb_ns_id_t ns,
                                          size_t *return_index);
 
+LXB_API bool
+lxb_html_tree_open_elements_p_in_button_scope(lxb_html_tree_t *tree);
+
 
 /*
  * Inline functions
@@ -79,9 +82,19 @@ lxb_html_tree_open_elements_get(lxb_html_tree_t *tree, size_t idx)
     return (lxb_dom_node_t *) lexbor_array_get(tree->open_elements, idx);
 }
 
+lxb_inline void
+lxb_html_tree_open_elements_changed_at(lxb_html_tree_t *tree, size_t idx)
+{
+    if (tree->p_scope_valid > idx) {
+        tree->p_scope_valid = idx;
+    }
+}
+
 lxb_inline lxb_status_t
 lxb_html_tree_open_elements_push(lxb_html_tree_t *tree, lxb_dom_node_t *node)
 {
+    lxb_html_tree_open_elements_changed_at(tree, tree->open_elements->length);
+
     return lexbor_array_push(tree->open_elements, node);
 }
 
@@ -89,6 +102,8 @@ lxb_inline lxb_status_t
 lxb_html_tree_open_elements_insert_after(lxb_html_tree_t *tree, lxb_dom_node_t *node,
                                     size_t idx)
 {
+    lxb_html_tree_open_elements_changed_at(tree, idx + 1);
+
     return lexbor_array_insert(tree->open_elements, (idx + 1), node);
 }
 
