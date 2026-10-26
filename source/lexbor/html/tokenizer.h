@@ -289,15 +289,30 @@ lxb_html_tokenizer_keep_duplicate_set(lxb_html_tokenizer_t *tkz, bool keep)
 lxb_inline lxb_status_t
 lxb_html_tokenizer_temp_realloc(lxb_html_tokenizer_t *tkz, size_t size)
 {
-    size_t length = tkz->pos - tkz->start;
-    size_t new_size = (tkz->end - tkz->start) + size + 4096;
+    size_t length, capacity, new_size;
+    lxb_char_t *start;
 
-    tkz->start = (lxb_char_t *)lexbor_realloc(tkz->start, new_size);
-    if (tkz->start == NULL) {
+    length = tkz->pos - tkz->start;
+    capacity = tkz->end - tkz->start;
+
+    if (capacity > SIZE_MAX - 4096 || size > SIZE_MAX - capacity - 4096) {
         tkz->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         return tkz->status;
     }
 
+    new_size = capacity + size + 4096;
+
+    if (capacity <= SIZE_MAX / 2 && new_size < capacity * 2) {
+        new_size = capacity * 2;
+    }
+
+    start = (lxb_char_t *) lexbor_realloc(tkz->start, new_size);
+    if (start == NULL) {
+        tkz->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        return tkz->status;
+    }
+
+    tkz->start = start;
     tkz->pos = tkz->start + length;
     tkz->end = tkz->start + new_size;
 
