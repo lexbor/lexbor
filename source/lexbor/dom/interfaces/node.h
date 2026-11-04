@@ -101,6 +101,8 @@ struct lxb_dom_node {
 
     lxb_dom_node_type_t    type;
 
+    size_t                 ref_count;
+
 #ifdef LXB_DOM_NODE_USER_VARIABLES
     LXB_DOM_NODE_USER_VARIABLES
 #endif /* LXB_DOM_NODE_USER_VARIABLES */

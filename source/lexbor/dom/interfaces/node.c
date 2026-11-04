@@ -113,6 +113,7 @@ lxb_dom_node_interface_create(lxb_dom_document_t *document)
 
     element->owner_document = lxb_dom_document_owner(document);
     element->type = LXB_DOM_NODE_TYPE_UNDEF;
+    element->ref_count = 1;
 
     return element;
 }
@@ -139,6 +140,10 @@ lxb_dom_node_t *
 lxb_dom_node_interface_destroy(lxb_dom_node_t *node)
 {
     lxb_dom_document_t *doc = node->owner_document;
+    --node->ref_count;
+    if (node->ref_count > 0) {
+        return node;
+    }
 
     return lexbor_mraw_free(doc->mraw, node);
 }
@@ -258,6 +263,9 @@ lxb_dom_node_interface_copy(lxb_dom_node_t *dst,
 lxb_dom_node_t *
 lxb_dom_node_destroy(lxb_dom_node_t *node)
 {
+    if (node == NULL) {
+        return NULL;
+    }
     lxb_dom_node_remove(node);
     return lxb_dom_document_destroy_interface(node);
 }
@@ -884,6 +892,9 @@ lxb_dom_node_remove_wo_events(lxb_dom_node_t *node)
 void
 lxb_dom_node_remove(lxb_dom_node_t *node)
 {
+    if (node == NULL) {
+        return;
+    }
     lxb_dom_node_t *parent = node->parent;
     lxb_dom_document_t *doc = node->owner_document;
 

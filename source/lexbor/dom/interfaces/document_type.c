@@ -32,6 +32,7 @@ lxb_dom_document_type_interface_create(lxb_dom_document_t *document)
 
     node->owner_document = lxb_dom_document_owner(document);
     node->type = LXB_DOM_NODE_TYPE_DOCUMENT_TYPE;
+    node->ref_count = 1;
 
     element->name = LXB_DOM_ATTR_HTML;
 
@@ -103,12 +104,12 @@ lxb_dom_document_type_interface_destroy(lxb_dom_document_type_t *document_type)
     public_id = document_type->public_id;
     system_id = document_type->system_id;
 
-    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(document_type));
-
-    (void) lexbor_str_destroy(&public_id, text, false);
-    (void) lexbor_str_destroy(&system_id, text, false);
-
-    return NULL;
+    lxb_dom_node_t *result = lxb_dom_node_interface_destroy(lxb_dom_interface_node(document_type));
+    if (result == NULL) {
+        (void) lexbor_str_destroy(&public_id, text, false);
+        (void) lexbor_str_destroy(&system_id, text, false);
+    }
+    return lxb_dom_interface_document_type(result);
 }
 
 lxb_dom_document_type_t *

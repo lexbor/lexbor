@@ -12,11 +12,11 @@ extern "C" {
 #endif
 
 #include "lexbor/html/interface.h"
-#include "lexbor/dom/interfaces/event_target.h"
+#include "lexbor/dom/interfaces/node.h"
 
 
 struct lxb_html_window {
-    lxb_dom_event_target_t event_target;
+    lxb_dom_node_t node;
 };
 
 

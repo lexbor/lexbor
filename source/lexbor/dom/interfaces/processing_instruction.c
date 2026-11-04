@@ -23,6 +23,7 @@ lxb_dom_processing_instruction_interface_create(lxb_dom_document_t *document)
 
     node->owner_document = lxb_dom_document_owner(document);
     node->type = LXB_DOM_NODE_TYPE_PROCESSING_INSTRUCTION;
+    node->ref_count = 1;
 
     return element;
 }
@@ -56,12 +57,14 @@ lxb_dom_processing_instruction_interface_destroy(lxb_dom_processing_instruction_
     text = lxb_dom_interface_node(processing_instruction)->owner_document->text;
     target = processing_instruction->target;
 
-    (void) lxb_dom_character_data_interface_destroy(
-                      lxb_dom_interface_character_data(processing_instruction));
+    lxb_dom_character_data_t *result = lxb_dom_character_data_interface_destroy(
+        lxb_dom_interface_character_data(processing_instruction));
 
-    (void) lexbor_str_destroy(&target, text, false);
+    if (result == NULL) {
+        lexbor_str_destroy(&target, text, false);
+    }
 
-    return NULL;
+    return lxb_dom_interface_processing_instruction(result);
 }
 
 lxb_status_t

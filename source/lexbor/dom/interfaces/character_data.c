@@ -23,6 +23,7 @@ lxb_dom_character_data_interface_create(lxb_dom_document_t *document)
 
     node->owner_document = lxb_dom_document_owner(document);
     node->type = LXB_DOM_NODE_TYPE_CHARACTER_DATA;
+    node->ref_count = 1;
 
     return element;
 }
@@ -56,11 +57,12 @@ lxb_dom_character_data_interface_destroy(lxb_dom_character_data_t *character_dat
     node = lxb_dom_interface_node(character_data);
     doc = node->owner_document;
 
-    (void) lxb_dom_node_interface_destroy(node);
+    lxb_dom_node_t *result = lxb_dom_node_interface_destroy(node);
+    if (result == NULL) {
+        lexbor_str_destroy(&data, doc->text, false);
+    }
 
-    lexbor_str_destroy(&data, doc->text, false);
-
-    return NULL;
+    return lxb_dom_interface_character_data(result);
 }
 
 lxb_status_t

@@ -23,6 +23,7 @@ lxb_dom_cdata_section_interface_create(lxb_dom_document_t *document)
 
     node->owner_document = lxb_dom_document_owner(document);
     node->type = LXB_DOM_NODE_TYPE_CDATA_SECTION;
+    node->ref_count = 1;
 
     return element;
 }
@@ -50,6 +51,6 @@ lxb_dom_cdata_section_interface_clone(lxb_dom_document_t *document,
 lxb_dom_cdata_section_t *
 lxb_dom_cdata_section_interface_destroy(lxb_dom_cdata_section_t *cdata_section)
 {
-    (void) lxb_dom_text_interface_destroy(lxb_dom_interface_text(cdata_section));
-    return NULL;
+    return lxb_dom_interface_cdata_section(
+        lxb_dom_text_interface_destroy(lxb_dom_interface_text(cdata_section)));
 }
