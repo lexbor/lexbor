@@ -80,6 +80,15 @@ lxb_dom_interface_destroy(lxb_dom_interface_t *intrfc)
     lxb_dom_node_t *node = intrfc;
 
     switch (node->type) {
+        case LXB_DOM_NODE_TYPE_ATTRIBUTE:
+            return lxb_dom_attr_interface_destroy(intrfc);
+
+        case LXB_DOM_NODE_TYPE_CHARACTER_DATA:
+            return lxb_dom_character_data_interface_destroy(intrfc);
+
+        case LXB_DOM_NODE_TYPE_SHADOW_ROOT:
+            return lxb_dom_shadow_root_interface_destroy(intrfc);
+
         case LXB_DOM_NODE_TYPE_ELEMENT:
             return lxb_dom_element_interface_destroy(intrfc);
 
@@ -105,6 +114,6 @@ lxb_dom_interface_destroy(lxb_dom_interface_t *intrfc)
             return lxb_dom_document_fragment_interface_destroy(intrfc);
 
         default:
-            return lexbor_mraw_free(node->owner_document->mraw, intrfc);
+            return lxb_dom_node_interface_destroy(node);
     }
 }
