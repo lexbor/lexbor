@@ -19,8 +19,6 @@ lxb_dom_event_target_create(lxb_dom_document_t *document)
         return NULL;
     }
 
-    lxb_dom_interface_node(element)->type = LXB_DOM_NODE_TYPE_UNDEF;
-
     return element;
 }
 

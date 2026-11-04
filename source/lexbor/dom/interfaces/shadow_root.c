@@ -23,6 +23,7 @@ lxb_dom_shadow_root_interface_create(lxb_dom_document_t *document)
 
     node->owner_document = lxb_dom_document_owner(document);
     node->type = LXB_DOM_NODE_TYPE_SHADOW_ROOT;
+    node->ref_count = 1;
 
     return element;
 }
@@ -30,7 +31,7 @@ lxb_dom_shadow_root_interface_create(lxb_dom_document_t *document)
 lxb_dom_shadow_root_t *
 lxb_dom_shadow_root_interface_destroy(lxb_dom_shadow_root_t *shadow_root)
 {
-    (void) lxb_dom_document_fragment_interface_destroy(
-                        lxb_dom_interface_document_fragment(shadow_root));
-    return NULL;
+    return lxb_dom_interface_shadow_root(
+        lxb_dom_document_fragment_interface_destroy(
+            lxb_dom_interface_document_fragment(shadow_root)));
 }

@@ -24,6 +24,7 @@ lxb_html_title_element_interface_create(lxb_html_document_t *document)
 
     node->owner_document = lxb_html_document_original_ref(document);
     node->type = LXB_DOM_NODE_TYPE_ELEMENT;
+    node->ref_count = 1;
 
     return element;
 }
@@ -36,14 +37,14 @@ lxb_html_title_element_interface_destroy(lxb_html_title_element_t *title)
 
     text = title->strict_text;
 
-    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(title));
+    lxb_dom_node_t *result = lxb_dom_node_interface_destroy(lxb_dom_interface_node(title));
 
-    if (text != NULL) {
+    if (result == NULL && text != NULL) {
         lexbor_str_destroy(text, doc->text, false);
         lxb_dom_document_destroy_struct(doc, text);
     }
     
-    return NULL;
+    return (lxb_html_title_element_t*) result;
 }
 
 const lxb_char_t *

@@ -163,6 +163,6 @@ lxb_html_interface_destroy(lxb_dom_interface_t *intrfc)
             return lxb_dom_processing_instruction_interface_destroy(intrfc);
 
         default:
-            return NULL;
+            return lxb_dom_interface_destroy(intrfc);
     }
 }

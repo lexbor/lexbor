@@ -6,6 +6,7 @@
 
 #include "lexbor/html/interfaces/style_element.h"
 #include "lexbor/html/interfaces/document.h"
+#include "lexbor/css/stylesheet.h"
 
 
 lxb_html_style_element_t *
@@ -23,6 +24,7 @@ lxb_html_style_element_interface_create(lxb_html_document_t *document)
 
     node->owner_document = lxb_html_document_original_ref(document);
     node->type = LXB_DOM_NODE_TYPE_ELEMENT;
+    node->ref_count = 1;
 
     return element;
 }
@@ -30,7 +32,12 @@ lxb_html_style_element_interface_create(lxb_html_document_t *document)
 lxb_html_style_element_t *
 lxb_html_style_element_interface_destroy(lxb_html_style_element_t *style_element)
 {
-    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(style_element));
+    lxb_css_stylesheet_t *sst = style_element->stylesheet;
+    lxb_dom_node_t *result = lxb_dom_node_interface_destroy(lxb_dom_interface_node(style_element));
 
-    return NULL;
+    if (result == NULL && sst != NULL) {
+        (void) lxb_css_stylesheet_destroy(sst, true);
+    }
+
+    return (lxb_html_style_element_t*) result;
 }

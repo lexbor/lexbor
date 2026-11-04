@@ -109,13 +109,11 @@ lxb_html_document_interface_destroy(lxb_html_document_t *document)
 
     doc = lxb_dom_interface_document(document);
 
-    if (doc->node.owner_document == doc) {
+    if (doc->node.owner_document == doc && doc->node.ref_count == 1) {
         (void) lxb_html_parser_unref(doc->parser);
     }
 
-    (void) lxb_dom_document_destroy(doc);
-
-    return NULL;
+    return lxb_html_interface_document(lxb_dom_document_destroy(doc));
 }
 
 lxb_html_document_t *

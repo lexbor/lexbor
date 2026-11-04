@@ -23,6 +23,7 @@ lxb_dom_document_fragment_interface_create(lxb_dom_document_t *document)
 
     node->owner_document = lxb_dom_document_owner(document);
     node->type = LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT;
+    node->ref_count = 1;
 
     return element;
 }
@@ -30,7 +31,6 @@ lxb_dom_document_fragment_interface_create(lxb_dom_document_t *document)
 lxb_dom_document_fragment_t *
 lxb_dom_document_fragment_interface_destroy(lxb_dom_document_fragment_t *document_fragment)
 {
-    (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(document_fragment));
-
-    return NULL;
+    return lxb_dom_interface_document_fragment(
+        lxb_dom_node_interface_destroy(lxb_dom_interface_node(document_fragment)));
 }

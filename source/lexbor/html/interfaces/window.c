@@ -23,6 +23,7 @@ lxb_html_window_create(lxb_html_document_t *document)
 
     node->owner_document = lxb_html_document_original_ref(document);
     node->type = LXB_DOM_NODE_TYPE_ELEMENT;
+    node->ref_count = 1;
 
     return element;
 }
@@ -30,7 +31,6 @@ lxb_html_window_create(lxb_html_document_t *document)
 lxb_html_window_t *
 lxb_html_window_destroy(lxb_html_window_t *window)
 {
-    return lexbor_mraw_free(
-        lxb_dom_interface_node(window)->owner_document->mraw,
-        window);
+    return lxb_html_interface_window(
+        lxb_dom_node_interface_destroy(lxb_dom_interface_node(window)));
 }
