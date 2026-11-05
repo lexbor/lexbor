@@ -463,11 +463,14 @@ lxb_unicode_normalize_body(lxb_unicode_normalizer_t *uc, const void *data,
                             return status;
                         }
 
-                        buf->cp = p->cp;
-                        buf->ccc = p->ccc;
+                        {
+                            size_t tail_len = (size_t) (dp - p);
 
-                        dp = buf + (dp - p);
-                        p = buf;
+                            memmove(buf, p, tail_len * sizeof(lxb_unicode_buffer_t));
+
+                            dp = buf + tail_len;
+                            p = buf;
+                        }
 
                         uc->starter = p;
                         uc->ican = p;
