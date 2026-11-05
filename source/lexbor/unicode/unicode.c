@@ -6,7 +6,6 @@
 
 #include <math.h>
 #include <inttypes.h>
-#include <string.h>
 
 #include "lexbor/unicode/unicode.h"
 #include "lexbor/unicode/res.h"
