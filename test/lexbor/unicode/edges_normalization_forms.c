@@ -275,6 +275,40 @@ failed:
     return status;
 }
 
+TEST_BEGIN(flush_compaction_hangul_tail)
+{
+    size_t length;
+    lxb_status_t status;
+    lxb_unicode_normalizer_t *uc;
+    test_unicode_ctx_t test_ctx;
+
+    /* 'a' + U+AC00 (Hangul); NFD yields a + L/V jamo. flush_cp=1 forces
+     * compaction inside a multi-entry decomposition tail. */
+    const lxb_char_t source[] = "a\xEA\xB0\x80";
+
+    test_ctx.p = test_ctx.cps;
+
+    uc = lxb_unicode_normalizer_create();
+    status = lxb_unicode_normalizer_init(uc, LXB_UNICODE_NFD);
+    test_eq(status, LXB_STATUS_OK);
+
+    lxb_unicode_flush_count_set(uc, 1);
+
+    status = lxb_unicode_normalize(uc, source, sizeof(source) - 1,
+                                   callback, &test_ctx, true);
+    test_eq(status, LXB_STATUS_OK);
+
+    length = test_ctx.p - test_ctx.cps;
+    test_eq(length, 3);
+
+    test_eq(test_ctx.cps[0], 0x0061);
+    test_eq(test_ctx.cps[1], 0x1100);
+    test_eq(test_ctx.cps[2], 0x1161);
+
+    (void) lxb_unicode_normalizer_destroy(uc, true);
+}
+TEST_END
+
 TEST_BEGIN(flush_full_buffer)
 {
     /* U+0301, ccc 230: the first starter comes after 4096 bytes. */
@@ -302,6 +336,7 @@ main(int argc, const char * argv[])
     TEST_ADD(chunks);
     TEST_ADD(edge);
     TEST_ADD(one_by_one);
+    TEST_ADD(flush_compaction_hangul_tail);
     TEST_ADD(flush_full_buffer);
 
     TEST_RUN("lexbor/unicode/edges_normalization_forms");
