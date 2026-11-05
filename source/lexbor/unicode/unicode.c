@@ -409,7 +409,7 @@ lxb_unicode_normalize_body(lxb_unicode_normalizer_t *uc, const void *data,
 
     if (uc->tmp_length != 0 && !is_cp) {
         np = lxb_unicode_restore(uc, np, end, &cp, is_last);
-        if (np == NULL) {
+        if (np == NULL && uc->tmp_length != 0) {
             return LXB_STATUS_OK;
         }
 
@@ -546,8 +546,8 @@ lxb_unicode_quick_check(lxb_unicode_normalizer_t *uc, const lxb_char_t *data,
 
     if (uc->tmp_length != 0) {
         data = lxb_unicode_restore(uc, data, end, &cp, is_last);
-        if (data == NULL) {
-            return LXB_STATUS_OK;
+        if (data == NULL && uc->tmp_length != 0) {
+            return false;
         }
 
         goto restore;
