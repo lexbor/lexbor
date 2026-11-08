@@ -8,6 +8,34 @@
 
 #include <unit/test.h>
 
+static size_t test_alloc_count;
+static size_t test_alloc_fail_at;
+
+
+static bool
+test_alloc_fail(void)
+{
+    return test_alloc_count++ == test_alloc_fail_at;
+}
+
+static void *
+test_failing_malloc(size_t size)
+{
+    return test_alloc_fail() ? NULL : malloc(size);
+}
+
+static void *
+test_failing_realloc(void *dst, size_t size)
+{
+    return test_alloc_fail() ? NULL : realloc(dst, size);
+}
+
+static void *
+test_failing_calloc(size_t num, size_t size)
+{
+    return test_alloc_fail() ? NULL : calloc(num, size);
+}
+
 static lexbor_action_t
 remove_attrs(lxb_dom_node_t *node, void *ctx)
 {
@@ -204,6 +232,32 @@ TEST_BEGIN(rp_rt)
 }
 TEST_END
 
+TEST_BEGIN(document_create_allocation_failure)
+{
+    lxb_status_t status;
+    lxb_html_document_t *document;
+
+    test_alloc_fail_at = 0;
+
+    do {
+        test_alloc_count = 0;
+
+        status = lexbor_memory_setup(test_failing_malloc, test_failing_realloc,
+                                     test_failing_calloc, free);
+        test_eq(status, LXB_STATUS_OK);
+
+        document = lxb_html_document_create();
+
+        (void) lexbor_memory_setup(malloc, realloc, calloc, free);
+
+        test_alloc_fail_at++;
+    }
+    while (document == NULL);
+
+    lxb_html_document_destroy(document);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -215,6 +269,7 @@ main(int argc, const char * argv[])
     TEST_ADD(select_size_value_attribute_is_null);
     TEST_ADD(ruby_rp_rt);
     TEST_ADD(rp_rt);
+    TEST_ADD(document_create_allocation_failure);
 
     TEST_RUN("lexbor/html/other");
     TEST_RELEASE();
