@@ -205,6 +205,9 @@ lxb_html_parse_fragment_chunk_begin(lxb_html_parser_t *parser,
 
     doc = lxb_dom_interface_document(new_doc);
 
+    /* Attached first, so that every failure below destroys it. */
+    lxb_html_tree_attach_document(parser->tree, new_doc);
+
     if (document == NULL) {
         doc->scripting = parser->tree->scripting;
         doc->compat_mode = LXB_DOM_DOCUMENT_CMODE_NO_QUIRKS;
@@ -246,7 +249,6 @@ lxb_html_parse_fragment_chunk_begin(lxb_html_parser_t *parser,
         }
     }
 
-    lxb_html_tree_attach_document(parser->tree, new_doc);
     lxb_html_tree_reset_insertion_mode_appropriately(parser->tree);
 
     if (tag_id == LXB_TAG_FORM && ns == LXB_NS_HTML) {
@@ -357,6 +359,15 @@ lxb_html_parse_fragment_chunk_destroy(lxb_html_parser_t *parser)
             parser->root->parent = &doc->node;
         }
 
+        lxb_html_document_interface_destroy(parser->tree->document);
+
+        parser->tree->document = NULL;
+    }
+    else if (parser->tree->document != NULL && parser->root == NULL) {
+        /*
+         * A document of its own, created for the fragment. Without the
+         * fragment root nothing else refers to it.
+         */
         lxb_html_document_interface_destroy(parser->tree->document);
 
         parser->tree->document = NULL;
