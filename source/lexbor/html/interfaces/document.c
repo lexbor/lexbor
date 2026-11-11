@@ -164,9 +164,7 @@ lxb_html_document_parse(lxb_html_document_t *document,
     lxb_dom_document_t *doc;
     lxb_html_document_opt_t opt;
 
-    if (document->ready_state != LXB_HTML_DOCUMENT_READY_STATE_UNDEF
-        && document->ready_state != LXB_HTML_DOCUMENT_READY_STATE_LOADING)
-    {
+    if (document->ready_state != LXB_HTML_DOCUMENT_READY_STATE_UNDEF) {
         lxb_html_document_clean(document);
     }
 
@@ -202,9 +200,7 @@ failed:
 lxb_status_t
 lxb_html_document_parse_chunk_begin(lxb_html_document_t *document)
 {
-    if (document->ready_state != LXB_HTML_DOCUMENT_READY_STATE_UNDEF
-        && document->ready_state != LXB_HTML_DOCUMENT_READY_STATE_LOADING)
-    {
+    if (document->ready_state != LXB_HTML_DOCUMENT_READY_STATE_UNDEF) {
         lxb_html_document_clean(document);
     }
 

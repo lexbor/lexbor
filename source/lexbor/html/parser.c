@@ -382,6 +382,9 @@ lxb_html_parse_chunk_prepare(lxb_html_parser_t *parser,
 {
     parser->state = LXB_HTML_PARSER_STATE_PROCESS;
 
+    /* A failed parse leaves it so, and the next parse cleans the document. */
+    document->ready_state = LXB_HTML_DOCUMENT_READY_STATE_LOADING;
+
     parser->original_tree = lxb_html_tokenizer_tree(parser->tkz);
     lxb_html_tokenizer_tree_set(parser->tkz, parser->tree);
 

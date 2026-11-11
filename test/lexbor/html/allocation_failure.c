@@ -453,6 +453,71 @@ TEST_BEGIN_ARGS(document_reparse_input, test_input_t *input, bool all)
 }
 TEST_END
 
+static lxb_status_t
+test_parse_chunked(lxb_html_document_t *document, const test_input_t *input)
+{
+    size_t i, len;
+    lxb_status_t status;
+
+    status = lxb_html_document_parse_chunk_begin(document);
+
+    for (i = 0; status == LXB_STATUS_OK && i < input->length; i += len) {
+        len = input->length - i < 7 ? input->length - i : 7;
+
+        status = lxb_html_document_parse_chunk(document, input->data + i, len);
+    }
+
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    return lxb_html_document_parse_chunk_end(document);
+}
+
+TEST_BEGIN_ARGS(document_parse_again_input, test_input_t *input, bool all,
+                bool chunked)
+{
+    size_t index, live;
+    lxb_status_t status;
+    lxb_html_document_t *document;
+
+    for (index = 0;; index++) {
+        live = test_live;
+
+        document = lxb_html_document_create();
+        test_ne(document, NULL);
+
+        test_arm(index, all);
+        status = lxb_html_document_parse(document, input->data,
+                                         input->length);
+        test_disarm();
+
+        if (status != LXB_STATUS_OK) {
+            if (chunked) {
+                status = test_parse_chunked(document, input);
+            }
+            else {
+                status = lxb_html_document_parse(document, input->data,
+                                                 input->length);
+            }
+
+            test_eq(status, LXB_STATUS_OK);
+        }
+
+        test_eq(test_tree_is(lxb_dom_interface_node(document),
+                             input->document, input->document_length), true);
+
+        lxb_html_document_destroy(document);
+
+        test_eq_size(test_live, live);
+
+        if (!test_reached) {
+            break;
+        }
+    }
+}
+TEST_END
+
 TEST_BEGIN_ARGS(document_parse_chunk_input, test_input_t *input, bool all)
 {
     size_t index, live, i, len;
@@ -661,6 +726,23 @@ TEST_BEGIN(document_reparse)
 }
 TEST_END
 
+TEST_BEGIN(document_parse_again)
+{
+    size_t i;
+
+    for (i = 0; i < sizeof(test_inputs) / sizeof(test_input_t); i++) {
+        TEST_CALL_ARGS(document_parse_again_input, &test_inputs[i],
+                       false, false);
+        TEST_CALL_ARGS(document_parse_again_input, &test_inputs[i],
+                       true, false);
+        TEST_CALL_ARGS(document_parse_again_input, &test_inputs[i],
+                       false, true);
+        TEST_CALL_ARGS(document_parse_again_input, &test_inputs[i],
+                       true, true);
+    }
+}
+TEST_END
+
 TEST_BEGIN(document_parse_chunk)
 {
     size_t i;
@@ -746,6 +828,7 @@ main(int argc, const char *argv[])
     TEST_ADD(document_create);
     TEST_ADD(document_parse);
     TEST_ADD(document_reparse);
+    TEST_ADD(document_parse_again);
     TEST_ADD(document_parse_chunk);
     TEST_ADD(document_parse_fragment);
     TEST_ADD(parser_parse_fragment);
