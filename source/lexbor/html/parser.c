@@ -200,6 +200,8 @@ lxb_html_parse_fragment_chunk_begin(lxb_html_parser_t *parser,
     new_doc = lxb_html_document_interface_create(document);
     if (new_doc == NULL) {
         parser->state = LXB_HTML_PARSER_STATE_ERROR;
+        parser->status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+
         return parser->status;
     }
 

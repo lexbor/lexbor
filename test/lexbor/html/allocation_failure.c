@@ -578,6 +578,67 @@ TEST_BEGIN_ARGS(parser_parse_fragment_input, test_input_t *input, bool all)
 }
 TEST_END
 
+TEST_BEGIN_ARGS(parser_parse_fragment_chunk_input, test_input_t *input,
+                bool all)
+{
+    size_t index, live, i, len;
+    bool is_ready;
+    lxb_status_t status, begin;
+    lxb_dom_node_t *fragment;
+    lxb_html_parser_t *parser;
+
+    for (index = 0;; index++) {
+        live = test_live;
+        fragment = NULL;
+
+        parser = lxb_html_parser_create();
+        status = lxb_html_parser_init(parser);
+        test_eq(status, LXB_STATUS_OK);
+
+        test_arm(index, all);
+        begin = lxb_html_parse_fragment_chunk_begin(parser, NULL, LXB_TAG_BODY,
+                                                    LXB_NS_HTML);
+        is_ready = lxb_html_parser_state(parser)
+                   == LXB_HTML_PARSER_STATE_FRAGMENT_PROCESS;
+        status = begin;
+
+        for (i = 0; status == LXB_STATUS_OK && i < input->length; i += len) {
+            len = input->length - i < 7 ? input->length - i : 7;
+
+            status = lxb_html_parse_fragment_chunk_process(parser,
+                                                           input->data + i,
+                                                           len);
+        }
+
+        if (status == LXB_STATUS_OK) {
+            fragment = lxb_html_parse_fragment_chunk_end(parser);
+        }
+
+        test_disarm();
+
+        test_eq(begin == LXB_STATUS_OK, is_ready);
+
+        if (fragment != NULL) {
+            test_eq(test_tree_is(fragment, input->fragment,
+                                 input->fragment_length), true);
+
+            lxb_html_document_destroy(
+                      lxb_html_interface_document(fragment->owner_document));
+        }
+
+        lxb_html_parser_destroy(parser);
+
+        test_eq_size(test_live, live);
+
+        if (!test_reached) {
+            break;
+        }
+    }
+
+    test_ne(fragment, NULL);
+}
+TEST_END
+
 TEST_BEGIN(document_parse)
 {
     size_t i;
@@ -633,6 +694,19 @@ TEST_BEGIN(parser_parse_fragment)
 }
 TEST_END
 
+TEST_BEGIN(parser_parse_fragment_chunk)
+{
+    size_t i;
+
+    for (i = 0; i < sizeof(test_inputs) / sizeof(test_input_t); i++) {
+        TEST_CALL_ARGS(parser_parse_fragment_chunk_input, &test_inputs[i],
+                       false);
+        TEST_CALL_ARGS(parser_parse_fragment_chunk_input, &test_inputs[i],
+                       true);
+    }
+}
+TEST_END
+
 
 int
 main(int argc, const char *argv[])
@@ -675,6 +749,7 @@ main(int argc, const char *argv[])
     TEST_ADD(document_parse_chunk);
     TEST_ADD(document_parse_fragment);
     TEST_ADD(parser_parse_fragment);
+    TEST_ADD(parser_parse_fragment_chunk);
 
     TEST_RUN("lexbor/html/allocation_failure");
 
