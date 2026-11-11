@@ -38,7 +38,11 @@ lxb_html_template_element_interface_create(lxb_html_document_t *document)
 lxb_html_template_element_t *
 lxb_html_template_element_interface_destroy(lxb_html_template_element_t *template_element)
 {
-    (void) lxb_dom_document_fragment_interface_destroy(template_element->content);
+    /* Absent when the creation failed to allocate it. */
+    if (template_element->content != NULL) {
+        (void) lxb_dom_document_fragment_interface_destroy(template_element->content);
+    }
+
     (void) lxb_dom_node_interface_destroy(lxb_dom_interface_node(template_element));
 
     return NULL;

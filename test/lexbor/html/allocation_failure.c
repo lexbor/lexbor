@@ -46,7 +46,7 @@ static const char test_small[] =
     "<p class=a>x<b>y</b></p><div id=d><span>z</span>"
     "<table><tr><td>1</td></tr></table></div></body></html>";
 
-static test_input_t test_inputs[2];
+static test_input_t test_inputs[3];
 
 
 static bool
@@ -330,6 +330,26 @@ test_large_make(size_t *out_length)
     return data;
 }
 
+static lxb_char_t *
+test_templates_make(size_t *out_length)
+{
+    size_t i, length = 0, size = 128 * 1024;
+    lxb_char_t *data;
+
+    data = lexbor_malloc(size);
+    if (data == NULL) {
+        return NULL;
+    }
+
+    for (i = 0; i < 2000; i++) {
+        TEST_PUT("<template><p>%zu</p></template>", i);
+    }
+
+    *out_length = length;
+
+    return data;
+}
+
 
 TEST_BEGIN(document_create)
 {
@@ -563,8 +583,8 @@ TEST_END
 int
 main(int argc, const char *argv[])
 {
-    size_t i, length;
-    lxb_char_t *large;
+    size_t i, length, templates_length;
+    lxb_char_t *large, *templates;
     lxb_status_t status;
 
     TEST_INIT();
@@ -573,8 +593,10 @@ main(int argc, const char *argv[])
                                test_free);
 
     large = test_large_make(&length);
-    if (large == NULL) {
-        TEST_FAILURE("Failed to make the large input");
+    templates = test_templates_make(&templates_length);
+
+    if (large == NULL || templates == NULL) {
+        TEST_FAILURE("Failed to make the inputs");
     }
 
     status = test_input_init(&test_inputs[0], (const lxb_char_t *) test_small,
@@ -586,6 +608,11 @@ main(int argc, const char *argv[])
     status = test_input_init(&test_inputs[1], large, length);
     if (status != LXB_STATUS_OK) {
         TEST_FAILURE("Failed to parse the large input");
+    }
+
+    status = test_input_init(&test_inputs[2], templates, templates_length);
+    if (status != LXB_STATUS_OK) {
+        TEST_FAILURE("Failed to parse the templates input");
     }
 
     TEST_ADD(document_create);
@@ -601,6 +628,7 @@ main(int argc, const char *argv[])
     }
 
     lexbor_free(large);
+    lexbor_free(templates);
 
     (void) lexbor_memory_setup(malloc, realloc, calloc, free);
 
