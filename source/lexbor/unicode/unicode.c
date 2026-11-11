@@ -103,7 +103,7 @@ lxb_unicode_normalizer_init(lxb_unicode_normalizer_t *uc,
         return status;
     }
 
-    uc->tmp_lenght = 0;
+    uc->tmp_length = 0;
     uc->starter = NULL;
 
     uc->buf = lexbor_malloc(buf_length * sizeof(lxb_unicode_buffer_t));
@@ -123,7 +123,7 @@ lxb_unicode_normalizer_init(lxb_unicode_normalizer_t *uc,
 void
 lxb_unicode_normalizer_clean(lxb_unicode_normalizer_t *uc)
 {
-    uc->tmp_lenght = 0;
+    uc->tmp_length = 0;
     uc->starter = NULL;
     uc->p = uc->buf;
     uc->ican = uc->buf;
@@ -328,7 +328,7 @@ lxb_unicode_restore(lxb_unicode_normalizer_t *uc, const lxb_char_t *data,
     lxb_char_t *tmp;
 
     tmp = uc->tmp;
-    len = uc->tmp_lenght;
+    len = uc->tmp_length;
 
     i = lxb_encoding_decode_utf_8_length(tmp[0]);
 
@@ -337,18 +337,32 @@ lxb_unicode_restore(lxb_unicode_normalizer_t *uc, const lxb_char_t *data,
         data += 1;
     }
 
-    *cp = lxb_encoding_decode_valid_utf_8_single((const lxb_char_t **) &tmp,
-                                                 tmp + i);
-    if (*cp == LXB_ENCODING_DECODE_ERROR) {
+    if (i == 0) {
+        *cp = LXB_ENCODING_REPLACEMENT_CODEPOINT;
+        uc->tmp_length = 0;
+
+        return data;
+    }
+
+    if (len < i) {
         if (!is_last) {
-            uc->tmp_lenght = len;
+            uc->tmp_length = (uint8_t) len;
             return NULL;
         }
 
         *cp = LXB_ENCODING_REPLACEMENT_CODEPOINT;
+        uc->tmp_length = 0;
+
+        return data;
     }
 
-    uc->tmp_lenght = 0;
+    *cp = lxb_encoding_decode_valid_utf_8_single((const lxb_char_t **) &tmp,
+                                                 tmp + len);
+    if (*cp == LXB_ENCODING_DECODE_ERROR) {
+        *cp = LXB_ENCODING_REPLACEMENT_CODEPOINT;
+    }
+
+    uc->tmp_length = 0;
 
     return data;
 }
@@ -393,9 +407,9 @@ lxb_unicode_normalize_body(lxb_unicode_normalizer_t *uc, const void *data,
     length *= (is_cp) ? sizeof(lxb_codepoint_t) : 1;
     end = (const lxb_char_t *) data + length;
 
-    if (uc->tmp_lenght != 0 && !is_cp) {
+    if (uc->tmp_length != 0 && !is_cp) {
         np = lxb_unicode_restore(uc, np, end, &cp, is_last);
-        if (np == NULL) {
+        if (np == NULL && uc->tmp_length != 0) {
             return LXB_STATUS_OK;
         }
 
@@ -410,9 +424,9 @@ lxb_unicode_normalize_body(lxb_unicode_normalizer_t *uc, const void *data,
             if (cp == LXB_ENCODING_DECODE_ERROR) {
                 if (np >= end && !is_last) {
                     uc->p = p;
-                    uc->tmp_lenght = end - tp;
+                    uc->tmp_length = end - tp;
 
-                    memcpy(uc->tmp, tp, uc->tmp_lenght);
+                    memcpy(uc->tmp, tp, uc->tmp_length);
 
                     return LXB_STATUS_OK;
                 }
@@ -530,10 +544,10 @@ lxb_unicode_quick_check(lxb_unicode_normalizer_t *uc, const lxb_char_t *data,
 
     end = data + length;
 
-    if (uc->tmp_lenght != 0) {
+    if (uc->tmp_length != 0) {
         data = lxb_unicode_restore(uc, data, end, &cp, is_last);
-        if (data == NULL) {
-            return LXB_STATUS_OK;
+        if (data == NULL && uc->tmp_length != 0) {
+            return false;
         }
 
         goto restore;
@@ -545,9 +559,9 @@ lxb_unicode_quick_check(lxb_unicode_normalizer_t *uc, const lxb_char_t *data,
         cp = lxb_encoding_decode_valid_utf_8_single(&data, end);
         if (cp == LXB_ENCODING_DECODE_ERROR) {
             if (data >= end && !is_last) {
-                uc->tmp_lenght = end - tp;
+                uc->tmp_length = end - tp;
 
-                memcpy(uc->tmp, tp, uc->tmp_lenght);
+                memcpy(uc->tmp, tp, uc->tmp_length);
 
                 return LXB_STATUS_OK;
             }
