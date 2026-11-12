@@ -150,6 +150,8 @@ failed:
 
     lxb_html_document_interface_destroy(document);
 
+    parser->tree->document = NULL;
+
     return NULL;
 }
 
@@ -422,6 +424,8 @@ lxb_html_parse_chunk_begin(lxb_html_parser_t *parser)
 
     parser->status = lxb_html_parse_chunk_prepare(parser, document);
     if (parser->status != LXB_STATUS_OK) {
+        parser->tree->document = NULL;
+
         return lxb_html_document_destroy(document);
     }
 
