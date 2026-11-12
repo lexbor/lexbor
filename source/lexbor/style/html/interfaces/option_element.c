@@ -31,10 +31,13 @@ lxb_style_html_option_attr_change(lxb_dom_element_t *element,
 {
     lxb_status_t status;
 
-    status = lxb_html_option_attr_steps_change(element, name, old_value,
-                                               old_len, value, value_len, ns);
-    if (status != LXB_STATUS_OK) {
-        return status;
+    if (element->node.ns == LXB_NS_HTML) {
+        status = lxb_html_option_attr_steps_change(element, name,
+                                                   old_value, old_len,
+                                                   value, value_len, ns);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
     }
 
     return lxb_style_html_element_attr_change(element, name, old_value,
@@ -50,10 +53,13 @@ lxb_style_html_option_attr_append(lxb_dom_element_t *element,
 {
     lxb_status_t status;
 
-    status = lxb_html_option_attr_steps_change(element, name, old_value,
-                                               old_len, value, value_len, ns);
-    if (status != LXB_STATUS_OK) {
-        return status;
+    if (element->node.ns == LXB_NS_HTML) {
+        status = lxb_html_option_attr_steps_change(element, name,
+                                                   old_value, old_len,
+                                                   value, value_len, ns);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
     }
 
     return lxb_style_html_element_attr_append(element, name, old_value,
@@ -69,10 +75,13 @@ lxb_style_html_option_attr_remove(lxb_dom_element_t *element,
 {
     lxb_status_t status;
 
-    status = lxb_html_option_attr_steps_remove(element, name, old_value,
-                                               old_len, value, value_len, ns);
-    if (status != LXB_STATUS_OK) {
-        return status;
+    if (element->node.ns == LXB_NS_HTML) {
+        status = lxb_html_option_attr_steps_remove(element, name,
+                                                   old_value, old_len,
+                                                   value, value_len, ns);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
     }
 
     return lxb_style_html_element_attr_remove(element, name, old_value,

@@ -26,6 +26,11 @@ lxb_html_attribute_steps_change(lxb_dom_element_t *element,
     lxb_dom_element_attr_change_f change;
 
     node = lxb_dom_interface_node(element);
+
+    if (node->ns != LXB_NS_HTML) {
+        return LXB_STATUS_OK;
+    }
+
     tag_id = node->local_name;
 
     if (tag_id >= LXB_TAG__LAST_ENTRY) {
@@ -62,6 +67,11 @@ lxb_html_attribute_steps_append(lxb_dom_element_t *element,
     lxb_dom_element_attr_change_f append;
 
     node = lxb_dom_interface_node(element);
+
+    if (node->ns != LXB_NS_HTML) {
+        return LXB_STATUS_OK;
+    }
+
     tag_id = node->local_name;
 
     if (tag_id >= LXB_TAG__LAST_ENTRY) {
@@ -98,6 +108,11 @@ lxb_html_attribute_steps_remove(lxb_dom_element_t *element,
     lxb_dom_element_attr_change_f remove;
 
     node = lxb_dom_interface_node(element);
+
+    if (node->ns != LXB_NS_HTML) {
+        return LXB_STATUS_OK;
+    }
+
     tag_id = node->local_name;
 
     if (tag_id >= LXB_TAG__LAST_ENTRY) {
@@ -134,6 +149,11 @@ lxb_html_attribute_steps_replace(lxb_dom_element_t *element,
     lxb_dom_element_attr_change_f replace;
 
     node = lxb_dom_interface_node(element);
+
+    if (node->ns != LXB_NS_HTML) {
+        return LXB_STATUS_OK;
+    }
+
     tag_id = node->local_name;
 
     if (tag_id >= LXB_TAG__LAST_ENTRY) {
