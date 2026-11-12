@@ -18,11 +18,10 @@ typedef struct {
 lxb_unicode_idna_ctx_t;
 
 typedef struct {
-    lxb_char_t              buffer[4096];
-    lxb_char_t              *p;
-    lxb_char_t              *buf;
-    const lxb_char_t        *end;
-    lxb_unicode_idna_flag_t flags;
+    lxb_char_t       buffer[4096];
+    lxb_char_t       *p;
+    lxb_char_t       *buf;
+    const lxb_char_t *end;
 }
 lxb_unicode_idna_ascii_ctx_t;
 
@@ -358,7 +357,6 @@ lxb_unicode_idna_punycode_cb(const lxb_codepoint_t *cps, size_t len, void *ctx)
     bool cr;
     const lxb_codepoint_t *p, *end;
     lxb_unicode_idna_ctx_t *context = ctx;
-    lxb_unicode_idna_ascii_ctx_t *asc = context->context;
 
     /* The decoded label must contain at least one non-ASCII code point. */
 
@@ -373,7 +371,7 @@ lxb_unicode_idna_punycode_cb(const lxb_codepoint_t *cps, size_t len, void *ctx)
         return LXB_STATUS_ERROR_UNEXPECTED_RESULT;
     }
 
-    cr = lxb_unicode_idna_validity_criteria_cp(cps, len, asc->flags);
+    cr = lxb_unicode_idna_validity_criteria_cp(cps, len, context->flags);
     if (!cr) {
         return LXB_STATUS_ERROR_UNEXPECTED_RESULT;
     }
@@ -411,7 +409,6 @@ lxb_unicode_idna_to_ascii_body(lxb_unicode_idna_t *idna, const void *data,
     context.p = context.buffer;
     context.buf = context.buffer;
     context.end = context.buf + sizeof(context.buffer);
-    context.flags = flags;
 
     if (!is_cp) {
         status = lxb_unicode_idna_processing(idna, data, length,
@@ -661,7 +658,6 @@ lxb_unicode_idna_to_unicode_body(lxb_unicode_idna_t *idna, const void *data,
     context.p = context.buffer;
     context.buf = context.buffer;
     context.end = context.buf + sizeof(context.buffer);
-    context.flags = flags;
 
     if (!is_cp) {
         status = lxb_unicode_idna_processing(idna, data, length,
