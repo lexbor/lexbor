@@ -2255,14 +2255,22 @@ done:
     size = tkz->pos - start;
     tail_size = tkz->pos - &tkz->start[tkz->entity_end] - 1;
 
-    if (tail_size != 0) {
-        if ((size + tail_size) + start > tkz->end) {
-            if (lxb_html_tokenizer_temp_realloc(tkz, size) != LXB_STATUS_OK) {
-                return end;
-            }
-            start = &tkz->start[tkz->entity_start];
+    /*
+     * The decoded value is written in place and the trailing characters are
+     * shifted to sit right after it, so the final length is value_len plus
+     * tail_size.  The value can be longer than the entity text already in the
+     * buffer (&nGt; and &nLt; are five bytes and decode to six), hence the
+     * room must be checked for every reference, not only when a tail follows.
+     */
+    if (start + (tkz->entity_match->value_len + tail_size) > tkz->end) {
+        if (lxb_html_tokenizer_temp_realloc(tkz, size) != LXB_STATUS_OK) {
+            return end;
         }
 
+        start = &tkz->start[tkz->entity_start];
+    }
+
+    if (tail_size != 0) {
         memmove(start + tkz->entity_match->value_len,
                 tkz->pos - tail_size, tail_size);
     }

@@ -224,6 +224,95 @@ TEST_BEGIN(allocation_failure)
 }
 TEST_END
 
+TEST_BEGIN_ARGS(named_entity_at_buffer_end, const char *entity,
+                const char *decoded)
+{
+    size_t capacity, filler, length, pos;
+    size_t text_len, entity_len, decoded_len;
+    lxb_char_t *data;
+    lxb_status_t status;
+    lxb_dom_node_t *node, *text;
+    lxb_dom_character_data_t *ch_data;
+    lxb_html_parser_t *parser;
+    lxb_html_document_t *document;
+    lxb_html_tokenizer_t *tkz;
+
+    static const char head[] = "<p>&amp;";
+    static const char tail[] = "</p>";
+
+    entity_len = strlen(entity);
+    decoded_len = strlen(decoded);
+
+    parser = lxb_html_parser_create();
+    status = lxb_html_parser_init(parser);
+    test_eq(status, LXB_STATUS_OK);
+
+    document = lxb_html_parse_chunk_begin(parser);
+    test_ne(document, NULL);
+
+    tkz = lxb_html_parser_tokenizer(parser);
+
+    capacity = tkz->end - tkz->start;
+    filler = capacity - 1 - entity_len;
+
+    length = (sizeof(head) - 1) + filler + entity_len + (sizeof(tail) - 1);
+
+    data = lexbor_malloc(length);
+    test_ne(data, NULL);
+
+    pos = 0;
+    memcpy(data + pos, head, sizeof(head) - 1);
+
+    pos += sizeof(head) - 1;
+    memset(data + pos, 'a', filler);
+
+    pos += filler;
+    memcpy(data + pos, entity, entity_len);
+
+    pos += entity_len;
+    memcpy(data + pos, tail, sizeof(tail) - 1);
+    pos += sizeof(tail) - 1;
+
+    status = lxb_html_parse_chunk_process(parser, data, length);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_html_parse_chunk_end(parser);
+    test_eq(status, LXB_STATUS_OK);
+
+    node = lxb_dom_interface_node(document->body)->first_child;
+    test_ne(node, NULL);
+    test_eq(node->local_name, LXB_TAG_P);
+
+    text = node->first_child;
+    test_ne(text, NULL);
+    test_eq(text->type, LXB_DOM_NODE_TYPE_TEXT);
+
+    ch_data = lxb_dom_interface_character_data(text);
+    text_len = 1 + filler + decoded_len;
+    test_eq_size(ch_data->data.length, text_len);
+    test_eq(ch_data->data.data[0], '&');
+    test_eq(memcmp(ch_data->data.data + 1 + filler, decoded, decoded_len), 0);
+
+    lexbor_free(data);
+    lxb_html_document_destroy(document);
+    lxb_html_parser_destroy(parser);
+}
+TEST_END
+
+TEST_BEGIN(named_entity_ngt_at_buffer_end)
+{
+    TEST_CALL_ARGS(named_entity_at_buffer_end, "&nGt;",
+                   "\xE2\x89\xAB\xE2\x83\x92");
+}
+TEST_END
+
+TEST_BEGIN(named_entity_nlt_at_buffer_end)
+{
+    TEST_CALL_ARGS(named_entity_at_buffer_end, "&nLt;",
+                   "\xE2\x89\xAA\xE2\x83\x92");
+}
+TEST_END
+
 int
 main(int argc, const char *argv[])
 {
@@ -234,6 +323,8 @@ main(int argc, const char *argv[])
     TEST_ADD(large_append);
     TEST_ADD(overflow);
     TEST_ADD(allocation_failure);
+    TEST_ADD(named_entity_ngt_at_buffer_end);
+    TEST_ADD(named_entity_nlt_at_buffer_end);
 
     TEST_RUN("lexbor/html/tokenizer_buffer");
     TEST_RELEASE();
