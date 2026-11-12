@@ -4164,7 +4164,7 @@ lxb_url_percent_decode(const lxb_char_t *data, const lxb_char_t *end,
         c = *p++;
 
         if (c != '%') {
-            *dp++ = c;
+            *dp++ = lexbor_str_res_map_lowercase[c];
             continue;
         }
 
@@ -4179,7 +4179,7 @@ lxb_url_percent_decode(const lxb_char_t *data, const lxb_char_t *end,
             }
         }
 
-        *dp++ = c;
+        *dp++ = lexbor_str_res_map_lowercase[c];
     }
 
     *dp = '\0';

@@ -1,5 +1,5 @@
 [
-    /* Test count: 12 */
+    /* Test count: 17 */
     /* 1 */
     {
         "url": "https://lexbor.com",
@@ -86,6 +86,56 @@
         "done": "https://xn--90ahpcsme.xn--p1ai/",
         "scheme": "https",
         "host": "xn--90ahpcsme.xn--p1ai",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 13 */
+    {
+        "url": "https://LEX%62OR.com",
+        "done": "https://lexbor.com/",
+        "scheme": "https",
+        "host": "lexbor.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 14 */
+    {
+        "url": "https://EXAMPLE%2Ecom",
+        "done": "https://example.com/",
+        "scheme": "https",
+        "host": "example.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 15 */
+    {
+        "url": "https://%C3%9C%41.COM",
+        "done": "https://xn--a-dha.com/",
+        "scheme": "https",
+        "host": "xn--a-dha.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 16 */
+    {
+        "url": "https://%C3%BC.COM",
+        "done": "https://xn--tda.com/",
+        "scheme": "https",
+        "host": "xn--tda.com",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 17 */
+    {
+        "url": "https://%C3%BC.XN--MNCHEN-3YA.DE",
+        "done": "https://xn--tda.xn--mnchen-3ya.de/",
+        "scheme": "https",
+        "host": "xn--tda.xn--mnchen-3ya.de",
         "path": "/",
         "failed": false,
         "encoding": "utf-8"

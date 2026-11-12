@@ -1,5 +1,5 @@
 [
-    /* Test count: 3 */
+    /* Test count: 5 */
     /* 1 */
     {
         "url": "file://C|/my/docs",
@@ -24,6 +24,26 @@
     {
         "url": "file://C|disk/my/docs",
         "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 4 */
+    {
+        "url": "file://CDISK%2Ecom/my/docs",
+        "done": "file://cdisk.com/my/docs",
+        "scheme": "file",
+        "host": "cdisk.com",
+        "path": "/my/docs",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 5 */
+    {
+        "url": "file://LOCAL%48OST/my/docs",
+        "done": "file:///my/docs",
+        "scheme": "file",
+        "host": "",
+        "path": "/my/docs",
+        "failed": false,
         "encoding": "utf-8"
     }
 ]
