@@ -356,8 +356,22 @@ static lxb_status_t
 lxb_unicode_idna_punycode_cb(const lxb_codepoint_t *cps, size_t len, void *ctx)
 {
     bool cr;
+    const lxb_codepoint_t *p, *end;
     lxb_unicode_idna_ctx_t *context = ctx;
     lxb_unicode_idna_ascii_ctx_t *asc = context->context;
+
+    /* The decoded label must contain at least one non-ASCII code point. */
+
+    p = cps;
+    end = cps + len;
+
+    while (p < end && *p < 0x80) {
+        p += 1;
+    }
+
+    if (p == end) {
+        return LXB_STATUS_ERROR_UNEXPECTED_RESULT;
+    }
 
     cr = lxb_unicode_idna_validity_criteria_cp(cps, len, asc->flags);
     if (!cr) {
