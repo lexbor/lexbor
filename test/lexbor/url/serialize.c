@@ -15,6 +15,12 @@ typedef struct {
 serialize_entry_t;
 
 typedef struct {
+    lexbor_str_t input;
+    lexbor_str_t unicode;
+}
+serialize_idna_entry_t;
+
+typedef struct {
     lxb_char_t   data[128];
     size_t       length;
     size_t       calls;
@@ -71,6 +77,45 @@ static const serialize_entry_t entries[] = {
     {
         lexbor_str("https://example.org/#\xC3\xA9?x#y"),
         lexbor_str("%C3%A9?x#y")
+    }
+};
+
+static const serialize_idna_entry_t idna_entries[] = {
+    {
+        lexbor_str("https://example.org/"),
+        lexbor_str("https://example.org/")
+    },
+    {
+        lexbor_str("https://xn--zca.example/"),
+        lexbor_str("https://\xC3\x9F.example/")
+    },
+    {
+        lexbor_str("https://\xC3\xA4.example/"),
+        lexbor_str("https://\xC3\xA4.example/")
+    },
+    {
+        lexbor_str("https://xn--/"),
+        lexbor_str("https://xn--/")
+    },
+    {
+        lexbor_str("https://xn--a-.example/"),
+        lexbor_str("https://xn--a-.example/")
+    },
+    {
+        lexbor_str("https://xn--a/"),
+        lexbor_str("https://xn--a/")
+    },
+    {
+        lexbor_str("https://xn--8i7caa.example/"),
+        lexbor_str("https://xn--8i7caa.example/")
+    },
+    {
+        lexbor_str("https://xn--a.xn--zca/"),
+        lexbor_str("https://xn--a.xn--zca/")
+    },
+    {
+        lexbor_str("https://\xC3\x9F.xn--4ca/"),
+        lexbor_str("https://\xC3\x9F.\xC3\xA4/")
     }
 };
 
@@ -147,6 +192,53 @@ TEST_BEGIN(serialize_fragment_callback_error)
 }
 TEST_END
 
+TEST_BEGIN_ARGS(test_serialize_idna, lxb_unicode_idna_t *idna,
+                const serialize_idna_entry_t *entry)
+{
+    lxb_status_t status;
+    lxb_url_t *url;
+    lxb_url_parser_t parser;
+    serialize_ctx_t context = {0};
+
+    TEST_PRINTLN("URL: %.*s", (int) entry->input.length, entry->input.data);
+
+    status = lxb_url_parser_init(&parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    url = lxb_url_parse(&parser, NULL, entry->input.data, entry->input.length);
+    test_ne(url, NULL);
+
+    status = lxb_url_serialize_idna(idna, url, serialize_callback,
+                                    &context, false);
+
+    lxb_url_parser_memory_destroy(&parser);
+    lxb_url_parser_destroy(&parser, false);
+
+    test_eq(status, LXB_STATUS_OK);
+    test_eq_str_n(context.data, context.length,
+                  entry->unicode.data, entry->unicode.length);
+}
+TEST_END
+
+TEST_BEGIN(serialize_idna)
+{
+    size_t i;
+    lxb_status_t status;
+    lxb_unicode_idna_t idna;
+
+    status = lxb_unicode_idna_init(&idna);
+    test_eq(status, LXB_STATUS_OK);
+
+    /* One IDNA object for all entries: an error must not affect the next. */
+
+    for (i = 0; i < sizeof(idna_entries) / sizeof(idna_entries[0]); i++) {
+        TEST_CALL_ARGS(test_serialize_idna, &idna, &idna_entries[i]);
+    }
+
+    (void) lxb_unicode_idna_destroy(&idna, false);
+}
+TEST_END
+
 
 int
 main(int argc, const char *argv[])
@@ -155,6 +247,7 @@ main(int argc, const char *argv[])
 
     TEST_ADD(serialize_fragment);
     TEST_ADD(serialize_fragment_callback_error);
+    TEST_ADD(serialize_idna);
 
     TEST_RUN("lexbor/url/serialize");
     TEST_RELEASE();

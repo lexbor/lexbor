@@ -1,5 +1,5 @@
 [
-    /* Test count: 17 */
+    /* Test count: 31 */
     /* 1 */
     {
         "url": "https://lexbor.com",
@@ -138,6 +138,130 @@
         "host": "xn--tda.xn--mnchen-3ya.de",
         "path": "/",
         "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 18 */
+    {
+        "url": "http://xn--localhost-/",
+        "done": "http://xn--localhost-/",
+        "scheme": "http",
+        "host": "xn--localhost-",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 19 */
+    {
+        "url": "http://xn--a-.b/",
+        "done": "http://xn--a-.b/",
+        "scheme": "http",
+        "host": "xn--a-.b",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 20 */
+    {
+        "url": "http://XN--A-.B/",
+        "done": "http://xn--a-.b/",
+        "scheme": "http",
+        "host": "xn--a-.b",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 21 */
+    {
+        "url": "http://XN--A-%2EB/",
+        "done": "http://xn--a-.b/",
+        "scheme": "http",
+        "host": "xn--a-.b",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 22 */
+    {
+        "url": "http://xn--/",
+        "done": "http://xn--/",
+        "scheme": "http",
+        "host": "xn--",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 23 */
+    {
+        "url": "http://xn--.example/",
+        "done": "http://xn--.example/",
+        "scheme": "http",
+        "host": "xn--.example",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 24 */
+    {
+        "url": "http://xn--a/",
+        "done": "http://xn--a/",
+        "scheme": "http",
+        "host": "xn--a",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 25 */
+    {
+        "url": "http://xn--8i7caa.example/",
+        "done": "http://xn--8i7caa.example/",
+        "scheme": "http",
+        "host": "xn--8i7caa.example",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 26 */
+    {
+        "url": "http://10.0.0.xn--pokxncvks/",
+        "done": "http://10.0.0.xn--pokxncvks/",
+        "scheme": "http",
+        "host": "10.0.0.xn--pokxncvks",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 27 */
+    {
+        "url": "http://xn--zca.example/",
+        "done": "http://xn--zca.example/",
+        "scheme": "http",
+        "host": "xn--zca.example",
+        "path": "/",
+        "failed": false,
+        "encoding": "utf-8"
+    },
+    /* 28 */
+    {
+        "url": "http://xn--127-.0.0.1/",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 29 */
+    {
+        "url": "http://xn--169-.254.169.254/",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 30 */
+    {
+        "url": "http://xn--127-%2E0.0.1/",
+        "failed": true,
+        "encoding": "utf-8"
+    },
+    /* 31 */
+    {
+        "url": "http://ä.xn--a-.b/",
+        "failed": true,
         "encoding": "utf-8"
     }
 ]

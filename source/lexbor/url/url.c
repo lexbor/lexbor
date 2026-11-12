@@ -42,6 +42,13 @@ typedef struct {
 lxb_url_idna_ctx_t;
 
 typedef struct {
+    lexbor_serialize_cb_f cb;
+    void                  *ctx;
+    bool                  called;
+}
+lxb_url_unicode_ctx_t;
+
+typedef struct {
     lexbor_str_t **out_buf;
     size_t out_length;
     size_t out_size;
@@ -568,6 +575,9 @@ lxb_url_host_parse(lxb_url_parser_t *parser, const lxb_char_t *data,
 
 static lxb_status_t
 lxb_url_host_idna_cb(const lxb_char_t *data, size_t len, void *ctx);
+
+static lxb_status_t
+lxb_url_host_unicode_cb(const lxb_char_t *data, size_t len, void *ctx);
 
 static lxb_status_t
 lxb_url_ipv4_parse(lxb_url_parser_t *parser, const lxb_char_t *data,
@@ -1905,17 +1915,6 @@ again:
                     opt |= LXB_URL_HOST_OPT_DECODE;
                     break;
 
-                case 'X':
-                case 'x':
-                    if (p + 4 <= end && (p[1] == 'n' || p[1] == 'N')
-                        && p[2] == '-' && p[3] == '-')
-                    {
-                        opt |= LXB_URL_HOST_OPT_IDNA;
-                        p += 3;
-                    }
-
-                    break;
-
                 default:
                     if (c >= 0x80) {
                         opt |= LXB_URL_HOST_OPT_IDNA;
@@ -2174,18 +2173,6 @@ again:
                     case '%':
                         p += 1;
                         opt |= LXB_URL_HOST_OPT_DECODE;
-                        continue;
-
-                    case 'X':
-                    case 'x':
-                        if (p + 4 <= end && (p[1] == 'n' || p[1] == 'N')
-                            && p[2] == '-' && p[3] == '-')
-                        {
-                            opt |= LXB_URL_HOST_OPT_IDNA;
-                            p += 3;
-                        }
-
-                        p += 1;
                         continue;
 
                     default:
@@ -4849,7 +4836,9 @@ lxb_url_serialize_host_unicode(lxb_unicode_idna_t *idna,
                                const lxb_url_host_t *host,
                                lexbor_serialize_cb_f cb, void *ctx)
 {
+    lxb_status_t status;
     const lexbor_str_t *str;
+    lxb_url_unicode_ctx_t context;
 
     if (host->type != LXB_URL_HOST_TYPE_DOMAIN
         && host->type != LXB_URL_HOST_TYPE_OPAQUE)
@@ -4859,9 +4848,39 @@ lxb_url_serialize_host_unicode(lxb_unicode_idna_t *idna,
 
     str = &host->u.domain;
 
-    return lxb_unicode_idna_to_unicode(idna, str->data, str->length, cb, ctx,
-                                       LXB_UNICODE_IDNA_FLAG_CHECK_BIDI
-                                       | LXB_UNICODE_IDNA_FLAG_CHECK_JOINERS);
+    context.cb = cb;
+    context.ctx = ctx;
+    context.called = false;
+
+    status = lxb_unicode_idna_to_unicode(idna, str->data, str->length,
+                                         lxb_url_host_unicode_cb, &context,
+                                         LXB_UNICODE_IDNA_FLAG_CHECK_BIDI
+                                         | LXB_UNICODE_IDNA_FLAG_CHECK_JOINERS);
+
+    lxb_unicode_idna_clean(idna);
+
+    /*
+     * ToUnicode calls the callback only for a result without errors.
+     * If an error was recorded, the domain is returned as is.
+     */
+
+    if (status == LXB_STATUS_OK || context.called
+        || status == LXB_STATUS_ERROR_MEMORY_ALLOCATION)
+    {
+        return status;
+    }
+
+    return cb(str->data, str->length, ctx);
+}
+
+static lxb_status_t
+lxb_url_host_unicode_cb(const lxb_char_t *data, size_t len, void *ctx)
+{
+    lxb_url_unicode_ctx_t *context = ctx;
+
+    context->called = true;
+
+    return context->cb(data, len, context->ctx);
 }
 
 lxb_status_t
