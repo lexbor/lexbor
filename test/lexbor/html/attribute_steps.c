@@ -5,6 +5,7 @@
  */
 
 #include <lexbor/html/html.h>
+#include <lexbor/html/attribute_steps.h>
 #include <lexbor/core/mraw.h>
 
 #include <unit/test.h>
@@ -384,6 +385,45 @@ TEST_BEGIN(html_option_selectedness)
 }
 TEST_END
 
+TEST_BEGIN(html_option_replace_selected)
+{
+    lxb_status_t status;
+    lxb_dom_attr_t *attr;
+    lxb_dom_element_t *element;
+    lxb_html_element_t *html_element;
+    lxb_html_option_element_t *option;
+    lxb_html_document_t *document;
+
+    document = lxb_html_document_create();
+    test_ne(document, NULL);
+
+    html_element = lxb_html_document_create_element(document, option_str,
+                                                    sizeof(option_str) - 1,
+                                                    NULL);
+    test_ne(html_element, NULL);
+
+    element = lxb_dom_interface_element(html_element);
+    option = lxb_html_interface_option(html_element);
+
+    attr = lxb_dom_element_set_attribute(element, selected_str,
+                                         sizeof(selected_str) - 1,
+                                         (const lxb_char_t *) "", 0);
+    test_ne(attr, NULL);
+    test_eq(lxb_html_option_element_selectedness(option), true);
+
+    status = lxb_html_attribute_steps_replace(element, LXB_DOM_ATTR_SELECTED,
+                                              (const lxb_char_t *) "", 0,
+                                              selected_str,
+                                              sizeof(selected_str) - 1,
+                                              LXB_NS__UNDEF);
+    test_eq(status, LXB_STATUS_OK);
+    test_eq(lxb_html_option_element_selectedness(option), true);
+
+    lxb_html_document_destroy_element(element);
+    lxb_html_document_destroy(document);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -400,6 +440,7 @@ main(int argc, const char * argv[])
     TEST_ADD(svg_option_parse);
     TEST_ADD(mathml_option_parse);
     TEST_ADD(html_option_selectedness);
+    TEST_ADD(html_option_replace_selected);
 
     TEST_RUN("lexbor/html/attribute_steps");
     TEST_RELEASE();

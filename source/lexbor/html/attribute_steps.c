@@ -169,7 +169,7 @@ lxb_html_attribute_steps_replace(lxb_dom_element_t *element,
         return LXB_STATUS_OK;
     }
 
-    replace = lxb_html_attribute_steps_res_default[element->node.local_name].remove;
+    replace = lxb_html_attribute_steps_res_default[element->node.local_name].replace;
 
     if (replace != NULL) {
         return replace(element, name, old_value, old_len, value, value_len, ns);
