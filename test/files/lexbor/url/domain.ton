@@ -1,5 +1,5 @@
 [
-    /* Test count: 31 */
+    /* Test count: 30 */
     /* 1 */
     {
         "url": "https://lexbor.com",
@@ -64,7 +64,7 @@
         "failed": true,
         "encoding": "utf-8"
     },
-    /* 10 */
+    /* 9 */
     {
         "url": "https://a",
         "done": "https://a/",
@@ -74,13 +74,13 @@
         "failed": false,
         "encoding": "utf-8"
     },
-    /* 11 */
+    /* 10 */
     {
         "url": "https://a%5Cc",
         "failed": true,
         "encoding": "utf-8"
     },
-    /* 12 */
+    /* 11 */
     {
         "url": "https://лексбор.рф",
         "done": "https://xn--90ahpcsme.xn--p1ai/",
@@ -90,7 +90,7 @@
         "failed": false,
         "encoding": "utf-8"
     },
-    /* 13 */
+    /* 12 */
     {
         "url": "https://LEX%62OR.com",
         "done": "https://lexbor.com/",
@@ -100,7 +100,7 @@
         "failed": false,
         "encoding": "utf-8"
     },
-    /* 14 */
+    /* 13 */
     {
         "url": "https://EXAMPLE%2Ecom",
         "done": "https://example.com/",
@@ -110,7 +110,7 @@
         "failed": false,
         "encoding": "utf-8"
     },
-    /* 15 */
+    /* 14 */
     {
         "url": "https://%C3%9C%41.COM",
         "done": "https://xn--a-dha.com/",
@@ -120,7 +120,7 @@
         "failed": false,
         "encoding": "utf-8"
     },
-    /* 16 */
+    /* 15 */
     {
         "url": "https://%C3%BC.COM",
         "done": "https://xn--tda.com/",
@@ -130,7 +130,7 @@
         "failed": false,
         "encoding": "utf-8"
     },
-    /* 17 */
+    /* 16 */
     {
         "url": "https://%C3%BC.XN--MNCHEN-3YA.DE",
         "done": "https://xn--tda.xn--mnchen-3ya.de/",
@@ -140,7 +140,7 @@
         "failed": false,
         "encoding": "utf-8"
     },
-    /* 18 */
+    /* 17 */
     {
         "url": "http://xn--localhost-/",
         "done": "http://xn--localhost-/",
@@ -150,7 +150,7 @@
         "failed": false,
         "encoding": "utf-8"
     },
-    /* 19 */
+    /* 18 */
     {
         "url": "http://xn--a-.b/",
         "done": "http://xn--a-.b/",
@@ -160,7 +160,7 @@
         "failed": false,
         "encoding": "utf-8"
     },
-    /* 20 */
+    /* 19 */
     {
         "url": "http://XN--A-.B/",
         "done": "http://xn--a-.b/",
@@ -170,7 +170,7 @@
         "failed": false,
         "encoding": "utf-8"
     },
-    /* 21 */
+    /* 20 */
     {
         "url": "http://XN--A-%2EB/",
         "done": "http://xn--a-.b/",
@@ -180,7 +180,7 @@
         "failed": false,
         "encoding": "utf-8"
     },
-    /* 22 */
+    /* 21 */
     {
         "url": "http://xn--/",
         "done": "http://xn--/",
@@ -190,7 +190,7 @@
         "failed": false,
         "encoding": "utf-8"
     },
-    /* 23 */
+    /* 22 */
     {
         "url": "http://xn--.example/",
         "done": "http://xn--.example/",
@@ -200,7 +200,7 @@
         "failed": false,
         "encoding": "utf-8"
     },
-    /* 24 */
+    /* 23 */
     {
         "url": "http://xn--a/",
         "done": "http://xn--a/",
@@ -210,7 +210,7 @@
         "failed": false,
         "encoding": "utf-8"
     },
-    /* 25 */
+    /* 24 */
     {
         "url": "http://xn--8i7caa.example/",
         "done": "http://xn--8i7caa.example/",
@@ -220,7 +220,7 @@
         "failed": false,
         "encoding": "utf-8"
     },
-    /* 26 */
+    /* 25 */
     {
         "url": "http://10.0.0.xn--pokxncvks/",
         "done": "http://10.0.0.xn--pokxncvks/",
@@ -230,7 +230,7 @@
         "failed": false,
         "encoding": "utf-8"
     },
-    /* 27 */
+    /* 26 */
     {
         "url": "http://xn--zca.example/",
         "done": "http://xn--zca.example/",
@@ -240,25 +240,25 @@
         "failed": false,
         "encoding": "utf-8"
     },
-    /* 28 */
+    /* 27 */
     {
         "url": "http://xn--127-.0.0.1/",
         "failed": true,
         "encoding": "utf-8"
     },
-    /* 29 */
+    /* 28 */
     {
         "url": "http://xn--169-.254.169.254/",
         "failed": true,
         "encoding": "utf-8"
     },
-    /* 30 */
+    /* 29 */
     {
         "url": "http://xn--127-%2E0.0.1/",
         "failed": true,
         "encoding": "utf-8"
     },
-    /* 31 */
+    /* 30 */
     {
         "url": "http://ä.xn--a-.b/",
         "failed": true,

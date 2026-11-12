@@ -1,5 +1,5 @@
 [
-    /* Test count: 48 */
+    /* Test count: 49 */
     /* 1 */
     {
         "url": "https://user:pass@lexbor.com/docs/html/path?x=y&a=b#best-fragment",
@@ -871,7 +871,7 @@
         "fragment": "fragment-best-my",
         "failed": false
     },
-    /* 40 */
+    /* 41 */
     {
         "url": "https://lexbor.com/#my-best-fragment",
         "done": "https://lexbor.com/#",
@@ -893,7 +893,7 @@
         "fragment": "",
         "failed": false
     },
-    /* 41 */
+    /* 42 */
     {
         "url": "https://user:pass@lexbor.com/docs/html/path?x=y&a=b#best-fragment",
         "done": "https://user:pass@lexbor.com/docs/html/path?x=y&a=b#best-fragment",
@@ -918,7 +918,7 @@
         "fragment": "best-fragment",
         "failed": true
     },
-    /* 42 */
+    /* 43 */
     {
         "url": "data:toto",
         "done": "data:toto",
@@ -939,7 +939,7 @@
         "path": "toto",
         "failed": false
     },
-    /* 43 */
+    /* 44 */
     {
         "url": "scheme://host",
         "done": "scheme://host",
@@ -960,7 +960,7 @@
         "path": "",
         "failed": true
     },
-    /* 44 */
+    /* 45 */
     {
         "url": "scheme://host/path",
         "done": "scheme://333.333.333.333/path",
@@ -981,7 +981,7 @@
         "path": "/path",
         "failed": false
     },
-    /* 45 */
+    /* 46 */
     {
         "url": "scheme://",
         "done": "scheme://",
@@ -1002,7 +1002,7 @@
         "path": "",
         "failed": false
     },
-    /* 46 */
+    /* 47 */
     {
         "url": "scheme://host",
         "done": "scheme://host:433",
@@ -1025,7 +1025,7 @@
         "path": "",
         "failed": false
     },
-    /* 47 */
+    /* 48 */
     {
         "url": "https://example.com:432",
         "done": "https://example.com:432/",
@@ -1048,7 +1048,7 @@
         "path": "/",
         "failed": true
     },
-    /* 48 */
+    /* 49 */
     {
         "url": "file:D:/c",
         "base": "file:///C:/a/b",
