@@ -313,7 +313,7 @@ static const lxb_dom_document_mutation_cb_t lxb_style_element_steps_res_default[
     /* LXB_TAG_OPTGROUP */
     {.inserted = lxb_style_html_element_inserted_steps, .removed = lxb_style_html_element_removed_steps, .moved = lxb_style_html_element_moved_steps, .destroy = lxb_style_html_element_destroy_steps, .children_changed = lxb_style_html_element_children_changed_steps, .connected = lxb_style_html_element_connected_steps},
     /* LXB_TAG_OPTION */
-    {.inserted = lxb_html_option_element_insert_steps, .removed = lxb_html_option_element_remove_steps, .moved = NULL, .destroy = NULL, .children_changed = NULL, .connected = NULL},
+    {.inserted = lxb_style_html_option_inserted_steps, .removed = lxb_style_html_option_removed_steps, .moved = lxb_style_html_element_moved_steps, .destroy = lxb_style_html_element_destroy_steps, .children_changed = lxb_style_html_element_children_changed_steps, .connected = lxb_style_html_element_connected_steps},
     /* LXB_TAG_OUTPUT */
     {.inserted = lxb_style_html_element_inserted_steps, .removed = lxb_style_html_element_removed_steps, .moved = lxb_style_html_element_moved_steps, .destroy = lxb_style_html_element_destroy_steps, .children_changed = lxb_style_html_element_children_changed_steps, .connected = lxb_style_html_element_connected_steps},
     /* LXB_TAG_P */

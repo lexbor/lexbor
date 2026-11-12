@@ -8,7 +8,7 @@
 #include "lexbor/dom/interfaces/document.h"
 
 #include "lexbor/style/html/interfaces/element.h"
-#include "lexbor/html/interfaces/option_element.h"
+#include "lexbor/style/html/interfaces/option_element.h"
 #include "lexbor/style/html/interfaces/style_element.h"
 #include "lexbor/style/element_steps_res.h"
 

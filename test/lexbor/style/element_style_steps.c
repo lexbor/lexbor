@@ -4979,6 +4979,117 @@ TEST_BEGIN(unknown_element_no_inline_dirty)
 TEST_END
 
 
+TEST_BEGIN_ARGS(option_reconnect, const lxb_char_t *ns)
+{
+    lxb_status_t status;
+    lexbor_str_t out;
+    lxb_dom_attr_t *attr;
+    lxb_dom_node_t *body;
+    lxb_dom_element_t *option;
+    lxb_css_parser_t *parser;
+    lxb_css_stylesheet_t *sst;
+    lxb_html_document_t *document;
+
+    static const lexbor_str_t html = lexbor_str("<html><body></body></html>");
+    static const lexbor_str_t option_str = lexbor_str("option");
+    static const lexbor_str_t class_str = lexbor_str("class");
+    static const lexbor_str_t target_str = lexbor_str("target");
+    static const lexbor_str_t style_name = lexbor_str("style");
+    static const lexbor_str_t style_value = lexbor_str("color: red");
+
+    static const lexbor_str_t slctrs = lexbor_str("option.target {width: 100px}");
+
+    static const lexbor_str_t connected_str = lexbor_str("color: red; width: 100px");
+    static const lexbor_str_t disconnected_str = lexbor_str("color: red");
+
+    document = lxb_html_document_create();
+    test_ne(document, NULL);
+
+    status = lxb_style_init(document);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_html_document_parse(document, html.data, html.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    parser = lxb_css_parser_create();
+    status = lxb_css_parser_init(parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    sst = lxb_css_stylesheet_create(parser->memory);
+    status = lxb_css_stylesheet_parse(sst, parser, slctrs.data, slctrs.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_html_document_stylesheet_attach(document, sst);
+    test_eq(status, LXB_STATUS_OK);
+
+    body = lxb_dom_interface_node(document->body);
+
+    option = lxb_dom_element_create(lxb_dom_interface_document(document),
+                                    option_str.data, option_str.length,
+                                    ns, strlen((const char *) ns),
+                                    NULL, 0, NULL, 0, false);
+    test_ne(option, NULL);
+
+    attr = lxb_dom_element_set_attribute(option,
+                                         class_str.data, class_str.length,
+                                         target_str.data, target_str.length);
+    test_ne(attr, NULL);
+
+    attr = lxb_dom_element_set_attribute(option,
+                                         style_name.data, style_name.length,
+                                         style_value.data, style_value.length);
+    test_ne(attr, NULL);
+
+    lxb_dom_node_insert_child(body, lxb_dom_interface_node(option));
+
+    out.data = NULL;
+    status = lxb_dom_element_style_serialize_str(option, &out,
+                                                 LXB_DOM_ELEMENT_STYLE_OPT_UNDEF);
+    test_eq(status, LXB_STATUS_OK);
+    test_eq_str_n(out.data, out.length, connected_str.data,
+                  connected_str.length);
+
+    lxb_dom_node_remove(lxb_dom_interface_node(option));
+
+    out.length = 0;
+    status = lxb_dom_element_style_serialize_str(option, &out,
+                                                 LXB_DOM_ELEMENT_STYLE_OPT_UNDEF);
+    test_eq(status, LXB_STATUS_OK);
+    test_eq_str_n(out.data, out.length, disconnected_str.data,
+                  disconnected_str.length);
+
+    lxb_dom_node_insert_child(body, lxb_dom_interface_node(option));
+
+    out.length = 0;
+    status = lxb_dom_element_style_serialize_str(option, &out,
+                                                 LXB_DOM_ELEMENT_STYLE_OPT_UNDEF);
+    test_eq(status, LXB_STATUS_OK);
+    test_eq_str_n(out.data, out.length, connected_str.data,
+                  connected_str.length);
+
+    lxb_dom_node_destroy(lxb_dom_interface_node(option));
+
+    (void) lxb_css_stylesheet_destroy(sst, true);
+    (void) lxb_css_parser_destroy(parser, true);
+    (void) lxb_style_destroy(document);
+    (void) lxb_html_document_destroy(document);
+}
+TEST_END
+
+TEST_BEGIN(html_option_reconnect)
+{
+    TEST_CALL_ARGS(option_reconnect,
+                   (const lxb_char_t *) "http://www.w3.org/1999/xhtml");
+}
+TEST_END
+
+TEST_BEGIN(svg_option_reconnect)
+{
+    TEST_CALL_ARGS(option_reconnect,
+                   (const lxb_char_t *) "http://www.w3.org/2000/svg");
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -5029,6 +5140,8 @@ main(int argc, const char * argv[])
     TEST_ADD(unknown_element_attr_remove);
     TEST_ADD(unknown_element_child_dirty_propagation);
     TEST_ADD(unknown_element_no_inline_dirty);
+    TEST_ADD(html_option_reconnect);
+    TEST_ADD(svg_option_reconnect);
 
     TEST_RUN("lexbor/style/element_style_steps");
     TEST_RELEASE();

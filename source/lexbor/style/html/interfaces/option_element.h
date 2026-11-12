@@ -15,6 +15,13 @@ extern "C" {
 
 
 LXB_API lxb_status_t
+lxb_style_html_option_inserted_steps(lxb_dom_node_t *inserted_node);
+
+LXB_API lxb_status_t
+lxb_style_html_option_removed_steps(lxb_dom_node_t *removed_node,
+                                    lxb_dom_node_t *old_parent);
+
+LXB_API lxb_status_t
 lxb_style_html_option_attr_change(lxb_dom_element_t *element,
                                   lxb_dom_attr_id_t name,
                                   const lxb_char_t *old_value, size_t old_len,

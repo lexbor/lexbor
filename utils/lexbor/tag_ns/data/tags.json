@@ -204,6 +204,10 @@
                     }
                 },
                 "style": {
+                    "steps": {
+                        "inserted": "lxb_style_html_option_inserted_steps",
+                        "removed": "lxb_style_html_option_removed_steps"
+                    },
                     "attr_steps": {
                         "change": "lxb_style_html_option_attr_change",
                         "append": "lxb_style_html_option_attr_append",

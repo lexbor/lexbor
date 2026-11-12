@@ -578,6 +578,40 @@ class Tags:
     def shs_stat(self, shs):
        return "Max deep {}; Used {} of {}".format(shs.max, shs.used, shs.table_size)
 
+    def _merge_steps(self, tag_name, module, module_defaults, html_steps,
+                     module_steps):
+        if module_defaults is None and html_steps is None and module_steps is None:
+            return None
+
+        # Inherit: module defaults -> html per-tag -> module per-tag.
+        # "NULL" in the html per-tag steps means that the element has no such
+        # step, so the default step of the module stays.  An html per-tag step
+        # never replaces a default step of the module silently: the module
+        # must define its own step for the tag, one that runs both.
+        result = {}
+
+        if module_defaults is not None:
+            result.update(module_defaults)
+
+        if html_steps is not None:
+            for name, fn in html_steps.items():
+                if fn == "NULL":
+                    continue
+
+                if result.get(name, "NULL") != "NULL" \
+                   and (module_steps is None or name not in module_steps):
+                    raise Exception("Tag \"{}\": the html step \"{}\" replaces "
+                                    "the default step of the \"{}\" module; "
+                                    "define the step for the module".format(
+                                        tag_name, name, module))
+
+                result[name] = fn
+
+        if module_steps is not None:
+            result.update(module_steps)
+
+        return result if len(result) > 0 else None
+
     def _get_steps_for_tag(self, tag_name, module="html"):
         data = self.tags["data"]
 
@@ -604,22 +638,8 @@ class Tags:
         if module in self.modules and "steps" in self.modules[module]:
             module_defaults = self.modules[module]["steps"]
 
-        if module_defaults is None and html_steps is None and module_steps is None:
-            return None
-
-        # Inherit: module defaults -> html per-tag -> module per-tag
-        result = {}
-
-        if module_defaults is not None:
-            result.update(module_defaults)
-
-        if html_steps is not None:
-            result.update(html_steps)
-
-        if module_steps is not None:
-            result.update(module_steps)
-
-        return result if len(result) > 0 else None
+        return self._merge_steps(tag_name, module, module_defaults,
+                                 html_steps, module_steps)
 
     def _get_attr_steps_for_tag(self, tag_name, module="html"):
         data = self.tags["data"]
@@ -647,22 +667,8 @@ class Tags:
         if module in self.modules and "attr_steps" in self.modules[module]:
             module_defaults = self.modules[module]["attr_steps"]
 
-        if module_defaults is None and html_attr_steps is None and module_attr_steps is None:
-            return None
-
-        # Inherit: module defaults -> html per-tag -> module per-tag
-        result = {}
-
-        if module_defaults is not None:
-            result.update(module_defaults)
-
-        if html_attr_steps is not None:
-            result.update(html_attr_steps)
-
-        if module_attr_steps is not None:
-            result.update(module_attr_steps)
-
-        return result if len(result) > 0 else None
+        return self._merge_steps(tag_name, module, module_defaults,
+                                 html_attr_steps, module_attr_steps)
 
     def element_steps_create(self, module="html"):
         res_name = "lxb_{}_element_steps_res_default".format(module)

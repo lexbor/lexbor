@@ -283,6 +283,60 @@ TEST_BEGIN(svg_option_inline_style)
 }
 TEST_END
 
+TEST_BEGIN(svg_option_insertion_in_select)
+{
+    lxb_status_t status;
+    lxb_dom_node_t *select;
+    lxb_dom_element_t *svg_option;
+    lxb_html_element_t *element;
+    lxb_html_option_element_t *option;
+    lxb_dom_document_t *dom_document;
+    lxb_html_document_t *document;
+
+    static const lexbor_str_t html = lexbor_str("<select></select>");
+
+    document = lxb_html_document_create();
+    test_ne(document, NULL);
+
+    status = lxb_style_init(document);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_html_document_parse(document, html.data, html.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    dom_document = lxb_dom_interface_document(document);
+
+    select = lxb_dom_interface_node(document->body)->first_child;
+    test_ne(select, NULL);
+    test_eq(select->local_name, LXB_TAG_SELECT);
+
+    element = lxb_html_document_create_element(document, option_str,
+                                               sizeof(option_str) - 1, NULL);
+    test_ne(element, NULL);
+
+    option = lxb_html_interface_option(element);
+
+    lxb_dom_document_opt_set(dom_document, LXB_DOM_DOCUMENT_OPT_WO_EVENTS);
+    lxb_dom_node_insert_child(select, lxb_dom_interface_node(element));
+    lxb_dom_document_opt_set(dom_document, LXB_DOM_DOCUMENT_OPT_UNDEF);
+
+    test_eq(lxb_html_option_element_selectedness(option), false);
+
+    svg_option = lxb_dom_element_create(dom_document, option_str,
+                                        sizeof(option_str) - 1,
+                                        svg_ns, sizeof(svg_ns) - 1,
+                                        NULL, 0, NULL, 0, false);
+    test_ne(svg_option, NULL);
+
+    lxb_dom_node_insert_child(select, lxb_dom_interface_node(svg_option));
+
+    test_eq(lxb_html_option_element_selectedness(option), false);
+
+    (void) lxb_style_destroy(document);
+    (void) lxb_html_document_destroy(document);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -296,6 +350,7 @@ main(int argc, const char * argv[])
     TEST_ADD(svg_option_remove);
     TEST_ADD(mathml_option_remove);
     TEST_ADD(svg_option_inline_style);
+    TEST_ADD(svg_option_insertion_in_select);
 
     TEST_RUN("lexbor/style/not_html_namespace");
     TEST_RELEASE();
