@@ -273,6 +273,16 @@ static const lxb_test_entry_t selectors_list[] =
      "",
      lxb_css_selectors_parse},
 
+    {":current(div)",
+     ":current(div)",
+     "",
+     lxb_css_selectors_parse},
+
+    {"p:current( div,#hash,.class )",
+     "p:current(div, #hash, .class)",
+     "",
+     lxb_css_selectors_parse},
+
     {":not()",
      "",
      "Syntax error. Selectors. Pseudo function can't be empty: not()",
@@ -1145,6 +1155,7 @@ TEST_BEGIN(lexbor_selectors_destroy_memory)
         {":hover"},
         {":not(.class)"},
         {":where(.class)"},
+        {":current(.class, div)"},
         {":nth-child(2n+1 of .class)"},
         {":lexbor-contains(A)"},
         {":lexbor-contains(\"A\" i)"}

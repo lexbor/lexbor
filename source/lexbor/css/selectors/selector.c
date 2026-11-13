@@ -305,11 +305,10 @@ lxb_css_selector_destroy_pseudo_class_function(lxb_css_selector_t *selector,
     pseudo = &selector->u.pseudo;
 
     switch (pseudo->type) {
-        case LXB_CSS_SELECTOR_PSEUDO_CLASS_FUNCTION_CURRENT:
-            break;
         case LXB_CSS_SELECTOR_PSEUDO_CLASS_FUNCTION_DIR:
             break;
 
+        case LXB_CSS_SELECTOR_PSEUDO_CLASS_FUNCTION_CURRENT:
         case LXB_CSS_SELECTOR_PSEUDO_CLASS_FUNCTION_HAS:
         case LXB_CSS_SELECTOR_PSEUDO_CLASS_FUNCTION_IS:
             lxb_css_selector_list_destroy_chain(pseudo->data);
@@ -796,11 +795,10 @@ lxb_css_selector_serialize_pseudo_class_function(lxb_css_selector_t *selector,
     lxb_css_selector_serialize_write("(", 1);
 
     switch (pseudo->type) {
-        case LXB_CSS_SELECTOR_PSEUDO_CLASS_FUNCTION_CURRENT:
-            break;
         case LXB_CSS_SELECTOR_PSEUDO_CLASS_FUNCTION_DIR:
             break;
 
+        case LXB_CSS_SELECTOR_PSEUDO_CLASS_FUNCTION_CURRENT:
         case LXB_CSS_SELECTOR_PSEUDO_CLASS_FUNCTION_HAS:
         case LXB_CSS_SELECTOR_PSEUDO_CLASS_FUNCTION_IS:
             status = lxb_css_selector_serialize_list_chain(pseudo->data,
