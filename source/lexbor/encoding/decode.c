@@ -1753,8 +1753,6 @@ lxb_encoding_decode_gb18030(lxb_encoding_decode_t *ctx,
 
         /* Range 0x30 to 0x39, inclusive */
         if ((unsigned) (**data - 0x30) > (0x39 - 0x30)) {
-            ctx->prepend = true;
-
             LXB_ENCODING_DECODE_ERROR_BEGIN {
                 ctx->prepend = true;
                 ctx->have_error = true;

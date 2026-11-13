@@ -339,6 +339,55 @@ TEST_BEGIN(decode_buffer_check_invalid_fourth_resume)
 }
 TEST_END
 
+TEST_BEGIN(decode_chunks_after_invalid_fourth)
+{
+    lxb_status_t status;
+    const lxb_encoding_data_t *enc_data;
+    lxb_encoding_decode_t dectx;
+    const lxb_char_t *data;
+    lxb_codepoint_t rp_cp;
+    lxb_codepoint_t out[8];
+
+    static const lxb_char_t chunk_first[] = {0x81, 0x30, 0x81, 0x20,
+                                             0x81, 0x37, 0x81};
+
+    static const lxb_char_t chunk_second[] = {0x31};
+
+    rp_cp = LXB_ENCODING_REPLACEMENT_CODEPOINT;
+    enc_data = lxb_encoding_data(LXB_ENCODING_GB18030);
+
+    status = lxb_encoding_decode_init(&dectx, enc_data, out,
+                                      sizeof(out) / sizeof(lxb_codepoint_t));
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_encoding_decode_replace_set(&dectx,
+          LXB_ENCODING_REPLACEMENT_BUFFER, LXB_ENCODING_REPLACEMENT_BUFFER_LEN);
+    test_eq(status, LXB_STATUS_OK);
+
+    data = chunk_first;
+
+    status = enc_data->decode(&dectx, &data,
+                              chunk_first + sizeof(chunk_first));
+    test_eq(status, LXB_STATUS_CONTINUE);
+
+    data = chunk_second;
+
+    status = enc_data->decode(&dectx, &data,
+                              chunk_second + sizeof(chunk_second));
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_encoding_decode_finish(&dectx);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_eq_size(lxb_encoding_decode_buf_used(&dectx), 5);
+    test_eq(out[0], rp_cp);
+    test_eq(out[1], 0x30);
+    test_eq(out[2], rp_cp);
+    test_eq(out[3], 0x20);
+    test_eq(out[4], 0x23ED);
+}
+TEST_END
+
 TEST_BEGIN(decode_map)
 {
     size_t line;
@@ -442,6 +491,7 @@ main(int argc, const char * argv[])
     TEST_ADD(decode_buffer_check_invalid_third);
     TEST_ADD(decode_buffer_check_invalid_fourth);
     TEST_ADD(decode_buffer_check_invalid_fourth_resume);
+    TEST_ADD(decode_chunks_after_invalid_fourth);
     TEST_ADD(decode_map);
     TEST_ADD(encode_map);
     TEST_ADD(encode_buffer_check);
