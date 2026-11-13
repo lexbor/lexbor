@@ -251,7 +251,7 @@ lxb_css_selectors_parse_list(lxb_css_parser_t *parser,
                                                               true);
             }
 
-            (void) lxb_css_memory_destroy(parser->memory, true);
+            parser->memory = lxb_css_memory_destroy(parser->memory, true);
             return NULL;
         }
 
@@ -270,8 +270,12 @@ lxb_css_selectors_parse_list(lxb_css_parser_t *parser,
 
 end:
 
-    if (list == NULL && my_mem) {
-        parser->memory = lxb_css_memory_destroy(parser->memory, true);
+    if (my_mem) {
+        if (list == NULL) {
+            (void) lxb_css_memory_destroy(parser->memory, true);
+        }
+
+        parser->memory = NULL;
     }
 
     if (my_selectors) {

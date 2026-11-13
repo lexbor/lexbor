@@ -446,6 +446,49 @@ TEST_BEGIN_ARGS(parse_memory_input, test_input_t *input, bool all)
 }
 TEST_END
 
+TEST_BEGIN_ARGS(parse_again_input, test_input_t *input, bool all)
+{
+    size_t index, live;
+    lxb_status_t status;
+    lxb_css_parser_t *parser;
+    lxb_css_selector_list_t *list;
+
+    for (index = 0;; index++) {
+        live = test_live;
+
+        parser = lxb_css_parser_create();
+        status = lxb_css_parser_init(parser, NULL);
+        test_eq(status, LXB_STATUS_OK);
+
+        test_arm(index, all);
+        list = lxb_css_selectors_parse(parser, input->data, input->length);
+        test_disarm();
+
+        lxb_css_selector_list_destroy_memory(list);
+
+        list = lxb_css_selectors_parse(parser, input->data, input->length);
+
+        test_eq(test_status_is(list, parser->status, input, false), true);
+
+        if (list != NULL) {
+            test_eq(test_list_is(list, input->result), true);
+
+            lxb_css_selector_list_destroy_memory(list);
+        }
+
+        (void) lxb_css_parser_destroy(parser, true);
+
+        test_eq_size(test_live, live);
+
+        if (!test_reached) {
+            break;
+        }
+    }
+
+    test_ne_size(index, 0);
+}
+TEST_END
+
 TEST_BEGIN(parse)
 {
     size_t i;
@@ -453,6 +496,17 @@ TEST_BEGIN(parse)
     for (i = 0; i < test_inputs.length; i++) {
         TEST_CALL_ARGS(parse_input, &test_inputs.list[i], false);
         TEST_CALL_ARGS(parse_input, &test_inputs.list[i], true);
+    }
+}
+TEST_END
+
+TEST_BEGIN(parse_again)
+{
+    size_t i;
+
+    for (i = 0; i < test_inputs.length; i++) {
+        TEST_CALL_ARGS(parse_again_input, &test_inputs.list[i], false);
+        TEST_CALL_ARGS(parse_again_input, &test_inputs.list[i], true);
     }
 }
 TEST_END
@@ -480,6 +534,7 @@ main(int argc, const char *argv[])
     test_inputs_init();
 
     TEST_ADD(parse);
+    TEST_ADD(parse_again);
     TEST_ADD(parse_memory);
 
     TEST_RUN("lexbor/css/selectors/allocation_failure");

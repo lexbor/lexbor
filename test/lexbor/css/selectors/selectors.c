@@ -1272,6 +1272,50 @@ TEST_BEGIN(lexbor_selectors_failed_memory)
 }
 TEST_END
 
+TEST_BEGIN(lexbor_selectors_own_memory)
+{
+    lxb_char_t *have;
+    lxb_status_t status;
+    lxb_css_parser_t *parser;
+    lxb_css_selector_list_t *first, *second;
+
+    parser = lxb_css_parser_create();
+    status = lxb_css_parser_init(parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    first = lxb_css_selectors_parse(parser, (const lxb_char_t *) "a > b", 5);
+    test_ne(first, NULL);
+
+    second = lxb_css_selectors_parse(parser, (const lxb_char_t *) ".c", 2);
+    test_ne(second, NULL);
+    test_ne(first->memory, second->memory);
+
+    lxb_css_selector_list_destroy_memory(first);
+
+    have = lxb_css_selector_serialize_list_chain_char(second, NULL);
+    test_eq_str(have, ".c");
+    lexbor_free(have);
+
+    lxb_css_selector_list_destroy_memory(second);
+
+    first = lxb_css_selectors_parse(parser, (const lxb_char_t *) "#d", 2);
+    test_ne(first, NULL);
+
+    lxb_css_selector_list_destroy_memory(first);
+
+    second = lxb_css_selectors_parse(parser, (const lxb_char_t *) "e f", 3);
+    test_ne(second, NULL);
+
+    have = lxb_css_selector_serialize_list_chain_char(second, NULL);
+    test_eq_str(have, "e f");
+    lexbor_free(have);
+
+    lxb_css_selector_list_destroy_memory(second);
+
+    (void) lxb_css_parser_destroy(parser, true);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -1280,6 +1324,7 @@ main(int argc, const char * argv[])
     TEST_ADD(lexbor_selectors_list);
     TEST_ADD(lexbor_selectors_destroy_memory);
     TEST_ADD(lexbor_selectors_failed_memory);
+    TEST_ADD(lexbor_selectors_own_memory);
 
     TEST_RUN("lexbor/css/selectors/selectors");
     TEST_RELEASE();
