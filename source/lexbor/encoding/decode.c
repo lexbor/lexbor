@@ -941,6 +941,68 @@ lxb_encoding_decode_iso_2022_jp(lxb_encoding_decode_t *ctx,
 }
 
 lxb_status_t
+lxb_encoding_decode_iso_2022_jp_eof(lxb_encoding_decode_t *ctx)
+{
+    lxb_char_t byte;
+    lxb_status_t status;
+    const lxb_char_t *data;
+    lxb_encoding_ctx_2022_jp_t *iso = &ctx->u.iso_2022_jp;
+
+    do {
+        switch (iso->state) {
+            case LXB_ENCODING_DECODE_2022_JP_TRAIL:
+                LXB_ENCODING_DECODE_ERROR(ctx);
+
+                iso->state = LXB_ENCODING_DECODE_2022_JP_LEAD;
+
+                break;
+
+            case LXB_ENCODING_DECODE_2022_JP_ESCAPE_START:
+                LXB_ENCODING_DECODE_ERROR(ctx);
+
+                iso->out_flag = false;
+                iso->state = iso->out_state;
+
+                break;
+
+            case LXB_ENCODING_DECODE_2022_JP_ESCAPE:
+                LXB_ENCODING_DECODE_ERROR(ctx);
+
+                iso->prepand = iso->lead;
+                iso->lead = 0x00;
+
+                iso->out_flag = false;
+                iso->state = iso->out_state;
+
+                break;
+
+            default:
+                if (iso->prepand == 0x00) {
+                    return LXB_STATUS_OK;
+                }
+
+                byte = iso->prepand;
+                data = &byte;
+
+                iso->prepand = 0x00;
+
+                status = lxb_encoding_decode_iso_2022_jp(ctx, &data, &byte + 1);
+
+                if (data == &byte) {
+                    iso->prepand = byte;
+                }
+
+                if (status != LXB_STATUS_OK && status != LXB_STATUS_CONTINUE) {
+                    return status;
+                }
+
+                break;
+        }
+    }
+    while (true);
+}
+
+lxb_status_t
 lxb_encoding_decode_iso_8859_10(lxb_encoding_decode_t *ctx,
                                 const lxb_char_t **data, const lxb_char_t *end)
 {

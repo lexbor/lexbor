@@ -52,6 +52,9 @@ lxb_encoding_decode_iso_2022_jp(lxb_encoding_decode_t *ctx,
                                 const lxb_char_t **data, const lxb_char_t *end);
 
 LXB_API lxb_status_t
+lxb_encoding_decode_iso_2022_jp_eof(lxb_encoding_decode_t *ctx);
+
+LXB_API lxb_status_t
 lxb_encoding_decode_iso_8859_10(lxb_encoding_decode_t *ctx,
                                 const lxb_char_t **data, const lxb_char_t *end);
 

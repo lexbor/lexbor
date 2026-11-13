@@ -197,14 +197,11 @@ lxb_encoding_decode_finish(lxb_encoding_decode_t *decode)
 {
     lxb_status_t status;
 
+    if (decode->encoding_data->encoding == LXB_ENCODING_ISO_2022_JP) {
+        return lxb_encoding_decode_iso_2022_jp_eof(decode);
+    }
+
     if (decode->status != LXB_STATUS_OK) {
-
-        if (decode->encoding_data->encoding == LXB_ENCODING_ISO_2022_JP
-            && decode->u.iso_2022_jp.state == LXB_ENCODING_DECODE_2022_JP_ASCII)
-        {
-            return LXB_STATUS_OK;
-        }
-
         if (decode->replace_to == NULL) {
             return LXB_STATUS_ERROR;
         }

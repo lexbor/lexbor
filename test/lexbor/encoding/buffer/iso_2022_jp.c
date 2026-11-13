@@ -19,6 +19,35 @@ typedef struct {
 test_sequence;
 
 
+static size_t
+test_decode_finish(const lxb_encoding_data_t *enc_data,
+                   const lxb_char_t *buf, const lxb_char_t *end,
+                   lxb_codepoint_t *cps, lxb_codepoint_t *cps_end)
+{
+    lxb_status_t status;
+    lxb_encoding_decode_t dectx;
+
+    status = lxb_encoding_decode_init(&dectx, enc_data, cps, (cps_end - cps));
+    if (status != LXB_STATUS_OK) {
+        return 0;
+    }
+
+    status = lxb_encoding_decode_replace_set(&dectx,
+          LXB_ENCODING_REPLACEMENT_BUFFER, LXB_ENCODING_REPLACEMENT_BUFFER_LEN);
+    if (status != LXB_STATUS_OK) {
+        return 0;
+    }
+
+    (void) enc_data->decode(&dectx, &buf, end);
+
+    status = lxb_encoding_decode_finish(&dectx);
+    if (status != LXB_STATUS_OK) {
+        return 0;
+    }
+
+    return lxb_encoding_decode_buf_used(&dectx);
+}
+
 TEST_BEGIN(decode)
 {
     lxb_char_t *buf, *end;
@@ -381,6 +410,124 @@ TEST_BEGIN(decode_buffer_check_trail)
 }
 TEST_END
 
+TEST_BEGIN(decode_finish_after_escape)
+{
+    size_t i;
+    lxb_status_t status;
+    const lxb_encoding_data_t *enc_data;
+    lxb_encoding_decode_t dectx;
+    const lxb_char_t *data;
+    lxb_codepoint_t out[4];
+
+    static const lxb_char_t escapes[][3] = {
+        {0x1B, 0x28, 0x42}, {0x1B, 0x28, 0x4A}, {0x1B, 0x28, 0x49},
+        {0x1B, 0x24, 0x40}, {0x1B, 0x24, 0x42}
+    };
+
+    enc_data = lxb_encoding_data(LXB_ENCODING_ISO_2022_JP);
+
+    for (i = 0; i < sizeof(escapes) / sizeof(escapes[0]); i++) {
+        data = escapes[i];
+
+        status = lxb_encoding_decode_init(&dectx, enc_data, out, 4);
+        test_eq(status, LXB_STATUS_OK);
+
+        status = lxb_encoding_decode_replace_set(&dectx,
+              LXB_ENCODING_REPLACEMENT_BUFFER,
+              LXB_ENCODING_REPLACEMENT_BUFFER_LEN);
+        test_eq(status, LXB_STATUS_OK);
+
+        (void) enc_data->decode(&dectx, &data, escapes[i] + 3);
+
+        status = lxb_encoding_decode_finish(&dectx);
+        test_eq(status, LXB_STATUS_OK);
+        test_eq_size(lxb_encoding_decode_buf_used(&dectx), 0);
+    }
+}
+TEST_END
+
+TEST_BEGIN(decode_finish_escape)
+{
+    lxb_char_t *buf, *end;
+    const lxb_encoding_data_t *enc_data;
+
+    size_t size;
+    lxb_codepoint_t rp_cp = LXB_ENCODING_REPLACEMENT_CODEPOINT;
+    lxb_codepoint_t cps_buffer[16];
+
+    enc_data = lxb_encoding_data(LXB_ENCODING_ISO_2022_JP);
+
+    to_update_buffer("\x1B");
+    test_buffer(test_decode_finish, 1, rp_cp);
+
+    to_update_buffer("\x1B\x24");
+    test_buffer(test_decode_finish, 2, rp_cp, 0x24);
+
+    to_update_buffer("\x1B\x28");
+    test_buffer(test_decode_finish, 2, rp_cp, 0x28);
+
+    to_update_buffer("\x1B\x28\x4A\x1B\x24");
+    test_buffer(test_decode_finish, 2, rp_cp, 0x24);
+
+    to_update_buffer("\x1B\x28\x49\x1B\x28");
+    test_buffer(test_decode_finish, 2, rp_cp, 0xFF68);
+
+    to_update_buffer("\x1B\x24\x42\x1B\x24");
+    test_buffer(test_decode_finish, 2, rp_cp, rp_cp);
+
+    to_update_buffer("\x1B\x24\x42\x30");
+    test_buffer(test_decode_finish, 1, rp_cp);
+}
+TEST_END
+
+TEST_BEGIN(decode_buffer_check_finish_escape)
+{
+    lxb_status_t status;
+    const lxb_encoding_data_t *enc_data;
+    lxb_encoding_decode_t dectx;
+    const lxb_char_t *data;
+    lxb_codepoint_t rp_cp;
+    lxb_codepoint_t out[2];
+
+    static const lxb_char_t escape[] = {0x41, 0x1B, 0x24};
+
+    rp_cp = LXB_ENCODING_REPLACEMENT_CODEPOINT;
+    enc_data = lxb_encoding_data(LXB_ENCODING_ISO_2022_JP);
+
+    data = escape;
+
+    status = lxb_encoding_decode_init(&dectx, enc_data, out, 2);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_encoding_decode_replace_set(&dectx,
+          LXB_ENCODING_REPLACEMENT_BUFFER, LXB_ENCODING_REPLACEMENT_BUFFER_LEN);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = enc_data->decode(&dectx, &data, escape + sizeof(escape));
+    test_eq(status, LXB_STATUS_CONTINUE);
+    test_eq_size(lxb_encoding_decode_buf_used(&dectx), 1);
+
+    status = lxb_encoding_decode_finish(&dectx);
+    test_eq(status, LXB_STATUS_SMALL_BUFFER);
+    test_eq_size(lxb_encoding_decode_buf_used(&dectx), 2);
+    test_eq(out[0], 0x41);
+    test_eq(out[1], rp_cp);
+
+    lxb_encoding_decode_buf_used_set(&dectx, 0);
+
+    status = lxb_encoding_decode_finish(&dectx);
+    test_eq(status, LXB_STATUS_OK);
+    test_eq_size(lxb_encoding_decode_buf_used(&dectx), 1);
+    test_eq(out[0], 0x24);
+
+    lxb_encoding_decode_buf_used_set(&dectx, 0);
+
+    status = lxb_encoding_decode_finish(&dectx);
+    test_eq(status, LXB_STATUS_OK);
+    test_eq_size(lxb_encoding_decode_buf_used(&dectx), 0);
+}
+TEST_END
+
 TEST_BEGIN(decode_map)
 {
     size_t line;
@@ -587,6 +734,9 @@ main(int argc, const char * argv[])
     TEST_ADD(decode_buffer_check_escape_paren);
     TEST_ADD(decode_buffer_check_escape_start);
     TEST_ADD(decode_buffer_check_trail);
+    TEST_ADD(decode_finish_after_escape);
+    TEST_ADD(decode_finish_escape);
+    TEST_ADD(decode_buffer_check_finish_escape);
     TEST_ADD(decode_map);
     TEST_ADD(encode_map);
     TEST_ADD(encode_buffer_check);
