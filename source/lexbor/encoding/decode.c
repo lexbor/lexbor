@@ -838,7 +838,6 @@ lxb_encoding_decode_iso_2022_jp(lxb_encoding_decode_t *ctx,
                 }
 
                 LXB_ENCODING_DECODE_ERROR_BEGIN {
-                    iso->prepand = 0x01;
                     ctx->have_error = true;
                 }
                 LXB_ENCODING_DECODE_ERROR_END();
@@ -861,7 +860,6 @@ lxb_encoding_decode_iso_2022_jp(lxb_encoding_decode_t *ctx,
                 iso->state = ctx->u.iso_2022_jp.out_state;
 
                 LXB_ENCODING_DECODE_ERROR_BEGIN {
-                    iso->prepand = 0x01;
                     ctx->have_error = true;
                 }
                 LXB_ENCODING_DECODE_ERROR_END();

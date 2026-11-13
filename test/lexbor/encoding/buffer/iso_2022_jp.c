@@ -288,6 +288,99 @@ TEST_BEGIN(decode_buffer_check_escape_paren)
 }
 TEST_END
 
+TEST_BEGIN(decode_buffer_check_escape_start)
+{
+    lxb_status_t status;
+    const lxb_encoding_data_t *enc_data;
+    lxb_encoding_decode_t dectx;
+    const lxb_char_t *data;
+    lxb_codepoint_t out[2];
+
+    static const lxb_codepoint_t replace[] = {0xFFFD, 0x3F};
+    static const lxb_char_t invalid_escape[] = {0x41, 0x1B, 0x42};
+
+    enc_data = lxb_encoding_data(LXB_ENCODING_ISO_2022_JP);
+
+    data = invalid_escape;
+
+    status = lxb_encoding_decode_init(&dectx, enc_data, out, 2);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_encoding_decode_replace_set(&dectx, replace, 2);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = enc_data->decode(&dectx, &data,
+                              invalid_escape + sizeof(invalid_escape));
+    test_eq(status, LXB_STATUS_SMALL_BUFFER);
+    test_eq_size(lxb_encoding_decode_buf_used(&dectx), 1);
+    test_eq(out[0], 0x41);
+
+    lxb_encoding_decode_buf_used_set(&dectx, 0);
+
+    status = enc_data->decode(&dectx, &data,
+                              invalid_escape + sizeof(invalid_escape));
+    test_eq(status, LXB_STATUS_SMALL_BUFFER);
+    test_eq_size(lxb_encoding_decode_buf_used(&dectx), 2);
+    test_eq(out[0], 0xFFFD);
+    test_eq(out[1], 0x3F);
+
+    lxb_encoding_decode_buf_used_set(&dectx, 0);
+
+    status = enc_data->decode(&dectx, &data,
+                              invalid_escape + sizeof(invalid_escape));
+    test_eq(status, LXB_STATUS_OK);
+    test_eq_size(lxb_encoding_decode_buf_used(&dectx), 1);
+    test_eq(out[0], 0x42);
+}
+TEST_END
+
+TEST_BEGIN(decode_buffer_check_trail)
+{
+    lxb_status_t status;
+    const lxb_encoding_data_t *enc_data;
+    lxb_encoding_decode_t dectx;
+    const lxb_char_t *data;
+    lxb_codepoint_t out[2];
+
+    static const lxb_codepoint_t replace[] = {0xFFFD, 0x3F};
+    static const lxb_char_t invalid_trail[] = {0x41, 0x1B, 0x24, 0x42,
+                                               0x30, 0x0A, 0x30, 0x21};
+
+    enc_data = lxb_encoding_data(LXB_ENCODING_ISO_2022_JP);
+
+    data = invalid_trail;
+
+    status = lxb_encoding_decode_init(&dectx, enc_data, out, 2);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_encoding_decode_replace_set(&dectx, replace, 2);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = enc_data->decode(&dectx, &data,
+                              invalid_trail + sizeof(invalid_trail));
+    test_eq(status, LXB_STATUS_SMALL_BUFFER);
+    test_eq_size(lxb_encoding_decode_buf_used(&dectx), 1);
+    test_eq(out[0], 0x41);
+
+    lxb_encoding_decode_buf_used_set(&dectx, 0);
+
+    status = enc_data->decode(&dectx, &data,
+                              invalid_trail + sizeof(invalid_trail));
+    test_eq(status, LXB_STATUS_SMALL_BUFFER);
+    test_eq_size(lxb_encoding_decode_buf_used(&dectx), 2);
+    test_eq(out[0], 0xFFFD);
+    test_eq(out[1], 0x3F);
+
+    lxb_encoding_decode_buf_used_set(&dectx, 0);
+
+    status = enc_data->decode(&dectx, &data,
+                              invalid_trail + sizeof(invalid_trail));
+    test_eq(status, LXB_STATUS_OK);
+    test_eq_size(lxb_encoding_decode_buf_used(&dectx), 1);
+    test_eq(out[0], 0x4E9C);
+}
+TEST_END
+
 TEST_BEGIN(decode_map)
 {
     size_t line;
@@ -492,6 +585,8 @@ main(int argc, const char * argv[])
     TEST_ADD(decode_prepend);
     TEST_ADD(decode_buffer_check_escape_dollar);
     TEST_ADD(decode_buffer_check_escape_paren);
+    TEST_ADD(decode_buffer_check_escape_start);
+    TEST_ADD(decode_buffer_check_trail);
     TEST_ADD(decode_map);
     TEST_ADD(encode_map);
     TEST_ADD(encode_buffer_check);
