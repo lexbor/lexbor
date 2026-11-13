@@ -5220,17 +5220,19 @@ lxb_url_search_params_parse(lxb_url_search_params_t *search_params,
             query = p;
         }
         else if (c == '&') {
-            entry = lxb_url_search_params_entry(search_params, last, mraw,
-                                                query, p - 1, &status);
-            if (status != LXB_STATUS_OK) {
-                return status;
-            }
+            if (query < p - 1) {
+                entry = lxb_url_search_params_entry(search_params, last, mraw,
+                                                    query, p - 1, &status);
+                if (status != LXB_STATUS_OK) {
+                    return status;
+                }
 
-            last = entry;
+                last = entry;
 
-            lexbor_str_init(&entry->value, mraw, 0);
-            if (entry->value.data == NULL) {
-                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+                lexbor_str_init(&entry->value, mraw, 0);
+                if (entry->value.data == NULL) {
+                    return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+                }
             }
 
             query = p;

@@ -93,6 +93,31 @@ static const test_params_t test_params[] =
         .result = lexbor_str(""),
         .sort = true
     },
+    {
+        .query = lexbor_str("&"),
+        .result = lexbor_str(""),
+        .sort = false
+    },
+    {
+        .query = lexbor_str("?&&"),
+        .result = lexbor_str(""),
+        .sort = false
+    },
+    {
+        .query = lexbor_str("&xyz&&abc&"),
+        .result = lexbor_str("xyz=&abc="),
+        .sort = false
+    },
+    {
+        .query = lexbor_str("xyz=789&&abc=123&"),
+        .result = lexbor_str("xyz=789&abc=123"),
+        .sort = false
+    },
+    {
+        .query = lexbor_str("&=&"),
+        .result = lexbor_str("="),
+        .sort = false
+    },
 };
 
 
