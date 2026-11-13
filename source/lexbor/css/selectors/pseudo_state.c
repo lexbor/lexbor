@@ -214,8 +214,7 @@ again:
             goto again;
 
         default:
-            lxb_css_parser_unexpected_data(parser, token);
-            return lxb_css_parser_failed(parser);
+            goto unexpected;
     }
 
     contains = lexbor_mraw_alloc(parser->memory->mraw,
@@ -289,6 +288,11 @@ failed:
     lexbor_mraw_free(parser->memory->mraw, contains);
 
     selector->u.pseudo.data = NULL;
+
+unexpected:
+
+    selectors->list = NULL;
+    selectors->list_last = NULL;
 
     lxb_css_parser_unexpected_data(parser, token);
     return lxb_css_parser_failed(parser);

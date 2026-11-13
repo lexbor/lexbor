@@ -939,12 +939,14 @@ static const lxb_test_entry_t selectors_list[] =
 
     {":lexbor-contains(abc s)",
      "",
-     "Syntax error. Selectors. Unexpected token: s",
+     "Syntax error. Selectors. Unexpected token: s\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: lexbor-contains()",
      lxb_css_selectors_parse_simple_list},
 
     {":lexbor-contains(12345)",
      "",
-     "Syntax error. Selectors. Unexpected token: 12345",
+     "Syntax error. Selectors. Unexpected token: 12345\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: lexbor-contains()",
      lxb_css_selectors_parse_simple_list},
 
     {":lexbor-contains(\""
@@ -979,6 +981,56 @@ static const lxb_test_entry_t selectors_list[] =
      "\")",
      "",
      lxb_css_selectors_parse_simple_list},
+
+    {":lexbor-contains(13608548869340022413\"C\" i)i)",
+     "",
+     "Syntax error. Selectors. Unexpected token: 13608548869340023000\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: lexbor-contains()",
+     lxb_css_selectors_parse},
+
+    {":lexbor-contains(1))",
+     "",
+     "Syntax error. Selectors. Unexpected token: 1\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: lexbor-contains()",
+     lxb_css_selectors_parse},
+
+    {":lexbor-contains(abc s))",
+     "",
+     "Syntax error. Selectors. Unexpected token: s\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: lexbor-contains()",
+     lxb_css_selectors_parse},
+
+    {":is():lexbor-contains(",
+     "",
+     "Syntax error. Selectors. Pseudo function can't be empty: is()\n"
+     "Syntax error. Selectors. Unexpected token: END\n"
+     "Syntax error. Selectors. End Of File in pseudo function\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: lexbor-contains()",
+     lxb_css_selectors_parse},
+
+    {":lexbor-contains(1):is(a)",
+     "",
+     "Syntax error. Selectors. Unexpected token: 1\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: lexbor-contains()",
+     lxb_css_selectors_parse},
+
+    {":is(:lexbor-contains(1), a)",
+     ":is(a)",
+     "Syntax error. Selectors. Unexpected token: 1\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: lexbor-contains()",
+     lxb_css_selectors_parse},
+
+    {":where(:lexbor-contains(abc s), a)",
+     ":where(a)",
+     "Syntax error. Selectors. Unexpected token: s\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: lexbor-contains()",
+     lxb_css_selectors_parse},
+
+    {":is(a, :lexbor-contains(\"abc\" i x))",
+     ":is(a)",
+     "Syntax error. Selectors. Unexpected token: x\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: lexbor-contains()",
+     lxb_css_selectors_parse},
 };
 
 
@@ -1092,6 +1144,50 @@ TEST_BEGIN(lexbor_selectors_destroy_memory)
 }
 TEST_END
 
+TEST_BEGIN(lexbor_selectors_failed_memory)
+{
+    lxb_status_t status;
+    lxb_css_parser_t *parser;
+    lxb_css_memory_t *memory;
+    lxb_css_selector_list_t *list;
+
+    static const lxb_test_destroy_entry_t entries[] = {
+        {":lexbor-contains(1)"},
+        {":lexbor-contains(abc s)"},
+        {":lexbor-contains(1))"},
+        {":lexbor-contains(1):is(a)"},
+        {"a, :lexbor-contains(\"abc\" i x)"}
+    };
+
+    size_t entries_length = sizeof(entries) / sizeof(lxb_test_destroy_entry_t);
+
+    memory = lxb_css_memory_create();
+    status = lxb_css_memory_init(memory, 128);
+    test_eq(status, LXB_STATUS_OK);
+
+    parser = lxb_css_parser_create();
+    status = lxb_css_parser_init(parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    lxb_css_parser_memory_set(parser, memory);
+
+    for (unsigned i = 0; i < entries_length; i++) {
+        for (unsigned j = 0; j < 3; j++) {
+            list = lxb_css_selectors_parse(parser,
+                                           (const lxb_char_t *) entries[i].selector,
+                                           strlen(entries[i].selector));
+            test_eq(list, NULL);
+            test_eq(lexbor_mraw_reference_count(memory->mraw), 0);
+
+            lxb_css_parser_erase(parser);
+        }
+    }
+
+    (void) lxb_css_parser_destroy(parser, true);
+    (void) lxb_css_memory_destroy(memory, true);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -1099,6 +1195,7 @@ main(int argc, const char * argv[])
 
     TEST_ADD(lexbor_selectors_list);
     TEST_ADD(lexbor_selectors_destroy_memory);
+    TEST_ADD(lexbor_selectors_failed_memory);
 
     TEST_RUN("lexbor/css/selectors/selectors");
     TEST_RELEASE();
