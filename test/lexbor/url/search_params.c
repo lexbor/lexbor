@@ -120,6 +120,18 @@ static const test_params_t test_params[] =
     },
 };
 
+static bool test_malloc_fail;
+
+
+static void *
+test_malloc(size_t size)
+{
+    if (test_malloc_fail) {
+        return NULL;
+    }
+
+    return malloc(size);
+}
 
 static lxb_status_t
 serialize_cb(const lxb_char_t *data, size_t len, void *ctx)
@@ -665,6 +677,85 @@ TEST_BEGIN(params_set_without)
 }
 TEST_END
 
+TEST_BEGIN_ARGS(params_set_memory_error_input, const lexbor_str_t *init,
+                const lexbor_str_t *name, const lexbor_str_t *value)
+{
+    lxb_status_t status;
+    lexbor_mraw_t *mraw;
+    lexbor_str_t str;
+    lxb_url_search_params_t *sp;
+    lxb_url_search_entry_t *entry;
+
+    mraw = lexbor_mraw_create();
+    status = lexbor_mraw_init(mraw, 4096);
+    test_eq(status, LXB_STATUS_OK);
+
+    sp = lxb_url_search_params_init(mraw, init->data, init->length);
+    test_ne(sp, NULL);
+
+    status = lexbor_memory_setup(test_malloc, realloc, calloc, free);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_malloc_fail = true;
+
+    entry = lxb_url_search_params_set(sp, name->data, name->length,
+                                      value->data, value->length);
+
+    test_malloc_fail = false;
+
+    (void) lexbor_memory_setup(malloc, realloc, calloc, free);
+
+    test_eq(entry, NULL);
+    test_eq(sp->length, 2);
+
+    status = lxb_url_search_params_serialize(sp, serialize_cb, &str);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_ne(str.data, NULL);
+    test_eq_str_n(str.data, str.length, init->data, init->length);
+
+    str.data = lexbor_free(str.data);
+
+    lxb_url_search_params_destroy(sp);
+    lexbor_mraw_destroy(mraw, true);
+}
+TEST_END
+
+TEST_BEGIN(params_set_memory_error)
+{
+    lxb_char_t *data;
+    lexbor_str_t init, name, value;
+
+    static const size_t length = 16384;
+    static const lexbor_str_t short_init = lexbor_str("abc=123&new=old");
+    static const lexbor_str_t short_name = lexbor_str("abc");
+    static const lexbor_str_t short_value = lexbor_str("xyz");
+    static const lexbor_str_t tail = lexbor_str("=123&new=old");
+
+    data = lexbor_malloc(length + tail.length);
+    test_ne(data, NULL);
+
+    memset(data, 'x', length);
+    memcpy(&data[length], tail.data, tail.length);
+
+    value.data = data;
+    value.length = length;
+
+    TEST_CALL_ARGS(params_set_memory_error_input, &short_init, &short_name,
+                   &value);
+
+    init.data = data;
+    init.length = length + tail.length;
+
+    name.data = data;
+    name.length = length;
+
+    TEST_CALL_ARGS(params_set_memory_error_input, &init, &name, &short_value);
+
+    lexbor_free(data);
+}
+TEST_END
+
 TEST_BEGIN(params_sort_append)
 {
     lxb_status_t status;
@@ -737,6 +828,7 @@ main(int argc, const char * argv[])
     TEST_ADD(params_null_init_has_only_name);
     TEST_ADD(params_set);
     TEST_ADD(params_set_without);
+    TEST_ADD(params_set_memory_error);
     TEST_ADD(params_sort_append);
 
     TEST_RUN("lexbor/url/search_params");

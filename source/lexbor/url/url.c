@@ -5308,15 +5308,16 @@ static lxb_status_t
 lxb_url_search_params_to_str(lexbor_str_t *str, lexbor_mraw_t *mraw,
                              const lxb_char_t *data, size_t length)
 {
+    lxb_char_t *p;
+
     if (data == NULL || length == 0) {
-        lexbor_str_init(str, mraw, 0);
+        p = lexbor_str_init(str, mraw, 0);
     }
     else {
-        lexbor_str_init_append(str, mraw, data, length);
+        p = lexbor_str_init_append(str, mraw, data, length);
     }
 
-    return str->data != NULL ? LXB_STATUS_OK
-                             : LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    return p != NULL ? LXB_STATUS_OK : LXB_STATUS_ERROR_MEMORY_ALLOCATION;
 }
 
 lxb_url_search_entry_t *
