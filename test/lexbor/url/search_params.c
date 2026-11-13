@@ -118,6 +118,16 @@ static const test_params_t test_params[] =
         .result = lexbor_str("="),
         .sort = false
     },
+    {
+        .query = lexbor_str("a%00b=1&a%00a=2&a%00=3&a=4"),
+        .result = lexbor_str("a=4&a%00=3&a%00a=2&a%00b=1"),
+        .sort = true
+    },
+    {
+        .query = lexbor_str("%EF%AC%83=1&%F0%9F%8C%88=2&%EE%80%80=3&z=4"),
+        .result = lexbor_str("z=4&%F0%9F%8C%88=2&%EE%80%80=3&%EF%AC%83=1"),
+        .sort = true
+    },
 };
 
 static bool test_malloc_fail;

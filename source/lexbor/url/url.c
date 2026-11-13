@@ -5685,8 +5685,47 @@ lxb_inline int
 lxb_url_search_params_compare(lxb_url_search_entry_t *first,
                               lxb_url_search_entry_t *second)
 {
-    return strcmp((const char *) first->name.data,
-                  (const char *) second->name.data);
+    lxb_char_t a, b;
+    const lxb_char_t *p, *s, *end;
+
+    p = first->name.data;
+    s = second->name.data;
+
+    if (first->name.length < second->name.length) {
+        end = p + first->name.length;
+    }
+    else {
+        end = p + second->name.length;
+    }
+
+    while (p < end) {
+        if (*p != *s) {
+            a = *p;
+            b = *s;
+
+            /*
+             * Names are sorted by UTF-16 code units. The order of UTF-8
+             * bytes is the order of code points, which differs from it only
+             * for U+E000 to U+FFFF (lead bytes 0xEE and 0xEF): they follow
+             * the code points above U+FFFF (lead bytes 0xF0 to 0xF4), whose
+             * surrogates are below 0xE000.
+             */
+            if (a >= 0xEE && b >= 0xEE && (a >= 0xF0) != (b >= 0xF0)) {
+                return (a >= 0xF0) ? -1 : 1;
+            }
+
+            return (int) a - (int) b;
+        }
+
+        p += 1;
+        s += 1;
+    }
+
+    if (first->name.length == second->name.length) {
+        return 0;
+    }
+
+    return (first->name.length < second->name.length) ? -1 : 1;
 }
 
 void
