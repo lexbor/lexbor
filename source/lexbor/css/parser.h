@@ -21,7 +21,7 @@ extern "C" {
     do {                                                                       \
         token = lxb_css_syntax_parser_token(parser);                           \
         if (token == NULL) {                                                   \
-            return lxb_css_parser_fail((parser), (parser)->tkz->status);       \
+            return lxb_css_parser_fail((parser), (parser)->status);            \
         }                                                                      \
     }                                                                          \
     while (false)
@@ -39,14 +39,14 @@ extern "C" {
     do {                                                                       \
         token = lxb_css_syntax_parser_token(parser);                           \
         if (token == NULL) {                                                   \
-            return lxb_css_parser_fail((parser), (parser)->tkz->status);       \
+            return lxb_css_parser_fail((parser), (parser)->status);            \
         }                                                                      \
                                                                                \
         if (token->type == LXB_CSS_SYNTAX_TOKEN_WHITESPACE) {                  \
             lxb_css_syntax_parser_consume(parser);                             \
             token = lxb_css_syntax_parser_token(parser);                       \
             if (token == NULL) {                                               \
-                return lxb_css_parser_fail((parser), (parser)->tkz->status);   \
+                return lxb_css_parser_fail((parser), (parser)->status);        \
             }                                                                  \
         }                                                                      \
     }                                                                          \
@@ -55,7 +55,7 @@ extern "C" {
 #define lxb_css_parser_token_status_m(parser, token)                           \
     do {                                                                       \
         if ((token = lxb_css_syntax_parser_token(parser)) == NULL) {           \
-            return parser->tkz->status;                                        \
+            return parser->status;                                             \
         }                                                                      \
     }                                                                          \
     while (false)
@@ -72,13 +72,13 @@ extern "C" {
 #define lxb_css_parser_token_status_wo_ws_m(parser, token)                     \
     do {                                                                       \
         if ((token = lxb_css_syntax_parser_token(parser)) == NULL) {           \
-            return parser->tkz->status;                                        \
+            return parser->status;                                             \
         }                                                                      \
                                                                                \
         if (token->type == LXB_CSS_SYNTAX_TOKEN_WHITESPACE) {                  \
             lxb_css_syntax_parser_consume(parser);                             \
             if ((token = lxb_css_syntax_parser_token(parser)) == NULL) {       \
-                return parser->tkz->status;                                    \
+                return parser->status;                                         \
             }                                                                  \
         }                                                                      \
     }                                                                          \
