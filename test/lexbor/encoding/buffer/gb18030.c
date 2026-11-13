@@ -388,6 +388,50 @@ TEST_BEGIN(decode_chunks_after_invalid_fourth)
 }
 TEST_END
 
+TEST_BEGIN(decode_buffer_check_four_byte_no_code_point)
+{
+    lxb_status_t status;
+    const lxb_encoding_data_t *enc_data;
+    lxb_encoding_decode_t dectx;
+    const lxb_char_t *data;
+    lxb_codepoint_t out[2];
+
+    static const lxb_codepoint_t replace[] = {0xFFFD, 0x3F};
+    static const lxb_char_t no_code_point[] = {0x41, 0xFE, 0x39, 0xFE, 0x39};
+
+    enc_data = lxb_encoding_data(LXB_ENCODING_GB18030);
+
+    data = no_code_point;
+
+    status = lxb_encoding_decode_init(&dectx, enc_data, out, 2);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_encoding_decode_replace_set(&dectx, replace, 2);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = enc_data->decode(&dectx, &data,
+                              no_code_point + sizeof(no_code_point));
+    test_eq(status, LXB_STATUS_SMALL_BUFFER);
+    test_eq_size(lxb_encoding_decode_buf_used(&dectx), 1);
+    test_eq(out[0], 0x41);
+
+    lxb_encoding_decode_buf_used_set(&dectx, 0);
+
+    status = enc_data->decode(&dectx, &data,
+                              no_code_point + sizeof(no_code_point));
+    test_eq(status, LXB_STATUS_OK);
+    test_eq_size(lxb_encoding_decode_buf_used(&dectx), 2);
+    test_eq(out[0], 0xFFFD);
+    test_eq(out[1], 0x3F);
+
+    lxb_encoding_decode_buf_used_set(&dectx, 0);
+
+    status = lxb_encoding_decode_finish(&dectx);
+    test_eq(status, LXB_STATUS_OK);
+    test_eq_size(lxb_encoding_decode_buf_used(&dectx), 0);
+}
+TEST_END
+
 TEST_BEGIN(decode_map)
 {
     size_t line;
@@ -492,6 +536,7 @@ main(int argc, const char * argv[])
     TEST_ADD(decode_buffer_check_invalid_fourth);
     TEST_ADD(decode_buffer_check_invalid_fourth_resume);
     TEST_ADD(decode_chunks_after_invalid_fourth);
+    TEST_ADD(decode_buffer_check_four_byte_no_code_point);
     TEST_ADD(decode_map);
     TEST_ADD(encode_map);
     TEST_ADD(encode_buffer_check);

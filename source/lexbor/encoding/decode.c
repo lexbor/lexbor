@@ -1799,7 +1799,9 @@ lxb_encoding_decode_gb18030(lxb_encoding_decode_t *ctx,
         ctx->codepoint =  lxb_encoding_decode_gb18030_range(pointer);
 
         if (ctx->codepoint == LXB_ENCODING_ERROR_CODEPOINT) {
-            LXB_ENCODING_DECODE_ERROR_BEGIN {}
+            LXB_ENCODING_DECODE_ERROR_BEGIN {
+                ctx->have_error = true;
+            }
             LXB_ENCODING_DECODE_ERROR_END();
 
             continue;
