@@ -144,6 +144,46 @@ TEST_BEGIN(select_size_value_attribute_is_null)
 }
 TEST_END
 
+TEST_BEGIN(select_size_selectedness)
+{
+    lxb_status_t status;
+    lxb_dom_node_t *select, *node;
+    lxb_html_option_element_t *first, *second;
+    lxb_html_document_t *document;
+
+    static const lxb_char_t html[] = "<!doctype html><select size=2>"
+        "<option selected>a</option><option selected>b</option></select>";
+    static const size_t length = sizeof(html) - 1;
+
+    document = lxb_html_document_create();
+    test_ne(document, NULL);
+
+    status = lxb_html_document_parse(document, html, length);
+    test_eq(status, LXB_STATUS_OK);
+
+    select = lxb_dom_interface_node(document->body)->first_child;
+    test_ne(select, NULL);
+    test_eq(select->local_name, LXB_TAG_SELECT);
+
+    node = select->first_child;
+    test_ne(node, NULL);
+    test_eq(node->local_name, LXB_TAG_OPTION);
+
+    first = lxb_html_interface_option(node);
+
+    node = node->next;
+    test_ne(node, NULL);
+    test_eq(node->local_name, LXB_TAG_OPTION);
+
+    second = lxb_html_interface_option(node);
+
+    test_eq(lxb_html_option_element_selectedness(first), false);
+    test_eq(lxb_html_option_element_selectedness(second), true);
+
+    lxb_html_document_destroy(document);
+}
+TEST_END
+
 TEST_BEGIN(ruby_rp_rt)
 {
     lxb_status_t status;
@@ -213,6 +253,7 @@ main(int argc, const char * argv[])
     TEST_ADD(bad_html_remove_attributes);
     TEST_ADD(duplicate_attributes_svg_namespace);
     TEST_ADD(select_size_value_attribute_is_null);
+    TEST_ADD(select_size_selectedness);
     TEST_ADD(ruby_rp_rt);
     TEST_ADD(rp_rt);
 

@@ -117,27 +117,25 @@ lxb_html_select_selectedness_setting_algorithm(lxb_html_select_element_t *el)
      * not disabled, if any, to true and return.
      */
 
-    display_size = lxb_html_select_selectedness_display_size(el);
+    snctx.first = NULL;
+    snctx.last = NULL;
+    snctx.selected = 0;
 
-    if (display_size == 1) {
-        snctx.first = NULL;
-        snctx.last = NULL;
-        snctx.selected = 0;
+    status = lxb_html_select_list_of_options(el,
+                                             lxb_html_select_selectedness_one_cb,
+                                             &snctx);
+    if (status != LXB_STATUS_OK) {
+        return LXB_DOM_EXCEPTION_ERR;
+    }
 
-        status = lxb_html_select_list_of_options(el,
-                                                 lxb_html_select_selectedness_one_cb,
-                                                 &snctx);
-        if (status != LXB_STATUS_OK) {
-            return LXB_DOM_EXCEPTION_ERR;
+    if (snctx.selected == 0) {
+        display_size = lxb_html_select_selectedness_display_size(el);
+
+        if (display_size == 1 && snctx.first != NULL) {
+            snctx.first->selectedness = true;
         }
 
-        if (snctx.selected == 0) {
-            if (snctx.first != NULL) {
-                snctx.first->selectedness = true;
-            }
-
-            return LXB_DOM_EXCEPTION_OK;
-        }
+        return LXB_DOM_EXCEPTION_OK;
     }
 
     /*
