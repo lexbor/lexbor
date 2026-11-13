@@ -16,6 +16,12 @@ typedef struct {
 }
 test_path_length_t;
 
+typedef struct {
+    const char *prefix;
+    const char *suffix;
+}
+test_path_grow_t;
+
 
 lxb_status_t
 callback(const lxb_char_t *data, size_t len, void *ctx)
@@ -198,6 +204,58 @@ TEST_BEGIN(url_path_slow_path_grow)
 }
 TEST_END
 
+TEST_BEGIN(url_path_slow_path_grow_segment)
+{
+    size_t i, n, plen, slen;
+    lxb_status_t status;
+    lxb_url_t *url;
+    lxb_url_parser_t parser;
+    const test_path_grow_t *entry;
+    lxb_char_t input[16 + 4096];
+    lxb_char_t path[8 + 4096];
+
+    static const test_path_grow_t entries[] = {
+        {"http://a/|", ".."},
+        {"file:///|", "c|"}
+    };
+
+    status = lxb_url_parser_init(&parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    path[0] = '/';
+    path[1] = '|';
+
+    for (i = 0; i < sizeof(entries) / sizeof(test_path_grow_t); i++) {
+        entry = &entries[i];
+
+        plen = strlen(entry->prefix);
+        slen = strlen(entry->suffix);
+
+        memcpy(input, entry->prefix, plen);
+
+        for (n = 0; n <= 4096; n++) {
+            memset(&input[plen], 'a', n);
+            memcpy(&input[plen + n], entry->suffix, slen);
+
+            memset(&path[2], 'a', n);
+            memcpy(&path[2 + n], entry->suffix, slen);
+
+            url = lxb_url_parse(&parser, NULL, input, plen + n + slen);
+            test_ne(url, NULL);
+
+            test_eq_str_n(url->path.str.data, url->path.str.length,
+                          path, 2 + n + slen);
+
+            lxb_url_destroy(url);
+            lxb_url_parser_clean(&parser);
+        }
+    }
+
+    lxb_url_parser_memory_destroy(&parser);
+    lxb_url_parser_destroy(&parser, false);
+}
+TEST_END
+
 TEST_BEGIN(url_path_length)
 {
     size_t i, len;
@@ -340,6 +398,7 @@ main(int argc, const char * argv[])
     TEST_ADD(url_file_change_hostname);
     TEST_ADD(url_search_params_append_after_tail_token);
     TEST_ADD(url_path_slow_path_grow);
+    TEST_ADD(url_path_slow_path_grow_segment);
     TEST_ADD(url_path_length);
     TEST_ADD(url_pathname_invalid_percent);
 
