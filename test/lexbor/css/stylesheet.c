@@ -180,6 +180,50 @@ TEST_BEGIN(deep_nested)
 }
 TEST_END
 
+TEST_BEGIN(parser_after_destroy)
+{
+    lxb_char_t *have;
+    lxb_status_t status;
+    lxb_css_parser_t *parser;
+    lxb_css_stylesheet_t *sst;
+    lxb_css_selector_list_t *list;
+
+    const lexbor_str_t input = lexbor_str("a > b {color: red}");
+
+    parser = lxb_css_parser_create();
+    status = lxb_css_parser_init(parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    sst = lxb_css_stylesheet_create(NULL);
+    status = lxb_css_stylesheet_parse(sst, parser, input.data, input.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    (void) lxb_css_stylesheet_destroy(sst, true);
+
+    list = lxb_css_selectors_parse(parser, (const lxb_char_t *) "c d", 3);
+    test_ne(list, NULL);
+
+    have = lxb_css_selector_serialize_list_chain_char(list, NULL);
+    test_eq_str(have, "c d");
+    lexbor_free(have);
+
+    lxb_css_selector_list_destroy_memory(list);
+
+    sst = lxb_css_stylesheet_create(NULL);
+    status = lxb_css_stylesheet_parse(sst, parser, input.data, input.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    (void) lxb_css_stylesheet_destroy(sst, true);
+
+    sst = lxb_css_stylesheet_create(NULL);
+    status = lxb_css_stylesheet_parse(sst, parser, input.data, input.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    (void) lxb_css_stylesheet_destroy(sst, true);
+    (void) lxb_css_parser_destroy(parser, true);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -190,6 +234,7 @@ main(int argc, const char * argv[])
     TEST_ADD(eof_offset);
     TEST_ADD(colon_lookup);
     TEST_ADD(deep_nested);
+    TEST_ADD(parser_after_destroy);
 
     TEST_RUN("lexbor/css/stylesheet");
     TEST_RELEASE();

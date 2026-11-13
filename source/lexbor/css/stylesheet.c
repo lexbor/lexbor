@@ -70,6 +70,7 @@ lxb_css_stylesheet_parse(lxb_css_stylesheet_t *sst, lxb_css_parser_t *parser,
                          const lxb_char_t *data, size_t length)
 {
     lxb_status_t status;
+    lxb_css_memory_t *memory;
     lxb_css_rule_list_t *list;
     lxb_css_selectors_t selectors;
 
@@ -89,11 +90,14 @@ lxb_css_stylesheet_parse(lxb_css_stylesheet_t *sst, lxb_css_parser_t *parser,
         lxb_css_selectors_clean(parser->selectors);
     }
 
+    memory = parser->memory;
     parser->memory = sst->memory;
 
     list = lxb_css_syntax_parse_list_rules(parser,
                                            lxb_css_state_cb_list_rules(),
                                            data, length);
+
+    parser->memory = memory;
 
     if (parser->selectors == &selectors) {
         lxb_css_selectors_destroy(&selectors, false);
