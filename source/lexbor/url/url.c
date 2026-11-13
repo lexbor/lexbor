@@ -5689,7 +5689,7 @@ lxb_url_search_params_compare(lxb_url_search_entry_t *first,
 void
 lxb_url_search_params_sort(lxb_url_search_params_t *search_params)
 {
-    lxb_url_search_entry_t *root, *new_root, *node, *current;
+    lxb_url_search_entry_t *root, *new_root, *last, *node, *current;
 
     root = search_params->first;
 
@@ -5702,6 +5702,7 @@ lxb_url_search_params_sort(lxb_url_search_params_t *search_params)
 
     node->next = NULL;
     new_root = node;
+    last = node;
 
     while (root != NULL) {
         node = root;
@@ -5726,6 +5727,9 @@ lxb_url_search_params_sort(lxb_url_search_params_t *search_params)
             if (current->next != NULL) {
                 current->next->prev = node;
             }
+            else {
+                last = node;
+            }
 
             current->next = node;
             node->prev = current;
@@ -5735,7 +5739,7 @@ lxb_url_search_params_sort(lxb_url_search_params_t *search_params)
     new_root->prev = NULL;
 
     search_params->first = new_root;
-    search_params->last = node->next != NULL ? node->next : node;
+    search_params->last = last;
 }
 
 static size_t
