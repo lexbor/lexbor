@@ -694,6 +694,47 @@ static const lxb_test_entry_t selectors_list[] =
      "Syntax error. Selectors. Pseudo function can't be empty: nth-child()",
      lxb_css_selectors_parse},
 
+    {":nth-child(2n x)",
+     "",
+     "Syntax error. Selectors. Unexpected token: x\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()",
+     lxb_css_selectors_parse},
+
+    {":nth-last-child(2n+1 2)",
+     "",
+     "Syntax error. Selectors. Unexpected token: 2\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-last-child()",
+     lxb_css_selectors_parse},
+
+    {":nth-child(2n xof a)",
+     "",
+     "Syntax error. Selectors. Unexpected token: xof\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()",
+     lxb_css_selectors_parse},
+
+    {":nth-of-type(2n x)",
+     "",
+     "Syntax error. Selectors. Unexpected token: x\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-of-type()",
+     lxb_css_selectors_parse},
+
+    {":nth-last-of-type(odd odd)",
+     "",
+     "Syntax error. Selectors. Unexpected token: odd\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-last-of-type()",
+     lxb_css_selectors_parse},
+
+    {":is(:nth-child(2n x), a)",
+     ":is(a)",
+     "Syntax error. Selectors. Unexpected token: x\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()",
+     lxb_css_selectors_parse},
+
+    {":nth-child( 2n+1 ):nth-of-type( even )",
+     ":nth-child(odd):nth-of-type(even)",
+     "",
+     lxb_css_selectors_parse},
+
     /* Block. */
 
     {":has(:not(div, {}, .class), #hash)",

@@ -47,6 +47,15 @@ lxb_css_selectors_state_pseudo_anb_begin(lxb_css_parser_t *parser,
 
     parser->selectors->list = NULL;
 
+    lxb_css_parser_token_wo_ws_m(parser, token);
+
+    if (token->type != LXB_CSS_SYNTAX_TOKEN__END) {
+        parser->selectors->list_last = NULL;
+
+        lxb_css_parser_unexpected_data(parser, token);
+        return lxb_css_parser_failed(parser);
+    }
+
     return lxb_css_parser_success(parser);
 }
 
@@ -402,6 +411,13 @@ lxb_css_selectors_state_pseudo_of_begin(lxb_css_parser_t *parser,
                                      lxb_css_selectors_state_complex_list);
             return true;
         }
+    }
+
+    if (token->type != LXB_CSS_SYNTAX_TOKEN__END) {
+        selectors->list_last = NULL;
+
+        lxb_css_parser_unexpected_data(parser, token);
+        return lxb_css_parser_failed(parser);
     }
 
     return lxb_css_parser_success(parser);
