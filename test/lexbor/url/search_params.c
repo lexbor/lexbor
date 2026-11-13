@@ -229,6 +229,56 @@ TEST_BEGIN(params_append)
 }
 TEST_END
 
+TEST_BEGIN(params_append_after_name)
+{
+    lxb_status_t status;
+    lexbor_str_t str;
+    lexbor_mraw_t *mraw;
+    lxb_url_search_params_t *sp;
+    lxb_url_search_entry_t *entry;
+
+    static const lexbor_str_t inits[] = {
+        lexbor_str("?new"),
+        lexbor_str("first=last&new"),
+        lexbor_str("first&new")
+    };
+
+    static const lexbor_str_t results[] = {
+        lexbor_str("new=&abc=xyz"),
+        lexbor_str("first=last&new=&abc=xyz"),
+        lexbor_str("first=&new=&abc=xyz")
+    };
+
+    static const lexbor_str_t name = lexbor_str("abc");
+    static const lexbor_str_t value = lexbor_str("xyz");
+
+    mraw = lexbor_mraw_create();
+    status = lexbor_mraw_init(mraw, 4096);
+    test_eq(status, LXB_STATUS_OK);
+
+    for (size_t i = 0; i < sizeof(inits) / sizeof(lexbor_str_t); i++) {
+        sp = lxb_url_search_params_init(mraw, inits[i].data, inits[i].length);
+        test_ne(sp, NULL);
+
+        entry = lxb_url_search_params_append(sp, name.data, name.length,
+                                             value.data, value.length);
+        test_ne(entry, NULL);
+
+        status = lxb_url_search_params_serialize(sp, serialize_cb, &str);
+        test_eq(status, LXB_STATUS_OK);
+
+        test_ne(str.data, NULL);
+        test_eq_str(str.data, results[i].data);
+
+        str.data = lexbor_free(str.data);
+
+        lxb_url_search_params_destroy(sp);
+    }
+
+    lexbor_mraw_destroy(mraw, true);
+}
+TEST_END
+
 TEST_BEGIN(params_delete_name_value)
 {
     lxb_status_t status;
@@ -597,6 +647,7 @@ main(int argc, const char * argv[])
 
     TEST_ADD(params_init);
     TEST_ADD(params_append);
+    TEST_ADD(params_append_after_name);
     TEST_ADD(params_null_init_append);
     TEST_ADD(params_delete_name_value);
     TEST_ADD(params_delete_name);
