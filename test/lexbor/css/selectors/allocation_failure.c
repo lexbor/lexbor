@@ -334,6 +334,26 @@ test_list_is(lxb_css_selector_list_t *list, const lxb_char_t *result)
     return is;
 }
 
+static bool
+test_status_is(lxb_css_selector_list_t *list, lxb_status_t status,
+               const test_input_t *input, bool reached)
+{
+    if (list != NULL) {
+        return status == LXB_STATUS_OK;
+    }
+
+    if (!reached) {
+        return status == LXB_STATUS_ERROR_UNEXPECTED_DATA;
+    }
+
+    if (input->result != NULL) {
+        return status != LXB_STATUS_OK
+               && status != LXB_STATUS_ERROR_UNEXPECTED_DATA;
+    }
+
+    return status != LXB_STATUS_OK;
+}
+
 
 TEST_BEGIN_ARGS(parse_input, test_input_t *input, bool all)
 {
@@ -352,6 +372,9 @@ TEST_BEGIN_ARGS(parse_input, test_input_t *input, bool all)
         test_arm(index, all);
         list = lxb_css_selectors_parse(parser, input->data, input->length);
         test_disarm();
+
+        test_eq(test_status_is(list, parser->status, input, test_reached),
+                true);
 
         if (list != NULL) {
             test_eq(test_list_is(list, input->result), true);
@@ -397,6 +420,9 @@ TEST_BEGIN_ARGS(parse_memory_input, test_input_t *input, bool all)
         test_arm(index, all);
         list = lxb_css_selectors_parse(parser, input->data, input->length);
         test_disarm();
+
+        test_eq(test_status_is(list, parser->status, input, test_reached),
+                true);
 
         if (list != NULL) {
             test_eq(test_list_is(list, input->result), true);

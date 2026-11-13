@@ -1065,6 +1065,25 @@ static const lxb_test_entry_t selectors_list[] =
      "Syntax error. Selectors. Pseudo function can't be empty: lexbor-contains()",
      lxb_css_selectors_parse},
 
+    {":nth-child(x):is(a)",
+     "",
+     "Syntax error. Selectors. Unexpected token: x\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()",
+     lxb_css_selectors_parse},
+
+    {":is(:nth-child(x))",
+     "",
+     "Syntax error. Selectors. Unexpected token: x\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: nth-child()\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: is()",
+     lxb_css_selectors_parse},
+
+    {":lexbor-contains(abc s):where(a)",
+     "",
+     "Syntax error. Selectors. Unexpected token: s\n"
+     "Syntax error. Selectors. Pseudo function can't be empty: lexbor-contains()",
+     lxb_css_selectors_parse},
+
     {":is(:lexbor-contains(1), a)",
      ":is(a)",
      "Syntax error. Selectors. Unexpected token: 1\n"
@@ -1118,6 +1137,15 @@ TEST_BEGIN(lexbor_selectors_list)
 
         list = selectors_list[i].handler(parser, (lxb_char_t *)
                                          test, strlen(test));
+
+        if (*need == '\0') {
+            test_eq(list, NULL);
+            test_eq(parser->status, LXB_STATUS_ERROR_UNEXPECTED_DATA);
+        }
+        else {
+            test_ne(list, NULL);
+            test_eq(parser->status, LXB_STATUS_OK);
+        }
 
         have = (char *) lxb_css_selector_serialize_list_chain_char(list, NULL);
         test_eq_str(have, need);
@@ -1183,6 +1211,7 @@ TEST_BEGIN(lexbor_selectors_destroy_memory)
                                            (const lxb_char_t *) entries[i].selector,
                                            strlen(entries[i].selector));
             test_ne(list, NULL);
+            test_eq(parser->status, LXB_STATUS_OK);
 
             lxb_css_selector_list_destroy(list);
             test_eq(lexbor_mraw_reference_count(memory->mraw), 0);
@@ -1208,7 +1237,9 @@ TEST_BEGIN(lexbor_selectors_failed_memory)
         {":lexbor-contains(abc s)"},
         {":lexbor-contains(1))"},
         {":lexbor-contains(1):is(a)"},
-        {"a, :lexbor-contains(\"abc\" i x)"}
+        {"a, :lexbor-contains(\"abc\" i x)"},
+        {":nth-child(x):is(a)"},
+        {":is(:nth-child(x))"}
     };
 
     size_t entries_length = sizeof(entries) / sizeof(lxb_test_destroy_entry_t);
@@ -1229,6 +1260,7 @@ TEST_BEGIN(lexbor_selectors_failed_memory)
                                            (const lxb_char_t *) entries[i].selector,
                                            strlen(entries[i].selector));
             test_eq(list, NULL);
+            test_eq(parser->status, LXB_STATUS_ERROR_UNEXPECTED_DATA);
             test_eq(lexbor_mraw_reference_count(memory->mraw), 0);
 
             lxb_css_parser_erase(parser);

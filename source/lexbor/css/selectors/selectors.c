@@ -194,7 +194,15 @@ lxb_css_selectors_parse_process(lxb_css_parser_t *parser,
     }
 
     parser->status = lxb_css_syntax_parser_run(parser);
-    if (parser->status != LXB_STATUS_OK) {
+
+    if (parser->status != LXB_STATUS_OK
+        && parser->status != LXB_STATUS_ERROR_UNEXPECTED_DATA)
+    {
+        return NULL;
+    }
+
+    if (parser->status != LXB_STATUS_OK || parser->selectors->list == NULL) {
+        parser->status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
         return NULL;
     }
 
