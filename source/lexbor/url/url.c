@@ -4181,6 +4181,166 @@ lxb_url_percent_decode(const lxb_char_t *data, const lxb_char_t *end,
     return LXB_STATUS_OK;
 }
 
+lxb_inline lxb_char_t
+lxb_url_percent_decode_plus_char(const lxb_char_t **data,
+                                 const lxb_char_t *end)
+{
+    lxb_char_t c;
+    const lxb_char_t *p;
+
+    p = *data;
+    c = *p++;
+
+    if (c == '%') {
+        if (p + 2 <= end && lexbor_str_res_map_hex[p[0]] != 0xff
+            && lexbor_str_res_map_hex[p[1]] != 0xff)
+        {
+            c = lexbor_str_res_map_hex[p[0]] << 4
+                | lexbor_str_res_map_hex[p[1]];
+            p += 2;
+        }
+    }
+    else if (c == '+') {
+        c = ' ';
+    }
+
+    *data = p;
+
+    return c;
+}
+
+static lxb_char_t *
+lxb_url_percent_decode_replacement(lexbor_str_t *str, lexbor_mraw_t *mraw,
+                                   lxb_char_t *dp, size_t rest)
+{
+    size_t length, size;
+    lxb_char_t *data;
+
+    length = dp - str->data;
+
+    if (rest > SIZE_MAX - length - 4) {
+        return NULL;
+    }
+
+    size = length + rest + 4;
+
+    if (size > lexbor_str_size(str)) {
+        if (lexbor_str_size(str) <= SIZE_MAX / 2
+            && size < lexbor_str_size(str) * 2)
+        {
+            size = lexbor_str_size(str) * 2;
+        }
+
+        data = lexbor_str_realloc(str, mraw, size);
+        if (data == NULL) {
+            return NULL;
+        }
+
+        dp = data + length;
+    }
+
+    *dp++ = 0xEF;
+    *dp++ = 0xBF;
+    *dp++ = 0xBD;
+
+    return dp;
+}
+
+static lxb_status_t
+lxb_url_percent_decode_plus_utf_8(const lxb_char_t *p, const lxb_char_t *end,
+                                  lexbor_str_t *str, lexbor_mraw_t *mraw,
+                                  lxb_char_t *dp, lxb_char_t c)
+{
+    size_t need;
+    lxb_char_t lower, upper, *seq;
+
+    goto again;
+
+    while (p < end) {
+        c = lxb_url_percent_decode_plus_char(&p, end);
+
+    again:
+
+        if (c < 0x80) {
+            *dp++ = c;
+            continue;
+        }
+
+        lower = 0x80;
+        upper = 0xBF;
+
+        if (c >= 0xC2 && c <= 0xDF) {
+            need = 1;
+        }
+        else if (c >= 0xE0 && c <= 0xEF) {
+            if (c == 0xE0) {
+                lower = 0xA0;
+            }
+            else if (c == 0xED) {
+                upper = 0x9F;
+            }
+
+            need = 2;
+        }
+        else if (c >= 0xF0 && c <= 0xF4) {
+            if (c == 0xF0) {
+                lower = 0x90;
+            }
+            else if (c == 0xF4) {
+                upper = 0x8F;
+            }
+
+            need = 3;
+        }
+        else {
+            dp = lxb_url_percent_decode_replacement(str, mraw, dp, end - p);
+            if (dp == NULL) {
+                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            }
+
+            continue;
+        }
+
+        seq = dp;
+        *dp++ = c;
+
+        do {
+            if (p >= end) {
+                dp = lxb_url_percent_decode_replacement(str, mraw, seq, 0);
+                if (dp == NULL) {
+                    return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+                }
+
+                break;
+            }
+
+            c = lxb_url_percent_decode_plus_char(&p, end);
+
+            if (c < lower || c > upper) {
+                dp = lxb_url_percent_decode_replacement(str, mraw, seq,
+                                                        (end - p) + 1);
+                if (dp == NULL) {
+                    return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+                }
+
+                goto again;
+            }
+
+            *dp++ = c;
+
+            lower = 0x80;
+            upper = 0xBF;
+            need -= 1;
+        }
+        while (need != 0);
+    }
+
+    *dp = '\0';
+    str->length = dp - str->data;
+
+    return LXB_STATUS_OK;
+}
+
 static lxb_status_t
 lxb_url_percent_decode_plus(const lxb_char_t *data, const lxb_char_t *end,
                             lexbor_str_t *str, lexbor_mraw_t *mraw)
@@ -4198,22 +4358,10 @@ lxb_url_percent_decode_plus(const lxb_char_t *data, const lxb_char_t *end,
     dp = str->data;
 
     while (p < end) {
-        c = *p++;
+        c = lxb_url_percent_decode_plus_char(&p, end);
 
-        if (c != '%') {
-            if (c == '+') {
-                c = ' ';
-            }
-
-            *dp++ = c;
-            continue;
-        }
-
-        if (p + 2 <= end && lexbor_str_res_map_hex[p[0]] != 0xff
-            && lexbor_str_res_map_hex[p[1]] != 0xff)
-        {
-            c = lexbor_str_res_map_hex[p[0]] << 4 | lexbor_str_res_map_hex[p[1]];
-            p += 2;
+        if (c >= 0x80) {
+            return lxb_url_percent_decode_plus_utf_8(p, end, str, mraw, dp, c);
         }
 
         *dp++ = c;
