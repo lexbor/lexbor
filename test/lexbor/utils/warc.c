@@ -64,7 +64,7 @@ content_cb(lxb_utils_warc_t *warc, const lxb_char_t *data,
 }
 
 TEST_BEGIN_ARGS(parse_chunks, const char *data, size_t split, size_t step,
-                const char *need)
+                const char *need, const char *error)
 {
     size_t len;
     lxb_status_t status;
@@ -90,10 +90,22 @@ TEST_BEGIN_ARGS(parse_chunks, const char *data, size_t split, size_t step,
 
     while (p < last) {
         status = lxb_utils_warc_parse(warc, &p, end);
-        test_eq(status, LXB_STATUS_OK);
+        if (status != LXB_STATUS_OK) {
+            break;
+        }
+
         test_eq(p, end);
 
         end = (step != 0 && (size_t) (last - end) > step) ? end + step : last;
+    }
+
+    if (error != NULL) {
+        test_eq(status, LXB_STATUS_ABORTED);
+        test_ne(warc->error, NULL);
+        test_eq_str(warc->error, error);
+    }
+    else {
+        test_eq(status, LXB_STATUS_OK);
     }
 
     test_eq_str_n(records.str.data, records.str.length, need, strlen(need));
@@ -103,15 +115,16 @@ TEST_BEGIN_ARGS(parse_chunks, const char *data, size_t split, size_t step,
 }
 TEST_END
 
-TEST_BEGIN_ARGS(parse_splits, const char *data, const char *need)
+TEST_BEGIN_ARGS(parse_splits, const char *data, const char *need,
+                const char *error)
 {
     size_t len = strlen(data);
 
     for (size_t split = 0; split <= len; split++) {
-        TEST_CALL_ARGS(parse_chunks, data, split, 0, need);
+        TEST_CALL_ARGS(parse_chunks, data, split, 0, need, error);
     }
 
-    TEST_CALL_ARGS(parse_chunks, data, 1, 1, need);
+    TEST_CALL_ARGS(parse_chunks, data, 1, 1, need, error);
 }
 TEST_END
 
@@ -187,7 +200,7 @@ TEST_BEGIN(quoted_value)
                    "\r\n"
                    "xy\r\n\r\n",
                    "[WARC-Type=\"response\"|Content-Length=4|4]ABCD"
-                   "[WARC-Type=metadata|Content-Length=2|2]xy");
+                   "[WARC-Type=metadata|Content-Length=2|2]xy", NULL);
 }
 TEST_END
 
@@ -201,7 +214,7 @@ TEST_BEGIN(quoted_pair)
                    "\r\n"
                    "ABCD\r\n\r\n",
                    "[X-A=\"a\\\"b\" c|X-B=\"a\\\\\" b|Content-Length=4|4]"
-                   "ABCD");
+                   "ABCD", NULL);
 }
 TEST_END
 
@@ -219,7 +232,7 @@ TEST_BEGIN(unclosed_quote)
                    "\r\n"
                    "xy\r\n\r\n",
                    "[X-A=a\"b|X-B=\"a\\|Content-Length=4|4]ABCD"
-                   "[Content-Length=2|2]xy");
+                   "[Content-Length=2|2]xy", NULL);
 }
 TEST_END
 
@@ -258,6 +271,26 @@ TEST_BEGIN(quoted_value_limit)
 
     lxb_utils_warc_destroy(warc, true);
     lexbor_free(data);
+}
+TEST_END
+
+TEST_BEGIN(version)
+{
+    const char *error = "Wrong warc version.";
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nContent-Length: 2\r\n\r\nxy\r\n\r\n"
+                   "warc/1.0\r\nContent-Length: 2\r\n\r\nzw\r\n\r\n",
+                   "[Content-Length=2|2]xy[Content-Length=2|2]zw", NULL);
+
+    TEST_CALL_ARGS(parse_splits, "WARC/1.0abc\r\n\r\n\r\n\r\n", "", error);
+    TEST_CALL_ARGS(parse_splits, "WARC/1.00\r\n\r\n\r\n\r\n", "", error);
+    TEST_CALL_ARGS(parse_splits, "WARC/1.x\r\n\r\n\r\n\r\n", "", error);
+    TEST_CALL_ARGS(parse_splits, "WARC/1e0\r\n\r\n\r\n\r\n", "", error);
+    TEST_CALL_ARGS(parse_splits, "WARC/+1.\r\n\r\n\r\n\r\n", "", error);
+    TEST_CALL_ARGS(parse_splits, "WARC/1.1\r\n\r\n\r\n\r\n", "", error);
+    TEST_CALL_ARGS(parse_splits, "WARC/1.0\n\r\n\r\n\r\n", "", error);
+    TEST_CALL_ARGS(parse_splits, " WARC/1.0\r\n\r\n\r\n\r\n", "", error);
 }
 TEST_END
 
@@ -309,6 +342,7 @@ main(int argc, const char * argv[])
     TEST_ADD(quoted_value_limit);
     TEST_ADD(field_name_limit);
     TEST_ADD(field_value_limit);
+    TEST_ADD(version);
 
     TEST_RUN("lexbor/utils/warc");
     TEST_RELEASE();

@@ -268,24 +268,19 @@ lxb_utils_warc_parse_version(lxb_utils_warc_t *warc, const lxb_char_t **data,
 
     *data = p + 1;
 
-    if (str->length < 9 || str->data[(str->length - 1)] != '\r') {
+    if (str->length != 9 || str->data[(str->length - 1)] != '\r') {
         goto failed;
     }
 
     lexbor_str_length_set(str, warc->mraw, (str->length - 1));
 
     if (lexbor_str_data_ncasecmp(str->data,
-                                 (const lxb_char_t *) "warc/", 5) == false)
+                                 (const lxb_char_t *) "warc/1.0", 8) == false)
     {
         goto failed;
     }
 
-    p = str->data + 5;
-
-    warc->version.number = lexbor_conv_data_to_double(&p, 3);
-    if (warc->version.number != 1.0) {
-        goto failed;
-    }
+    warc->version.number = 1.0;
 
     warc->state = LXB_UTILS_WARC_STATE_HEAD_VERSION_AFTER;
     warc->tmp.length = 0;
