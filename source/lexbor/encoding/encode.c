@@ -90,6 +90,8 @@
             LXB_ENCODING_ENCODE_APPEND_P(ctx, (uintptr_t) hash->value);        \
         }                                                                      \
                                                                                \
+        *cps = p;                                                              \
+                                                                               \
         return LXB_STATUS_OK;                                                  \
     }                                                                          \
     while (0)

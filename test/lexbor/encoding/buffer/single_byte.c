@@ -64,6 +64,44 @@ TEST_BEGIN(decode_undefined_bytes_at_buffer_boundary)
 }
 TEST_END
 
+TEST_BEGIN(encode_to_end)
+{
+    lxb_status_t status;
+    lxb_encoding_t id;
+    lxb_encoding_encode_t ctx;
+    const lxb_codepoint_t *cps;
+    const lxb_encoding_data_t *enc_data;
+    lxb_char_t buffer[64];
+
+    static const lxb_codepoint_t source[] = {0x0061, 0x0062, 0x0063};
+
+    for (id = LXB_ENCODING_DEFAULT; id < LXB_ENCODING_LAST_ENTRY; id++) {
+        if (id == LXB_ENCODING_AUTO || id == LXB_ENCODING_UNDEFINED
+            || id == LXB_ENCODING_REPLACEMENT)
+        {
+            continue;
+        }
+
+        enc_data = lxb_encoding_data(id);
+
+        status = lxb_encoding_encode_init(&ctx, enc_data, buffer,
+                                          sizeof(buffer));
+        test_eq(status, LXB_STATUS_OK);
+
+        cps = source;
+
+        status = enc_data->encode(&ctx, &cps, source + 3);
+        test_eq(status, LXB_STATUS_OK);
+
+        if (cps != source + 3) {
+            TEST_PRINTLN("%s", (const char *) enc_data->name);
+        }
+
+        test_eq(cps, source + 3);
+    }
+}
+TEST_END
+
 int
 main(int argc, const char *argv[])
 {
@@ -71,6 +109,7 @@ main(int argc, const char *argv[])
 
     TEST_ADD(decode_valid_text_at_buffer_boundary);
     TEST_ADD(decode_undefined_bytes_at_buffer_boundary);
+    TEST_ADD(encode_to_end);
 
     TEST_RUN("lexbor/encoding/single_byte");
     TEST_RELEASE();
