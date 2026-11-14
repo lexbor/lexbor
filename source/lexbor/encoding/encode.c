@@ -10,89 +10,71 @@
 #include "lexbor/encoding/range.h"
 
 
-#define LXB_ENCODING_ENCODE_APPEND(ctx, cp)                                    \
+#define LXB_ENCODING_ENCODE_RETURN(ctx, status)                                \
     do {                                                                       \
-        if ((ctx)->buffer_used == (ctx)->buffer_length) {                      \
-            return LXB_STATUS_SMALL_BUFFER;                                    \
-        }                                                                      \
+        (ctx)->buffer_used = used;                                             \
+        *cps = p;                                                              \
                                                                                \
-        (ctx)->buffer_out[(ctx)->buffer_used++] = (lxb_char_t) cp;             \
+        return (status);                                                       \
     }                                                                          \
     while (0)
 
-#define LXB_ENCODING_ENCODE_APPEND_P(ctx, cp)                                  \
+#define LXB_ENCODING_ENCODE_APPEND(ctx, cp)                                    \
     do {                                                                       \
-        if ((ctx)->buffer_used == (ctx)->buffer_length) {                      \
-            *cps = p;                                                          \
-            return LXB_STATUS_SMALL_BUFFER;                                    \
+        if (used == length) {                                                  \
+            LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_SMALL_BUFFER);          \
         }                                                                      \
                                                                                \
-        (ctx)->buffer_out[(ctx)->buffer_used++] = (lxb_char_t) cp;             \
+        out[used++] = (lxb_char_t) (cp);                                       \
     }                                                                          \
     while (0)
 
 #define LXB_ENCODING_ENCODE_ERROR(ctx)                                         \
     do {                                                                       \
-        if (ctx->replace_to == NULL) {                                         \
-            return LXB_STATUS_ERROR;                                           \
+        if ((ctx)->replace_to == NULL) {                                       \
+            LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_ERROR);                 \
         }                                                                      \
                                                                                \
-        if ((ctx->buffer_used + ctx->replace_len) > ctx->buffer_length) {      \
-            return LXB_STATUS_SMALL_BUFFER;                                    \
+        if ((used + (ctx)->replace_len) > length) {                            \
+            LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_SMALL_BUFFER);          \
         }                                                                      \
                                                                                \
-        memcpy(&ctx->buffer_out[ctx->buffer_used], ctx->replace_to,            \
-               ctx->replace_len);                                              \
-                                                                               \
-        ctx->buffer_used += ctx->replace_len;                                  \
-    }                                                                          \
-    while (0)
-
-#define LXB_ENCODING_ENCODE_ERROR_P(ctx)                                       \
-    do {                                                                       \
-        if (ctx->replace_to == NULL) {                                         \
-            *cps = p;                                                          \
-            return LXB_STATUS_ERROR;                                           \
-        }                                                                      \
-                                                                               \
-        if ((ctx->buffer_used + ctx->replace_len) > ctx->buffer_length) {      \
-            *cps = p;                                                          \
-            return LXB_STATUS_SMALL_BUFFER;                                    \
-        }                                                                      \
-                                                                               \
-        memcpy(&ctx->buffer_out[ctx->buffer_used], ctx->replace_to,            \
-               ctx->replace_len);                                              \
-                                                                               \
-        ctx->buffer_used += ctx->replace_len;                                  \
+        memcpy(&out[used], (ctx)->replace_to, (ctx)->replace_len);             \
+        used += (ctx)->replace_len;                                            \
     }                                                                          \
     while (0)
 
 #define LXB_ENCODING_ENCODE_SINGLE_BYTE(table, table_size)                     \
     do {                                                                       \
+        size_t used, length;                                                   \
+        lxb_char_t *out;                                                       \
         lxb_codepoint_t cp;                                                    \
-        const lxb_codepoint_t *p = *cps;                                       \
+        const lxb_codepoint_t *p;                                              \
         const lexbor_shs_hash_t *hash;                                         \
+                                                                               \
+        p = *cps;                                                              \
+        out = ctx->buffer_out;                                                 \
+        used = ctx->buffer_used;                                               \
+        length = ctx->buffer_length;                                           \
                                                                                \
         for (; p < end; p++) {                                                 \
             cp = *p;                                                           \
                                                                                \
             if (cp < 0x80) {                                                   \
-                LXB_ENCODING_ENCODE_APPEND_P(ctx, cp);                         \
+                LXB_ENCODING_ENCODE_APPEND(ctx, cp);                           \
                 continue;                                                      \
             }                                                                  \
                                                                                \
             hash = lexbor_shs_hash_get_static(table, table_size, cp);          \
             if (hash == NULL) {                                                \
-                LXB_ENCODING_ENCODE_ERROR_P(ctx);                              \
+                LXB_ENCODING_ENCODE_ERROR(ctx);                                \
                 continue;                                                      \
             }                                                                  \
                                                                                \
-            LXB_ENCODING_ENCODE_APPEND_P(ctx, (uintptr_t) hash->value);        \
+            LXB_ENCODING_ENCODE_APPEND(ctx, (uintptr_t) hash->value);          \
         }                                                                      \
                                                                                \
-        *cps = p;                                                              \
-                                                                               \
-        return LXB_STATUS_OK;                                                  \
+        LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_OK);                        \
     }                                                                          \
     while (0)
 
@@ -264,11 +246,19 @@ lxb_status_t
 lxb_encoding_encode_big5(lxb_encoding_encode_t *ctx, const lxb_codepoint_t **cps,
                          const lxb_codepoint_t *end)
 {
+    size_t used, length;
     uint16_t index;
     lxb_codepoint_t cp;
+    lxb_char_t *out;
+    const lxb_codepoint_t *p;
 
-    for (; *cps < end; (*cps)++) {
-        cp = **cps;
+    p = *cps;
+    out = ctx->buffer_out;
+    used = ctx->buffer_used;
+    length = ctx->buffer_length;
+
+    for (; p < end; p++) {
+        cp = *p;
 
         if (cp < 0x80) {
             LXB_ENCODING_ENCODE_APPEND(ctx, cp);
@@ -281,32 +271,40 @@ lxb_encoding_encode_big5(lxb_encoding_encode_t *ctx, const lxb_codepoint_t **cps
             continue;
         }
 
-        if ((ctx->buffer_used + 2) > ctx->buffer_length) {
-            return LXB_STATUS_SMALL_BUFFER;
+        if ((used + 2) > length) {
+            LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_SMALL_BUFFER);
         }
 
-        ctx->buffer_out[ ctx->buffer_used++ ] = index / 157 + 0x81;
+        out[used++] = index / 157 + 0x81;
 
         if ((index % 157) < 0x3F) {
-            ctx->buffer_out[ ctx->buffer_used++ ] = (index % 157) + 0x40;
+            out[used++] = (index % 157) + 0x40;
         }
         else {
-            ctx->buffer_out[ ctx->buffer_used++ ] = (index % 157) + 0x62;
+            out[used++] = (index % 157) + 0x62;
         }
     }
 
-    return LXB_STATUS_OK;
+    LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_OK);
 }
 
 lxb_status_t
 lxb_encoding_encode_euc_jp(lxb_encoding_encode_t *ctx, const lxb_codepoint_t **cps,
                            const lxb_codepoint_t *end)
 {
+    size_t used, length;
     uint16_t index;
     lxb_codepoint_t cp;
+    lxb_char_t *out;
+    const lxb_codepoint_t *p;
 
-    for (; *cps < end; (*cps)++) {
-        cp = **cps;
+    p = *cps;
+    out = ctx->buffer_out;
+    used = ctx->buffer_used;
+    length = ctx->buffer_length;
+
+    for (; p < end; p++) {
+        cp = *p;
 
         if (cp < 0x80) {
             LXB_ENCODING_ENCODE_APPEND(ctx, cp);
@@ -324,12 +322,12 @@ lxb_encoding_encode_euc_jp(lxb_encoding_encode_t *ctx, const lxb_codepoint_t **c
         }
 
         if ((unsigned) (cp - 0xFF61) <= (0xFF9F - 0xFF61)) {
-            if ((ctx->buffer_used + 2) > ctx->buffer_length) {
-                return LXB_STATUS_SMALL_BUFFER;
+            if ((used + 2) > length) {
+                LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_SMALL_BUFFER);
             }
 
-            ctx->buffer_out[ ctx->buffer_used++ ] = 0x8E;
-            ctx->buffer_out[ ctx->buffer_used++ ] = cp - 0xFF61 + 0xA1;
+            out[used++] = 0x8E;
+            out[used++] = cp - 0xFF61 + 0xA1;
 
             continue;
         }
@@ -344,26 +342,34 @@ lxb_encoding_encode_euc_jp(lxb_encoding_encode_t *ctx, const lxb_codepoint_t **c
             continue;
         }
 
-        if ((ctx->buffer_used + 2) > ctx->buffer_length) {
-            return LXB_STATUS_SMALL_BUFFER;
+        if ((used + 2) > length) {
+            LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_SMALL_BUFFER);
         }
 
-        ctx->buffer_out[ ctx->buffer_used++ ] = index / 94 + 0xA1;
-        ctx->buffer_out[ ctx->buffer_used++ ] = index % 94 + 0xA1;
+        out[used++] = index / 94 + 0xA1;
+        out[used++] = index % 94 + 0xA1;
     }
 
-    return LXB_STATUS_OK;
+    LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_OK);
 }
 
 lxb_status_t
 lxb_encoding_encode_euc_kr(lxb_encoding_encode_t *ctx, const lxb_codepoint_t **cps,
                            const lxb_codepoint_t *end)
 {
+    size_t used, length;
     uint16_t index;
     lxb_codepoint_t cp;
+    lxb_char_t *out;
+    const lxb_codepoint_t *p;
 
-    for (; *cps < end; (*cps)++) {
-        cp = **cps;
+    p = *cps;
+    out = ctx->buffer_out;
+    used = ctx->buffer_used;
+    length = ctx->buffer_length;
+
+    for (; p < end; p++) {
+        cp = *p;
 
         if (cp < 0x80) {
             LXB_ENCODING_ENCODE_APPEND(ctx, cp);
@@ -376,26 +382,34 @@ lxb_encoding_encode_euc_kr(lxb_encoding_encode_t *ctx, const lxb_codepoint_t **c
             continue;
         }
 
-        if ((ctx->buffer_used + 2) > ctx->buffer_length) {
-            return LXB_STATUS_SMALL_BUFFER;
+        if ((used + 2) > length) {
+            LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_SMALL_BUFFER);
         }
 
-        ctx->buffer_out[ ctx->buffer_used++ ] = index / 190 + 0x81;
-        ctx->buffer_out[ ctx->buffer_used++ ] = index % 190 + 0x41;
+        out[used++] = index / 190 + 0x81;
+        out[used++] = index % 190 + 0x41;
     }
 
-    return LXB_STATUS_OK;
+    LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_OK);
 }
 
 lxb_status_t
 lxb_encoding_encode_gbk(lxb_encoding_encode_t *ctx, const lxb_codepoint_t **cps,
                         const lxb_codepoint_t *end)
 {
+    size_t used, length;
     uint16_t index;
     lxb_codepoint_t cp;
+    lxb_char_t *out;
+    const lxb_codepoint_t *p;
 
-    for (; *cps < end; (*cps)++) {
-        cp = **cps;
+    p = *cps;
+    out = ctx->buffer_out;
+    used = ctx->buffer_used;
+    length = ctx->buffer_length;
+
+    for (; p < end; p++) {
+        cp = *p;
 
         if (cp < 0x80) {
             LXB_ENCODING_ENCODE_APPEND(ctx, cp);
@@ -418,21 +432,21 @@ lxb_encoding_encode_gbk(lxb_encoding_encode_t *ctx, const lxb_codepoint_t **cps,
             continue;
         }
 
-        if ((ctx->buffer_used + 2) > ctx->buffer_length) {
-            return LXB_STATUS_SMALL_BUFFER;
+        if ((used + 2) > length) {
+            LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_SMALL_BUFFER);
         }
 
-        ctx->buffer_out[ ctx->buffer_used++ ] = index / 190 + 0x81;
+        out[used++] = index / 190 + 0x81;
 
         if ((index % 190) < 0x3F) {
-            ctx->buffer_out[ ctx->buffer_used++ ] = (index % 190) + 0x40;
+            out[used++] = (index % 190) + 0x40;
         }
         else {
-            ctx->buffer_out[ ctx->buffer_used++ ] = (index % 190) + 0x41;
+            out[used++] = (index % 190) + 0x41;
         }
     }
 
-    return LXB_STATUS_OK;
+    LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_OK);
 }
 
 lxb_status_t
@@ -448,15 +462,23 @@ lxb_status_t
 lxb_encoding_encode_iso_2022_jp(lxb_encoding_encode_t *ctx, const lxb_codepoint_t **cps,
                                 const lxb_codepoint_t *end)
 {
+    size_t used, length;
     int8_t size;
     uint16_t index;
     unsigned state;
     lxb_codepoint_t cp;
+    lxb_char_t *out;
+    const lxb_codepoint_t *p;
 
-    for (; *cps < end; (*cps)++) {
+    p = *cps;
+    out = ctx->buffer_out;
+    used = ctx->buffer_used;
+    length = ctx->buffer_length;
+
+    for (; p < end; p++) {
         size = 0;
         state = ctx->state;
-        cp = **cps;
+        cp = *p;
 
     begin:
 
@@ -476,23 +498,21 @@ lxb_encoding_encode_iso_2022_jp(lxb_encoding_encode_t *ctx, const lxb_codepoint_
                      * Do not switch to the ROMAN stage with prepend code point
                      * to stream, add it immediately.
                      */
-                    if ((ctx->buffer_used + 4) > ctx->buffer_length) {
+                    if ((used + 4) > length) {
                         goto small_buffer;
                     }
 
                     ctx->state = LXB_ENCODING_ENCODE_2022_JP_ROMAN;
 
                     if (cp == 0x00A5) {
-                        memcpy(&ctx->buffer_out[ctx->buffer_used],
-                               "\x1B\x28\x4A\x5C", 4);
-                        ctx->buffer_used += 4;
+                        memcpy(&out[used], "\x1B\x28\x4A\x5C", 4);
+                        used += 4;
 
                         continue;
                     }
 
-                    memcpy(&ctx->buffer_out[ctx->buffer_used],
-                           "\x1B\x28\x4A\x7E", 4);
-                    ctx->buffer_used += 4;
+                    memcpy(&out[used], "\x1B\x28\x4A\x7E", 4);
+                    used += 4;
 
                     continue;
                 }
@@ -519,16 +539,16 @@ lxb_encoding_encode_iso_2022_jp(lxb_encoding_encode_t *ctx, const lxb_codepoint_
                      * Do not switch to the ANSI stage with prepend code point
                      * to stream, add it immediately.
                      */
-                    if ((ctx->buffer_used + 4) > ctx->buffer_length) {
+                    if ((used + 4) > length) {
                         goto small_buffer;
                     }
 
                     ctx->state = LXB_ENCODING_ENCODE_2022_JP_ASCII;
 
-                    memcpy(&ctx->buffer_out[ctx->buffer_used], "\x1B\x28\x42", 3);
-                    ctx->buffer_used += 3;
+                    memcpy(&out[used], "\x1B\x28\x42", 3);
+                    used += 3;
 
-                    ctx->buffer_out[ ctx->buffer_used++ ] = (lxb_char_t) cp;
+                    out[used++] = (lxb_char_t) cp;
                     continue;
                 }
                 else if (cp == 0x00A5) {
@@ -548,37 +568,35 @@ lxb_encoding_encode_iso_2022_jp(lxb_encoding_encode_t *ctx, const lxb_codepoint_
                         goto failed;
                     }
 
-                    if ((ctx->buffer_used + 4) > ctx->buffer_length) {
+                    if ((used + 4) > length) {
                         goto small_buffer;
                     }
 
                     ctx->state = LXB_ENCODING_ENCODE_2022_JP_ASCII;
 
-                    memcpy(&ctx->buffer_out[ctx->buffer_used], "\x1B\x28\x42", 3);
-                    ctx->buffer_used += 3;
+                    memcpy(&out[used], "\x1B\x28\x42", 3);
+                    used += 3;
 
-                    ctx->buffer_out[ ctx->buffer_used++ ] = (lxb_char_t) cp;
+                    out[used++] = (lxb_char_t) cp;
                     continue;
                 }
 
                 if (cp == 0x00A5 || cp == 0x203E) {
-                    if ((ctx->buffer_used + 4) > ctx->buffer_length) {
+                    if ((used + 4) > length) {
                         goto small_buffer;
                     }
 
                     ctx->state = LXB_ENCODING_ENCODE_2022_JP_ROMAN;
 
                     if (cp == 0x00A5) {
-                        memcpy(&ctx->buffer_out[ctx->buffer_used],
-                               "\x1B\x28\x4A\x5C", 4);
-                        ctx->buffer_used += 4;
+                        memcpy(&out[used], "\x1B\x28\x4A\x5C", 4);
+                        used += 4;
 
                         continue;
                     }
 
-                    memcpy(&ctx->buffer_out[ctx->buffer_used],
-                           "\x1B\x28\x4A\x7E", 4);
-                    ctx->buffer_used += 4;
+                    memcpy(&out[used], "\x1B\x28\x4A\x7E", 4);
+                    used += 4;
 
                     continue;
                 }
@@ -586,7 +604,7 @@ lxb_encoding_encode_iso_2022_jp(lxb_encoding_encode_t *ctx, const lxb_codepoint_
                 break;
         }
 
-        if ((ctx->buffer_used + 2) > ctx->buffer_length) {
+        if ((used + 2) > length) {
             goto small_buffer;
         }
 
@@ -604,12 +622,12 @@ lxb_encoding_encode_iso_2022_jp(lxb_encoding_encode_t *ctx, const lxb_codepoint_
         }
 
         if (ctx->state != LXB_ENCODING_ENCODE_2022_JP_JIS0208) {
-            if ((ctx->buffer_used + 3) > ctx->buffer_length) {
+            if ((used + 3) > length) {
                 goto small_buffer;
             }
 
-            memcpy(&ctx->buffer_out[ctx->buffer_used], "\x1B\x24\x42", 3);
-            ctx->buffer_used += 3;
+            memcpy(&out[used], "\x1B\x24\x42", 3);
+            used += 3;
 
             ctx->state = LXB_ENCODING_ENCODE_2022_JP_JIS0208;
             size += 3;
@@ -617,29 +635,29 @@ lxb_encoding_encode_iso_2022_jp(lxb_encoding_encode_t *ctx, const lxb_codepoint_
             goto begin;
         }
 
-        ctx->buffer_out[ ctx->buffer_used++ ] = index / 94 + 0x21;
-        ctx->buffer_out[ ctx->buffer_used++ ] = index % 94 + 0x21;
+        out[used++] = index / 94 + 0x21;
+        out[used++] = index % 94 + 0x21;
 
         continue;
 
     small_buffer:
 
         ctx->state = state;
-        ctx->buffer_used -= size;
+        used -= size;
 
-        return LXB_STATUS_SMALL_BUFFER;
+        LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_SMALL_BUFFER);
 
     failed:
 
-        ctx->buffer_used -= size;
+        used -= size;
 
         if (ctx->state == LXB_ENCODING_ENCODE_2022_JP_JIS0208) {
-            if ((ctx->buffer_used + 3) > ctx->buffer_length) {
+            if ((used + 3) > length) {
                 goto small_buffer;
             }
 
-            memcpy(&ctx->buffer_out[ctx->buffer_used], "\x1B\x28\x42", 3);
-            ctx->buffer_used += 3;
+            memcpy(&out[used], "\x1B\x28\x42", 3);
+            used += 3;
 
             ctx->state = LXB_ENCODING_ENCODE_2022_JP_ASCII;
         }
@@ -647,7 +665,7 @@ lxb_encoding_encode_iso_2022_jp(lxb_encoding_encode_t *ctx, const lxb_codepoint_
         LXB_ENCODING_ENCODE_ERROR(ctx);
     }
 
-    return LXB_STATUS_OK;
+    LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_OK);
 }
 
 lxb_status_t
@@ -813,12 +831,20 @@ lxb_status_t
 lxb_encoding_encode_shift_jis(lxb_encoding_encode_t *ctx, const lxb_codepoint_t **cps,
                               const lxb_codepoint_t *end)
 {
+    size_t used, length;
     uint16_t index;
     uint32_t lead, trail;
     lxb_codepoint_t cp;
+    lxb_char_t *out;
+    const lxb_codepoint_t *p;
 
-    for (; *cps < end; (*cps)++) {
-        cp = **cps;
+    p = *cps;
+    out = ctx->buffer_out;
+    used = ctx->buffer_used;
+    length = ctx->buffer_length;
+
+    for (; p < end; p++) {
+        cp = *p;
 
         if (cp <= 0x80) {
             LXB_ENCODING_ENCODE_APPEND(ctx, cp);
@@ -850,43 +876,51 @@ lxb_encoding_encode_shift_jis(lxb_encoding_encode_t *ctx, const lxb_codepoint_t 
             continue;
         }
 
-        if ((ctx->buffer_used + 2) > ctx->buffer_length) {
-            return LXB_STATUS_SMALL_BUFFER;
+        if ((used + 2) > length) {
+            LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_SMALL_BUFFER);
         }
 
         lead = index / 188;
         trail = index % 188;
 
-        ctx->buffer_out[ctx->buffer_used++ ] = lead + ((lead < 0x1F) ? 0x81 : 0xC1);
-        ctx->buffer_out[ctx->buffer_used++ ] = trail + ((trail < 0x3F) ? 0x40 : 0x41);
+        out[used++] = lead + ((lead < 0x1F) ? 0x81 : 0xC1);
+        out[used++] = trail + ((trail < 0x3F) ? 0x40 : 0x41);
     }
 
-    return LXB_STATUS_OK;
+    LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_OK);
 }
 
 lxb_inline void
-lxb_encoding_encode_utf_16_write(lxb_encoding_encode_t *ctx, bool is_be,
+lxb_encoding_encode_utf_16_write(lxb_char_t *out, bool is_be,
                                  lxb_codepoint_t cp)
 {
     if (is_be) {
-        ctx->buffer_out[ctx->buffer_used++] = cp >> 8;
-        ctx->buffer_out[ctx->buffer_used++] = cp & 0x00FF;
+        out[0] = cp >> 8;
+        out[1] = cp & 0x00FF;
 
         return;
     }
 
-    ctx->buffer_out[ctx->buffer_used++] = cp & 0x00FF;
-    ctx->buffer_out[ctx->buffer_used++] = cp >> 8;
+    out[0] = cp & 0x00FF;
+    out[1] = cp >> 8;
 }
 
 lxb_inline lxb_status_t
 lxb_encoding_encode_utf_16(lxb_encoding_encode_t *ctx, bool is_be,
                         const lxb_codepoint_t **cps, const lxb_codepoint_t *end)
 {
+    size_t used, length;
     lxb_codepoint_t cp;
+    lxb_char_t *out;
+    const lxb_codepoint_t *p;
 
-    for (; *cps < end; (*cps)++) {
-        cp = **cps;
+    p = *cps;
+    out = ctx->buffer_out;
+    used = ctx->buffer_used;
+    length = ctx->buffer_length;
+
+    for (; p < end; p++) {
+        cp = *p;
 
         if ((cp >= 0xD800 && cp <= 0xDFFF)
             || cp > LXB_ENCODING_MAX_CODEPOINT)
@@ -896,26 +930,30 @@ lxb_encoding_encode_utf_16(lxb_encoding_encode_t *ctx, bool is_be,
         }
 
         if (cp < 0x10000) {
-            if ((ctx->buffer_used + 2) > ctx->buffer_length) {
-                return LXB_STATUS_SMALL_BUFFER;
+            if ((used + 2) > length) {
+                LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_SMALL_BUFFER);
             }
 
-            lxb_encoding_encode_utf_16_write(ctx, is_be, cp);
+            lxb_encoding_encode_utf_16_write(&out[used], is_be, cp);
+            used += 2;
 
             continue;
         }
 
-        if ((ctx->buffer_used + 4) > ctx->buffer_length) {
-            return LXB_STATUS_SMALL_BUFFER;
+        if ((used + 4) > length) {
+            LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_SMALL_BUFFER);
         }
 
         cp -= 0x10000;
 
-        lxb_encoding_encode_utf_16_write(ctx, is_be, (0xD800 | (cp >> 0x0A)));
-        lxb_encoding_encode_utf_16_write(ctx, is_be, (0xDC00 | (cp & 0x03FF)));
+        lxb_encoding_encode_utf_16_write(&out[used], is_be,
+                                         (0xD800 | (cp >> 0x0A)));
+        lxb_encoding_encode_utf_16_write(&out[used + 2], is_be,
+                                         (0xDC00 | (cp & 0x03FF)));
+        used += 4;
     }
 
-    return LXB_STATUS_OK;
+    LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_OK);
 }
 
 lxb_status_t
@@ -936,67 +974,63 @@ lxb_status_t
 lxb_encoding_encode_utf_8(lxb_encoding_encode_t *ctx, const lxb_codepoint_t **cps,
                           const lxb_codepoint_t *end)
 {
+    size_t used, length;
     lxb_codepoint_t cp;
-    const lxb_codepoint_t *p = *cps;
+    lxb_char_t *out;
+    const lxb_codepoint_t *p;
+
+    p = *cps;
+    out = ctx->buffer_out;
+    used = ctx->buffer_used;
+    length = ctx->buffer_length;
 
     for (; p < end; p++) {
         cp = *p;
 
         if (cp < 0x80) {
-            if ((ctx->buffer_used + 1) > ctx->buffer_length) {
-                *cps = p;
-
-                return LXB_STATUS_SMALL_BUFFER;
+            if ((used + 1) > length) {
+                LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_SMALL_BUFFER);
             }
 
             /* 0xxxxxxx */
-            ctx->buffer_out[ ctx->buffer_used++ ] = (lxb_char_t) cp;
+            out[used++] = (lxb_char_t) cp;
         }
         else if (cp < 0x800) {
-            if ((ctx->buffer_used + 2) > ctx->buffer_length) {
-                *cps = p;
-
-                return LXB_STATUS_SMALL_BUFFER;
+            if ((used + 2) > length) {
+                LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_SMALL_BUFFER);
             }
 
             /* 110xxxxx 10xxxxxx */
-            ctx->buffer_out[ ctx->buffer_used++ ] = (lxb_char_t) (0xC0 | (cp >> 6  ));
-            ctx->buffer_out[ ctx->buffer_used++ ] = (lxb_char_t) (0x80 | (cp & 0x3F));
+            out[used++] = (lxb_char_t) (0xC0 | (cp >> 6  ));
+            out[used++] = (lxb_char_t) (0x80 | (cp & 0x3F));
         }
         else if (cp < 0x10000) {
-            if ((ctx->buffer_used + 3) > ctx->buffer_length) {
-                *cps = p;
-
-                return LXB_STATUS_SMALL_BUFFER;
+            if ((used + 3) > length) {
+                LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_SMALL_BUFFER);
             }
 
             /* 1110xxxx 10xxxxxx 10xxxxxx */
-            ctx->buffer_out[ ctx->buffer_used++ ] = (lxb_char_t) (0xE0 | ((cp >> 12)));
-            ctx->buffer_out[ ctx->buffer_used++ ] = (lxb_char_t) (0x80 | ((cp >> 6 ) & 0x3F));
-            ctx->buffer_out[ ctx->buffer_used++ ] = (lxb_char_t) (0x80 | ( cp        & 0x3F));
+            out[used++] = (lxb_char_t) (0xE0 | ((cp >> 12)));
+            out[used++] = (lxb_char_t) (0x80 | ((cp >> 6 ) & 0x3F));
+            out[used++] = (lxb_char_t) (0x80 | ( cp        & 0x3F));
         }
         else if (cp < 0x110000) {
-            if ((ctx->buffer_used + 4) > ctx->buffer_length) {
-                *cps = p;
-
-                return LXB_STATUS_SMALL_BUFFER;
+            if ((used + 4) > length) {
+                LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_SMALL_BUFFER);
             }
 
             /* 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx */
-            ctx->buffer_out[ ctx->buffer_used++ ] = (lxb_char_t) (0xF0 | ( cp >> 18));
-            ctx->buffer_out[ ctx->buffer_used++ ] = (lxb_char_t) (0x80 | ((cp >> 12) & 0x3F));
-            ctx->buffer_out[ ctx->buffer_used++ ] = (lxb_char_t) (0x80 | ((cp >> 6 ) & 0x3F));
-            ctx->buffer_out[ ctx->buffer_used++ ] = (lxb_char_t) (0x80 | ( cp        & 0x3F));
+            out[used++] = (lxb_char_t) (0xF0 | ( cp >> 18));
+            out[used++] = (lxb_char_t) (0x80 | ((cp >> 12) & 0x3F));
+            out[used++] = (lxb_char_t) (0x80 | ((cp >> 6 ) & 0x3F));
+            out[used++] = (lxb_char_t) (0x80 | ( cp        & 0x3F));
         }
         else {
-            *cps = p;
             LXB_ENCODING_ENCODE_ERROR(ctx);
         }
     }
 
-    *cps = p;
-
-    return LXB_STATUS_OK;
+    LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_OK);
 }
 
 lxb_inline uint32_t
@@ -1046,11 +1080,19 @@ lxb_status_t
 lxb_encoding_encode_gb18030(lxb_encoding_encode_t *ctx, const lxb_codepoint_t **cps,
                             const lxb_codepoint_t *end)
 {
+    size_t used, length;
     uint32_t index;
     lxb_codepoint_t cp;
+    lxb_char_t *out;
+    const lxb_codepoint_t *p;
 
-    for (; *cps < end; (*cps)++) {
-        cp = **cps;
+    p = *cps;
+    out = ctx->buffer_out;
+    used = ctx->buffer_used;
+    length = ctx->buffer_length;
+
+    for (; p < end; p++) {
+        cp = *p;
 
         if (cp < 0x80) {
             LXB_ENCODING_ENCODE_APPEND(ctx, cp);
@@ -1064,38 +1106,38 @@ lxb_encoding_encode_gb18030(lxb_encoding_encode_t *ctx, const lxb_codepoint_t **
 
         index = lxb_encoding_multi_gb18030_index(cp);
         if (index != UINT16_MAX) {
-            if ((ctx->buffer_used + 2) > ctx->buffer_length) {
-                return LXB_STATUS_SMALL_BUFFER;
+            if ((used + 2) > length) {
+                LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_SMALL_BUFFER);
             }
 
-            ctx->buffer_out[ ctx->buffer_used++ ] = index / 190 + 0x81;
+            out[used++] = index / 190 + 0x81;
 
             if ((index % 190) < 0x3F) {
-                ctx->buffer_out[ ctx->buffer_used++ ] = (index % 190) + 0x40;
+                out[used++] = (index % 190) + 0x40;
             }
             else {
-                ctx->buffer_out[ ctx->buffer_used++ ] = (index % 190) + 0x41;
+                out[used++] = (index % 190) + 0x41;
             }
 
             continue;
         }
 
-        if ((ctx->buffer_used + 4) > ctx->buffer_length) {
-            return LXB_STATUS_SMALL_BUFFER;
+        if ((used + 4) > length) {
+            LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_SMALL_BUFFER);
         }
 
         index = lxb_encoding_encode_gb18030_range(cp);
 
-        ctx->buffer_out[ ctx->buffer_used++ ] = (index / (10 * 126 * 10)) + 0x81;
-        ctx->buffer_out[ ctx->buffer_used++ ] = ((index % (10 * 126 * 10)) / (10 * 126)) + 0x30;
+        out[used++] = (index / (10 * 126 * 10)) + 0x81;
+        out[used++] = ((index % (10 * 126 * 10)) / (10 * 126)) + 0x30;
 
         index = (index % (10 * 126 * 10)) % (10 * 126);
 
-        ctx->buffer_out[ ctx->buffer_used++ ] = (index / 10) + 0x81;
-        ctx->buffer_out[ ctx->buffer_used++ ] = (index % 10) + 0x30;
+        out[used++] = (index / 10) + 0x81;
+        out[used++] = (index % 10) + 0x30;
     }
 
-    return LXB_STATUS_OK;
+    LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_OK);
 }
 
 lxb_status_t
@@ -1206,10 +1248,18 @@ lxb_status_t
 lxb_encoding_encode_x_user_defined(lxb_encoding_encode_t *ctx, const lxb_codepoint_t **cps,
                                    const lxb_codepoint_t *end)
 {
+    size_t used, length;
     lxb_codepoint_t cp;
+    lxb_char_t *out;
+    const lxb_codepoint_t *p;
 
-    for (; *cps < end; (*cps)++) {
-        cp = **cps;
+    p = *cps;
+    out = ctx->buffer_out;
+    used = ctx->buffer_used;
+    length = ctx->buffer_length;
+
+    for (; p < end; p++) {
+        cp = *p;
 
         if (cp < 0x80) {
             LXB_ENCODING_ENCODE_APPEND(ctx, cp);
@@ -1222,7 +1272,7 @@ lxb_encoding_encode_x_user_defined(lxb_encoding_encode_t *ctx, const lxb_codepoi
         }
     }
 
-    return LXB_STATUS_OK;
+    LXB_ENCODING_ENCODE_RETURN(ctx, LXB_STATUS_OK);
 }
 
 /*
