@@ -1562,7 +1562,7 @@ lxb_encoding_decode_gb18030_range(uint32_t index)
      * Pointer greater than 39419 and less than 189000,
      * or pointer is greater than 1237575
      */
-    if ((unsigned) (index - 39419) < (189000 - 39419)
+    if ((unsigned) (index - 39420) < (189000 - 39420)
         || index > 1237575)
     {
         return LXB_ENCODING_ERROR_CODEPOINT;
