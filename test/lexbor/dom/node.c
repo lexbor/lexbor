@@ -7,6 +7,7 @@
 #include <unit/test.h>
 
 #include <lexbor/html/html.h>
+#include <lexbor/dom/interfaces/cdata_section.h>
 
 
 typedef struct {
@@ -197,6 +198,145 @@ TEST_BEGIN(append_child_document_fragment)
     test_eq_str_n(str.data, str.length, result.data, result.length);
 
     /* Destroy all. */
+
+    lxb_html_document_destroy(document);
+}
+TEST_END
+
+TEST_BEGIN(append_child_attribute)
+{
+    lxb_status_t status;
+    lxb_dom_attr_t *attr;
+    lxb_dom_node_t *body, *div;
+    lxb_dom_exception_code_t code;
+    lxb_html_document_t *document;
+
+    document = lxb_html_document_create();
+    test_ne(document, NULL);
+
+    status = lxb_html_document_parse(document, html.data, html.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    body = lxb_dom_interface_node(lxb_html_document_body_element(document));
+    div = body->first_child;
+
+    attr = lxb_dom_element_first_attribute(lxb_dom_interface_element(div));
+    test_ne(attr, NULL);
+
+    code = lxb_dom_node_append_child(body, lxb_dom_interface_node(attr));
+    test_eq(code, LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR);
+
+    code = lxb_dom_node_append_child(div, lxb_dom_interface_node(attr));
+    test_eq(code, LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR);
+
+    test_eq(lxb_dom_interface_node(attr)->parent, NULL);
+    test_eq(div->first_child, NULL);
+    test_eq(body->last_child, div->next);
+
+    lxb_html_document_destroy(document);
+}
+TEST_END
+
+TEST_BEGIN(append_child_document)
+{
+    lxb_status_t status;
+    lxb_dom_node_t *body, *node;
+    lxb_dom_exception_code_t code;
+    lxb_html_document_t *document, *other;
+
+    document = lxb_html_document_create();
+    test_ne(document, NULL);
+
+    status = lxb_html_document_parse(document, html.data, html.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    other = lxb_html_document_create();
+    test_ne(other, NULL);
+
+    status = lxb_html_document_parse(other, html.data, html.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    body = lxb_dom_interface_node(lxb_html_document_body_element(document));
+    node = lxb_dom_interface_node(other);
+
+    code = lxb_dom_node_append_child(body, node);
+    test_eq(code, LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR);
+
+    code = lxb_dom_node_insert_before_spec(body, node, body->first_child);
+    test_eq(code, LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR);
+
+    code = lxb_dom_node_replace_child(body, node, body->first_child);
+    test_eq(code, LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR);
+
+    test_eq(node->parent, NULL);
+    test_eq(body->first_child->next, body->last_child);
+
+    lxb_html_document_destroy(other);
+    lxb_html_document_destroy(document);
+}
+TEST_END
+
+TEST_BEGIN(append_child_character_data)
+{
+    lxb_status_t status;
+    lxb_dom_node_t *body, *doc_node, *frag_node;
+    lxb_dom_comment_t *comment;
+    lxb_dom_document_t *dom_doc;
+    lxb_dom_cdata_section_t *cdata;
+    lxb_dom_exception_code_t code;
+    lxb_html_document_t *document;
+    lxb_dom_document_fragment_t *fragment;
+    lxb_dom_processing_instruction_t *pi;
+
+    document = lxb_html_document_create();
+    test_ne(document, NULL);
+
+    status = lxb_html_document_parse(document, html.data, html.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    dom_doc = lxb_dom_interface_document(document);
+    doc_node = lxb_dom_interface_node(document);
+    body = lxb_dom_interface_node(lxb_html_document_body_element(document));
+
+    comment = lxb_dom_document_create_comment(dom_doc,
+                                              (const lxb_char_t *) "c", 1);
+    test_ne(comment, NULL);
+
+    pi = lxb_dom_document_create_processing_instruction(dom_doc,
+                                              (const lxb_char_t *) "t", 1,
+                                              (const lxb_char_t *) "d", 1);
+    test_ne(pi, NULL);
+
+    cdata = lxb_dom_cdata_section_interface_create(dom_doc);
+    test_ne(cdata, NULL);
+
+    code = lxb_dom_node_append_child(body, lxb_dom_interface_node(comment));
+    test_eq(code, LXB_DOM_EXCEPTION_OK);
+    test_eq(body->last_child, lxb_dom_interface_node(comment));
+
+    code = lxb_dom_node_append_child(doc_node, lxb_dom_interface_node(pi));
+    test_eq(code, LXB_DOM_EXCEPTION_OK);
+    test_eq(doc_node->last_child, lxb_dom_interface_node(pi));
+
+    code = lxb_dom_node_append_child(doc_node, lxb_dom_interface_node(cdata));
+    test_eq(code, LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR);
+    test_eq(lxb_dom_interface_node(cdata)->parent, NULL);
+
+    fragment = lxb_dom_document_fragment_interface_create(dom_doc);
+    test_ne(fragment, NULL);
+
+    frag_node = lxb_dom_interface_node(fragment);
+
+    code = lxb_dom_node_append_child(frag_node, lxb_dom_interface_node(cdata));
+    test_eq(code, LXB_DOM_EXCEPTION_OK);
+
+    code = lxb_dom_node_append_child(doc_node, frag_node);
+    test_eq(code, LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR);
+    test_eq(lxb_dom_interface_node(cdata)->parent, frag_node);
+
+    code = lxb_dom_node_append_child(body, frag_node);
+    test_eq(code, LXB_DOM_EXCEPTION_OK);
+    test_eq(body->last_child, lxb_dom_interface_node(cdata));
 
     lxb_html_document_destroy(document);
 }
@@ -533,6 +673,9 @@ main(int argc, const char * argv[])
     TEST_ADD(insert_before);
     TEST_ADD(append_child);
     TEST_ADD(append_child_document_fragment);
+    TEST_ADD(append_child_attribute);
+    TEST_ADD(append_child_document);
+    TEST_ADD(append_child_character_data);
     TEST_ADD(replace_child);
     TEST_ADD(replace_child_document_fragment);
     TEST_ADD(remove_child);

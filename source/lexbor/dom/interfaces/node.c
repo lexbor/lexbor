@@ -513,13 +513,16 @@ lxb_dom_node_pre_insert_validity(lxb_dom_node_t *parent, lxb_dom_node_t *node,
         return LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR;
     }
 
-    switch (parent->type) {
+    switch (node->type) {
         case LXB_DOM_NODE_TYPE_ELEMENT:
-        case LXB_DOM_NODE_TYPE_DOCUMENT:
         case LXB_DOM_NODE_TYPE_DOCUMENT_TYPE:
         case LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT:
+        case LXB_DOM_NODE_TYPE_SHADOW_ROOT:
         case LXB_DOM_NODE_TYPE_CHARACTER_DATA:
         case LXB_DOM_NODE_TYPE_TEXT:
+        case LXB_DOM_NODE_TYPE_CDATA_SECTION:
+        case LXB_DOM_NODE_TYPE_PROCESSING_INSTRUCTION:
+        case LXB_DOM_NODE_TYPE_COMMENT:
             break;
 
         default:
@@ -531,8 +534,9 @@ lxb_dom_node_pre_insert_validity(lxb_dom_node_t *parent, lxb_dom_node_t *node,
      * a doctype and parent is not a document, then throw
      * a "HierarchyRequestError" DOMException.
      */
-    if ((node->type == LXB_DOM_NODE_TYPE_TEXT
-        && parent->type == LXB_DOM_NODE_TYPE_DOCUMENT)
+    if (((node->type == LXB_DOM_NODE_TYPE_TEXT
+          || node->type == LXB_DOM_NODE_TYPE_CDATA_SECTION)
+         && parent->type == LXB_DOM_NODE_TYPE_DOCUMENT)
         || (node->type == LXB_DOM_NODE_TYPE_DOCUMENT_TYPE
             && parent->type != LXB_DOM_NODE_TYPE_DOCUMENT))
     {
@@ -554,7 +558,9 @@ lxb_dom_node_pre_insert_validity(lxb_dom_node_t *parent, lxb_dom_node_t *node,
             count = 0;
 
             do {
-                if (tmp->type == LXB_DOM_NODE_TYPE_TEXT) {
+                if (tmp->type == LXB_DOM_NODE_TYPE_TEXT
+                    || tmp->type == LXB_DOM_NODE_TYPE_CDATA_SECTION)
+                {
                     return LXB_DOM_EXCEPTION_HIERARCHY_REQUEST_ERR;
                 }
                 else if (tmp->type == LXB_DOM_NODE_TYPE_ELEMENT) {
