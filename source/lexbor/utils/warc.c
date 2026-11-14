@@ -24,7 +24,6 @@ enum {
     LXB_UTILS_WARC_STATE_HEAD_VERSION_AFTER,
     LXB_UTILS_WARC_STATE_HEAD_FIELD_NAME,
     LXB_UTILS_WARC_STATE_HEAD_FIELD_VALUE,
-    LXB_UTILS_WARC_STATE_HEAD_FIELD_VALUE_QUOTED,
     LXB_UTILS_WARC_STATE_HEAD_FIELD_VALUE_AFTER,
     LXB_UTILS_WARC_STATE_HEAD_FIELD_VALUE_WS,
     LXB_UTILS_WARC_STATE_HEAD_END,
@@ -393,23 +392,6 @@ lxb_utils_warc_parse_field_value(lxb_utils_warc_t *warc,
     lxb_utils_warc_field_t *field = lxb_utils_warc_field_last(warc);
 
     for (p = *data; p < end; p++) {
-        if (*p == '"') {
-            p++;
-
-            *data = lexbor_str_append(&field->value, warc->mraw,
-                                      *data, (p - *data));
-            if (*data == NULL) {
-                *data = p - 1;
-                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-            }
-
-            *data = p;
-
-            warc->state = LXB_UTILS_WARC_STATE_HEAD_FIELD_VALUE_QUOTED;
-
-            return LXB_STATUS_OK;
-        }
-
         if (*p == '\n') {
             p++;
 
@@ -457,47 +439,6 @@ lxb_utils_warc_parse_field_value(lxb_utils_warc_t *warc,
         warc->error = "Too large header field name.";
 
         return LXB_STATUS_ABORTED;
-    }
-
-    *data = end;
-
-    return LXB_STATUS_OK;
-}
-
-lxb_inline lxb_status_t
-lxb_utils_warc_parse_field_value_quoted(lxb_utils_warc_t *warc,
-                                 const lxb_char_t **data, const lxb_char_t *end)
-{
-    const lxb_char_t *p;
-    lxb_utils_warc_field_t *field = lxb_utils_warc_field_last(warc);
-
-    for (p = *data; p < end; p++) {
-        if (*p == '"') {
-            *data = p + 1;
-
-            warc->state = LXB_UTILS_WARC_STATE_HEAD_FIELD_VALUE;
-
-            goto done;
-        }
-
-        if (*p == '\\') {
-            *data = lexbor_str_append(&field->value, warc->mraw,
-                                      *data, (p - *data));
-            if (*data == NULL) {
-                *data = p;
-                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-            }
-
-            *data = ++p;
-        }
-    }
-
-done:
-
-    p = lexbor_str_append(&field->value, warc->mraw, *data, (end - *data));
-    if (p == NULL) {
-        *data = end;
-        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
 
     *data = end;
@@ -707,10 +648,6 @@ lxb_utils_warc_parse(lxb_utils_warc_t *warc,
 
             case LXB_UTILS_WARC_STATE_HEAD_FIELD_VALUE:
                 status = lxb_utils_warc_parse_field_value(warc, data, end);
-                break;
-
-            case LXB_UTILS_WARC_STATE_HEAD_FIELD_VALUE_QUOTED:
-                status = lxb_utils_warc_parse_field_value_quoted(warc, data, end);
                 break;
 
             case LXB_UTILS_WARC_STATE_HEAD_FIELD_VALUE_AFTER:
