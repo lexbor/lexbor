@@ -206,7 +206,12 @@ lxb_utils_warc_parse_file(lxb_utils_warc_t *warc, FILE *fh)
         size = fread(buffer, sizeof(lxb_char_t), sizeof(buffer), fh);
         if (size != sizeof(buffer)) {
             if (feof(fh)) {
-                return lxb_utils_warc_parse(warc, &buf_ref, (buffer + size));
+                status = lxb_utils_warc_parse(warc, &buf_ref, (buffer + size));
+                if (status != LXB_STATUS_OK) {
+                    return status;
+                }
+
+                return lxb_utils_warc_parse_eof(warc);
             }
 
             return LXB_STATUS_ERROR;
@@ -217,7 +222,7 @@ lxb_utils_warc_parse_file(lxb_utils_warc_t *warc, FILE *fh)
     }
     while (status == LXB_STATUS_OK);
 
-    return lxb_utils_warc_parse_eof(warc);
+    return status;
 }
 
 lxb_status_t

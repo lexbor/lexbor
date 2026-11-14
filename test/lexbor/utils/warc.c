@@ -197,6 +197,54 @@ TEST_BEGIN_ARGS(parse_field, size_t name_len, size_t value_len, size_t split,
 }
 TEST_END
 
+TEST_BEGIN_ARGS(parse_file, const char *head, size_t pad, const char *tail,
+                lxb_status_t need, const char *need_records, const char *error)
+{
+    FILE *fh;
+    lxb_status_t status;
+    records_t records;
+    lxb_utils_warc_t *warc;
+
+    fh = tmpfile();
+    test_ne(fh, NULL);
+
+    test_eq(fwrite(head, 1, strlen(head), fh), strlen(head));
+
+    for (size_t i = 0; i < pad; i++) {
+        test_eq(fputc('a', fh), 'a');
+    }
+
+    test_eq(fwrite(tail, 1, strlen(tail), fh), strlen(tail));
+    rewind(fh);
+
+    records.mraw = lexbor_mraw_create();
+    test_eq(lexbor_mraw_init(records.mraw, 1024), LXB_STATUS_OK);
+
+    lexbor_str_init(&records.str, records.mraw, 256);
+    test_ne(records.str.data, NULL);
+
+    warc = lxb_utils_warc_create();
+    status = lxb_utils_warc_init(warc, header_cb, NULL, content_end_cb,
+                                 &records);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_utils_warc_parse_file(warc, fh);
+    test_eq(status, need);
+
+    if (error != NULL) {
+        test_ne(warc->error, NULL);
+        test_eq_str(warc->error, error);
+    }
+
+    test_eq_str_n(records.str.data, records.str.length,
+                  need_records, strlen(need_records));
+
+    lxb_utils_warc_destroy(warc, true);
+    lexbor_mraw_destroy(records.mraw, true);
+    fclose(fh);
+}
+TEST_END
+
 TEST_BEGIN(quoted_value)
 {
     TEST_CALL_ARGS(parse_splits,
@@ -320,6 +368,45 @@ TEST_BEGIN(record_end)
 }
 TEST_END
 
+TEST_BEGIN(file)
+{
+    TEST_CALL_ARGS(parse_file,
+                   "WARC/1.0\r\nContent-Length: 9000\r\n\r\n", 9000,
+                   "\r\n\r\nWARC/1.0\r\nContent-Length: 2\r\n\r\nxy\r\n\r\n",
+                   LXB_STATUS_OK,
+                   "[Content-Length=9000|9000]$[Content-Length=2|2]$", NULL);
+
+    TEST_CALL_ARGS(parse_file,
+                   "WARC/1.0\r\nContent-Length: 8154\r\n\r\n", 8154,
+                   "\r\n\r\n", LXB_STATUS_OK,
+                   "[Content-Length=8154|8154]$", NULL);
+}
+TEST_END
+
+TEST_BEGIN(file_error)
+{
+    TEST_CALL_ARGS(parse_file,
+                   "WARC/1.0\r\nContent-Length: 9000\r\n\r\n", 100, "",
+                   LXB_STATUS_ABORTED, "[Content-Length=9000|9000]",
+                   "Unexpected data termination.");
+
+    TEST_CALL_ARGS(parse_file,
+                   "WARC/1.0\r\nContent-Length: 9000\r\n\r\n", 8500, "",
+                   LXB_STATUS_ABORTED, "[Content-Length=9000|9000]",
+                   "Unexpected data termination.");
+
+    TEST_CALL_ARGS(parse_file,
+                   "WARC/2.0\r\nContent-Length: 9000\r\n\r\n", 9000,
+                   "\r\n\r\n", LXB_STATUS_ABORTED, "",
+                   "Wrong warc version.");
+
+    TEST_CALL_ARGS(parse_file,
+                   "WARC/1.0\r\nBad Name: a\r\nContent-Length: 9000\r\n\r\n",
+                   9000, "\r\n\r\n", LXB_STATUS_ABORTED, "",
+                   "Wrong header field name.");
+}
+TEST_END
+
 TEST_BEGIN(field_name_limit)
 {
     size_t max = 4096 * 4;
@@ -370,6 +457,8 @@ main(int argc, const char * argv[])
     TEST_ADD(field_value_limit);
     TEST_ADD(version);
     TEST_ADD(record_end);
+    TEST_ADD(file);
+    TEST_ADD(file_error);
 
     TEST_RUN("lexbor/utils/warc");
     TEST_RELEASE();
