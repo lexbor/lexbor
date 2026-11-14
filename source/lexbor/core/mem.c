@@ -115,6 +115,10 @@ lexbor_mem_chunk_init(lexbor_mem_t *mem,
     chunk->length = 0;
     chunk->data = lexbor_malloc(chunk->size * sizeof(uint8_t));
 
+    if (chunk->data == NULL) {
+        chunk->size = 0;
+    }
+
     return chunk->data;
 }
 

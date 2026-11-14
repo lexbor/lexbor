@@ -9,6 +9,13 @@
 #include <lexbor/core/mraw.h>
 
 
+static void *
+test_malloc_fail(size_t size)
+{
+    return NULL;
+}
+
+
 TEST_BEGIN(init)
 {
     lexbor_mraw_t *mraw = lexbor_mraw_create();
@@ -117,6 +124,42 @@ TEST_BEGIN(mraw_alloc_overflow_if_len_0)
 
     test_eq_size(mraw.cache->tree_length, 0UL);
     test_eq(mraw.mem->chunk, mraw.mem->chunk_first);
+
+    lexbor_mraw_destroy(&mraw, false);
+}
+TEST_END
+
+TEST_BEGIN(mraw_alloc_overflow_if_len_0_failure)
+{
+    uint8_t *one, *two, *three;
+    lxb_status_t status;
+    lexbor_mraw_t mraw = {0};
+
+    status = lexbor_mraw_init(&mraw, 1024);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lexbor_memory_setup(test_malloc_fail, realloc, calloc, free);
+    test_eq(status, LXB_STATUS_OK);
+
+    one = lexbor_mraw_alloc(&mraw, 1025);
+
+    (void) lexbor_memory_setup(malloc, realloc, calloc, free);
+
+    test_eq(one, NULL);
+
+    two = lexbor_mraw_alloc(&mraw, 16);
+    test_eq(two, mraw.mem->chunk->data + lexbor_mraw_meta_size());
+    test_eq_size(lexbor_mraw_data_size(two), 16UL);
+
+    memset(two, 0xAA, 16);
+
+    three = lexbor_mraw_alloc(&mraw, 1025);
+    test_ne(three, NULL);
+    test_eq_size(lexbor_mraw_data_size(three), lexbor_mem_align(1025));
+
+    memset(three, 0xBB, 1025);
+
+    test_eq_size(lexbor_mraw_reference_count(&mraw), 2UL);
 
     lexbor_mraw_destroy(&mraw, false);
 }
@@ -693,6 +736,7 @@ main(int argc, const char * argv[])
     TEST_ADD(mraw_alloc);
     TEST_ADD(mraw_alloc_eq);
     TEST_ADD(mraw_alloc_overflow_if_len_0);
+    TEST_ADD(mraw_alloc_overflow_if_len_0_failure);
     TEST_ADD(mraw_alloc_overflow_if_len_not_0);
     TEST_ADD(mraw_alloc_if_len_not_0);
     TEST_ADD(mraw_realloc);

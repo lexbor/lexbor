@@ -119,7 +119,10 @@ lexbor_mraw_mem_alloc(lexbor_mraw_t *mraw, size_t length)
 
         if (chunk->length == 0) {
             lexbor_mem_chunk_destroy(mem, chunk, false);
-            lexbor_mem_chunk_init(mem, chunk, length);
+
+            if (lexbor_mem_chunk_init(mem, chunk, length) == NULL) {
+                return NULL;
+            }
 
             chunk->length = length;
 
