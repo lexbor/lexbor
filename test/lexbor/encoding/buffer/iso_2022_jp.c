@@ -728,6 +728,46 @@ TEST_BEGIN(encode_sequence_small_buffer)
 }
 TEST_END
 
+TEST_BEGIN(encode_finish_state)
+{
+    lxb_status_t status;
+    lxb_encoding_encode_t encode;
+    const lxb_codepoint_t *cps;
+    const lxb_encoding_data_t *encoding;
+    lxb_char_t buffer[32];
+
+    static const lxb_codepoint_t source[] = {0x3042, 0x0041};
+
+    static const lxb_char_t result[] = {
+        0x1B, 0x24, 0x42, 0x24, 0x22, 0x1B, 0x28, 0x42, 0x41
+    };
+
+    encoding = lxb_encoding_data(LXB_ENCODING_ISO_2022_JP);
+
+    status = lxb_encoding_encode_init(&encode, encoding, buffer,
+                                      sizeof(buffer));
+    test_eq(status, LXB_STATUS_OK);
+
+    cps = source;
+
+    status = encoding->encode(&encode, &cps, source + 1);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_encoding_encode_finish(&encode);
+    test_eq(status, LXB_STATUS_OK);
+    test_eq(encode.state, LXB_ENCODING_ENCODE_2022_JP_ASCII);
+
+    status = encoding->encode(&encode, &cps, source + 2);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_encoding_encode_finish(&encode);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_eq_str_n(buffer, lxb_encoding_encode_buf_used(&encode),
+                  result, sizeof(result));
+}
+TEST_END
+
 TEST_BEGIN(size_fix)
 {
     lxb_status_t status;
@@ -796,6 +836,7 @@ main(int argc, const char * argv[])
     TEST_ADD(encode_buffer_check);
     TEST_ADD(encode_sequence);
     TEST_ADD(encode_sequence_small_buffer);
+    TEST_ADD(encode_finish_state);
     TEST_ADD(size_fix);
 
     TEST_RUN("lexbor/encoding/iso_2022_jp");

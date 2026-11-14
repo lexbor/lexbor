@@ -642,6 +642,8 @@ lxb_encoding_encode_iso_2022_jp_eof(lxb_encoding_encode_t *ctx)
 
         memcpy(&ctx->buffer_out[ctx->buffer_used], "\x1B\x28\x42", 3);
         ctx->buffer_used += 3;
+
+        ctx->state = LXB_ENCODING_ENCODE_2022_JP_ASCII;
     }
 
     return LXB_STATUS_OK;
