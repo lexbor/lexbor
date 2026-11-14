@@ -785,9 +785,10 @@ lxb_dom_node_replace_child(lxb_dom_node_t *parent, lxb_dom_node_t *node,
         return code;
     }
 
-    before = child->prev;
-    if (before == NULL) {
-        before = child->next;
+    before = child->next;
+
+    if (before == node) {
+        before = node->next;
     }
 
     if (child->parent != NULL) {
