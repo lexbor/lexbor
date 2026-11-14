@@ -899,6 +899,10 @@ lxb_dom_node_remove(lxb_dom_node_t *node)
 lxb_status_t
 lxb_dom_node_replace_all(lxb_dom_node_t *parent, lxb_dom_node_t *node)
 {
+    if (node->parent != NULL) {
+        lxb_dom_node_remove(node);
+    }
+
     while (parent->first_child != NULL) {
         lxb_dom_node_destroy_deep(parent->first_child);
     }

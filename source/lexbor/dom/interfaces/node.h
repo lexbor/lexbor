@@ -251,6 +251,21 @@ lxb_dom_node_replace_child(lxb_dom_node_t *parent, lxb_dom_node_t *node,
 LXB_API lxb_dom_exception_code_t
 lxb_dom_node_replace_all_spec(lxb_dom_node_t *parent, lxb_dom_node_t *node);
 
+/*
+ * Replace all children of a node with a node.
+ *
+ * The node is removed from its parent, then the children of the parent are
+ * destroyed with all their descendants and the node is inserted. The node
+ * can be one of these children or their descendant.
+ *
+ * The function does not perform any validation: the node must not be
+ * the parent or its ancestor.
+ *
+ * @param[in] lxb_dom_node_t *. Where replace. Not NULL.
+ * @param[in] lxb_dom_node_t *. Who replace. Not NULL.
+ *
+ * @return LXB_STATUS_OK.
+ */
 LXB_API lxb_status_t
 lxb_dom_node_replace_all(lxb_dom_node_t *parent, lxb_dom_node_t *node);
 

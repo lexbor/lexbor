@@ -372,6 +372,108 @@ TEST_BEGIN(remove_child)
 }
 TEST_END
 
+TEST_BEGIN_ARGS(replace_all_with, const char *data, const char *id,
+                const char *result)
+{
+    lexbor_str_t str = {0};
+    lxb_status_t status;
+    lxb_dom_node_t *body, *parent, *node;
+    lxb_html_document_t *document;
+
+    document = lxb_html_document_create();
+    test_ne(document, NULL);
+
+    status = lxb_html_document_parse(document, (const lxb_char_t *) data,
+                                     strlen(data));
+    test_eq(status, LXB_STATUS_OK);
+
+    body = lxb_dom_interface_node(lxb_html_document_body_element(document));
+    parent = body->first_child;
+
+    node = lxb_dom_node_by_id(body, (const lxb_char_t *) id, strlen(id));
+    test_ne(node, NULL);
+
+    status = lxb_dom_node_replace_all(parent, node);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_eq(node->parent, parent);
+    test_eq(node->prev, NULL);
+    test_eq(node->next, NULL);
+    test_eq(parent->first_child, node);
+    test_eq(parent->last_child, node);
+
+    status = lxb_html_serialize_deep_str(body, &str);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_eq_str(str.data, result);
+
+    lxb_html_document_destroy(document);
+}
+TEST_END
+
+TEST_BEGIN(replace_all_with_child)
+{
+    TEST_CALL_ARGS(replace_all_with,
+                   "<div><i>a</i><span id=n>b<b>c</b></span><i>d</i></div>"
+                   "<p>e</p>",
+                   "n",
+                   "<div><span id=\"n\">b<b>c</b></span></div><p>e</p>");
+}
+TEST_END
+
+TEST_BEGIN(replace_all_with_descendant)
+{
+    TEST_CALL_ARGS(replace_all_with,
+                   "<div><i>a</i><p>b<span id=n>c<b>d</b></span>e</p></div>"
+                   "<p>f</p>",
+                   "n",
+                   "<div><span id=\"n\">c<b>d</b></span></div><p>f</p>");
+}
+TEST_END
+
+TEST_BEGIN(replace_all_with_child_of_other)
+{
+    lexbor_str_t str = {0};
+    lxb_status_t status;
+    lxb_dom_node_t *body, *div, *p, *span;
+    lxb_html_document_t *document;
+
+    static const lexbor_str_t data = lexbor_str("<div><i>a</i></div>"
+                                                "<p>b<span>c</span>d</p>");
+
+    static const lexbor_str_t result = lexbor_str("<div><span>c</span></div>"
+                                                  "<p>bd</p>");
+
+    document = lxb_html_document_create();
+    test_ne(document, NULL);
+
+    status = lxb_html_document_parse(document, data.data, data.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    body = lxb_dom_interface_node(lxb_html_document_body_element(document));
+    div = body->first_child;
+    p = div->next;
+    span = p->first_child->next;
+
+    status = lxb_dom_node_replace_all(div, span);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_eq(span->parent, div);
+    test_eq(div->first_child, span);
+    test_eq(div->last_child, span);
+
+    test_eq(p->first_child->next, p->last_child);
+    test_eq(p->last_child->prev, p->first_child);
+
+    status = lxb_html_serialize_deep_str(body, &str);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_eq_str_n(str.data, str.length, result.data, result.length);
+
+    lxb_html_document_destroy(document);
+}
+TEST_END
+
 TEST_BEGIN(get_by_id)
 {
     size_t len;
@@ -434,6 +536,9 @@ main(int argc, const char * argv[])
     TEST_ADD(replace_child);
     TEST_ADD(replace_child_document_fragment);
     TEST_ADD(remove_child);
+    TEST_ADD(replace_all_with_child);
+    TEST_ADD(replace_all_with_descendant);
+    TEST_ADD(replace_all_with_child_of_other);
     TEST_ADD(get_by_id);
 
     TEST_RUN("lexbor/dom/node");
