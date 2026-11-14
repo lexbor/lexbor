@@ -254,6 +254,8 @@ lexbor_mraw_realloc_tail(lexbor_mraw_t *mraw, void *data, void *begin,
         *is_valid = true;
 
         if (new_size == 0) {
+            mraw->ref_count--;
+
             chunk->length = begin_len - lexbor_mraw_meta_size();
             return NULL;
         }

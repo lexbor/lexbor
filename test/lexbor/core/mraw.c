@@ -289,6 +289,7 @@ TEST_BEGIN(mraw_realloc_tail_0)
 
     uint8_t *new_data = lexbor_mraw_realloc(&mraw, data, 0);
     test_eq(new_data, NULL);
+    test_eq_size(lexbor_mraw_reference_count(&mraw), 0UL);
 
     test_eq_size(mraw.mem->chunk_length, 1UL);
     test_eq_size(mraw.mem->chunk->length, 0UL);
@@ -438,6 +439,7 @@ TEST_BEGIN(mraw_realloc_n_0)
 
     uint8_t *three = lexbor_mraw_realloc(&mraw, one, 0);
     test_eq(three, NULL);
+    test_eq_size(lexbor_mraw_reference_count(&mraw), 1UL);
 
     test_eq_size(mraw.mem->chunk_length, 1UL);
     test_eq_size(mraw.mem->chunk->length, 128UL + lexbor_mraw_meta_size()
