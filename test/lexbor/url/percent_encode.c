@@ -108,6 +108,44 @@ static const percent_encode_entry_t entries[] = {
         lexbor_str("")
     },
     {
+        lexbor_str("\xE3\x81\x82\xE2\x80\xBD"),
+        lexbor_str("%1B$B$%22%1B(B%26%238253%3B"),
+        LXB_ENCODING_ISO_2022_JP,
+        LXB_URL_MAP_SPECIAL_QUERY,
+        false,
+        NULL,
+        lexbor_str("")
+    },
+    {
+        lexbor_str("\xE3\x81\x82\xE2\x80\xBD\xE3\x81\x82"
+                   "\xC2\xA5\xE2\x80\xBD"),
+        lexbor_str("%1B$B$%22%1B(B%26%238253%3B%1B$B$%22%1B(J\\"
+                   "%26%238253%3B%1B(B"),
+        LXB_ENCODING_ISO_2022_JP,
+        LXB_URL_MAP_SPECIAL_QUERY,
+        false,
+        NULL,
+        lexbor_str("")
+    },
+    {
+        lexbor_str("\x1B"),
+        lexbor_str("%26%2365533%3B"),
+        LXB_ENCODING_ISO_2022_JP,
+        LXB_URL_MAP_SPECIAL_QUERY,
+        false,
+        NULL,
+        lexbor_str("")
+    },
+    {
+        lexbor_str("\xE3\x81\x82\x1B$B"),
+        lexbor_str("%1B$B$%22%1B(B%26%2365533%3B$B"),
+        LXB_ENCODING_ISO_2022_JP,
+        LXB_URL_MAP_SPECIAL_QUERY,
+        false,
+        NULL,
+        lexbor_str("")
+    },
+    {
         lexbor_str("caf\xC3\xA9"),
         lexbor_str("caf%E9"),
         LXB_ENCODING_WINDOWS_1252,

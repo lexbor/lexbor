@@ -3212,6 +3212,85 @@ lxb_url_percent_encode_encoding(const lxb_char_t *data, size_t length,
 }
 
 static lxb_status_t
+lxb_url_percent_encode_bytes(const lxb_char_t *data, const lxb_char_t *end,
+                             lexbor_str_t *str, lexbor_mraw_t *mraw,
+                             const uint8_t *url_map, lxb_url_map_type_t enmap,
+                             bool space_as_plus)
+{
+    lxb_char_t c, percent[3];
+
+    percent[0] = '%';
+
+    while (data < end) {
+        c = *data++;
+
+        if (space_as_plus && c == ' ') {
+            if (lexbor_str_append_one(str, mraw, '+') == NULL) {
+                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            }
+        }
+        else if (url_map[c] & enmap) {
+            percent[1] = lexbor_str_res_char_to_two_hex_value[c][0];
+            percent[2] = lexbor_str_res_char_to_two_hex_value[c][1];
+
+            if (lexbor_str_append(str, mraw, percent, 3) == NULL) {
+                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            }
+        }
+        else {
+            if (lexbor_str_append_one(str, mraw, c) == NULL) {
+                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            }
+        }
+    }
+
+    return LXB_STATUS_OK;
+}
+
+static lxb_status_t
+lxb_url_percent_encode_error(lxb_encoding_encode_t *encode, lxb_codepoint_t cp,
+                             lexbor_str_t *str, lexbor_mraw_t *mraw,
+                             const uint8_t *url_map, lxb_url_map_type_t enmap,
+                             bool space_as_plus)
+{
+    size_t size;
+    lxb_status_t status;
+    lxb_char_t *buf, buffer[24];
+
+    static const lexbor_str_t esc_str = lexbor_str("%26%23");
+    static const lexbor_str_t semicolon_str = lexbor_str("%3B");
+
+    buf = buffer;
+
+    (void) lxb_encoding_encode_error_single(encode, &buf,
+                                            buffer + sizeof(buffer), cp, &cp);
+
+    status = lxb_url_percent_encode_bytes(buffer, buf, str, mraw, url_map,
+                                          enmap, space_as_plus);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
+
+    size = lexbor_conv_int64_to_data((int64_t) cp, buffer, sizeof(buffer));
+
+    if (lexbor_str_append(str, mraw, esc_str.data, esc_str.length) == NULL) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    if (lexbor_str_append(str, mraw, buffer, size) == NULL) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    if (lexbor_str_append(str, mraw, semicolon_str.data,
+                          semicolon_str.length) == NULL)
+    {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    return LXB_STATUS_OK;
+}
+
+static lxb_status_t
 lxb_url_percent_encode_after_encoding(const lxb_char_t *data,
                                       const lxb_char_t *end, lexbor_str_t *str,
                                       lexbor_mraw_t *mraw, const uint8_t *url_map,
@@ -3220,7 +3299,7 @@ lxb_url_percent_encode_after_encoding(const lxb_char_t *data,
                                       bool space_as_plus)
 {
     int8_t len;
-    size_t length, size;
+    size_t length;
     lxb_status_t status;
     lxb_codepoint_t cp;
     const lxb_char_t *p, *pb;
@@ -3228,7 +3307,6 @@ lxb_url_percent_encode_after_encoding(const lxb_char_t *data,
     lxb_char_t c, buffer[128], percent[3];
     lxb_char_t *buf = buffer;
     const lxb_char_t *buf_end = buf + sizeof(buffer);
-    static const lexbor_str_t esc_str = lexbor_str("%26%23");
 
     if (lxb_url_output_encoding(encoding->encoding) == LXB_ENCODING_UTF_8) {
         return lxb_url_percent_encode_after_utf_8(data, end, str, mraw,
@@ -3266,22 +3344,11 @@ lxb_url_percent_encode_after_encoding(const lxb_char_t *data,
         len = encoding->encode_single(&encode, &buf, buf_end, cp);
 
         if (len < LXB_ENCODING_ENCODE_OK) {
-            size = lexbor_conv_int64_to_data((int64_t) cp, buffer,
-                                             sizeof(buffer));
-
-            if (lexbor_str_append(str, mraw, esc_str.data, esc_str.length) == NULL) {
-                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-            }
-
-            if (lexbor_str_append(str, mraw, buffer, size) == NULL) {
-                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-            }
-
-            percent[1] = '3';
-            percent[2] = 'B';
-
-            if (lexbor_str_append(str, mraw, percent, 3) == NULL) {
-                return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            status = lxb_url_percent_encode_error(&encode, cp, str, mraw,
+                                                  url_map, enmap,
+                                                  space_as_plus);
+            if (status != LXB_STATUS_OK) {
+                return status;
             }
 
             continue;
