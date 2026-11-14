@@ -34,13 +34,12 @@ lexbor_dobject_init(lexbor_dobject_t *dobject,
 
     /* Set params */
     dobject->allocated = 0UL;
-    dobject->struct_size = struct_size;
+    dobject->struct_size = lexbor_mem_align(struct_size);
 
     /* Init memory */
     dobject->mem = lexbor_mem_create();
 
-    status = lexbor_mem_init(dobject->mem,
-                           lexbor_mem_align(chunk_size * dobject->struct_size));
+    status = lexbor_mem_init(dobject->mem, chunk_size * dobject->struct_size);
     if (status) {
         return status;
     }
@@ -156,19 +155,30 @@ lexbor_dobject_by_absolute_position(lexbor_dobject_t *dobject, size_t pos)
     size_t chunk_idx, chunk_pos, i;
     lexbor_mem_chunk_t *chunk;
 
-    if (pos >= dobject->allocated) {
+    if (pos > (SIZE_MAX / dobject->struct_size)) {
+        return NULL;
+    }
+
+    chunk_pos = pos * dobject->struct_size;
+    chunk_idx = chunk_pos / dobject->mem->chunk_min_size;
+
+    if (chunk_idx >= dobject->mem->chunk_length) {
         return NULL;
     }
 
     chunk = dobject->mem->chunk_first;
-    chunk_pos = pos * dobject->struct_size;
-    chunk_idx = chunk_pos / dobject->mem->chunk_min_size;
 
     for (i = 0; i < chunk_idx; i++) {
         chunk = chunk->next;
     }
 
-    return &chunk->data[chunk_pos % chunk->size];
+    chunk_pos %= dobject->mem->chunk_min_size;
+
+    if (chunk_pos >= chunk->length) {
+        return NULL;
+    }
+
+    return &chunk->data[chunk_pos];
 }
 
 /*

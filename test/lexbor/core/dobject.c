@@ -239,6 +239,80 @@ TEST_BEGIN(absolute_position_edge)
 }
 TEST_END
 
+TEST_BEGIN(absolute_position_unaligned)
+{
+    size_t i;
+    lxb_status_t status;
+    lexbor_dobject_t dobj;
+    uint8_t *slots[37];
+
+    status = lexbor_dobject_init(&dobj, 10, 13);
+    test_eq(status, LXB_STATUS_OK);
+
+    for (i = 0; i < 37; i++) {
+        slots[i] = lexbor_dobject_alloc(&dobj);
+        test_ne(slots[i], NULL);
+
+        memset(slots[i], (int) i, 13);
+    }
+
+    test_eq_size(dobj.mem->chunk_length, 4UL);
+
+    for (i = 0; i < 37; i++) {
+        test_eq(lexbor_dobject_by_absolute_position(&dobj, i), slots[i]);
+        test_eq(slots[i][12], (uint8_t) i);
+    }
+
+    test_eq(lexbor_dobject_by_absolute_position(&dobj, 37), NULL);
+    test_eq(lexbor_dobject_by_absolute_position(&dobj, 40), NULL);
+    test_eq(lexbor_dobject_by_absolute_position(&dobj, SIZE_MAX), NULL);
+
+    lexbor_dobject_destroy(&dobj, false);
+}
+TEST_END
+
+TEST_BEGIN(absolute_position_freed)
+{
+    size_t i;
+    lxb_status_t status;
+    lexbor_dobject_t dobj;
+    uint8_t *data, *slots[7];
+
+    status = lexbor_dobject_init(&dobj, 3, 100);
+    test_eq(status, LXB_STATUS_OK);
+
+    for (i = 0; i < 7; i++) {
+        slots[i] = lexbor_dobject_alloc(&dobj);
+        test_ne(slots[i], NULL);
+    }
+
+    test_eq_size(dobj.mem->chunk_length, 3UL);
+
+    lexbor_dobject_free(&dobj, slots[6]);
+    lexbor_dobject_free(&dobj, slots[2]);
+
+    test_eq_size(lexbor_dobject_allocated(&dobj), 5UL);
+
+    for (i = 0; i < 7; i++) {
+        test_eq(lexbor_dobject_by_absolute_position(&dobj, i), slots[i]);
+    }
+
+    test_eq(lexbor_dobject_by_absolute_position(&dobj, 7), NULL);
+
+    data = lexbor_dobject_alloc(&dobj);
+    test_eq(data, slots[2]);
+
+    test_eq(lexbor_dobject_by_absolute_position(&dobj, 2), slots[2]);
+    test_eq(lexbor_dobject_by_absolute_position(&dobj, 7), NULL);
+
+    lexbor_dobject_clean(&dobj);
+
+    test_eq(lexbor_dobject_by_absolute_position(&dobj, 0), NULL);
+
+    lexbor_dobject_destroy(&dobj, false);
+}
+TEST_END
+
 TEST_BEGIN(obj_free)
 {
     lexbor_dobject_t dobj;
@@ -313,6 +387,8 @@ main(int argc, const char * argv[])
     TEST_ADD(absolute_position);
     TEST_ADD(absolute_position_up);
     TEST_ADD(absolute_position_edge);
+    TEST_ADD(absolute_position_unaligned);
+    TEST_ADD(absolute_position_freed);
     TEST_ADD(obj_free);
     TEST_ADD(destroy);
     TEST_ADD(destroy_stack);
