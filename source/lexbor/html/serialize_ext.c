@@ -434,6 +434,7 @@ lxb_html_serialize_ext_tree_cb_h(const lxb_dom_node_t *node,
                                  bool with_current)
 {
     lxb_status_t status;
+    const lxb_html_template_element_t *temp;
 
     if (node->type == LXB_DOM_NODE_TYPE_DOCUMENT) {
         with_current = false;
@@ -443,6 +444,16 @@ lxb_html_serialize_ext_tree_cb_h(const lxb_dom_node_t *node,
         return lxb_html_serialize_ext_walk(node, cb, ctx, indent, opt, level);
     }
     else {
+        if (lxb_html_tree_node_is(node, LXB_TAG_TEMPLATE)) {
+            temp = lxb_html_interface_template(node);
+
+            if (temp->content == NULL) {
+                return LXB_STATUS_OK;
+            }
+
+            node = &temp->content->node;
+        }
+
         node = node->first_child;
 
         while (node != NULL) {
@@ -1382,9 +1393,12 @@ lxb_html_serialize_ext_walk(const lxb_dom_node_t *node,
                     }
                 }
             }
-        }
 
-        skip_it = lxb_html_node_is_void(node);
+            skip_it = true;
+        }
+        else {
+            skip_it = lxb_html_node_is_void(node);
+        }
 
         if (skip_it == false && node->first_child != NULL) {
             level += 1;

@@ -242,6 +242,17 @@ lxb_html_serialize_deep_cb(lxb_dom_node_t *node,
                            lxb_html_serialize_cb_f cb, void *ctx)
 {
     lxb_status_t status;
+    lxb_html_template_element_t *temp;
+
+    if (lxb_html_tree_node_is(node, LXB_TAG_TEMPLATE)) {
+        temp = lxb_html_interface_template(node);
+
+        if (temp->content == NULL) {
+            return LXB_STATUS_OK;
+        }
+
+        node = &temp->content->node;
+    }
 
     node = node->first_child;
 
@@ -306,9 +317,12 @@ lxb_html_serialize_node_cb(lxb_dom_node_t *node,
                     }
                 }
             }
-        }
 
-        skip_it = lxb_html_node_is_void(node);
+            skip_it = true;
+        }
+        else {
+            skip_it = lxb_html_node_is_void(node);
+        }
 
         if (skip_it == false && node->first_child != NULL) {
             node = node->first_child;
