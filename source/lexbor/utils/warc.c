@@ -336,6 +336,10 @@ lxb_utils_warc_parse_field_name(lxb_utils_warc_t *warc, const lxb_char_t **data,
 
             *data = p + 1;
 
+            if (warc->tmp.length == 0) {
+                goto failed;
+            }
+
             if (warc->tmp.length > LXB_UTILS_WARC_MAX_HEADER_NAME) {
                 goto too_large;
             }
@@ -366,9 +370,7 @@ lxb_utils_warc_parse_field_name(lxb_utils_warc_t *warc, const lxb_char_t **data,
         if (*p > 0x7F || lxb_utils_warc_seporators_ctl[*p] != 0x00) {
             *data = p;
 
-            warc->error = "Wrong header field name.";
-
-            return LXB_STATUS_ABORTED;
+            goto failed;
         }
     }
 
@@ -384,6 +386,12 @@ lxb_utils_warc_parse_field_name(lxb_utils_warc_t *warc, const lxb_char_t **data,
     *data = end;
 
     return LXB_STATUS_OK;
+
+failed:
+
+    warc->error = "Wrong header field name.";
+
+    return LXB_STATUS_ABORTED;
 
 too_large:
 

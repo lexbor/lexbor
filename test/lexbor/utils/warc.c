@@ -407,6 +407,28 @@ TEST_BEGIN(file_error)
 }
 TEST_END
 
+TEST_BEGIN(field_name)
+{
+    const char *error = "Wrong header field name.";
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nContent-Length: 0\r\n: a\r\n\r\n\r\n\r\n",
+                   "", error);
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\n:\r\nContent-Length: 0\r\n\r\n\r\n\r\n",
+                   "", error);
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nX a: b\r\nContent-Length: 0\r\n\r\n\r\n\r\n",
+                   "", error);
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nX-A:\r\nContent-Length: 0\r\n\r\n\r\n\r\n",
+                   "[X-A=|Content-Length=0|0]$", NULL);
+}
+TEST_END
+
 TEST_BEGIN(field_name_limit)
 {
     size_t max = 4096 * 4;
@@ -453,6 +475,7 @@ main(int argc, const char * argv[])
     TEST_ADD(quoted_pair);
     TEST_ADD(unclosed_quote);
     TEST_ADD(quoted_value_limit);
+    TEST_ADD(field_name);
     TEST_ADD(field_name_limit);
     TEST_ADD(field_value_limit);
     TEST_ADD(version);
