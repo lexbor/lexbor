@@ -353,13 +353,67 @@ TEST_BEGIN(version)
 }
 TEST_END
 
+TEST_BEGIN(content_length)
+{
+    const char *value = "Wrong \"Content-Length\" value.";
+    const char *missing = "Missing \"Content-Length\" field.";
+    const char *repeated = "Repeated \"Content-Length\" field.";
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nContent-Length:  2 \t\r\n\r\nab\r\n\r\n"
+                   "WARC/1.0\r\ncontent-length:\t1\r\nX-A: b\r\n\r\nc\r\n\r\n"
+                   "WARC/1.0\r\nContent-Length:\r\n 1\r\n\r\nd\r\n\r\n",
+                   "[Content-Length=2 \t|2]ab$"
+                   "[content-length=1|X-A=b|1]c$"
+                   "[Content-Length=1|1]d$", NULL);
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nContent-Length: 1\r\n\r\na\r\n\r\n"
+                   "WARC/1.0\r\nWARC-Type: response\r\n\r\n\r\n\r\n",
+                   "[Content-Length=1|1]a$", missing);
+
+    TEST_CALL_ARGS(parse_splits, "WARC/1.0\r\n\r\n\r\n\r\n", "", missing);
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nContent-Length: 0\r\nContent-Length: 2\r\n"
+                   "\r\nab\r\n\r\n", "", repeated);
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nContent-Length: 2\r\ncontent-length: 2\r\n"
+                   "\r\nab\r\n\r\n", "", repeated);
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nContent-Length: 2\r\nX-A: b\r\n"
+                   "Content-Length: 0\r\n\r\nab\r\n\r\n", "", repeated);
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nContent-Length:\r\n\r\n\r\n\r\n", "", value);
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nContent-Length: \t\r\n\r\n\r\n\r\n", "", value);
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nContent-Length: 1 2\r\n\r\nab\r\n\r\n", "",
+                   value);
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nContent-Length: +2\r\n\r\nab\r\n\r\n", "",
+                   value);
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nContent-Length: 2x\r\n\r\nab\r\n\r\n", "",
+                   value);
+}
+TEST_END
+
 TEST_BEGIN(record_end)
 {
     TEST_CALL_ARGS(parse_splits,
-                   "WARC/1.0\r\n\r\n\r\n\r\n"
+                   "WARC/1.0\r\nContent-Length: 0\r\n\r\n\r\n\r\n"
                    "WARC/1.0\r\nContent-Length: 1\r\n\r\na\r\n\r\n"
-                   "WARC/1.0\r\n\r\n\r\n\r\n",
-                   "[0]$[Content-Length=1|1]a$[0]$", NULL);
+                   "WARC/1.0\r\nContent-Length: 0\r\n\r\n\r\n\r\n",
+                   "[Content-Length=0|0]$[Content-Length=1|1]a$"
+                   "[Content-Length=0|0]$", NULL);
 
     TEST_CALL_ARGS(parse_splits,
                    "WARC/1.0\r\nContent-Length: 1\r\n\r\na\r\n\r\n"
@@ -479,6 +533,7 @@ main(int argc, const char * argv[])
     TEST_ADD(field_name_limit);
     TEST_ADD(field_value_limit);
     TEST_ADD(version);
+    TEST_ADD(content_length);
     TEST_ADD(record_end);
     TEST_ADD(file);
     TEST_ADD(file_error);

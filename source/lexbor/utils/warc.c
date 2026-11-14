@@ -477,10 +477,7 @@ lxb_inline lxb_status_t
 lxb_utils_warc_parse_field_value_after(lxb_utils_warc_t *warc,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
-    const lxb_utils_warc_field_t *field = lxb_utils_warc_field_last(warc);
     const lxb_char_t ch = **data;
-
-    static const lxb_char_t lxb_utils_warc_clen[] = "Content-Length";
 
     if (ch == ' ' || ch == '\t') {
         (*data)++;
@@ -488,24 +485,6 @@ lxb_utils_warc_parse_field_value_after(lxb_utils_warc_t *warc,
         warc->state = LXB_UTILS_WARC_STATE_HEAD_FIELD_VALUE_WS;
 
         return LXB_STATUS_OK;
-    }
-
-    /* Parse Content-Length value */
-    if (warc->content_length == 0
-        && field->name.length == (sizeof(lxb_utils_warc_clen) - 1)
-        && lexbor_str_data_ncasecmp(field->name.data, lxb_utils_warc_clen,
-                                    (sizeof(lxb_utils_warc_clen) - 1)))
-    {
-        const lxb_char_t *p = field->value.data;
-        const lxb_char_t *p_end = p + field->value.length;
-
-        warc->content_length = lexbor_conv_data_to_ulong(&p,
-                                                         field->value.length);
-        if (p != p_end) {
-            warc->error = "Wrong \"Content-Length\" value.";
-
-            return LXB_STATUS_ABORTED;
-        }
     }
 
     if (ch == '\r') {
@@ -542,6 +521,64 @@ lxb_utils_warc_parse_field_value_ws(lxb_utils_warc_t *warc,
     return LXB_STATUS_OK;
 }
 
+static lxb_status_t
+lxb_utils_warc_parse_content_length(lxb_utils_warc_t *warc)
+{
+    size_t length;
+    const lxb_char_t *p, *end;
+    const lxb_utils_warc_field_t *field, *clen;
+
+    static const lxb_char_t lxb_utils_warc_clen[] = "Content-Length";
+
+    clen = NULL;
+    length = lexbor_array_obj_length(warc->fields);
+
+    for (size_t i = 0; i < length; i++) {
+        field = lexbor_array_obj_get(warc->fields, i);
+
+        if (field->name.length == (sizeof(lxb_utils_warc_clen) - 1)
+            && lexbor_str_data_ncasecmp(field->name.data, lxb_utils_warc_clen,
+                                        (sizeof(lxb_utils_warc_clen) - 1)))
+        {
+            if (clen != NULL) {
+                warc->error = "Repeated \"Content-Length\" field.";
+
+                return LXB_STATUS_ABORTED;
+            }
+
+            clen = field;
+        }
+    }
+
+    if (clen == NULL) {
+        warc->error = "Missing \"Content-Length\" field.";
+
+        return LXB_STATUS_ABORTED;
+    }
+
+    p = clen->value.data;
+    end = p + clen->value.length;
+
+    warc->content_length = lexbor_conv_data_to_ulong(&p, clen->value.length);
+    if (p == clen->value.data) {
+        goto failed;
+    }
+
+    for (; p < end; p++) {
+        if (*p != ' ' && *p != '\t') {
+            goto failed;
+        }
+    }
+
+    return LXB_STATUS_OK;
+
+failed:
+
+    warc->error = "Wrong \"Content-Length\" value.";
+
+    return LXB_STATUS_ABORTED;
+}
+
 lxb_inline lxb_status_t
 lxb_utils_warc_parse_header_end(lxb_utils_warc_t *warc, const lxb_char_t **data,
                                 const lxb_char_t *end)
@@ -555,6 +592,11 @@ lxb_utils_warc_parse_header_end(lxb_utils_warc_t *warc, const lxb_char_t **data,
     }
 
     (*data)++;
+
+    status = lxb_utils_warc_parse_content_length(warc);
+    if (status != LXB_STATUS_OK) {
+        return status;
+    }
 
     if (warc->header_cb != NULL) {
         status = warc->header_cb(warc);
