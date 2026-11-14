@@ -5194,7 +5194,7 @@ lxb_url_search_params_parse(lxb_url_search_params_t *search_params,
             entry = lxb_url_search_params_entry(search_params, last, mraw,
                                                 query, p - 1, &status);
             if (status != LXB_STATUS_OK) {
-                return status;
+                goto failed;
             }
 
             last = entry;
@@ -5213,7 +5213,7 @@ lxb_url_search_params_parse(lxb_url_search_params_t *search_params,
             status = lxb_url_percent_decode_plus(query, p,
                                                  &entry->value, mraw);
             if (status != LXB_STATUS_OK) {
-                return status;
+                goto failed;
             }
 
             p += 1;
@@ -5224,14 +5224,15 @@ lxb_url_search_params_parse(lxb_url_search_params_t *search_params,
                 entry = lxb_url_search_params_entry(search_params, last, mraw,
                                                     query, p - 1, &status);
                 if (status != LXB_STATUS_OK) {
-                    return status;
+                    goto failed;
                 }
 
                 last = entry;
 
                 lexbor_str_init(&entry->value, mraw, 0);
                 if (entry->value.data == NULL) {
-                    return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+                    status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+                    goto failed;
                 }
             }
 
@@ -5243,14 +5244,15 @@ lxb_url_search_params_parse(lxb_url_search_params_t *search_params,
         entry = lxb_url_search_params_entry(search_params, last, mraw,
                                             query, p, &status);
         if (status != LXB_STATUS_OK) {
-            return status;
+            goto failed;
         }
 
         last = entry;
 
         lexbor_str_init(&entry->value, mraw, 0);
         if (entry->value.data == NULL) {
-            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            status = LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+            goto failed;
         }
     }
 
@@ -5265,6 +5267,16 @@ lxb_url_search_params_parse(lxb_url_search_params_t *search_params,
     }
 
     return LXB_STATUS_OK;
+
+failed:
+
+    if (first.next != NULL) {
+        first.next->prev = NULL;
+    }
+
+    search_params->first = first.next;
+
+    return status;
 }
 
 lxb_url_search_params_t *

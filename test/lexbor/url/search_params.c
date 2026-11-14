@@ -766,6 +766,64 @@ TEST_BEGIN(params_set_memory_error)
 }
 TEST_END
 
+TEST_BEGIN_ARGS(params_init_memory_error_input, const lexbor_str_t *head,
+                const lexbor_str_t *tail)
+{
+    size_t count, length;
+    lxb_char_t *data;
+    lxb_status_t status;
+    lexbor_mraw_t *mraw;
+    lxb_url_search_params_t *sp;
+
+    static const size_t long_length = 16384;
+
+    length = head->length + long_length + tail->length;
+
+    data = lexbor_malloc(length);
+    test_ne(data, NULL);
+
+    memcpy(data, head->data, head->length);
+    memset(&data[head->length], 'x', long_length);
+    memcpy(&data[head->length + long_length], tail->data, tail->length);
+
+    mraw = lexbor_mraw_create();
+    status = lexbor_mraw_init(mraw, 4096);
+    test_eq(status, LXB_STATUS_OK);
+
+    count = lexbor_mraw_reference_count(mraw);
+
+    status = lexbor_memory_setup(test_malloc, realloc, calloc, free);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_malloc_fail = true;
+
+    sp = lxb_url_search_params_init(mraw, data, length);
+
+    test_malloc_fail = false;
+
+    (void) lexbor_memory_setup(malloc, realloc, calloc, free);
+
+    test_eq(sp, NULL);
+    test_eq_size(lexbor_mraw_reference_count(mraw), count);
+
+    lexbor_mraw_destroy(mraw, true);
+    lexbor_free(data);
+}
+TEST_END
+
+TEST_BEGIN(params_init_memory_error)
+{
+    static const lexbor_str_t head = lexbor_str("abc=123&xyz&");
+    static const lexbor_str_t head_value = lexbor_str("abc=123&xyz&k=");
+    static const lexbor_str_t tail = lexbor_str("&new=old");
+    static const lexbor_str_t empty = lexbor_str("");
+
+    TEST_CALL_ARGS(params_init_memory_error_input, &head, &empty);
+    TEST_CALL_ARGS(params_init_memory_error_input, &head, &tail);
+    TEST_CALL_ARGS(params_init_memory_error_input, &head_value, &tail);
+}
+TEST_END
+
 TEST_BEGIN(params_sort_append)
 {
     lxb_status_t status;
@@ -839,6 +897,7 @@ main(int argc, const char * argv[])
     TEST_ADD(params_set);
     TEST_ADD(params_set_without);
     TEST_ADD(params_set_memory_error);
+    TEST_ADD(params_init_memory_error);
     TEST_ADD(params_sort_append);
 
     TEST_RUN("lexbor/url/search_params");
