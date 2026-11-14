@@ -407,7 +407,28 @@ lxb_utils_warc_parse_field_value(lxb_utils_warc_t *warc,
     const lxb_char_t *p;
     lxb_utils_warc_field_t *field = lxb_utils_warc_field_last(warc);
 
+    /* A CR at the end of the previous chunk must be followed by LF. */
+    if (field->value.length != 0
+        && field->value.data[(field->value.length - 1)] == '\r'
+        && **data != '\n')
+    {
+        goto failed;
+    }
+
     for (p = *data; p < end; p++) {
+        if (*p > '\r') {
+            continue;
+        }
+
+        if (*p == '\r') {
+            if (p + 1 < end && p[1] != '\n') {
+                *data = p;
+                goto failed;
+            }
+
+            continue;
+        }
+
         if (*p == '\n') {
             p++;
 
@@ -420,25 +441,22 @@ lxb_utils_warc_parse_field_value(lxb_utils_warc_t *warc,
 
             *data = p;
 
-            if (field->value.length > 1) {
-                if (field->value.data[(field->value.length - 2)] == '\r') {
-
-                    lexbor_str_length_set(&field->value, warc->mraw,
-                                          (field->value.length - 2));
-
-                    if (field->value.length
-                        > LXB_UTILS_WARC_MAX_HEADER_VALUE)
-                    {
-                        goto too_large;
-                    }
-
-                    warc->state = LXB_UTILS_WARC_STATE_HEAD_FIELD_VALUE_AFTER;
-
-                    return LXB_STATUS_OK;
-                }
+            if (field->value.length < 2
+                || field->value.data[(field->value.length - 2)] != '\r')
+            {
+                goto failed;
             }
 
-            p--;
+            lexbor_str_length_set(&field->value, warc->mraw,
+                                  (field->value.length - 2));
+
+            if (field->value.length > LXB_UTILS_WARC_MAX_HEADER_VALUE) {
+                goto too_large;
+            }
+
+            warc->state = LXB_UTILS_WARC_STATE_HEAD_FIELD_VALUE_AFTER;
+
+            return LXB_STATUS_OK;
         }
 /*
         if (*p > 0x7F || lxb_utils_warc_ctl[*p] != 0x00) {
@@ -465,6 +483,12 @@ lxb_utils_warc_parse_field_value(lxb_utils_warc_t *warc,
     *data = end;
 
     return LXB_STATUS_OK;
+
+failed:
+
+    warc->error = "Wrong header field value.";
+
+    return LXB_STATUS_ABORTED;
 
 too_large:
 
@@ -814,7 +838,8 @@ lxb_utils_warc_header_serialize(lxb_utils_warc_t *warc, lexbor_str_t *str)
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         }
 
-        data = lexbor_str_append_one(str, warc->mraw, '\n');
+        data = lexbor_str_append(str, warc->mraw,
+                                 (const lxb_char_t *) "\r\n", 2);
         if (data == NULL) {
             return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
         }

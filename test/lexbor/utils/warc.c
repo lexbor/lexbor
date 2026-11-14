@@ -477,6 +477,87 @@ TEST_BEGIN(folded_value)
 }
 TEST_END
 
+TEST_BEGIN(line_break_in_value)
+{
+    const char *error = "Wrong header field value.";
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nX-A: a\nX-B: b\r\nContent-Length: 0\r\n"
+                   "\r\n\r\n\r\n", "", error);
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nX-A: a\rX-B: b\r\nContent-Length: 0\r\n"
+                   "\r\n\r\n\r\n", "", error);
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nX-A: a\r\r\nContent-Length: 0\r\n"
+                   "\r\n\r\n\r\n", "", error);
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nX-A: a\n\r\nContent-Length: 0\r\n"
+                   "\r\n\r\n\r\n", "", error);
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nX-A: \"a\\\nb\"\r\nContent-Length: 0\r\n"
+                   "\r\n\r\n\r\n", "", error);
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nContent-Length: 0\r\nX-A: \n\r\n"
+                   "\r\n\r\n\r\n", "", error);
+}
+TEST_END
+
+TEST_BEGIN(serialize)
+{
+    int len;
+    lexbor_str_t str;
+    lxb_status_t status;
+    lxb_utils_warc_t *warc;
+    const lxb_char_t *p;
+    char buf[256];
+
+    static const char head[] = "WARC/1.0\r\n"
+                               "WARC-Type: response\r\n"
+                               "X-A: a\r\n\tb\r\n"
+                               "X-B: \"a\\\"b\"\t\r\n"
+                               "X-C:\r\n"
+                               "Content-Length: 1\r\n"
+                               "\r\n";
+
+    static const char fields[] = "WARC-Type: response\r\n"
+                                 "X-A: a b\r\n"
+                                 "X-B: \"a\\\"b\"\t\r\n"
+                                 "X-C: \r\n"
+                                 "Content-Length: 1\r\n";
+
+    static const char need[] = "[WARC-Type=response|X-A=a b|X-B=\"a\\\"b\"\t|"
+                               "X-C=|Content-Length=1|1]x$";
+
+    warc = lxb_utils_warc_create();
+    status = lxb_utils_warc_init(warc, NULL, NULL, NULL, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    p = (const lxb_char_t *) head;
+
+    status = lxb_utils_warc_parse(warc, &p, p + (sizeof(head) - 1));
+    test_eq(status, LXB_STATUS_OK);
+
+    str.data = NULL;
+    str.length = 0;
+
+    test_eq(lxb_utils_warc_header_serialize(warc, &str), LXB_STATUS_OK);
+    test_eq_str_n(str.data, str.length, fields, sizeof(fields) - 1);
+
+    len = snprintf(buf, sizeof(buf), "WARC/1.0\r\n%.*s\r\nx\r\n\r\n",
+                   (int) str.length, (const char *) str.data);
+    test_eq((size_t) len, 10 + str.length + 7);
+
+    lxb_utils_warc_destroy(warc, true);
+
+    TEST_CALL_ARGS(parse_splits, buf, need, NULL);
+}
+TEST_END
+
 TEST_BEGIN(field_name)
 {
     const char *error = "Wrong header field name.";
@@ -546,6 +627,8 @@ main(int argc, const char * argv[])
     TEST_ADD(unclosed_quote);
     TEST_ADD(quoted_value_limit);
     TEST_ADD(folded_value);
+    TEST_ADD(line_break_in_value);
+    TEST_ADD(serialize);
     TEST_ADD(field_name);
     TEST_ADD(field_name_limit);
     TEST_ADD(field_value_limit);
