@@ -347,6 +347,7 @@ lxb_html_document_title_set(lxb_html_document_t *document,
                             const lxb_char_t *title, size_t len)
 {
     lxb_status_t status;
+    lxb_dom_node_t *node;
 
     /* TODO: If the document element is an SVG svg element */
 
@@ -359,21 +360,24 @@ lxb_html_document_title_set(lxb_html_document_t *document,
 
     lxb_dom_node_simple_walk(lxb_dom_interface_node(document),
                              lxb_html_document_title_walker, &el_title);
-    if (el_title == NULL) {
-        el_title = (void *) lxb_html_document_create_element(document,
-                                         (const lxb_char_t *) "title", 5, NULL);
-        if (el_title == NULL) {
-            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
-        }
-
-        lxb_dom_node_insert_child(lxb_dom_interface_node(document->head),
-                                  lxb_dom_interface_node(el_title));
+    if (el_title != NULL) {
+        return lxb_dom_node_text_content_set(lxb_dom_interface_node(el_title),
+                                             title, len);
     }
 
-    status = lxb_dom_node_text_content_set(lxb_dom_interface_node(el_title),
-                                           title, len);
+    el_title = (void *) lxb_html_document_create_element(document,
+                                         (const lxb_char_t *) "title", 5, NULL);
+    if (el_title == NULL) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    node = lxb_dom_interface_node(el_title);
+
+    lxb_dom_node_insert_child(lxb_dom_interface_node(document->head), node);
+
+    status = lxb_dom_node_text_content_set(node, title, len);
     if (status != LXB_STATUS_OK) {
-        lxb_html_document_destroy_element(&el_title->element.element);
+        lxb_dom_node_destroy(node);
 
         return status;
     }

@@ -856,6 +856,74 @@ TEST_BEGIN(parser_fragment_after_parse)
 }
 TEST_END
 
+TEST_BEGIN_ARGS(document_title_set_input, const char *data, const char *tree)
+{
+    size_t index, live, length, len;
+    lxb_char_t *title;
+    lxb_status_t status;
+    const lxb_char_t *text;
+    lxb_html_document_t *document;
+
+    length = 64 * 1024;
+
+    title = lexbor_malloc(length);
+    test_ne(title, NULL);
+
+    memset(title, 't', length);
+
+    for (index = 0;; index++) {
+        live = test_live;
+
+        document = lxb_html_document_create();
+        test_ne(document, NULL);
+
+        status = lxb_html_document_parse(document, (const lxb_char_t *) data,
+                                         strlen(data));
+        test_eq(status, LXB_STATUS_OK);
+
+        test_arm(index, false);
+        status = lxb_html_document_title_set(document, title, length);
+        test_disarm();
+
+        if (status == LXB_STATUS_OK) {
+            text = lxb_html_document_title_raw(document, &len);
+            test_ne(text, NULL);
+            test_eq_size(len, length);
+            test_eq(memcmp(text, title, length), 0);
+        }
+        else {
+            test_eq(test_tree_is(lxb_dom_interface_node(document),
+                                 (const lxb_char_t *) tree, strlen(tree)),
+                    true);
+        }
+
+        lxb_html_document_destroy(document);
+
+        test_eq_size(test_live, live);
+
+        if (!test_reached) {
+            break;
+        }
+    }
+
+    test_eq(status, LXB_STATUS_OK);
+    test_ne_size(index, 0);
+
+    lexbor_free(title);
+}
+TEST_END
+
+TEST_BEGIN(document_title_set)
+{
+    TEST_CALL_ARGS(document_title_set_input, "<title>a</title><div></div>",
+                   "<html><head><title>a</title></head>"
+                   "<body><div></div></body></html>");
+
+    TEST_CALL_ARGS(document_title_set_input, "<div></div>",
+                   "<html><head></head><body><div></div></body></html>");
+}
+TEST_END
+
 
 int
 main(int argc, const char *argv[])
@@ -901,6 +969,7 @@ main(int argc, const char *argv[])
     TEST_ADD(parser_parse_fragment);
     TEST_ADD(parser_parse_fragment_chunk);
     TEST_ADD(parser_fragment_after_parse);
+    TEST_ADD(document_title_set);
 
     TEST_RUN("lexbor/html/allocation_failure");
 
