@@ -444,6 +444,10 @@ lxb_html_serialize_ext_tree_cb_h(const lxb_dom_node_t *node,
         return lxb_html_serialize_ext_walk(node, cb, ctx, indent, opt, level);
     }
     else {
+        if (lxb_html_node_is_void(node)) {
+            return LXB_STATUS_OK;
+        }
+
         if (lxb_html_tree_node_is(node, LXB_TAG_TEMPLATE)) {
             temp = lxb_html_interface_template(node);
 

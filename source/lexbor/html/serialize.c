@@ -244,6 +244,10 @@ lxb_html_serialize_deep_cb(lxb_dom_node_t *node,
     lxb_status_t status;
     lxb_html_template_element_t *temp;
 
+    if (lxb_html_node_is_void(node)) {
+        return LXB_STATUS_OK;
+    }
+
     if (lxb_html_tree_node_is(node, LXB_TAG_TEMPLATE)) {
         temp = lxb_html_interface_template(node);
 

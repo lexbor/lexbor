@@ -519,6 +519,60 @@ TEST_BEGIN(template_children)
 }
 TEST_END
 
+TEST_BEGIN(void_children)
+{
+    lxb_status_t status;
+    lxb_dom_text_t *text;
+    lxb_dom_node_t *body, *node;
+    lxb_dom_document_t *dom_document;
+    lxb_html_document_t *document;
+    lxb_html_serialize_ext_opt_t opt;
+    lexbor_str_t str = {0};
+
+    static const char html[] = "<div><img></div>";
+
+    document = document_parse(html, sizeof(html) - 1, false);
+    test_ne(document, NULL);
+
+    dom_document = lxb_dom_interface_document(document);
+    body = document_body(document);
+
+    node = body->first_child->first_child;
+    test_eq(node->local_name, LXB_TAG_IMG);
+
+    text = lxb_dom_document_create_text_node(dom_document,
+                                             (const lxb_char_t *) "x", 1);
+    test_ne(text, NULL);
+
+    lxb_dom_node_insert_child(node, lxb_dom_interface_node(text));
+
+    status = lxb_html_serialize_deep_str(body, &str);
+    test_eq(status, LXB_STATUS_OK);
+    test_eq_str(str.data, html);
+
+    str.length = 0;
+
+    status = lxb_html_serialize_deep_str(node, &str);
+    test_eq(status, LXB_STATUS_OK);
+    test_eq(str.length, 0);
+
+    str.length = 0;
+    opt = LXB_HTML_SERIALIZE_EXT_OPT_UNDEF;
+
+    status = lxb_html_serialize_ext_tree_str(body, &str, opt, NULL, false);
+    test_eq(status, LXB_STATUS_OK);
+    test_eq_str(str.data, html);
+
+    str.length = 0;
+
+    status = lxb_html_serialize_ext_tree_str(node, &str, opt, NULL, false);
+    test_eq(status, LXB_STATUS_OK);
+    test_eq(str.length, 0);
+
+    lxb_html_document_destroy(document);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -536,6 +590,7 @@ main(int argc, const char * argv[])
     TEST_ADD(html_noscript_text_without_scripting);
     TEST_ADD(template_contents);
     TEST_ADD(template_children);
+    TEST_ADD(void_children);
 
     TEST_RUN("lexbor/html/serialize");
     TEST_RELEASE();
