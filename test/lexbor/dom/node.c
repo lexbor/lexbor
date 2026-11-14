@@ -788,6 +788,67 @@ TEST_BEGIN(replace_all_with_child_of_other)
 }
 TEST_END
 
+TEST_BEGIN(text_content_set_empty)
+{
+    lxb_status_t status;
+    lxb_dom_node_t *body, *div, *frag_node;
+    lxb_dom_document_t *dom_doc;
+    lxb_dom_exception_code_t code;
+    lxb_dom_character_data_t *ch_data;
+    lxb_html_document_t *document;
+    lxb_dom_document_fragment_t *fragment;
+
+    static const lexbor_str_t data = lexbor_str("<div><b>a</b>b</div><p>c</p>");
+
+    document = lxb_html_document_create();
+    test_ne(document, NULL);
+
+    status = lxb_html_document_parse(document, data.data, data.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    body = lxb_dom_interface_node(lxb_html_document_body_element(document));
+    div = body->first_child;
+
+    status = lxb_dom_node_text_content_set(div, (const lxb_char_t *) "", 0);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_eq(div->first_child, NULL);
+    test_eq(div->last_child, NULL);
+
+    status = lxb_dom_node_text_content_set(div, (const lxb_char_t *) "d", 1);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_ne(div->first_child, NULL);
+    test_eq(div->first_child, div->last_child);
+    test_eq(div->first_child->type, LXB_DOM_NODE_TYPE_TEXT);
+
+    ch_data = lxb_dom_interface_character_data(div->first_child);
+    test_eq_str_n(ch_data->data.data, ch_data->data.length, "d", 1);
+
+    dom_doc = lxb_dom_interface_document(document);
+
+    fragment = lxb_dom_document_fragment_interface_create(dom_doc);
+    test_ne(fragment, NULL);
+
+    frag_node = lxb_dom_interface_node(fragment);
+
+    code = lxb_dom_node_append_child(frag_node, div->next);
+    test_eq(code, LXB_DOM_EXCEPTION_OK);
+
+    test_eq(body->last_child, div);
+    test_ne(frag_node->first_child, NULL);
+
+    status = lxb_dom_node_text_content_set(frag_node,
+                                           (const lxb_char_t *) "", 0);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_eq(frag_node->first_child, NULL);
+    test_eq(frag_node->last_child, NULL);
+
+    lxb_html_document_destroy(document);
+}
+TEST_END
+
 TEST_BEGIN(insertion_steps)
 {
     lxb_status_t status;
@@ -949,6 +1010,7 @@ main(int argc, const char * argv[])
     TEST_ADD(replace_all_with_child);
     TEST_ADD(replace_all_with_descendant);
     TEST_ADD(replace_all_with_child_of_other);
+    TEST_ADD(text_content_set_empty);
     TEST_ADD(insertion_steps);
     TEST_ADD(get_by_id);
 

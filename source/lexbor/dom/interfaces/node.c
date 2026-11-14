@@ -906,7 +906,7 @@ lxb_dom_node_remove(lxb_dom_node_t *node)
 lxb_status_t
 lxb_dom_node_replace_all(lxb_dom_node_t *parent, lxb_dom_node_t *node)
 {
-    if (node->parent != NULL) {
+    if (node != NULL && node->parent != NULL) {
         lxb_dom_node_remove(node);
     }
 
@@ -914,7 +914,9 @@ lxb_dom_node_replace_all(lxb_dom_node_t *parent, lxb_dom_node_t *node)
         lxb_dom_node_destroy_deep(parent->first_child);
     }
 
-    lxb_dom_node_insert_child(parent, node);
+    if (node != NULL) {
+        lxb_dom_node_insert_child(parent, node);
+    }
 
     return LXB_STATUS_OK;
 }
@@ -1673,6 +1675,10 @@ lxb_dom_node_text_content_set(lxb_dom_node_t *node,
         case LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT:
         case LXB_DOM_NODE_TYPE_ELEMENT: {
             lxb_dom_text_t *text;
+
+            if (len == 0) {
+                return lxb_dom_node_replace_all(node, NULL);
+            }
 
             text = lxb_dom_document_create_text_node(node->owner_document,
                                                      content, len);

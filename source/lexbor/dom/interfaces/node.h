@@ -256,13 +256,14 @@ lxb_dom_node_replace_all_spec(lxb_dom_node_t *parent, lxb_dom_node_t *node);
  *
  * The node is removed from its parent, then the children of the parent are
  * destroyed with all their descendants and the node is inserted. The node
- * can be one of these children or their descendant.
+ * can be one of these children or their descendant. With a NULL node,
+ * the children are only destroyed.
  *
  * The function does not perform any validation: the node must not be
  * the parent or its ancestor.
  *
  * @param[in] lxb_dom_node_t *. Where replace. Not NULL.
- * @param[in] lxb_dom_node_t *. Who replace. Not NULL.
+ * @param[in] lxb_dom_node_t *. Who replace. Can be NULL.
  *
  * @return LXB_STATUS_OK.
  */
