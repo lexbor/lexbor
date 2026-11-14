@@ -674,6 +674,60 @@ TEST_BEGIN(encode_sequence)
 }
 TEST_END
 
+TEST_BEGIN(encode_sequence_small_buffer)
+{
+    size_t length, used;
+    lxb_status_t status;
+    lxb_encoding_encode_t encode;
+    const lxb_codepoint_t *cps, *end;
+    const lxb_encoding_data_t *encoding;
+    lxb_char_t buffer[32], out[64];
+
+    static const lxb_codepoint_t source[] = {
+        0x3042, 0x0041, 0x00A5, 0x005C, 0x4E00, 0x007E, 0x203E, 0x3042
+    };
+
+    static const lxb_char_t result[] = {
+        0x1B, 0x24, 0x42, 0x24, 0x22, 0x1B, 0x28, 0x42, 0x41,
+        0x1B, 0x28, 0x4A, 0x5C, 0x1B, 0x28, 0x42, 0x5C,
+        0x1B, 0x24, 0x42, 0x30, 0x6C, 0x1B, 0x28, 0x42, 0x7E,
+        0x1B, 0x28, 0x4A, 0x7E, 0x1B, 0x24, 0x42, 0x24, 0x22,
+        0x1B, 0x28, 0x42
+    };
+
+    encoding = lxb_encoding_data(LXB_ENCODING_ISO_2022_JP);
+
+    for (length = 5; length <= sizeof(buffer); length++) {
+        status = lxb_encoding_encode_init(&encode, encoding, buffer, length);
+        test_eq(status, LXB_STATUS_OK);
+
+        cps = source;
+        end = source + (sizeof(source) / sizeof(lxb_codepoint_t));
+        used = 0;
+
+        do {
+            status = encoding->encode(&encode, &cps, end);
+
+            memcpy(&out[used], buffer, lxb_encoding_encode_buf_used(&encode));
+            used += lxb_encoding_encode_buf_used(&encode);
+
+            lxb_encoding_encode_buf_used_set(&encode, 0);
+        }
+        while (status == LXB_STATUS_SMALL_BUFFER);
+
+        test_eq(status, LXB_STATUS_OK);
+
+        status = lxb_encoding_encode_finish(&encode);
+        test_eq(status, LXB_STATUS_OK);
+
+        memcpy(&out[used], buffer, lxb_encoding_encode_buf_used(&encode));
+        used += lxb_encoding_encode_buf_used(&encode);
+
+        test_eq_str_n(out, used, result, sizeof(result));
+    }
+}
+TEST_END
+
 TEST_BEGIN(size_fix)
 {
     lxb_status_t status;
@@ -741,6 +795,7 @@ main(int argc, const char * argv[])
     TEST_ADD(encode_map);
     TEST_ADD(encode_buffer_check);
     TEST_ADD(encode_sequence);
+    TEST_ADD(encode_sequence_small_buffer);
     TEST_ADD(size_fix);
 
     TEST_RUN("lexbor/encoding/iso_2022_jp");
