@@ -626,6 +626,18 @@ lxb_encoding_encode_iso_2022_jp(lxb_encoding_encode_t *ctx, const lxb_codepoint_
     failed:
 
         ctx->buffer_used -= size;
+
+        if (ctx->state == LXB_ENCODING_ENCODE_2022_JP_JIS0208) {
+            if ((ctx->buffer_used + 3) > ctx->buffer_length) {
+                goto small_buffer;
+            }
+
+            memcpy(&ctx->buffer_out[ctx->buffer_used], "\x1B\x28\x42", 3);
+            ctx->buffer_used += 3;
+
+            ctx->state = LXB_ENCODING_ENCODE_2022_JP_ASCII;
+        }
+
         LXB_ENCODING_ENCODE_ERROR(ctx);
     }
 
