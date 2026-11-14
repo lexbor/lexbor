@@ -287,6 +287,23 @@ lxb_encoding_encode_finish_single(lxb_encoding_encode_t *encode,
     return 0;
 }
 
+lxb_inline int8_t
+lxb_encoding_encode_error_single(lxb_encoding_encode_t *encode,
+                                 lxb_char_t **data, const lxb_char_t *end,
+                                 lxb_codepoint_t cp, lxb_codepoint_t *error)
+{
+    if (encode->encoding_data->encoding == LXB_ENCODING_ISO_2022_JP) {
+        return lxb_encoding_encode_iso_2022_jp_error_single(encode, data, end,
+                                                            cp, error);
+    }
+
+    if (error != NULL) {
+        *error = cp;
+    }
+
+    return 0;
+}
+
 /*
  * Single decode.
  */
@@ -415,6 +432,11 @@ lxb_encoding_encode_init_single_noi(lxb_encoding_encode_t *encode,
 LXB_API int8_t
 lxb_encoding_encode_finish_single_noi(lxb_encoding_encode_t *encode,
                                       lxb_char_t **data, const lxb_char_t *end);
+
+LXB_API int8_t
+lxb_encoding_encode_error_single_noi(lxb_encoding_encode_t *encode,
+                                     lxb_char_t **data, const lxb_char_t *end,
+                                     lxb_codepoint_t cp, lxb_codepoint_t *error);
 
 LXB_API lxb_status_t
 lxb_encoding_decode_init_single_noi(lxb_encoding_decode_t *decode,

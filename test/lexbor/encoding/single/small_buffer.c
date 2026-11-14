@@ -172,6 +172,40 @@ TEST_BEGIN(encode_single_small_buffer)
 }
 TEST_END
 
+TEST_BEGIN(encode_error_single_other)
+{
+    int8_t len;
+    lxb_char_t *data;
+    lxb_status_t status;
+    lxb_encoding_t id;
+    lxb_codepoint_t error;
+    lxb_encoding_encode_t ctx;
+    const lxb_encoding_data_t *enc_data;
+    lxb_char_t buffer[8];
+
+    for (id = LXB_ENCODING_DEFAULT; id < LXB_ENCODING_LAST_ENTRY; id++) {
+        if (id == LXB_ENCODING_ISO_2022_JP) {
+            continue;
+        }
+
+        enc_data = lxb_encoding_data(id);
+
+        status = lxb_encoding_encode_init_single(&ctx, enc_data);
+        test_eq(status, LXB_STATUS_OK);
+
+        data = buffer;
+        error = 0;
+
+        len = lxb_encoding_encode_error_single(&ctx, &data, buffer, 0x001B,
+                                               &error);
+        test_eq(len, 0);
+        test_eq(data, buffer);
+        test_eq(error, 0x001B);
+        test_eq(ctx.state, 0);
+    }
+}
+TEST_END
+
 TEST_BEGIN(encode_single_ascii_fill)
 {
     size_t i;
@@ -222,6 +256,7 @@ main(int argc, const char * argv[])
     TEST_INIT();
 
     TEST_ADD(encode_single_small_buffer);
+    TEST_ADD(encode_error_single_other);
     TEST_ADD(encode_single_ascii_fill);
 
     TEST_RUN("lexbor/encoding/small_buffer");

@@ -234,6 +234,13 @@ lxb_encoding_encode_iso_2022_jp_eof_single(lxb_encoding_encode_t *ctx,
                                            lxb_char_t **data, const lxb_char_t *end);
 
 LXB_API int8_t
+lxb_encoding_encode_iso_2022_jp_error_single(lxb_encoding_encode_t *ctx,
+                                             lxb_char_t **data,
+                                             const lxb_char_t *end,
+                                             lxb_codepoint_t cp,
+                                             lxb_codepoint_t *error);
+
+LXB_API int8_t
 lxb_encoding_encode_iso_8859_10_single(lxb_encoding_encode_t *ctx, lxb_char_t **data,
                                        const lxb_char_t *end, lxb_codepoint_t cp);
 

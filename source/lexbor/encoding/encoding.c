@@ -343,6 +343,14 @@ lxb_encoding_encode_finish_single_noi(lxb_encoding_encode_t *encode,
     return lxb_encoding_encode_finish_single(encode, data, end);
 }
 
+int8_t
+lxb_encoding_encode_error_single_noi(lxb_encoding_encode_t *encode,
+                                     lxb_char_t **data, const lxb_char_t *end,
+                                     lxb_codepoint_t cp, lxb_codepoint_t *error)
+{
+    return lxb_encoding_encode_error_single(encode, data, end, cp, error);
+}
+
 lxb_status_t
 lxb_encoding_decode_init_single_noi(lxb_encoding_decode_t *decode,
                                     const lxb_encoding_data_t *encoding_data)

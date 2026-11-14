@@ -318,6 +318,128 @@ TEST_BEGIN(encode_sequence)
 }
 TEST_END
 
+TEST_BEGIN(encode_error)
+{
+    int8_t len;
+    lxb_char_t *data, *end;
+    lxb_status_t status;
+    lxb_codepoint_t error;
+    lxb_encoding_encode_t encode;
+    const lxb_encoding_data_t *encoding;
+    lxb_char_t buffer[32];
+
+    static const lxb_char_t result[] = {
+        0x1B, 0x24, 0x42, 0x24, 0x22, 0x1B, 0x28, 0x42, 0x3F, 0x41,
+        0x1B, 0x28, 0x4A, 0x5C, 0x3F, 0x1B, 0x28, 0x42
+    };
+
+    encoding = lxb_encoding_data(LXB_ENCODING_ISO_2022_JP);
+
+    status = lxb_encoding_encode_init_single(&encode, encoding);
+    test_eq(status, LXB_STATUS_OK);
+
+    data = buffer;
+    end = buffer + sizeof(buffer);
+
+    len = encoding->encode_single(&encode, &data, end, 0x3042);
+    test_eq(len, 5);
+
+    len = encoding->encode_single(&encode, &data, end, 0x20AC);
+    test_eq(len, LXB_ENCODING_ENCODE_ERROR);
+
+    error = 0;
+
+    len = lxb_encoding_encode_error_single(&encode, &data, data + 2, 0x20AC,
+                                           &error);
+    test_eq(len, LXB_ENCODING_ENCODE_SMALL_BUFFER);
+    test_eq(data, buffer + 5);
+    test_eq(error, 0);
+    test_eq(encode.state, LXB_ENCODING_ENCODE_2022_JP_JIS0208);
+
+    len = lxb_encoding_encode_error_single(&encode, &data, end, 0x20AC,
+                                           &error);
+    test_eq(len, 3);
+    test_eq(error, 0x20AC);
+    test_eq(encode.state, LXB_ENCODING_ENCODE_2022_JP_ASCII);
+
+    *data++ = '?';
+
+    len = encoding->encode_single(&encode, &data, end, 0x0041);
+    test_eq(len, 1);
+
+    len = encoding->encode_single(&encode, &data, end, 0x00A5);
+    test_eq(len, 4);
+
+    len = encoding->encode_single(&encode, &data, end, 0x20AC);
+    test_eq(len, LXB_ENCODING_ENCODE_ERROR);
+
+    len = lxb_encoding_encode_error_single(&encode, &data, end, 0x20AC,
+                                           &error);
+    test_eq(len, 0);
+    test_eq(error, 0x20AC);
+    test_eq(encode.state, LXB_ENCODING_ENCODE_2022_JP_ROMAN);
+
+    *data++ = '?';
+
+    len = lxb_encoding_encode_finish_single(&encode, &data, end);
+    test_eq(len, 3);
+
+    test_eq_str_n(buffer, lxb_size(data - buffer), result, sizeof(result));
+}
+TEST_END
+
+TEST_BEGIN(encode_error_control)
+{
+    size_t i;
+    int8_t len;
+    lxb_char_t *data, *end;
+    lxb_status_t status;
+    lxb_codepoint_t error;
+    lxb_encoding_encode_t encode;
+    const lxb_encoding_data_t *encoding;
+    lxb_char_t buffer[16];
+
+    static const lxb_codepoint_t controls[] = {0x000E, 0x000F, 0x001B};
+
+    encoding = lxb_encoding_data(LXB_ENCODING_ISO_2022_JP);
+    end = buffer + sizeof(buffer);
+
+    for (i = 0; i < sizeof(controls) / sizeof(lxb_codepoint_t); i++) {
+        status = lxb_encoding_encode_init_single(&encode, encoding);
+        test_eq(status, LXB_STATUS_OK);
+
+        data = buffer;
+
+        len = encoding->encode_single(&encode, &data, end, controls[i]);
+        test_eq(len, LXB_ENCODING_ENCODE_ERROR);
+
+        len = lxb_encoding_encode_error_single(&encode, &data, end,
+                                               controls[i], &error);
+        test_eq(len, 0);
+        test_eq(data, buffer);
+        test_eq(error, LXB_ENCODING_REPLACEMENT_CODEPOINT);
+
+        len = encoding->encode_single(&encode, &data, end, 0x3042);
+        test_eq(len, 5);
+
+        len = encoding->encode_single(&encode, &data, end, controls[i]);
+        test_eq(len, LXB_ENCODING_ENCODE_ERROR);
+
+        len = lxb_encoding_encode_error_single(&encode, &data, end,
+                                               controls[i], &error);
+        test_eq(len, 3);
+        test_eq(error, LXB_ENCODING_REPLACEMENT_CODEPOINT);
+
+        len = lxb_encoding_encode_error_single(&encode, &data, end,
+                                               controls[i], NULL);
+        test_eq(len, 0);
+
+        test_eq_str_n(buffer, lxb_size(data - buffer),
+                      "\x1B\x24\x42\x24\x22\x1B\x28\x42", 8);
+    }
+}
+TEST_END
+
 TEST_BEGIN(encode_jis0208_control)
 {
     size_t i;
@@ -369,6 +491,8 @@ main(int argc, const char * argv[])
     TEST_ADD(encode_map);
     TEST_ADD(encode_buffer_check);
     TEST_ADD(encode_sequence);
+    TEST_ADD(encode_error);
+    TEST_ADD(encode_error_control);
     TEST_ADD(encode_jis0208_control);
 
     TEST_RUN("lexbor/encoding/iso_2022_jp");

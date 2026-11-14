@@ -1713,6 +1713,41 @@ lxb_encoding_encode_iso_2022_jp_eof_single(lxb_encoding_encode_t *ctx,
 }
 
 int8_t
+lxb_encoding_encode_iso_2022_jp_error_single(lxb_encoding_encode_t *ctx,
+                                             lxb_char_t **data,
+                                             const lxb_char_t *end,
+                                             lxb_codepoint_t cp,
+                                             lxb_codepoint_t *error)
+{
+    int8_t size;
+
+    size = 0;
+
+    if (ctx->state == LXB_ENCODING_ENCODE_2022_JP_JIS0208) {
+        if ((*data + 3) > end) {
+            return LXB_ENCODING_ENCODE_SMALL_BUFFER;
+        }
+
+        memcpy(*data, "\x1B\x28\x42", 3);
+        *data = *data + 3;
+
+        ctx->state = LXB_ENCODING_ENCODE_2022_JP_ASCII;
+        size = 3;
+    }
+
+    if (error != NULL) {
+        if (cp == 0x000E || cp == 0x000F || cp == 0x001B) {
+            *error = LXB_ENCODING_REPLACEMENT_CODEPOINT;
+        }
+        else {
+            *error = cp;
+        }
+    }
+
+    return size;
+}
+
+int8_t
 lxb_encoding_encode_iso_8859_10_single(lxb_encoding_encode_t *ctx, lxb_char_t **data,
                                        const lxb_char_t *end, lxb_codepoint_t cp)
 {
