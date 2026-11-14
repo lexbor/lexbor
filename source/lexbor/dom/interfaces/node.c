@@ -683,10 +683,10 @@ lxb_dom_node_insert_node(lxb_dom_node_t *parent, lxb_dom_node_t *node,
     }
 
     if (child == NULL) {
-        lxb_dom_node_insert_child(parent, node);
+        lxb_dom_node_insert_child_wo_events(parent, node);
     }
     else {
-        lxb_dom_node_insert_before(child, node);
+        lxb_dom_node_insert_before_wo_events(child, node);
     }
 
     if (!(lxb_dom_document_opt(doc) & LXB_DOM_DOCUMENT_OPT_WO_EVENTS)

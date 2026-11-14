@@ -20,6 +20,26 @@ test_id_data_t;
 static const lexbor_str_t html = lexbor_str("<div id='div-1'></div>"
                                             "<div id='div-2'></div>");
 
+static lxb_dom_node_t *test_inserted[8];
+static size_t         test_inserted_length;
+
+
+static lxb_status_t
+test_inserted_cb(lxb_dom_node_t *node)
+{
+    if (test_inserted_length < sizeof(test_inserted) / sizeof(*test_inserted)) {
+        test_inserted[test_inserted_length] = node;
+    }
+
+    test_inserted_length++;
+
+    return LXB_STATUS_OK;
+}
+
+static const lxb_dom_document_mutation_cb_t test_mutation = {
+    .inserted = test_inserted_cb
+};
+
 
 TEST_BEGIN(insert_before)
 {
@@ -768,6 +788,92 @@ TEST_BEGIN(replace_all_with_child_of_other)
 }
 TEST_END
 
+TEST_BEGIN(insertion_steps)
+{
+    lxb_status_t status;
+    lxb_dom_node_t *body, *p, *b, *a, *i, *frag_node;
+    lxb_dom_document_t *dom_doc;
+    lxb_dom_exception_code_t code;
+    lxb_html_document_t *document;
+    lxb_dom_document_fragment_t *fragment;
+    const lxb_dom_document_mutation_cb_t *mutation;
+
+    document = lxb_html_document_create();
+    test_ne(document, NULL);
+
+    status = lxb_html_document_parse(document, html.data, html.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    dom_doc = lxb_dom_interface_document(document);
+    body = lxb_dom_interface_node(lxb_html_document_body_element(document));
+
+    p = lxb_dom_interface_node(lxb_html_document_create_element(document,
+                                         (const lxb_char_t *) "p", 1, NULL));
+    test_ne(p, NULL);
+
+    b = lxb_dom_interface_node(lxb_html_document_create_element(document,
+                                         (const lxb_char_t *) "b", 1, NULL));
+    test_ne(b, NULL);
+
+    a = lxb_dom_interface_node(lxb_html_document_create_element(document,
+                                         (const lxb_char_t *) "a", 1, NULL));
+    test_ne(a, NULL);
+
+    i = lxb_dom_interface_node(lxb_html_document_create_element(document,
+                                         (const lxb_char_t *) "i", 1, NULL));
+    test_ne(i, NULL);
+
+    fragment = lxb_dom_document_fragment_interface_create(dom_doc);
+    test_ne(fragment, NULL);
+
+    frag_node = lxb_dom_interface_node(fragment);
+
+    lxb_dom_node_insert_child_wo_events(p, b);
+
+    mutation = dom_doc->mutation;
+    dom_doc->mutation = &test_mutation;
+
+    test_inserted_length = 0;
+
+    code = lxb_dom_node_append_child(body, p);
+    test_eq(code, LXB_DOM_EXCEPTION_OK);
+
+    test_eq_size(test_inserted_length, 2);
+    test_eq(test_inserted[0], p);
+    test_eq(test_inserted[1], b);
+
+    test_inserted_length = 0;
+
+    code = lxb_dom_node_insert_before_spec(body, a, p);
+    test_eq(code, LXB_DOM_EXCEPTION_OK);
+
+    test_eq_size(test_inserted_length, 1);
+    test_eq(test_inserted[0], a);
+
+    test_inserted_length = 0;
+
+    code = lxb_dom_node_replace_child(body, i, a);
+    test_eq(code, LXB_DOM_EXCEPTION_OK);
+
+    test_eq_size(test_inserted_length, 1);
+    test_eq(test_inserted[0], i);
+
+    lxb_dom_node_insert_child_wo_events(frag_node, a);
+
+    test_inserted_length = 0;
+
+    code = lxb_dom_node_append_child(body, frag_node);
+    test_eq(code, LXB_DOM_EXCEPTION_OK);
+
+    test_eq_size(test_inserted_length, 1);
+    test_eq(test_inserted[0], a);
+
+    dom_doc->mutation = mutation;
+
+    lxb_html_document_destroy(document);
+}
+TEST_END
+
 TEST_BEGIN(get_by_id)
 {
     size_t len;
@@ -843,6 +949,7 @@ main(int argc, const char * argv[])
     TEST_ADD(replace_all_with_child);
     TEST_ADD(replace_all_with_descendant);
     TEST_ADD(replace_all_with_child_of_other);
+    TEST_ADD(insertion_steps);
     TEST_ADD(get_by_id);
 
     TEST_RUN("lexbor/dom/node");
