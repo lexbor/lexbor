@@ -461,6 +461,22 @@ TEST_BEGIN(file_error)
 }
 TEST_END
 
+TEST_BEGIN(folded_value)
+{
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\n"
+                   "X-A: a\r\n b\r\n"
+                   "X-B: a\r\n\t \tb\r\n c\r\n"
+                   "X-C:\r\n a\r\n"
+                   "X-D: a \r\n b\r\n"
+                   "Content-Length: 1\r\n \r\n"
+                   "\r\n"
+                   "x\r\n\r\n",
+                   "[X-A=a b|X-B=a b c|X-C=a|X-D=a  b|Content-Length=1 |1]x$",
+                   NULL);
+}
+TEST_END
+
 TEST_BEGIN(field_name)
 {
     const char *error = "Wrong header field name.";
@@ -529,6 +545,7 @@ main(int argc, const char * argv[])
     TEST_ADD(quoted_pair);
     TEST_ADD(unclosed_quote);
     TEST_ADD(quoted_value_limit);
+    TEST_ADD(folded_value);
     TEST_ADD(field_name);
     TEST_ADD(field_name_limit);
     TEST_ADD(field_value_limit);

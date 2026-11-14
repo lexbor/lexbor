@@ -477,10 +477,19 @@ lxb_inline lxb_status_t
 lxb_utils_warc_parse_field_value_after(lxb_utils_warc_t *warc,
                                  const lxb_char_t **data, const lxb_char_t *end)
 {
+    lxb_utils_warc_field_t *field;
     const lxb_char_t ch = **data;
 
     if (ch == ' ' || ch == '\t') {
         (*data)++;
+
+        field = lxb_utils_warc_field_last(warc);
+
+        if (field->value.length != 0
+            && lexbor_str_append_one(&field->value, warc->mraw, ' ') == NULL)
+        {
+            return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+        }
 
         warc->state = LXB_UTILS_WARC_STATE_HEAD_FIELD_VALUE_WS;
 
