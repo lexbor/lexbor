@@ -336,6 +336,10 @@ lxb_utils_warc_parse_field_name(lxb_utils_warc_t *warc, const lxb_char_t **data,
 
             *data = p + 1;
 
+            if (warc->tmp.length > LXB_UTILS_WARC_MAX_HEADER_NAME) {
+                goto too_large;
+            }
+
             field = lxb_utils_warc_field_append(warc, warc->tmp.data,
                                           warc->tmp.length);
             if (field == NULL) {
@@ -374,14 +378,18 @@ lxb_utils_warc_parse_field_name(lxb_utils_warc_t *warc, const lxb_char_t **data,
     }
 
     if (warc->tmp.length > LXB_UTILS_WARC_MAX_HEADER_NAME) {
-        warc->error = "Too large header field name.";
-
-        return LXB_STATUS_ABORTED;
+        goto too_large;
     }
 
     *data = end;
 
     return LXB_STATUS_OK;
+
+too_large:
+
+    warc->error = "Too large header field name.";
+
+    return LXB_STATUS_ABORTED;
 }
 
 lxb_inline lxb_status_t
@@ -410,6 +418,12 @@ lxb_utils_warc_parse_field_value(lxb_utils_warc_t *warc,
                     lexbor_str_length_set(&field->value, warc->mraw,
                                           (field->value.length - 2));
 
+                    if (field->value.length
+                        > LXB_UTILS_WARC_MAX_HEADER_VALUE)
+                    {
+                        goto too_large;
+                    }
+
                     warc->state = LXB_UTILS_WARC_STATE_HEAD_FIELD_VALUE_AFTER;
 
                     return LXB_STATUS_OK;
@@ -435,15 +449,20 @@ lxb_utils_warc_parse_field_value(lxb_utils_warc_t *warc,
         return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
     }
 
-    if (field->value.length > LXB_UTILS_WARC_MAX_HEADER_VALUE) {
-        warc->error = "Too large header field name.";
-
-        return LXB_STATUS_ABORTED;
+    /* The last character can be the CR of the end of the line. */
+    if (field->value.length > LXB_UTILS_WARC_MAX_HEADER_VALUE + 1) {
+        goto too_large;
     }
 
     *data = end;
 
     return LXB_STATUS_OK;
+
+too_large:
+
+    warc->error = "Too large header field value.";
+
+    return LXB_STATUS_ABORTED;
 }
 
 lxb_inline lxb_status_t

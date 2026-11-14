@@ -115,6 +115,64 @@ TEST_BEGIN_ARGS(parse_splits, const char *data, const char *need)
 }
 TEST_END
 
+TEST_BEGIN_ARGS(parse_field, size_t name_len, size_t value_len, size_t split,
+                lxb_status_t need, const char *error)
+{
+    size_t len;
+    lxb_char_t *data, *p;
+    lxb_status_t status;
+    lxb_utils_warc_t *warc;
+    const lxb_char_t *begin, *end;
+
+    static const char head[] = "WARC/1.0\r\n";
+    static const char tail[] = "\r\nContent-Length: 0\r\n\r\n\r\n\r\n";
+
+    len = (sizeof(head) - 1) + name_len + 2 + value_len + (sizeof(tail) - 1);
+
+    data = lexbor_malloc(len);
+    test_ne(data, NULL);
+
+    p = data;
+
+    memcpy(p, head, sizeof(head) - 1);
+    p += sizeof(head) - 1;
+
+    memset(p, 'n', name_len);
+    p += name_len;
+
+    memcpy(p, ": ", 2);
+    p += 2;
+
+    memset(p, 'v', value_len);
+    p += value_len;
+
+    memcpy(p, tail, sizeof(tail) - 1);
+
+    warc = lxb_utils_warc_create();
+    status = lxb_utils_warc_init(warc, NULL, NULL, NULL, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    begin = data;
+    end = data + split;
+
+    status = lxb_utils_warc_parse(warc, &begin, end);
+    if (status == LXB_STATUS_OK) {
+        end = data + len;
+        status = lxb_utils_warc_parse(warc, &begin, end);
+    }
+
+    test_eq(status, need);
+
+    if (error != NULL) {
+        test_ne(warc->error, NULL);
+        test_eq_str(warc->error, error);
+    }
+
+    lxb_utils_warc_destroy(warc, true);
+    lexbor_free(data);
+}
+TEST_END
+
 TEST_BEGIN(quoted_value)
 {
     TEST_CALL_ARGS(parse_splits,
@@ -203,6 +261,40 @@ TEST_BEGIN(quoted_value_limit)
 }
 TEST_END
 
+TEST_BEGIN(field_name_limit)
+{
+    size_t max = 4096 * 4;
+    const char *error = "Too large header field name.";
+
+    TEST_CALL_ARGS(parse_field, max, 1, 0, LXB_STATUS_OK, NULL);
+    TEST_CALL_ARGS(parse_field, max, 1, 4096, LXB_STATUS_OK, NULL);
+    TEST_CALL_ARGS(parse_field, max, 1, 10 + max, LXB_STATUS_OK, NULL);
+
+    TEST_CALL_ARGS(parse_field, max + 1, 1, 0, LXB_STATUS_ABORTED, error);
+    TEST_CALL_ARGS(parse_field, max + 1, 1, 4096, LXB_STATUS_ABORTED, error);
+    TEST_CALL_ARGS(parse_field, max + 1, 1, 10 + max + 1,
+                   LXB_STATUS_ABORTED, error);
+}
+TEST_END
+
+TEST_BEGIN(field_value_limit)
+{
+    size_t max = 4096 * 32;
+    size_t cr = 10 + 1 + 2 + max + 1;
+    const char *error = "Too large header field value.";
+
+    TEST_CALL_ARGS(parse_field, 1, max, 0, LXB_STATUS_OK, NULL);
+    TEST_CALL_ARGS(parse_field, 1, max, 4096, LXB_STATUS_OK, NULL);
+    TEST_CALL_ARGS(parse_field, 1, max, cr - 1, LXB_STATUS_OK, NULL);
+    TEST_CALL_ARGS(parse_field, 1, max, cr, LXB_STATUS_OK, NULL);
+
+    TEST_CALL_ARGS(parse_field, 1, max + 1, 0, LXB_STATUS_ABORTED, error);
+    TEST_CALL_ARGS(parse_field, 1, max + 1, 4096, LXB_STATUS_ABORTED, error);
+    TEST_CALL_ARGS(parse_field, 1, max + 1, cr, LXB_STATUS_ABORTED, error);
+    TEST_CALL_ARGS(parse_field, 1, max + 1, cr + 1, LXB_STATUS_ABORTED, error);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -215,6 +307,8 @@ main(int argc, const char * argv[])
     TEST_ADD(quoted_pair);
     TEST_ADD(unclosed_quote);
     TEST_ADD(quoted_value_limit);
+    TEST_ADD(field_name_limit);
+    TEST_ADD(field_value_limit);
 
     TEST_RUN("lexbor/utils/warc");
     TEST_RELEASE();
