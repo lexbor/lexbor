@@ -842,6 +842,48 @@ TEST_BEGIN(encode_jis0208_error)
 }
 TEST_END
 
+TEST_BEGIN(encode_jis0208_control)
+{
+    lxb_status_t status;
+    lxb_encoding_encode_t encode;
+    const lxb_codepoint_t *cps, *end;
+    const lxb_encoding_data_t *encoding;
+    lxb_char_t buffer[64];
+
+    static const lxb_codepoint_t source[] = {
+        0x3042, 0x001B, 0x0024, 0x0042, 0x3042, 0x000E, 0x3042, 0x000F
+    };
+
+    static const lxb_char_t result[] = {
+        0x1B, 0x24, 0x42, 0x24, 0x22, 0x1B, 0x28, 0x42, 0x3F, 0x24, 0x42,
+        0x1B, 0x24, 0x42, 0x24, 0x22, 0x1B, 0x28, 0x42, 0x3F,
+        0x1B, 0x24, 0x42, 0x24, 0x22, 0x1B, 0x28, 0x42, 0x3F
+    };
+
+    encoding = lxb_encoding_data(LXB_ENCODING_ISO_2022_JP);
+
+    status = lxb_encoding_encode_init(&encode, encoding, buffer,
+                                      sizeof(buffer));
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_encoding_encode_replace_set(&encode,
+                                             (const lxb_char_t *) "?", 1);
+    test_eq(status, LXB_STATUS_OK);
+
+    cps = source;
+    end = source + (sizeof(source) / sizeof(lxb_codepoint_t));
+
+    status = encoding->encode(&encode, &cps, end);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_encoding_encode_finish(&encode);
+    test_eq(status, LXB_STATUS_OK);
+
+    test_eq_str_n(buffer, lxb_encoding_encode_buf_used(&encode),
+                  result, sizeof(result));
+}
+TEST_END
+
 TEST_BEGIN(size_fix)
 {
     lxb_status_t status;
@@ -912,6 +954,7 @@ main(int argc, const char * argv[])
     TEST_ADD(encode_sequence_small_buffer);
     TEST_ADD(encode_finish_state);
     TEST_ADD(encode_jis0208_error);
+    TEST_ADD(encode_jis0208_control);
     TEST_ADD(size_fix);
 
     TEST_RUN("lexbor/encoding/iso_2022_jp");

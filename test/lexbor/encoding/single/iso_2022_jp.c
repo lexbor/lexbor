@@ -318,6 +318,39 @@ TEST_BEGIN(encode_sequence)
 }
 TEST_END
 
+TEST_BEGIN(encode_jis0208_control)
+{
+    size_t i;
+    int8_t len;
+    lxb_char_t *data;
+    lxb_status_t status;
+    lxb_encoding_encode_t encode;
+    const lxb_encoding_data_t *encoding;
+    lxb_char_t buffer[16];
+
+    static const lxb_codepoint_t controls[] = {0x000E, 0x000F, 0x001B};
+
+    encoding = lxb_encoding_data(LXB_ENCODING_ISO_2022_JP);
+
+    for (i = 0; i < sizeof(controls) / sizeof(lxb_codepoint_t); i++) {
+        status = lxb_encoding_encode_init_single(&encode, encoding);
+        test_eq(status, LXB_STATUS_OK);
+
+        data = buffer;
+
+        len = encoding->encode_single(&encode, &data, buffer + sizeof(buffer),
+                                      0x3042);
+        test_eq(len, 5);
+
+        len = encoding->encode_single(&encode, &data, buffer + sizeof(buffer),
+                                      controls[i]);
+        test_eq(len, LXB_ENCODING_ENCODE_ERROR);
+        test_eq(data, buffer + 5);
+        test_eq(encode.state, LXB_ENCODING_ENCODE_2022_JP_JIS0208);
+    }
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -336,6 +369,7 @@ main(int argc, const char * argv[])
     TEST_ADD(encode_map);
     TEST_ADD(encode_buffer_check);
     TEST_ADD(encode_sequence);
+    TEST_ADD(encode_jis0208_control);
 
     TEST_RUN("lexbor/encoding/iso_2022_jp");
     TEST_RELEASE();

@@ -542,6 +542,10 @@ lxb_encoding_encode_iso_2022_jp(lxb_encoding_encode_t *ctx, const lxb_codepoint_
 
             case LXB_ENCODING_ENCODE_2022_JP_JIS0208:
                 if (cp < 0x80) {
+                    if (cp == 0x000E || cp == 0x000F || cp == 0x001B) {
+                        goto failed;
+                    }
+
                     if ((ctx->buffer_used + 4) > ctx->buffer_length) {
                         goto small_buffer;
                     }
@@ -1545,6 +1549,10 @@ begin:
 
         case LXB_ENCODING_ENCODE_2022_JP_JIS0208:
             if (cp < 0x80) {
+                if (cp == 0x000E || cp == 0x000F || cp == 0x001B) {
+                    goto failed;
+                }
+
                 if ((*data + 4) > end) {
                     goto small_buffer;
                 }
