@@ -875,6 +875,96 @@ TEST_BEGIN(params_sort_append)
 }
 TEST_END
 
+TEST_BEGIN_ARGS(params_sort_many_input, size_t amount)
+{
+    int cmp;
+    size_t i, k, length, count, value, prev_value;
+    uint32_t seed;
+    lxb_char_t *query, *p;
+    lxb_status_t status;
+    lexbor_mraw_t *mraw;
+    lxb_url_search_params_t *sp;
+    lxb_url_search_entry_t *entry, *prev;
+
+    query = lexbor_malloc(amount * 16);
+    test_ne(query, NULL);
+
+    p = query;
+    seed = 1;
+
+    for (i = 0; i < amount; i++) {
+        seed = seed * 1103515245 + 12345;
+        length = (seed >> 16) % 3 + 1;
+
+        for (k = 0; k < length; k++) {
+            seed = seed * 1103515245 + 12345;
+            *p++ = (lxb_char_t) ('a' + (seed >> 16) % 3);
+        }
+
+        p += snprintf((char *) p, 12, "=" LEXBOR_FORMAT_Z "&", i);
+    }
+
+    mraw = lexbor_mraw_create();
+    status = lexbor_mraw_init(mraw, 4096);
+    test_eq(status, LXB_STATUS_OK);
+
+    sp = lxb_url_search_params_init(mraw, query, p - query);
+    test_ne(sp, NULL);
+
+    lxb_url_search_params_sort(sp);
+
+    prev = NULL;
+    prev_value = 0;
+    count = 0;
+
+    for (entry = sp->first; entry != NULL; entry = entry->next) {
+        test_eq(entry->prev, prev);
+
+        value = strtoul((const char *) entry->value.data, NULL, 10);
+
+        if (prev != NULL) {
+            length = lexbor_min(prev->name.length, entry->name.length);
+            cmp = memcmp(prev->name.data, entry->name.data, length);
+
+            if (cmp == 0) {
+                test_eq(prev->name.length > entry->name.length, false);
+
+                if (prev->name.length == entry->name.length) {
+                    test_eq(prev_value < value, true);
+                }
+            }
+            else {
+                test_eq(cmp < 0, true);
+            }
+        }
+
+        prev = entry;
+        prev_value = value;
+        count += 1;
+    }
+
+    test_eq(sp->last, prev);
+    test_eq_size(count, amount);
+    test_eq_size(sp->length, amount);
+
+    lxb_url_search_params_destroy(sp);
+    lexbor_mraw_destroy(mraw, true);
+    lexbor_free(query);
+}
+TEST_END
+
+TEST_BEGIN(params_sort_many)
+{
+    static const size_t amounts[] = {
+        1, 2, 3, 4, 5, 7, 8, 9, 16, 17, 31, 32, 33, 100, 1000, 4097, 300000
+    };
+
+    for (size_t i = 0; i < sizeof(amounts) / sizeof(size_t); i++) {
+        TEST_CALL_ARGS(params_sort_many_input, amounts[i]);
+    }
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -899,6 +989,7 @@ main(int argc, const char * argv[])
     TEST_ADD(params_set_memory_error);
     TEST_ADD(params_init_memory_error);
     TEST_ADD(params_sort_append);
+    TEST_ADD(params_sort_many);
 
     TEST_RUN("lexbor/url/search_params");
     TEST_RELEASE();

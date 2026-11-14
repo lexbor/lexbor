@@ -26,6 +26,12 @@
 #define LXB_URL_BUFFER_SIZE 4096
 #define LXB_URL_BUFFER_NUM_SIZE 128
 
+/*
+ * Runs this short are sorted by insertion faster than by merging; the
+ * sort of URLSearchParams merges runs of this length.
+ */
+#define LXB_URL_SEARCH_PARAMS_SORT_RUN 8
+
 
 typedef enum {
     LXB_URL_HOST_OPT_UNDEF       = 0 << 0,
@@ -5743,57 +5749,135 @@ lxb_url_search_params_compare(lxb_url_search_entry_t *first,
 void
 lxb_url_search_params_sort(lxb_url_search_params_t *search_params)
 {
-    lxb_url_search_entry_t *root, *new_root, *last, *node, *current;
+    size_t runs, count, size, left_size, right_size;
+    lxb_url_search_entry_t *list, *tail, *entry, *next, *start, *cur;
+    lxb_url_search_entry_t *left, *right;
 
-    root = search_params->first;
+    entry = search_params->first;
 
-    if (root == NULL) {
+    if (entry == NULL || entry->next == NULL) {
         return;
     }
 
-    node = root;
-    root = root->next;
+    list = NULL;
+    tail = NULL;
+    runs = 0;
 
-    node->next = NULL;
-    new_root = node;
-    last = node;
+    while (entry != NULL) {
+        start = tail;
+        count = 0;
+        runs += 1;
 
-    while (root != NULL) {
-        node = root;
-        root = root->next;
+        do {
+            next = entry->next;
+            cur = tail;
 
-        if (lxb_url_search_params_compare(node, new_root) < 0) {
-            node->next = new_root;
-            new_root->prev = node;
-            new_root = node;
-        }
-        else {
-            current = new_root;
-
-            while (current->next != NULL
-                   && lxb_url_search_params_compare(node, current->next) >= 0)
+            while (cur != start
+                   && lxb_url_search_params_compare(entry, cur) < 0)
             {
-                current = current->next;
+                cur = cur->prev;
             }
 
-            node->next = current->next;
+            if (cur == tail) {
+                if (tail != NULL) {
+                    tail->next = entry;
+                }
+                else {
+                    list = entry;
+                }
 
-            if (current->next != NULL) {
-                current->next->prev = node;
+                entry->prev = tail;
+                tail = entry;
             }
             else {
-                last = node;
+                right = (cur != NULL) ? cur->next : list;
+
+                entry->prev = cur;
+                entry->next = right;
+                right->prev = entry;
+
+                if (cur != NULL) {
+                    cur->next = entry;
+                }
+                else {
+                    list = entry;
+                }
             }
 
-            current->next = node;
-            node->prev = current;
+            entry = next;
+            count += 1;
         }
+        while (count < LXB_URL_SEARCH_PARAMS_SORT_RUN && entry != NULL);
     }
 
-    new_root->prev = NULL;
+    tail->next = NULL;
 
-    search_params->first = new_root;
-    search_params->last = last;
+    /*
+     * Merge adjacent runs of the given size into runs of twice that size
+     * until one run is left. Taking the left entry on equal names keeps
+     * the order of equal names.
+     */
+    size = LXB_URL_SEARCH_PARAMS_SORT_RUN;
+
+    while (runs > 1) {
+        left = list;
+        list = NULL;
+        tail = NULL;
+        runs = 0;
+
+        while (left != NULL) {
+            runs += 1;
+
+            right = left;
+            left_size = 0;
+
+            do {
+                left_size += 1;
+                right = right->next;
+            }
+            while (left_size < size && right != NULL);
+
+            right_size = size;
+
+            while (left_size != 0 || (right_size != 0 && right != NULL)) {
+                if (left_size == 0) {
+                    entry = right;
+                    right = right->next;
+                    right_size -= 1;
+                }
+                else if (right_size == 0 || right == NULL
+                         || lxb_url_search_params_compare(left, right) <= 0)
+                {
+                    entry = left;
+                    left = left->next;
+                    left_size -= 1;
+                }
+                else {
+                    entry = right;
+                    right = right->next;
+                    right_size -= 1;
+                }
+
+                if (tail != NULL) {
+                    tail->next = entry;
+                }
+                else {
+                    list = entry;
+                }
+
+                entry->prev = tail;
+                tail = entry;
+            }
+
+            left = right;
+        }
+
+        tail->next = NULL;
+        size *= 2;
+    }
+
+    search_params->first = list;
+    search_params->last = tail;
 }
 
 static size_t
