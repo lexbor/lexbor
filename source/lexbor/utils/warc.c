@@ -616,6 +616,10 @@ lxb_utils_warc_parse_block_after(lxb_utils_warc_t *warc,
     static const lxb_char_t lxb_utils_warc_ends[] = "\r\n\r\n";
 
     while (warc->ends < 4) {
+        if (*data == end) {
+            return LXB_STATUS_OK;
+        }
+
         if (**data != lxb_utils_warc_ends[warc->ends]) {
             warc->error = "Wrong end of block.";
 
@@ -623,10 +627,7 @@ lxb_utils_warc_parse_block_after(lxb_utils_warc_t *warc,
         }
 
         warc->ends++;
-
-        if (++(*data) == end) {
-            return LXB_STATUS_OK;
-        }
+        (*data)++;
     }
 
     if (warc->skip == false && warc->content_end_cb != NULL) {

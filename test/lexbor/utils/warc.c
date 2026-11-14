@@ -63,6 +63,12 @@ content_cb(lxb_utils_warc_t *warc, const lxb_char_t *data,
     return records_append(warc->ctx, data, end - data);
 }
 
+static lxb_status_t
+content_end_cb(lxb_utils_warc_t *warc)
+{
+    return records_append(warc->ctx, (const lxb_char_t *) "$", 1);
+}
+
 TEST_BEGIN_ARGS(parse_chunks, const char *data, size_t split, size_t step,
                 const char *need, const char *error)
 {
@@ -81,7 +87,8 @@ TEST_BEGIN_ARGS(parse_chunks, const char *data, size_t split, size_t step,
     test_ne(records.str.data, NULL);
 
     warc = lxb_utils_warc_create();
-    status = lxb_utils_warc_init(warc, header_cb, content_cb, NULL, &records);
+    status = lxb_utils_warc_init(warc, header_cb, content_cb, content_end_cb,
+                                 &records);
     test_eq(status, LXB_STATUS_OK);
 
     p = (const lxb_char_t *) data;
@@ -106,6 +113,7 @@ TEST_BEGIN_ARGS(parse_chunks, const char *data, size_t split, size_t step,
     }
     else {
         test_eq(status, LXB_STATUS_OK);
+        test_eq(lxb_utils_warc_parse_eof(warc), LXB_STATUS_OK);
     }
 
     test_eq_str_n(records.str.data, records.str.length, need, strlen(need));
@@ -180,6 +188,9 @@ TEST_BEGIN_ARGS(parse_field, size_t name_len, size_t value_len, size_t split,
         test_ne(warc->error, NULL);
         test_eq_str(warc->error, error);
     }
+    else {
+        test_eq(lxb_utils_warc_parse_eof(warc), LXB_STATUS_OK);
+    }
 
     lxb_utils_warc_destroy(warc, true);
     lexbor_free(data);
@@ -199,8 +210,8 @@ TEST_BEGIN(quoted_value)
                    "Content-Length: 2\r\n"
                    "\r\n"
                    "xy\r\n\r\n",
-                   "[WARC-Type=\"response\"|Content-Length=4|4]ABCD"
-                   "[WARC-Type=metadata|Content-Length=2|2]xy", NULL);
+                   "[WARC-Type=\"response\"|Content-Length=4|4]ABCD$"
+                   "[WARC-Type=metadata|Content-Length=2|2]xy$", NULL);
 }
 TEST_END
 
@@ -214,7 +225,7 @@ TEST_BEGIN(quoted_pair)
                    "\r\n"
                    "ABCD\r\n\r\n",
                    "[X-A=\"a\\\"b\" c|X-B=\"a\\\\\" b|Content-Length=4|4]"
-                   "ABCD", NULL);
+                   "ABCD$", NULL);
 }
 TEST_END
 
@@ -231,8 +242,8 @@ TEST_BEGIN(unclosed_quote)
                    "Content-Length: 2\r\n"
                    "\r\n"
                    "xy\r\n\r\n",
-                   "[X-A=a\"b|X-B=\"a\\|Content-Length=4|4]ABCD"
-                   "[Content-Length=2|2]xy", NULL);
+                   "[X-A=a\"b|X-B=\"a\\|Content-Length=4|4]ABCD$"
+                   "[Content-Length=2|2]xy$", NULL);
 }
 TEST_END
 
@@ -281,7 +292,7 @@ TEST_BEGIN(version)
     TEST_CALL_ARGS(parse_splits,
                    "WARC/1.0\r\nContent-Length: 2\r\n\r\nxy\r\n\r\n"
                    "warc/1.0\r\nContent-Length: 2\r\n\r\nzw\r\n\r\n",
-                   "[Content-Length=2|2]xy[Content-Length=2|2]zw", NULL);
+                   "[Content-Length=2|2]xy$[Content-Length=2|2]zw$", NULL);
 
     TEST_CALL_ARGS(parse_splits, "WARC/1.0abc\r\n\r\n\r\n\r\n", "", error);
     TEST_CALL_ARGS(parse_splits, "WARC/1.00\r\n\r\n\r\n\r\n", "", error);
@@ -291,6 +302,21 @@ TEST_BEGIN(version)
     TEST_CALL_ARGS(parse_splits, "WARC/1.1\r\n\r\n\r\n\r\n", "", error);
     TEST_CALL_ARGS(parse_splits, "WARC/1.0\n\r\n\r\n\r\n", "", error);
     TEST_CALL_ARGS(parse_splits, " WARC/1.0\r\n\r\n\r\n\r\n", "", error);
+}
+TEST_END
+
+TEST_BEGIN(record_end)
+{
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\n\r\n\r\n\r\n"
+                   "WARC/1.0\r\nContent-Length: 1\r\n\r\na\r\n\r\n"
+                   "WARC/1.0\r\n\r\n\r\n\r\n",
+                   "[0]$[Content-Length=1|1]a$[0]$", NULL);
+
+    TEST_CALL_ARGS(parse_splits,
+                   "WARC/1.0\r\nContent-Length: 1\r\n\r\na\r\n\r\n"
+                   "WARC/1.0\r\nContent-Length: 2\r\n\r\nbc\r\n\r\n",
+                   "[Content-Length=1|1]a$[Content-Length=2|2]bc$", NULL);
 }
 TEST_END
 
@@ -343,6 +369,7 @@ main(int argc, const char * argv[])
     TEST_ADD(field_name_limit);
     TEST_ADD(field_value_limit);
     TEST_ADD(version);
+    TEST_ADD(record_end);
 
     TEST_RUN("lexbor/utils/warc");
     TEST_RELEASE();
