@@ -442,12 +442,16 @@ lxb_html_serialize_text_cb(lxb_dom_text_t *text,
             case LXB_TAG_NOEMBED:
             case LXB_TAG_NOFRAMES:
             case LXB_TAG_PLAINTEXT:
-                lxb_html_serialize_send(data->data, data->length, ctx);
+                if (node->parent->ns == LXB_NS_HTML) {
+                    lxb_html_serialize_send(data->data, data->length, ctx);
 
-                return LXB_STATUS_OK;
+                    return LXB_STATUS_OK;
+                }
+
+                break;
 
             case LXB_TAG_NOSCRIPT:
-                if (doc->scripting) {
+                if (node->parent->ns == LXB_NS_HTML && doc->scripting) {
                     lxb_html_serialize_send(data->data, data->length, ctx);
 
                     return LXB_STATUS_OK;
@@ -1671,15 +1675,19 @@ lxb_html_serialize_pretty_text_cb(lxb_dom_text_t *text,
             case LXB_TAG_NOEMBED:
             case LXB_TAG_NOFRAMES:
             case LXB_TAG_PLAINTEXT:
-                status = lxb_html_serialize_pretty_send_string(data->data,
-                                                               data->length,
-                                                               indent,
-                                                               with_indent,
-                                                               cb, ctx);
-                goto end;
+                if (node->parent->ns == LXB_NS_HTML) {
+                    status = lxb_html_serialize_pretty_send_string(data->data,
+                                                                   data->length,
+                                                                   indent,
+                                                                   with_indent,
+                                                                   cb, ctx);
+                    goto end;
+                }
+
+                break;
 
             case LXB_TAG_NOSCRIPT:
-                if (doc->scripting) {
+                if (node->parent->ns == LXB_NS_HTML && doc->scripting) {
                     status = lxb_html_serialize_pretty_send_string(data->data,
                                                                    data->length,
                                                                    indent,

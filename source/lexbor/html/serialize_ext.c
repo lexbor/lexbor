@@ -979,23 +979,27 @@ lxb_html_serialize_ext_text_cb_h(const lxb_dom_text_t *text,
             case LXB_TAG_NOEMBED:
             case LXB_TAG_NOFRAMES:
             case LXB_TAG_PLAINTEXT:
-                if (!(opt & LXB_HTML_SERIALIZE_EXT_OPT_REPLACE_NEWLINE)) {
-                    lxb_html_serialize_ext_text_send(cb->text, node, data->data,
-                                                     data->length, ctx);
-                }
-                else {
-                    status = lxb_html_serialize_ext_opt_string(node, data->data,
-                                                               data->length, cb->text,
-                                                               ctx, opt);
-                    if (status != LXB_STATUS_OK) {
-                        return status;
+                if (node->parent->ns == LXB_NS_HTML) {
+                    if (!(opt & LXB_HTML_SERIALIZE_EXT_OPT_REPLACE_NEWLINE)) {
+                        lxb_html_serialize_ext_text_send(cb->text, node, data->data,
+                                                         data->length, ctx);
                     }
+                    else {
+                        status = lxb_html_serialize_ext_opt_string(node, data->data,
+                                                                   data->length, cb->text,
+                                                                   ctx, opt);
+                        if (status != LXB_STATUS_OK) {
+                            return status;
+                        }
+                    }
+
+                    goto after;
                 }
 
-                goto after;
+                break;
 
             case LXB_TAG_NOSCRIPT:
-                if (doc->scripting) {
+                if (node->parent->ns == LXB_NS_HTML && doc->scripting) {
                     if (!(opt & LXB_HTML_SERIALIZE_EXT_OPT_REPLACE_NEWLINE)) {
                         lxb_html_serialize_ext_text_send(cb->text, node, data->data,
                                                          data->length, ctx);
