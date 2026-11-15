@@ -31,14 +31,13 @@ typedef enum {
 lxb_dom_element_custom_state_t;
 
 /*
- * Element condition flags for lazy style cleanup.
+ * Element condition flags.
  *
- * DIRTY_STYLE: set on an element (and all its descendants) when it is removed
- * from the DOM tree. Instead of immediately walking the style AVL tree and
- * freeing every stylesheet-originated declaration, we just mark the element
- * dirty and defer cleanup. When styles are later accessed or a new stylesheet
- * is applied, the dirty flag tells the code to discard stale stylesheet entries
- * lazily, keeping only inline style="..." declarations (sp_s == 1).
+ * DIRTY_STYLE is no longer used: when an element is removed from the DOM tree,
+ * the removing steps now immediately drop its stylesheet-originated
+ * declarations and keep only the inline style="..." ones, so no element holds
+ * declarations of a stylesheet that may later be destroyed. The flag is kept
+ * for ABI compatibility.
  */
 typedef enum {
     LXB_DOM_ELEMENT_CONDITION_OK          = 0x00,

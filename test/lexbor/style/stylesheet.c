@@ -421,6 +421,140 @@ TEST_BEGIN(remove_style_element_changed_class)
 }
 TEST_END
 
+TEST_BEGIN(removed_element_keeps_inline)
+{
+    lxb_status_t status;
+    lxb_dom_node_t *div;
+    lxb_css_parser_t *parser;
+    lxb_html_document_t *document;
+
+    static const lexbor_str_t html = lexbor_str("<div style='width: 10px'>"
+                                                "x</div>");
+
+    static const lexbor_str_t css = lexbor_str("div {color: red}");
+    static const lexbor_str_t before = lexbor_str("color: red; width: 10px");
+    static const lexbor_str_t after = lexbor_str("width: 10px");
+
+    document = lxb_html_document_create();
+
+    status = lxb_style_init(document);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_html_document_parse(document, html.data, html.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    parser = lxb_css_parser_create();
+    status = lxb_css_parser_init(parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    TEST_CALL_ARGS(attach, document, parser, &css);
+
+    div = lxb_dom_interface_node(document->body)->first_child;
+
+    TEST_CALL_ARGS(style_is, div, &before);
+
+    lxb_dom_node_remove(div);
+
+    test_eq(lxb_dom_element_style_by_id(lxb_dom_interface_element(div),
+                                        LXB_CSS_PROPERTY_COLOR), NULL);
+    test_ne(lxb_dom_element_style_by_id(lxb_dom_interface_element(div),
+                                        LXB_CSS_PROPERTY_WIDTH), NULL);
+
+    TEST_CALL_ARGS(style_is, div, &after);
+
+    (void) lxb_html_document_stylesheet_destroy_all(document, true);
+    (void) lxb_css_parser_destroy(parser, true);
+    (void) lxb_style_destroy(document);
+    (void) lxb_html_document_destroy(document);
+}
+TEST_END
+
+TEST_BEGIN(removed_element_destroy_all)
+{
+    lxb_status_t status;
+    lxb_dom_node_t *div;
+    lxb_css_parser_t *parser;
+    lxb_html_document_t *document;
+
+    static const lexbor_str_t html = lexbor_str("<div>x</div>");
+    static const lexbor_str_t css = lexbor_str("div {color: red}");
+
+    document = lxb_html_document_create();
+
+    status = lxb_style_init(document);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_html_document_parse(document, html.data, html.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    parser = lxb_css_parser_create();
+    status = lxb_css_parser_init(parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    TEST_CALL_ARGS(attach, document, parser, &css);
+
+    div = lxb_dom_interface_node(document->body)->first_child;
+
+    lxb_dom_node_remove(div);
+
+    lxb_html_document_stylesheet_destroy_all(document, true);
+
+    test_eq(lxb_dom_element_style_by_id(lxb_dom_interface_element(div),
+                                        LXB_CSS_PROPERTY_COLOR), NULL);
+
+    (void) lxb_css_parser_destroy(parser, true);
+    (void) lxb_style_destroy(document);
+    (void) lxb_html_document_destroy(document);
+}
+TEST_END
+
+TEST_BEGIN(removed_element_set_style_after_destroy)
+{
+    lxb_status_t status;
+    lxb_dom_attr_t *attr;
+    lxb_dom_node_t *div;
+    lxb_css_parser_t *parser;
+    lxb_html_document_t *document;
+
+    static const lexbor_str_t html = lexbor_str("<div>x</div>");
+    static const lexbor_str_t css = lexbor_str("div {color: red}");
+    static const lexbor_str_t style_name = lexbor_str("style");
+    static const lexbor_str_t style_value = lexbor_str("color: blue");
+    static const lexbor_str_t after = lexbor_str("color: blue");
+
+    document = lxb_html_document_create();
+
+    status = lxb_style_init(document);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_html_document_parse(document, html.data, html.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    parser = lxb_css_parser_create();
+    status = lxb_css_parser_init(parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    TEST_CALL_ARGS(attach, document, parser, &css);
+
+    div = lxb_dom_interface_node(document->body)->first_child;
+
+    lxb_dom_node_remove(div);
+
+    lxb_html_document_stylesheet_destroy_all(document, true);
+
+    attr = lxb_dom_element_set_attribute(lxb_dom_interface_element(div),
+                                         style_name.data, style_name.length,
+                                         style_value.data, style_value.length);
+    test_ne(attr, NULL);
+
+    TEST_CALL_ARGS(style_is, div, &after);
+
+    (void) lxb_css_parser_destroy(parser, true);
+    (void) lxb_style_destroy(document);
+    (void) lxb_html_document_destroy(document);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -434,6 +568,9 @@ main(int argc, const char * argv[])
     TEST_ADD(remove_changed_class);
     TEST_ADD(style_remove_changed_class);
     TEST_ADD(remove_style_element_changed_class);
+    TEST_ADD(removed_element_keeps_inline);
+    TEST_ADD(removed_element_destroy_all);
+    TEST_ADD(removed_element_set_style_after_destroy);
 
     TEST_RUN("lexbor/style/stylesheet");
     TEST_RELEASE();

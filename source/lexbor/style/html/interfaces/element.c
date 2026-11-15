@@ -9,7 +9,7 @@
 
 
 static lexbor_action_t
-lxb_style_html_element_ditry_cb(lxb_dom_node_t *node, void *ctx);
+lxb_style_html_element_removed_cb(lxb_dom_node_t *node, void *ctx);
 
 static lxb_status_t
 lxb_style_html_element_remove_all_styles_cb(lexbor_avl_t *avl,
@@ -38,18 +38,8 @@ lxb_style_html_element_in_document_tree(const lxb_dom_node_t *node)
 lxb_status_t
 lxb_style_html_element_inserted_steps(lxb_dom_node_t *inserted_node)
 {
-    lxb_status_t status;
     lxb_dom_document_css_t *css;
     lxb_dom_element_t *el = lxb_dom_interface_element(inserted_node);
-
-    if (el->condition & LXB_DOM_ELEMENT_CONDITION_DIRTY_STYLE) {
-        status = lxb_dom_element_style_remove_non_inline(el);
-        if (status != LXB_STATUS_OK) {
-            return status;
-        }
-
-        el->condition &= ~LXB_DOM_ELEMENT_CONDITION_DIRTY_STYLE;
-    }
 
     css = inserted_node->owner_document->css;
 
@@ -63,10 +53,14 @@ lxb_style_html_element_inserted_steps(lxb_dom_node_t *inserted_node)
 }
 
 /*
- * If a node has children, the extraction function will not be called for them;
- * it will only be called for the node being extracted from the tree.
- * Therefore, we need to mark the child elements as "dirty" so that the applied
- * styles will be removed later (not immediately). This will be done lazily.
+ * The removing steps are called only for the root of a removed subtree, not
+ * for its descendants. Both the root and its descendants leave the document
+ * tree, so the stylesheets of the document no longer apply to them. We walk
+ * the whole subtree and remove from every element the declarations that came
+ * from stylesheets, keeping only the inline style="..." declarations; a style
+ * element also drops its own stylesheet from the document. The declarations
+ * live in the memory of their stylesheets, so a later destruction of a
+ * stylesheet must not find them still referenced here.
  */
 lxb_status_t
 lxb_style_html_element_removed_steps(lxb_dom_node_t *removed_node,
@@ -75,31 +69,29 @@ lxb_style_html_element_removed_steps(lxb_dom_node_t *removed_node,
     lxb_dom_element_t *el = lxb_dom_interface_element(removed_node);
 
     lxb_dom_node_simple_walk(removed_node,
-                             lxb_style_html_element_ditry_cb, NULL);
+                             lxb_style_html_element_removed_cb, NULL);
 
-    if (el->style == NULL) {
-        return LXB_STATUS_OK;
+    if (el->style != NULL) {
+        (void) lxb_dom_element_style_remove_non_inline(el);
     }
-
-    el->condition |= LXB_DOM_ELEMENT_CONDITION_DIRTY_STYLE;
 
     return LXB_STATUS_OK;
 }
 
 static lexbor_action_t
-lxb_style_html_element_ditry_cb(lxb_dom_node_t *node, void *ctx)
+lxb_style_html_element_removed_cb(lxb_dom_node_t *node, void *ctx)
 {
     lxb_dom_element_t *el;
-    lxb_html_style_element_t *style;
 
     if (node->type == LXB_DOM_NODE_TYPE_ELEMENT) {
         el = lxb_dom_interface_element(node);
-        el->condition |= LXB_DOM_ELEMENT_CONDITION_DIRTY_STYLE;
+
+        if (el->style != NULL) {
+            (void) lxb_dom_element_style_remove_non_inline(el);
+        }
 
         if (node->local_name == LXB_TAG_STYLE && node->ns == LXB_NS_HTML) {
-            style = lxb_html_interface_style(node);
-
-            (void) lxb_html_style_element_remove(style);
+            (void) lxb_html_style_element_remove(lxb_html_interface_style(node));
         }
     }
 

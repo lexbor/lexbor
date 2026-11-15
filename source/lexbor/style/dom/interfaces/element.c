@@ -47,12 +47,12 @@ lxb_dom_element_style_walk_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
                               lexbor_avl_node_t *node, void *ctx);
 
 static lxb_status_t
-lxb_dom_element_style_remove_dirty_cb(lexbor_avl_t *avl,
+lxb_dom_element_style_remove_non_inline_cb(lexbor_avl_t *avl,
                                       lexbor_avl_node_t **root,
                                       lexbor_avl_node_t *node, void *ctx);
 
 static lxb_style_node_t *
-lxb_dom_element_style_remove_if_dirty(lxb_dom_element_t *element,
+lxb_dom_element_style_remove_non_inline_node(lxb_dom_element_t *element,
                                       lxb_style_node_t *style);
 
 static bool
@@ -531,22 +531,22 @@ lxb_dom_element_style_remove_non_inline(lxb_dom_element_t *element)
     doc = lxb_dom_element_document(element);
 
     return lexbor_avl_foreach(doc->css->styles, &element->style,
-                              lxb_dom_element_style_remove_dirty_cb,
+                              lxb_dom_element_style_remove_non_inline_cb,
                               element);
 }
 
 static lxb_status_t
-lxb_dom_element_style_remove_dirty_cb(lexbor_avl_t *avl,
+lxb_dom_element_style_remove_non_inline_cb(lexbor_avl_t *avl,
                                       lexbor_avl_node_t **root,
                                       lexbor_avl_node_t *node, void *ctx)
 {
-    lxb_dom_element_style_remove_if_dirty((lxb_dom_element_t *) ctx,
+    lxb_dom_element_style_remove_non_inline_node((lxb_dom_element_t *) ctx,
                                           (lxb_style_node_t *) node);
     return LXB_STATUS_OK;
 }
 
 static lxb_style_node_t *
-lxb_dom_element_style_remove_if_dirty(lxb_dom_element_t *element,
+lxb_dom_element_style_remove_non_inline_node(lxb_dom_element_t *element,
                                       lxb_style_node_t *style)
 {
     lxb_dom_document_t *doc;
@@ -635,20 +635,10 @@ lxb_dom_element_style_rule_contains(const lxb_css_rule_t *rule,
  * declaration in entry.value and a singly-linked list of weaker declarations
  * (style->weak) for the same property, sorted by descending specificity.
  *
- * The function operates in two modes depending on element->condition:
- *
- * 1. Normal mode (no DIRTY_STYLE):
- *    Walks the weak list and removes entries that |rule| contains, that is,
- *    |rule| is one of their ancestors. Then checks the active declaration —
- *    if |rule| contains it, it is removed too.
- *
- * 2. DIRTY_STYLE mode (full style recalculation pending):
- *    Walks the weak list and removes entries that do NOT have the
- *    style-attribute flag (sp_s == 0), i.e. entries originating from
- *    stylesheets are discarded because they will be re-applied during
- *    recalculation. Only inline style="..." entries (sp_s == 1) survive.
- *    The active declaration is kept if it has the style-attribute flag,
- *    regardless of whether |rule| contains it.
+ * Walks the weak list and removes entries that |rule| contains, that is,
+ * |rule| is one of their ancestors. Then checks the active declaration — if
+ * |rule| contains it, it is removed too, and the strongest remaining weak
+ * declaration takes its place.
  *
  * Returns the style node pointer if it still exists, or NULL if removed.
  */
@@ -660,57 +650,34 @@ lxb_dom_element_style_remove_by_rule(lxb_dom_element_t *element,
     lxb_dom_document_t *doc;
     lexbor_avl_node_t **root;
     lxb_style_weak_t *weak, *prev, *next;
-    lxb_dom_element_condition_t condition;
 
     doc = lxb_dom_element_document(element);
     root = &element->style;
     weak = style->weak;
     prev = NULL;
-    condition = element->condition;
 
     while (weak != NULL) {
         next = weak->next;
 
-        if (condition & LXB_DOM_ELEMENT_CONDITION_DIRTY_STYLE) {
-            if (!lxb_css_selector_sp_s(weak->sp)) {
-                lexbor_dobject_free(doc->css->weak, weak);
+        if (lxb_dom_element_style_rule_contains(rule, weak->value)) {
+            lexbor_dobject_free(doc->css->weak, weak);
 
-                if (prev != NULL) {
-                    prev->next = next;
-                }
-                else {
-                    style->weak = next;
-                }
+            if (prev != NULL) {
+                prev->next = next;
             }
             else {
-                prev = weak;
+                style->weak = next;
             }
         }
         else {
-            if (lxb_dom_element_style_rule_contains(rule, weak->value)) {
-                lexbor_dobject_free(doc->css->weak, weak);
-
-                if (prev != NULL) {
-                    prev->next = next;
-                }
-                else {
-                    style->weak = next;
-                }
-            }
-            else {
-                prev = weak;
-            }
+            prev = weak;
         }
 
         weak = next;
     }
 
-    if (!(condition & LXB_DOM_ELEMENT_CONDITION_DIRTY_STYLE)
-        || lxb_css_selector_sp_s(style->sp))
-    {
-        if (!lxb_dom_element_style_rule_contains(rule, style->entry.value)) {
-            return style;
-        }
+    if (!lxb_dom_element_style_rule_contains(rule, style->entry.value)) {
+        return style;
     }
 
     if (style->weak == NULL) {
@@ -756,20 +723,9 @@ lxb_dom_element_style_serialize_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
                                    lexbor_avl_node_t *node, void *ctx)
 {
     lxb_status_t status;
-    lxb_style_node_t *style;
-    lxb_dom_element_t *element;
     lxb_dom_element_style_serialize_ctx_t *context = ctx;
 
     static const lexbor_str_t splt = lexbor_str("; ");
-
-    style = (lxb_style_node_t *) node;
-    element = context->element;
-
-    if (element->condition & LXB_DOM_ELEMENT_CONDITION_DIRTY_STYLE
-        && !lxb_css_selector_sp_s(style->sp))
-    {
-        return LXB_STATUS_OK;
-    }
 
     if (!context->is_first) {
         lexbor_serialize_write(context->cb, splt.data, splt.length,
