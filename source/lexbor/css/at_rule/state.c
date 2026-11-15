@@ -89,6 +89,10 @@ lxb_css_at_rule__undef_end(lxb_css_parser_t *parser,
 
     at->u.undef->block = block;
 
+    if (block != NULL) {
+        block->rule.parent = lxb_css_rule(at);
+    }
+
     lxb_css_syntax_set_return(parser, at);
 
     return LXB_STATUS_OK;
@@ -152,6 +156,10 @@ lxb_css_at_rule__custom_end(lxb_css_parser_t *parser,
      */
 
     at->u.custom->block = block;
+
+    if (block != NULL) {
+        block->rule.parent = lxb_css_rule(at);
+    }
 
     lxb_css_syntax_set_return(parser, at);
 
@@ -222,6 +230,10 @@ lxb_css_at_rule_namespace_end(lxb_css_parser_t *parser,
         }
 
         at->u.undef->block = lxb_css_syntax_returned(parser);
+
+        if (at->u.undef->block != NULL) {
+            at->u.undef->block->rule.parent = lxb_css_rule(at);
+        }
     }
 
     lxb_css_syntax_set_return(parser, at);
@@ -286,6 +298,7 @@ lxb_css_at_rule_media_end(lxb_css_parser_t *parser,
 
     if (list != NULL && !failed) {
         at->u.media->block = list;
+        list->rule.parent = lxb_css_rule(at);
     }
     else {
         status = lxb_css_at_rule_convert_to_undef(parser, at);
@@ -294,6 +307,10 @@ lxb_css_at_rule_media_end(lxb_css_parser_t *parser,
         }
 
         at->u.undef->block = list;
+
+        if (list != NULL) {
+            list->rule.parent = lxb_css_rule(at);
+        }
     }
 
     lxb_css_syntax_set_return(parser, at);
@@ -358,6 +375,10 @@ lxb_css_at_rule_font_face_end(lxb_css_parser_t *parser,
 
     if (!failed) {
         at->u.font_face->block = block;
+
+        if (block != NULL) {
+            block->rule.parent = lxb_css_rule(at);
+        }
     }
     else {
         status = lxb_css_at_rule_convert_to_undef(parser, at);
@@ -366,6 +387,10 @@ lxb_css_at_rule_font_face_end(lxb_css_parser_t *parser,
         }
 
         at->u.undef->block = block;
+
+        if (block != NULL) {
+            block->rule.parent = lxb_css_rule(at);
+        }
     }
 
     lxb_css_syntax_set_return(parser, at);

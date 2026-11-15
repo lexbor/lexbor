@@ -348,6 +348,10 @@ lxb_css_state_at_rule_end(lxb_css_parser_t *parser,
 
     at->u.custom->block = block;
 
+    if (block != NULL) {
+        block->rule.parent = lxb_css_rule(at);
+    }
+
     lxb_css_syntax_set_return(parser, at);
 
     return LXB_STATUS_OK;
@@ -492,6 +496,10 @@ lxb_css_state_qualified_rule_end(lxb_css_parser_t *parser,
 
         style->child = list;
 
+        if (list != NULL) {
+            list->rule.parent = lxb_css_rule(style);
+        }
+
         lxb_css_syntax_set_return(parser, style);
     }
     else {
@@ -518,6 +526,10 @@ lxb_css_state_qualified_rule_end(lxb_css_parser_t *parser,
         }
 
         bad->child = list;
+
+        if (list != NULL) {
+            list->rule.parent = lxb_css_rule(bad);
+        }
 
         lxb_css_syntax_set_return(parser, bad);
     }

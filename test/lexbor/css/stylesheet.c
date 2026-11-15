@@ -224,6 +224,39 @@ TEST_BEGIN(parser_after_destroy)
 }
 TEST_END
 
+TEST_BEGIN(destroy_frees_all_rules)
+{
+    lxb_status_t status;
+    lxb_css_parser_t *parser;
+    lxb_css_stylesheet_t *sst;
+    lxb_css_memory_t *memory;
+
+    const lexbor_str_t input = lexbor_str("a {color: red} b {color: blue}"
+                                          "@media screen { c {color: green} }"
+                                          "@font-face {font-family: x}"
+                                          "@weird { d {color: pink} }");
+
+    parser = lxb_css_parser_create();
+    status = lxb_css_parser_init(parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    sst = lxb_css_stylesheet_create(NULL);
+    status = lxb_css_stylesheet_parse(sst, parser, input.data, input.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    memory = sst->memory;
+
+    test_ne_size(lexbor_mraw_reference_count(memory->tree), 0);
+
+    (void) lxb_css_stylesheet_destroy(sst, false);
+
+    test_eq_size(lexbor_mraw_reference_count(memory->tree), 0);
+
+    (void) lxb_css_memory_destroy(memory, true);
+    (void) lxb_css_parser_destroy(parser, true);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -235,6 +268,7 @@ main(int argc, const char * argv[])
     TEST_ADD(colon_lookup);
     TEST_ADD(deep_nested);
     TEST_ADD(parser_after_destroy);
+    TEST_ADD(destroy_frees_all_rules);
 
     TEST_RUN("lexbor/css/stylesheet");
     TEST_RELEASE();
