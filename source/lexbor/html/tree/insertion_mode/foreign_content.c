@@ -9,7 +9,6 @@
 #include "lexbor/html/interfaces/element.h"
 
 #ifndef LEXBOR_DISABLE_INTERNAL_EXTERN
-    LXB_EXTERN const lxb_char_t lexbor_str_res_ansi_replacement_character[4];
     LXB_EXTERN const unsigned char lexbor_tokenizer_chars_map[256];
 #endif
 
@@ -161,34 +160,13 @@ lxb_html_tree_insertion_mode_foreign_content_text(lxb_html_tree_t *tree,
     }
 
     if (tree->frameset_ok) {
-        const lxb_char_t *pos = str.data;
-        const lxb_char_t *end = str.data + str.length;
+        const lxb_char_t *pos = token->text_start;
+        const lxb_char_t *end = token->text_end;
 
-        static const lxb_char_t *rep = lexbor_str_res_ansi_replacement_character;
-        static const unsigned rep_len = sizeof(lexbor_str_res_ansi_replacement_character) - 1;
-
-        while (pos != end) {
-            /* Need skip U+FFFD REPLACEMENT CHARACTER */
-            if (*pos == *rep) {
-                if ((end - pos) < rep_len) {
-                    tree->frameset_ok = false;
-
-                    break;
-                }
-
-                if (memcmp(pos, rep, sizeof(lxb_char_t) * rep_len) != 0) {
-                    tree->frameset_ok = false;
-
-                    break;
-                }
-
-                pos = pos + rep_len;
-
-                continue;
-            }
-
-            if (lexbor_tokenizer_chars_map[*pos]
-                != LEXBOR_STR_RES_MAP_CHAR_WHITESPACE)
+        while (pos < end) {
+            if (*pos != 0x00
+                && lexbor_tokenizer_chars_map[*pos]
+                   != LEXBOR_STR_RES_MAP_CHAR_WHITESPACE)
             {
                 tree->frameset_ok = false;
 
