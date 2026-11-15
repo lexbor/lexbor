@@ -368,6 +368,39 @@ TEST_BEGIN(template_style)
 }
 TEST_END
 
+TEST_BEGIN(style_remove_frees_sheet)
+{
+    lxb_status_t status;
+    lxb_dom_node_t *style;
+    lxb_dom_document_css_t *css;
+    lxb_html_document_t *document;
+
+    static const lexbor_str_t html = lexbor_str("<style>div {color: red}</style>"
+                                                "<div>x</div>");
+
+    document = lxb_html_document_create();
+
+    status = lxb_style_init(document);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_html_document_parse(document, html.data, html.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    css = lxb_dom_interface_document(document)->css;
+    style = lxb_dom_interface_node(document->head)->first_child;
+
+    test_ne_size(lexbor_mraw_reference_count(css->memory->tree), 0);
+
+    lxb_dom_node_remove(style);
+
+    test_eq(lxb_html_interface_style(style)->stylesheet, NULL);
+    test_eq_size(lexbor_mraw_reference_count(css->memory->tree), 0);
+
+    (void) lxb_style_destroy(document);
+    (void) lxb_html_document_destroy(document);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -379,6 +412,7 @@ main(int argc, const char * argv[])
     TEST_ADD(style_parent_remove);
     TEST_ADD(style_parent_remove_destroy_all);
     TEST_ADD(template_style);
+    TEST_ADD(style_remove_frees_sheet);
 
     TEST_RUN("lexbor/style/style_tag");
     TEST_RELEASE();

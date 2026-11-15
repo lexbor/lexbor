@@ -55,7 +55,15 @@ lxb_html_style_element_remove(lxb_html_style_element_t *element)
 {
     lxb_dom_document_t *doc = lxb_dom_interface_node(element)->owner_document;
 
+    if (element->stylesheet == NULL) {
+        return LXB_STATUS_OK;
+    }
+
     lxb_dom_document_stylesheet_remove(doc, element->stylesheet);
+
+    (void) lxb_css_stylesheet_destroy(element->stylesheet, false);
+
+    element->stylesheet = NULL;
 
     return LXB_STATUS_OK;
 }
