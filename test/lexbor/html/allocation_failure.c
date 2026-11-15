@@ -184,6 +184,7 @@ test_serialize(lxb_dom_node_t *node, size_t *length)
 
     status = lxb_html_serialize_deep_cb(node, test_serialize_cb, &buf);
     if (status != LXB_STATUS_OK) {
+        *length = 0;
         return lexbor_free(buf.data);
     }
 
@@ -289,6 +290,7 @@ test_large_make(size_t *out_length)
 
     data = lexbor_malloc(size);
     if (data == NULL) {
+        *out_length = 0;
         return NULL;
     }
 
@@ -339,6 +341,7 @@ test_templates_make(size_t *out_length)
 
     data = lexbor_malloc(size);
     if (data == NULL) {
+        *out_length = 0;
         return NULL;
     }
 
