@@ -805,6 +805,10 @@ lxb_dom_element_prefix(lxb_dom_element_t *element, size_t *len)
         goto empty;
     }
 
+    if (len != NULL) {
+        *len = data->entry.length;
+    }
+
     return lexbor_hash_entry_str(&data->entry);
 
 empty:
