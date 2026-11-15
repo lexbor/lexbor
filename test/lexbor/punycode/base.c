@@ -267,6 +267,99 @@ TEST_BEGIN(encode_mixed)
 }
 TEST_END
 
+TEST_BEGIN(decode_distinct)
+{
+    size_t i;
+    lexbor_str_t str;
+    lxb_status_t status;
+
+    for (i = 0; i < TEST_LARGE_LENGTH; i++) {
+        large_source[i] = 0x80 + (TEST_LARGE_LENGTH - 1 - i);
+    }
+
+    status = lxb_punycode_encode_cp(large_source, TEST_LARGE_LENGTH,
+                                    callback_enc, &str);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_punycode_decode_cb_cp(str.data, str.length, callback_cp,
+                                       large_out);
+    test_eq(status, LXB_STATUS_OK);
+
+    for (i = 0; i < TEST_LARGE_LENGTH; i++) {
+        test_eq(large_out[i], large_source[i]);
+    }
+
+    test_eq(large_out[TEST_LARGE_LENGTH], 0x0000);
+
+    lexbor_free(str.data);
+}
+TEST_END
+
+TEST_BEGIN(decode_mixed)
+{
+    size_t i, length;
+    uint32_t seed;
+    lexbor_str_t str;
+    lxb_status_t status;
+    lxb_codepoint_t *ace;
+
+    length = 100000;
+    seed = 1;
+
+    for (i = 0; i < length; i++) {
+        seed = seed * 1103515245 + 12345;
+
+        switch ((seed >> 16) % 4) {
+            case 0:
+                large_source[i] = 'a' + (seed >> 8) % 26;
+                break;
+
+            case 1:
+                large_source[i] = 0x0430 + (seed >> 8) % 16;
+                break;
+
+            default:
+                large_source[i] = 0x80 + (seed >> 4) % 0x10FF80;
+                break;
+        }
+    }
+
+    status = lxb_punycode_encode_cp(large_source, length, callback_enc, &str);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_punycode_decode_cb_cp(str.data, str.length, callback_cp,
+                                       large_out);
+    test_eq(status, LXB_STATUS_OK);
+
+    for (i = 0; i < length; i++) {
+        test_eq(large_out[i], large_source[i]);
+    }
+
+    test_eq(large_out[length], 0x0000);
+
+    ace = lexbor_malloc(str.length * sizeof(lxb_codepoint_t));
+    test_ne(ace, NULL);
+
+    for (i = 0; i < str.length; i++) {
+        ace[i] = str.data[i];
+    }
+
+    memset(large_out, 0xFF, (length + 1) * sizeof(lxb_codepoint_t));
+
+    status = lxb_punycode_decode_cp(ace, str.length, callback_cp, large_out);
+    test_eq(status, LXB_STATUS_OK);
+
+    for (i = 0; i < length; i++) {
+        test_eq(large_out[i], large_source[i]);
+    }
+
+    test_eq(large_out[length], 0x0000);
+
+    lexbor_free(ace);
+    lexbor_free(str.data);
+}
+TEST_END
+
 TEST_BEGIN(decode_chr)
 {
     lxb_status_t status;
@@ -389,6 +482,8 @@ main(int argc, const char * argv[])
     TEST_ADD(encode_delta_max);
     TEST_ADD(encode_distinct);
     TEST_ADD(encode_mixed);
+    TEST_ADD(decode_distinct);
+    TEST_ADD(decode_mixed);
     TEST_ADD(decode_chr);
     TEST_ADD(decode_big_buffer);
     TEST_ADD(decode_big_buffer_edge);

@@ -19,6 +19,12 @@ enum {
     LXB_PUNYCODE_DELIMITER = 0x2D
 };
 
+typedef struct {
+    lxb_codepoint_t cp;
+    uint32_t        index;
+}
+lxb_punycode_insert_t;
+
 
 static lxb_status_t
 lxb_punycode_callback_cp(const lxb_codepoint_t *cps, size_t len, void *ctx);
@@ -580,11 +586,179 @@ lxb_punycode_callback_cp(const lxb_codepoint_t *cps, size_t len, void *ctx)
     return status;
 }
 
+lxb_inline lxb_codepoint_t
+lxb_punycode_decode_at(const void *data, size_t pos, bool is_cp)
+{
+    if (is_cp) {
+        return ((const lxb_codepoint_t *) data)[pos];
+    }
+
+    return ((const lxb_char_t *) data)[pos];
+}
+
+lxb_inline size_t
+lxb_punycode_tree_select(const size_t *tree, size_t length, size_t mask,
+                         size_t index)
+{
+    size_t pos;
+
+    for (pos = 0; mask != 0; mask >>= 1) {
+        if (pos + mask <= length && tree[pos + mask] <= index) {
+            pos += mask;
+            index -= tree[pos];
+        }
+    }
+
+    return pos;
+}
+
+lxb_inline void
+lxb_punycode_tree_sub(size_t *tree, size_t length, size_t pos)
+{
+    for (pos += 1; pos <= length; pos += lxb_punycode_lowbit(pos)) {
+        tree[pos] -= 1;
+    }
+}
+
+static lxb_status_t
+lxb_punycode_decode_tree(const void *data, size_t length, bool is_cp,
+                         size_t in, size_t i, size_t bias, lxb_codepoint_t n,
+                         const lxb_codepoint_t *out, size_t out_len,
+                         lexbor_serialize_cb_cp_f cb, void *ctx)
+{
+    size_t j, k, t, w, h, oldi, digit, count, total, size, pos, mask;
+    size_t *tree;
+    lxb_status_t status;
+    lxb_codepoint_t *res;
+    lxb_punycode_insert_t *insert;
+
+    count = (length - in) + 1;
+    total = out_len + count;
+
+    if (total > (SIZE_MAX - sizeof(size_t))
+                / (sizeof(size_t) + sizeof(lxb_punycode_insert_t)
+                   + sizeof(lxb_codepoint_t)))
+    {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    size = (total + 1) * sizeof(size_t)
+           + count * sizeof(lxb_punycode_insert_t)
+           + total * sizeof(lxb_codepoint_t);
+
+    tree = lexbor_malloc(size);
+    if (tree == NULL) {
+        return LXB_STATUS_ERROR_MEMORY_ALLOCATION;
+    }
+
+    insert = (lxb_punycode_insert_t *) (tree + total + 1);
+    res = (lxb_codepoint_t *) (insert + count);
+
+    count = 0;
+
+    for (;;) {
+        insert[count].cp = n;
+        insert[count].index = (uint32_t) i;
+
+        count += 1;
+        i += 1;
+
+        if (in >= length) {
+            break;
+        }
+
+        for (oldi = i, w = 1, k = LXB_PUNYCODE_BASE; ; k += LXB_PUNYCODE_BASE) {
+            if (in >= length) {
+                status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+                goto done;
+            }
+
+            digit = lxb_punycode_decode_digit(lxb_punycode_decode_at(data, in,
+                                                                     is_cp));
+            in += 1;
+
+            if (digit >= LXB_PUNYCODE_BASE) {
+                status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
+                goto done;
+            }
+
+            if (digit > (UINT32_MAX - i) / w) {
+                status = LXB_STATUS_ERROR_OVERFLOW;
+                goto done;
+            }
+
+            i += digit * w;
+            t = k <= bias ? LXB_PUNYCODE_TMIN
+              : k >= bias + LXB_PUNYCODE_TMAX ? LXB_PUNYCODE_TMAX : k - bias;
+
+            if (digit < t) {
+                break;
+            }
+
+            if (w > UINT32_MAX / (LXB_PUNYCODE_BASE - t)) {
+                status = LXB_STATUS_ERROR_OVERFLOW;
+                goto done;
+            }
+
+            w *= (LXB_PUNYCODE_BASE - t);
+        }
+
+        h = out_len + count + 1;
+
+        bias = lxb_punycode_adapt(i - oldi, h, oldi == 0);
+
+        if (i / h > UINT32_MAX - n) {
+            status = LXB_STATUS_ERROR_OVERFLOW;
+            goto done;
+        }
+
+        n += i / h;
+        i %= h;
+    }
+
+    total = out_len + count;
+    mask = 1;
+
+    while (mask <= total / 2) {
+        mask <<= 1;
+    }
+
+    for (j = 1; j <= total; j++) {
+        tree[j] = lxb_punycode_lowbit(j);
+        res[j - 1] = 0x00;
+    }
+
+    while (count != 0) {
+        count -= 1;
+
+        pos = lxb_punycode_tree_select(tree, total, mask, insert[count].index);
+
+        res[pos] = insert[count].cp;
+        lxb_punycode_tree_sub(tree, total, pos);
+    }
+
+    for (pos = 0, j = 0; j < out_len; pos++) {
+        if (res[pos] == 0x00) {
+            res[pos] = out[j++];
+        }
+    }
+
+    status = cb(res, total, ctx);
+
+done:
+
+    (void) lexbor_free(tree);
+
+    return status;
+}
+
 lxb_status_t
 lxb_punycode_decode_cp(const lxb_codepoint_t *data, size_t length,
                        lexbor_serialize_cb_cp_f cb, void *ctx)
 {
-    size_t buf_len, digit, oldi, bias, w, k, t, i, h, in;
+    size_t buf_len, digit, oldi, bias, w, k, t, i, h, in, j;
+    uint64_t credit;
+    bool limited;
     const lxb_codepoint_t *delimiter, *data_p, *data_end;
     lxb_status_t status;
     lxb_codepoint_t cp, n;
@@ -632,6 +806,9 @@ lxb_punycode_decode_cp(const lxb_codepoint_t *data, size_t length,
     bias = LXB_PUNYCODE_INITIAL_BIAS;
     data_p = (delimiter != data) ? delimiter + 1: data;
     in = data_p - data;
+
+    credit = (uint64_t) (p - buf) * 512;
+    limited = length - in > 512;
 
     for (; in < length; p++) {
         for (oldi = i, w = 1, k = LXB_PUNYCODE_BASE; ; k += LXB_PUNYCODE_BASE) {
@@ -681,6 +858,19 @@ lxb_punycode_decode_cp(const lxb_codepoint_t *data, size_t length,
         n += i / h;
         i %= h;
 
+        if (limited) {
+            credit += 512;
+
+            if ((h - 1) - i > credit) {
+                status = lxb_punycode_decode_tree(data, length, true, in, i,
+                                                  bias, n, buf, h - 1, cb,
+                                                  ctx);
+                goto done;
+            }
+
+            credit -= (h - 1) - i;
+        }
+
         if (p >= end) {
             p = lxb_punycode_decode_realloc(p, &buf, &end, buffer);
             if (p == NULL) {
@@ -688,7 +878,16 @@ lxb_punycode_decode_cp(const lxb_codepoint_t *data, size_t length,
             }
         }
 
-        memmove(buf + i + 1, buf + i, ((h - 1) - i) * sizeof(lxb_codepoint_t));
+        if ((h - 1) - i < 16) {
+            for (j = h - 1; j > i; j--) {
+                buf[j] = buf[j - 1];
+            }
+        }
+        else {
+            memmove(buf + i + 1, buf + i,
+                    ((h - 1) - i) * sizeof(lxb_codepoint_t));
+        }
+
         buf[i++] = n;
     }
 
@@ -707,7 +906,9 @@ lxb_status_t
 lxb_punycode_decode_cb_cp(const lxb_char_t *data, size_t length,
                           lexbor_serialize_cb_cp_f cb, void *ctx)
 {
-    size_t buf_len, digit, oldi, bias, w, k, t, i, h, in;
+    size_t buf_len, digit, oldi, bias, w, k, t, i, h, in, j;
+    uint64_t credit;
+    bool limited;
     const lxb_char_t *delimiter, *data_p, *data_end;
     lxb_status_t status;
     lxb_codepoint_t cp, n;
@@ -755,6 +956,9 @@ lxb_punycode_decode_cb_cp(const lxb_char_t *data, size_t length,
     bias = LXB_PUNYCODE_INITIAL_BIAS;
     data_p = (delimiter != data) ? delimiter + 1: data;
     in = data_p - data;
+
+    credit = (uint64_t) (p - buf) * 512;
+    limited = length - in > 512;
 
     for (; in < length; p++) {
         for (oldi = i, w = 1, k = LXB_PUNYCODE_BASE; ; k += LXB_PUNYCODE_BASE) {
@@ -804,6 +1008,19 @@ lxb_punycode_decode_cb_cp(const lxb_char_t *data, size_t length,
         n += i / h;
         i %= h;
 
+        if (limited) {
+            credit += 512;
+
+            if ((h - 1) - i > credit) {
+                status = lxb_punycode_decode_tree(data, length, false, in, i,
+                                                  bias, n, buf, h - 1, cb,
+                                                  ctx);
+                goto done;
+            }
+
+            credit -= (h - 1) - i;
+        }
+
         if (p >= end) {
             p = lxb_punycode_decode_realloc(p, &buf, &end, buffer);
             if (p == NULL) {
@@ -811,7 +1028,16 @@ lxb_punycode_decode_cb_cp(const lxb_char_t *data, size_t length,
             }
         }
 
-        memmove(buf + i + 1, buf + i, ((h - 1) - i) * sizeof(lxb_codepoint_t));
+        if ((h - 1) - i < 16) {
+            for (j = h - 1; j > i; j--) {
+                buf[j] = buf[j - 1];
+            }
+        }
+        else {
+            memmove(buf + i + 1, buf + i,
+                    ((h - 1) - i) * sizeof(lxb_codepoint_t));
+        }
+
         buf[i++] = n;
     }
 
