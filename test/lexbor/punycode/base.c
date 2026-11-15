@@ -113,6 +113,63 @@ TEST_BEGIN(encode_big_buffer_edge)
 }
 TEST_END
 
+TEST_BEGIN(encode_overflow)
+{
+    size_t i;
+    lxb_status_t status;
+    lexbor_str_t str = {0};
+    lxb_codepoint_t source[4001];
+    lxb_char_t buffer[4004];
+
+    for (i = 0; i < 4000; i++) {
+        source[i] = 'a';
+        buffer[i] = 'a';
+    }
+
+    source[4000] = 0x1061C1;
+
+    memcpy(&buffer[4000], "\xF4\x86\x87\x81", 4);
+
+    status = lxb_punycode_encode_cp(source, 4001, callback_enc, &str);
+    test_eq(status, LXB_STATUS_ERROR_OVERFLOW);
+    test_eq(str.data, NULL);
+
+    status = lxb_punycode_encode(buffer, sizeof(buffer), callback_enc, &str);
+    test_eq(status, LXB_STATUS_ERROR_OVERFLOW);
+    test_eq(str.data, NULL);
+}
+TEST_END
+
+TEST_BEGIN(encode_delta_max)
+{
+    size_t i;
+    lxb_status_t status;
+    lexbor_str_t str;
+    lxb_codepoint_t source[4096];
+    lxb_codepoint_t out[4097];
+
+    for (i = 0; i < 4095; i++) {
+        source[i] = 'a';
+    }
+
+    source[4095] = 0x10007F;
+
+    status = lxb_punycode_encode_cp(source, 4096, callback_enc, &str);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_punycode_decode_cb_cp(str.data, str.length, callback_cp, out);
+    test_eq(status, LXB_STATUS_OK);
+
+    for (i = 0; i < 4096; i++) {
+        test_eq(out[i], source[i]);
+    }
+
+    test_eq(out[4096], 0x0000);
+
+    lexbor_free(str.data);
+}
+TEST_END
+
 TEST_BEGIN(decode_chr)
 {
     lxb_status_t status;
@@ -230,6 +287,8 @@ main(int argc, const char * argv[])
     TEST_ADD(encode_chr);
     TEST_ADD(encode_big_buffer);
     TEST_ADD(encode_big_buffer_edge);
+    TEST_ADD(encode_overflow);
+    TEST_ADD(encode_delta_max);
     TEST_ADD(decode_chr);
     TEST_ADD(decode_big_buffer);
     TEST_ADD(decode_big_buffer_edge);

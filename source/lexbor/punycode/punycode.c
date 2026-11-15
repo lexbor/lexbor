@@ -178,10 +178,12 @@ lxb_punycode_encode_body(const lxb_codepoint_t *cps, const lxb_codepoint_t *cps_
             cp = *cps_t++;
 
             if (cp < n) {
-                if (++delta == 0) {
+                if (delta == UINT32_MAX) {
                     status = LXB_STATUS_ERROR_OVERFLOW;
                     goto failed;
                 }
+
+                delta += 1;
             }
 
             if (cp == n) {
