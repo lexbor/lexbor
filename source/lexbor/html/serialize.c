@@ -8,6 +8,7 @@
 #include "lexbor/dom/interfaces/comment.h"
 #include "lexbor/dom/interfaces/processing_instruction.h"
 #include "lexbor/dom/interfaces/document_type.h"
+#include "lexbor/dom/interfaces/document_fragment.h"
 
 #include "lexbor/html/serialize.h"
 #include "lexbor/html/tree.h"
@@ -237,28 +238,54 @@ lxb_html_serialize_str_callback(const lxb_char_t *data, size_t len, void *ctx)
     return LXB_STATUS_OK;
 }
 
-lxb_status_t
-lxb_html_serialize_deep_cb(lxb_dom_node_t *node,
-                           lxb_html_serialize_cb_f cb, void *ctx)
+static lxb_dom_node_t *
+lxb_html_serialize_subtree_node(lxb_dom_node_t *node)
 {
-    lxb_status_t status;
     lxb_html_template_element_t *temp;
 
     if (lxb_html_node_is_void(node)) {
-        return LXB_STATUS_OK;
+        return NULL;
     }
 
     if (lxb_html_tree_node_is(node, LXB_TAG_TEMPLATE)) {
         temp = lxb_html_interface_template(node);
 
         if (temp->content == NULL) {
-            return LXB_STATUS_OK;
+            return NULL;
         }
 
-        node = &temp->content->node;
+        return temp->content->node.first_child;
     }
 
-    node = node->first_child;
+    return node->first_child;
+}
+
+static lxb_dom_node_t *
+lxb_html_serialize_subtree_parent(lxb_dom_node_t *node)
+{
+    lxb_dom_node_t *parent = node->parent;
+    lxb_dom_document_fragment_t *fragment;
+
+    if (parent != NULL
+        && parent->type == LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT)
+    {
+        fragment = lxb_dom_interface_document_fragment(parent);
+
+        if (fragment->host != NULL) {
+            return lxb_dom_interface_node(fragment->host);
+        }
+    }
+
+    return parent;
+}
+
+lxb_status_t
+lxb_html_serialize_deep_cb(lxb_dom_node_t *node,
+                           lxb_html_serialize_cb_f cb, void *ctx)
+{
+    lxb_status_t status;
+
+    node = lxb_html_serialize_subtree_node(node);
 
     while (node != NULL) {
         status = lxb_html_serialize_node_cb(node, cb, ctx);
@@ -296,8 +323,8 @@ static lxb_status_t
 lxb_html_serialize_node_cb(lxb_dom_node_t *node,
                            lxb_html_serialize_cb_f cb, void *ctx)
 {
-    bool skip_it;
     lxb_status_t status;
+    lxb_dom_node_t *child;
     lxb_dom_node_t *root = node;
 
     while (node != NULL) {
@@ -306,47 +333,14 @@ lxb_html_serialize_node_cb(lxb_dom_node_t *node,
             return status;
         }
 
-        if (lxb_html_tree_node_is(node, LXB_TAG_TEMPLATE)) {
-            lxb_html_template_element_t *temp;
+        child = lxb_html_serialize_subtree_node(node);
 
-            temp = lxb_html_interface_template(node);
-
-            if (temp->content != NULL) {
-                if (temp->content->node.first_child != NULL)
-                {
-                    status = lxb_html_serialize_deep_cb(&temp->content->node,
-                                                        cb, ctx);
-                    if (status != LXB_STATUS_OK) {
-                        return status;
-                    }
-                }
-            }
-
-            skip_it = true;
-        }
-        else {
-            skip_it = lxb_html_node_is_void(node);
+        if (child != NULL) {
+            node = child;
+            continue;
         }
 
-        if (skip_it == false && node->first_child != NULL) {
-            node = node->first_child;
-        }
-        else {
-            while(node != root && node->next == NULL)
-            {
-                if (node->type == LXB_DOM_NODE_TYPE_ELEMENT
-                    && lxb_html_node_is_void(node) == false)
-                {
-                    status = lxb_html_serialize_element_closed_cb(lxb_dom_interface_element(node),
-                                                                  cb, ctx);
-                    if (status != LXB_STATUS_OK) {
-                        return status;
-                    }
-                }
-
-                node = node->parent;
-            }
-
+        for (;;) {
             if (node->type == LXB_DOM_NODE_TYPE_ELEMENT
                 && lxb_html_node_is_void(node) == false)
             {
@@ -358,10 +352,15 @@ lxb_html_serialize_node_cb(lxb_dom_node_t *node,
             }
 
             if (node == root) {
+                return LXB_STATUS_OK;
+            }
+
+            if (node->next != NULL) {
+                node = node->next;
                 break;
             }
 
-            node = node->next;
+            node = lxb_html_serialize_subtree_parent(node);
         }
     }
 
@@ -1060,8 +1059,11 @@ lxb_html_serialize_pretty_node_cb(lxb_dom_node_t *node,
                                   lxb_html_serialize_opt_t opt, size_t deep,
                                   lxb_html_serialize_cb_f cb, void *ctx)
 {
-    bool skip_it;
     lxb_status_t status;
+    lxb_dom_node_t *child;
+    lxb_dom_node_t *parent;
+    lxb_html_template_element_t *temp;
+    lxb_dom_document_fragment_t *fragment;
     lxb_dom_node_t *root = node;
 
     while (node != NULL) {
@@ -1070,19 +1072,20 @@ lxb_html_serialize_pretty_node_cb(lxb_dom_node_t *node,
             return status;
         }
 
-        if (lxb_html_tree_node_is(node, LXB_TAG_TEMPLATE)) {
-            lxb_html_template_element_t *temp;
+        child = NULL;
 
-            temp = lxb_html_interface_template(node);
+        if (lxb_html_node_is_void(node) == false) {
+            if (lxb_html_tree_node_is(node, LXB_TAG_TEMPLATE)) {
+                temp = lxb_html_interface_template(node);
 
-            if (opt & LXB_HTML_SERIALIZE_OPT_HTML5TEST) {
-                lxb_html_serialize_send_indent((deep + 1), ctx);
-                lxb_html_serialize_send("content", 7, ctx);
-                lxb_html_serialize_send("\n", 1, ctx);
-            }
+                if (opt & LXB_HTML_SERIALIZE_OPT_HTML5TEST) {
+                    lxb_html_serialize_send_indent((deep + 1), ctx);
+                    lxb_html_serialize_send("content", 7, ctx);
+                    lxb_html_serialize_send("\n", 1, ctx);
+                }
 
-            if (temp->content != NULL) {
-                if (temp->content->node.first_child != NULL)
+                if (temp->content != NULL
+                    && temp->content->node.first_child != NULL)
                 {
                     if ((opt & LXB_HTML_SERIALIZE_OPT_HTML5TEST) == 0) {
                         lxb_html_serialize_send_indent((deep + 1), ctx);
@@ -1090,68 +1093,66 @@ lxb_html_serialize_pretty_node_cb(lxb_dom_node_t *node,
                         lxb_html_serialize_send("\n", 1, ctx);
                     }
 
-                    status = lxb_html_serialize_pretty_deep_cb(&temp->content->node,
-                                                               opt, (deep + 2),
-                                                               cb, ctx);
-                    if (status != LXB_STATUS_OK) {
-                        return status;
-                    }
+                    child = temp->content->node.first_child;
+                    deep += 2;
+                }
+            }
+            else {
+                child = node->first_child;
+
+                if (child != NULL) {
+                    deep += 1;
                 }
             }
         }
 
-        skip_it = lxb_html_node_is_void(node);
-
-        if (skip_it == false && node->first_child != NULL) {
-            deep++;
-
-            node = node->first_child;
+        if (child != NULL) {
+            node = child;
+            continue;
         }
-        else {
-            while(node != root && node->next == NULL)
-            {
-                if (node->type == LXB_DOM_NODE_TYPE_ELEMENT
-                    && lxb_html_node_is_void(node) == false)
-                {
-                    if ((opt & LXB_HTML_SERIALIZE_OPT_WITHOUT_CLOSING) == 0) {
-                        lxb_html_serialize_send_indent(deep, ctx);
 
-                        status = lxb_html_serialize_element_closed_cb(lxb_dom_interface_element(node),
-                                                                      cb, ctx);
-                        if (status != LXB_STATUS_OK) {
-                            return status;
-                        }
-
-                        lxb_html_serialize_send("\n", 1, ctx);
-                    }
-                }
-
-                deep--;
-
-                node = node->parent;
-            }
-
+        for (;;) {
             if (node->type == LXB_DOM_NODE_TYPE_ELEMENT
-                && lxb_html_node_is_void(node) == false)
+                && lxb_html_node_is_void(node) == false
+                && (opt & LXB_HTML_SERIALIZE_OPT_WITHOUT_CLOSING) == 0)
             {
-                if ((opt & LXB_HTML_SERIALIZE_OPT_WITHOUT_CLOSING) == 0) {
-                    lxb_html_serialize_send_indent(deep, ctx);
+                lxb_html_serialize_send_indent(deep, ctx);
 
-                    status = lxb_html_serialize_element_closed_cb(lxb_dom_interface_element(node),
-                                                                  cb, ctx);
-                    if (status != LXB_STATUS_OK) {
-                        return status;
-                    }
-
-                    lxb_html_serialize_send("\n", 1, ctx);
+                status = lxb_html_serialize_element_closed_cb(lxb_dom_interface_element(node),
+                                                              cb, ctx);
+                if (status != LXB_STATUS_OK) {
+                    return status;
                 }
+
+                lxb_html_serialize_send("\n", 1, ctx);
             }
 
             if (node == root) {
+                return LXB_STATUS_OK;
+            }
+
+            if (node->next != NULL) {
+                node = node->next;
                 break;
             }
 
-            node = node->next;
+            parent = node->parent;
+
+            if (parent != NULL
+                && parent->type == LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT)
+            {
+                fragment = lxb_dom_interface_document_fragment(parent);
+
+                if (fragment->host != NULL) {
+                    deep -= 2;
+                    node = lxb_dom_interface_node(fragment->host);
+
+                    continue;
+                }
+            }
+
+            deep -= 1;
+            node = parent;
         }
     }
 

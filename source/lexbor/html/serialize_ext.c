@@ -8,6 +8,7 @@
 #include "lexbor/dom/interfaces/comment.h"
 #include "lexbor/dom/interfaces/processing_instruction.h"
 #include "lexbor/dom/interfaces/document_type.h"
+#include "lexbor/dom/interfaces/document_fragment.h"
 
 #include "lexbor/html/serialize_ext.h"
 #include "lexbor/html/tree.h"
@@ -1345,10 +1346,15 @@ lxb_html_serialize_ext_walk(const lxb_dom_node_t *node,
                             const lexbor_str_t *indent,
                             lxb_html_serialize_ext_opt_t opt, size_t level)
 {
-    bool skip_it;
-    uint8_t offset;
+    size_t offset;
     lxb_status_t status;
+    const lxb_dom_node_t *child;
+    const lxb_dom_node_t *parent;
+    lxb_html_template_element_t *temp;
+    lxb_dom_document_fragment_t *fragment;
     const lxb_dom_node_t *root = node;
+
+    offset = (opt & LXB_HTML_SERIALIZE_EXT_OPT_PRETTY) ? 2 : 1;
 
     while (node != NULL) {
         status = lxb_html_serialize_ext_node_cb_h(node, cb, ctx, opt,
@@ -1365,19 +1371,16 @@ lxb_html_serialize_ext_walk(const lxb_dom_node_t *node,
             lxb_html_serialize_ext_newline_send(cb->newline, ctx, level);
         }
 
-        if (lxb_html_tree_node_is(node, LXB_TAG_TEMPLATE)) {
-            lxb_html_template_element_t *temp;
+        child = NULL;
 
-            temp = lxb_html_interface_template(node);
+        if (lxb_html_node_is_void(node) == false) {
+            if (lxb_html_tree_node_is(node, LXB_TAG_TEMPLATE)) {
+                temp = lxb_html_interface_template(node);
 
-            if (temp->content != NULL) {
-                if (temp->content->node.first_child != NULL)
+                if (temp->content != NULL
+                    && temp->content->node.first_child != NULL)
                 {
-                    offset = 1;
-
                     if (opt & LXB_HTML_SERIALIZE_EXT_OPT_PRETTY) {
-                        offset += 1;
-
                         status = lxb_html_serialize_ext_fragment(node, cb->node,
                                                                  ctx, opt, indent,
                                                                  (level + 1));
@@ -1389,48 +1392,25 @@ lxb_html_serialize_ext_walk(const lxb_dom_node_t *node,
                                                             ctx, level);
                     }
 
-                    status = lxb_html_serialize_ext_tree_cb_h(&temp->content->node,
-                                                              cb, ctx, opt, indent,
-                                                              (level + offset), false);
-                    if (status != LXB_STATUS_OK) {
-                        return status;
-                    }
+                    child = temp->content->node.first_child;
+                    level += offset;
                 }
             }
+            else {
+                child = node->first_child;
 
-            skip_it = true;
-        }
-        else {
-            skip_it = lxb_html_node_is_void(node);
-        }
-
-        if (skip_it == false && node->first_child != NULL) {
-            level += 1;
-            node = node->first_child;
-        }
-        else {
-            while(node != root && node->next == NULL)
-            {
-                if (node->type == LXB_DOM_NODE_TYPE_ELEMENT
-                    && lxb_html_node_is_void(node) == false
-                    && !(opt & LXB_HTML_SERIALIZE_EXT_OPT_WITHOUT_CLOSING))
-                {
-                    status = lxb_html_serialize_ext_element_wo_attr_cb_h(lxb_dom_interface_element(node),
-                                                                         cb->node, ctx, opt, indent, level, true);
-                    if (status != LXB_STATUS_OK) {
-                        return status;
-                    }
-
-                    if (opt & LXB_HTML_SERIALIZE_EXT_OPT_PRETTY) {
-                        lxb_html_serialize_ext_newline_send(cb->newline,
-                                                            ctx, level);
-                    }
+                if (child != NULL) {
+                    level += 1;
                 }
-
-                level -= 1;
-                node = node->parent;
             }
+        }
 
+        if (child != NULL) {
+            node = child;
+            continue;
+        }
+
+        for (;;) {
             if (node->type == LXB_DOM_NODE_TYPE_ELEMENT
                 && lxb_html_node_is_void(node) == false
                 && !(opt & LXB_HTML_SERIALIZE_EXT_OPT_WITHOUT_CLOSING))
@@ -1448,10 +1428,31 @@ lxb_html_serialize_ext_walk(const lxb_dom_node_t *node,
             }
 
             if (node == root) {
+                return LXB_STATUS_OK;
+            }
+
+            if (node->next != NULL) {
+                node = node->next;
                 break;
             }
 
-            node = node->next;
+            parent = node->parent;
+
+            if (parent != NULL
+                && parent->type == LXB_DOM_NODE_TYPE_DOCUMENT_FRAGMENT)
+            {
+                fragment = lxb_dom_interface_document_fragment(parent);
+
+                if (fragment->host != NULL) {
+                    level -= offset;
+                    node = lxb_dom_interface_node(fragment->host);
+
+                    continue;
+                }
+            }
+
+            level -= 1;
+            node = parent;
         }
     }
 

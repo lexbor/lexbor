@@ -573,6 +573,55 @@ TEST_BEGIN(void_children)
 }
 TEST_END
 
+TEST_BEGIN(deep_template_nesting)
+{
+    char *html;
+    size_t i;
+    lxb_status_t status;
+    lxb_dom_node_t *tmpl;
+    lxb_html_document_t *document;
+    lexbor_str_t str = {0};
+    lexbor_str_t ext = {0};
+
+    static const char open[] = "<template>";
+    static const size_t depth = 65536;
+
+    html = lexbor_malloc(depth * (sizeof(open) - 1));
+    test_ne(html, NULL);
+
+    for (i = 0; i < depth; i++) {
+        memcpy(html + i * (sizeof(open) - 1), open, sizeof(open) - 1);
+    }
+
+    document = document_parse(html, depth * (sizeof(open) - 1), false);
+    test_ne(document, NULL);
+
+    lexbor_free(html);
+
+    tmpl = lxb_dom_interface_node(lxb_html_document_head_element(document));
+    tmpl = tmpl->first_child;
+    test_eq(tmpl->local_name, LXB_TAG_TEMPLATE);
+
+    status = lxb_html_serialize_tree_str(tmpl, &str);
+    test_eq(status, LXB_STATUS_OK);
+    test_eq(str.length, depth * (sizeof("<template></template>") - 1));
+
+    status = lxb_html_serialize_ext_tree_str(tmpl, &ext,
+                                             LXB_HTML_SERIALIZE_EXT_OPT_UNDEF,
+                                             NULL, true);
+    test_eq(status, LXB_STATUS_OK);
+    test_eq_str_n(ext.data, ext.length, str.data, str.length);
+
+    str.length = 0;
+
+    status = lxb_html_serialize_deep_str(tmpl, &str);
+    test_eq(status, LXB_STATUS_OK);
+    test_eq(str.length, (depth - 1) * (sizeof("<template></template>") - 1));
+
+    lxb_html_document_destroy(document);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -591,6 +640,7 @@ main(int argc, const char * argv[])
     TEST_ADD(template_contents);
     TEST_ADD(template_children);
     TEST_ADD(void_children);
+    TEST_ADD(deep_template_nesting);
 
     TEST_RUN("lexbor/html/serialize");
     TEST_RELEASE();
