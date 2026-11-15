@@ -107,6 +107,11 @@ lxb_dom_element_style_remove_by_list(lxb_dom_element_t *element,
                                      lxb_style_node_t *style,
                                      lxb_css_rule_declaration_list_t *list);
 
+LXB_API lxb_style_node_t *
+lxb_dom_element_style_remove_by_rule(lxb_dom_element_t *element,
+                                     lxb_style_node_t *style,
+                                     const lxb_css_rule_t *rule);
+
 LXB_API lxb_status_t
 lxb_dom_element_style_serialize(lxb_dom_element_t *element,
                                 lxb_dom_element_style_opt_t opt,

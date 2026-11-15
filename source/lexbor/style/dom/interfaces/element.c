@@ -55,6 +55,10 @@ static lxb_style_node_t *
 lxb_dom_element_style_remove_if_dirty(lxb_dom_element_t *element,
                                       lxb_style_node_t *style);
 
+static bool
+lxb_dom_element_style_rule_contains(const lxb_css_rule_t *rule,
+                                    const lxb_css_rule_declaration_t *declr);
+
 static lxb_status_t
 lxb_dom_element_style_serialize_cb(lexbor_avl_t *avl, lexbor_avl_node_t **root,
                                    lexbor_avl_node_t *node, void *ctx);
@@ -595,9 +599,36 @@ lxb_dom_element_style_remove_if_dirty(lxb_dom_element_t *element,
     return style;
 }
 
+lxb_style_node_t *
+lxb_dom_element_style_remove_by_list(lxb_dom_element_t *element,
+                                     lxb_style_node_t *style,
+                                     lxb_css_rule_declaration_list_t *list)
+{
+    return lxb_dom_element_style_remove_by_rule(element, style,
+                                                lxb_css_rule(list));
+}
+
+static bool
+lxb_dom_element_style_rule_contains(const lxb_css_rule_t *rule,
+                                    const lxb_css_rule_declaration_t *declr)
+{
+    const lxb_css_rule_t *parent = declr->rule.parent;
+
+    while (parent != NULL) {
+        if (parent == rule) {
+            return true;
+        }
+
+        parent = parent->parent;
+    }
+
+    return false;
+}
+
 /*
- * Removes CSS declarations belonging to a specific declaration list from
- * an element's style node (AVL tree node for a CSS property).
+ * Removes CSS declarations contained in a specific rule (a declaration list,
+ * a style rule, the rule list of a stylesheet) from an element's style node
+ * (AVL tree node for a CSS property).
  *
  * Each element stores computed styles in an AVL tree keyed by CSS property id.
  * A style node (lxb_style_node_t) holds the active (highest-specificity)
@@ -607,9 +638,9 @@ lxb_dom_element_style_remove_if_dirty(lxb_dom_element_t *element,
  * The function operates in two modes depending on element->condition:
  *
  * 1. Normal mode (no DIRTY_STYLE):
- *    Walks the weak list and removes entries whose parent rule equals |list|.
- *    Then checks the active declaration — if its parent equals |list|,
- *    it is removed too.
+ *    Walks the weak list and removes entries that |rule| contains, that is,
+ *    |rule| is one of their ancestors. Then checks the active declaration —
+ *    if |rule| contains it, it is removed too.
  *
  * 2. DIRTY_STYLE mode (full style recalculation pending):
  *    Walks the weak list and removes entries that do NOT have the
@@ -617,14 +648,14 @@ lxb_dom_element_style_remove_if_dirty(lxb_dom_element_t *element,
  *    stylesheets are discarded because they will be re-applied during
  *    recalculation. Only inline style="..." entries (sp_s == 1) survive.
  *    The active declaration is kept if it has the style-attribute flag,
- *    regardless of whether its parent matches |list|.
+ *    regardless of whether |rule| contains it.
  *
  * Returns the style node pointer if it still exists, or NULL if removed.
  */
 lxb_style_node_t *
-lxb_dom_element_style_remove_by_list(lxb_dom_element_t *element,
+lxb_dom_element_style_remove_by_rule(lxb_dom_element_t *element,
                                      lxb_style_node_t *style,
-                                     lxb_css_rule_declaration_list_t *list)
+                                     const lxb_css_rule_t *rule)
 {
     lxb_dom_document_t *doc;
     lexbor_avl_node_t **root;
@@ -656,9 +687,7 @@ lxb_dom_element_style_remove_by_list(lxb_dom_element_t *element,
             }
         }
         else {
-            if (((lxb_css_rule_declaration_t *) weak->value)->rule.parent
-                == (lxb_css_rule_t *) list)
-            {
+            if (lxb_dom_element_style_rule_contains(rule, weak->value)) {
                 lexbor_dobject_free(doc->css->weak, weak);
 
                 if (prev != NULL) {
@@ -679,9 +708,7 @@ lxb_dom_element_style_remove_by_list(lxb_dom_element_t *element,
     if (!(condition & LXB_DOM_ELEMENT_CONDITION_DIRTY_STYLE)
         || lxb_css_selector_sp_s(style->sp))
     {
-        if (((lxb_css_rule_declaration_t *) style->entry.value)->rule.parent
-            != (lxb_css_rule_t *) list)
-        {
+        if (!lxb_dom_element_style_rule_contains(rule, style->entry.value)) {
             return style;
         }
     }

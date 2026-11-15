@@ -26,8 +26,8 @@ typedef struct {
 lxb_dom_document_css_custom_entry_t;
 
 typedef struct {
-    lxb_dom_element_t               *element;
-    lxb_css_rule_declaration_list_t *list;
+    lxb_dom_element_t    *element;
+    const lxb_css_rule_t *rule;
 }
 lxb_dom_document_remove_ctx_t;
 
@@ -36,10 +36,12 @@ static lxb_dom_document_css_custom_entry_t *
 lxb_dom_document_css_customs_insert(lxb_dom_document_t *document,
                                     const lxb_char_t *key, size_t length);
 
-static lxb_status_t
-lxb_dom_document_style_remove_by_rule_cb(lxb_dom_node_t *node,
-                                         lxb_css_selector_specificity_t spec,
-                                         void *ctx);
+static void
+lxb_dom_document_styles_remove(lxb_dom_document_t *document,
+                               const lxb_css_rule_t *rule);
+
+static lexbor_action_t
+lxb_dom_document_styles_remove_cb(lxb_dom_node_t *node, void *ctx);
 
 static lxb_status_t
 lxb_dom_document_style_remove_avl_cb(lexbor_avl_t *avl,
@@ -324,41 +326,17 @@ lxb_dom_document_stylesheet_remove(lxb_dom_document_t *document,
                                    lxb_css_stylesheet_t *sst)
 {
     size_t i, length;
-    lxb_status_t status = LXB_STATUS_OK;
-    lxb_css_rule_t *rule;
-    lxb_css_rule_list_t *list;
     lxb_css_stylesheet_t *sst_in;
 
     if (sst == NULL) {
         return LXB_STATUS_OK;
     }
 
-    rule = sst->root;
-
-    if (rule->type != LXB_CSS_RULE_LIST) {
+    if (sst->root->type != LXB_CSS_RULE_LIST) {
         return LXB_STATUS_ERROR_WRONG_ARGS;
     }
 
-    list = lxb_css_rule_list(rule);
-    rule = list->first;
-
-    while (rule != NULL) {
-        switch (rule->type) {
-            case LXB_CSS_RULE_STYLE:
-                status = lxb_dom_document_style_remove(document,
-                                                       lxb_css_rule_style(rule));
-                break;
-
-            default:
-                break;
-        }
-
-        if (status != LXB_STATUS_OK) {
-            /* FIXME: what to do with an error? */
-        }
-
-        rule = rule->next;
-    }
+    lxb_dom_document_styles_remove(document, sst->root);
 
     length = lexbor_array_length(document->css->stylesheets);
 
@@ -471,36 +449,48 @@ lxb_status_t
 lxb_dom_document_style_remove(lxb_dom_document_t *document,
                               lxb_css_rule_style_t *style)
 {
-    lxb_dom_document_css_t *css = document->css;
+    if (style->declarations != NULL) {
+        lxb_dom_document_styles_remove(document,
+                                       lxb_css_rule(style->declarations));
+    }
 
-    return lxb_selectors_find(css->selectors, lxb_dom_interface_node(document),
-                              style->selector,
-                              lxb_dom_document_style_remove_by_rule_cb, style);
+    return LXB_STATUS_OK;
 }
 
-static lxb_status_t
-lxb_dom_document_style_remove_by_rule_cb(lxb_dom_node_t *node,
-                                         lxb_css_selector_specificity_t spec,
-                                         void *ctx)
+static void
+lxb_dom_document_styles_remove(lxb_dom_document_t *document,
+                               const lxb_css_rule_t *rule)
+{
+    lxb_dom_node_simple_walk(lxb_dom_interface_node(document),
+                             lxb_dom_document_styles_remove_cb, (void *) rule);
+}
+
+static lexbor_action_t
+lxb_dom_document_styles_remove_cb(lxb_dom_node_t *node, void *ctx)
 {
     lxb_dom_element_t *el;
     lxb_dom_document_t *doc;
-    lxb_css_rule_style_t *style = ctx;
     lxb_dom_document_remove_ctx_t context;
+
+    if (node->type != LXB_DOM_NODE_TYPE_ELEMENT) {
+        return LEXBOR_ACTION_OK;
+    }
 
     el = lxb_dom_interface_element(node);
 
     if (el->style == NULL) {
-        return LXB_STATUS_OK;
+        return LEXBOR_ACTION_OK;
     }
 
     doc = node->owner_document;
 
     context.element = el;
-    context.list = style->declarations;
+    context.rule = ctx;
 
-    return lexbor_avl_foreach(doc->css->styles, &el->style,
+    (void) lexbor_avl_foreach(doc->css->styles, &el->style,
                               lxb_dom_document_style_remove_avl_cb, &context);
+
+    return LEXBOR_ACTION_OK;
 }
 
 static lxb_status_t
@@ -514,8 +504,8 @@ lxb_dom_document_style_remove_avl_cb(lexbor_avl_t *avl,
     context = ctx;
     element = context->element;
 
-    lxb_dom_element_style_remove_by_list(element, (lxb_style_node_t *) node,
-                                         context->list);
+    lxb_dom_element_style_remove_by_rule(element, (lxb_style_node_t *) node,
+                                         context->rule);
     return LXB_STATUS_OK;
 }
 
