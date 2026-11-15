@@ -230,6 +230,103 @@ TEST_BEGIN(empty_style_remove)
 }
 TEST_END
 
+TEST_BEGIN_ARGS(style_is, lxb_dom_node_t *node, const lexbor_str_t *need)
+{
+    lxb_status_t status;
+    lexbor_str_t out;
+    lxb_dom_element_t *element;
+
+    out.data = NULL;
+    out.length = 0;
+
+    element = lxb_dom_interface_element(node);
+
+    status = lxb_dom_element_style_serialize_str(element, &out,
+                                                 LXB_DOM_ELEMENT_STYLE_OPT_UNDEF);
+    test_eq(status, LXB_STATUS_OK);
+    test_eq_str_n(out.data, out.length, need->data, need->length);
+}
+TEST_END
+
+TEST_BEGIN(style_parent_remove)
+{
+    lxb_status_t status;
+    lxb_dom_node_t *body, *div, *p;
+    lxb_html_document_t *document;
+
+    static const lexbor_str_t html = lexbor_str("<div><style>p {color: red}"
+                                                "</style></div><p>x</p>");
+
+    static const lexbor_str_t red = lexbor_str("color: red");
+    static const lexbor_str_t none = lexbor_str("");
+
+    document = lxb_html_document_create();
+
+    status = lxb_style_init(document);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_html_document_parse(document, html.data, html.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    body = lxb_dom_interface_node(document->body);
+    div = body->first_child;
+    p = body->last_child;
+
+    TEST_CALL_ARGS(style_is, p, &red);
+
+    lxb_dom_node_remove(div);
+
+    TEST_CALL_ARGS(style_is, p, &none);
+
+    lxb_dom_node_insert_child(body, div);
+
+    TEST_CALL_ARGS(style_is, p, &red);
+
+    lxb_dom_node_remove(div);
+
+    TEST_CALL_ARGS(style_is, p, &none);
+
+    (void) lxb_style_destroy(document);
+    (void) lxb_html_document_destroy(document);
+}
+TEST_END
+
+TEST_BEGIN(style_parent_remove_destroy_all)
+{
+    lxb_status_t status;
+    lxb_dom_node_t *body, *div, *p;
+    lxb_html_document_t *document;
+
+    static const lexbor_str_t html = lexbor_str("<div><style>p {color: red}"
+                                                "</style></div><p>x</p>");
+
+    static const lexbor_str_t none = lexbor_str("");
+
+    document = lxb_html_document_create();
+
+    status = lxb_style_init(document);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_html_document_parse(document, html.data, html.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    body = lxb_dom_interface_node(document->body);
+    div = body->first_child;
+    p = body->last_child;
+
+    lxb_dom_node_remove(div);
+
+    lxb_html_document_stylesheet_destroy_all(document, true);
+
+    lxb_dom_node_remove(div->first_child);
+
+    TEST_CALL_ARGS(style_is, p, &none);
+
+    (void) lxb_style_destroy(document);
+    (void) lxb_html_document_destroy(document);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -238,6 +335,8 @@ main(int argc, const char * argv[])
     TEST_ADD(styles);
     TEST_ADD(bad_styles);
     TEST_ADD(empty_style_remove);
+    TEST_ADD(style_parent_remove);
+    TEST_ADD(style_parent_remove_destroy_all);
 
     TEST_RUN("lexbor/style/style_tag");
     TEST_RELEASE();

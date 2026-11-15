@@ -71,10 +71,17 @@ static lexbor_action_t
 lxb_style_html_element_ditry_cb(lxb_dom_node_t *node, void *ctx)
 {
     lxb_dom_element_t *el;
+    lxb_html_style_element_t *style;
 
     if (node->type == LXB_DOM_NODE_TYPE_ELEMENT) {
         el = lxb_dom_interface_element(node);
         el->condition |= LXB_DOM_ELEMENT_CONDITION_DIRTY_STYLE;
+
+        if (node->local_name == LXB_TAG_STYLE && node->ns == LXB_NS_HTML) {
+            style = lxb_html_interface_style(node);
+
+            (void) lxb_html_style_element_remove(style);
+        }
     }
 
     return LEXBOR_ACTION_OK;
