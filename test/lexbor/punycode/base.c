@@ -11,6 +11,13 @@
 #include <lexbor/punycode/punycode.h>
 
 
+#define TEST_LARGE_LENGTH 1000000
+
+
+static lxb_codepoint_t large_source[TEST_LARGE_LENGTH];
+static lxb_codepoint_t large_out[TEST_LARGE_LENGTH + 1];
+
+
 static lxb_status_t
 callback(const lxb_char_t *data, size_t len, void *ctx)
 {
@@ -186,6 +193,80 @@ TEST_BEGIN(encode_delta_max)
 }
 TEST_END
 
+TEST_BEGIN(encode_distinct)
+{
+    size_t i;
+    lexbor_str_t str;
+    lxb_status_t status;
+
+    for (i = 0; i < TEST_LARGE_LENGTH; i++) {
+        large_source[i] = 0x80 + i;
+    }
+
+    status = lxb_punycode_encode_cp(large_source, TEST_LARGE_LENGTH,
+                                    callback_enc, &str);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_punycode_decode_cb_cp(str.data, str.length, callback_cp,
+                                       large_out);
+    test_eq(status, LXB_STATUS_OK);
+
+    for (i = 0; i < TEST_LARGE_LENGTH; i++) {
+        test_eq(large_out[i], large_source[i]);
+    }
+
+    test_eq(large_out[TEST_LARGE_LENGTH], 0x0000);
+
+    lexbor_free(str.data);
+}
+TEST_END
+
+TEST_BEGIN(encode_mixed)
+{
+    size_t i;
+    uint32_t seed;
+    lexbor_str_t str;
+    lxb_status_t status;
+    lxb_codepoint_t source[10000];
+    lxb_codepoint_t out[10001];
+
+    seed = 1;
+
+    for (i = 0; i < 10000; i++) {
+        seed = seed * 1103515245 + 12345;
+
+        switch ((seed >> 16) % 4) {
+            case 0:
+                source[i] = 'a' + (seed >> 8) % 26;
+                break;
+
+            case 1:
+            case 2:
+                source[i] = 0x0430 + (seed >> 8) % 16;
+                break;
+
+            default:
+                source[i] = 0x80 + (seed >> 4) % 0x10FF80;
+                break;
+        }
+    }
+
+    status = lxb_punycode_encode_cp(source, 10000, callback_enc, &str);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_punycode_decode_cb_cp(str.data, str.length, callback_cp, out);
+    test_eq(status, LXB_STATUS_OK);
+
+    for (i = 0; i < 10000; i++) {
+        test_eq(out[i], source[i]);
+    }
+
+    test_eq(out[10000], 0x0000);
+
+    lexbor_free(str.data);
+}
+TEST_END
+
 TEST_BEGIN(decode_chr)
 {
     lxb_status_t status;
@@ -306,6 +387,8 @@ main(int argc, const char * argv[])
     TEST_ADD(encode_truncated_utf_8);
     TEST_ADD(encode_overflow);
     TEST_ADD(encode_delta_max);
+    TEST_ADD(encode_distinct);
+    TEST_ADD(encode_mixed);
     TEST_ADD(decode_chr);
     TEST_ADD(decode_big_buffer);
     TEST_ADD(decode_big_buffer_edge);
