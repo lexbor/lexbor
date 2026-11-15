@@ -300,6 +300,10 @@ lxb_punycode_encode(const lxb_char_t *data, size_t length,
     while (data_p < data_end) {
         cp = lxb_encoding_decode_valid_utf_8_single(&data_p, data_end);
         if (cp == LXB_ENCODING_DECODE_ERROR) {
+            if (buf != buffer) {
+                (void) lexbor_free(buf);
+            }
+
             status = LXB_STATUS_ERROR_UNEXPECTED_DATA;
             goto done;
         }

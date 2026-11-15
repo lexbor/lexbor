@@ -113,6 +113,22 @@ TEST_BEGIN(encode_big_buffer_edge)
 }
 TEST_END
 
+TEST_BEGIN(encode_truncated_utf_8)
+{
+    lxb_status_t status;
+    lexbor_str_t str = {0};
+    lxb_char_t buffer[4096 * 2 + 1];
+
+    memset(buffer, 'a', sizeof(buffer) - 1);
+
+    buffer[sizeof(buffer) - 1] = 0xD1;
+
+    status = lxb_punycode_encode(buffer, sizeof(buffer), callback_enc, &str);
+    test_eq(status, LXB_STATUS_ERROR_UNEXPECTED_DATA);
+    test_eq(str.data, NULL);
+}
+TEST_END
+
 TEST_BEGIN(encode_overflow)
 {
     size_t i;
@@ -287,6 +303,7 @@ main(int argc, const char * argv[])
     TEST_ADD(encode_chr);
     TEST_ADD(encode_big_buffer);
     TEST_ADD(encode_big_buffer_edge);
+    TEST_ADD(encode_truncated_utf_8);
     TEST_ADD(encode_overflow);
     TEST_ADD(encode_delta_max);
     TEST_ADD(decode_chr);
