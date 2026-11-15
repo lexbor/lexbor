@@ -21,6 +21,13 @@ typedef struct {
 lxb_style_html_steps_ctx_t;
 
 
+/*
+ * Returns true if the root of the node is a document, that is, the node is
+ * in a document tree and the stylesheets of the document apply to it.
+ */
+LXB_API bool
+lxb_style_html_element_in_document_tree(const lxb_dom_node_t *node);
+
 /* Element steps. */
 LXB_API lxb_status_t
 lxb_style_html_element_inserted_steps(lxb_dom_node_t *inserted_node);

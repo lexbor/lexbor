@@ -327,6 +327,47 @@ TEST_BEGIN(style_parent_remove_destroy_all)
 }
 TEST_END
 
+TEST_BEGIN(template_style)
+{
+    lxb_status_t status;
+    lxb_dom_node_t *head, *p, *style;
+    lxb_html_template_element_t *template;
+    lxb_html_document_t *document;
+
+    static const lexbor_str_t html = lexbor_str("<template><style>p {color: red}"
+                                                "</style></template><p>x</p>");
+
+    static const lexbor_str_t none = lexbor_str("");
+
+    document = lxb_html_document_create();
+
+    status = lxb_style_init(document);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_html_document_parse(document, html.data, html.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    p = lxb_dom_interface_node(document->body)->last_child;
+
+    head = lxb_dom_interface_node(document->head);
+    template = lxb_html_interface_template(head->first_child);
+    style = lxb_dom_interface_node(template->content)->first_child;
+
+    TEST_CALL_ARGS(style_is, p, &none);
+
+    test_eq(lxb_html_interface_style(style)->stylesheet, NULL);
+
+    lxb_html_document_stylesheet_destroy_all(document, true);
+
+    lxb_dom_node_remove(style);
+
+    TEST_CALL_ARGS(style_is, p, &none);
+
+    (void) lxb_style_destroy(document);
+    (void) lxb_html_document_destroy(document);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -337,6 +378,7 @@ main(int argc, const char * argv[])
     TEST_ADD(empty_style_remove);
     TEST_ADD(style_parent_remove);
     TEST_ADD(style_parent_remove_destroy_all);
+    TEST_ADD(template_style);
 
     TEST_RUN("lexbor/style/style_tag");
     TEST_RELEASE();

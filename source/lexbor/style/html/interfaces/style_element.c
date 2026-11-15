@@ -69,6 +69,10 @@ lxb_html_style_element_pop_open_elements(lxb_dom_node_t *node)
 
     /* Only HTML namespaces. */
 
+    if (!lxb_style_html_element_in_document_tree(node)) {
+        return LXB_STATUS_OK;
+    }
+
     style = lxb_html_interface_style(node);
     document = lxb_html_interface_document(node->owner_document);
 
@@ -86,7 +90,9 @@ lxb_html_style_element_insert_steps(lxb_dom_node_t *inserted_node)
     lxb_status_t status;
     lxb_html_style_element_t *style;
 
-    if (inserted_node->ns == LXB_NS_HTML) {
+    if (inserted_node->ns == LXB_NS_HTML
+        && lxb_style_html_element_in_document_tree(inserted_node))
+    {
         style = lxb_html_interface_style(inserted_node);
 
         status = lxb_html_style_element_parse(style);

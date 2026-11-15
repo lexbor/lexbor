@@ -22,6 +22,16 @@ lxb_style_html_element_steps_remove_my_cb(lexbor_avl_t *avl,
                                           lexbor_avl_node_t *node, void *ctx);
 
 
+bool
+lxb_style_html_element_in_document_tree(const lxb_dom_node_t *node)
+{
+    while (node->parent != NULL) {
+        node = node->parent;
+    }
+
+    return node->type == LXB_DOM_NODE_TYPE_DOCUMENT;
+}
+
 /*
  * Element steps.
  */
@@ -29,6 +39,7 @@ lxb_status_t
 lxb_style_html_element_inserted_steps(lxb_dom_node_t *inserted_node)
 {
     lxb_status_t status;
+    lxb_dom_document_css_t *css;
     lxb_dom_element_t *el = lxb_dom_interface_element(inserted_node);
 
     if (el->condition & LXB_DOM_ELEMENT_CONDITION_DIRTY_STYLE) {
@@ -38,6 +49,14 @@ lxb_style_html_element_inserted_steps(lxb_dom_node_t *inserted_node)
         }
 
         el->condition &= ~LXB_DOM_ELEMENT_CONDITION_DIRTY_STYLE;
+    }
+
+    css = inserted_node->owner_document->css;
+
+    if (lexbor_array_length(css->stylesheets) == 0
+        || !lxb_style_html_element_in_document_tree(inserted_node))
+    {
+        return LXB_STATUS_OK;
     }
 
     return lxb_dom_document_element_styles_attach(el);

@@ -9,6 +9,24 @@
 #include <unit/test.h>
 
 
+TEST_BEGIN_ARGS(style_is, lxb_dom_node_t *node, const lexbor_str_t *need)
+{
+    lxb_status_t status;
+    lexbor_str_t out;
+    lxb_dom_element_t *element;
+
+    out.data = NULL;
+    out.length = 0;
+
+    element = lxb_dom_interface_element(node);
+
+    status = lxb_dom_element_style_serialize_str(element, &out,
+                                                 LXB_DOM_ELEMENT_STYLE_OPT_UNDEF);
+    test_eq(status, LXB_STATUS_OK);
+    test_eq_str_n(out.data, out.length, need->data, need->length);
+}
+TEST_END
+
 /*
  * Test: Element created with style attribute, not connected to document.
  * Style should remain only on the element (inline only, no stylesheet styles).
@@ -5090,6 +5108,113 @@ TEST_BEGIN(svg_option_reconnect)
 }
 TEST_END
 
+TEST_BEGIN(insert_into_detached_parent)
+{
+    lxb_status_t status;
+    lxb_dom_node_t *body, *div, *span;
+    lxb_dom_element_t *element;
+    lxb_css_parser_t *parser;
+    lxb_css_stylesheet_t *sst;
+    lxb_html_document_t *document;
+    lxb_dom_document_t *dom_document;
+
+    static const lexbor_str_t html = lexbor_str("<html><body></body></html>");
+    static const lexbor_str_t div_str = lexbor_str("div");
+    static const lexbor_str_t span_str = lexbor_str("span");
+    static const lexbor_str_t css = lexbor_str("span {color: red}");
+    static const lexbor_str_t red = lexbor_str("color: red");
+    static const lexbor_str_t none = lexbor_str("");
+
+    document = lxb_html_document_create();
+    dom_document = lxb_dom_interface_document(document);
+
+    status = lxb_style_init(document);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_html_document_parse(document, html.data, html.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    parser = lxb_css_parser_create();
+    status = lxb_css_parser_init(parser, NULL);
+    test_eq(status, LXB_STATUS_OK);
+
+    sst = lxb_css_stylesheet_create(NULL);
+    status = lxb_css_stylesheet_parse(sst, parser, css.data, css.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_html_document_stylesheet_attach(document, sst);
+    test_eq(status, LXB_STATUS_OK);
+
+    body = lxb_dom_interface_node(document->body);
+
+    element = lxb_dom_document_create_element(dom_document, div_str.data,
+                                              div_str.length, NULL);
+    test_ne(element, NULL);
+
+    div = lxb_dom_interface_node(element);
+
+    element = lxb_dom_document_create_element(dom_document, span_str.data,
+                                              span_str.length, NULL);
+    test_ne(element, NULL);
+
+    span = lxb_dom_interface_node(element);
+
+    lxb_dom_node_insert_child(div, span);
+
+    TEST_CALL_ARGS(style_is, span, &none);
+
+    lxb_dom_node_insert_child(body, div);
+
+    TEST_CALL_ARGS(style_is, span, &red);
+
+    lxb_dom_node_remove(div);
+    lxb_dom_node_remove(span);
+    lxb_dom_node_insert_child(div, span);
+
+    TEST_CALL_ARGS(style_is, span, &none);
+
+    lxb_html_document_stylesheet_destroy_all(document, true);
+
+    TEST_CALL_ARGS(style_is, span, &none);
+
+    (void) lxb_css_parser_destroy(parser, true);
+    (void) lxb_style_destroy(document);
+    (void) lxb_html_document_destroy(document);
+}
+TEST_END
+
+TEST_BEGIN(template_contents)
+{
+    lxb_status_t status;
+    lxb_dom_node_t *head, *span;
+    lxb_html_template_element_t *template;
+    lxb_html_document_t *document;
+
+    static const lexbor_str_t html = lexbor_str("<style>span {color: red}</style>"
+                                                "<template><span>x</span>"
+                                                "</template>");
+
+    static const lexbor_str_t none = lexbor_str("");
+
+    document = lxb_html_document_create();
+
+    status = lxb_style_init(document);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_html_document_parse(document, html.data, html.length);
+    test_eq(status, LXB_STATUS_OK);
+
+    head = lxb_dom_interface_node(document->head);
+    template = lxb_html_interface_template(head->last_child);
+    span = lxb_dom_interface_node(template->content)->first_child;
+
+    TEST_CALL_ARGS(style_is, span, &none);
+
+    (void) lxb_style_destroy(document);
+    (void) lxb_html_document_destroy(document);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -5130,6 +5255,8 @@ main(int argc, const char * argv[])
     TEST_ADD(important_stylesheet_overrides_inline);
     TEST_ADD(stylesheet_removal_cleans_elements);
     TEST_ADD(dirty_no_inline_context_move);
+    TEST_ADD(insert_into_detached_parent);
+    TEST_ADD(template_contents);
 
     /* Unknown element tests. */
     TEST_ADD(unknown_element_inline_not_connected);
