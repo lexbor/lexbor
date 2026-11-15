@@ -52,7 +52,8 @@ typedef enum {
     WPT_MARKER_FRAGMENT,
     WPT_MARKER_SCRIPT_OFF,
     WPT_MARKER_SCRIPT_ON,
-    WPT_MARKER_DOCUMENT
+    WPT_MARKER_DOCUMENT,
+    WPT_MARKER_DESCRIPTION
 }
 wpt_marker_t;
 
@@ -317,7 +318,7 @@ process_test_file(wpt_ctx_t *ctx, const char *filepath)
 
         if (marker == WPT_MARKER_DATA) {
             if (test.have_data || test.have_document) {
-                if (test.have_document) {
+                if (section == WPT_SECTION_DOCUMENT) {
                     if (test_finalize_document(&test, section_start, line)
                         == false)
                     {
@@ -349,6 +350,15 @@ process_test_file(wpt_ctx_t *ctx, const char *filepath)
             if (section == WPT_SECTION_DATA) {
                 test_finalize_data(&test, line);
             }
+            else if (section == WPT_SECTION_DOCUMENT) {
+                if (test_finalize_document(&test, section_start, line)
+                    == false)
+                {
+                    lexbor_free(file_data);
+                    wpt_test_clean(&test);
+                    return false;
+                }
+            }
 
             switch (marker) {
                 case WPT_MARKER_ERRORS:
@@ -379,6 +389,10 @@ process_test_file(wpt_ctx_t *ctx, const char *filepath)
                     section = WPT_SECTION_DOCUMENT;
                     break;
 
+                case WPT_MARKER_DESCRIPTION:
+                    section = WPT_SECTION_NONE;
+                    break;
+
                 default:
                     break;
             }
@@ -398,7 +412,7 @@ process_test_file(wpt_ctx_t *ctx, const char *filepath)
     }
 
     if (test.have_data || test.have_document) {
-        if (test.have_document) {
+        if (section == WPT_SECTION_DOCUMENT) {
             if (test_finalize_document(&test, section_start, end) == false) {
                 lexbor_free(file_data);
                 wpt_test_clean(&test);
@@ -808,6 +822,10 @@ marker_by_line(const lxb_char_t *data, size_t len)
 
     if (line_eq(data, len, "#document")) {
         return WPT_MARKER_DOCUMENT;
+    }
+
+    if (line_eq(data, len, "#description")) {
+        return WPT_MARKER_DESCRIPTION;
     }
 
     return WPT_MARKER_NONE;
