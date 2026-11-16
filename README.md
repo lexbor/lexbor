@@ -230,13 +230,15 @@ You can create a binding or wrapper for the `lexbor` and place the link here!
 
 ## AI Policy
 
-Lexbor draws a clear line between its core library and the surrounding ecosystem.
+Yes, we use AI tools in Lexbor development.
 
-**Core library** — all source code that compiles into the distributable binary — is written entirely by humans. This is an engineering choice, not an ideological one. Lexbor is a performance-critical, standards-compliant C library where every line of code must reflect a decision its author fully understands and can defend. We use AI tools in other areas of the project and see their value clearly; the core is simply not the right place for them.
+1. **Commit messages.** AI helps us write commit messages. It is convenient.
+2. **A tool, not an author.** AI is a helper. When it is used to write code, mostly tests, nothing is committed without a full review.
+3. **Most of its output needs fixing.** In about 90% of cases, what AI writes has to be corrected.
 
-AI-assisted tools are welcome and actively used for bindings, WASM builds, benchmarks, documentation, examples, tests, and other supporting work. This section is one such example — it was drafted with AI and reviewed by a human. The em dashes are a giveaway.
+Even so, refusing a very useful tool would be silly. We see AI as a new, advanced kind of search, and it is especially handy for working through the tons of specifications that Lexbor implements.
 
-**For contributors:** pull requests targeting core library code are expected to be human-authored. The contributor — not an AI model — performed the reasoning, made the design choices, and wrote the code. The code you submit is yours, and you can speak to the intent and correctness of every line. We are not interested in policing workflows, but if a pull request reads like AI did the thinking, it will likely be rejected.
+**For contributors:** the same applies to pull requests. You may use AI tools, but you are responsible for every line you submit and should be able to explain it.
 
 ## Documentation
 
