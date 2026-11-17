@@ -141,7 +141,7 @@ struct lxb_unicode_normalizer {
     lxb_unicode_buffer_t       *ican;
 
     lxb_char_t                 tmp[4];
-    uint8_t                    tmp_lenght;
+    uint8_t                    tmp_length;
 
     uint8_t                    quick_ccc;
     lxb_unicode_quick_type_t   quick_type;

@@ -185,6 +185,121 @@ TEST_BEGIN(one_by_one)
 }
 TEST_END
 
+TEST_BEGIN(restore_split_utf8)
+{
+    size_t length;
+    lxb_status_t status;
+    lxb_unicode_normalizer_t *uc;
+    test_unicode_ctx_t test_ctx;
+
+    /* U+0800: E0 A0 80 */
+    const lxb_char_t part1[] = { 0xE0 };
+    const lxb_char_t part2[] = { 0xA0, 0x80 };
+
+    test_ctx.p = test_ctx.cps;
+
+    uc = lxb_unicode_normalizer_create();
+    status = lxb_unicode_normalizer_init(uc, LXB_UNICODE_NFC);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_unicode_normalize(uc, part1, sizeof(part1),
+                                   callback, &test_ctx, false);
+    test_eq(status, LXB_STATUS_OK);
+
+    length = test_ctx.p - test_ctx.cps;
+    test_eq(length, 0);
+
+    status = lxb_unicode_normalize(uc, part2, sizeof(part2),
+                                   callback, &test_ctx, true);
+    test_eq(status, LXB_STATUS_OK);
+
+    length = test_ctx.p - test_ctx.cps;
+    test_eq(length, 1);
+    test_eq(test_ctx.cps[0], 0x0800);
+
+    (void) lxb_unicode_normalizer_destroy(uc, true);
+}
+TEST_END
+
+TEST_BEGIN(restore_incomplete_utf8_end)
+{
+    size_t length;
+    lxb_status_t status;
+    lxb_unicode_normalizer_t *uc;
+    test_unicode_ctx_t test_ctx;
+
+    const lxb_char_t part1[] = { 0xE0 };
+
+    test_ctx.p = test_ctx.cps;
+
+    uc = lxb_unicode_normalizer_create();
+    status = lxb_unicode_normalizer_init(uc, LXB_UNICODE_NFC);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_unicode_normalize(uc, part1, sizeof(part1),
+                                   callback, &test_ctx, false);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_unicode_normalize_end(uc, callback, &test_ctx);
+    test_eq(status, LXB_STATUS_OK);
+
+    length = test_ctx.p - test_ctx.cps;
+    test_eq(length, 1);
+    test_eq(test_ctx.cps[0], LXB_ENCODING_REPLACEMENT_CODEPOINT);
+
+    (void) lxb_unicode_normalizer_destroy(uc, true);
+}
+TEST_END
+
+/*
+ * After a completed split restore, tmp[1..] may still hold old bytes.
+ * An incomplete tail must not decode using that stale data.
+ */
+TEST_BEGIN(restore_stale_tmp_incomplete_end)
+{
+    size_t length;
+    lxb_status_t status;
+    lxb_unicode_normalizer_t *uc;
+    test_unicode_ctx_t test_ctx;
+
+    const lxb_char_t lead[] = { 0xE0 };
+    const lxb_char_t tail[] = { 0xA0, 0x80 };
+
+    test_ctx.p = test_ctx.cps;
+
+    uc = lxb_unicode_normalizer_create();
+    status = lxb_unicode_normalizer_init(uc, LXB_UNICODE_NFC);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_unicode_normalize(uc, lead, sizeof(lead),
+                                   callback, &test_ctx, false);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_unicode_normalize(uc, tail, sizeof(tail),
+                                   callback, &test_ctx, true);
+    test_eq(status, LXB_STATUS_OK);
+
+    length = test_ctx.p - test_ctx.cps;
+    test_eq(length, 1);
+    test_eq(test_ctx.cps[0], 0x0800);
+
+    test_ctx.p = test_ctx.cps;
+
+    status = lxb_unicode_normalize(uc, lead, sizeof(lead),
+                                   callback, &test_ctx, false);
+    test_eq(status, LXB_STATUS_OK);
+
+    status = lxb_unicode_normalize_end(uc, callback, &test_ctx);
+    test_eq(status, LXB_STATUS_OK);
+
+    length = test_ctx.p - test_ctx.cps;
+    test_eq(length, 1);
+    test_eq(test_ctx.cps[0], LXB_ENCODING_REPLACEMENT_CODEPOINT);
+
+    (void) lxb_unicode_normalizer_destroy(uc, true);
+}
+TEST_END
+
 /*
  * The flush encodes into a fixed buffer. Fill it to the last byte, then
  * an ASCII code point: it must go to the next chunk, not past the buffer.
@@ -302,6 +417,9 @@ main(int argc, const char * argv[])
     TEST_ADD(chunks);
     TEST_ADD(edge);
     TEST_ADD(one_by_one);
+    TEST_ADD(restore_split_utf8);
+    TEST_ADD(restore_incomplete_utf8_end);
+    TEST_ADD(restore_stale_tmp_incomplete_end);
     TEST_ADD(flush_full_buffer);
 
     TEST_RUN("lexbor/unicode/edges_normalization_forms");
