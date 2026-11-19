@@ -489,6 +489,40 @@ TEST_BEGIN_ARGS(parse_again_input, test_input_t *input, bool all)
 }
 TEST_END
 
+TEST_BEGIN_ARGS(parser_init_input, bool all)
+{
+    size_t index, live;
+    lxb_status_t status;
+    lxb_css_parser_t *parser;
+
+    for (index = 0;; index++) {
+        live = test_live;
+
+        parser = lxb_css_parser_create();
+        test_ne(parser, NULL);
+
+        test_arm(index, all);
+        status = lxb_css_parser_init(parser, NULL);
+        test_disarm();
+
+        if (test_reached) {
+            test_ne(status, LXB_STATUS_OK);
+        }
+
+        (void) lxb_css_parser_destroy(parser, true);
+
+        test_eq_size(test_live, live);
+
+        if (!test_reached) {
+            break;
+        }
+    }
+
+    test_eq(status, LXB_STATUS_OK);
+    test_ne_size(index, 0);
+}
+TEST_END
+
 TEST_BEGIN(parse)
 {
     size_t i;
@@ -522,6 +556,13 @@ TEST_BEGIN(parse_memory)
 }
 TEST_END
 
+TEST_BEGIN(parser_init)
+{
+    TEST_CALL_ARGS(parser_init_input, false);
+    TEST_CALL_ARGS(parser_init_input, true);
+}
+TEST_END
+
 
 int
 main(int argc, const char *argv[])
@@ -536,6 +577,7 @@ main(int argc, const char *argv[])
     TEST_ADD(parse);
     TEST_ADD(parse_again);
     TEST_ADD(parse_memory);
+    TEST_ADD(parser_init);
 
     TEST_RUN("lexbor/css/selectors/allocation_failure");
 
