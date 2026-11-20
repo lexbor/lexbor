@@ -45,7 +45,6 @@ lxb_css_parser_init(lxb_css_parser_t *parser, lxb_css_syntax_tokenizer_t *tkz)
     if (tkz == NULL) {
         tkz = lxb_css_syntax_tokenizer_create();
 
-        /* Owned from here: lxb_css_parser_destroy() frees it on failure. */
         parser->tkz = tkz;
         parser->my_tkz = true;
 
