@@ -449,6 +449,20 @@ static const test_selector_case_t cases[] = {
         "<article class=y><span id=s></span></article></i></div>",
         ":nth-child(2 of i, .y:not(.missing)) span",
         {{"x", 0}, {"s", 0}}
+    },
+    {
+        "<!doctype html><html id=html><head id=head></head><body id=body>"
+        "<div id=far class=x><p id=near><span id=t></span></p></div></body>"
+        "</html>",
+        "body :is(.x) #t",
+        {{"t", 0}}
+    },
+    {
+        "<!doctype html><html id=html><head id=head></head><body id=body>"
+        "<i id=far class=x></i>text<!--between--><b id=near></b><span id=t>"
+        "</span></body></html>",
+        "body > :is(.x) ~ #t",
+        {{"t", 0}}
     }
 };
 
