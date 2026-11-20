@@ -44,12 +44,14 @@ lxb_css_parser_init(lxb_css_parser_t *parser, lxb_css_syntax_tokenizer_t *tkz)
 
     if (tkz == NULL) {
         tkz = lxb_css_syntax_tokenizer_create();
+
+        parser->tkz = tkz;
+        parser->my_tkz = true;
+
         status = lxb_css_syntax_tokenizer_init(tkz);
         if (status != LXB_STATUS_OK) {
             return status;
         }
-
-        parser->my_tkz = true;
     }
 
     /* Rules */
