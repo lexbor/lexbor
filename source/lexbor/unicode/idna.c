@@ -513,7 +513,7 @@ lxb_unicode_idna_validity_criteria_h(const void *data, size_t length,
     size_t len;
     lxb_codepoint_t cp;
     const lxb_codepoint_t *cps;
-    const lxb_char_t *p, *end;
+    const lxb_char_t *p, *end, *pos;
     lxb_unicode_idna_type_t type;
 
     p = data;
@@ -541,7 +541,12 @@ lxb_unicode_idna_validity_criteria_h(const void *data, size_t length,
         }
         else {
             if (length >= 4) {
-                if (p[2] == 0x002D && p[3] == 0x002D) {
+                pos = p;
+
+                (void) lxb_encoding_decode_valid_utf_8_single(&pos, end);
+                (void) lxb_encoding_decode_valid_utf_8_single(&pos, end);
+
+                if (end - pos >= 2 && pos[0] == 0x002D && pos[1] == 0x002D) {
                     return false;
                 }
             }
