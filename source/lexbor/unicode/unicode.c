@@ -12,6 +12,9 @@
 #include "lexbor/encoding/encoding.h"
 
 
+#define LXB_UNICODE_REORDER_SHORT 16
+
+
 typedef union {
     lexbor_serialize_cb_cp_f cp_cb;
     lexbor_serialize_cb_f    cb;
@@ -52,6 +55,10 @@ lxb_unicode_compatibility(lxb_unicode_buffer_t *starter,
 static void
 lxb_unicode_canonical_composition(lxb_unicode_buffer_t *p,
                                   const lxb_unicode_buffer_t *end);
+
+static void
+lxb_unicode_reorder_long(lxb_unicode_buffer_t *first,
+                         lxb_unicode_buffer_t *end);
 
 static lxb_unicode_buffer_t *
 lxb_unicode_canonical_decomposition(lxb_unicode_normalizer_t *uc,
@@ -305,6 +312,11 @@ lxb_unicode_reorder(lxb_unicode_buffer_t *p, lxb_unicode_buffer_t *starter)
 
     while (p > starter) {
         if (p[-1].ccc > p->ccc) {
+            if (end - starter >= LXB_UNICODE_REORDER_SHORT) {
+                lxb_unicode_reorder_long(starter, end + 1);
+                return;
+            }
+
             swap = *p;
 
             *p = p[-1];
@@ -318,6 +330,81 @@ lxb_unicode_reorder(lxb_unicode_buffer_t *p, lxb_unicode_buffer_t *starter)
 
         p -= 1;
     }
+}
+
+lxb_inline void
+lxb_unicode_reverse(lxb_unicode_buffer_t *first, lxb_unicode_buffer_t *end)
+{
+    lxb_unicode_buffer_t swap;
+
+    while (first < end) {
+        end -= 1;
+
+        swap = *first;
+        *first = *end;
+        *end = swap;
+
+        first += 1;
+    }
+}
+
+static lxb_unicode_buffer_t *
+lxb_unicode_reorder_partition(lxb_unicode_buffer_t *first,
+                              lxb_unicode_buffer_t *end, unsigned bit)
+{
+    lxb_unicode_buffer_t *mid, *left, *right;
+
+    if (end - first == 1) {
+        return (first->ccc & bit) ? first : end;
+    }
+
+    mid = first + (end - first) / 2;
+
+    left = lxb_unicode_reorder_partition(first, mid, bit);
+    right = lxb_unicode_reorder_partition(mid, end, bit);
+
+    lxb_unicode_reverse(left, mid);
+    lxb_unicode_reverse(mid, right);
+    lxb_unicode_reverse(left, right);
+
+    return left + (right - mid);
+}
+
+static void
+lxb_unicode_reorder_long(lxb_unicode_buffer_t *first,
+                         lxb_unicode_buffer_t *end)
+{
+    unsigned bit, any, all;
+    lxb_unicode_buffer_t *p, *split;
+
+    if (end - first < 2) {
+        return;
+    }
+
+    any = 0x00;
+    all = 0xFF;
+
+    for (p = first; p < end; p++) {
+        any |= p->ccc;
+        all &= p->ccc;
+    }
+
+    any ^= all;
+
+    if (any == 0) {
+        return;
+    }
+
+    bit = 0x80;
+
+    while ((any & bit) == 0) {
+        bit >>= 1;
+    }
+
+    split = lxb_unicode_reorder_partition(first, end, bit);
+
+    lxb_unicode_reorder_long(first, split);
+    lxb_unicode_reorder_long(split, end);
 }
 
 lxb_inline const lxb_char_t *
