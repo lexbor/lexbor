@@ -407,37 +407,44 @@ lxb_unicode_reorder_long(lxb_unicode_buffer_t *first,
     lxb_unicode_reorder_long(split, end);
 }
 
-lxb_inline const lxb_char_t *
-lxb_unicode_restore(lxb_unicode_normalizer_t *uc, const lxb_char_t *data,
+lxb_inline bool
+lxb_unicode_restore(lxb_unicode_normalizer_t *uc, const lxb_char_t **data,
                     const lxb_char_t *end, lxb_codepoint_t *cp, bool is_last)
 {
     size_t i, len;
-    lxb_char_t *tmp;
+    const lxb_char_t *tmp;
 
-    tmp = uc->tmp;
     len = uc->tmp_lenght;
 
-    i = lxb_encoding_decode_utf_8_length(tmp[0]);
+    i = lxb_encoding_decode_utf_8_length(uc->tmp[0]);
 
-    while (len < i && data < end) {
-        tmp[ len++ ] = *data;
-        data += 1;
+    while (len < i && *data < end) {
+        uc->tmp[ len++ ] = **data;
+        *data += 1;
     }
 
-    *cp = lxb_encoding_decode_valid_utf_8_single((const lxb_char_t **) &tmp,
-                                                 tmp + i);
-    if (*cp == LXB_ENCODING_DECODE_ERROR) {
+    if (len < i) {
         if (!is_last) {
             uc->tmp_lenght = len;
-            return NULL;
+            return false;
         }
 
         *cp = LXB_ENCODING_REPLACEMENT_CODEPOINT;
     }
+    else {
+        tmp = uc->tmp;
+        *cp = lxb_encoding_decode_valid_utf_8_single(&tmp, tmp + i);
+    }
 
     uc->tmp_lenght = 0;
 
-    return data;
+    return true;
+}
+
+lxb_inline bool
+lxb_unicode_incomplete(const lxb_char_t *data, const lxb_char_t *end)
+{
+    return lxb_encoding_decode_utf_8_length(*data) > lxb_size(end - data);
 }
 
 
@@ -481,8 +488,7 @@ lxb_unicode_normalize_body(lxb_unicode_normalizer_t *uc, const void *data,
     end = (const lxb_char_t *) data + length;
 
     if (uc->tmp_lenght != 0 && !is_cp) {
-        np = lxb_unicode_restore(uc, np, end, &cp, is_last);
-        if (np == NULL) {
+        if (!lxb_unicode_restore(uc, &np, end, &cp, is_last)) {
             return LXB_STATUS_OK;
         }
 
@@ -495,7 +501,7 @@ lxb_unicode_normalize_body(lxb_unicode_normalizer_t *uc, const void *data,
 
             cp = lxb_encoding_decode_valid_utf_8_single(&np, end);
             if (cp == LXB_ENCODING_DECODE_ERROR) {
-                if (np >= end && !is_last) {
+                if (np >= end && !is_last && lxb_unicode_incomplete(tp, end)) {
                     uc->p = p;
                     uc->tmp_lenght = end - tp;
 
@@ -618,9 +624,8 @@ lxb_unicode_quick_check(lxb_unicode_normalizer_t *uc, const lxb_char_t *data,
     end = data + length;
 
     if (uc->tmp_lenght != 0) {
-        data = lxb_unicode_restore(uc, data, end, &cp, is_last);
-        if (data == NULL) {
-            return LXB_STATUS_OK;
+        if (!lxb_unicode_restore(uc, &data, end, &cp, is_last)) {
+            return false;
         }
 
         goto restore;
@@ -631,7 +636,7 @@ lxb_unicode_quick_check(lxb_unicode_normalizer_t *uc, const lxb_char_t *data,
 
         cp = lxb_encoding_decode_valid_utf_8_single(&data, end);
         if (cp == LXB_ENCODING_DECODE_ERROR) {
-            if (data >= end && !is_last) {
+            if (data >= end && !is_last && lxb_unicode_incomplete(tp, end)) {
                 uc->tmp_lenght = end - tp;
 
                 memcpy(uc->tmp, tp, uc->tmp_lenght);
