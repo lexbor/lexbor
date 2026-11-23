@@ -497,6 +497,101 @@ TEST_BEGIN(quick_check_incomplete_end)
 }
 TEST_END
 
+static lxb_status_t
+normalize_flush(lxb_unicode_form_t form, const lxb_char_t *data,
+                size_t length, size_t flush_count,
+                test_unicode_ctx_t *test_ctx)
+{
+    lxb_status_t status;
+    lxb_unicode_normalizer_t *uc;
+
+    test_ctx->p = test_ctx->cps;
+
+    uc = lxb_unicode_normalizer_create();
+    status = lxb_unicode_normalizer_init(uc, form);
+    if (status == LXB_STATUS_OK) {
+        lxb_unicode_flush_count_set(uc, flush_count);
+
+        status = lxb_unicode_normalize(uc, data, length, callback, test_ctx,
+                                       true);
+    }
+
+    (void) lxb_unicode_normalizer_destroy(uc, true);
+
+    return status;
+}
+
+TEST_BEGIN_ARGS(test_flush_equal, const lxb_char_t *data, size_t length)
+{
+    size_t f, i, len;
+    lxb_status_t status;
+    test_unicode_ctx_t whole, flushed;
+
+    static const lxb_unicode_form_t forms[] = {
+        LXB_UNICODE_NFC, LXB_UNICODE_NFD, LXB_UNICODE_NFKC, LXB_UNICODE_NFKD
+    };
+
+    static const size_t counts[] = {0, 1, 2, 3, 1023, 1024, 1025};
+
+    for (f = 0; f < sizeof(forms) / sizeof(forms[0]); f++) {
+        status = normalize_flush(forms[f], data, length, SIZE_MAX, &whole);
+        test_eq(status, LXB_STATUS_OK);
+
+        len = whole.p - whole.cps;
+
+        for (i = 0; i < sizeof(counts) / sizeof(counts[0]); i++) {
+            TEST_PRINTLN("Form: %d; flush count: "LEXBOR_FORMAT_Z,
+                         (int) forms[f], counts[i]);
+
+            status = normalize_flush(forms[f], data, length, counts[i],
+                                     &flushed);
+            test_eq(status, LXB_STATUS_OK);
+
+            test_eq_size((flushed.p - flushed.cps), len);
+            test_eq(memcmp(flushed.cps, whole.cps,
+                           len * sizeof(lxb_codepoint_t)), 0);
+        }
+    }
+}
+TEST_END
+
+TEST_BEGIN(flush_decomposition)
+{
+    size_t i, length;
+    lxb_status_t status;
+    test_unicode_ctx_t test_ctx;
+    lxb_char_t source[1024 + 8];
+
+    static const lxb_char_t mixed[] = "ᄀ각ẛ̣Å"
+                                      "ﬁཱི̈́각éx";
+
+    memset(source, 'a', 1024);
+    memcpy(source + 1024, "\xC3\xA9" "bcd", 5);
+
+    status = normalize_flush(LXB_UNICODE_NFD, source, 1024 + 5, 1024,
+                             &test_ctx);
+    test_eq(status, LXB_STATUS_OK);
+
+    length = test_ctx.p - test_ctx.cps;
+    test_eq_size(length, 1024 + 5);
+
+    for (i = 0; i < 1024; i++) {
+        test_eq(test_ctx.cps[i], 'a');
+    }
+
+    test_eq(test_ctx.cps[1024], 'e');
+    test_eq(test_ctx.cps[1025], 0x0301);
+    test_eq(test_ctx.cps[1026], 'b');
+
+    TEST_CALL_ARGS(test_flush_equal, source, 1024 + 5);
+
+    memcpy(source + 1024, "\xEA\xB0\x81" "b", 4);
+
+    TEST_CALL_ARGS(test_flush_equal, source, 1024 + 4);
+    TEST_CALL_ARGS(test_flush_equal, mixed, sizeof(mixed) - 1);
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -512,6 +607,7 @@ main(int argc, const char * argv[])
     TEST_ADD(utf_8_incomplete_end);
     TEST_ADD(utf_8_invalid_chunk_end);
     TEST_ADD(quick_check_incomplete_end);
+    TEST_ADD(flush_decomposition);
 
     TEST_RUN("lexbor/unicode/edges_normalization_forms");
     TEST_RELEASE();
