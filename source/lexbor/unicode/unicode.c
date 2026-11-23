@@ -191,6 +191,31 @@ lxb_unicode_normalization_form_set(lxb_unicode_normalizer_t *uc,
     return LXB_STATUS_OK;
 }
 
+lxb_inline void
+lxb_unicode_flush_remove(lxb_unicode_normalizer_t *uc)
+{
+    size_t length, rest;
+
+    length = uc->ican - uc->buf;
+
+    if (length == 0) {
+        return;
+    }
+
+    rest = uc->p - uc->ican;
+
+    if (rest != 0) {
+        memmove(uc->buf, uc->ican, rest * sizeof(lxb_unicode_buffer_t));
+    }
+
+    uc->p -= length;
+    uc->ican = uc->buf;
+
+    if (uc->starter != NULL) {
+        uc->starter -= length;
+    }
+}
+
 lxb_status_t
 lxb_unicode_flush(lxb_unicode_normalizer_t *uc, lexbor_serialize_cb_f cb,
                   void *ctx)
@@ -226,8 +251,13 @@ lxb_unicode_flush(lxb_unicode_normalizer_t *uc, lexbor_serialize_cb_f cb,
     }
 
     if (tmp != buffer) {
-        return cb(buffer, tmp - buffer, ctx);
+        status = cb(buffer, tmp - buffer, ctx);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
     }
+
+    lxb_unicode_flush_remove(uc);
 
     return LXB_STATUS_OK;
 }
@@ -266,8 +296,13 @@ lxb_unicode_flush_cp(lxb_unicode_normalizer_t *uc, lexbor_serialize_cb_cp_f cb,
     }
 
     if (tmp != buffer) {
-        return cb(buffer, tmp - buffer, ctx);
+        status = cb(buffer, tmp - buffer, ctx);
+        if (status != LXB_STATUS_OK) {
+            return status;
+        }
     }
+
+    lxb_unicode_flush_remove(uc);
 
     return LXB_STATUS_OK;
 }
@@ -276,7 +311,7 @@ lxb_inline void
 lxb_unicode_check_buf(lxb_unicode_normalizer_t *uc, lxb_unicode_buffer_t **p,
                       const lxb_unicode_buffer_t **end, size_t length)
 {
-    size_t len, new_len, starter_len;
+    size_t len, new_len, starter_len, ican_len;
     lxb_unicode_buffer_t *buf;
 
     static const size_t buf_length = 1024;
@@ -285,6 +320,7 @@ lxb_unicode_check_buf(lxb_unicode_normalizer_t *uc, lxb_unicode_buffer_t **p,
         len = *p - uc->buf;
         new_len = (uc->end - uc->buf) + buf_length + length;
         starter_len = (uc->starter != NULL) ? uc->starter - uc->buf : 0;
+        ican_len = uc->ican - uc->buf;
 
         buf = lexbor_realloc(uc->buf, new_len * sizeof(lxb_unicode_buffer_t));
         if (buf == NULL) {
@@ -298,6 +334,7 @@ lxb_unicode_check_buf(lxb_unicode_normalizer_t *uc, lxb_unicode_buffer_t **p,
 
         uc->buf = buf;
         uc->end = buf + new_len;
+        uc->ican = buf + ican_len;
 
         *p = buf + len;
         *end = uc->end;
@@ -545,6 +582,8 @@ lxb_unicode_normalize_body(lxb_unicode_normalizer_t *uc, const void *data,
                     uc->ican = p;
 
                     if (lxb_size(p - buf) >= uc->flush_cp) {
+                        uc->p = dp;
+
                         if (!is_cp) {
                             status = lxb_unicode_flush(uc, cb->cb, ctx);
                         }
@@ -556,14 +595,8 @@ lxb_unicode_normalize_body(lxb_unicode_normalizer_t *uc, const void *data,
                             return status;
                         }
 
-                        memmove(buf, p,
-                                (dp - p) * sizeof(lxb_unicode_buffer_t));
-
-                        dp = buf + (dp - p);
-                        p = buf;
-
-                        uc->starter = p;
-                        uc->ican = p;
+                        p = uc->starter;
+                        dp = uc->p;
                     }
                 }
             }
@@ -579,7 +612,9 @@ lxb_unicode_normalize_body(lxb_unicode_normalizer_t *uc, const void *data,
             uc->composition(uc->starter, p - 1, p);
         }
 
+        uc->starter = NULL;
         uc->ican = p;
+        uc->p = p;
 
         if (!is_cp) {
             status = lxb_unicode_flush(uc, cb->cb, ctx);
@@ -590,7 +625,6 @@ lxb_unicode_normalize_body(lxb_unicode_normalizer_t *uc, const void *data,
 
         uc->p = uc->buf;
         uc->ican = uc->buf;
-        uc->starter = NULL;
     }
     else {
         uc->p = p;

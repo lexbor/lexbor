@@ -12,7 +12,7 @@
 
 
 typedef struct {
-    lxb_codepoint_t cps[4096];
+    lxb_codepoint_t cps[8192];
     lxb_codepoint_t *p;
 }
 test_unicode_ctx_t;
@@ -592,6 +592,232 @@ TEST_BEGIN(flush_decomposition)
 }
 TEST_END
 
+static lxb_status_t
+callback_flushed(const lxb_char_t *data, size_t len, void *ctx)
+{
+    const lxb_char_t *end;
+    test_unicode_ctx_t *test_ctx = ctx;
+
+    end = data + len;
+
+    while (data < end) {
+        if (test_ctx->p == test_ctx->cps + (sizeof(test_ctx->cps)
+                                            / sizeof(lxb_codepoint_t)))
+        {
+            return LXB_STATUS_ERROR_SMALL_BUFFER;
+        }
+
+        *test_ctx->p++ = lxb_encoding_decode_valid_utf_8_single(&data, end);
+    }
+
+    return LXB_STATUS_OK;
+}
+
+static lxb_status_t
+callback_cp(const lxb_codepoint_t *cps, size_t len, void *ctx)
+{
+    test_unicode_ctx_t *test_ctx = ctx;
+
+    if (len > lxb_size(test_ctx->cps + (sizeof(test_ctx->cps)
+                                        / sizeof(lxb_codepoint_t))
+                       - test_ctx->p))
+    {
+        return LXB_STATUS_ERROR_SMALL_BUFFER;
+    }
+
+    memcpy(test_ctx->p, cps, len * sizeof(lxb_codepoint_t));
+
+    test_ctx->p += len;
+
+    return LXB_STATUS_OK;
+}
+
+static lxb_status_t
+normalize_flushed(lxb_unicode_form_t form, const lxb_char_t *data,
+                  size_t length, size_t chunk, size_t flush_count,
+                  test_unicode_ctx_t *test_ctx)
+{
+    size_t i;
+    lxb_status_t status;
+    lxb_unicode_normalizer_t *uc;
+
+    test_ctx->p = test_ctx->cps;
+
+    uc = lxb_unicode_normalizer_create();
+    status = lxb_unicode_normalizer_init(uc, form);
+    if (status != LXB_STATUS_OK) {
+        goto done;
+    }
+
+    lxb_unicode_flush_count_set(uc, flush_count);
+
+    for (i = 0; i < length; i += chunk) {
+        status = lxb_unicode_normalize(uc, data + i,
+                                       lexbor_min(chunk, length - i),
+                                       callback_flushed, test_ctx, false);
+        if (status != LXB_STATUS_OK) {
+            goto done;
+        }
+
+        status = lxb_unicode_flush(uc, callback_flushed, test_ctx);
+        if (status != LXB_STATUS_OK) {
+            goto done;
+        }
+    }
+
+    status = lxb_unicode_normalize_end(uc, callback_flushed, test_ctx);
+
+done:
+
+    (void) lxb_unicode_normalizer_destroy(uc, true);
+
+    return status;
+}
+
+static lxb_status_t
+normalize_flushed_cp(lxb_unicode_form_t form, const lxb_codepoint_t *cps,
+                     size_t length, size_t chunk, size_t flush_count,
+                     test_unicode_ctx_t *test_ctx)
+{
+    size_t i;
+    lxb_status_t status;
+    lxb_unicode_normalizer_t *uc;
+
+    test_ctx->p = test_ctx->cps;
+
+    uc = lxb_unicode_normalizer_create();
+    status = lxb_unicode_normalizer_init(uc, form);
+    if (status != LXB_STATUS_OK) {
+        goto done;
+    }
+
+    lxb_unicode_flush_count_set(uc, flush_count);
+
+    for (i = 0; i < length; i += chunk) {
+        status = lxb_unicode_normalize_cp(uc, cps + i,
+                                          lexbor_min(chunk, length - i),
+                                          callback_cp, test_ctx, false);
+        if (status != LXB_STATUS_OK) {
+            goto done;
+        }
+
+        status = lxb_unicode_flush_cp(uc, callback_cp, test_ctx);
+        if (status != LXB_STATUS_OK) {
+            goto done;
+        }
+    }
+
+    status = lxb_unicode_normalize_cp_end(uc, callback_cp, test_ctx);
+
+done:
+
+    (void) lxb_unicode_normalizer_destroy(uc, true);
+
+    return status;
+}
+
+TEST_BEGIN_ARGS(test_flush_calls, const lxb_char_t *data, size_t length,
+                const size_t *counts, size_t counts_length)
+{
+    size_t f, i, c, len, cps_length;
+    lxb_status_t status;
+    const lxb_char_t *p, *end;
+    test_unicode_ctx_t whole, flushed;
+    lxb_codepoint_t cps[8192];
+
+    static const lxb_unicode_form_t forms[] = {
+        LXB_UNICODE_NFC, LXB_UNICODE_NFD, LXB_UNICODE_NFKC, LXB_UNICODE_NFKD
+    };
+
+    static const size_t chunks[] = {1, 2, 3, 7, 512};
+
+    p = data;
+    end = data + length;
+    cps_length = 0;
+
+    while (p < end) {
+        cps[cps_length++] = lxb_encoding_decode_valid_utf_8_single(&p, end);
+    }
+
+    for (f = 0; f < sizeof(forms) / sizeof(forms[0]); f++) {
+        status = normalize_flush(forms[f], data, length, SIZE_MAX, &whole);
+        test_eq(status, LXB_STATUS_OK);
+
+        len = whole.p - whole.cps;
+
+        for (c = 0; c < counts_length; c++) {
+            for (i = 0; i < sizeof(chunks) / sizeof(chunks[0]); i++) {
+                TEST_PRINTLN("Form: %d; flush count: "LEXBOR_FORMAT_Z"; "
+                             "chunk: "LEXBOR_FORMAT_Z, (int) forms[f],
+                             counts[c], chunks[i]);
+
+                status = normalize_flushed(forms[f], data, length, chunks[i],
+                                           counts[c], &flushed);
+                test_eq(status, LXB_STATUS_OK);
+
+                test_eq_size((flushed.p - flushed.cps), len);
+                test_eq(memcmp(flushed.cps, whole.cps,
+                               len * sizeof(lxb_codepoint_t)), 0);
+
+                status = normalize_flushed_cp(forms[f], cps, cps_length,
+                                              chunks[i], counts[c], &flushed);
+                test_eq(status, LXB_STATUS_OK);
+
+                test_eq_size((flushed.p - flushed.cps), len);
+                test_eq(memcmp(flushed.cps, whole.cps,
+                               len * sizeof(lxb_codepoint_t)), 0);
+            }
+        }
+    }
+}
+TEST_END
+
+TEST_BEGIN(flush_mid_stream)
+{
+    size_t i;
+    size_t counts[32];
+    lxb_char_t source[2 + 4200 * 2 + 1];
+
+    static const lxb_char_t mixed[] = "ᄀ각ẛ̣Å"
+                                      "ﬁཱི̈́각éx";
+
+    static const lxb_char_t leading[] = "̖́ạ̀é"
+                                        "ୋ각x"
+                                        "̖́";
+
+    static const size_t long_counts[] = {0, 1, 2, 1023, 1024, 1025, SIZE_MAX};
+
+    for (i = 0; i < sizeof(counts) / sizeof(counts[0]) - 1; i++) {
+        counts[i] = i;
+    }
+
+    counts[i] = SIZE_MAX;
+
+    TEST_CALL_ARGS(test_flush_calls, mixed, sizeof(mixed) - 1, counts,
+                   sizeof(counts) / sizeof(counts[0]));
+    TEST_CALL_ARGS(test_flush_calls, leading, sizeof(leading) - 1, counts,
+                   sizeof(counts) / sizeof(counts[0]));
+
+    memset(source, 'a', 1024);
+    memcpy(source + 1024, "\xC3\xA9" "bcd", 5);
+
+    TEST_CALL_ARGS(test_flush_calls, source, 1024 + 5, long_counts,
+                   sizeof(long_counts) / sizeof(long_counts[0]));
+
+    source[0] = 'a';
+    source[1] = 'b';
+
+    for (i = 0; i < 4200; i++) {
+        memcpy(source + 2 + i * 2, "\xCC\x81", 2);
+    }
+
+    source[2 + 4200 * 2] = 'c';
+
+    TEST_CALL_ARGS(test_flush_calls, source, sizeof(source), long_counts,
+                   sizeof(long_counts) / sizeof(long_counts[0]));
+}
+TEST_END
+
 int
 main(int argc, const char * argv[])
 {
@@ -608,6 +834,7 @@ main(int argc, const char * argv[])
     TEST_ADD(utf_8_invalid_chunk_end);
     TEST_ADD(quick_check_incomplete_end);
     TEST_ADD(flush_decomposition);
+    TEST_ADD(flush_mid_stream);
 
     TEST_RUN("lexbor/unicode/edges_normalization_forms");
     TEST_RELEASE();

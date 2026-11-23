@@ -272,7 +272,9 @@ lxb_unicode_quick_check_cp_end(lxb_unicode_normalizer_t *uc);
 /*
  * Flush.
  *
- * Force flush the buffer to the user's callback if it possible.
+ * Hands out to the user's callback the normalized code points that
+ * the following input can no longer change and removes them from
+ * the buffer.
  *
  * Please, see lxb_unicode_flush_count_set() function.
  *
