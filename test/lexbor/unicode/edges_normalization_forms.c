@@ -282,8 +282,6 @@ TEST_BEGIN(flush_compaction_hangul_tail)
     lxb_unicode_normalizer_t *uc;
     test_unicode_ctx_t test_ctx;
 
-    /* 'a' + U+AC00 (Hangul); NFD yields a + L/V jamo. flush_cp=1 forces
-     * compaction inside a multi-entry decomposition tail. */
     const lxb_char_t source[] = "a\xEA\xB0\x80";
 
     test_ctx.p = test_ctx.cps;
@@ -316,8 +314,6 @@ TEST_BEGIN(flush_compaction_mark_tail)
     lxb_unicode_normalizer_t *uc;
     test_unicode_ctx_t test_ctx;
 
-    /* 'b' + U+00C0. NFD is b + A + U+0300. flush_cp=1 compacts inside the
-     * decomposition, so the combining mark must move with the starter. */
     const lxb_char_t source[] = "b\xC3\x80";
 
     test_ctx.p = test_ctx.cps;
