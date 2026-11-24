@@ -3077,8 +3077,8 @@ lxb_encoding_decode_valid_utf_8_single(const lxb_char_t **data,
     else if ((*p & 0xe0) == 0xc0) {
         /* 110xxxxx 10xxxxxx */
 
-        if (end - p < 2) {
-            *data = end;
+        if (*p < 0xC2 || end - p < 2 || (p[1] & 0xC0) != 0x80) {
+            (*data) = (end - p < 2) ? end : *data + 1;
             return LXB_ENCODING_DECODE_ERROR;
         }
 
@@ -3090,8 +3090,12 @@ lxb_encoding_decode_valid_utf_8_single(const lxb_char_t **data,
     else if ((*p & 0xf0) == 0xe0) {
         /* 1110xxxx 10xxxxxx 10xxxxxx */
 
-        if (end - p < 3) {
-            *data = end;
+        if (end - p < 3
+            || (p[1] & 0xC0) != 0x80 || (p[2] & 0xC0) != 0x80
+            || (*p == 0xE0 && p[1] < 0xA0)
+            || (*p == 0xED && p[1] > 0x9F))
+        {
+            (*data) = (end - p < 3) ? end : *data + 1;
             return LXB_ENCODING_DECODE_ERROR;
         }
 
@@ -3104,8 +3108,13 @@ lxb_encoding_decode_valid_utf_8_single(const lxb_char_t **data,
     else if ((*p & 0xf8) == 0xf0) {
         /* 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx */
 
-        if (end - p < 4) {
-            *data = end;
+        if (*p > 0xF4 || end - p < 4
+            || (p[1] & 0xC0) != 0x80 || (p[2] & 0xC0) != 0x80
+            || (p[3] & 0xC0) != 0x80
+            || (*p == 0xF0 && p[1] < 0x90)
+            || (*p == 0xF4 && p[1] > 0x8F))
+        {
+            (*data) = (end - p < 4) ? end : *data + 1;
             return LXB_ENCODING_DECODE_ERROR;
         }
 
@@ -3144,7 +3153,7 @@ lxb_encoding_decode_valid_utf_8_single_reverse(const lxb_char_t **end,
         else if ((*p & 0xe0) == 0xc0) {
             /* 110xxxxx 10xxxxxx */
 
-            if (*end - p < 2) {
+            if (*p < 0xC2 || *end - p < 2 || (p[1] & 0xC0) != 0x80) {
                 *end = p;
                 return LXB_ENCODING_DECODE_ERROR;
             }
@@ -3158,7 +3167,11 @@ lxb_encoding_decode_valid_utf_8_single_reverse(const lxb_char_t **end,
         else if ((*p & 0xf0) == 0xe0) {
             /* 1110xxxx 10xxxxxx 10xxxxxx */
 
-            if (*end - p < 3) {
+            if (*end - p < 3
+                || (p[1] & 0xC0) != 0x80 || (p[2] & 0xC0) != 0x80
+                || (*p == 0xE0 && p[1] < 0xA0)
+                || (*p == 0xED && p[1] > 0x9F))
+            {
                 *end = p;
                 return LXB_ENCODING_DECODE_ERROR;
             }
@@ -3173,7 +3186,12 @@ lxb_encoding_decode_valid_utf_8_single_reverse(const lxb_char_t **end,
         else if ((*p & 0xf8) == 0xf0) {
             /* 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx */
 
-            if (*end - p < 4) {
+            if (*p > 0xF4 || *end - p < 4
+                || (p[1] & 0xC0) != 0x80 || (p[2] & 0xC0) != 0x80
+                || (p[3] & 0xC0) != 0x80
+                || (*p == 0xF0 && p[1] < 0x90)
+                || (*p == 0xF4 && p[1] > 0x8F))
+            {
                 *end = p;
                 return LXB_ENCODING_DECODE_ERROR;
             }
